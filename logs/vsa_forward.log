@@ -104,3 +104,12 @@
 2026-09-12 20:24:04     -> INCONCLUSIVE by design. No verdict until every cell has 300.
 2026-09-12 21:00:27  [SOL/USDT:USDT] HIGH ENTRY SHORT @101.29 dev=-0.262 in_filter=False
 2026-09-12 21:00:32  [BCH/USDT:USDT] LOW ENTRY SHORT @225.2 dev=-0.413 in_filter=False
+2026-09-12 21:27:50  ---- PRE-REGISTERED VSA FORWARD TEST ----
+2026-09-12 21:27:50     total trades 2
+2026-09-12 21:27:50     group  cell               n     meanR      se
+2026-09-12 21:27:50     HIGH   dev<-0.5           0
+2026-09-12 21:27:50     HIGH   dev>=-0.5          1   -1.0373     nan
+2026-09-12 21:27:50     LOW    dev<-0.5           0
+2026-09-12 21:27:50     LOW    dev>=-0.5          1   -1.0429     nan
+2026-09-12 21:27:50     pre-registered minimum of 300 per cell reached: False
+2026-09-12 21:27:50     -> INCONCLUSIVE by design. No verdict until every cell has 300.

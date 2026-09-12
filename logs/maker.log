@@ -1982,3 +1982,18 @@
 2026-09-12 21:33:02  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
 2026-09-12 21:34:04  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
 2026-09-12 21:35:06  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 21:36:08  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 21:37:10  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 21:38:12  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 21:39:14  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 21:39:15  ---- maker standings ----
+2026-09-12 21:39:15     signals=80 posted=2 filled=0 unfilled/expired=0 rejected=77
+2026-09-12 21:39:15     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 21:39:15     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 21:39:15     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 21:39:15     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 21:40:16  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 21:41:18  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 21:42:20  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 21:43:22  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 21:44:24  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp

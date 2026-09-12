@@ -121,3 +121,26 @@
 2026-09-12 21:01:16 | [BTCUSDT] waiting for next 1h bar (last decided 2026-09-12 20:00:00, px 77170.0000)
 2026-09-12 21:01:16 | [ETHUSDT] waiting for next 1h bar (last decided 2026-09-12 20:00:00, px 2520.8200)
 2026-09-12 21:01:16 | [XRPUSDT] waiting for next 1h bar (last decided 2026-09-12 20:00:00, px 1.3644)
+2026-09-12 21:39:04 | ==============================================================================
+2026-09-12 21:39:04 | LEVERAGED LONG TREND on Bitget DEMO (simulated)
+2026-09-12 21:39:04 |   bb_break(30,1.5) 1h | LONG ONLY | trail 20.0xATR | NO take-profit
+2026-09-12 21:39:04 |   PYRAMID: up to 5 units, +1 every 2.0R of advance
+2026-09-12 21:39:04 |   risk 0.4%/UNIT -> 2.00% total exposure | leverage 10x | taker entries
+2026-09-12 21:39:04 |   *** AGGRESSIVE: 2.0% total. Measured drawdown at 2.5% total was 99.9% (ruin). Demo only. ***
+2026-09-12 21:39:04 |   book: SBTC/SUSDT:SUSDT, SETH/SUSDT:SUSDT, SXRP/SUSDT:SUSDT
+2026-09-12 21:39:04 |   signals from Binance 1h (tracks demo within 8bp), execution on Bitget
+2026-09-12 21:39:04 |   exchange stop at -2.0xATR as backstop; 20.0xATR trail managed in-process
+2026-09-12 21:39:04 |   *** DRY RUN - no orders will be placed ***
+2026-09-12 21:41:29 | ==============================================================================
+2026-09-12 21:41:29 | LEVERAGED LONG TREND on Bitget DEMO (simulated)
+2026-09-12 21:41:29 |   bb_break(30,1.5) 1h | NO take-profit
+2026-09-12 21:41:29 |   LONG:  trail 20.0xATR, up to 5 units (+1 every 2.0R)
+2026-09-12 21:41:29 |   SHORT: trail 5.0xATR, 1 unit, no regime filter - shorts share the same slots
+2026-09-12 21:41:29 |          asymmetric by measurement: shorts are NEGATIVE at 20.0xATR
+2026-09-12 21:41:29 |   PYRAMID: up to 5 units, +1 every 2.0R of advance
+2026-09-12 21:41:29 |   risk 0.4%/UNIT -> 2.00% total exposure | leverage 10x | taker entries
+2026-09-12 21:41:29 |   *** AGGRESSIVE: 2.0% total. Measured drawdown at 2.5% total was 99.9% (ruin). Demo only. ***
+2026-09-12 21:41:29 |   book: SBTC/SUSDT:SUSDT, SETH/SUSDT:SUSDT, SXRP/SUSDT:SUSDT
+2026-09-12 21:41:29 |   signals from Binance 1h (tracks demo within 8bp), execution on Bitget
+2026-09-12 21:41:29 |   exchange stop at -2.0xATR as backstop; 20.0xATR trail managed in-process
+2026-09-12 21:41:35 |   connected. equity 2876.24 SUSDT, 0 open positions

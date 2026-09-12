@@ -44,3 +44,14 @@ is the difference
 2026-09-12 21:13:23 |   NOTE: 85% of profit comes from <1% of trades. Flat months are normal.
 is the difference
 2026-09-12 21:13:23 |   NOTE: 85% of profit comes from <1% of trades. Flat months are normal.
+2026-09-12 21:41:42 | ==============================================================================
+2026-09-12 21:41:42 | LONG TREND PAPER — 9 coins, max 8 concurrent positions
+2026-09-12 21:41:42 |   bb_break(30,1.5) 1h | LONG ONLY | trail 20.0xATR | NO take-profit
+2026-09-12 21:41:42 |   risk 0.4%/trade | fee 12.0bp round trip | simulated fills
+2026-09-12 21:41:42 |   book: BTCUSDT, ETHUSDT, XRPUSDT, SOLUSDT, BNBUSDT, DOGEUSDT, ADAUSDT, AVAXUSDT, LINKUSDT
+2026-09-12 21:41:42 |   expectation (point-in-time, survivorship-free, risk-matched):
+2026-09-12 21:41:42 |     +205.4%/yr = +9.75%/month at 72.2% DD with 5 units
+2026-09-12 21:41:42 |     the 1-unit version was +138.1%/yr at 89.3% DD - pyramiding is the difference
+2026-09-12 21:41:42 |   NOTE: 85% of profit comes from <1% of trades. Flat months are normal.
+is the difference
+2026-09-12 21:41:42 |   NOTE: 85% of profit comes from <1% of trades. Flat months are normal.

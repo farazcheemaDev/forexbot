@@ -188,3 +188,243 @@
 2026-09-12 09:25:41     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
 2026-09-12 09:25:41     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
 2026-09-12 09:25:41     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=1 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 09:56:04  ---- standings ----
+2026-09-12 09:56:04     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=2 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 09:56:04     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=1 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 09:56:04     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=0 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 09:56:04     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 09:56:04     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=1 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 09:56:04     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=1 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 09:56:04     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 09:56:04     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 09:56:04     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=1 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 10:26:28  ---- standings ----
+2026-09-12 10:26:28     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=2 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 10:26:28     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=1 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 10:26:28     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=0 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 10:26:28     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 10:26:28     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=1 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 10:26:28     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=1 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 10:26:28     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 10:26:28     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 10:26:28     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=1 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 10:56:51  ---- standings ----
+2026-09-12 10:56:51     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=2 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 10:56:51     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=1 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 10:56:51     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=0 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 10:56:51     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 10:56:51     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=1 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 10:56:51     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=1 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 10:56:51     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 10:56:51     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 10:56:51     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=1 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 11:27:14  ---- standings ----
+2026-09-12 11:27:14     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=2 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 11:27:14     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=1 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 11:27:14     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=0 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 11:27:14     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 11:27:14     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=1 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 11:27:14     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=1 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 11:27:14     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 11:27:14     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 11:27:14     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=1 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 11:57:37  ---- standings ----
+2026-09-12 11:57:37     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=2 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 11:57:37     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=1 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 11:57:37     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=0 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 11:57:37     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 11:57:37     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=1 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 11:57:37     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=1 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 11:57:37     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 11:57:37     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 11:57:37     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=1 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 12:01:40  [roc_mom_er30_r10] ENTRY SHORT BTC/USDT:USDT @77300.0000
+2026-09-12 12:01:40  [rsi_mom_er30_r05] ENTRY LONG ETH/USDT:USDT @2532.5000
+2026-09-12 12:01:40  [rsi_mom_er30_r10] ENTRY LONG ETH/USDT:USDT @2532.5000
+2026-09-12 12:01:40  [rsi_mom_er30_r20] ENTRY LONG ETH/USDT:USDT @2532.5000
+2026-09-12 12:01:41  [roc_mom_er30_r10] ENTRY SHORT ETH/USDT:USDT @2532.5000
+2026-09-12 12:01:42  [rsi_mom_er30_r05] ENTRY LONG XRP/USDT:USDT @1.3727
+2026-09-12 12:01:42  [rsi_mom_er30_r10] ENTRY LONG XRP/USDT:USDT @1.3727
+2026-09-12 12:01:42  [rsi_mom_er30_r20] ENTRY LONG XRP/USDT:USDT @1.3727
+2026-09-12 12:28:24  ---- standings ----
+2026-09-12 12:28:24     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=2 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 12:28:25     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=3 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 12:28:25     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=0 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 12:28:25     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 12:28:25     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 12:28:25     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 12:28:25     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 12:28:25     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 12:28:25     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=3 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 12:59:07  ---- standings ----
+2026-09-12 12:59:07     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=2 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 12:59:07     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=3 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 12:59:07     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=0 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 12:59:07     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 12:59:07     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 12:59:07     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 12:59:07     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 12:59:07     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 12:59:07     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=3 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 13:29:49  ---- standings ----
+2026-09-12 13:29:49     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=2 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 13:29:49     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=3 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 13:29:49     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=0 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 13:29:49     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 13:29:49     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 13:29:49     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 13:29:49     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 13:29:49     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 13:29:49     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=3 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 14:00:32  ---- standings ----
+2026-09-12 14:00:32     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=2 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 14:00:32     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=3 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 14:00:32     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=0 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 14:00:32     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 14:00:32     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 14:00:32     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 14:00:32     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 14:00:32     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 14:00:32     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=3 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 14:31:14  ---- standings ----
+2026-09-12 14:31:14     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=2 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 14:31:14     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=3 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 14:31:14     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=0 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 14:31:14     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 14:31:14     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 14:31:14     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 14:31:14     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 14:31:14     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 14:31:14     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=3 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 15:01:57  ---- standings ----
+2026-09-12 15:01:57     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=2 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 15:01:57     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=3 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 15:01:57     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=0 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 15:01:57     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 15:01:57     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 15:01:57     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 15:01:57     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 15:01:57     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 15:01:57     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=3 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 15:32:35  ---- standings ----
+2026-09-12 15:32:35     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=2 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 15:32:35     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=3 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 15:32:35     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=0 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 15:32:35     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 15:32:35     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 15:32:35     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 15:32:35     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 15:32:35     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 15:32:35     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=3 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 16:02:58  ---- standings ----
+2026-09-12 16:02:58     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=2 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 16:02:58     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=3 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 16:02:58     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=0 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 16:02:58     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 16:02:58     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 16:02:58     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 16:02:58     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 16:02:58     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 16:02:58     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=3 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 16:33:24  ---- standings ----
+2026-09-12 16:33:24     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=2 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 16:33:24     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=3 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 16:33:24     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=0 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 16:33:24     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 16:33:24     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 16:33:24     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 16:33:24     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 16:33:24     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 16:33:24     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=3 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 17:03:47  ---- standings ----
+2026-09-12 17:03:47     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=2 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 17:03:47     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=3 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 17:03:47     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=0 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 17:03:47     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 17:03:47     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 17:03:47     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 17:03:47     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 17:03:47     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 17:03:47     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=3 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 17:34:37  ---- standings ----
+2026-09-12 17:34:37     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=2 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 17:34:37     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=3 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 17:34:37     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=0 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 17:34:37     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 17:34:37     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 17:34:37     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 17:34:37     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 17:34:37     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 17:34:37     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=3 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 18:05:42  ---- standings ----
+2026-09-12 18:05:42     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=2 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 18:05:42     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=3 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 18:05:42     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=0 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 18:05:42     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 18:05:42     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 18:05:42     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 18:05:42     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 18:05:42     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 18:05:42     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=3 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 18:36:45  ---- standings ----
+2026-09-12 18:36:45     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=2 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 18:36:45     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=3 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 18:36:45     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=0 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 18:36:45     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 18:36:45     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 18:36:45     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 18:36:45     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 18:36:45     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 18:36:45     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=3 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 19:01:33  [CONTROL_bb_rev_r10] ENTRY LONG AVAX/USDT:USDT @7.3970
+2026-09-12 19:07:46  ---- standings ----
+2026-09-12 19:07:46     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=3 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 19:07:46     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=3 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 19:07:46     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=0 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 19:07:46     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 19:07:46     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 19:07:46     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 19:07:46     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 19:07:46     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 19:07:46     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=3 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 19:38:49  ---- standings ----
+2026-09-12 19:38:49     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=3 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 19:38:49     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=3 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 19:38:49     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=0 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 19:38:49     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 19:38:49     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 19:38:49     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 19:38:49     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 19:38:49     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 19:38:49     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=3 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 20:09:51  ---- standings ----
+2026-09-12 20:09:51     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=3 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 20:09:51     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=3 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 20:09:51     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=0 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 20:09:51     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 20:09:51     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 20:09:51     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 20:09:51     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 20:09:51     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 20:09:51     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=3 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 20:40:54  ---- standings ----
+2026-09-12 20:40:54     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=3 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 20:40:54     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=3 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 20:40:54     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=0 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 20:40:54     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 20:40:54     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 20:40:54     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 20:40:54     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 20:40:54     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 20:40:54     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=3 meanR=-0.791 dd= 18.8% streak=9
+2026-09-12 21:01:36  [donchian_trend_r10] ENTRY SHORT AVAX/USDT:USDT @7.3610
+2026-09-12 21:11:53  ---- standings ----
+2026-09-12 21:11:53     CONTROL_bb_rev_r10     ACTIVE   equity=  1080.05 ( +8.01%) trades=   7 open=3 meanR=+1.119 dd=  1.0% streak=0
+2026-09-12 21:11:53     rsi_mom_er30_r05       ACTIVE   equity=   960.93 ( -3.91%) trades=  10 open=3 meanR=-0.791 dd=  4.7% streak=9
+2026-09-12 21:11:53     donchian_trend_r10     ACTIVE   equity=   938.16 ( -6.18%) trades=   6 open=1 meanR=-1.047 dd=  6.3% streak=6
+2026-09-12 21:11:53     rsi_mom_nofilt_r10     ACTIVE   equity=   928.50 ( -7.15%) trades=   7 open=3 meanR=-1.045 dd=  7.3% streak=7
+2026-09-12 21:11:53     rsi_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 21:11:53     roc_mom_er30_r10       ACTIVE   equity=   922.79 ( -7.72%) trades=  10 open=3 meanR=-0.791 dd=  9.4% streak=9
+2026-09-12 21:11:53     bb_break_er30_r10      ACTIVE   equity=   909.08 ( -9.09%) trades=   9 open=1 meanR=-1.042 dd=  9.4% streak=9
+2026-09-12 21:11:53     rsi_mom_nocap_r10      TRIPPED  equity=   892.99 (-10.70%) trades=  13 open=0 meanR=-0.852 dd= 12.6% streak=12
+2026-09-12 21:11:53     rsi_mom_er30_r20       ACTIVE   equity=   849.23 (-15.08%) trades=  10 open=3 meanR=-0.791 dd= 18.8% streak=9

@@ -136,7 +136,17 @@ TRAIL_MULT = 20.0        # uncapped trail; NO take-profit anywhere
 # More return AND less drawdown at identical total risk - because the added units
 # are funded by open profit, so size grows only after price has confirmed, while
 # the 87% of trades that fail still lose one unit.
-MAX_UNITS = 5            # units per position, including the initial entry
+MAX_UNITS = 5            # units per position, including the initial entry (LONGS only)
+
+# SHORT SLEEVE. Point-in-time, survivorship-free, sharing the same slots:
+#     long only     +205.4%/yr  DD 72.2%  MAR 2.84  +9.75%/month
+#     long + short  +180.2%/yr  DD 64.0%  MAR 2.81  +8.96%/month
+# An 8.2-point drawdown cut for 0.8%/month, MAR unchanged - near-pure risk
+# reduction. It also rescued the losing years (2022 -27.7%->-8.2%,
+# 2025 -29.1%->+3.0% on the fixed universe), so the system no longer requires
+# crypto to rise. Shorts run ONE unit with a TIGHT trail; see bb_break_short.
+SHORT_ENABLED = True
+SHORT_TRAIL_MULT = 5.0   # NOT 20 - shorts are negative at 20xATR
 ADD_EVERY_R = 2.0        # add the next unit each time price advances this much R
 
 # RISK PER UNIT. Total exposure = RISK_PCT x MAX_UNITS.
@@ -212,6 +222,29 @@ def atr(df: pd.DataFrame, n: int) -> pd.Series:
     tr = pd.concat([df["high"] - df["low"], (df["high"] - pc).abs(),
                     (df["low"] - pc).abs()], axis=1).max(axis=1)
     return tr.rolling(n).mean()
+
+
+def bb_break_short(df: pd.DataFrame) -> bool:
+    """Close of the last CLOSED bar BELOW its lower Bollinger band.
+
+    The short sleeve, added 2026-09-12. Measured on the point-in-time universe it
+    cut drawdown 72.2% -> 64.0% for 0.8%/month of return, with MAR unchanged
+    (2.84 -> 2.81) - close to a pure risk reduction. It also rescued the two losing
+    years: on the fixed universe 2022 went -27.7% -> -8.2% and 2025 -29.1% -> +3.0%.
+
+    ASYMMETRIC EXITS ARE THE WHOLE POINT. Longs improve monotonically out to a
+    20xATR trail; shorts peak at 3-5x and go NEGATIVE at 20x, because up-moves
+    grind and crashes are fast. Nineteen families were previously reported as
+    "no short side" because both were tested with the long trail.
+
+    NO regime filter: gating shorts to below-the-200h-average LOST to ungated on
+    every metric. The filter waits until the decline is underway.
+    """
+    c = df["close"]
+    ma = c.rolling(BB_PERIOD).mean()
+    sd = c.rolling(BB_PERIOD).std(ddof=0)
+    lo = ma - BB_STD * sd
+    return bool(c.iloc[-1] < lo.iloc[-1]) and np.isfinite(lo.iloc[-1])
 
 
 def bb_break_long(df: pd.DataFrame) -> bool:
@@ -337,13 +370,18 @@ def cycle(ex, st: dict, dry: bool):
             rec["bars"] = rec.get("bars", 0) + 1
             rec.setdefault("units", 1)
             rec.setdefault("next_add", 1)
-            rec["high_water"] = max(rec["high_water"], hi_last)
+            rec.setdefault("side", "long")
+            d = 1 if rec["side"] == "long" else -1
+            # one water-mark field, read in the position's own direction: the best
+            # price is the HIGH for a long and the LOW for a short
+            rec["high_water"] = (max(rec["high_water"], hi_last) if d > 0
+                                 else min(rec["high_water"], lo_last))
 
             # PYRAMID: add a unit once price has advanced ADD_EVERY_R from the
-            # FIRST entry. Checked against the bar's HIGH, which is how the
-            # backtest models it - the add triggers at a level price reached, and
-            # the fill is at that level, not at the bar's best price.
-            if rec["units"] < MAX_UNITS:
+            # FIRST entry. Longs only - the short sleeve runs 1 unit, because its
+            # best trail is 5xATR and a crash is over before a 2R-spaced ladder
+            # could fill.
+            if d > 0 and rec["units"] < MAX_UNITS:
                 adv = (hi_last - rec["entry"]) / rec["risk"]
                 if adv >= rec["next_add"] * ADD_EVERY_R:
                     add_sz = rec["size_unit"]
@@ -363,19 +401,24 @@ def cycle(ex, st: dict, dry: bool):
                         rec["next_add"] += 1
                         rec["size"] = rec["size"] + add_sz
 
-            cand = rec["high_water"] - TRAIL_MULT * a_now
-            if cand > rec["stop"]:
+            # ASYMMETRIC TRAIL: 20xATR for longs, 5xATR for shorts. Not a
+            # preference - measured. Shorts go NEGATIVE at 20x.
+            tm = TRAIL_MULT if d > 0 else SHORT_TRAIL_MULT
+            cand = rec["high_water"] - d * tm * a_now
+            if (cand > rec["stop"]) if d > 0 else (cand < rec["stop"]):
                 rec["stop"] = cand            # a stop only ratchets toward profit
-            gain_r = (px_last - rec["entry"]) / rec["risk"]
-            if lo_last <= rec["stop"]:
+            gain_r = (px_last - rec["entry"]) * d / rec["risk"]
+            breached = (lo_last <= rec["stop"]) if d > 0 else (hi_last >= rec["stop"])
+            if breached:
                 exit_px = rec["stop"]
-                R = (exit_px - rec["entry"]) / rec["risk"]
-                log(f"[{base}] TRAIL HIT -> exiting at market. entry "
-                    f"{rec['entry']:.4f} stop {rec['stop']:.4f} R={R:+.2f} "
+                R = (exit_px - rec["entry"]) * d / rec["risk"]
+                log(f"[{base}] TRAIL HIT ({rec['side']}) -> exiting at market. "
+                    f"entry {rec['entry']:.4f} stop {rec['stop']:.4f} R={R:+.2f} "
                     f"after {rec['bars']} bars")
                 if not dry and ex:
                     try:
-                        ex.create_order(demo_sym, "market", "sell",
+                        ex.create_order(demo_sym, "market",
+                                        "sell" if d > 0 else "buy",
                                         rec["size"], None,
                                         {"reduceOnly": True})
                     except Exception as e:
@@ -408,9 +451,15 @@ def cycle(ex, st: dict, dry: bool):
                     f"px {px_last:.4f})")
             continue
         st["last_bar"][raw] = bar
-        if not bb_break_long(closed):
-            log(f"[{base}] flat; no breakout (close {px_last:.4f})")
+        go_long = bb_break_long(closed)
+        go_short = SHORT_ENABLED and bb_break_short(closed)
+        if not (go_long or go_short):
+            log(f"[{base}] flat; no breakout either way (close {px_last:.4f})")
             continue
+        # a bar cannot be above the upper band and below the lower one, so these
+        # are mutually exclusive; longs win if that ever changes
+        side = "long" if go_long else "short"
+        d = 1 if side == "long" else -1
 
         risk_amt = eq * RISK_PCT / 100.0
         stop_dist = SL_MULT * a_now
@@ -429,9 +478,9 @@ def cycle(ex, st: dict, dry: bool):
                     continue
             except Exception as e:
                 log(f"[{base}] precision/limits note: {str(e)[:120]}")
-        stop_px = entry_ref - stop_dist
+        stop_px = entry_ref - d * stop_dist     # ABOVE entry for a short
 
-        log(f"[{base}] BREAKOUT -> LONG {size} @~{entry_ref:.4f} "
+        log(f"[{base}] BREAKOUT -> {side.upper()} {size} @~{entry_ref:.4f} "
             f"(${notional:.2f}) stop {stop_px:.4f} risk ${risk_amt:.2f} "
             f"({RISK_PCT}% of {eq:.2f})")
         if dry:
@@ -441,14 +490,16 @@ def cycle(ex, st: dict, dry: bool):
             continue
         ensure_settings(ex, demo_sym)
         try:
-            ex.create_order(demo_sym, "market", "buy", size, None, {
+            ex.create_order(demo_sym, "market", "buy" if d > 0 else "sell",
+                            size, None, {
                 "stopLoss": {"triggerPrice": float(
                     ex.price_to_precision(demo_sym, stop_px))}})
         except Exception as e:
             log(f"[{base}] ENTRY FAILED: {str(e)[:180]}")
             continue
         st["open"][raw] = dict(entry=entry_ref, size=size, size_unit=size,
-                               risk=stop_dist, stop=stop_px, high_water=hi_last,
+                               risk=stop_dist, stop=stop_px, side=side,
+                               high_water=(hi_last if d > 0 else lo_last),
                                bars=0, units=1, next_add=1,
                                opened=f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M:%S}")
         log(f"[{base}] FILLED unit 1/{MAX_UNITS}. exchange stop at {stop_px:.4f} "
@@ -518,8 +569,16 @@ def main():
     log("=" * 78)
     log(f"LEVERAGED LONG TREND on Bitget {args.mode.upper()}"
         + ("  *** REAL FUNDS ***" if args.mode == "live" else " (simulated)"))
-    log(f"  bb_break({BB_PERIOD},{BB_STD}) {TF} | LONG ONLY | trail "
-        f"{TRAIL_MULT}xATR | NO take-profit")
+    log(f"  bb_break({BB_PERIOD},{BB_STD}) {TF} | NO take-profit")
+    log(f"  LONG:  trail {TRAIL_MULT}xATR, up to {MAX_UNITS} units "
+        f"(+1 every {ADD_EVERY_R}R)")
+    if SHORT_ENABLED:
+        log(f"  SHORT: trail {SHORT_TRAIL_MULT}xATR, 1 unit, no regime filter "
+            f"- shorts share the same slots")
+        log(f"         asymmetric by measurement: shorts are NEGATIVE at "
+            f"{TRAIL_MULT}xATR")
+    else:
+        log("  SHORT: disabled")
     log(f"  PYRAMID: up to {MAX_UNITS} units, +1 every {ADD_EVERY_R}R of advance")
     log(f"  risk {RISK_PCT}%/UNIT -> {RISK_PCT*MAX_UNITS:.2f}% total exposure "
         f"| leverage {LEVERAGE}x | taker entries")
