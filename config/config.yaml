@@ -1,0 +1,117 @@
+# Private config. No REAL-money password ever goes here.
+# The bot attaches to an already-logged-in MT5 terminal, so no password is needed.
+
+mt5:
+  login: 472698318            # Exness DEMO, Standard, $10,000
+  server: "Exness-MT5Trial16"
+  allow_real: false           # HARD SAFETY: bot refuses to run unless account is DEMO
+  # path: "C:/Program Files/MetaTrader 5/terminal64.exe"
+
+trading:
+  symbol: "XAUUSDm"           # gold — our validated instrument
+  timeframe: "H1"
+  magic_number: 20260909      # tags the bot's own trades
+  poll_seconds: 15            # how often to check for a new closed bar
+
+strategy:
+  name: "donchian_breakout"
+  period: 20                  # walk-forward chose 15-40; 20 is a robust middle
+  use_trend: true
+  long_only: true             # LOCKED: shorts hurt on gold
+
+exits:
+  mode: "atr"                 # atr | atr_trail | fixed
+  atr_period: 14
+  atr_sl_mult: 2.0
+  atr_tp_mult: 3.0
+
+risk:
+  risk_profile: "Conservative"   # pick one from risk_profiles below
+  risk_per_trade_pct: 0.5        # overridden by the selected profile if set
+  max_daily_loss_pct: 3.0
+  max_open_trades: 1
+  default_sl_pips: 30            # only used if exits.mode == fixed
+  default_tp_pips: 60
+
+# Selectable risk dials (measured on gold H1 in-sample; live will be lower and
+# drawdowns can be worse). Higher risk = higher return AND higher ruin chance.
+risk_profiles:
+  Conservative: 0.5    # ~+66% / 11% DD  (in-sample)
+  Balanced:     1.0    # ~+164% / 21% DD
+  Aggressive:   3.0    # ~+1300% / 52% DD  -- realistic aggressive ceiling
+  Extreme:      6.0    # ~80% DD, near ruin
+  Degen:        12.0   # blows the account up -- do NOT use with real money
+
+# Multi-strategy live A/B. Each entry trades independently with its own magic
+# number so we can compare their live results. All on the same demo account.
+portfolio:
+  # Diversified AGGRESSIVE set (3%/trade) — "hands everywhere". Note: aggregate
+  # risk stacks when multiple sleeves are in trades at once (demo only for now).
+  - id: donchian_gold_h1
+    strategy: donchian_breakout
+    params: {period: 20, use_trend: true, long_only: true}
+    symbol: XAUUSDm
+    timeframe: H1
+    magic: 20260101
+    risk_pct: 6.0
+    exits: {mode: atr, atr_period: 14, atr_sl_mult: 2.0, atr_tp_mult: 3.0}
+    filters: {}
+  - id: donchian_gold_m15
+    strategy: donchian_breakout
+    params: {period: 20, use_trend: true, long_only: true}
+    symbol: XAUUSDm
+    timeframe: M15
+    magic: 20260102
+    risk_pct: 6.0
+    exits: {mode: atr, atr_period: 14, atr_sl_mult: 2.0, atr_tp_mult: 3.0}
+    filters: {}
+  - id: donchian_silver_h1
+    strategy: donchian_breakout
+    params: {period: 20, use_trend: true, long_only: true}
+    symbol: XAGUSDm
+    timeframe: H1
+    magic: 20260103
+    risk_pct: 6.0
+    exits: {mode: atr, atr_period: 14, atr_sl_mult: 2.0, atr_tp_mult: 3.0}
+    filters: {}
+  - id: donchian_btc_m30
+    strategy: donchian_breakout
+    params: {period: 20, use_trend: true, long_only: true}
+    symbol: BTCUSDm
+    timeframe: M30
+    magic: 20260104
+    risk_pct: 6.0
+    exits: {mode: atr, atr_period: 14, atr_sl_mult: 2.0, atr_tp_mult: 3.0}
+    filters: {}
+  # CUT 2026-09-11 by Monte Carlo permutation testing. macd_trend lost money at
+  # EVERY parameter setting tested on gold (8/8 configs, PF 0.832-0.966, on
+  # 143-665 trades each). Not a marginal call - negative across the whole
+  # parameter space. It did win its one live trade (+424.55); 8 losing parameter
+  # sets on thousands of bars outweigh one lucky fill.
+  # - id: macd_gold_h1
+  #   strategy: macd_trend
+  #   params: {fast: 12, slow: 26, signal: 9, trend: 200}
+  #   symbol: XAUUSDm
+  #   timeframe: H1
+  #   magic: 20260105
+  #   risk_pct: 6.0
+  #   exits: {mode: atr, atr_period: 14, atr_sl_mult: 2.0, atr_tp_mult: 3.0}
+  #   filters: {}
+  - id: donchian_nasdaq_h1   # experimental — only ~1yr data, watching live
+    strategy: donchian_breakout
+    params: {period: 20, use_trend: true, long_only: true}
+    symbol: USTECm
+    timeframe: H1
+    magic: 20260106
+    risk_pct: 6.0
+    exits: {mode: atr, atr_period: 14, atr_sl_mult: 2.0, atr_tp_mult: 3.0}
+    filters: {}
+
+news_filter:
+  enabled: false              # roadmap: pause around high-impact events
+  pause_minutes_before: 30
+  pause_minutes_after: 30
+
+api_keys:
+  finnhub: "PASTE_FINNHUB_KEY_HERE"
+  alpha_vantage: "PASTE_ALPHAVANTAGE_KEY_HERE"

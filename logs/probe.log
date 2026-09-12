@@ -1,0 +1,451 @@
+2026-09-11 21:29:03  EXECUTION PROBE | 5m bars | offset 0.5xATR | expire 4 bars | MIN size | flatten-on-fill
+2026-09-11 21:29:03  measuring FILL RATE only — P&L is deliberately meaningless here
+2026-09-11 21:29:04  equity 2876.35 | positions 0 | resting 0
+2026-09-11 21:29:05  eq=2876.35 | pos=0 resting=0 | fills 0/0 = 0.0% (probe target 67%)
+2026-09-11 21:29:06  POSTED SBTCSUSDT buy 0.0001 @77320.4 (mkt 77369.5, 0.5xATR behind)
+2026-09-11 21:29:07  POSTED SETHSUSDT sell 0.002 @2539.3 (mkt 2536.29, 0.5xATR behind)
+2026-09-11 21:29:07  POSTED SXRPSUSDT sell 4.0 @1.367 (mkt 1.3649, 0.5xATR behind)
+2026-09-11 21:29:53  FILLED SBTCSUSDT limit=77320.4 fill=77320.4 slip=+0.00bp waited=0 bars
+2026-09-11 21:29:53    flattened SBTCSUSDT (sell 0.0001) to free the slot
+2026-09-11 21:29:53  eq=2876.34 | pos=1 resting=2 | fills 1/1 = 100.0% (probe target 67%)
+2026-09-11 21:30:40  eq=2876.34 | pos=0 resting=2 | fills 1/1 = 100.0% (probe target 67%)
+2026-09-11 21:30:41  POSTED SBTCSUSDT sell 0.0001 @77375.3 (mkt 77327, 0.5xATR behind)
+2026-09-11 21:31:27  eq=2876.34 | pos=0 resting=3 | fills 1/1 = 100.0% (probe target 67%)
+2026-09-11 21:32:13  eq=2876.34 | pos=0 resting=3 | fills 1/1 = 100.0% (probe target 67%)
+2026-09-11 21:33:00  eq=2876.34 | pos=0 resting=3 | fills 1/1 = 100.0% (probe target 67%)
+2026-09-11 21:33:46  eq=2876.34 | pos=0 resting=3 | fills 1/1 = 100.0% (probe target 67%)
+2026-09-11 21:34:32  eq=2876.34 | pos=0 resting=3 | fills 1/1 = 100.0% (probe target 67%)
+2026-09-11 21:35:19  eq=2876.34 | pos=0 resting=3 | fills 1/1 = 100.0% (probe target 67%)
+2026-09-11 21:36:05  eq=2876.34 | pos=0 resting=3 | fills 1/1 = 100.0% (probe target 67%)
+2026-09-11 21:36:06  ---- PROBE: post-only fill statistics ----
+2026-09-11 21:36:06     posted=4 filled=1 unfilled=0 signal_lost=0 postonly_rejected=0 errors=0
+2026-09-11 21:36:06     FILL RATE = 100.0% +/- 0.0%  on 1 resolved attempts
+2026-09-11 21:36:06     simulated rate for THIS population = 67.4%  ->  no verdict yet (1/30 attempts)
+2026-09-11 21:36:06     (need 30+ resolved attempts before inferring anything)
+2026-09-11 21:36:06     avg entry slip = +0.000bp (<=0 expected for a genuine maker fill)
+2026-09-11 21:36:06     avg bars waited to fill = 0.00
+2026-09-11 21:36:51  eq=2876.34 | pos=0 resting=3 | fills 1/1 = 100.0% (probe target 67%)
+2026-09-11 21:37:38  eq=2876.34 | pos=0 resting=3 | fills 1/1 = 100.0% (probe target 67%)
+2026-09-11 21:38:24  eq=2876.34 | pos=0 resting=3 | fills 1/1 = 100.0% (probe target 67%)
+2026-09-11 21:39:10  eq=2876.34 | pos=0 resting=3 | fills 1/1 = 100.0% (probe target 67%)
+2026-09-11 21:39:57  eq=2876.34 | pos=0 resting=3 | fills 1/1 = 100.0% (probe target 67%)
+2026-09-11 21:40:43  eq=2876.34 | pos=0 resting=3 | fills 1/1 = 100.0% (probe target 67%)
+2026-09-11 21:41:30  eq=2876.34 | pos=0 resting=3 | fills 1/1 = 100.0% (probe target 67%)
+2026-09-11 21:42:16  eq=2876.34 | pos=0 resting=3 | fills 1/1 = 100.0% (probe target 67%)
+2026-09-11 21:43:02  eq=2876.34 | pos=0 resting=3 | fills 1/1 = 100.0% (probe target 67%)
+2026-09-11 21:43:49  eq=2876.34 | pos=0 resting=3 | fills 1/1 = 100.0% (probe target 67%)
+2026-09-11 21:43:49  ---- PROBE: post-only fill statistics ----
+2026-09-11 21:43:49     posted=4 filled=1 unfilled=0 signal_lost=0 postonly_rejected=0 errors=0
+2026-09-11 21:43:49     FILL RATE = 100.0% +/- 0.0%  on 1 resolved attempts
+2026-09-11 21:43:49     simulated rate for THIS population = 67.4%  ->  no verdict yet (1/30 attempts)
+2026-09-11 21:43:49     (need 30+ resolved attempts before inferring anything)
+2026-09-11 21:43:49     avg entry slip = +0.000bp (<=0 expected for a genuine maker fill)
+2026-09-11 21:43:49     avg bars waited to fill = 0.00
+2026-09-11 21:44:35  eq=2876.34 | pos=0 resting=3 | fills 1/1 = 100.0% (probe target 67%)
+2026-09-11 21:45:21  eq=2876.34 | pos=0 resting=3 | fills 1/1 = 100.0% (probe target 67%)
+2026-09-11 21:45:22  UNFILLED SETHSUSDT expired after 4 bars
+2026-09-11 21:45:23  UNFILLED SXRPSUSDT expired after 4 bars
+2026-09-11 21:46:08  eq=2876.34 | pos=0 resting=1 | fills 1/3 = 33.3% (probe target 67%)
+2026-09-11 21:46:55  eq=2876.34 | pos=0 resting=1 | fills 1/3 = 33.3% (probe target 67%)
+2026-09-11 21:47:41  eq=2876.34 | pos=0 resting=1 | fills 1/3 = 33.3% (probe target 67%)
+2026-09-11 21:48:27  eq=2876.34 | pos=0 resting=1 | fills 1/3 = 33.3% (probe target 67%)
+2026-09-11 21:49:14  eq=2876.34 | pos=0 resting=1 | fills 1/3 = 33.3% (probe target 67%)
+2026-09-11 21:50:00  eq=2876.34 | pos=0 resting=1 | fills 1/3 = 33.3% (probe target 67%)
+2026-09-11 21:50:01  UNFILLED SBTCSUSDT expired after 4 bars
+2026-09-11 21:50:01  POSTED SETHSUSDT sell 0.002 @2531.61 (mkt 2528.86, 0.5xATR behind)
+2026-09-11 21:50:47  eq=2876.34 | pos=0 resting=1 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 21:50:49  POSTED SXRPSUSDT sell 4.0 @1.358 (mkt 1.3568, 0.5xATR behind)
+2026-09-11 21:51:34  eq=2876.34 | pos=0 resting=2 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 21:51:35  ---- PROBE: post-only fill statistics ----
+2026-09-11 21:51:35     posted=6 filled=1 unfilled=3 signal_lost=0 postonly_rejected=0 errors=0
+2026-09-11 21:51:35     FILL RATE = 25.0% +/- 21.7%  on 4 resolved attempts
+2026-09-11 21:51:35     simulated rate for THIS population = 67.4%  ->  no verdict yet (4/30 attempts)
+2026-09-11 21:51:35     (need 30+ resolved attempts before inferring anything)
+2026-09-11 21:51:35     avg entry slip = +0.000bp (<=0 expected for a genuine maker fill)
+2026-09-11 21:51:35     avg bars waited to fill = 0.00
+2026-09-11 21:52:21  eq=2876.34 | pos=0 resting=2 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 21:53:07  eq=2876.34 | pos=0 resting=2 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 21:53:53  eq=2876.34 | pos=0 resting=2 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 21:54:40  eq=2876.34 | pos=0 resting=2 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 21:55:26  eq=2876.34 | pos=0 resting=2 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 21:55:27  POSTED SBTCSUSDT sell 0.0001 @77228.6 (mkt 77185.5, 0.5xATR behind)
+2026-09-11 21:56:13  eq=2876.34 | pos=0 resting=3 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 21:57:00  eq=2876.34 | pos=0 resting=3 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 21:57:46  eq=2876.34 | pos=0 resting=3 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 21:58:32  eq=2876.34 | pos=0 resting=3 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 21:59:18  eq=2876.34 | pos=0 resting=3 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 21:59:19  ---- PROBE: post-only fill statistics ----
+2026-09-11 21:59:19     posted=7 filled=1 unfilled=3 signal_lost=0 postonly_rejected=0 errors=0
+2026-09-11 21:59:19     FILL RATE = 25.0% +/- 21.7%  on 4 resolved attempts
+2026-09-11 21:59:19     simulated rate for THIS population = 67.4%  ->  no verdict yet (4/30 attempts)
+2026-09-11 21:59:19     (need 30+ resolved attempts before inferring anything)
+2026-09-11 21:59:19     avg entry slip = +0.000bp (<=0 expected for a genuine maker fill)
+2026-09-11 21:59:19     avg bars waited to fill = 0.00
+2026-09-11 22:00:05  eq=2876.34 | pos=0 resting=3 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 22:00:51  eq=2876.34 | pos=0 resting=3 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 22:01:38  eq=2876.34 | pos=0 resting=3 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 22:02:24  eq=2876.34 | pos=0 resting=3 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 22:03:10  eq=2876.34 | pos=0 resting=3 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 22:03:57  eq=2876.34 | pos=0 resting=3 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 22:04:43  eq=2876.34 | pos=0 resting=3 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 22:05:29  eq=2876.34 | pos=0 resting=3 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 22:06:16  eq=2876.34 | pos=0 resting=3 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 22:07:02  eq=2876.34 | pos=0 resting=3 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 22:07:03  ---- PROBE: post-only fill statistics ----
+2026-09-11 22:07:03     posted=7 filled=1 unfilled=3 signal_lost=0 postonly_rejected=0 errors=0
+2026-09-11 22:07:03     FILL RATE = 25.0% +/- 21.7%  on 4 resolved attempts
+2026-09-11 22:07:03     simulated rate for THIS population = 67.4%  ->  no verdict yet (4/30 attempts)
+2026-09-11 22:07:03     (need 30+ resolved attempts before inferring anything)
+2026-09-11 22:07:03     avg entry slip = +0.000bp (<=0 expected for a genuine maker fill)
+2026-09-11 22:07:03     avg bars waited to fill = 0.00
+2026-09-11 22:07:48  eq=2876.34 | pos=0 resting=3 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 22:08:35  eq=2876.34 | pos=0 resting=3 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 22:09:21  eq=2876.34 | pos=0 resting=3 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 22:10:07  eq=2876.34 | pos=0 resting=3 | fills 1/4 = 25.0% (probe target 67%)
+2026-09-11 22:10:08  UNFILLED SETHSUSDT expired after 4 bars
+2026-09-11 22:10:09  UNFILLED SXRPSUSDT expired after 4 bars
+2026-09-11 22:10:54  eq=2876.34 | pos=0 resting=1 | fills 1/6 = 16.7% (probe target 67%)
+2026-09-11 22:11:41  eq=2876.34 | pos=0 resting=1 | fills 1/6 = 16.7% (probe target 67%)
+2026-09-11 22:12:27  eq=2876.34 | pos=0 resting=1 | fills 1/6 = 16.7% (probe target 67%)
+2026-09-11 22:13:13  eq=2876.34 | pos=0 resting=1 | fills 1/6 = 16.7% (probe target 67%)
+2026-09-11 22:13:59  eq=2876.34 | pos=0 resting=1 | fills 1/6 = 16.7% (probe target 67%)
+2026-09-11 22:14:46  eq=2876.34 | pos=0 resting=1 | fills 1/6 = 16.7% (probe target 67%)
+2026-09-11 22:14:46  ---- PROBE: post-only fill statistics ----
+2026-09-11 22:14:46     posted=7 filled=1 unfilled=5 signal_lost=0 postonly_rejected=0 errors=0
+2026-09-11 22:14:46     FILL RATE = 16.7% +/- 15.2%  on 6 resolved attempts
+2026-09-11 22:14:46     simulated rate for THIS population = 67.4%  ->  no verdict yet (6/30 attempts)
+2026-09-11 22:14:46     (need 30+ resolved attempts before inferring anything)
+2026-09-11 22:14:46     avg entry slip = +0.000bp (<=0 expected for a genuine maker fill)
+2026-09-11 22:14:46     avg bars waited to fill = 0.00
+2026-09-11 22:15:32  eq=2876.34 | pos=0 resting=1 | fills 1/6 = 16.7% (probe target 67%)
+2026-09-11 22:15:32  UNFILLED SBTCSUSDT expired after 4 bars
+2026-09-11 22:15:33  POSTED SETHSUSDT buy 0.002 @2515.41 (mkt 2518.97, 0.5xATR behind)
+2026-09-11 22:15:34  POSTED SXRPSUSDT buy 4.0 @1.354 (mkt 1.3558, 0.5xATR behind)
+2026-09-11 22:16:20  FILLED SXRPSUSDT limit=1.354 fill=1.354 slip=+0.00bp waited=0 bars
+2026-09-11 22:16:20    flattened SXRPSUSDT (sell 4.0) to free the slot
+2026-09-11 22:16:20  eq=2876.33 | pos=1 resting=1 | fills 2/8 = 25.0% (probe target 67%)
+2026-09-11 22:17:06  eq=2876.33 | pos=0 resting=1 | fills 2/8 = 25.0% (probe target 67%)
+2026-09-11 22:17:52  eq=2876.33 | pos=0 resting=1 | fills 2/8 = 25.0% (probe target 67%)
+2026-09-11 22:18:39  eq=2876.33 | pos=0 resting=1 | fills 2/8 = 25.0% (probe target 67%)
+2026-09-11 22:19:25  eq=2876.33 | pos=0 resting=1 | fills 2/8 = 25.0% (probe target 67%)
+2026-09-11 22:20:11  eq=2876.33 | pos=0 resting=1 | fills 2/8 = 25.0% (probe target 67%)
+2026-09-11 22:20:12  POSTED SBTCSUSDT buy 0.0001 @77106.9 (mkt 77156.1, 0.5xATR behind)
+2026-09-11 22:20:13  POSTED SXRPSUSDT sell 4.0 @1.356 (mkt 1.3545, 0.5xATR behind)
+2026-09-11 22:20:59  eq=2876.33 | pos=0 resting=3 | fills 2/8 = 25.0% (probe target 67%)
+2026-09-11 22:21:45  FILLED SBTCSUSDT limit=77106.9 fill=77106.9 slip=+0.00bp waited=0 bars
+2026-09-11 22:21:45    flattened SBTCSUSDT (sell 0.0001) to free the slot
+2026-09-11 22:21:45  eq=2876.33 | pos=1 resting=2 | fills 3/9 = 33.3% (probe target 67%)
+2026-09-11 22:22:32  FILLED SXRPSUSDT limit=1.356 fill=1.356 slip=-0.00bp waited=0 bars
+2026-09-11 22:22:32    flattened SXRPSUSDT (buy 4.0) to free the slot
+2026-09-11 22:22:32  eq=2876.32 | pos=1 resting=1 | fills 4/10 = 40.0% (probe target 67%)
+2026-09-11 22:22:33  ---- PROBE: post-only fill statistics ----
+2026-09-11 22:22:33     posted=11 filled=4 unfilled=6 signal_lost=0 postonly_rejected=0 errors=0
+2026-09-11 22:22:33     FILL RATE = 40.0% +/- 15.5%  on 10 resolved attempts
+2026-09-11 22:22:33     simulated rate for THIS population = 67.4%  ->  no verdict yet (10/30 attempts)
+2026-09-11 22:22:33     (need 30+ resolved attempts before inferring anything)
+2026-09-11 22:22:33     avg entry slip = +0.000bp (<=0 expected for a genuine maker fill)
+2026-09-11 22:22:33     avg bars waited to fill = 0.00
+2026-09-11 22:23:18  eq=2876.32 | pos=0 resting=1 | fills 4/10 = 40.0% (probe target 67%)
+2026-09-11 22:24:04  eq=2876.32 | pos=0 resting=1 | fills 4/10 = 40.0% (probe target 67%)
+2026-09-11 22:24:51  eq=2876.32 | pos=0 resting=1 | fills 4/10 = 40.0% (probe target 67%)
+2026-09-11 22:25:37  eq=2876.32 | pos=0 resting=1 | fills 4/10 = 40.0% (probe target 67%)
+2026-09-11 22:25:38  POSTED SBTCSUSDT buy 0.0001 @77115 (mkt 77163, 0.5xATR behind)
+2026-09-11 22:25:39  POSTED SXRPSUSDT buy 4.0 @1.353 (mkt 1.3549, 0.5xATR behind)
+2026-09-11 22:26:24  eq=2876.32 | pos=0 resting=3 | fills 4/10 = 40.0% (probe target 67%)
+2026-09-11 22:27:11  eq=2876.32 | pos=0 resting=3 | fills 4/10 = 40.0% (probe target 67%)
+2026-09-11 22:27:57  eq=2876.32 | pos=0 resting=3 | fills 4/10 = 40.0% (probe target 67%)
+2026-09-11 22:28:43  FILLED SXRPSUSDT limit=1.353 fill=1.353 slip=+0.00bp waited=0 bars
+2026-09-11 22:28:43    flattened SXRPSUSDT (sell 4.0) to free the slot
+2026-09-11 22:28:43  eq=2876.33 | pos=1 resting=2 | fills 5/11 = 45.5% (probe target 67%)
+2026-09-11 22:29:30  FILLED SBTCSUSDT limit=77115 fill=77115 slip=+0.00bp waited=0 bars
+2026-09-11 22:29:30    flattened SBTCSUSDT (sell 0.0001) to free the slot
+2026-09-11 22:29:30  eq=2876.31 | pos=1 resting=1 | fills 6/12 = 50.0% (probe target 67%)
+2026-09-11 22:30:16  eq=2876.31 | pos=0 resting=1 | fills 6/12 = 50.0% (probe target 67%)
+2026-09-11 22:30:17  POSTED SBTCSUSDT sell 0.0001 @77130.5 (mkt 77081.3, 0.5xATR behind)
+2026-09-11 22:30:18  POSTED SXRPSUSDT sell 4.0 @1.354 (mkt 1.3517, 0.5xATR behind)
+2026-09-11 22:30:18  ---- PROBE: post-only fill statistics ----
+2026-09-11 22:30:18     posted=15 filled=6 unfilled=6 signal_lost=0 postonly_rejected=0 errors=0
+2026-09-11 22:30:18     FILL RATE = 50.0% +/- 14.4%  on 12 resolved attempts
+2026-09-11 22:30:18     simulated rate for THIS population = 67.4%  ->  no verdict yet (12/30 attempts)
+2026-09-11 22:30:18     (need 30+ resolved attempts before inferring anything)
+2026-09-11 22:30:18     avg entry slip = +0.000bp (<=0 expected for a genuine maker fill)
+2026-09-11 22:30:18     avg bars waited to fill = 0.00
+2026-09-11 22:31:04  eq=2876.31 | pos=0 resting=3 | fills 6/12 = 50.0% (probe target 67%)
+2026-09-11 22:31:50  eq=2876.31 | pos=0 resting=3 | fills 6/12 = 50.0% (probe target 67%)
+2026-09-11 22:32:37  eq=2876.31 | pos=0 resting=3 | fills 6/12 = 50.0% (probe target 67%)
+2026-09-11 22:33:23  FILLED SETHSUSDT limit=2515.41 fill=2515.41 slip=+0.00bp waited=3 bars
+2026-09-11 22:33:23    flattened SETHSUSDT (sell 0.002) to free the slot
+2026-09-11 22:33:23  FILLED SBTCSUSDT limit=77130.5 fill=77130.5 slip=-0.00bp waited=0 bars
+2026-09-11 22:33:24    flattened SBTCSUSDT (buy 0.0001) to free the slot
+2026-09-11 22:33:24  eq=2876.30 | pos=2 resting=1 | fills 8/14 = 57.1% (probe target 67%)
+2026-09-11 22:34:10  eq=2876.30 | pos=0 resting=1 | fills 8/14 = 57.1% (probe target 67%)
+2026-09-11 22:34:56  eq=2876.30 | pos=0 resting=1 | fills 8/14 = 57.1% (probe target 67%)
+2026-09-11 22:35:42  eq=2876.30 | pos=0 resting=1 | fills 8/14 = 57.1% (probe target 67%)
+2026-09-11 22:35:43  POSTED SBTCSUSDT sell 0.0001 @77035.5 (mkt 76983.9, 0.5xATR behind)
+2026-09-11 22:35:44  POSTED SETHSUSDT sell 0.002 @2513.41 (mkt 2509.96, 0.5xATR behind)
+2026-09-11 22:36:30  FILLED SBTCSUSDT limit=77035.5 fill=77035.5 slip=-0.00bp waited=0 bars
+2026-09-11 22:36:30    flattened SBTCSUSDT (buy 0.0001) to free the slot
+2026-09-11 22:36:30  UNFILLED SETHSUSDT limit=2513.41 after 0 bars
+2026-09-11 22:36:30  eq=2876.29 | pos=1 resting=1 | fills 9/16 = 56.2% (probe target 67%)
+2026-09-11 22:37:16  eq=2876.29 | pos=0 resting=1 | fills 9/16 = 56.2% (probe target 67%)
+2026-09-11 22:38:03  eq=2876.29 | pos=0 resting=1 | fills 9/16 = 56.2% (probe target 67%)
+2026-09-11 22:38:03  ---- PROBE: post-only fill statistics ----
+2026-09-11 22:38:03     posted=17 filled=9 unfilled=7 signal_lost=0 postonly_rejected=0 errors=0
+2026-09-11 22:38:03     FILL RATE = 56.2% +/- 12.4%  on 16 resolved attempts
+2026-09-11 22:38:03     simulated rate for THIS population = 67.4%  ->  no verdict yet (16/30 attempts)
+2026-09-11 22:38:03     (need 30+ resolved attempts before inferring anything)
+2026-09-11 22:38:03     avg entry slip = +0.000bp (<=0 expected for a genuine maker fill)
+2026-09-11 22:38:03     avg bars waited to fill = 0.33
+2026-09-11 22:38:49  eq=2876.29 | pos=0 resting=1 | fills 9/16 = 56.2% (probe target 67%)
+2026-09-11 22:39:35  eq=2876.29 | pos=0 resting=1 | fills 9/16 = 56.2% (probe target 67%)
+2026-09-11 22:40:22  eq=2876.29 | pos=0 resting=1 | fills 9/16 = 56.2% (probe target 67%)
+2026-09-11 22:40:22  POSTED SBTCSUSDT buy 0.0001 @77084.5 (mkt 77139, 0.5xATR behind)
+2026-09-11 22:40:23  POSTED SETHSUSDT buy 0.002 @2515.51 (mkt 2519.09, 0.5xATR behind)
+2026-09-11 22:41:09  eq=2876.29 | pos=0 resting=3 | fills 9/16 = 56.2% (probe target 67%)
+2026-09-11 22:41:55  eq=2876.29 | pos=0 resting=3 | fills 9/16 = 56.2% (probe target 67%)
+2026-09-11 22:42:42  eq=2876.29 | pos=0 resting=3 | fills 9/16 = 56.2% (probe target 67%)
+2026-09-11 22:43:28  eq=2876.29 | pos=0 resting=3 | fills 9/16 = 56.2% (probe target 67%)
+2026-09-11 22:44:14  eq=2876.29 | pos=0 resting=3 | fills 9/16 = 56.2% (probe target 67%)
+2026-09-11 22:45:01  FILLED SBTCSUSDT limit=77084.5 fill=77084.5 slip=+0.00bp waited=0 bars
+2026-09-11 22:45:01    flattened SBTCSUSDT (sell 0.0001) to free the slot
+2026-09-11 22:45:01  eq=2876.29 | pos=1 resting=2 | fills 10/17 = 58.8% (probe target 67%)
+2026-09-11 22:45:01    flatten note SBTCSUSDT: bitget {"code":"22002","msg":"No position to close","requestTime":1789166701372,"data":null}
+2026-09-11 22:45:47  FILLED SETHSUSDT limit=2515.51 fill=2515.51 slip=+0.00bp waited=0 bars
+2026-09-11 22:45:48    flattened SETHSUSDT (sell 0.002) to free the slot
+2026-09-11 22:45:48  eq=2876.28 | pos=1 resting=1 | fills 11/18 = 61.1% (probe target 67%)
+2026-09-11 22:45:48    flatten note SETHSUSDT: bitget {"code":"22002","msg":"No position to close","requestTime":1789166748339,"data":null}
+2026-09-11 22:45:48  ---- PROBE: post-only fill statistics ----
+2026-09-11 22:45:49     posted=19 filled=11 unfilled=7 signal_lost=0 postonly_rejected=0 errors=0
+2026-09-11 22:45:49     FILL RATE = 61.1% +/- 11.5%  on 18 resolved attempts
+2026-09-11 22:45:49     simulated rate for THIS population = 67.4%  ->  no verdict yet (18/30 attempts)
+2026-09-11 22:45:49     (need 30+ resolved attempts before inferring anything)
+2026-09-11 22:45:49     avg entry slip = +0.000bp (<=0 expected for a genuine maker fill)
+2026-09-11 22:45:49     avg bars waited to fill = 0.27
+2026-09-11 22:46:34  eq=2876.27 | pos=0 resting=1 | fills 11/18 = 61.1% (probe target 67%)
+2026-09-11 22:47:20  eq=2876.27 | pos=0 resting=1 | fills 11/18 = 61.1% (probe target 67%)
+2026-09-11 22:48:07  eq=2876.27 | pos=0 resting=1 | fills 11/18 = 61.1% (probe target 67%)
+2026-09-11 22:48:53  eq=2876.27 | pos=0 resting=1 | fills 11/18 = 61.1% (probe target 67%)
+2026-09-11 22:49:39  eq=2876.27 | pos=0 resting=1 | fills 11/18 = 61.1% (probe target 67%)
+2026-09-11 22:50:26  eq=2876.27 | pos=0 resting=1 | fills 11/18 = 61.1% (probe target 67%)
+2026-09-11 22:50:26  POSTED SBTCSUSDT sell 0.0001 @77068.8 (mkt 77015.4, 0.5xATR behind)
+2026-09-11 22:50:27  POSTED SETHSUSDT sell 0.002 @2514.02 (mkt 2510.5, 0.5xATR behind)
+2026-09-11 22:50:28  UNFILLED SXRPSUSDT expired after 4 bars
+2026-09-11 22:51:13  FILLED SBTCSUSDT limit=77068.8 fill=77068.8 slip=-0.00bp waited=0 bars
+2026-09-11 22:51:14    flattened SBTCSUSDT (buy 0.0001) to free the slot
+2026-09-11 22:51:14  eq=2876.28 | pos=1 resting=1 | fills 12/20 = 60.0% (probe target 67%)
+2026-09-11 22:52:00  eq=2876.27 | pos=0 resting=1 | fills 12/20 = 60.0% (probe target 67%)
+2026-09-11 22:52:46  eq=2876.27 | pos=0 resting=1 | fills 12/20 = 60.0% (probe target 67%)
+2026-09-11 22:53:33  eq=2876.27 | pos=0 resting=1 | fills 12/20 = 60.0% (probe target 67%)
+2026-09-11 22:53:33  ---- PROBE: post-only fill statistics ----
+2026-09-11 22:53:33     posted=21 filled=12 unfilled=8 signal_lost=0 postonly_rejected=0 errors=0
+2026-09-11 22:53:33     FILL RATE = 60.0% +/- 11.0%  on 20 resolved attempts
+2026-09-11 22:53:33     simulated rate for THIS population = 67.4%  ->  no verdict yet (20/30 attempts)
+2026-09-11 22:53:33     (need 30+ resolved attempts before inferring anything)
+2026-09-11 22:53:33     avg entry slip = +0.000bp (<=0 expected for a genuine maker fill)
+2026-09-11 22:53:33     avg bars waited to fill = 0.25
+2026-09-11 22:54:19  eq=2876.27 | pos=0 resting=1 | fills 12/20 = 60.0% (probe target 67%)
+2026-09-11 22:55:05  eq=2876.27 | pos=0 resting=1 | fills 12/20 = 60.0% (probe target 67%)
+2026-09-11 22:55:06  POSTED SBTCSUSDT buy 0.0001 @76983.8 (mkt 77037, 0.5xATR behind)
+2026-09-11 22:55:07  POSTED SXRPSUSDT buy 4.0 @1.347 (mkt 1.3487, 0.5xATR behind)
+2026-09-11 22:55:53  eq=2876.27 | pos=0 resting=3 | fills 12/20 = 60.0% (probe target 67%)
+2026-09-11 22:56:39  FILLED SETHSUSDT limit=2514.02 fill=2514.02 slip=-0.00bp waited=1 bars
+2026-09-11 22:56:39    flattened SETHSUSDT (buy 0.002) to free the slot
+2026-09-11 22:56:39  eq=2876.27 | pos=1 resting=2 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 22:57:26  eq=2876.27 | pos=0 resting=2 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 22:58:12  eq=2876.27 | pos=0 resting=2 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 22:59:00  eq=2876.27 | pos=0 resting=2 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 22:59:46  eq=2876.27 | pos=0 resting=2 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 23:00:32  eq=2876.27 | pos=0 resting=2 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 23:00:33  POSTED SETHSUSDT sell 0.002 @2513.86 (mkt 2510.32, 0.5xATR behind)
+2026-09-11 23:01:19  eq=2876.27 | pos=0 resting=3 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 23:01:20  ---- PROBE: post-only fill statistics ----
+2026-09-11 23:01:20     posted=24 filled=13 unfilled=8 signal_lost=0 postonly_rejected=0 errors=0
+2026-09-11 23:01:20     FILL RATE = 61.9% +/- 10.6%  on 21 resolved attempts
+2026-09-11 23:01:20     simulated rate for THIS population = 67.4%  ->  no verdict yet (21/30 attempts)
+2026-09-11 23:01:20     (need 30+ resolved attempts before inferring anything)
+2026-09-11 23:01:20     avg entry slip = +0.000bp (<=0 expected for a genuine maker fill)
+2026-09-11 23:01:20     avg bars waited to fill = 0.31
+2026-09-11 23:02:06  eq=2876.27 | pos=0 resting=3 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 23:02:52  eq=2876.27 | pos=0 resting=3 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 23:03:39  eq=2876.27 | pos=0 resting=3 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 23:04:25  eq=2876.27 | pos=0 resting=3 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 23:05:11  eq=2876.27 | pos=0 resting=3 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 23:05:58  eq=2876.27 | pos=0 resting=3 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 23:06:44  eq=2876.27 | pos=0 resting=3 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 23:07:30  eq=2876.27 | pos=0 resting=3 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 23:08:16  eq=2876.27 | pos=0 resting=3 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 23:09:03  eq=2876.27 | pos=0 resting=3 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 23:09:03  ---- PROBE: post-only fill statistics ----
+2026-09-11 23:09:03     posted=24 filled=13 unfilled=8 signal_lost=0 postonly_rejected=0 errors=0
+2026-09-11 23:09:03     FILL RATE = 61.9% +/- 10.6%  on 21 resolved attempts
+2026-09-11 23:09:03     simulated rate for THIS population = 67.4%  ->  no verdict yet (21/30 attempts)
+2026-09-11 23:09:03     (need 30+ resolved attempts before inferring anything)
+2026-09-11 23:09:03     avg entry slip = +0.000bp (<=0 expected for a genuine maker fill)
+2026-09-11 23:09:03     avg bars waited to fill = 0.31
+2026-09-11 23:09:49  eq=2876.27 | pos=0 resting=3 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 23:10:35  eq=2876.27 | pos=0 resting=3 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 23:11:22  eq=2876.27 | pos=0 resting=3 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 23:12:08  eq=2876.27 | pos=0 resting=3 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 23:12:54  eq=2876.27 | pos=0 resting=3 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 23:13:41  eq=2876.27 | pos=0 resting=3 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 23:14:27  eq=2876.27 | pos=0 resting=3 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 23:15:13  eq=2876.27 | pos=0 resting=3 | fills 13/21 = 61.9% (probe target 67%)
+2026-09-11 23:15:14  UNFILLED SBTCSUSDT expired after 4 bars
+2026-09-11 23:15:14  UNFILLED SXRPSUSDT expired after 4 bars
+2026-09-11 23:16:00  eq=2876.27 | pos=0 resting=1 | fills 13/23 = 56.5% (probe target 67%)
+2026-09-11 23:16:46  eq=2876.27 | pos=0 resting=1 | fills 13/23 = 56.5% (probe target 67%)
+2026-09-11 23:16:47  ---- PROBE: post-only fill statistics ----
+2026-09-11 23:16:47     posted=24 filled=13 unfilled=10 signal_lost=0 postonly_rejected=0 errors=0
+2026-09-11 23:16:47     FILL RATE = 56.5% +/- 10.3%  on 23 resolved attempts
+2026-09-11 23:16:47     simulated rate for THIS population = 67.4%  ->  no verdict yet (23/30 attempts)
+2026-09-11 23:16:47     (need 30+ resolved attempts before inferring anything)
+2026-09-11 23:16:47     avg entry slip = +0.000bp (<=0 expected for a genuine maker fill)
+2026-09-11 23:16:47     avg bars waited to fill = 0.31
+2026-09-11 23:17:33  eq=2876.27 | pos=0 resting=1 | fills 13/23 = 56.5% (probe target 67%)
+2026-09-11 23:18:20  eq=2876.27 | pos=0 resting=1 | fills 13/23 = 56.5% (probe target 67%)
+2026-09-11 23:19:06  eq=2876.27 | pos=0 resting=1 | fills 13/23 = 56.5% (probe target 67%)
+2026-09-11 23:19:52  eq=2876.27 | pos=0 resting=1 | fills 13/23 = 56.5% (probe target 67%)
+2026-09-11 23:20:39  eq=2876.27 | pos=0 resting=1 | fills 13/23 = 56.5% (probe target 67%)
+2026-09-11 23:20:40  POSTED SBTCSUSDT buy 0.0001 @77068.2 (mkt 77117.2, 0.5xATR behind)
+2026-09-11 23:20:40  UNFILLED SETHSUSDT expired after 4 bars
+2026-09-11 23:20:41  POSTED SXRPSUSDT buy 4.0 @1.352 (mkt 1.3543, 0.5xATR behind)
+2026-09-11 23:21:26  eq=2876.27 | pos=0 resting=2 | fills 13/24 = 54.2% (probe target 67%)
+2026-09-11 23:22:13  eq=2876.27 | pos=0 resting=2 | fills 13/24 = 54.2% (probe target 67%)
+2026-09-11 23:22:59  eq=2876.27 | pos=0 resting=2 | fills 13/24 = 54.2% (probe target 67%)
+2026-09-11 23:23:46  eq=2876.27 | pos=0 resting=2 | fills 13/24 = 54.2% (probe target 67%)
+2026-09-11 23:24:32  eq=2876.27 | pos=0 resting=2 | fills 13/24 = 54.2% (probe target 67%)
+2026-09-11 23:24:33  ---- PROBE: post-only fill statistics ----
+2026-09-11 23:24:33     posted=26 filled=13 unfilled=11 signal_lost=0 postonly_rejected=0 errors=0
+2026-09-11 23:24:33     FILL RATE = 54.2% +/- 10.2%  on 24 resolved attempts
+2026-09-11 23:24:33     simulated rate for THIS population = 67.4%  ->  no verdict yet (24/30 attempts)
+2026-09-11 23:24:33     (need 30+ resolved attempts before inferring anything)
+2026-09-11 23:24:33     avg entry slip = +0.000bp (<=0 expected for a genuine maker fill)
+2026-09-11 23:24:33     avg bars waited to fill = 0.31
+2026-09-11 23:25:18  eq=2876.27 | pos=0 resting=2 | fills 13/24 = 54.2% (probe target 67%)
+2026-09-11 23:25:19  POSTED SETHSUSDT sell 0.002 @2511.95 (mkt 2508.87, 0.5xATR behind)
+2026-09-11 23:26:05  eq=2876.27 | pos=0 resting=3 | fills 13/24 = 54.2% (probe target 67%)
+2026-09-11 23:26:52  FILLED SETHSUSDT limit=2511.95 fill=2511.95 slip=-0.00bp waited=0 bars
+2026-09-11 23:26:52    flattened SETHSUSDT (buy 0.002) to free the slot
+2026-09-11 23:26:52  eq=2876.27 | pos=1 resting=2 | fills 14/25 = 56.0% (probe target 67%)
+2026-09-11 23:27:38  eq=2876.26 | pos=0 resting=2 | fills 14/25 = 56.0% (probe target 67%)
+2026-09-11 23:28:24  eq=2876.26 | pos=0 resting=2 | fills 14/25 = 56.0% (probe target 67%)
+2026-09-11 23:29:11  eq=2876.26 | pos=0 resting=2 | fills 14/25 = 56.0% (probe target 67%)
+2026-09-11 23:29:57  eq=2876.26 | pos=0 resting=2 | fills 14/25 = 56.0% (probe target 67%)
+2026-09-11 23:30:43  eq=2876.26 | pos=0 resting=2 | fills 14/25 = 56.0% (probe target 67%)
+2026-09-11 23:30:45  POSTED SETHSUSDT buy 0.002 @2507.71 (mkt 2510.73, 0.5xATR behind)
+2026-09-11 23:31:31  eq=2876.26 | pos=0 resting=3 | fills 14/25 = 56.0% (probe target 67%)
+2026-09-11 23:32:18  eq=2876.26 | pos=0 resting=3 | fills 14/25 = 56.0% (probe target 67%)
+2026-09-11 23:32:18  ---- PROBE: post-only fill statistics ----
+2026-09-11 23:32:18     posted=28 filled=14 unfilled=11 signal_lost=0 postonly_rejected=0 errors=0
+2026-09-11 23:32:18     FILL RATE = 56.0% +/- 9.9%  on 25 resolved attempts
+2026-09-11 23:32:18     simulated rate for THIS population = 67.4%  ->  no verdict yet (25/30 attempts)
+2026-09-11 23:32:18     (need 30+ resolved attempts before inferring anything)
+2026-09-11 23:32:18     avg entry slip = +0.000bp (<=0 expected for a genuine maker fill)
+2026-09-11 23:32:18     avg bars waited to fill = 0.29
+2026-09-11 23:33:04  eq=2876.26 | pos=0 resting=3 | fills 14/25 = 56.0% (probe target 67%)
+2026-09-11 23:33:50  eq=2876.26 | pos=0 resting=3 | fills 14/25 = 56.0% (probe target 67%)
+2026-09-11 23:34:37  eq=2876.26 | pos=0 resting=3 | fills 14/25 = 56.0% (probe target 67%)
+2026-09-11 23:35:23  eq=2876.26 | pos=0 resting=3 | fills 14/25 = 56.0% (probe target 67%)
+2026-09-11 23:36:09  eq=2876.26 | pos=0 resting=3 | fills 14/25 = 56.0% (probe target 67%)
+2026-09-11 23:36:55  eq=2876.26 | pos=0 resting=3 | fills 14/25 = 56.0% (probe target 67%)
+2026-09-11 23:37:42  eq=2876.26 | pos=0 resting=3 | fills 14/25 = 56.0% (probe target 67%)
+2026-09-11 23:38:28  eq=2876.26 | pos=0 resting=3 | fills 14/25 = 56.0% (probe target 67%)
+2026-09-11 23:39:14  eq=2876.26 | pos=0 resting=3 | fills 14/25 = 56.0% (probe target 67%)
+2026-09-11 23:40:01  eq=2876.26 | pos=0 resting=3 | fills 14/25 = 56.0% (probe target 67%)
+2026-09-11 23:40:01  UNFILLED SBTCSUSDT expired after 4 bars
+2026-09-11 23:40:02  UNFILLED SXRPSUSDT expired after 4 bars
+2026-09-11 23:40:02  ---- PROBE: post-only fill statistics ----
+2026-09-11 23:40:02     posted=28 filled=14 unfilled=13 signal_lost=0 postonly_rejected=0 errors=0
+2026-09-11 23:40:02     FILL RATE = 51.9% +/- 9.6%  on 27 resolved attempts
+2026-09-11 23:40:02     simulated rate for THIS population = 67.4%  ->  no verdict yet (27/30 attempts)
+2026-09-11 23:40:02     (need 30+ resolved attempts before inferring anything)
+2026-09-11 23:40:02     avg entry slip = +0.000bp (<=0 expected for a genuine maker fill)
+2026-09-11 23:40:02     avg bars waited to fill = 0.29
+2026-09-11 23:40:47  eq=2876.26 | pos=0 resting=1 | fills 14/27 = 51.9% (probe target 67%)
+2026-09-11 23:41:34  eq=2876.26 | pos=0 resting=1 | fills 14/27 = 51.9% (probe target 67%)
+2026-09-11 23:42:20  eq=2876.26 | pos=0 resting=1 | fills 14/27 = 51.9% (probe target 67%)
+2026-09-11 23:43:06  eq=2876.26 | pos=0 resting=1 | fills 14/27 = 51.9% (probe target 67%)
+2026-09-11 23:43:52  eq=2876.26 | pos=0 resting=1 | fills 14/27 = 51.9% (probe target 67%)
+2026-09-11 23:44:39  eq=2876.26 | pos=0 resting=1 | fills 14/27 = 51.9% (probe target 67%)
+2026-09-11 23:45:25  eq=2876.26 | pos=0 resting=1 | fills 14/27 = 51.9% (probe target 67%)
+2026-09-11 23:45:26  POSTED SBTCSUSDT sell 0.0001 @77184.7 (mkt 77145.3, 0.5xATR behind)
+2026-09-11 23:45:27  POSTED SXRPSUSDT sell 4.0 @1.356 (mkt 1.3547, 0.5xATR behind)
+2026-09-11 23:46:13  eq=2876.26 | pos=0 resting=3 | fills 14/27 = 51.9% (probe target 67%)
+2026-09-11 23:46:59  FILLED SBTCSUSDT limit=77184.7 fill=77184.7 slip=-0.00bp waited=0 bars
+2026-09-11 23:46:59    flattened SBTCSUSDT (buy 0.0001) to free the slot
+2026-09-11 23:46:59  eq=2876.26 | pos=1 resting=2 | fills 15/28 = 53.6% (probe target 67%)
+2026-09-11 23:47:45  FILLED SXRPSUSDT limit=1.356 fill=1.356 slip=-0.00bp waited=0 bars
+2026-09-11 23:47:46    flattened SXRPSUSDT (buy 4.0) to free the slot
+2026-09-11 23:47:46  eq=2876.25 | pos=1 resting=1 | fills 16/29 = 55.2% (probe target 67%)
+2026-09-11 23:47:46  ---- PROBE: post-only fill statistics ----
+2026-09-11 23:47:46     posted=30 filled=16 unfilled=13 signal_lost=0 postonly_rejected=0 errors=0
+2026-09-11 23:47:46     FILL RATE = 55.2% +/- 9.2%  on 29 resolved attempts
+2026-09-11 23:47:46     simulated rate for THIS population = 67.4%  ->  no verdict yet (29/30 attempts)
+2026-09-11 23:47:46     (need 30+ resolved attempts before inferring anything)
+2026-09-11 23:47:46     avg entry slip = +0.000bp (<=0 expected for a genuine maker fill)
+2026-09-11 23:47:46     avg bars waited to fill = 0.25
+2026-09-11 23:48:32  eq=2876.25 | pos=0 resting=1 | fills 16/29 = 55.2% (probe target 67%)
+2026-09-11 23:49:18  eq=2876.25 | pos=0 resting=1 | fills 16/29 = 55.2% (probe target 67%)
+2026-09-11 23:50:04  eq=2876.25 | pos=0 resting=1 | fills 16/29 = 55.2% (probe target 67%)
+2026-09-11 23:50:05  POSTED SBTCSUSDT buy 0.0001 @77109.8 (mkt 77147.6, 0.5xATR behind)
+2026-09-11 23:50:06  UNFILLED SETHSUSDT expired after 4 bars
+2026-09-11 23:50:07  POSTED SXRPSUSDT buy 4.0 @1.354 (mkt 1.3558, 0.5xATR behind)
+2026-09-11 23:50:52  eq=2876.25 | pos=0 resting=2 | fills 16/30 = 53.3% (probe target 67%)
+2026-09-11 23:51:38  eq=2876.25 | pos=0 resting=2 | fills 16/30 = 53.3% (probe target 67%)
+2026-09-11 23:52:25  eq=2876.25 | pos=0 resting=2 | fills 16/30 = 53.3% (probe target 67%)
+2026-09-11 23:53:11  eq=2876.25 | pos=0 resting=2 | fills 16/30 = 53.3% (probe target 67%)
+2026-09-11 23:53:57  eq=2876.25 | pos=0 resting=2 | fills 16/30 = 53.3% (probe target 67%)
+2026-09-11 23:54:44  eq=2876.25 | pos=0 resting=2 | fills 16/30 = 53.3% (probe target 67%)
+2026-09-11 23:55:30  eq=2876.25 | pos=0 resting=2 | fills 16/30 = 53.3% (probe target 67%)
+2026-09-11 23:55:31  POSTED SETHSUSDT buy 0.002 @2511.1 (mkt 2513.59, 0.5xATR behind)
+2026-09-11 23:55:31  ---- PROBE: post-only fill statistics ----
+2026-09-11 23:55:31     posted=33 filled=16 unfilled=14 signal_lost=0 postonly_rejected=0 errors=0
+2026-09-11 23:55:31     FILL RATE = 53.3% +/- 9.1%  on 30 resolved attempts
+2026-09-11 23:55:31     simulated rate for THIS population = 67.4%  ->  CONSISTENT
+2026-09-11 23:55:31     queue discount = 0.79x  ->  real strategy fill 62% x 0.79 = 49.1%
+2026-09-11 23:55:31     needs >~57% to keep the edge  ->  FAILS
+2026-09-11 23:55:31     avg entry slip = +0.000bp (<=0 expected for a genuine maker fill)
+2026-09-11 23:55:31     avg bars waited to fill = 0.25
+2026-09-11 23:56:17  eq=2876.25 | pos=0 resting=3 | fills 16/30 = 53.3% (probe target 67%)
+2026-09-11 23:57:03  eq=2876.25 | pos=0 resting=3 | fills 16/30 = 53.3% (probe target 67%)
+2026-09-11 23:57:50  eq=2876.25 | pos=0 resting=3 | fills 16/30 = 53.3% (probe target 67%)
+2026-09-11 23:58:36  eq=2876.25 | pos=0 resting=3 | fills 16/30 = 53.3% (probe target 67%)
+2026-09-11 23:59:22  eq=2876.25 | pos=0 resting=3 | fills 16/30 = 53.3% (probe target 67%)
+2026-09-12 00:00:08  eq=2876.25 | pos=0 resting=3 | fills 16/30 = 53.3% (probe target 67%)
+2026-09-12 00:00:55  eq=2876.25 | pos=0 resting=3 | fills 16/30 = 53.3% (probe target 67%)
+2026-09-12 00:01:41  eq=2876.25 | pos=0 resting=3 | fills 16/30 = 53.3% (probe target 67%)
+2026-09-12 00:02:27  eq=2876.25 | pos=0 resting=3 | fills 16/30 = 53.3% (probe target 67%)
+2026-09-12 00:03:14  eq=2876.25 | pos=0 resting=3 | fills 16/30 = 53.3% (probe target 67%)
+2026-09-12 00:03:14  ---- PROBE: post-only fill statistics ----
+2026-09-12 00:03:14     posted=33 filled=16 unfilled=14 signal_lost=0 postonly_rejected=0 errors=0
+2026-09-12 00:03:14     FILL RATE = 53.3% +/- 9.1%  on 30 resolved attempts
+2026-09-12 00:03:14     simulated rate for THIS population = 67.4%  ->  CONSISTENT
+2026-09-12 00:03:14     queue discount = 0.79x  ->  real strategy fill 62% x 0.79 = 49.1%
+2026-09-12 00:03:14     needs >~57% to keep the edge  ->  FAILS
+2026-09-12 00:03:14     avg entry slip = +0.000bp (<=0 expected for a genuine maker fill)
+2026-09-12 00:03:14     avg bars waited to fill = 0.25
+2026-09-12 00:04:00  eq=2876.25 | pos=0 resting=3 | fills 16/30 = 53.3% (probe target 67%)
+2026-09-12 00:04:46  eq=2876.25 | pos=0 resting=3 | fills 16/30 = 53.3% (probe target 67%)
+2026-09-12 00:05:32  eq=2876.25 | pos=0 resting=3 | fills 16/30 = 53.3% (probe target 67%)
+2026-09-12 00:06:19  eq=2876.25 | pos=0 resting=3 | fills 16/30 = 53.3% (probe target 67%)
+2026-09-12 00:07:05  FILLED SETHSUSDT limit=2511.1 fill=2511.1 slip=+0.00bp waited=2 bars
+2026-09-12 00:07:05    flattened SETHSUSDT (sell 0.002) to free the slot
+2026-09-12 00:07:05  eq=2876.25 | pos=1 resting=2 | fills 17/31 = 54.8% (probe target 67%)
+2026-09-12 00:07:51  FILLED SXRPSUSDT limit=1.354 fill=1.354 slip=+0.00bp waited=3 bars
+2026-09-12 00:07:52    flattened SXRPSUSDT (sell 4.0) to free the slot
+2026-09-12 00:07:52  eq=2876.24 | pos=1 resting=1 | fills 18/32 = 56.2% (probe target 67%)
+2026-09-12 00:08:38  eq=2876.24 | pos=0 resting=1 | fills 18/32 = 56.2% (probe target 67%)
+2026-09-12 00:09:24  eq=2876.24 | pos=0 resting=1 | fills 18/32 = 56.2% (probe target 67%)
+2026-09-12 00:10:10  eq=2876.24 | pos=0 resting=1 | fills 18/32 = 56.2% (probe target 67%)
+2026-09-12 00:10:11  UNFILLED SBTCSUSDT expired after 4 bars
+2026-09-12 00:10:12  POSTED SETHSUSDT sell 0.002 @2514.01 (mkt 2511.63, 0.5xATR behind)
+2026-09-12 00:10:13  POSTED SXRPSUSDT sell 4.0 @1.355 (mkt 1.3541, 0.5xATR behind)
+2026-09-12 00:10:58  eq=2876.24 | pos=0 resting=2 | fills 18/33 = 54.5% (probe target 67%)
+2026-09-12 00:10:59  ---- PROBE: post-only fill statistics ----
+2026-09-12 00:10:59     posted=35 filled=18 unfilled=15 signal_lost=0 postonly_rejected=0 errors=0
+2026-09-12 00:10:59     FILL RATE = 54.5% +/- 8.7%  on 33 resolved attempts
+2026-09-12 00:10:59     simulated rate for THIS population = 67.4%  ->  CONSISTENT
+2026-09-12 00:10:59     queue discount = 0.81x  ->  real strategy fill 62% x 0.81 = 50.2%
+2026-09-12 00:10:59     needs >~57% to keep the edge  ->  FAILS
+2026-09-12 00:10:59     avg entry slip = +0.000bp (<=0 expected for a genuine maker fill)
+2026-09-12 00:10:59     avg bars waited to fill = 0.50

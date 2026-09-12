@@ -1,0 +1,29 @@
+# Copy this file to config/config.yaml and fill in your values.
+# config.yaml is git-ignored / private. NEVER put a REAL-money password here.
+# The bot attaches to an ALREADY-LOGGED-IN MT5 terminal, so no password is needed here.
+
+mt5:
+  login: 000000000        # your MT5 DEMO login number (for reference/logging)
+  server: "Exness-MT5Trial"  # your MT5 server name, e.g. Exness-MT5Trial7
+  # path: "C:/Program Files/MetaTrader 5/terminal64.exe"  # optional; only if auto-detect fails
+
+trading:
+  symbol: "EURUSD"        # start here; add XAUUSD later
+  timeframe: "H1"         # M15 / H1 to start
+  magic_number: 20260909  # tag so the bot only touches its own trades
+
+risk:
+  risk_per_trade_pct: 0.5     # % of balance risked per trade
+  max_daily_loss_pct: 3.0     # hard stop for the day
+  max_open_trades: 2
+  default_sl_pips: 30
+  default_tp_pips: 60
+
+news_filter:
+  enabled: true
+  pause_minutes_before: 30
+  pause_minutes_after: 30
+
+api_keys:
+  finnhub: "PASTE_FINNHUB_KEY_HERE"
+  alpha_vantage: "PASTE_ALPHAVANTAGE_KEY_HERE"

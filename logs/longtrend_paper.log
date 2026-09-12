@@ -1,0 +1,46 @@
+2026-09-12 17:22:11 | ==============================================================================
+2026-09-12 17:22:11 | LONG TREND PAPER — 9 coins, max 8 concurrent positions
+2026-09-12 17:22:11 |   bb_break(30,1.5) 1h | LONG ONLY | trail 12.0xATR | NO take-profit
+2026-09-12 17:22:11 |   risk 0.5%/trade | fee 12.0bp round trip | simulated fills
+2026-09-12 17:22:11 |   book: BTCUSDT, ETHUSDT, XRPUSDT, SOLUSDT, BNBUSDT, DOGEUSDT, ADAUSDT, AVAXUSDT, LINKUSDT
+2026-09-12 17:22:11 |   in-sample expectation: +256.9%/yr, 78% DD, median month -0.16%
+USDT, AVAXUSDT, LINKUSDT
+2026-09-12 17:22:11 |   in-sample expectation: +256.9%/yr, 78% DD, median month -0.16%
+2026-09-12 19:11:57 | ==============================================================================
+2026-09-12 19:11:57 | LONG TREND PAPER — 9 coins, max 8 concurrent positions
+2026-09-12 19:11:57 |   bb_break(30,1.5) 1h | LONG ONLY | trail 20.0xATR | NO take-profit
+2026-09-12 19:11:57 |   risk 0.5%/trade | fee 12.0bp round trip | simulated fills
+2026-09-12 19:11:57 |   book: BTCUSDT, ETHUSDT, XRPUSDT, SOLUSDT, BNBUSDT, DOGEUSDT, ADAUSDT, AVAXUSDT, LINKUSDT
+2026-09-12 19:11:57 |   in-sample expectation: +256.9%/yr, 78% DD, median month -0.16%
+USDT, AVAXUSDT, LINKUSDT
+2026-09-12 19:11:57 |   in-sample expectation: +256.9%/yr, 78% DD, median month -0.16%
+2026-09-12 20:19:08 | ==============================================================================
+2026-09-12 20:19:08 | LONG TREND PAPER — 9 coins, max 8 concurrent positions
+2026-09-12 20:19:08 |   bb_break(30,1.5) 1h | LONG ONLY | trail 20.0xATR | NO take-profit
+2026-09-12 20:19:08 |   risk 0.4%/trade | fee 12.0bp round trip | simulated fills
+2026-09-12 20:19:08 |   book: BTCUSDT, ETHUSDT, XRPUSDT, SOLUSDT, BNBUSDT, DOGEUSDT, ADAUSDT, AVAXUSDT, LINKUSDT
+2026-09-12 20:19:08 |   in-sample expectation: +256.9%/yr, 78% DD, median month -0.16%
+USDT, AVAXUSDT, LINKUSDT
+2026-09-12 20:19:08 |   in-sample expectation: +256.9%/yr, 78% DD, median month -0.16%
+2026-09-12 20:20:29 | ==============================================================================
+2026-09-12 20:20:29 | LONG TREND PAPER — 9 coins, max 8 concurrent positions
+2026-09-12 20:20:29 |   bb_break(30,1.5) 1h | LONG ONLY | trail 20.0xATR | NO take-profit
+2026-09-12 20:20:29 |   risk 0.4%/trade | fee 12.0bp round trip | simulated fills
+2026-09-12 20:20:29 |   book: BTCUSDT, ETHUSDT, XRPUSDT, SOLUSDT, BNBUSDT, DOGEUSDT, ADAUSDT, AVAXUSDT, LINKUSDT
+2026-09-12 20:20:29 |   expectation (point-in-time, survivorship-free, risk-matched):
+2026-09-12 20:20:29 |     +205.4%/yr = +9.75%/month at 72.2% DD with 5 units
+2026-09-12 20:20:29 |     the 1-unit version was +138.1%/yr at 89.3% DD - pyramiding is the difference
+2026-09-12 20:20:29 |   NOTE: 85% of profit comes from <1% of trades. Flat months are normal.
+is the difference
+2026-09-12 20:20:29 |   NOTE: 85% of profit comes from <1% of trades. Flat months are normal.
+2026-09-12 21:13:23 | ==============================================================================
+2026-09-12 21:13:23 | LONG TREND PAPER — 9 coins, max 8 concurrent positions
+2026-09-12 21:13:23 |   bb_break(30,1.5) 1h | LONG ONLY | trail 20.0xATR | NO take-profit
+2026-09-12 21:13:23 |   risk 0.4%/trade | fee 12.0bp round trip | simulated fills
+2026-09-12 21:13:23 |   book: BTCUSDT, ETHUSDT, XRPUSDT, SOLUSDT, BNBUSDT, DOGEUSDT, ADAUSDT, AVAXUSDT, LINKUSDT
+2026-09-12 21:13:23 |   expectation (point-in-time, survivorship-free, risk-matched):
+2026-09-12 21:13:23 |     +205.4%/yr = +9.75%/month at 72.2% DD with 5 units
+2026-09-12 21:13:23 |     the 1-unit version was +138.1%/yr at 89.3% DD - pyramiding is the difference
+2026-09-12 21:13:23 |   NOTE: 85% of profit comes from <1% of trades. Flat months are normal.
+is the difference
+2026-09-12 21:13:23 |   NOTE: 85% of profit comes from <1% of trades. Flat months are normal.

@@ -1,0 +1,830 @@
+2026-09-12 00:20:47  Bitget DEMO MAKER-ONLY | risk 4.0% | offset 0.5xATR | expire 4 bars | 5x isolated
+2026-09-12 00:20:47     SBTC/SUSDT:SUSDT     <- bb_break(30, 1.5)+none @ 1h
+2026-09-12 00:20:47     SETH/SUSDT:SUSDT     <- bb_break(30, 1.5)+none @ 15m
+2026-09-12 00:20:47     SXRP/SUSDT:SUSDT     <- rsi_mom(7, 40, 60)+none @ 15m
+2026-09-12 00:20:48  equity: 2876.24 SUSDT | positions: 0 | resting orders: 0
+2026-09-12 00:20:49  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:21:50  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:22:52  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:23:53  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:24:55  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:25:56  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:26:58  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:28:00  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:29:01  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:30:03  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:30:03  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 00:30:04  [maker_rsi_mom_15m] 15m flat; HOLD
+2026-09-12 00:31:05  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:32:06  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:33:08  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:34:09  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:35:11  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:36:12  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:37:14  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:38:15  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:39:17  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:40:18  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:40:19  ---- maker standings ----
+2026-09-12 00:40:19     signals=2 posted=1 filled=0 unfilled/expired=0 rejected=0
+2026-09-12 00:40:19     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 00:40:19     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 00:40:19     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 00:40:19     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 00:41:20  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:42:22  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:43:23  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:44:25  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:45:26  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:45:27  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 00:45:27  [maker_rsi_mom_15m] 15m flat; HOLD
+2026-09-12 00:46:28  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:47:30  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:48:31  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:49:33  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:50:34  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:51:36  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:52:37  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:53:39  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:54:40  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:55:42  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:56:43  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:57:45  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:58:46  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 00:59:48  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:00:50  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:00:50  [maker_bb_break_1h] 1h flat; HOLD
+2026-09-12 01:00:50  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 01:00:50  [maker_rsi_mom_15m] 15m flat; HOLD
+2026-09-12 01:00:50  ---- maker standings ----
+2026-09-12 01:00:50     signals=2 posted=1 filled=0 unfilled/expired=0 rejected=0
+2026-09-12 01:00:50     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 01:00:50     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 01:00:50     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 01:00:50     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 01:01:51  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:02:53  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:03:54  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:04:56  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:05:57  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:06:59  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:08:01  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:09:02  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:10:04  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:11:05  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:12:07  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:13:08  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:14:10  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:15:12  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:15:12  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 01:15:12  [maker_rsi_mom_15m] 15m flat; HOLD
+2026-09-12 01:16:13  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:17:15  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:18:16  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:19:18  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:20:19  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:21:21  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:21:22  ---- maker standings ----
+2026-09-12 01:21:22     signals=2 posted=1 filled=0 unfilled/expired=0 rejected=0
+2026-09-12 01:21:22     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 01:21:22     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 01:21:22     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 01:21:22     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 01:22:23  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:23:24  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:24:26  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:25:27  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:26:29  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:27:31  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:28:32  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:29:34  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:30:36  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/1 = 0.0% | avg slip +0.00bp
+2026-09-12 01:30:36  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 01:30:36  [maker_rsi_mom_15m] 15m SIGNAL BUY -> POST-ONLY buy 10314.0 @1.358 (mkt 1.3607, 0.5xATR behind) sl=1.34676 tp=1.37464
+2026-09-12 01:30:37  [maker_rsi_mom_15m] POSTED id=1482479754282696705
+2026-09-12 01:31:38  equity=2876.24 SUSDT | pos=0 | resting=1 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:32:39  equity=2876.24 SUSDT | pos=0 | resting=1 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:33:41  equity=2876.24 SUSDT | pos=0 | resting=1 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:34:43  equity=2876.24 SUSDT | pos=0 | resting=1 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:35:44  equity=2876.24 SUSDT | pos=0 | resting=1 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:36:46  equity=2876.24 SUSDT | pos=0 | resting=1 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:37:48  equity=2876.24 SUSDT | pos=0 | resting=1 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:38:49  equity=2876.24 SUSDT | pos=0 | resting=1 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:39:51  equity=2876.24 SUSDT | pos=0 | resting=1 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:40:52  equity=2876.24 SUSDT | pos=0 | resting=1 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:41:54  equity=2876.24 SUSDT | pos=0 | resting=1 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:41:55  ---- maker standings ----
+2026-09-12 01:41:55     signals=3 posted=2 filled=0 unfilled/expired=0 rejected=0
+2026-09-12 01:41:55     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 01:41:55     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 01:41:55     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 01:41:55     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 01:42:55  equity=2876.24 SUSDT | pos=0 | resting=1 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:43:57  equity=2876.24 SUSDT | pos=0 | resting=1 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:44:59  equity=2876.24 SUSDT | pos=0 | resting=1 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:46:00  equity=2876.24 SUSDT | pos=0 | resting=1 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:46:01  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 01:46:01  [maker_rsi_mom_15m] cancelled resting order on SXRPSUSDT (re-post at new bar)
+2026-09-12 01:46:01  [maker_rsi_mom_15m] 15m SIGNAL BUY -> POST-ONLY buy 10554.0 @1.359 (mkt 1.362, 0.5xATR behind) sl=1.34837 tp=1.37563
+2026-09-12 01:46:02  [maker_rsi_mom_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789177562018,"data":null}
+2026-09-12 01:47:03  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:48:04  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:49:06  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:50:07  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:51:09  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:52:10  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:53:12  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:54:14  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:55:15  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:56:17  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:57:18  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:58:20  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 01:59:22  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:00:23  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:00:23  [maker_bb_break_1h] 1h flat; HOLD
+2026-09-12 02:00:24  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 02:00:24  [maker_rsi_mom_15m] 15m SIGNAL BUY -> POST-ONLY buy 10816.0 @1.358 (mkt 1.3602, 0.5xATR behind) sl=1.3469 tp=1.3735
+2026-09-12 02:00:24  [maker_rsi_mom_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789178424804,"data":null}
+2026-09-12 02:01:25  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:02:27  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:02:28  ---- maker standings ----
+2026-09-12 02:02:28     signals=5 posted=2 filled=0 unfilled/expired=0 rejected=2
+2026-09-12 02:02:28     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 02:02:28     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 02:02:28     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 02:02:28     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 02:03:29  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:04:30  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:05:32  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:06:33  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:07:35  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:08:36  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:09:38  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:10:40  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:11:41  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:12:43  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:13:44  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:14:46  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:15:48  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:15:48  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 02:15:48  [maker_rsi_mom_15m] 15m flat; HOLD
+2026-09-12 02:16:49  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:17:51  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:18:52  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:19:54  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:20:56  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:21:57  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:22:59  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:23:00  ---- maker standings ----
+2026-09-12 02:23:00     signals=5 posted=2 filled=0 unfilled/expired=0 rejected=2
+2026-09-12 02:23:00     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 02:23:00     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 02:23:00     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 02:23:00     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 02:24:00  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:25:02  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:26:04  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:27:05  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:28:07  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:29:08  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:30:10  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:30:11  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 02:30:11  [maker_rsi_mom_15m] 15m flat; HOLD
+2026-09-12 02:31:12  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:32:13  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:33:15  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:34:17  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:35:18  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:36:20  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:37:22  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:38:23  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:39:25  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:40:27  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:41:28  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:42:30  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:43:32  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:43:33  ---- maker standings ----
+2026-09-12 02:43:33     signals=5 posted=2 filled=0 unfilled/expired=0 rejected=2
+2026-09-12 02:43:33     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 02:43:33     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 02:43:33     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 02:43:33     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 02:44:33  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:45:35  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:45:36  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 02:45:36  [maker_rsi_mom_15m] 15m SIGNAL BUY -> POST-ONLY buy 12081.0 @1.358 (mkt 1.3606, 0.5xATR behind) sl=1.3487 tp=1.3725
+2026-09-12 02:45:37  [maker_rsi_mom_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789181137099,"data":null}
+2026-09-12 02:46:38  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:47:39  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:48:41  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:49:43  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:50:44  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:51:46  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:52:47  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:53:49  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:54:51  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:55:52  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:56:54  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:57:55  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:58:57  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 02:59:58  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:01:00  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:01:00  [maker_bb_break_1h] 1h flat; HOLD
+2026-09-12 03:01:01  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 03:01:01  [maker_rsi_mom_15m] 15m flat; HOLD
+2026-09-12 03:02:02  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:03:03  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:04:05  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:04:06  ---- maker standings ----
+2026-09-12 03:04:06     signals=6 posted=2 filled=0 unfilled/expired=0 rejected=3
+2026-09-12 03:04:06     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 03:04:06     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 03:04:06     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 03:04:06     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 03:05:07  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:06:08  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:07:10  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:08:12  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:09:13  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:10:15  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:11:17  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:12:18  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:13:20  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:14:21  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:15:23  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:15:24  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 03:15:24  [maker_rsi_mom_15m] 15m SIGNAL BUY -> POST-ONLY buy 12591.0 @1.36 (mkt 1.3624, 0.5xATR behind) sl=1.35098 tp=1.37382
+2026-09-12 03:15:25  [maker_rsi_mom_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789182924890,"data":null}
+2026-09-12 03:16:25  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:17:27  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:18:29  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:19:30  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:20:32  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:21:34  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:22:36  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:23:37  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:24:39  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:24:39  ---- maker standings ----
+2026-09-12 03:24:39     signals=7 posted=2 filled=0 unfilled/expired=0 rejected=4
+2026-09-12 03:24:39     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 03:24:39     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 03:24:39     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 03:24:39     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 03:25:40  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:26:42  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:27:43  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:28:45  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:29:47  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:30:48  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:30:49  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 03:30:49  [maker_rsi_mom_15m] 15m SIGNAL BUY -> POST-ONLY buy 12887.0 @1.361 (mkt 1.3631, 0.5xATR behind) sl=1.35194 tp=1.37426
+2026-09-12 03:30:50  [maker_rsi_mom_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789183849880,"data":null}
+2026-09-12 03:31:50  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:32:52  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:33:53  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:34:55  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:35:57  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:36:58  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:38:00  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:39:01  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:40:03  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:41:04  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:42:06  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:43:07  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:44:09  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:45:11  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:45:11  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 03:45:11  [maker_rsi_mom_15m] 15m SIGNAL BUY -> POST-ONLY buy 13552.0 @1.361 (mkt 1.3627, 0.5xATR behind) sl=1.35209 tp=1.37331
+2026-09-12 03:45:12  [maker_rsi_mom_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789184712464,"data":null}
+2026-09-12 03:45:12  ---- maker standings ----
+2026-09-12 03:45:12     signals=9 posted=2 filled=0 unfilled/expired=0 rejected=6
+2026-09-12 03:45:12     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 03:45:12     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 03:45:12     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 03:45:12     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 03:46:13  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:47:15  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:48:17  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:49:18  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:50:20  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:51:21  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:52:23  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:53:24  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:54:26  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:55:27  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:56:29  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:57:31  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:58:32  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 03:59:34  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:00:36  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:00:36  [maker_bb_break_1h] 1h flat; HOLD
+2026-09-12 04:00:36  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 04:00:36  [maker_rsi_mom_15m] 15m SIGNAL BUY -> POST-ONLY buy 14183.0 @1.361 (mkt 1.3633, 0.5xATR behind) sl=1.35316 tp=1.37344
+2026-09-12 04:00:37  [maker_rsi_mom_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789185637243,"data":null}
+2026-09-12 04:01:38  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:02:39  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:03:41  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:04:43  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:05:44  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:05:45  ---- maker standings ----
+2026-09-12 04:05:45     signals=10 posted=2 filled=0 unfilled/expired=0 rejected=7
+2026-09-12 04:05:45     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 04:05:45     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 04:05:45     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 04:05:45     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 04:06:46  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:07:48  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:08:49  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:09:51  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:10:52  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:11:53  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:12:55  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:13:56  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:14:58  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:15:59  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:16:00  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 04:16:00  [maker_rsi_mom_15m] 15m SIGNAL BUY -> POST-ONLY buy 14797.0 @1.361 (mkt 1.3632, 0.5xATR behind) sl=1.35348 tp=1.37292
+2026-09-12 04:16:00  [maker_rsi_mom_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789186560822,"data":null}
+2026-09-12 04:17:01  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:18:03  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:19:04  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:20:06  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:21:07  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:22:09  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:23:10  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:24:12  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:25:13  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:26:15  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:26:15  ---- maker standings ----
+2026-09-12 04:26:15     signals=11 posted=2 filled=0 unfilled/expired=0 rejected=8
+2026-09-12 04:26:15     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 04:26:15     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 04:26:15     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 04:26:15     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 04:27:16  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:28:17  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:29:19  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:30:21  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:30:21  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 04:30:21  [maker_rsi_mom_15m] 15m SIGNAL BUY -> POST-ONLY buy 15099.0 @1.362 (mkt 1.3635, 0.5xATR behind) sl=1.35398 tp=1.37302
+2026-09-12 04:30:22  [maker_rsi_mom_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789187422275,"data":null}
+2026-09-12 04:31:23  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:32:25  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:33:26  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:34:28  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:35:30  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:36:31  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:37:33  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:38:35  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:39:36  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:40:38  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:41:40  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:42:42  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:43:44  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:44:45  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:45:47  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:45:48  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 04:45:48  [maker_rsi_mom_15m] 15m SIGNAL BUY -> POST-ONLY buy 15629.0 @1.362 (mkt 1.3639, 0.5xATR behind) sl=1.3547 tp=1.3731
+2026-09-12 04:45:49  [maker_rsi_mom_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789188348986,"data":null}
+2026-09-12 04:46:50  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:46:50  ---- maker standings ----
+2026-09-12 04:46:50     signals=13 posted=2 filled=0 unfilled/expired=0 rejected=10
+2026-09-12 04:46:50     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 04:46:50     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 04:46:50     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 04:46:50     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 04:47:51  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:48:53  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:49:55  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:50:56  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:51:58  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:53:00  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:54:01  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:55:03  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:56:05  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:57:06  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:58:08  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 04:59:09  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:00:11  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:00:11  [maker_bb_break_1h] 1h flat; HOLD
+2026-09-12 05:00:11  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 05:00:12  [maker_rsi_mom_15m] 15m SIGNAL BUY -> POST-ONLY buy 16353.0 @1.361 (mkt 1.3625, 0.5xATR behind) sl=1.35371 tp=1.37129
+2026-09-12 05:00:12  [maker_rsi_mom_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789189212664,"data":null}
+2026-09-12 05:01:13  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:02:15  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:03:17  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:04:18  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:05:20  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:06:22  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:07:24  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:07:25  ---- maker standings ----
+2026-09-12 05:07:25     signals=14 posted=2 filled=0 unfilled/expired=0 rejected=11
+2026-09-12 05:07:25     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 05:07:25     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 05:07:25     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 05:07:25     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 05:08:25  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:09:27  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:10:29  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:11:30  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:12:32  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:13:34  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:14:36  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:15:37  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:15:38  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 05:15:38  [maker_rsi_mom_15m] 15m flat; HOLD
+2026-09-12 05:16:39  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:17:41  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:18:42  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:19:44  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:20:46  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:21:47  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:22:49  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:23:50  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:24:52  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:25:54  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:26:56  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:27:57  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:27:58  ---- maker standings ----
+2026-09-12 05:27:58     signals=14 posted=2 filled=0 unfilled/expired=0 rejected=11
+2026-09-12 05:27:58     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 05:27:58     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 05:27:58     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 05:27:58     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 05:28:59  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:30:01  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:30:01  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 05:30:02  [maker_rsi_mom_15m] 15m flat; HOLD
+2026-09-12 05:31:03  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:32:04  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:33:06  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:34:08  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:35:09  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:36:11  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:37:13  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:38:14  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:39:16  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:40:18  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:41:19  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:42:21  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:43:23  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:44:24  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:45:26  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:45:27  [maker_bb_break_15m] 15m SIGNAL SELL -> POST-ONLY sell 11.821 @2512.93 (mkt 2510.5, 0.5xATR behind) sl=2522.66 tp=2498.34
+2026-09-12 05:45:27  [maker_bb_break_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789191927672,"data":null}
+2026-09-12 05:45:28  [maker_rsi_mom_15m] 15m flat; HOLD
+2026-09-12 05:46:29  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:47:30  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:48:32  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:48:33  ---- maker standings ----
+2026-09-12 05:48:33     signals=15 posted=2 filled=0 unfilled/expired=0 rejected=12
+2026-09-12 05:48:33     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 05:48:33     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 05:48:33     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 05:48:33     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 05:49:34  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:50:35  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:51:37  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:52:39  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:53:40  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:54:42  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:55:44  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:56:45  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:57:47  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:58:49  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 05:59:50  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:00:52  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:00:52  [maker_bb_break_1h] 1h flat; HOLD
+2026-09-12 06:00:53  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 06:00:53  [maker_rsi_mom_15m] 15m flat; HOLD
+2026-09-12 06:01:54  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:02:56  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:03:57  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:04:59  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:06:01  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:07:02  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:08:04  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:09:06  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:09:06  ---- maker standings ----
+2026-09-12 06:09:06     signals=15 posted=2 filled=0 unfilled/expired=0 rejected=12
+2026-09-12 06:09:06     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 06:09:06     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 06:09:06     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 06:09:06     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 06:10:07  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:11:09  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:12:11  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:13:12  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:14:14  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:15:15  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:15:16  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 06:15:16  [maker_rsi_mom_15m] 15m flat; HOLD
+2026-09-12 06:16:17  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:17:19  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:18:21  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:19:22  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:20:24  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:21:26  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:22:28  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:23:29  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:24:31  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:25:32  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:26:34  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:27:36  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:28:37  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:29:39  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:29:40  ---- maker standings ----
+2026-09-12 06:29:40     signals=15 posted=2 filled=0 unfilled/expired=0 rejected=12
+2026-09-12 06:29:40     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 06:29:40     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 06:29:40     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 06:29:40     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 06:30:41  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:30:41  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 06:30:41  [maker_rsi_mom_15m] 15m flat; HOLD
+2026-09-12 06:31:42  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:32:44  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:33:46  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:34:47  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:35:49  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:36:51  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:37:52  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:38:54  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:39:56  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:40:57  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:41:59  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:43:01  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:44:02  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:45:04  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:45:04  [maker_bb_break_15m] 15m flat; HOLD
+2026-09-12 06:45:05  [maker_rsi_mom_15m] 15m flat; HOLD
+2026-09-12 06:46:06  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:47:07  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:48:09  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:49:11  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:50:12  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:50:13  ---- maker standings ----
+2026-09-12 06:50:13     signals=15 posted=2 filled=0 unfilled/expired=0 rejected=12
+2026-09-12 06:50:13     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 06:50:13     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 06:50:13     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 06:50:13     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 06:51:14  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:52:16  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:53:17  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:54:19  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:55:21  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:56:22  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:57:24  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:58:26  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 06:59:27  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:00:29  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:00:29  [maker_bb_break_1h] 1h flat; HOLD
+2026-09-12 07:00:30  [maker_bb_break_15m] 15m SIGNAL BUY -> POST-ONLY buy 12.705 @2516.39 (mkt 2518.65, 0.5xATR behind) sl=2507.33 tp=2529.97
+2026-09-12 07:00:30  [maker_bb_break_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789196430475,"data":null}
+2026-09-12 07:00:30  [maker_rsi_mom_15m] 15m SIGNAL BUY -> POST-ONLY buy 19056.0 @1.361 (mkt 1.3625, 0.5xATR behind) sl=1.35495 tp=1.37005
+2026-09-12 07:00:31  [maker_rsi_mom_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789196431394,"data":null}
+2026-09-12 07:01:32  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:02:34  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:03:35  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:04:37  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:05:39  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:06:41  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:07:43  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:08:44  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:09:46  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:10:48  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:10:48  ---- maker standings ----
+2026-09-12 07:10:48     signals=17 posted=2 filled=0 unfilled/expired=0 rejected=14
+2026-09-12 07:10:48     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 07:10:48     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 07:10:48     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 07:10:48     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 07:11:49  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:12:51  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:13:53  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:14:54  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:15:56  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:15:56  [maker_bb_break_15m] 15m SIGNAL BUY -> POST-ONLY buy 12.534 @2520.96 (mkt 2523.25, 0.5xATR behind) sl=2511.78 tp=2534.72
+2026-09-12 07:15:57  [maker_bb_break_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789197357402,"data":null}
+2026-09-12 07:15:57  [maker_rsi_mom_15m] 15m flat; HOLD
+2026-09-12 07:16:58  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:18:00  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:19:02  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:20:03  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:21:08  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:22:10  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:23:12  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:24:13  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:25:15  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:26:17  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:27:18  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:28:20  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:29:22  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:30:23  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:30:24  [maker_bb_break_15m] 15m SIGNAL BUY -> POST-ONLY buy 12.949 @2519.89 (mkt 2522.11, 0.5xATR behind) sl=2511 tp=2533.22
+2026-09-12 07:30:25  [maker_bb_break_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789198224876,"data":null}
+2026-09-12 07:30:25  [maker_rsi_mom_15m] 15m SIGNAL BUY -> POST-ONLY buy 19179.0 @1.365 (mkt 1.3661, 0.5xATR behind) sl=1.3586 tp=1.3736
+2026-09-12 07:30:26  [maker_rsi_mom_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789198226100,"data":null}
+2026-09-12 07:31:27  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:31:28  ---- maker standings ----
+2026-09-12 07:31:28     signals=20 posted=2 filled=0 unfilled/expired=0 rejected=17
+2026-09-12 07:31:28     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 07:31:28     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 07:31:28     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 07:31:28     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 07:32:29  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:33:30  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:34:32  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:35:33  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:36:35  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:37:37  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:38:39  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:39:40  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:40:42  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:41:44  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:42:45  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:43:47  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:44:49  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:45:50  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:45:51  [maker_bb_break_15m] 15m SIGNAL BUY -> POST-ONLY buy 13.616 @2519.91 (mkt 2522.02, 0.5xATR behind) sl=2511.46 tp=2532.58
+2026-09-12 07:45:51  [maker_bb_break_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789199151794,"data":null}
+2026-09-12 07:45:52  [maker_rsi_mom_15m] 15m SIGNAL BUY -> POST-ONLY buy 19939.0 @1.365 (mkt 1.3664, 0.5xATR behind) sl=1.35919 tp=1.37361
+2026-09-12 07:45:52  [maker_rsi_mom_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789199152763,"data":null}
+2026-09-12 07:46:53  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:47:55  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:48:57  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:49:58  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:51:00  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:52:02  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:52:03  ---- maker standings ----
+2026-09-12 07:52:03     signals=22 posted=2 filled=0 unfilled/expired=0 rejected=19
+2026-09-12 07:52:03     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 07:52:03     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 07:52:03     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 07:52:03     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 07:53:03  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:54:05  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:55:07  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:56:09  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:57:11  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:58:12  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 07:59:14  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:00:15  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:00:16  [maker_bb_break_1h] 1h flat; HOLD
+2026-09-12 08:00:16  [maker_bb_break_15m] 15m SIGNAL BUY -> POST-ONLY buy 14.003 @2520.88 (mkt 2522.93, 0.5xATR behind) sl=2512.66 tp=2533.2
+2026-09-12 08:00:17  [maker_bb_break_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789200017435,"data":null}
+2026-09-12 08:00:17  [maker_rsi_mom_15m] 15m SIGNAL BUY -> POST-ONLY buy 19356.0 @1.367 (mkt 1.3685, 0.5xATR behind) sl=1.36107 tp=1.37593
+2026-09-12 08:00:18  [maker_rsi_mom_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789200018445,"data":null}
+2026-09-12 08:01:19  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:02:21  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:03:22  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:04:24  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:05:26  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:06:27  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:07:29  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:08:31  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:09:32  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:10:34  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:11:36  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:12:37  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:12:38  ---- maker standings ----
+2026-09-12 08:12:38     signals=24 posted=2 filled=0 unfilled/expired=0 rejected=21
+2026-09-12 08:12:38     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 08:12:38     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 08:12:38     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 08:12:38     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 08:13:39  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:14:40  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:15:42  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:15:42  [maker_bb_break_15m] 15m SIGNAL BUY -> POST-ONLY buy 13.735 @2522.89 (mkt 2524.98, 0.5xATR behind) sl=2514.51 tp=2535.45
+2026-09-12 08:15:43  [maker_bb_break_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789200943502,"data":null}
+2026-09-12 08:15:43  [maker_rsi_mom_15m] 15m SIGNAL BUY -> POST-ONLY buy 18627.0 @1.365 (mkt 1.3662, 0.5xATR behind) sl=1.35848 tp=1.37392
+2026-09-12 08:15:44  [maker_rsi_mom_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789200944458,"data":null}
+2026-09-12 08:16:45  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:17:47  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:18:48  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:19:50  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:20:52  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:21:53  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:22:55  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:23:57  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:24:58  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:26:00  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:27:01  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:28:03  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:29:05  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:30:06  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:30:07  [maker_bb_break_15m] 15m SIGNAL BUY -> POST-ONLY buy 13.639 @2525.92 (mkt 2528.03, 0.5xATR behind) sl=2517.49 tp=2538.57
+2026-09-12 08:30:08  [maker_bb_break_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789201807949,"data":null}
+2026-09-12 08:30:08  [maker_rsi_mom_15m] 15m flat; HOLD
+2026-09-12 08:31:09  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:32:10  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:33:12  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:33:13  ---- maker standings ----
+2026-09-12 08:33:13     signals=27 posted=2 filled=0 unfilled/expired=0 rejected=24
+2026-09-12 08:33:13     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 08:33:13     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 08:33:13     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 08:33:13     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 08:34:14  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:35:15  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:36:17  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:37:18  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:38:20  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:39:22  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:40:23  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:41:25  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:42:26  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:43:28  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:44:29  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:45:31  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:45:32  [maker_bb_break_15m] 15m SIGNAL BUY -> POST-ONLY buy 13.296 @2529.49 (mkt 2531.65, 0.5xATR behind) sl=2520.83 tp=2542.47
+2026-09-12 08:45:32  [maker_bb_break_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789202732555,"data":null}
+2026-09-12 08:45:32  [maker_rsi_mom_15m] 15m flat; HOLD
+2026-09-12 08:46:33  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:47:35  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:48:37  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:49:38  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:50:40  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:51:41  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:52:43  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:53:45  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:53:46  ---- maker standings ----
+2026-09-12 08:53:46     signals=28 posted=2 filled=0 unfilled/expired=0 rejected=25
+2026-09-12 08:53:46     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 08:53:46     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 08:53:46     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 08:53:46     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 08:54:47  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:55:48  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:56:50  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:57:52  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:58:53  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 08:59:55  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:00:56  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:00:57  [maker_bb_break_1h] 1h flat; HOLD
+2026-09-12 09:00:57  [maker_bb_break_15m] 15m SIGNAL BUY -> POST-ONLY buy 13.26 @2530.06 (mkt 2532.23, 0.5xATR behind) sl=2521.38 tp=2543.08
+2026-09-12 09:00:58  [maker_bb_break_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789203658513,"data":null}
+2026-09-12 09:00:59  [maker_rsi_mom_15m] 15m flat; HOLD
+2026-09-12 09:02:00  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:03:02  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:04:04  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:05:05  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:06:07  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:07:09  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:08:11  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:09:13  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:10:14  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:11:16  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:12:18  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:13:20  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:14:22  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:14:24  ---- maker standings ----
+2026-09-12 09:14:24     signals=29 posted=2 filled=0 unfilled/expired=0 rejected=26
+2026-09-12 09:14:24     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 09:14:24     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 09:14:24     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 09:14:24     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 09:15:25  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:15:25  [maker_bb_break_15m] 15m SIGNAL BUY -> POST-ONLY buy 13.085 @2531.91 (mkt 2534.11, 0.5xATR behind) sl=2523.12 tp=2545.1
+2026-09-12 09:15:26  [maker_bb_break_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789204526436,"data":null}
+2026-09-12 09:15:26  [maker_rsi_mom_15m] 15m flat; HOLD
+2026-09-12 09:16:27  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:17:30  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:18:32  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:19:34  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:20:36  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:21:38  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:22:42  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:23:44  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:24:46  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:25:49  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:26:51  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:27:53  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:28:55  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:29:57  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:31:00  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:31:00  [maker_bb_break_15m] 15m SIGNAL BUY -> POST-ONLY buy 13.067 @2532.53 (mkt 2534.73, 0.5xATR behind) sl=2523.72 tp=2545.74
+2026-09-12 09:31:01  [maker_bb_break_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789205461398,"data":null}
+2026-09-12 09:31:01  [maker_rsi_mom_15m] 15m SIGNAL BUY -> POST-ONLY buy 19255.0 @1.367 (mkt 1.3682, 0.5xATR behind) sl=1.36073 tp=1.37567
+2026-09-12 09:31:02  [maker_rsi_mom_15m] ORDER REJECTED (would take): bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime":1789205462465,"data":null}
+2026-09-12 09:32:03  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:33:05  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:34:08  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:35:10  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:35:11  ---- maker standings ----
+2026-09-12 09:35:11     signals=32 posted=2 filled=0 unfilled/expired=0 rejected=29
+2026-09-12 09:35:11     FILL RATE = 0.0%  (backtest needed >~60% at 0.5xATR to stay positive)
+2026-09-12 09:35:11     maker_bb_break_1h        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (1h)
+2026-09-12 09:35:11     maker_bb_break_15m       ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 09:35:11     maker_rsi_mom_15m        ACTIVE  trades=  0 meanR=+0.000 dd= 0.00% (15m)
+2026-09-12 09:36:12  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:37:14  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:38:16  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:39:18  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:40:20  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:41:23  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:42:25  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:43:27  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp
+2026-09-12 09:44:29  equity=2876.24 SUSDT | pos=0 | resting=0 | FILL RATE 0/2 = 0.0% | avg slip +0.00bp

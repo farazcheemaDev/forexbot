@@ -1,0 +1,45 @@
+2026-09-12 00:20:43  connected login=472698318 Exness-MT5Trial16 DEMO balance=9521.71
+2026-09-12 00:20:43  loaded [donchian_gold_h1] donchian_breakout {'period': 20, 'use_trend': True, 'long_only': True} XAUUSDm H1 magic=20260101 filters={}
+2026-09-12 00:20:43  loaded [donchian_gold_m15] donchian_breakout {'period': 20, 'use_trend': True, 'long_only': True} XAUUSDm M15 magic=20260102 filters={}
+2026-09-12 00:20:43  loaded [donchian_silver_h1] donchian_breakout {'period': 20, 'use_trend': True, 'long_only': True} XAGUSDm H1 magic=20260103 filters={}
+2026-09-12 00:20:43  loaded [donchian_btc_m30] donchian_breakout {'period': 20, 'use_trend': True, 'long_only': True} BTCUSDm M30 magic=20260104 filters={}
+2026-09-12 00:20:43  loaded [donchian_nasdaq_h1] donchian_breakout {'period': 20, 'use_trend': True, 'long_only': True} USTECm H1 magic=20260106 filters={}
+2026-09-12 00:20:43  portfolio loop started: 5 strategies | breaker at -30.0% or 12 straight losses (Ctrl+C to stop)
+2026-09-12 00:30:13  --- new M30 bar for donchian_btc_m30 ---
+2026-09-12 00:30:13  [donchian_btc_m30] flat; HOLD
+2026-09-12 01:00:14  --- new M30 bar for donchian_btc_m30 ---
+2026-09-12 01:00:14  [donchian_btc_m30] flat; HOLD
+2026-09-12 01:30:14  --- new M30 bar for donchian_btc_m30 ---
+2026-09-12 01:30:14  [donchian_btc_m30] flat; HOLD
+2026-09-12 02:00:15  --- new M30 bar for donchian_btc_m30 ---
+2026-09-12 02:00:15  [donchian_btc_m30] flat; HOLD
+2026-09-12 02:30:01  --- new M30 bar for donchian_btc_m30 ---
+2026-09-12 02:30:01  [donchian_btc_m30] flat; HOLD
+2026-09-12 03:00:01  --- new M30 bar for donchian_btc_m30 ---
+2026-09-12 03:00:01  [donchian_btc_m30] flat; HOLD
+2026-09-12 03:30:02  --- new M30 bar for donchian_btc_m30 ---
+2026-09-12 03:30:02  [donchian_btc_m30] flat; HOLD
+2026-09-12 04:00:03  --- new M30 bar for donchian_btc_m30 ---
+2026-09-12 04:00:03  [donchian_btc_m30] flat; HOLD
+2026-09-12 04:30:04  --- new M30 bar for donchian_btc_m30 ---
+2026-09-12 04:30:04  [donchian_btc_m30] flat; HOLD
+2026-09-12 05:01:04  --- new M30 bar for donchian_btc_m30 ---
+2026-09-12 05:01:04  [donchian_btc_m30] flat; HOLD
+2026-09-12 05:30:05  --- new M30 bar for donchian_btc_m30 ---
+2026-09-12 05:30:05  [donchian_btc_m30] flat; HOLD
+2026-09-12 06:00:06  --- new M30 bar for donchian_btc_m30 ---
+2026-09-12 06:00:06  [donchian_btc_m30] flat; HOLD
+2026-09-12 06:30:07  --- new M30 bar for donchian_btc_m30 ---
+2026-09-12 06:30:07  [donchian_btc_m30] flat; HOLD
+2026-09-12 07:00:07  --- new M30 bar for donchian_btc_m30 ---
+2026-09-12 07:00:07  [donchian_btc_m30] flat; HOLD
+2026-09-12 07:30:08  --- new M30 bar for donchian_btc_m30 ---
+2026-09-12 07:30:08  [donchian_btc_m30] flat; HOLD
+2026-09-12 08:00:09  --- new M30 bar for donchian_btc_m30 ---
+2026-09-12 08:00:09  [donchian_btc_m30] flat; HOLD
+2026-09-12 08:30:09  --- new M30 bar for donchian_btc_m30 ---
+2026-09-12 08:30:09  [donchian_btc_m30] flat; HOLD
+2026-09-12 09:00:10  --- new M30 bar for donchian_btc_m30 ---
+2026-09-12 09:00:10  [donchian_btc_m30] flat; HOLD
+2026-09-12 09:30:10  --- new M30 bar for donchian_btc_m30 ---
+2026-09-12 09:30:10  [donchian_btc_m30] flat; HOLD

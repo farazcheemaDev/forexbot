@@ -1,0 +1,111 @@
+  BTCUSDT   holdout  35968 bars (2020-02-15..2024-03-25)  used  21601
+  ETHUSDT   holdout  35968 bars (2020-02-15..2024-03-25)  used  21601
+  SOLUSDT   holdout  31718 bars (2020-08-11..2024-03-25)  used  21601
+  XRPUSDT   holdout  35968 bars (2020-02-15..2024-03-25)  used  21601
+  BNBUSDT   holdout  35968 bars (2020-02-15..2024-03-25)  used  21601
+  AVAXUSDT  holdout  30710 bars (2020-09-22..2024-03-25)  used  21601
+  DOGEUSDT  holdout  35968 bars (2020-02-15..2024-03-25)  used  21601
+  ADAUSDT   holdout  35968 bars (2020-02-15..2024-03-25)  used  21601
+  LINKUSDT  holdout  35968 bars (2020-02-15..2024-03-25)  used  21601
+
+18 families, 393 configs x 9 assets = 3537 backtests on UNTOUCHED data
+frozen: exits 2.0/3.0 ATR, 10.0bp, no optimisation
+
+  ...ma_cross done
+  ...donchian done
+  ...rsi_rev done
+  ...rsi_mom done
+  ...bb_rev done
+  ...bb_break done
+  ...macd done
+  ...roc_mom done
+  ...zscore_rev done
+  ...donch_lo done
+  ...macd_trend done
+  ...level_fade done
+  ...liquidity_sweep done
+  ...vwap_rev done
+  ...stoch_rsi_pb done
+  ...stoch_rsi_rev done
+  ...bollinger_rsi done
+  ...rsi_trend done
+
+================================================================================================
+RANKED BY MEAN R ON UNTOUCHED DATA  (holdout is the verdict; 'used' is contaminated, shown for contrast)
+================================================================================================
+family           params            filt    trades    meanR  assets+    usedR
+ma_cross         (50, 200)         er30       904  +0.0743   8/9     -0.0136
+ma_cross         (20, 50)          none      4502  +0.0457   6/9     -0.0343
+ma_cross         (50, 200)         none      1695  +0.0395   8/9     -0.0014
+ma_cross         (5, 100)          none      4180  +0.0384   6/9     -0.0526
+ma_cross         (50, 200)         adx25     1156  +0.0359   5/9     +0.0272
+ma_cross         (10, 100)         none      3956  +0.0344   6/9     -0.0216
+bb_break         (30, 2.5)         none      7748  +0.0343   8/9     +0.0414
+donch_lo         (80, 200)         none      3557  +0.0332   5/9     +0.0034
+donch_lo         (80, 100)         none      3624  +0.0292   5/9     +0.0008
+donch_lo         (30, 100)         none      5637  +0.0270   7/9     -0.0277
+donch_lo         (55, 200)         none      4160  +0.0258   6/9     -0.0243
+donch_lo         (80, 200)         er30      3080  +0.0248   5/9     +0.0481
+donch_lo         (30, 200)         none      5130  +0.0246   6/9     -0.0095
+donch_lo         (55, 100)         none      4391  +0.0229   6/9     -0.0305
+ma_cross         (20, 100)         none      3447  +0.0223   6/9     -0.0345
+donch_lo         (80, 100)         er30      3132  +0.0223   5/9     +0.0399
+ma_cross         (5, 200)          none      3119  +0.0222   5/9     -0.0142
+rsi_mom          (21, 30, 70)      none      3714  +0.0199   4/9     +0.0953
+donch_lo         (55, 200)         er30      3542  +0.0195   5/9     +0.0208
+bb_break         (30, 2.5)         er30      6081  +0.0194   6/9     +0.0509
+ma_cross         (20, 50)          er30      1983  +0.0191   4/9     -0.0652
+donch_lo         (55, 100)         er30      3708  +0.0184   5/9     +0.0037
+rsi_mom          (21, 30, 70)      er30      3707  +0.0173   5/9     +0.1038
+donch_lo         (30, 100)         er30      4500  +0.0167   6/9     +0.0057
+bb_break         (20, 2.5)         none      8335  +0.0162   6/9     +0.0089
+bb_break         (14, 2.5)         er30      4836  +0.0152   6/9     +0.0113
+rsi_mom          (21, 40, 70)      none      7613  +0.0151   6/9     +0.0408
+vwap_rev         (2.5,)            er30      2752  +0.0145   6/9     -0.1452
+donch_lo         (10, 200)         none      7030  +0.0127   6/9     -0.0388
+donch_lo         (55, 200)         adx25     2775  +0.0127   5/9     -0.0060
+bb_break         (30, 2.0)         none     11682  +0.0124   7/9     +0.0179
+donchian         (80,)             none      6262  +0.0123   5/9     +0.0043
+donch_lo         (20, 100)         none      6489  +0.0120   6/9     -0.0180
+rsi_mom          (21, 40, 60)      none     11860  +0.0118   7/9     +0.0095
+ma_cross         (10, 50)          none      5293  +0.0117   4/9     -0.0542
+
+------------------------------------------------------------------------------------------------
+WORST 10 (for contrast):
+rsi_rev          (21, 25, 70)      none      2342  -0.1642   0/9     -0.1040
+rsi_rev          (21, 30, 75)      er30      2116  -0.1658   0/9     -0.1735
+rsi_rev          (21, 25, 70)      adx25     2245  -0.1672   0/9     -0.1097
+rsi_rev          (21, 25, 70)      er30      2108  -0.1769   0/9     -0.1049
+rsi_rev          (14, 25, 75)      none      3530  -0.1777   0/9     -0.1466
+rsi_rev          (21, 25, 75)      none      1294  -0.1805   1/9     -0.1157
+rsi_rev          (21, 25, 75)      adx25     1276  -0.1820   0/9     -0.1109
+rsi_rev          (14, 25, 75)      adx25     3323  -0.1836   0/9     -0.1506
+rsi_rev          (14, 25, 75)      er30      3240  -0.1859   0/9     -0.1466
+rsi_rev          (21, 25, 75)      er30      1238  -0.1905   0/9     -0.1274
+
+================================================================================================
+BY FAMILY (all params/filters pooled — a family that only works at one setting is a fluke)
+================================================================================================
+family            cfgs   trades     meanR   cfgs>0  verdict
+donch_lo            30   126288   +0.0114   26/30   marginal
+ma_cross            33    73228   -0.0029   15/33   DEAD on unseen data
+bb_break            27   250080   -0.0063   10/27   DEAD on unseen data
+rsi_mom             36   351046   -0.0080   13/36   DEAD on unseen data
+roc_mom             27   284334   -0.0143    2/27   DEAD on unseen data
+donchian            15   121452   -0.0149    4/15   DEAD on unseen data
+macd_trend          12    58318   -0.0287    0/12   DEAD on unseen data
+rsi_trend            6    10372   -0.0333    1/6    DEAD on unseen data
+macd                24   191844   -0.0538    0/24   DEAD on unseen data
+vwap_rev             9    52342   -0.0574    1/9    DEAD on unseen data
+stoch_rsi_pb         6    33202   -0.0587    0/6    DEAD on unseen data
+bb_rev              27   265539   -0.0832    0/27   DEAD on unseen data
+liquidity_sweep      9    69765   -0.0848    0/9    DEAD on unseen data
+zscore_rev          18   170013   -0.0925    0/18   DEAD on unseen data
+stoch_rsi_rev        6    52701   -0.0936    0/6    DEAD on unseen data
+level_fade          12    81036   -0.1004    0/12   DEAD on unseen data
+rsi_rev             81   483948   -0.1063    0/81   DEAD on unseen data
+bollinger_rsi       12    67471   -0.1153    0/12   DEAD on unseen data
+
+saved -> D:\forexbot\logs\holdout_sweep.json
+
+SURVIVORS to put through MCPT: NONE

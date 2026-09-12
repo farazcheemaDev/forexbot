@@ -1,0 +1,11 @@
+{
+ "_active": {
+  "donchian_gold_h1": true,
+  "donchian_gold_m15": true,
+  "donchian_silver_h1": true,
+  "donchian_btc_m30": true,
+  "macd_gold_h1": true,
+  "donchian_nasdaq_h1": true
+ },
+ "_tripped": {}
+}

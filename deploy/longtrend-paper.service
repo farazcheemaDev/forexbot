@@ -1,0 +1,25 @@
+[Unit]
+Description=Long-trend paper runner (9 coins, pyramiding)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__USER__
+WorkingDirectory=__APP_DIR__
+ExecStart=__APP_DIR__/.venv/bin/python -u longtrend_paper.py
+# Restart=always is the point of running this on a VM at all: one crash or one
+# reboot would otherwise silently end a multi-month forward test.
+Restart=always
+RestartSec=30
+StandardOutput=journal
+StandardError=journal
+# hardening - these bots only need to read the repo and write logs/
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+ReadWritePaths=__APP_DIR__/logs
+
+[Install]
+WantedBy=multi-user.target

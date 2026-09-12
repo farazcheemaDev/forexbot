@@ -1,0 +1,28 @@
+SOLUSDT 1h: 21600 bars 2024-03-24..2026-09-10
+grid: 110 configs (momentum), exits 2.0/3.0 ATR, fee 10bp round trip
+
+  REAL best: rsi_mom(21, 40, 70) filt=none PF=1.4178 trades=590
+    10/150 perms | permuted best PF median 1.299 max 1.578 | better=3 | 30.8s/perm
+    20/150 perms | permuted best PF median 1.309 max 1.679 | better=5 | 30.2s/perm
+    30/150 perms | permuted best PF median 1.266 max 1.679 | better=6 | 30.3s/perm
+    40/150 perms | permuted best PF median 1.266 max 1.679 | better=6 | 30.4s/perm
+    50/150 perms | permuted best PF median 1.255 max 1.679 | better=7 | 30.0s/perm
+    60/150 perms | permuted best PF median 1.248 max 1.679 | better=7 | 29.3s/perm
+    70/150 perms | permuted best PF median 1.247 max 1.679 | better=9 | 28.5s/perm
+    80/150 perms | permuted best PF median 1.247 max 1.679 | better=10 | 28.0s/perm
+    90/150 perms | permuted best PF median 1.247 max 1.679 | better=11 | 27.8s/perm
+    100/150 perms | permuted best PF median 1.248 max 1.942 | better=14 | 27.7s/perm
+    110/150 perms | permuted best PF median 1.250 max 1.942 | better=15 | 27.5s/perm
+    120/150 perms | permuted best PF median 1.251 max 1.942 | better=17 | 27.0s/perm
+    130/150 perms | permuted best PF median 1.260 max 1.942 | better=19 | 26.4s/perm
+    140/150 perms | permuted best PF median 1.255 max 1.942 | better=20 | 26.0s/perm
+    150/150 perms | permuted best PF median 1.251 max 1.942 | better=22 | 25.6s/perm
+
+==================================================================
+real PF           1.4178   (rsi_mom(21, 40, 70)+none)
+permuted PF       median 1.2508  95th 1.5483  max 1.9424
+permutations >= real:  22 / 150
+p-value           0.1523
+VERDICT: INDISTINGUISHABLE FROM DATA MINING
+==================================================================
+saved -> D:\forexbot\logs\mcpt_insample_mcpt_SOLUSDT_1h.json

@@ -1,0 +1,33 @@
+PAXGUSDT 1h: 21600 bars 2024-03-25..2026-09-11
+grid: 28 configs (forex), exits 2.0/3.0 ATR, fee 10bp round trip
+
+  REAL best: donch_lo(80, 200) filt=er30 PF=1.4647 trades=247
+    10/200 perms | permuted best PF median 1.006 max 1.257 | better=0 | 6.3s/perm
+    20/200 perms | permuted best PF median 1.006 max 1.257 | better=0 | 6.2s/perm
+    30/200 perms | permuted best PF median 1.032 max 1.296 | better=0 | 6.2s/perm
+    40/200 perms | permuted best PF median 1.026 max 1.296 | better=0 | 6.0s/perm
+    50/200 perms | permuted best PF median 1.016 max 1.296 | better=0 | 6.0s/perm
+    60/200 perms | permuted best PF median 1.016 max 1.296 | better=0 | 6.2s/perm
+    70/200 perms | permuted best PF median 1.025 max 1.296 | better=0 | 6.2s/perm
+    80/200 perms | permuted best PF median 1.026 max 1.296 | better=0 | 6.3s/perm
+    90/200 perms | permuted best PF median 1.020 max 1.296 | better=0 | 6.3s/perm
+    100/200 perms | permuted best PF median 1.008 max 1.296 | better=0 | 6.2s/perm
+    110/200 perms | permuted best PF median 1.006 max 1.304 | better=0 | 6.3s/perm
+    120/200 perms | permuted best PF median 1.006 max 1.304 | better=0 | 6.2s/perm
+    130/200 perms | permuted best PF median 1.007 max 1.304 | better=0 | 6.3s/perm
+    140/200 perms | permuted best PF median 1.004 max 1.304 | better=0 | 6.3s/perm
+    150/200 perms | permuted best PF median 1.007 max 1.304 | better=0 | 6.4s/perm
+    160/200 perms | permuted best PF median 1.007 max 1.304 | better=0 | 6.4s/perm
+    170/200 perms | permuted best PF median 1.006 max 1.304 | better=0 | 6.4s/perm
+    180/200 perms | permuted best PF median 1.004 max 1.312 | better=0 | 6.5s/perm
+    190/200 perms | permuted best PF median 1.004 max 1.312 | better=0 | 6.5s/perm
+    200/200 perms | permuted best PF median 1.007 max 1.312 | better=0 | 6.5s/perm
+
+==================================================================
+real PF           1.4647   (donch_lo(80, 200)+er30)
+permuted PF       median 1.0068  95th 1.2070  max 1.3119
+permutations >= real:  0 / 200
+p-value           0.0050
+VERDICT: STRONG evidence of a real edge
+==================================================================
+saved -> D:\forexbot\logs\mcpt_insample_mcpt_PAXGUSDT_1h_FOREX.json

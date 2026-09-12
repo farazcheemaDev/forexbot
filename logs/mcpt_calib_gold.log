@@ -1,0 +1,19 @@
+PAXGUSDT 1h: 21600 bars 2024-03-25..2026-09-11
+grid: 28 configs (forex), exits 2.0/3.0 ATR, fee 10bp round trip
+
+    trial 1/12: fake-real PF=0.961 p=0.774
+    trial 2/12: fake-real PF=0.998 p=0.581
+    trial 3/12: fake-real PF=0.942 p=0.839
+    trial 4/12: fake-real PF=0.970 p=0.613
+    trial 5/12: fake-real PF=1.082 p=0.290
+    trial 6/12: fake-real PF=1.131 p=0.129
+    trial 7/12: fake-real PF=1.063 p=0.258
+    trial 8/12: fake-real PF=1.079 p=0.258
+    trial 9/12: fake-real PF=0.956 p=0.677
+    trial 10/12: fake-real PF=0.984 p=0.839
+    trial 11/12: fake-real PF=0.909 p=0.968
+    trial 12/12: fake-real PF=1.082 p=0.323
+
+mean p-value 0.546 (should be ~0.5), fraction below 0.05: 0.00 (should be ~0.05)
+VERDICT: test looks unbiased
+saved -> D:\forexbot\logs\mcpt_calibration_PAXGUSDT_1h_FOREX.json

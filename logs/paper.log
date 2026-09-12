@@ -1,0 +1,8 @@
+2026-09-10 20:11:16  paper forward-test start | equity=1000.00 | 6 symbols | rsi_mom(7, 40, 60)+er30 | PAPER ONLY, no orders, no API keys
+2026-09-10 20:11:16  [BTC/USDT:USDT] new closed bar 09-10 19:00 close=77132.5
+2026-09-10 20:11:16  [ETH/USDT:USDT] new closed bar 09-10 19:00 close=2461.57
+2026-09-10 20:11:17  [SOL/USDT:USDT] new closed bar 09-10 19:00 close=99.625
+2026-09-10 20:11:18  [XRP/USDT:USDT] new closed bar 09-10 19:00 close=1.3502
+2026-09-10 20:11:18  [BNB/USDT:USDT] new closed bar 09-10 19:00 close=713.81
+2026-09-10 20:11:18  [AVAX/USDT:USDT] new closed bar 09-10 19:00 close=7.585
+2026-09-10 20:11:34  paper forward-test start | equity=1000.00 | 6 symbols | rsi_mom(7, 40, 60)+er30 | PAPER ONLY, no orders, no API keys

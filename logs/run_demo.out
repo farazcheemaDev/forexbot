@@ -1,0 +1,345 @@
+2026-09-11 15:32:17  Bitget DEMO | risk 0.5% | max 3 | 5x isolated
+2026-09-11 15:32:17     SBTC/SUSDT:SUSDT     <- rsi_mom(7, 40, 60)+er30 @ 1h
+2026-09-11 15:32:17     SETH/SUSDT:SUSDT     <- roc_mom(20, 1.0)+er30 @ 15m
+2026-09-11 15:32:17     SXRP/SUSDT:SUSDT     <- bb_break(30, 1.5)+er30 @ 15m
+2026-09-11 15:32:17  demo equity: 2931.32 SUSDT | positions: 3
+2026-09-11 15:32:18  demo equity=2931.32 SUSDT | open=3 ['SXRPSUSDT', 'SETHSUSDT', 'SBTCSUSDT']
+2026-09-11 15:33:20  demo equity=2933.12 SUSDT | open=3 ['SXRPSUSDT', 'SETHSUSDT', 'SBTCSUSDT']
+2026-09-11 15:34:21  demo equity=2932.86 SUSDT | open=3 ['SXRPSUSDT', 'SETHSUSDT', 'SBTCSUSDT']
+2026-09-11 15:35:23  demo equity=2934.27 SUSDT | open=3 ['SXRPSUSDT', 'SETHSUSDT', 'SBTCSUSDT']
+2026-09-11 15:36:24  demo equity=2932.35 SUSDT | open=3 ['SXRPSUSDT', 'SETHSUSDT', 'SBTCSUSDT']
+2026-09-11 15:37:25  demo equity=2931.36 SUSDT | open=3 ['SXRPSUSDT', 'SETHSUSDT', 'SBTCSUSDT']
+2026-09-11 15:38:27  demo equity=2931.48 SUSDT | open=3 ['SXRPSUSDT', 'SETHSUSDT', 'SBTCSUSDT']
+2026-09-11 15:39:28  demo equity=2933.56 SUSDT | open=3 ['SXRPSUSDT', 'SETHSUSDT', 'SBTCSUSDT']
+2026-09-11 15:40:30  demo equity=2934.82 SUSDT | open=3 ['SXRPSUSDT', 'SETHSUSDT', 'SBTCSUSDT']
+2026-09-11 15:41:31  demo equity=2932.94 SUSDT | open=3 ['SXRPSUSDT', 'SETHSUSDT', 'SBTCSUSDT']
+2026-09-11 15:42:32  demo equity=2932.66 SUSDT | open=3 ['SXRPSUSDT', 'SETHSUSDT', 'SBTCSUSDT']
+2026-09-11 15:43:34  demo equity=2932.62 SUSDT | open=3 ['SXRPSUSDT', 'SETHSUSDT', 'SBTCSUSDT']
+2026-09-11 15:44:35  demo equity=2930.26 SUSDT | open=3 ['SXRPSUSDT', 'SETHSUSDT', 'SBTCSUSDT']
+2026-09-11 15:45:37  demo equity=2930.13 SUSDT | open=3 ['SXRPSUSDT', 'SETHSUSDT', 'SBTCSUSDT']
+2026-09-11 15:45:37  [demo_roc_mom_15m] holding long uPnL=-6.6732
+2026-09-11 15:45:38  [demo_bb_break_15m] holding long uPnL=1.101
+2026-09-11 15:46:38  demo equity=2930.73 SUSDT | open=3 ['SXRPSUSDT', 'SETHSUSDT', 'SBTCSUSDT']
+2026-09-11 15:47:40  demo equity=2930.42 SUSDT | open=3 ['SXRPSUSDT', 'SETHSUSDT', 'SBTCSUSDT']
+2026-09-11 15:48:41  demo equity=2928.41 SUSDT | open=3 ['SXRPSUSDT', 'SETHSUSDT', 'SBTCSUSDT']
+2026-09-11 15:49:43  demo equity=2928.52 SUSDT | open=3 ['SXRPSUSDT', 'SETHSUSDT', 'SBTCSUSDT']
+2026-09-11 15:50:44  demo equity=2926.50 SUSDT | open=3 ['SXRPSUSDT', 'SETHSUSDT', 'SBTCSUSDT']
+2026-09-11 15:51:46  demo equity=2919.45 SUSDT | open=3 ['SXRPSUSDT', 'SETHSUSDT', 'SBTCSUSDT']
+2026-09-11 15:51:46  ---- demo standings ----
+2026-09-11 15:51:46     demo_rsi_mom_1h        ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (1h)
+2026-09-11 15:51:46     demo_roc_mom_15m       ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 15:51:46     demo_bb_break_15m      ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 15:52:47  demo equity=2914.11 SUSDT | open=3 ['SXRPSUSDT', 'SETHSUSDT', 'SBTCSUSDT']
+2026-09-11 15:53:49  demo equity=2908.57 SUSDT | open=3 ['SXRPSUSDT', 'SETHSUSDT', 'SBTCSUSDT']
+2026-09-11 15:54:50  demo equity=2894.72 SUSDT | open=1 ['SXRPSUSDT']
+2026-09-11 15:55:52  demo equity=2894.72 SUSDT | open=1 ['SXRPSUSDT']
+2026-09-11 15:56:53  demo equity=2896.56 SUSDT | open=1 ['SXRPSUSDT']
+2026-09-11 15:57:54  demo equity=2896.56 SUSDT | open=1 ['SXRPSUSDT']
+2026-09-11 15:58:56  demo equity=2896.56 SUSDT | open=1 ['SXRPSUSDT']
+2026-09-11 15:59:57  demo equity=2896.19 SUSDT | open=1 ['SXRPSUSDT']
+2026-09-11 16:00:59  demo equity=2897.97 SUSDT | open=1 ['SXRPSUSDT']
+2026-09-11 16:00:59  [demo_rsi_mom_1h] 1h flat; HOLD
+2026-09-11 16:00:59  [demo_roc_mom_15m] 15m SIGNAL BUY -> buy 0.28 @~2558.0100 sl=2506.3900 tp=2635.4400 risk=14.49
+2026-09-11 16:01:00  [demo_roc_mom_15m] ORDER OK id=1482336405923987459
+2026-09-11 16:01:00  [demo_bb_break_15m] holding long uPnL=-6.239
+2026-09-11 16:02:01  demo equity=2899.09 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:03:03  demo equity=2897.89 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:04:05  demo equity=2895.89 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:05:07  demo equity=2897.67 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:06:10  demo equity=2900.02 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:07:12  demo equity=2901.15 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:08:14  demo equity=2897.77 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:09:16  demo equity=2899.05 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:10:19  demo equity=2900.05 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:11:21  demo equity=2896.81 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:12:23  demo equity=2895.27 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:12:24  ---- demo standings ----
+2026-09-11 16:12:24     demo_rsi_mom_1h        ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (1h)
+2026-09-11 16:12:24     demo_roc_mom_15m       ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 16:12:24     demo_bb_break_15m      ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 16:13:25  demo equity=2895.23 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:14:27  demo equity=2894.98 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:15:29  demo equity=2893.92 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:15:30  [demo_roc_mom_15m] holding long uPnL=-2.52
+2026-09-11 16:15:31  [demo_bb_break_15m] holding long uPnL=-7.34
+2026-09-11 16:16:31  demo equity=2894.26 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:17:34  demo equity=2893.36 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:18:36  demo equity=2889.30 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:19:38  demo equity=2892.16 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:20:40  demo equity=2889.17 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:21:42  demo equity=2887.31 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:22:44  demo equity=2890.04 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:23:46  demo equity=2888.24 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:24:48  demo equity=2889.11 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:25:51  demo equity=2893.45 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:26:53  demo equity=2893.87 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:27:55  demo equity=2894.80 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:28:57  demo equity=2895.90 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:29:59  demo equity=2894.30 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:30:00  [demo_roc_mom_15m] holding long uPnL=-1.722
+2026-09-11 16:30:00  [demo_bb_break_15m] holding long uPnL=-7.707
+2026-09-11 16:31:01  demo equity=2894.65 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:32:03  demo equity=2892.90 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:33:06  demo equity=2893.00 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:33:07  ---- demo standings ----
+2026-09-11 16:33:07     demo_rsi_mom_1h        ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (1h)
+2026-09-11 16:33:07     demo_roc_mom_15m       ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 16:33:07     demo_bb_break_15m      ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 16:34:08  demo equity=2895.93 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:35:10  demo equity=2896.48 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:36:12  demo equity=2896.32 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:37:14  demo equity=2895.02 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:38:16  demo equity=2893.83 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:39:19  demo equity=2893.14 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:40:21  demo equity=2892.27 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:41:23  demo equity=2893.63 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:42:25  demo equity=2894.52 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:43:27  demo equity=2894.88 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:44:29  demo equity=2895.19 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:45:31  demo equity=2896.74 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:45:32  [demo_roc_mom_15m] holding long uPnL=0.6636
+2026-09-11 16:45:33  [demo_bb_break_15m] holding long uPnL=-7.707
+2026-09-11 16:46:33  demo equity=2897.77 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:47:36  demo equity=2898.68 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:48:38  demo equity=2899.49 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:49:40  demo equity=2899.22 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:50:42  demo equity=2898.24 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:51:44  demo equity=2900.04 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:52:46  demo equity=2898.27 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:53:48  demo equity=2899.44 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:53:50  ---- demo standings ----
+2026-09-11 16:53:50     demo_rsi_mom_1h        ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (1h)
+2026-09-11 16:53:50     demo_roc_mom_15m       ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 16:53:50     demo_bb_break_15m      ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 16:54:50  demo equity=2899.24 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:55:52  demo equity=2900.14 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:56:55  demo equity=2898.93 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:57:57  demo equity=2898.66 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 16:58:59  demo equity=2899.39 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:00:01  demo equity=2898.42 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:00:02  [demo_rsi_mom_1h] 1h flat; HOLD
+2026-09-11 17:00:02  [demo_roc_mom_15m] holding long uPnL=1.9796
+2026-09-11 17:00:03  [demo_bb_break_15m] holding long uPnL=-7.34
+2026-09-11 17:01:03  demo equity=2898.67 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:02:06  demo equity=2899.58 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:03:09  demo equity=2899.26 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:04:11  demo equity=2898.31 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:05:13  demo equity=2898.96 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:06:15  demo equity=2897.86 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:07:17  demo equity=2898.46 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:08:19  demo equity=2898.81 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:09:22  demo equity=2896.27 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:10:24  demo equity=2895.30 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:11:26  demo equity=2894.45 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:12:28  demo equity=2895.25 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:13:30  demo equity=2895.20 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:14:32  demo equity=2893.90 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:14:33  ---- demo standings ----
+2026-09-11 17:14:33     demo_rsi_mom_1h        ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (1h)
+2026-09-11 17:14:33     demo_roc_mom_15m       ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 17:14:33     demo_bb_break_15m      ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 17:15:34  demo equity=2894.56 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:15:35  [demo_roc_mom_15m] holding long uPnL=0.6916
+2026-09-11 17:15:35  [demo_bb_break_15m] holding long uPnL=-9.909
+2026-09-11 17:16:36  demo equity=2895.61 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:17:38  demo equity=2896.40 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:18:40  demo equity=2895.60 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:19:42  demo equity=2896.87 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:20:45  demo equity=2896.69 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:21:47  demo equity=2894.98 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:22:50  demo equity=2894.12 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:23:52  demo equity=2896.42 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:24:54  demo equity=2896.20 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:25:56  demo equity=2897.09 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:26:58  demo equity=2898.03 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:28:00  demo equity=2897.92 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:29:02  demo equity=2897.52 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:30:04  demo equity=2896.94 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:30:05  [demo_roc_mom_15m] holding long uPnL=1.4672
+2026-09-11 17:30:05  [demo_bb_break_15m] holding long uPnL=-8.441
+2026-09-11 17:31:06  demo equity=2897.71 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:32:08  demo equity=2898.25 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:33:10  demo equity=2897.26 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:34:12  demo equity=2897.55 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:35:14  demo equity=2897.65 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:35:16  ---- demo standings ----
+2026-09-11 17:35:16     demo_rsi_mom_1h        ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (1h)
+2026-09-11 17:35:16     demo_roc_mom_15m       ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 17:35:16     demo_bb_break_15m      ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 17:36:16  demo equity=2895.46 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:37:18  demo equity=2894.86 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:38:21  demo equity=2894.08 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:39:23  demo equity=2892.85 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:40:25  demo equity=2893.24 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:41:27  demo equity=2892.49 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:42:29  demo equity=2892.26 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:43:31  demo equity=2894.02 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:44:33  demo equity=2894.15 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:45:35  demo equity=2893.97 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:45:36  [demo_roc_mom_15m] holding long uPnL=-0.2688
+2026-09-11 17:45:37  [demo_bb_break_15m] holding long uPnL=-9.542
+2026-09-11 17:46:38  demo equity=2893.45 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:47:40  demo equity=2894.37 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:48:42  demo equity=2895.05 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:49:44  demo equity=2895.10 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:50:46  demo equity=2893.85 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:51:48  demo equity=2893.45 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:52:50  demo equity=2893.39 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:53:52  demo equity=2892.42 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:54:55  demo equity=2891.47 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:55:57  demo equity=2891.90 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:55:58  ---- demo standings ----
+2026-09-11 17:55:58     demo_rsi_mom_1h        ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (1h)
+2026-09-11 17:55:58     demo_roc_mom_15m       ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 17:55:58     demo_bb_break_15m      ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 17:56:59  demo equity=2893.04 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:58:01  demo equity=2893.20 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 17:59:03  demo equity=2892.56 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 18:00:05  demo equity=2892.47 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 18:00:06  [demo_rsi_mom_1h] 1h flat; HOLD
+2026-09-11 18:00:06  [demo_roc_mom_15m] holding long uPnL=-1.036
+2026-09-11 18:00:07  [demo_bb_break_15m] holding long uPnL=-10.276
+2026-09-11 18:01:08  demo equity=2890.05 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 18:02:10  demo equity=2889.43 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 18:03:13  demo equity=2886.60 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 18:04:15  demo equity=2884.00 SUSDT | open=2 ['SXRPSUSDT', 'SETHSUSDT']
+2026-09-11 18:05:17  demo equity=2880.22 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:06:19  demo equity=2877.10 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:07:21  demo equity=2880.03 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:08:24  demo equity=2880.40 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:09:26  demo equity=2880.16 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:10:28  demo equity=2877.67 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:11:30  demo equity=2878.85 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:12:32  demo equity=2879.23 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:13:34  demo equity=2879.19 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:14:36  demo equity=2877.79 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:15:38  demo equity=2878.10 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:15:39  [demo_roc_mom_15m] holding long uPnL=-9.17
+2026-09-11 18:15:40  [demo_bb_break_15m] 15m flat; HOLD
+2026-09-11 18:16:40  demo equity=2878.73 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:16:42  ---- demo standings ----
+2026-09-11 18:16:42     demo_rsi_mom_1h        ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (1h)
+2026-09-11 18:16:42     demo_roc_mom_15m       ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 18:16:42     demo_bb_break_15m      ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 18:17:43  demo equity=2880.10 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:18:45  demo equity=2880.71 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:19:47  demo equity=2880.83 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:20:49  demo equity=2880.89 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:21:51  demo equity=2880.50 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:22:52  demo equity=2880.54 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:23:54  demo equity=2880.12 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:24:55  demo equity=2879.98 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:25:56  demo equity=2879.40 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:26:58  demo equity=2879.41 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:27:59  demo equity=2878.53 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:29:00  demo equity=2879.51 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:30:02  demo equity=2879.98 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:30:02  [demo_roc_mom_15m] holding long uPnL=-7.3332
+2026-09-11 18:30:02  [demo_bb_break_15m] 15m flat; HOLD
+2026-09-11 18:31:03  demo equity=2879.51 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:32:05  demo equity=2879.30 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:33:06  demo equity=2879.23 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:34:07  demo equity=2879.78 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:35:09  demo equity=2880.29 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:36:10  demo equity=2879.73 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:37:11  demo equity=2880.14 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:37:12  ---- demo standings ----
+2026-09-11 18:37:12     demo_rsi_mom_1h        ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (1h)
+2026-09-11 18:37:12     demo_roc_mom_15m       ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 18:37:12     demo_bb_break_15m      ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 18:38:13  demo equity=2879.68 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:39:14  demo equity=2880.28 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:40:15  demo equity=2880.66 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:41:17  demo equity=2879.56 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:42:18  demo equity=2879.98 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:43:19  demo equity=2879.44 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:44:21  demo equity=2878.91 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:45:22  demo equity=2881.47 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:45:23  [demo_roc_mom_15m] holding long uPnL=-5.8464
+2026-09-11 18:45:23  [demo_bb_break_15m] 15m flat; HOLD
+2026-09-11 18:46:24  demo equity=2879.96 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:47:25  demo equity=2879.78 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:48:26  demo equity=2878.45 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:49:28  demo equity=2879.00 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:50:29  demo equity=2879.00 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:51:30  demo equity=2878.37 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:52:32  demo equity=2877.96 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:53:33  demo equity=2877.81 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:54:34  demo equity=2876.73 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:55:36  demo equity=2876.61 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:56:37  demo equity=2877.15 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:57:38  demo equity=2877.65 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:57:39  ---- demo standings ----
+2026-09-11 18:57:39     demo_rsi_mom_1h        ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (1h)
+2026-09-11 18:57:39     demo_roc_mom_15m       ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 18:57:39     demo_bb_break_15m      ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 18:58:40  demo equity=2877.68 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 18:59:41  demo equity=2877.86 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:00:42  demo equity=2877.87 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:00:43  [demo_rsi_mom_1h] 1h flat; HOLD
+2026-09-11 19:00:43  [demo_roc_mom_15m] holding long uPnL=-9.45
+2026-09-11 19:00:43  [demo_bb_break_15m] 15m flat; HOLD
+2026-09-11 19:01:44  demo equity=2877.15 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:02:45  demo equity=2877.02 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:03:47  demo equity=2878.29 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:04:48  demo equity=2879.08 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:05:49  demo equity=2879.77 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:06:51  demo equity=2880.06 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:07:52  demo equity=2879.63 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:08:53  demo equity=2880.40 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:09:55  demo equity=2880.09 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:10:56  demo equity=2879.84 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:11:57  demo equity=2880.08 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:12:59  demo equity=2880.58 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:14:00  demo equity=2880.40 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:15:01  demo equity=2880.23 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:15:02  [demo_roc_mom_15m] holding long uPnL=-7.168
+2026-09-11 19:15:02  [demo_bb_break_15m] 15m flat; HOLD
+2026-09-11 19:16:03  demo equity=2878.93 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:17:04  demo equity=2878.69 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:18:05  demo equity=2879.26 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:18:06  ---- demo standings ----
+2026-09-11 19:18:06     demo_rsi_mom_1h        ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (1h)
+2026-09-11 19:18:06     demo_roc_mom_15m       ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 19:18:06     demo_bb_break_15m      ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 19:19:07  demo equity=2879.58 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:20:08  demo equity=2878.98 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:21:10  demo equity=2879.00 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:22:11  demo equity=2879.23 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:23:13  demo equity=2879.41 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:24:14  demo equity=2879.84 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:25:15  demo equity=2880.74 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:26:17  demo equity=2880.68 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:27:18  demo equity=2880.83 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:28:19  demo equity=2880.91 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:29:21  demo equity=2880.85 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:30:22  demo equity=2880.37 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:30:23  [demo_roc_mom_15m] holding long uPnL=-6.9328
+2026-09-11 19:30:23  [demo_bb_break_15m] 15m flat; HOLD
+2026-09-11 19:31:23  demo equity=2880.41 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:32:25  demo equity=2880.51 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:33:26  demo equity=2880.12 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:34:27  demo equity=2880.20 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:35:29  demo equity=2880.45 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:36:30  demo equity=2880.26 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:37:31  demo equity=2880.69 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:38:33  demo equity=2879.43 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:38:33  ---- demo standings ----
+2026-09-11 19:38:33     demo_rsi_mom_1h        ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (1h)
+2026-09-11 19:38:33     demo_roc_mom_15m       ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 19:38:33     demo_bb_break_15m      ACTIVE  trades=  0 meanR=+0.000 net= +0.00% dd= 0.00% streak=0  (15m)
+2026-09-11 19:39:34  demo equity=2880.09 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:40:35  demo equity=2880.38 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:41:37  demo equity=2880.11 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:42:38  demo equity=2879.79 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:43:39  demo equity=2879.61 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:44:41  demo equity=2879.81 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:45:42  demo equity=2879.58 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:45:42  [demo_roc_mom_15m] holding long uPnL=-7.7392
+2026-09-11 19:45:43  [demo_bb_break_15m] 15m flat; HOLD
+2026-09-11 19:46:43  demo equity=2878.85 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:47:45  demo equity=2878.83 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:48:46  demo equity=2879.24 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:49:47  demo equity=2879.23 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:50:49  demo equity=2879.33 SUSDT | open=1 ['SETHSUSDT']
+2026-09-11 19:51:50  demo equity=2879.63 SUSDT | open=1 ['SETHSUSDT']

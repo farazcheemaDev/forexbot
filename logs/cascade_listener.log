@@ -1,0 +1,23 @@
+2026-09-11 23:42:23  CASCADE LISTENER (Bitget USDT-FUTURES trade flow) — collecting, NOT trading
+2026-09-11 23:42:23    rule: one-sided aggressive burst >6.0x the symbol's own 30-min normal flow in 10s, min $15,000, 75% one-sided
+2026-09-11 23:42:23    snapshots at (5, 15, 30, 60, 300)s after detection
+2026-09-11 23:42:23    warmup: no detections until 600s of baseline flow per symbol
+2026-09-11 23:42:24  0 trades | 0 cascades | 0 awaiting snapshots | 0 live prices
+2026-09-11 23:42:25  subscribed: 20 symbols on Bitget USDT-FUTURES
+2026-09-11 23:47:23  4,665 trades | 0 cascades | 0 awaiting snapshots | 20 live prices
+2026-09-11 23:47:24  4,669 trades | 0 cascades | 0 awaiting snapshots | 20 live prices
+2026-09-11 23:52:24  6,395 trades | 0 cascades | 0 awaiting snapshots | 20 live prices
+2026-09-11 23:52:25  6,402 trades | 0 cascades | 0 awaiting snapshots | 20 live prices
+2026-09-11 23:52:26  CASCADE ETHUSDT FORCED_BUY $281,803 in 10s (6.8x normal, 2% sell) px=2512.05
+2026-09-11 23:54:57  CASCADE ADAUSDT FORCED_SELL $15,842 in 10s (24.5x normal, 100% sell) px=0.206
+2026-09-11 23:55:24  CASCADE SOLUSDT FORCED_BUY $116,821 in 10s (7.1x normal, 0% sell) px=102.383
+2026-09-11 23:57:03  CASCADE ETHUSDT FORCED_SELL $333,402 in 10s (6.1x normal, 97% sell) px=2514.03
+2026-09-11 23:57:24  8,762 trades | 4 cascades | 4 awaiting snapshots | 20 live prices
+2026-09-11 23:57:25  8,765 trades | 4 cascades | 4 awaiting snapshots | 20 live prices
+2026-09-11 23:57:26    -> ETHUSDT FORCED_BUY reversion: 5s=-1.47 15s=-1.75 30s=-0.72 60s=-3.03 300s=-8.84
+2026-09-11 23:58:29  CASCADE LINKUSDT FORCED_BUY $15,516 in 10s (36.2x normal, 0% sell) px=11.539
+2026-09-11 23:58:37  CASCADE SUIUSDT FORCED_BUY $17,497 in 10s (11.7x normal, 5% sell) px=0.725
+2026-09-11 23:58:58  CASCADE BTCUSDT FORCED_BUY $446,689 in 10s (6.1x normal, 0% sell) px=77173.5
+2026-09-11 23:59:36  CASCADE ETHUSDT FORCED_SELL $1,118,509 in 10s (15.7x normal, 100% sell) px=2515.31
+2026-09-11 23:59:57    -> ADAUSDT FORCED_SELL reversion: 5s=0.0 15s=0.0 30s=4.85 60s=4.85 300s=4.85
+2026-09-12 00:00:24    -> SOLUSDT FORCED_BUY reversion: 5s=0.68 15s=0.88 30s=0.78 60s=-1.56 300s=4.1

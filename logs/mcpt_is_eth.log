@@ -1,0 +1,33 @@
+ETHUSDT 1h: 21600 bars 2024-03-24..2026-09-10
+grid: 110 configs (trend/momentum), exits 2.0/3.0 ATR, fee 10bp round trip
+
+  REAL best: rsi_mom(21, 30, 70) filt=none PF=1.5959 trades=324
+    10/200 perms | permuted best PF median 1.207 max 1.368 | better=0 | 17.3s/perm
+    20/200 perms | permuted best PF median 1.194 max 1.592 | better=0 | 17.3s/perm
+    30/200 perms | permuted best PF median 1.213 max 1.592 | better=0 | 18.8s/perm
+    40/200 perms | permuted best PF median 1.203 max 1.600 | better=1 | 21.0s/perm
+    50/200 perms | permuted best PF median 1.213 max 1.676 | better=2 | 22.6s/perm
+    60/200 perms | permuted best PF median 1.213 max 1.676 | better=2 | 24.3s/perm
+    70/200 perms | permuted best PF median 1.209 max 1.676 | better=2 | 25.3s/perm
+    80/200 perms | permuted best PF median 1.218 max 1.676 | better=2 | 25.5s/perm
+    90/200 perms | permuted best PF median 1.219 max 1.719 | better=4 | 25.4s/perm
+    100/200 perms | permuted best PF median 1.221 max 1.719 | better=4 | 25.3s/perm
+    110/200 perms | permuted best PF median 1.219 max 1.719 | better=5 | 25.3s/perm
+    120/200 perms | permuted best PF median 1.221 max 1.719 | better=5 | 25.3s/perm
+    130/200 perms | permuted best PF median 1.220 max 1.719 | better=5 | 25.3s/perm
+    140/200 perms | permuted best PF median 1.219 max 1.719 | better=5 | 25.2s/perm
+    150/200 perms | permuted best PF median 1.218 max 1.719 | better=5 | 24.9s/perm
+    160/200 perms | permuted best PF median 1.218 max 1.719 | better=5 | 24.6s/perm
+    170/200 perms | permuted best PF median 1.218 max 1.719 | better=5 | 24.4s/perm
+    180/200 perms | permuted best PF median 1.212 max 1.719 | better=5 | 24.1s/perm
+    190/200 perms | permuted best PF median 1.209 max 1.719 | better=5 | 23.6s/perm
+    200/200 perms | permuted best PF median 1.212 max 1.719 | better=5 | 23.2s/perm
+
+==================================================================
+real PF           1.5959   (rsi_mom(21, 30, 70)+none)
+permuted PF       median 1.2121  95th 1.4977  max 1.7195
+permutations >= real:  5 / 200
+p-value           0.0299
+VERDICT: passes at the conventional 5% bar
+==================================================================
+saved -> D:\forexbot\logs\mcpt_insample_mcpt_ETHUSDT_1h.json
