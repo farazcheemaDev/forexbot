@@ -1,0 +1,54 @@
+DOES RENKO RAISE THE $10 ACCOUNT'S ODDS? — better bets vs fewer bets.
+
+THE SETUP
+    backtest/barsampling.py found that Renko bricks more than DOUBLE mean R per trade
+    (+0.517 at a 2xATR brick against the 1h time-bar control's +0.229) while keeping
+    the fat tail (maxR 193 vs 221) - so it is a genuine filter, not a profit cap. It
+    still LOSES for the $221 book, because it trades a third as often and trade count
+    is what compounds.
+
+    The micro account is a different objective. Its enemy is RUIN, not slow
+    compounding: 70.3% of paths from $10 die before reaching $50. A better edge per
+    bet with fewer bets could cut that, because every trade is a chance for a losing
+    streak to finish the account.
+
+    So the question is narrow and worth asking: does the Renko signal raise
+    P(reach $50 from $10)?
+
+WHAT IS HELD IDENTICAL
+    Same coins, same 2xATR stop, same 20x/5x trails, same BE@3R, same $5 Bitget floor,
+    same block bootstrap, same 3x hindsight deflation, same 6,000 paths. ONLY the
+    signal's bar construction changes. Execution is on real 1h OHLC in both cases, so
+    a Renko advantage cannot come from synthetic fill prices.
+
+THE CATCH TO WATCH FOR
+    Fewer trades per year also means the target takes LONGER in wall-clock time, and
+    the simulation caps a path at MAX_TRADES. A bar type that needs the same number of
+    trades but each trade takes three times as long is not equivalent - so elapsed
+    days is reported alongside, computed from each bar type's real trade rate.
+
+REGISTERED PREDICTION: Renko raises P(reach $50) to 32-40%. If it does
+not, 29.7% is near the ceiling for $10 and signal work will not move it.
+
+======================================================================================================================
+$10 -> $50 (5x), risk 4%/trade, Bitget $5 floor, honest edge, 6,000 paths
+======================================================================================================================
+signal bars                   meanR   honest  trades/day   P($50)   P(ruin)  med trades    elapsed
+TIME 1h (the current bot)    +0.229   +0.076        4.51    28.3%     71.7%          61        14d
+RENKO brick 1xATR            +0.403   +0.134        2.17    30.1%     69.9%          54        25d
+RENKO brick 2xATR            +0.517   +0.172        1.32    30.6%     69.5%          53        40d
+RENKO brick 3xATR            +0.510   +0.170        0.90    29.2%     70.8%          47        53d
+TIME 4h                      +0.369   +0.123        2.39    28.7%     71.3%          53        22d
+
+======================================================================================================================
+VERDICT
+======================================================================================================================
+  current bot (1h bars): 28.3% chance of $50, 71.7% ruin, ~14 days
+  best of 5:        RENKO brick 2xATR — 30.6% chance, 69.5% ruin, ~40 days
+
+  Renko-style sampling is worth +2.2 points of win probability on a micro account, while being WORSE for
+  the $221 book. The two objectives genuinely want different bars.
+
+  'elapsed' is the median wall-clock wait, from each bar type's own real
+  trade rate. A variant with the same trade count but a third of the rate
+  takes three times as long to find out.

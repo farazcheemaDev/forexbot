@@ -1,0 +1,146 @@
+IS POLYMARKET MISPRICED? — the longshot-bias test, done properly.
+
+THE CLAIM BEING TESTED
+    In betting markets, longshots are systematically OVERPRICED and favourites
+    UNDERPRICED. It is one of the oldest documented anomalies in horse racing and it
+    survives in most bookmaker markets. If it holds on Polymarket, the exploit is
+    mechanical: buy high-probability contracts, hold to resolution, collect the gap.
+
+WHY POLYMARKET IS WORTH THE TROUBLE AT ALL
+    It has NO MINIMUM ORDER. That is the single constraint that killed every
+    small-capital idea measured today: Bitget's $5 floor forces a $10 account to risk
+    1.26% per trade whether it wants to or not, and that forced over-risk is why 70%
+    of paths die. On Polymarket a $10 account can hold twenty genuine positions.
+
+    And because a contract SETTLES ITSELF at $1 or $0, a hold-to-resolution strategy
+    crosses the spread ONCE. Measured live on the tradeable markets, that is ~2-3.5%
+    one way - expensive but survivable, where round-tripping at 5-7% would not be.
+
+THE TEST
+    For every resolved market: take the YES price N days BEFORE it closed, bucket by
+    that price, and measure what fraction of each bucket actually resolved YES.
+
+    Perfect calibration means resolution rate == price, in every bucket. The claim
+    predicts a specific shape:
+        low buckets  (longshots)  resolve LESS often than their price  -> overpriced
+        high buckets (favourites) resolve MORE often than their price -> underpriced
+
+    An edge only counts if the gap beats the ~2-3% it costs to get in.
+
+THREE WAYS THIS TEST CAN LIE, AND WHAT IS DONE ABOUT EACH
+    1. CLUSTERING. Twenty "will X win the nomination" markets are ONE event: one
+       resolves YES and nineteen resolve NO by construction. Treating them as twenty
+       independent observations would inflate significance enormously - the same error
+       that made a pooled crypto p-value meaningless earlier today. Markets are
+       therefore grouped by event and the EVENT COUNT is reported as the real sample
+       size alongside the market count.
+    2. SELECTION. Ordering by volume selects large, well-known markets, which are
+       exactly the ones most likely to be efficiently priced. That biases AGAINST
+       finding an edge, so it is the conservative direction - but it is stated rather
+       than hidden.
+    3. HORIZON. The bias is not the same 1 day out as 90 days out. Several horizons
+       are reported rather than one convenient choice.
+
+REGISTERED PREDICTION: longshot bias appears at the low end but is NOT
+exploitable (the profitable side is shorting 3c contracts). Favourites
+resolving >3 points above their price WOULD be exploitable and new.
+
+fetching up to 1200 resolved markets...
+    100 markets...
+    200 markets...
+    300 markets...
+    400 markets...
+    500 markets...
+    600 markets...
+    700 markets...
+    800 markets...
+    900 markets...
+    1000 markets...
+    1100 markets...
+    1200 markets...
+  1200 returned
+  1192 are cleanly resolved binary Yes/No markets
+  spanning 217 distinct events
+
+fetching price history (cached)...
+    100/1192
+    200/1192
+    300/1192
+    400/1192
+    500/1192
+    600/1192
+    700/1192
+    800/1192
+    900/1192
+    1000/1192
+    1100/1192
+
+========================================================================================================
+CALIBRATION — does the price predict the outcome?
+========================================================================================================
+Perfect calibration: 'resolved YES' equals 'avg price' in every row.
+'edge after cost' buys the bucket at its price plus a 2.5% one-way spread and holds to resolution.
+
+  1 day(s) before resolution   1172 markets across 217 EVENTS (events are the real sample size)
+  price bucket       n  avg price  resolved YES      gap      se  edge after cost
+  0.00-0.05        511      0.008        0.002   -0.006   0.004          -0.031
+  0.05-0.10         39      0.072        0.051   -0.021   0.038          -0.046
+  0.10-0.20         49      0.142        0.041   -0.102   0.033          -0.127 *
+  0.20-0.35         38      0.264        0.263   -0.001   0.076          -0.026
+  0.35-0.50         44      0.425        0.477   +0.053   0.083          +0.028
+  0.50-0.65         44      0.575        0.841   +0.266   0.062          +0.241 *
+  0.65-0.80         47      0.734        0.979   +0.245   0.024          +0.220 *
+  0.80-0.90         64      0.846        0.984   +0.138   0.020          +0.113 *
+  0.90-0.95         44      0.923        0.977   +0.055   0.025          +0.030 *
+  0.95-1.00        292      0.989        1.000   +0.011   0.000          -0.014 *
+   * gap exceeds 2 standard errors on the EVENT count
+
+  7 day(s) before resolution   1172 markets across 217 EVENTS (events are the real sample size)
+  price bucket       n  avg price  resolved YES      gap      se  edge after cost
+  0.00-0.05        511      0.008        0.002   -0.006   0.004          -0.031
+  0.05-0.10         39      0.072        0.051   -0.021   0.038          -0.046
+  0.10-0.20         49      0.142        0.041   -0.102   0.033          -0.127 *
+  0.20-0.35         38      0.264        0.263   -0.001   0.076          -0.026
+  0.35-0.50         44      0.425        0.477   +0.053   0.083          +0.028
+  0.50-0.65         44      0.575        0.841   +0.266   0.062          +0.241 *
+  0.65-0.80         47      0.734        0.979   +0.245   0.024          +0.220 *
+  0.80-0.90         64      0.846        0.984   +0.138   0.020          +0.113 *
+  0.90-0.95         44      0.923        0.977   +0.055   0.025          +0.030 *
+  0.95-1.00        292      0.989        1.000   +0.011   0.000          -0.014 *
+   * gap exceeds 2 standard errors on the EVENT count
+
+  30 day(s) before resolution   1172 markets across 217 EVENTS (events are the real sample size)
+  price bucket       n  avg price  resolved YES      gap      se  edge after cost
+  0.00-0.05        511      0.008        0.002   -0.006   0.004          -0.031
+  0.05-0.10         39      0.072        0.051   -0.021   0.038          -0.046
+  0.10-0.20         49      0.142        0.041   -0.102   0.033          -0.127 *
+  0.20-0.35         38      0.264        0.263   -0.001   0.076          -0.026
+  0.35-0.50         44      0.425        0.477   +0.053   0.083          +0.028
+  0.50-0.65         44      0.575        0.841   +0.266   0.062          +0.241 *
+  0.65-0.80         47      0.734        0.979   +0.245   0.024          +0.220 *
+  0.80-0.90         64      0.846        0.984   +0.138   0.020          +0.113 *
+  0.90-0.95         44      0.923        0.977   +0.055   0.025          +0.030 *
+  0.95-1.00        292      0.989        1.000   +0.011   0.000          -0.014 *
+   * gap exceeds 2 standard errors on the EVENT count
+
+========================================================================================================
+VERDICT
+========================================================================================================
+  BUCKETS THAT BEAT THE SPREAD, on 20+ independent events:
+     1d out, price 0.50-0.65: paid 0.575, resolved 0.841  ->  +0.241 per $1 staked (+24.1%)
+     7d out, price 0.50-0.65: paid 0.575, resolved 0.841  ->  +0.241 per $1 staked (+24.1%)
+    30d out, price 0.50-0.65: paid 0.575, resolved 0.841  ->  +0.241 per $1 staked (+24.1%)
+     1d out, price 0.65-0.80: paid 0.734, resolved 0.979  ->  +0.220 per $1 staked (+22.0%)
+     7d out, price 0.65-0.80: paid 0.734, resolved 0.979  ->  +0.220 per $1 staked (+22.0%)
+    30d out, price 0.65-0.80: paid 0.734, resolved 0.979  ->  +0.220 per $1 staked (+22.0%)
+     1d out, price 0.80-0.90: paid 0.846, resolved 0.984  ->  +0.113 per $1 staked (+11.3%)
+     7d out, price 0.80-0.90: paid 0.846, resolved 0.984  ->  +0.113 per $1 staked (+11.3%)
+    30d out, price 0.80-0.90: paid 0.846, resolved 0.984  ->  +0.113 per $1 staked (+11.3%)
+     1d out, price 0.90-0.95: paid 0.923, resolved 0.977  ->  +0.030 per $1 staked (+3.0%)
+     7d out, price 0.90-0.95: paid 0.923, resolved 0.977  ->  +0.030 per $1 staked (+3.0%)
+    30d out, price 0.90-0.95: paid 0.923, resolved 0.977  ->  +0.030 per $1 staked (+3.0%)
+
+  Before believing it: these buckets were selected AFTER seeing the
+  table, across 3 horizons x 10 buckets = 30 cells, so roughly 1.5
+  would clear 2 standard errors by chance. Trust a bucket only if its
+  NEIGHBOURS lean the same way and it repeats at other horizons.

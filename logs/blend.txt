@@ -1,0 +1,99 @@
+BLENDING TIMEFRAMES — two versions of one edge that do not fire together.
+
+WHAT backtest/timeframes.py FOUND
+    The same rules on different bar sizes are NOT the same strategy. Mean R per
+    trade, by year:
+
+        bars    2020    2021    2022    2023    2024    2025    2026
+        1h     +1.34   +5.20   -0.49   +2.06   +3.04   +0.03   +0.26
+        4h     +1.87  +17.78   +0.43   +0.19  +11.33   +0.58   +0.58
+        12h    +2.54  +41.76   +1.44   -1.00   +2.38   -0.11   -0.50
+
+    2023 was the 1h book's year and 4h did almost nothing. 2024 was 4h's year and
+    1h barely moved. And 4h is the ONLY timeframe still positive in both 2025 and
+    2026 - the stretch where the 1h book earned 2.5% of its lifetime profit.
+
+    That pattern is what a genuinely different return stream looks like. Same signal,
+    different sampling of it, and the years do not line up.
+
+WHY THIS IS NOT JUST DOUBLING THE SAME BET
+    A fair objection: it is one signal (Bollinger breakout) on one universe, so the
+    sleeves must be correlated. They are - but not identically, and the by-year table
+    is the evidence. A 1h bar closing above its band and a 4h bar closing above its
+    band are different events, happen at different times, and get different stops
+    because ATR scales with the bar.
+
+    The test reports the CORRELATION of the two sleeves' monthly returns, so the
+    diversification is measured rather than assumed. If it comes out above ~0.8 the
+    blend is mostly one bet and the drawdown will not improve.
+
+WHAT IS TESTED
+    Sleeves share ONE slot cap, so the blend cannot secretly run double exposure -
+    the trap that would make any combination look good. Slot counts are swept because
+    two sleeves generate more signals than one and the inherited 8 may now bind.
+
+    The one validated improvement from opt200.py - cut risk to a quarter while BTC is
+    below its 200h average - is carried into every row.
+
+    Split 60/40 in time: tune on the first, decide on the last.
+
+REGISTERED PREDICTION: the blend wins on DRAWDOWN and on 2025-2026,
+lands between the sleeves on return, monthly correlation 0.5-0.7. Above
+0.85 and it is one bet and a dead end.
+
+======================================================================================================================
+1. ARE THE SLEEVES ACTUALLY DIFFERENT? monthly-return correlation
+======================================================================================================================
+  1h   n   6546  mean R  +1.538  DD  67.7%  honest +12.99%/mo
+  4h   n   1677  mean R  +3.761  DD  70.1%  honest  +8.83%/mo
+  12h  n    582  mean R  +4.110  DD  63.9%  honest  +1.58%/mo
+
+  monthly correlation (79 overlapping 30-day blocks):
+            1h     4h    12h
+    1h   1.000  0.178 -0.082
+    4h   0.178  1.000 -0.022
+    12h -0.082 -0.022  1.000
+
+  1h vs 4h = 0.178 over 79 months -> genuinely different streams
+
+======================================================================================================================
+2. THE BLEND — sleeves share ONE slot cap.  split at 2024-08-29
+======================================================================================================================
+combination            slots |         TUNE (first 60%)         |        DECIDE (last 40%)        
+                             |       /mo      DD    floor     n |       /mo      DD    floor     n
+1h only                    8 |   +15.05%   67.7%       77  4320 |    +8.84%   60.7%       63  2233
+1h only                   12 |   +15.25%   71.0%       86  6109 |   +13.19%   74.3%       97  3191
+1h only                   16 |   +15.04%   74.0%       96  6871 |   +12.08%   75.2%      100  4059
+
+4h only                    8 |   +12.45%   70.1%      173  1075 |    +2.37%   69.4%      170   622
+4h only                   12 |   +13.41%   72.6%      189  1473 |    +2.24%   76.6%      221   912
+4h only                   16 |   +13.10%   73.2%      193  1674 |    +2.04%   78.6%      242  1092
+
+1h + 4h                    8 |   +24.27%   72.7%      190  3205 |   +11.96%   69.0%      167  1697
+1h + 4h                   12 |   +30.39%   87.0%      397  4711 |   +13.62%   78.4%      240  2503
+1h + 4h                   16 |   +39.27%   90.1%      524  5887 |   +17.29%   85.0%      345  3218
+
+1h + 4h + 12h              8 |   +19.24%   63.2%      254  2581 |    +8.32%   57.0%      217  1472
+1h + 4h + 12h             12 |   +29.23%   75.7%      385  3487 |   +13.17%   75.2%      377  2032
+1h + 4h + 12h             16 |   +38.30%   84.0%      584  4617 |   +14.81%   78.1%      426  2603
+
+======================================================================================================================
+3. BY YEAR — does the blend survive 2025-2026, where 1h went flat?
+======================================================================================================================
+combination                 2020      2021      2022      2023      2024      2025      2026      DD      /mo
+1h only                    +274%    +1319%     -159%     +651%    +1049%     -100%     +154%   74.3%  +14.59%
+4h only                     +79%     +914%      +40%      -14%     +849%      +36%      +33%   76.2%   +9.26%
+1h + 4h                    +370%    +1808%      -80%     +680%    +1435%      +10%      +66%   87.0%  +24.75%
+1h + 4h + 12h              +299%    +1783%       +2%     +673%    +1423%     +102%      +14%   75.7%  +23.82%
+
+  (yearly return at 0.30%/unit, summed R x risk - not compounded, so
+   the columns are comparable rather than exact.)
+
+======================================================================================================================
+VERDICT
+======================================================================================================================
+  1h alone, out of sample: +8.84%/month  DD 60.7%  floor $63
+  Nothing beat it on both return and drawdown out of sample.
+  The sleeves differ by year but the blend does not pay for itself -
+  and 12 cells were searched, so a marginal winner would be
+  noise anyway.

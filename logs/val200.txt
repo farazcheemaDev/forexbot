@@ -1,0 +1,89 @@
+VALIDATING THE $200 CONFIGURATION — the three tests it has not passed yet.
+
+THE CONFIGURATION UNDER TEST
+    12 cheap-but-reputable alts, 8 shared slots, 0.30%/unit, breakeven at 3R,
+    long pyramid 5 units / 20xATR trail, short 1 unit / 5xATR trail.
+    Measured: +13.93%/month honest, 87.6% drawdown, ~$200 capital floor on MEXC.
+
+    That figure comes from ONE pass over ONE history with parameters chosen after
+    seeing that history. Before it gets real money it needs to survive tests that
+    can actually fail.
+
+THREE TESTS
+    1. MCPT, shared-index permutation. Shuffle the bars so every coin keeps its
+       return distribution and its correlation to the others, but loses all serial
+       structure. If the real result is not clearly outside the permuted
+       distribution, the strategy is reading noise.
+
+       SHARED index, not per-coin: permuting each coin separately would destroy
+       contemporaneous correlation too, which makes the permuted world far easier to
+       beat and the p-value meaninglessly optimistic.
+
+       Run on the 8 of 12 coins with long history. get_permutation_multi requires an
+       identical index, and intersecting all 12 would collapse the window to ENA's
+       21,443 bars - the exact trap that made an earlier MCPT test a 190-day stub and
+       produced an unusable p-value. 8 coins keeps ~46,800 bars (5.3 years).
+
+    2. SURVIVORSHIP. Run the identical rules on the 199 DELISTED coins, closing any
+       position open at the end. The 12 coins in the book are alive today; if the
+       edge only exists on survivors it will vanish here. This is the test the alt
+       book most needs, because 12 alts is precisely where survivorship hides.
+
+    3. TIME SPLIT. Parameters (0.30% risk, BE@3R, 8 slots, the two trail widths) were
+       all chosen with this history visible. Split 60/40 and also report per year, so
+       a result that only exists in one regime is visible.
+
+FAILURE CRITERIA, FIXED NOW: MCPT p>0.05 | dead-coin mean R <= 0 |
+either time half negative. Any one of those and $200 is not fit for real money.
+
+==============================================================================================================
+BASELINE — the configuration as quoted
+==============================================================================================================
+  6,546 trades  mean R +1.5380  win 20.5%  PF 2.12  CAGR +1135.5%  DD 84.8%  honest +13.93%/month
+
+==============================================================================================================
+1. MCPT — shared-index permutation, 150 permutations
+==============================================================================================================
+  8 coins, common index 46,799 bars (5.34 years) 2021-05-10 -> 2026-09-11
+  REAL on this subset: mean R +1.0548  CAGR +373.4%  n 5,388
+      25/150  permuted mean R +0.0665 +/- 0.1286   beaten by real: 0
+      50/150  permuted mean R +0.0444 +/- 0.1603   beaten by real: 0
+      75/150  permuted mean R +0.0408 +/- 0.1813   beaten by real: 0
+     100/150  permuted mean R +0.0564 +/- 0.1853   beaten by real: 0
+     125/150  permuted mean R +0.0478 +/- 0.1879   beaten by real: 0
+     150/150  permuted mean R +0.0547 +/- 0.1866   beaten by real: 0
+
+  permuted mean R : +0.0547 +/- 0.1866  (real +1.0548)
+  permuted CAGR   : -42.5% +/- 52.9%  (real +373.4%)
+  p(mean R) = 0.0066   (0 of 150 permutations matched or beat the real result)
+  p(CAGR)   = 0.0066   (0 of 150)
+  VERDICT: PASS at the pre-registered 0.05 bar
+
+==============================================================================================================
+2. SURVIVORSHIP — identical rules on the 199 DELISTED coins
+==============================================================================================================
+  197 delisted coins with >= 3000 bars
+  exit at last close (announced delisting)
+    11,411 trades  mean R +0.1631  win 19.3%  PF 1.11  DD 100.0%
+  exit at the stop (collapse)
+    11,411 trades  mean R +0.1592  win 19.2%  PF 1.11  DD 100.0%
+
+  live book mean R for comparison: +1.5380
+  A LOWER mean on dead coins is expected and fine - they died. NEGATIVE
+  would mean the edge needs survivors, which is the failure case.
+
+==============================================================================================================
+3. TIME SPLIT — parameters were chosen with all of this visible
+==============================================================================================================
+  first 60%  2020-02-18 -> 2024-04-25  n   3926  mean R +2.0367 +/- 0.5559  t +3.66  win 21.5%
+  last 40%   2024-05-13 -> 2026-09-11  n   2620  mean R +0.7906 +/- 0.4697  t +1.68  win 18.8%
+
+  2020  n    716  mean R +1.3405  win  21.9%  sumR    +959.8
+  2021  n    780  mean R +5.2032  win  25.4%  sumR   +4058.5
+  2022  n   1009  mean R -0.4851  win  19.9%  sumR    -489.5
+  2023  n   1070  mean R +2.0605  win  19.9%  sumR   +2204.7
+  2024  n   1014  mean R +3.0409  win  20.9%  sumR   +3083.4
+  2025  n   1123  mean R +0.0295  win  19.0%  sumR     +33.2
+  2026  n    834  mean R +0.2608  win  17.4%  sumR    +217.5
+
+  A result carried by ONE year is a regime, not an edge.

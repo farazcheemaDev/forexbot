@@ -1,0 +1,28 @@
+[Unit]
+Description=Polymarket calibration forward test — records data only, no orders
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__USER__
+WorkingDirectory=__APP_DIR__
+ExecStart=__APP_DIR__/.venv/bin/python -u poly_forward.py
+# Restart=always matters more here than for the trading bots. This test needs 120
+# resolutions in one price band and snapshots once a day, so a crash that goes
+# unnoticed for a week costs a week of the sample - and the gap would not be visible
+# afterwards, because the CSV simply has fewer rows.
+Restart=always
+RestartSec=120
+StandardOutput=journal
+StandardError=journal
+# No credentials of any kind. It reads two public Polymarket endpoints and writes one
+# CSV. It cannot place an order because it contains no code that could.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+ReadWritePaths=__APP_DIR__/logs
+
+[Install]
+WantedBy=multi-user.target

@@ -42,6 +42,17 @@ TOKEN = os.getenv("STATUS_TOKEN", "")
 
 # fixed allow-list of readable files. Nothing outside this is ever opened.
 SOURCES = {
+    # THE VALIDATED CONFIGURATION — $221, 12 coins, 1h+4h+12h. Listed first because
+    # it is the one whose numbers mean anything; the others are older
+    # single-timeframe tests kept for comparison.
+    "blend_paper": dict(state=LOGS / "blend_state.json",
+                        trades=LOGS / "trades_blend.csv",
+                        log=LOGS / "blend_paper.log"),
+    # Polymarket calibration forward test. No state file — the CSV of snapshots IS
+    # the state, and it is served as `trades` so the same reader handles it.
+    "poly_forward": dict(state=LOGS / "poly_snapshots.csv",
+                         trades=LOGS / "poly_snapshots.csv",
+                         log=LOGS / "poly_forward.log"),
     "longtrend_paper": dict(state=LOGS / "ltp_state.json",
                             trades=LOGS / "trades_ltpaper.csv",
                             log=LOGS / "longtrend_paper.log"),

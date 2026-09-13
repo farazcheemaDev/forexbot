@@ -1,0 +1,27 @@
+[Unit]
+Description=Blend paper runner — $221, 12 coins x 1h/4h/12h, the validated config
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__USER__
+WorkingDirectory=__APP_DIR__
+ExecStart=__APP_DIR__/.venv/bin/python -u blend_paper.py
+# Restart=always is the whole point of running this on a VM: one crash or one reboot
+# would otherwise silently end a month-long forward test, and the gap would not be
+# obvious afterwards because the state file reloads as if nothing happened.
+Restart=always
+RestartSec=30
+StandardOutput=journal
+StandardError=journal
+# hardening — this bot reads the repo, writes logs/, and needs no credentials at all.
+# It places NO orders on any exchange; it only reads Binance public klines.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+ReadWritePaths=__APP_DIR__/logs
+
+[Install]
+WantedBy=multi-user.target

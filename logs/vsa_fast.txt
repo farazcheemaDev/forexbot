@@ -1,0 +1,108 @@
+SETTLING VSA NOW instead of waiting four months for the forward test.
+
+WHY THE FOUR-MONTH WAIT IS AVOIDABLE
+------------------------------------
+vsa_forward.py exists because I wrote that "the historical crypto holdout has now
+been spent on this question, so no further retrospective slicing can settle it."
+Two things have changed since, and both make that statement wrong.
+
+1. THE HISTORICAL VERDICT WAS MEASURED WITH THE PROFIT CAP.
+   vsa.py, vsa_crossasset.py and vsa_forward.py all use SL=2.0, TP=3.0 - a winner
+   is force-closed at +1.5R. That cap is now known to be the single error that
+   produced false negatives across eighteen families (see holdout_uncapped.py:
+   trend went 3/11 -> 11/11 positive once it was removed). The famous "VSA failed
+   the cross-asset gate, 16/28" is therefore not a spent holdout. It is a
+   CONTAMINATED MEASUREMENT. Re-measuring the same question with a correct exit is
+   new information, not post-hoc slicing of an exhausted sample.
+
+   This also means the forward test as configured cannot answer the money
+   question at all - it inherits the same cap. At best it says whether the
+   absorption filter SEPARATES good trades from bad, with both arms crippled.
+
+2. THERE ARE NOW 202 DELISTED COINS OF GENUINELY VIRGIN DATA.
+   dead_fetch.py downloaded them AFTER every VSA hypothesis was formed, to fix
+   survivorship bias. Nothing about VSA - not the dev cut, not the liquidity
+   split, not the bb_break parameters - was chosen with any knowledge of these
+   series. That is the same epistemic status as forward data, and it is
+   already on disk.
+
+   Forward data arrives at ~3 trades/day/cell. Four months buys ~400 trades per
+   cell. The dead set contains thousands, right now, across 202 independent
+   assets instead of 20 correlated ones. It is a strictly stronger test that
+   costs minutes rather than a third of a year.
+
+   What forward data still has that this does not: it is immune to any
+   preprocessing decision I might unconsciously tune. So this file does not
+   replace vsa_forward.py - it front-runs it, and the forward test keeps
+   accumulating as the independent check.
+
+PREDICTION REGISTERED BEFORE RUNNING: diff > 0 at across-coin t >= 2
+and >half of coins improved. My stated expectation: FAILURE, diff ~0.
+
+loaded 199 delisted coins from D:\forexbot\strategy_analysis\data\dead
+   these were downloaded AFTER every VSA hypothesis was formed -> virgin
+
+======================================================================================================================
+1. THE REAL TEST — 202 DELISTED COINS, VIRGIN DATA. Exit at last close (announced delist).
+======================================================================================================================
+exit rule                  coins n dev<-.5    meanR  win%   n rest     meanR  win%  medR d  t coin    coins+   sign p
+capped 3R (the OLD rule)     171     23585   -0.066  38.5   213831    -0.035  40.0  -0.035   -3.40   68/171    0.0091
+trail 3xATR                  174     15919   -0.025  32.5   224712    +0.055  33.6  -0.051   -1.38   73/174      0.04
+trail 5xATR                  160     10968   -0.080  26.5   147710    +0.079  28.0  -0.108   -1.73   57/160   0.00034
+trail 10xATR                 139      7366   -0.126  18.2    78434    +0.238  19.6  -0.230   -1.92   45/139   3.9e-05
+trail 20xATR                  96      4035   -0.234  11.9    37865   +13.177  13.1  -0.362   -1.14   22/96    9.4e-08
+
+======================================================================================================================
+2. H2 — DOES THE FILTER IMPROVE WITH LIQUIDITY?  (trail 5xATR, dead set, split at this sample's median $vol/bar)
+======================================================================================================================
+exit rule                  coins n dev<-.5    meanR  win%   n rest     meanR  win%  medR d  t coin    coins+   sign p
+HIGH liq (above median $vol)    77      4877   -0.041  27.6    70101    -0.022  28.1  -0.161   -0.24   24/77     0.0013
+LOW  liq (below median $vol)    83      6091   -0.111  25.7    77609    +0.171  27.8  -0.078   -1.76   33/83      0.078
+
+   median split at $49,055/bar
+   per-coin MEDIAN diff:  HIGH -0.1613   LOW -0.0775   differential -0.0837
+   coins improved:        HIGH 24/77   LOW 33/83
+   H2 (HIGH better than LOW): FAILS   — but H2 is only interesting if H1 passed at all
+
+======================================================================================================================
+3. CAUSALITY ROBUSTNESS — dev sampled one bar earlier (what the live bot actually sees)
+======================================================================================================================
+exit rule                  coins n dev<-.5    meanR  win%   n rest     meanR  win%  medR d  t coin    coins+   sign p
+dev at i-1 (vsa.py)          160     10968   -0.080  26.5   147710    +0.079  28.0  -0.108   -1.73   57/160   0.00034
+dev at i-2 (live bot)        154     10358   +0.230  27.4   144186    +0.060  27.9  -0.060   +0.32   65/154     0.063
+
+loaded 20/20 forward-test coins
+   NOT virgin: the liquidity groups were formed after seeing these. Suggestive only.
+
+======================================================================================================================
+4. THE 20 FORWARD-TEST COINS ON HISTORY — what the forward test would say in four months
+======================================================================================================================
+exit rule                  coins n dev<-.5    meanR  win%   n rest     meanR  win%  medR d  t coin    coins+   sign p
+capped 3R (the OLD rule)      20      4096   +0.031  42.8    42321    -0.010  41.4  +0.023   +1.32   11/20       0.82
+trail 3xATR                   20      2184   +0.032  34.9    38498    +0.022  34.5  -0.040   -0.05    9/20       0.82
+trail 5xATR                   20      1613   +0.114  32.2    25791    +0.047  29.2  -0.006   +0.48    9/20       0.82
+trail 10xATR                  18      1044   +0.162  22.9    13262    +0.230  20.8  -0.199   -0.86    7/18       0.48
+trail 20xATR                  15       649   +0.825  17.4     6676    +0.437  14.6  +0.141   +1.19    8/15        1.0
+
+======================================================================================================================
+HOW TO READ THIS
+======================================================================================================================
+HEADLINE = 'coins+' and its sign p. Fraction of independent coins the
+filter improved, tested against a coin flip. It is immune to the
+outlier problem that makes mean R unreadable on this data (a dead
+microcap that rose 1000x before delisting can post an R in the
+thousands, because R's denominator is the ATR from when it was worth
+a fraction of a cent - so a single trade can move a mean over 37,000
+trades by whole R).
+
+SECOND: 't coin', the across-coin t on per-coin differences. Needs
+|t| >= 2 in the POSITIVE direction to support the filter.
+
+IGNORE any large 'meanR' in the rest column at wide trails - that is
+the lottery-ticket effect above, not an edge the filter is missing.
+
+If coins+ is at or below half everywhere, VSA is settled TODAY: the
+filter does not separate, the capped exit was not hiding anything,
+and vsa_forward.py can be stopped rather than run four more months.
+If coins+ is BELOW half significantly, the filter is actively
+harmful - which is still a usable result: invert it or drop volume.

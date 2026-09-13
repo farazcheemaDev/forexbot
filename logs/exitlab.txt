@@ -1,0 +1,110 @@
+THE EXIT LAB — capturing profit that the trail currently gives back.
+
+THE OBSERVATION THIS COMES FROM, and it is a LIVE one, not a backtest
+    Bitget demo, 2026-09-13. Three shorts open, all in profit:
+
+        BTC  entry 77,122  peak +1.78R  ->  later -0.05R
+        ETH  entry 2,485   peak +0.70R  ->  later -0.32R
+        XRP  entry 1.3609  peak +2.13R  ->  later +1.84R
+
+    BTC gave back 1.83R of open profit and captured none of it. A 5xATR trail on a
+    2xATR stop gives back 2.5R before it triggers, so a short has to reach +2.5R
+    before one cent is protected. The current breakeven is set at 3R, so on BTC it
+    never armed at all.
+
+WHAT IS ALREADY RULED OUT
+    A FIXED PROFIT TARGET. Closing the whole position at 1R/2R/3R makes mean R
+    NEGATIVE (-0.048 / -0.029 / -0.021 against the trail's +0.305). It deletes the
+    rare enormous winners that carry everything - the top 25 of 6,054 trades made
+    102% of the profit. That is settled and this file does not retest it.
+
+WHAT HAS NEVER BEEN TESTED - the gap
+    Everything so far has been ALL-OR-NOTHING: either the whole position closes at a
+    target, or the whole position rides a fixed trail. The middle ground is untouched.
+
+    1. PARTIAL SCALE-OUT. Close HALF at +2R, let the other half run on the trail.
+       Fundamentally different from a target: it banks something AND keeps the tail.
+       The reason a full target fails - losing the 1000R trade - does not apply to
+       the half that is still running.
+    2. EARLY BREAKEVEN, SHORT-SPECIFIC. The 1R-6R breakeven sweep applied one
+       threshold to BOTH sleeves. Shorts give back 2.5R on their trail, so they need
+       it earlier than longs do. Never isolated.
+    3. RATCHETING TRAIL. Start wide, tighten as profit grows (5x -> 3x after +2R).
+       The trail sweep tested FIXED widths only.
+    4. GIVE-BACK CAP. Exit when open profit retreats a PERCENTAGE of its peak rather
+       than a fixed ATR distance. Scale-free in profit terms instead of in volatility
+       terms.
+
+METHOD
+    All variants run SINGLE-UNIT on both sleeves so the exit rule is the only thing
+    changing. The live config pyramids the long side, so the absolute numbers here are
+    not the live book's - the RANKING between exit rules is what transfers.
+
+    Within a bar the stop is checked FIRST and wins ties, the pessimistic assumption
+    used everywhere in this project. A scale-out level triggers on the bar's extreme,
+    which is correct for a resting limit order - it would have filled - and is not the
+    same as using the extreme to make a market decision.
+
+REGISTERED PREDICTION: scale-out helps SHORTS clearly, longs roughly
+break even. Early breakeven helps shorts. Ratchet and give-back are
+reparameterisations with no independent benefit.
+
+================================================================================================================
+SHORT sleeve (trail 5xATR) — single unit, so the exit rule is the only variable
+================================================================================================================
+exit rule                               n    meanR   win%      maxR  HONEST /mo      DD
+baseline: trail only                 7026   -0.036   30.9      28.0      -0.35%   75.5%
++ breakeven @3R (current)            7026   -0.036   30.9      28.0      -0.34%   75.4%
++ breakeven @1.0R                    8810   -0.122   20.8      28.0      -1.17%   96.8%
++ breakeven @1.5R                    7466   -0.067   27.3      28.0      -0.62%   85.8%
++ breakeven @2.0R                    7112   -0.044   30.1      28.0      -0.41%   77.9%
+scale 50% @1R, rest trails           7026   -0.024   45.1      14.5      -0.23%   60.8%
+scale 50% @2R, rest trails           7026   -0.013   34.7      15.0      -0.14%   55.4%
+scale 50% @3R, rest trails           7026   -0.016   31.0      15.5      -0.17%   58.7%
+scale 33% @1R +33% @2R               7026   -0.013   39.5      10.3      -0.13%   50.3%
+scale 50% @2R + BE@2R                7112   -0.016   34.7      15.0      -0.16%   57.9%
+scale 50% @1.5R + BE@1.5R            7466   -0.032   40.8      14.7      -0.31%   64.6%
+ratchet: tighten x0.6 @2R            8668   -0.052   34.6      20.4      -0.56%   80.8%
+ratchet: tighten x0.4 @3R            8286   -0.003   30.9      30.0      -0.08%   49.9%
+
+  current rule (BE@3R): mean R -0.036, DD 75.4%, -0.34%/mo
+  BEATS IT on mean R and drawdown:
+    ratchet: tighten x0.4 @3R        mean R -0.003 (+0.032)  DD 49.9%  -0.08%/mo
+    scale 33% @1R +33% @2R           mean R -0.013 (+0.023)  DD 50.3%  -0.13%/mo
+    scale 50% @2R, rest trails       mean R -0.013 (+0.023)  DD 55.4%  -0.14%/mo
+    scale 50% @2R + BE@2R            mean R -0.016 (+0.020)  DD 57.9%  -0.16%/mo
+    scale 50% @3R, rest trails       mean R -0.016 (+0.019)  DD 58.7%  -0.17%/mo
+    scale 50% @1R, rest trails       mean R -0.024 (+0.012)  DD 60.8%  -0.23%/mo
+    scale 50% @1.5R + BE@1.5R        mean R -0.032 (+0.004)  DD 64.6%  -0.31%/mo
+
+================================================================================================================
+LONG sleeve (trail 20xATR) — single unit, so the exit rule is the only variable
+================================================================================================================
+exit rule                               n    meanR   win%      maxR  HONEST /mo      DD
+baseline: trail only                 3086   +0.573   12.3     220.5      +2.21%   72.7%
++ breakeven @3R (current)            3403   +0.477   10.1     215.0      +2.03%   60.9%
++ breakeven @1.0R                    5511   +0.117    5.1     220.5      +0.46%   83.4%
++ breakeven @1.5R                    4206   +0.307    7.5     215.0      +1.47%   73.5%
++ breakeven @2.0R                    3741   +0.388    8.9     215.0      +1.74%   71.5%
+scale 50% @1R, rest trails           3086   +0.239   14.6     110.7      +0.89%   58.8%
+scale 50% @2R, rest trails           3086   +0.241   32.0     111.2      +0.89%   61.0%
+scale 50% @3R, rest trails           3086   +0.254   24.7     111.7      +0.95%   55.8%
+scale 33% @1R +33% @2R               3086   +0.129   32.0      74.4      +0.46%   54.7%
+scale 50% @2R + BE@2R                3741   +0.152   32.3     108.5      +0.65%   61.4%
+scale 50% @1.5R + BE@1.5R            4206   +0.115   39.0     108.2      +0.53%   60.7%
+ratchet: tighten x0.6 @2R            4039   +0.360   17.0     244.8      +1.78%   60.7%
+ratchet: tighten x0.4 @3R            4826   +0.158   20.5     114.0      +0.89%   68.1%
+
+  current rule (BE@3R): mean R +0.477, DD 60.9%, +2.03%/mo
+  nothing beat it on both mean R and drawdown.
+
+================================================================================================================
+HOW TO READ THIS
+================================================================================================================
+The question is NOT whether a rule banks more often - a fixed target banks
+constantly and loses money. It is whether mean R rises while the maxR
+column stays large. A variant that lifts win% and collapses maxR has
+recreated the profit cap under a new name.
+
+Judge the SHORT table first: that is where the live give-back happened,
+and a 5xATR trail on a 2xATR stop structurally gives back 2.5R.

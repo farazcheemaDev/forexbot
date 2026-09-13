@@ -1,0 +1,85 @@
+BAR CONSTRUCTION — the axis this project never touched.
+
+THE GAP
+    19 indicator families were tested and all 19 detected the same phenomenon, which
+    closed the indicator search. But every one of those tests - and every test in this
+    project - ran on TIME bars: 1h, 4h, 12h, 1D. Bar CONSTRUCTION was never varied.
+
+    That is a different axis from "which indicator", and there is a real reason to
+    expect it to matter. A time bar samples the market on a clock regardless of what
+    is happening in it, so a dead Sunday hour and a hour containing an ETF approval
+    get equal weight. Crypto activity swings by more than an order of magnitude, so
+    time bars systematically oversample quiet stretches and undersample violent ones.
+    Sampling on ACTIVITY instead of on the clock is the standard fix and is known to
+    produce returns closer to IID with better signal-to-noise.
+
+BAR TYPES TESTED
+    time        1h, the control
+    dollar      a new bar each time $X of volume has traded
+    volume      a new bar each time N units have traded
+    heikin      Heikin-Ashi smoothing of the 1h series
+    renko       a new brick each time price moves k x ATR
+
+THE TRAP THIS FILE IS BUILT TO AVOID
+    Heikin-Ashi and Renko prices ARE NOT TRADEABLE PRICES. An HA close is an average
+    of four numbers; a Renko brick closes at a synthetic level. Computing R from them
+    would report profits at prices that never existed - the same class of error as the
+    price-mirror bug, which flattered shorts 4x by trading a transformed series.
+
+    So: SIGNALS are generated on the transformed bars, and EXECUTION - entry, stop,
+    trail, fees - happens on the REAL 1h OHLC. A signal on a constructed bar is mapped
+    back to the last underlying 1h bar it contains, and the trade opens at the next 1h
+    open. Dollar and volume bars are aggregates of real 1h bars so their OHLC are real
+    prices, but they are executed the same way for consistency.
+
+    This also keeps the comparison honest in a second way: every bar type is executed
+    by the same engine at the same 1h granularity, so a difference in the result is a
+    difference in the SIGNAL, not in the fill model.
+
+WHAT WOULD MAKE THIS INTERESTING
+    Mean R materially above the time-bar control on the SAME trades-per-year scale. A
+    bar type that trades a tenth as often and earns twice as much per trade has not
+    improved anything - trade count is what compounds. So trades and mean R are
+    reported together, and the micro-account odds are recomputed for the best cell,
+    because that is where a better edge actually changes an outcome.
+
+REGISTERED PREDICTION: dollar bars beat time bars; volume bars worse;
+Heikin-Ashi looks great and is a trap once execution is on real prices;
+Renko ~ time bars.
+
+median dollar volume per 1h bar across the book: $1,594,283
+median unit volume per 1h bar: 1,939,780
+
+======================================================================================================================
+bar type                  bars/coin   trades  trades/yr    meanR   honest   win%      maxR       t
+======================================================================================================================
+TIME 1h (control)            49,421   10,800      1,646   +0.229   +0.076   24.2     220.8   +3.97
+TIME 4h (control)            12,356    5,723        874   +0.369   +0.123   23.8     223.5   +4.22
+DOLLAR ~1h of volume         33,754    8,898      1,356   +0.248   +0.083   24.4     186.2   +4.09
+DOLLAR ~4h of volume         18,982    6,623      1,010   +0.238   +0.079   24.6     186.2   +3.54
+DOLLAR ~12h of volume         9,552    4,600        704   +0.232   +0.077   24.0     162.6   +3.10
+VOLUME ~4h of units          19,874    5,842        890   +0.311   +0.104   23.8     220.8   +3.53
+HEIKIN-ASHI on 1h            49,421   10,404      1,585   +0.253   +0.084   24.7     220.8   +4.21
+RENKO brick 1xATR             9,922    5,187        792   +0.403   +0.134   23.9     241.4   +4.31
+RENKO brick 2xATR             3,209    3,125        481   +0.517   +0.172   25.2     193.1   +4.28
+
+======================================================================================================================
+AGAINST THE 1h CONTROL — a better mean R only helps if the trade count holds up
+======================================================================================================================
+  control: +0.229 mean R on 1,646 trades/yr  (honest +0.076)
+  RENKO brick 2xATR        meanR  +0.288  trade rate  0.29x  total-edge  0.66x
+  RENKO brick 1xATR        meanR  +0.174  trade rate  0.48x  total-edge  0.85x
+  TIME 4h (control)        meanR  +0.140  trade rate  0.53x  total-edge  0.86x
+  VOLUME ~4h of units      meanR  +0.082  trade rate  0.54x  total-edge  0.73x
+  HEIKIN-ASHI on 1h        meanR  +0.024  trade rate  0.96x  total-edge  1.06x
+  DOLLAR ~1h of volume     meanR  +0.019  trade rate  0.82x  total-edge  0.89x
+  DOLLAR ~4h of volume     meanR  +0.009  trade rate  0.61x  total-edge  0.64x
+  DOLLAR ~12h of volume    meanR  +0.003  trade rate  0.43x  total-edge  0.43x
+
+READ 'total-edge': mean R x trades per year, relative to the control.
+That is what compounds. A bar type with double the edge per trade and a
+fifth of the trades scores 0.4x and is worse, however good the meanR looks.
+
+And treat HEIKIN-ASHI with suspicion whatever it scores: its bars are
+averages, not prices. Execution here is on real 1h OHLC precisely so that
+its smoothing cannot pay for itself with fills that never existed.

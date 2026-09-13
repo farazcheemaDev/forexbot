@@ -593,6 +593,388 @@ floor while the config risks 0.1% per unit.
   a result disappoints, check what the engine was never allowed to do before
   looking for a better signal.
 
+## THE PRICE-MIRROR BUG (2026-09-12) — never transform data to reuse an engine
+
+To trade shorts through a long-only pyramid engine I mirrored each price series
+around **twice its first close** and traded the mirror as a long. That is valid
+only if price never doubles.
+
+    SOLUSDT: first close 2.95 -> mirror base 5.90; max close 286.24
+             mirrored price at the high = -280.34
+             92% of bars had a NEGATIVE mirrored price
+
+`run_uncapped` charges the fee as `fee * entry_price`, so a negative or wildly
+wrong "price" charged a wrong fee. It **flattered shorts ~4x**: +0.117R reported
+against a true +0.028R.
+
+**Caught only because two of my own files disagreed on identical trade counts** —
+`shortside.py` (native short path, `d = -1`) said +0.0284R on n=7313 while the
+mirrored version said +0.117R on the same 7313 trades. After the fix both report
++0.0284R exactly.
+
+`run_uncapped` had handled shorts correctly all along: stop above entry, trail
+above the low water mark ratcheting down, `R = (exit-entry)*d/risk`, fee on the
+real price. **The wrapper was never needed.**
+
+### Numbers this invalidated (do not cite these)
++11.04%/month at matched drawdown; "shorts improve MAR"; profit concentration of
+22.5%/50.2%/70.1%; the 0.16%/0.20% risk rows (+12.92%, +15.14%/month).
+
+### Corrected results
+| config | risk/unit | CAGR | DD | per month |
+|---|---|---|---|---|
+| long only | 0.10% | +205.4% | 72.2% | +9.75% |
+| long + short | 0.10% | +173.2% | 65.3% | +8.73% |
+| long + short | 0.13% | +240.1% | 74.8% | +10.74% |
+
+Interpolating the two-sided curve to long-only's 72.2% drawdown gives ~+222%/yr,
+about **+10.2%/month against +9.75%** — so shorts are worth roughly **half a point
+a month**, not the 1.3 points first claimed. They also still rescue the losing
+years (2022 −27.7%→−12.0%, 2025 −29.1%→−3.2%), which is worth more than the half
+point in a market that stops rising.
+
+### Rules added
+- **Never transform the price series to reuse an engine.** Add the direction to the
+  engine instead. Any transform that assumes something about price levels (that it
+  will not double, not go negative, stay in a range) will break on real data.
+- **Run every important measurement two independent ways.** Disagreement between two
+  of your own implementations is the cheapest bug detector available, and it is the
+  only thing that caught this.
+- **Suspect any fee that is not charged on a real, observed price.**
+
+## VSA IS DEAD (2026-09-13) — and a "spent holdout" was not actually spent
+
+`vsa_forward.py` was built on the claim that "the historical crypto holdout has now
+been spent on this question, so no further retrospective slicing can settle it" —
+committing to a FOUR MONTH wait. That claim was wrong on two counts, and
+`backtest/vsa_fast.py` settled the question in twenty minutes.
+
+### Why the holdout was not spent
+1. **Every VSA measurement used the profit cap.** `vsa.py`, `vsa_crossasset.py` and
+   `vsa_forward.py` all run SL=2.0 / TP=3.0 — a winner force-closed at +1.5R. The
+   famous "failed the cross-asset gate, 16/28" was therefore not an exhausted
+   sample, it was a CONTAMINATED MEASUREMENT. Re-running the same question with a
+   correct exit is new information, not post-hoc slicing.
+2. **199 delisted coins were already on disk**, downloaded by `dead_fetch.py`
+   AFTER every VSA hypothesis was formed. Nothing about VSA — the dev cut, the
+   liquidity split, the bb_break parameters — was chosen with any knowledge of
+   those series. That is the epistemic status of forward data, available now.
+   238,000 trades across 199 independent assets, against the forward test's
+   ~3 trades/cell/day.
+
+The prediction, including the expectation of failure, was registered in the
+`vsa_fast.py` docstring before the first run.
+
+### Result: the filter is ANTI-predictive, not merely useless
+199 delisted coins, every bb_break signal taken once, dev recorded at entry and
+never used to gate (paired design, one pass, so position overlap cannot differ
+between cells).
+
+| exit | filter meanR | win% | rest meanR | win% | median per-coin diff | coins improved | sign p |
+|---|---|---|---|---|---|---|---|
+| capped 3R (old) | -0.066 | 38.5 | -0.035 | 40.0 | -0.035 | 68/171 | 0.0091 |
+| trail 3xATR | -0.025 | 32.5 | +0.055 | 33.6 | -0.051 | 73/174 | 0.040 |
+| trail 5xATR | -0.080 | 26.5 | +0.079 | 28.0 | -0.108 | 57/160 | 0.00034 |
+| trail 10xATR | -0.126 | 18.2 | +0.238 | 19.6 | -0.230 | 45/139 | 3.9e-05 |
+| trail 20xATR | -0.234 | 11.9 | (outlier) | 13.1 | -0.362 | 22/96 | 9.4e-08 |
+
+Fewer than half the coins improved under EVERY exit rule, significant at p<0.001
+at the trails actually traded. Three confirmations:
+
+* **The liquidity hypothesis is backwards on virgin data.** HIGH-liquidity half
+  24/77 coins improved (p=0.0013); LOW half 33/83 (p=0.078). The story that
+  justified the forward test's entire HIGH/LOW design fails in the opposite
+  direction.
+* **Wider trails make it worse** (-0.035R -> -0.362R). If the cap had been hiding
+  an edge, uncapping would reveal one. It reveals the opposite.
+* **On the 20 forward-test coins it is a coin flip** — 8-11 of 20 in every row,
+  sign p 0.48-1.0. The one mildly positive cell in the whole output (+0.041R,
+  t_pool +2.02, 11/20) is the CAPPED exit on the NON-VIRGIN coins. That is exactly
+  what the original finding was.
+
+### Why the original p=0.0099 was an artifact
+It pooled trades. Pooling treats 40,000 trades as 40,000 independent draws, but
+crypto coins move together, so one good market stretch inflates a pooled t
+enormously. On the live coins the pooled t is +2.02 while the across-coin t is
++1.32 and the coin count is 11/20.
+
+### Mean R is unreadable on delisted microcaps
+At a 20xATR trail the rest cell shows mean R +13.177. A dead microcap that rose
+1000x before delisting posts an R in the thousands, because R's denominator is the
+ATR from when it was worth a fraction of a cent — one trade moves a mean over
+37,865 trades by whole R. The returns are real; the MEAN measures which cell caught
+the lottery ticket. Hence the sign test as headline: a coin counts once whether its
+best trade made 1R or 5000R.
+
+A matching diagnostic: shifting dev one bar (i-1 -> i-2, what the live bot sees)
+FLIPS the pooled diff from -0.080/+0.079 to +0.230/+0.060, while the coin counts
+stay below half in both (57/160, 65/154). The fragile statistic reverses, the robust
+one holds. That gap is how you tell which to trust.
+
+### Rules added
+- **A "spent holdout" is not spent if the measurement itself was broken.**
+  Re-measuring a contaminated result is new information. Check what exit rule,
+  fee model and universe a killed verdict used before accepting the kill.
+- **Before committing to a forward test, look for a dataset that postdates the
+  hypothesis.** Delisted assets, a newly added venue, a different asset class:
+  any data downloaded after the idea was formed is virgin, and it is available
+  today. A months-long wait is only justified when no such data exists.
+- **The unit of independence in crypto is the COIN, not the trade.** Report a
+  pooled statistic and an across-coin statistic side by side in every filter test.
+  When they disagree, the pooled one is measuring market direction.
+- **On heavy-tailed data, count assets instead of averaging returns.** A sign test
+  across assets is immune to single-trade outliers. Add median-per-asset alongside
+  every mean.
+- **Shift the indicator one bar as a robustness check.** A real effect does not
+  reverse sign; a statistic that does was never measuring the indicator.
+
+## THE CAPITAL FLOOR IS A STRATEGY CONSTRAINT (2026-09-13)
+
+Measured in `backtest/venue_floor.py`, `backtest/small_book.py`,
+`backtest/cheap_wide.py`. This closes the "can it run on small capital" question.
+
+### The floor, and why it is an absorbing barrier
+    floor = min_order_notional x stop_fraction / risk_fraction / (1 - maxDD)
+
+Divided by (1 - maxDD) because an account below the venue's minimum order cannot
+place a trade, and recovery comes from trades. It is a one-way door, not an
+inconvenience.
+
+Three wrong answers were given before this was measured properly - $9, then
+$116/$35 - each computed off the CHEAPEST coin in the book instead of the binding
+one, and each too low. A portfolio's floor is set by its most EXPENSIVE contract,
+because the book needs every coin in it. ETH's 0.01 step is ~$25 of notional and
+that single fact sets the 9-coin book's floor at ~$1,140.
+
+### The finding that generalises
+**Chasing return with risk RAISES the capital floor rather than lowering it.**
+Doubling risk per unit roughly doubles CAGR but more than doubles drawdown, and the
+(1 - maxDD) term then explodes: at 94% drawdown the padding required is 16x what it
+is at 0%. So "just use more risk to hit the target on less money" is arithmetically
+backwards.
+
+26 combinations of book size (6-20 coins), slot cap (8-20) and risk
+(0.13-0.30%/unit) were swept on the 20 most liquid MEXC contracts with a minimum
+order under $2.50 (so ETH and BTC excluded by construction):
+
+| config | capital | honest /month | maxDD |
+|---|---|---|---|
+| 9 major coins, 0.13%/unit (validated) | $1,140 | +10.73% | 67.5% |
+| 12 cheap coins, 0.30%/unit | $438 | +12.18% | 94.3% |
+| 20 cheap coins, 0.13%/unit | $272 | +6.30% | 78.0% |
+| 12 cheap coins, 0.13%/unit | $184 | +5.81% | 68.7% |
+
+**EVERY cell clearing +10%/month had maxDD 94-99%. No exceptions in 26 cells.**
+Nothing under $438 cleared it at any risk level.
+
+### Cheap contracts are genuinely worse per unit of risk
+Median stop distance is 2.5-3.8% of price on the cheap book against 1.2-2.2% on
+majors. Wider stops mean noisier breakouts, so more risk is needed for the same
+return, and risk compounds into drawdown. At k=4 the cheap book earned 47pp less
+CAGR than the major book. This is a real penalty, not a data artifact.
+
+### The slot cap was binding and raising it does not help
+At 12 coins with the inherited 8 slots, more trades were DECLINED (5,394) than
+taken (2,782). Raising slots to 12 lifted raw return but pushed maxDD 68.7% ->
+81.2%, so the floor rose from $184 to $305 - worse on the only axis that matters.
+Breadth beyond roughly SLOTS+1 buys drawdown, not return.
+
+### Rules added
+- **A portfolio's capital floor is set by its most expensive contract**, never its
+  average or cheapest. Compute it per coin and take the max.
+- **Quote the floor at the BOTTOM of the measured drawdown**, not at starting
+  equity. A configuration that cannot trade at its trough has a return of zero.
+- **Never propose higher risk as a route to a lower capital requirement.** Check
+  the (1 - maxDD) term before suggesting it; it usually reverses the conclusion.
+- **Report the minimum-order source and date.** Exchange metadata is a claim to
+  verify with one real demo order, and step sizes are priced in the coin, so an
+  ETH-priced step moves with ETH.
+
+## DRAWDOWN CONTROL (2026-09-13) — a breakeven stop is not a profit cap
+
+`backtest/ddcontrol.py`. Prompted by the LIVE bot, not a backtest: three demo shorts
+were open at +0.70R to +2.13R and all three had stops still on the losing side of
+entry. A 5xATR trail gives back 2.5R and a 20xATR trail gives back 10R, so nothing
+is protected until a trade is deep in profit. That gap is where drawdown lives and
+it had never been tested against.
+
+### The result
+12 cheap contracts, 8 slots, breakeven threshold swept 1R-6R at two risk levels:
+
+| risk | control | honest /month | maxDD | floor |
+|---|---|---|---|---|
+| 0.30 | none | +12.17% | 95.2% | $520 |
+| 0.30 | breakeven @3R | **+13.93%** | **87.6%** | **$200** |
+| 0.13 | none | +5.81% | 71.0% | $197 |
+| 0.13 | breakeven @3R | +6.38% | 58.8% | $139 |
+
+Capital requirement down 61%, return UP. The drawdown was waste, not risk premium.
+
+### Why it does not repeat the profit-cap error
+A profit TARGET caps the ceiling and deletes the rare enormous winners the strategy
+lives on. A breakeven STOP raises the floor and leaves the ceiling open - the trail
+still runs to 20xATR. Opposite mechanism. This distinction is worth holding onto: it
+is the difference between the worst error in this project and one of the better
+findings.
+
+### Why the result is believed
+Swept 1R-6R at 0.13 and 0.30: **12 of 12 cells reduced maxDD**, and BOTH risk levels
+peak at 3R on a smooth curve with 2R and 4R also beating baseline. A smooth
+single-peaked response at the same location under two different risk settings is
+evidence. Compare the FIRST pass of this same test, which showed a spike at 3R with
+4R markedly worse - that was the signature of the bug below, not of an edge.
+
+### Two bugs found in this file, both of which flattered the result
+1. **Look-ahead in the drawdown throttle.** Trades were walked in ENTRY order and
+   each R compounded on arrival, then that running equity decided whether to
+   throttle. With 8 concurrent slots the throttle was sized using the OUTCOME of
+   positions that had entered earlier and not yet exited. It inflated the throttle's
+   return by ~5%/month (+12.97% -> +7.82%) and reported a $90 floor where the causal
+   version gives $102. Fix: hold trades pending until their EXIT time and let the
+   throttle see realized equity only - which is what a live bot sees, because
+   unrealized P&L on an open position is not equity you can size from.
+2. **Two different rules compared as one.** Longs got trail-plus-breakeven-floor;
+   shorts got `run_uncapped(mode="breakeven")`, which SUSPENDS the trail until the
+   threshold is met. So variant A mixed a protection change with a holding-period
+   change. The tell was the trade count FALLING below baseline as the threshold rose,
+   which a pure breakeven floor cannot do. Fixed by adding `be_at` to run_uncapped
+   as a mode-independent floor.
+
+### What failed
+* **Volatility targeting** - the standard institutional drawdown control, and my
+  registered prediction for best of the four. Raised return but raised maxDD more;
+  the floor went UP 84-183%. Scaling size up in quiet periods loads the book right
+  before volatility expands.
+* **Drawdown throttle** (halve risk 25% below peak) - cuts maxDD to 79.6% but costs
+  4.3 points of monthly return, falling below target.
+* **Going flat in a drawdown** - destroys the strategy (+0.46%/month). Recoveries
+  begin at the bottom; a flat book misses them.
+
+### Rules added
+- **A stop that raises the floor is safe; a target that caps the ceiling is not.**
+  Never generalise the profit-cap finding into "don't manage exits".
+- **Sweep the parameter, don't report the best cell.** A smooth single-peaked
+  response at a consistent location across other settings is evidence. A spike whose
+  neighbours are much worse is a fitted number or a bug - here it was a bug.
+- **Position sizing may only read REALIZED equity.** Any rule that reads the equity
+  curve must settle trades at their exit time, or it sizes using outcomes that have
+  not happened. Check this in every adaptive-risk rule.
+- **One change per variant.** If two sleeves implement "the same" control with
+  different engine modes, the variant measures neither.
+
+## WHY A $50 ACCOUNT CANNOT REACH +10%/MONTH (2026-09-13)
+
+`backtest/floor50.py`. Three routes, all attacking the term that sets the floor -
+`min_order x stop_fraction` of the single WORST coin in the book.
+
+1. **Breakeven @3R on the 9 majors.** Return +10.72% -> **+11.80%/month**, maxDD
+   67.6% -> 66.9%, floor $1,143 -> $1,122. Return improvement is free and worth
+   adopting; the drawdown barely moves. Prediction of maxDD 55-62% was WRONG, and
+   the reason matters: the alts' 95% drawdown was per-trade waste, which a stop
+   rule fixes. The majors' 67% is CORRELATED PORTFOLIO drawdown - all nine falling
+   together - and no per-trade exit rule touches it.
+2. **Substitute rather than drop the expensive coin.** Rank every liquid MEXC
+   contract by min_order x stop_fraction, take the cheapest 9-16. Floors came out
+   tiny and **every book drew down 99.6-100%**.
+3. **Same search with a hard liquidity floor** ($400k and $1M median $vol/bar).
+   Still 91.7-100% maxDD; best honest return across the whole cheap-minimum search
+   was +5.38%/month. One cell reached a **$26** floor at +4.61%/month, 96.7% maxDD.
+
+### The structural reason, which is the reusable part
+**A contract's minimum order is small because the coin's PRICE is low, and coins
+reach a low price by FALLING.** Selecting for a low minimum order therefore selects
+for coins in decline - the search kept surfacing ILV, ICX, CVC, GALA, COTI at
+$30k-170k of volume per bar against XRP's $6.8M. Low capital requirement and high
+return are not two dials to trade off; they are anti-correlated through the coin's
+price history. No filter fixes this, because the filter is the problem.
+
+### Final capital answer
+| config | honest /month | maxDD | floor |
+|---|---|---|---|
+| 12 reputable alts, 0.30%/unit, BE@3R | +13.93% | 87.6% | $200 |
+| 9 majors, 0.13%/unit, BE@3R | +11.80% | 66.9% | $1,122 |
+| anything below $50 | <= +5.38% | 91-100% | - |
+
+$200 is the cheapest config clearing +10%/month, and at 87.6% maxDD it holds ~$25 at
+the trough - exactly its own minimum requirement, so it survives by nothing. The
+$1,122 major book is the one fit for real funds.
+
+### Rules added
+- **A low capital floor and a high drawdown in the same row is near
+  self-contradictory.** The floor already divides by (1 - maxDD), so a 97% drawdown
+  row is claiming the account can trade on cents. Prefer the LOWEST DRAWDOWN that
+  clears the target, not the lowest floor.
+- **Never select instruments on a property correlated with price decline.** Minimum
+  order size, unit price, and tick size all encode how far a coin has fallen.
+- **Engine cross-check:** floor50's chain reproduced the independently validated
+  +10.73%/month on the 9-major book to two decimals (+10.72%). Any new engine must
+  hit that number before its other outputs are quoted.
+
+## ADAPTIVE-BY-EQUITY: THE PRINCIPLE HOLDS, THE MECHANISM DOES NOT (2026-09-13)
+
+`backtest/bootstrap_tier.py`. Proposal under test: take profit at a fixed target
+while the account is small, to climb to a threshold, then switch to the trailing
+rule. The reasoning is legitimate - near an absorbing barrier the objective is
+P(reach target before ruin), not expected growth, and capping the right tail cuts
+variance hard in a fat-tailed distribution.
+
+### Why it fails: the cap does not lower the edge, it REVERSES it
+| exit | mean R | win% |
+|---|---|---|
+| trailing (validated) | **+0.3049** | 24.8 |
+| TP@1R | **-0.0481** | 67.4 |
+| TP@2R | **-0.0289** | 51.5 |
+| TP@3R | **-0.0212** | 41.5 |
+
+Negative expectancy at every target. No bet-sizing rule makes a losing bet reach a
+goal, and the simulation confirms 0.0% P(reach 5x) from every stake. TP@1R wins 67%
+of trades while losing money - the highest win rate in the project attached to the
+worst expectancy, which is worth remembering the next time a win rate is quoted as
+evidence.
+
+### What the simulation DID find: the venue is the cause of small-account ruin
+Bitget's $5 minimum order against a 2.43% stop forces $0.12 of risk per trade - 0.61%
+of a $20 account, ~5x the validated 0.13%. The venue makes a small account gamble.
+
+Same edge, same exit, only the minimum order changes:
+
+| stake | floor | forced risk | P(5x) | P(ruin) | median end |
+|---|---|---|---|---|---|
+| $10 | Bitget $5.00 | 1.22% | 24.8% | **74.6%** | $0 |
+| $10 | MEXC XRP $1.34 | 0.33% | 12.3% | **32.4%** | $15 |
+| $10 | MEXC ADA $0.21 | 0.13% | 5.3% | **0.0%** | $13 |
+| $20 | Bitget $5.00 | 0.61% | 25.2% | **56.4%** | $0 |
+| $20 | MEXC ADA $0.21 | 0.13% | 5.3% | **0.0%** | $25 |
+
+**The correct tier rule: small capital -> low-minimum VENUE and low-minimum coins at
+the INTENDED risk; larger capital -> majors and full breadth.** The adaptation is
+where and what you trade, not when you take profit.
+
+### Method notes
+* **Block bootstrap, not i.i.d.** Blocks of 20 trades preserve the losing streaks
+  that actually kill small accounts; an i.i.d. resample scatters them and flatters
+  every variant equally.
+* **Position sizing must be `max(min_order, risk_target)`.** A percentage-only
+  simulation hides the trap: a shrinking account does not risk a shrinking amount,
+  it risks a rising FRACTION. This one line is what surfaced the venue finding.
+* **The growth column is pessimistic and the ruin column is the robust output.**
+  The sim runs ONE unit with non-overlapping trades, so exposure is ~5-8x below the
+  live 5-unit/8-slot config. Quote the ruin ordering, not the median equity.
+* **Deflate the edge before quoting survival odds.** The raw R came from a fixed book
+  of today's survivors; mean R was cut 3x (subtracting 2/3 of the mean, preserving
+  variance and tail shape) before any probability was reported. On the undeflated
+  edge $20 showed 66.5% P(reach 5x); deflated it is 25.2%. Reporting the first would
+  have been the fourth over-promise on capital in this project.
+
+### Rules added
+- **A high win rate is not evidence of an edge.** TP@1R: 67.4% winners, -0.048R.
+  Always quote mean R next to any win rate.
+- **Never quote a survival probability from an undeflated edge.** Apply the hindsight
+  correction to the distribution BEFORE the Monte Carlo, not to the answer after.
+- **Check whether the VENUE, not the strategy, is producing the result.** Minimum
+  order size silently sets the risk floor for a small account, and no strategy
+  parameter can override it.
+
 ## Standing rules
 
 1. Carve the holdout **first**, before any exploration. Never load it twice.

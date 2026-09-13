@@ -1,0 +1,113 @@
+CUTTING THE DRAWDOWN — which is the same problem as cutting the capital needed.
+
+WHY THESE TWO ARE ONE PROBLEM
+    The capital a configuration needs is
+
+        floor = min_order x stop_fraction / risk_fraction / (1 - maxDD)
+
+    so drawdown enters as 1/(1 - maxDD) and dominates everything else once it goes
+    past ~80%. The 12-coin cheap book earns +12.18%/month at a 94.3% drawdown and
+    needs $438. Hold the return and cut the drawdown to 60% and the SAME book needs
+    about $62. Cut it to 50% and it needs $50.
+
+    So "reduce the drawdown" and "start with less capital" are not two goals. They
+    are one number.
+
+THE OBSERVATION THAT PROMPTED THIS, FROM THE LIVE BOT
+    Three shorts open on the Bitget demo, 2026-09-13 11:00 UTC:
+
+        BTC  entry 77,122  stop 77,334  open +1.78R   stopped out = -0.85R
+        XRP  entry 1.3609  stop 1.3692  open +2.13R   stopped out = -0.87R
+        ETH  entry 2,485   stop 2,504   open +0.70R   stopped out = -1.00R
+
+    Every one winning, every one still guaranteed to close at a LOSS. A 5xATR trail
+    gives back 2.5R, so nothing is protected until +2.5R; a 20xATR trail on the long
+    side gives back 10R. The gap between open profit and LOCKED profit is where the
+    drawdown lives, and it has never been tested against.
+
+FOUR CONTROLS, ALL UNTESTED IN THIS PROJECT
+    A  BREAKEVEN STOP. Move the stop to entry once the trade reaches +NR, then let
+       the trail continue. Costs some runners - a trade that would have gone to
+       +30R can now be stopped at 0 - which is exactly the profit-cap failure mode,
+       so this is the one to distrust.
+    B  DRAWDOWN THROTTLE. Halve (or zero) risk while equity is more than X% below
+       its peak. Cannot cost anything in a rising market and mechanically shortens
+       the bottom of a decline. The classic objection: it also delays the recovery,
+       because recoveries start at the bottom.
+    C  VOLATILITY TARGETING. Scale each trade's risk by target_vol / vol_at_entry,
+       so quiet periods get more size and violent ones less. This is the standard
+       institutional drawdown control and the single most likely of the four to
+       work. Never tried here.
+    D  A + B together.
+
+    Each is measured against the SAME baseline on the SAME engine, and every row
+    reports the CAPITAL FLOOR, because a control that cuts return by 20% and
+    drawdown by half has made the strategy cheaper to run and is therefore a win,
+    which a CAGR-only table would call a loss.
+
+REGISTERED PREDICTION: vol targeting helps most; breakeven roughly
+neutral because it truncates runners. If nothing beats the baseline on
+FLOOR, the 94% drawdown is structural.
+
+book: 12 cheap contracts, 8 slots, fee 12.0bp
+every row reports the CAPITAL FLOOR - that is the scoreboard, not CAGR
+
+====================================================================================================================
+variant                   risk%      n   raw /mo  HONEST /mo      DD   floor $   vs base  note
+====================================================================================================================
+baseline                   0.13   6066   +12.03%      +5.81%   71.0%       197            
+A  breakeven @1.0R         0.13   9055   +11.42%      +5.43%   70.1%       192       -3%  
+A  breakeven @2.0R         0.13   7047   +12.49%      +6.10%   66.9%       173      -12%  
+A  breakeven @3.0R         0.13   6546   +12.93%      +6.38%   58.8%       139      -30%  
+A  breakeven @4.0R         0.13   6325   +11.96%      +5.76%   63.2%       156      -21%  
+A  breakeven @5.0R         0.13   6220   +11.87%      +5.71%   66.5%       171      -13%  
+A  breakeven @6.0R         0.13   6159   +11.57%      +5.53%   68.7%       183       -7%  
+B  throttle -25% x0.5      0.13   6066    +8.63%      +3.81%   54.2%       125      -37%  
+B  throttle -40% x0.5      0.13   6066   +10.21%      +4.71%   62.1%       151      -23%  
+B  throttle -25% STOP      0.13   6066    +4.46%      +1.73%   28.3%        80      -60%  
+C  vol target 2.0%         0.13   6066   +17.01%      +9.16%   84.2%       363      +84%  
+C  vol target 2.5%         0.13   6066   +17.90%      +9.80%   87.9%       475     +141%  
+C  vol target 3.0%         0.13   6066   +18.62%     +10.33%   89.7%       558     +183%  ** >10%/mo **
+D  BE@2R + throttle        0.13   7047    +8.61%      +3.80%   53.4%       123      -38%  
+D  vol 2.5% + throttle     0.13   6066   +13.00%      +6.43%   68.9%       184       -7%  
+
+baseline                   0.30   6066   +21.05%     +12.17%   95.2%       520            ** >10%/mo **
+A  breakeven @1.0R         0.30   9055   +20.11%     +11.45%   94.9%       491       -6%  ** >10%/mo **
+A  breakeven @2.0R         0.30   7047   +22.32%     +13.16%   93.4%       377      -28%  ** >10%/mo **
+A  breakeven @3.0R         0.30   6546   +23.30%     +13.93%   87.6%       200      -61%  ** >10%/mo **
+A  breakeven @4.0R         0.30   6325   +21.10%     +12.20%   91.9%       305      -41%  ** >10%/mo **
+A  breakeven @5.0R         0.30   6220   +20.89%     +12.04%   93.3%       371      -29%  ** >10%/mo **
+A  breakeven @6.0R         0.30   6159   +20.13%     +11.47%   94.3%       433      -17%  ** >10%/mo **
+B  throttle -25% x0.5      0.30   6066   +15.10%      +7.82%   79.6%       122      -77%  
+B  throttle -40% x0.5      0.30   6066   +15.45%      +8.06%   82.0%       138      -74%  
+B  throttle -25% STOP      0.30   6066    +1.32%      +0.46%   34.0%        38      -93%  
+C  vol target 2.0%         0.30   6066   +26.28%     +16.34%   99.1%       nan            ** >10%/mo **
+C  vol target 2.5%         0.30   6066   +26.60%     +16.60%   99.6%       nan            ** >10%/mo **
+C  vol target 3.0%         0.30   6066   +27.07%     +16.99%   99.7%       nan            ** >10%/mo **
+D  BE@2R + throttle        0.30   7047   +15.73%      +8.26%   75.7%       102      -80%  
+D  vol 2.5% + throttle     0.30   6066   +20.02%     +11.38%   92.8%       344      -34%  ** >10%/mo **
+
+====================================================================================================================
+CHEAPEST CONFIGURATIONS THAT STILL CLEAR +10%/MONTH
+====================================================================================================================
+  $     200  A  breakeven @3.0R       0.30%/unit  +13.93%/month  DD 87.6%
+  $     305  A  breakeven @4.0R       0.30%/unit  +12.20%/month  DD 91.9%
+  $     344  D  vol 2.5% + throttle   0.30%/unit  +11.38%/month  DD 92.8%
+  $     371  A  breakeven @5.0R       0.30%/unit  +12.04%/month  DD 93.3%
+  $     377  A  breakeven @2.0R       0.30%/unit  +13.16%/month  DD 93.4%
+  $     433  A  breakeven @6.0R       0.30%/unit  +11.47%/month  DD 94.3%
+  $     491  A  breakeven @1.0R       0.30%/unit  +11.45%/month  DD 94.9%
+  $     520  baseline                 0.30%/unit  +12.17%/month  DD 95.2%
+  $     558  C  vol target 3.0%       0.13%/unit  +10.33%/month  DD 89.7%
+
+  BEST: $200 — A  breakeven @3.0R at 0.30%/unit, +13.93%/month, DD 87.6%
+
+BEST DRAWDOWN AT ANY RETURN — for the record, since a lower floor is
+worth more than a higher return to an account that cannot fund itself
+====================================================================================================================
+  DD  28.3%  floor $      80  B  throttle -25% STOP    0.13%/unit  +1.73%/month
+  DD  34.0%  floor $      38  B  throttle -25% STOP    0.30%/unit  +0.46%/month
+  DD  53.4%  floor $     123  D  BE@2R + throttle      0.13%/unit  +3.80%/month
+  DD  54.2%  floor $     125  B  throttle -25% x0.5    0.13%/unit  +3.81%/month
+  DD  58.8%  floor $     139  A  breakeven @3.0R       0.13%/unit  +6.38%/month
+  DD  62.1%  floor $     151  B  throttle -40% x0.5    0.13%/unit  +4.71%/month

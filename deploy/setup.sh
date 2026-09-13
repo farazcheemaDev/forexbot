@@ -34,6 +34,28 @@ d=klines('BTCUSDT',60)
 assert d is not None and len(d)>40, 'Binance public API unreachable from this VM'
 print(' price feed OK, last close', float(d['close'].iloc[-1]))
 "
+# The blend runner needs ~900 hourly bars per coin and resamples to 4h/12h. A VM that
+# can reach Binance for 60 bars but not 900 fails here rather than three weeks in with
+# a silently short history.
+echo "== 4b. blend runner: one cycle, no orders =="
+./.venv/bin/timeout 600 ./.venv/bin/python blend_paper.py --once | tail -15
+
+# Polymarket uses two endpoints neither of the crypto bots touch, so reachability is a
+# separate question - some hosting providers and regions block them.
+echo "== 4c. Polymarket endpoints reachable from this VM? =="
+./.venv/bin/python -c "
+import json, urllib.request
+for name,u in (('gamma','https://gamma-api.polymarket.com/markets?closed=false&limit=1'),
+               ('clob','https://clob.polymarket.com/prices-history?market=1&interval=max')):
+    try:
+        r=urllib.request.Request(u,headers={'User-Agent':'research/1.0'})
+        urllib.request.urlopen(r,timeout=20).read(200)
+        print(f'  {name} OK')
+    except Exception as e:
+        print(f'  {name} UNREACHABLE: {type(e).__name__} {str(e)[:70]}')
+        print('    -> do NOT enable poly-forward on this VM; it would log errors')
+        print('       every 24h and collect nothing.')
+"
 
 echo "== 5. install services =="
 for u in deploy/*.service; do
@@ -46,7 +68,16 @@ sudo systemctl daemon-reload
 
 echo
 echo "DONE. Start the paper runners (no API keys required):"
-echo "  sudo systemctl enable --now longtrend-paper xs-paper status-server"
+echo "  sudo systemctl enable --now blend-paper poly-forward status-server"
+echo
+echo "poly-forward is the Polymarket calibration test. It records data only - no"
+echo "keys, no funds, no orders - and needs ~4-8 weeks to reach its pre-registered"
+echo "sample size. Check it with:  python poly_forward.py --report"
+echo
+echo "blend-paper is THE ONE THAT MATTERS: \$221, 12 coins, 1h+4h+12h, the"
+echo "configuration that was validated. xs-paper and longtrend-paper are older"
+echo "single-timeframe tests - enable them only if you want the comparison:"
+echo "  sudo systemctl enable --now longtrend-paper xs-paper"
 echo
 echo "Check them:"
 echo "  systemctl status longtrend-paper --no-pager"

@@ -1,0 +1,112 @@
+MORE RETURN, LESS DRAWDOWN ON THE $200 BOOK — five levers never tested.
+
+DISCIPLINE FIRST, BECAUSE THIS IS A PARAMETER SEARCH
+    Every number in this project that came from picking the best cell of a grid has
+    later shrunk or vanished. So this file is split 60/40 in TIME:
+
+        TUNE on the first 60%          DECIDE on the last 40%
+
+    A lever is only believed if it improves BOTH halves, or improves the second half
+    having been chosen on the first. The grid size is printed next to the result, and
+    a lone good cell whose neighbours are worse is reported as fitted rather than
+    found - that exact signature already turned out to be a bug once today.
+
+THE FIVE LEVERS, AND WHY THESE FIVE
+    1. DIRECTIONAL EXPOSURE CAP.  The 8-slot cap allows 8 longs at once. In crypto
+       that is ONE trade taken eight times: the coins move together, so the book's
+       drawdown is correlated, not diversified. Breakeven stops cut per-trade waste
+       and could not touch this - the majors' 67% drawdown barely moved. Capping
+       longs and shorts SEPARATELY attacks it directly, and nothing in this project
+       has tried it.
+    2. SLOT COUNT with the breakeven stop in place. Swept before WITHOUT breakeven;
+       the optimum can move once per-trade give-back is protected.
+    3. ADD SPACING. Units are added every 2.0R and that number has never been
+       changed. Tighter spacing builds size faster into a winner; wider spacing
+       risks less on trades that stall.
+    4. TRAIL WIDTHS for THIS book. 20xATR long / 5xATR short were measured on the 9
+       MAJOR coins. These 12 alts are more volatile (2.5-3.8% stops against the
+       majors' 1.2-2.2%) so there is no reason the same widths are right.
+    5. PORTFOLIO REGIME GATE. Per-coin regime filters were tested and LOST. A
+       portfolio-level one - scale risk down while BTC is below its own 200h average -
+       is a different thing and is untested. It targets correlated drawdown like
+       lever 1.
+
+    Scored on honest %/month, drawdown, AND the capital floor, because a change that
+    costs return but cuts drawdown makes the strategy CHEAPER TO RUN, and on a $200
+    account that is worth more than the return.
+
+REGISTERED PREDICTION: lever 1 (directional cap) is the only one I
+expect to survive the holdout. 2-4 should be grid noise; 5 should cut
+return and drawdown proportionally, leaving the floor unchanged.
+
+time split at 2024-08-29  (tune before, decide after)
+
+======================================================================================================================
+LEVER 1 — directional exposure cap   (7 cells)
+======================================================================================================================
+variant                    |            TUNE (first 60%)            |           DECIDE (last 40%)           
+                           |        /mo       DD     floor       n |        /mo       DD     floor       n
+baseline 8 slots           |    +17.01%    84.5%       160    4320 |     +7.95%    84.8%       163    2233
+max 6 same direction       |    +13.71%    75.2%       100    4428 |     +5.82%    80.8%       129    2207
+max 4 same direction       |     +6.14%    73.9%        95    3995 |     +1.53%    74.5%        97    1954
+max 3 same direction       |     +6.43%    57.5%        58    3116 |     +2.15%    62.6%        66    1515
+max 2 same direction       |     +3.95%    45.6%        46    2161 |     +1.16%    67.2%        76    1045
+max 4 long / 8 short       |     +7.54%    67.8%        77    4621 |     +2.09%    70.5%        84    2402
+max 8 long / 4 short       |    +17.45%    85.9%       176    3940 |     +8.47%    89.4%       234    1934
+
+======================================================================================================================
+LEVER 2 — slot count, with BE@3R   (5 cells)
+======================================================================================================================
+variant                    |            TUNE (first 60%)            |           DECIDE (last 40%)           
+                           |        /mo       DD     floor       n |        /mo       DD     floor       n
+4 slots                    |     +9.52%    70.7%        85    2263 |     +7.26%    66.1%        73    1160
+6 slots                    |    +11.08%    77.3%       109    3345 |     +6.36%    77.4%       110    1690
+8 slots                    |    +17.01%    84.5%       160    4320 |     +7.95%    84.8%       163    2233
+10 slots                   |    +15.52%    85.9%       176    5340 |     +8.49%    90.6%       264    2742
+12 slots                   |    +16.60%    89.0%       225    6109 |     +8.64%    94.7%       466    3191
+
+======================================================================================================================
+LEVER 3 — add spacing   (5 cells)
+======================================================================================================================
+variant                    |            TUNE (first 60%)            |           DECIDE (last 40%)           
+                           |        /mo       DD     floor       n |        /mo       DD     floor       n
+add every 1.0R             |    +17.32%    89.7%       242    4320 |     +6.75%    91.8%       303    2233
+add every 1.5R             |    +17.21%    86.6%       185    4320 |     +6.56%    90.3%       255    2233
+add every 2.0R             |    +17.01%    84.5%       160    4320 |     +7.95%    84.8%       163    2233
+add every 3.0R             |    +16.35%    82.9%       145    4320 |     +7.16%    81.5%       134    2233
+add every 4.0R             |    +15.50%    81.6%       135    4320 |     +6.88%    75.4%       101    2233
+
+======================================================================================================================
+LEVER 4 — trail widths for THIS book   (6 cells)
+======================================================================================================================
+variant                    |            TUNE (first 60%)            |           DECIDE (last 40%)           
+                           |        /mo       DD     floor       n |        /mo       DD     floor       n
+long 12 / short 5          |     +9.65%    80.3%       126    5271 |    +10.16%    84.5%       161    2615
+long 20 / short 5  (base)  |    +17.01%    84.5%       160    4320 |     +7.95%    84.8%       163    2233
+long 30 / short 5          |    +16.77%    93.2%       364    3862 |     +6.27%    94.5%       454    1899
+long 20 / short 3          |    +20.05%    86.3%       181    5602 |     +6.13%    91.4%       289    2938
+long 20 / short 8          |    +11.11%    73.9%        95    3680 |     +8.45%    78.8%       117    1754
+long 30 / short 3          |    +18.47%    95.2%       513    4988 |     +3.53%    97.0%       833    2536
+
+======================================================================================================================
+LEVER 5 — portfolio regime gate (BTC below 200h)   (3 cells)
+======================================================================================================================
+variant                    |            TUNE (first 60%)            |           DECIDE (last 40%)           
+                           |        /mo       DD     floor       n |        /mo       DD     floor       n
+no gate                    |    +17.01%    84.5%       160    4320 |     +7.95%    84.8%       163    2233
+x0.5 risk in BTC bear      |    +16.05%    74.3%        97    4320 |     +8.80%    71.1%        86    2233
+x0.25 risk in BTC bear     |    +15.05%    67.7%        77    4320 |     +8.84%    60.7%        63    2233
+
+======================================================================================================================
+SURVIVED THE HOLDOUT — beats baseline on the LAST 40% (searched 26 cells total)
+======================================================================================================================
+  baseline out-of-sample: +7.95%/month  DD 84.8%  floor $163
+
+  long 12 / short 5          in  +9.65%/mo DD  80.3%  ->  OUT +10.16%/mo DD  84.5% floor $161
+  x0.25 risk in BTC bear     in +15.05%/mo DD  67.7%  ->  OUT  +8.84%/mo DD  60.7% floor $63
+  x0.5 risk in BTC bear      in +16.05%/mo DD  74.3%  ->  OUT  +8.80%/mo DD  71.1% floor $86
+  long 20 / short 8          in +11.11%/mo DD  73.9%  ->  OUT  +8.45%/mo DD  78.8% floor $117
+
+  4 of 26 cells survived. With that many
+  cells searched, expect roughly 1 to survive by chance alone - so believe a
+  survivor only if its neighbours in the same sweep also improved.

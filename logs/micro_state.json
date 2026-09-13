@@ -1,0 +1,17 @@
+{
+ "open": {},
+ "last_bar": {
+  "SBTCSUSDT": "2026-09-13 18:00:00",
+  "SETHSUSDT": "2026-09-13 18:00:00",
+  "SXRPSUSDT": "2026-09-13 18:00:00"
+ },
+ "hb": {
+  "logged": "2026-09-13 18:00:00"
+ },
+ "start_eq": 10.0,
+ "taken": 0,
+ "declined": 0,
+ "too_small": 0,
+ "target_hit": false,
+ "started": "2026-09-13T19:15:35.350764+00:00"
+}

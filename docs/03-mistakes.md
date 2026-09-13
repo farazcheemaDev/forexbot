@@ -1,0 +1,160 @@
+# Mistakes and the rules they produced
+
+Every bug that produced a wrong result, and what was added to stop it recurring.
+This list exists because **most of the "findings" in this project were initially
+wrong**, and the pattern of how they were wrong is more valuable than any single
+strategy.
+
+Full technical detail:
+[`strategy_analysis/validation_protocol.md`](../strategy_analysis/validation_protocol.md).
+
+---
+
+## The big ones
+
+### 1. The profit cap — wrongly killed six strategies
+
+Every early test closed winners at a fixed target (`tp_mult = 3.0` against
+`sl_mult = 2.0`), capping every winner at **+1.5R**. For trend following that
+isn't a detail, it's the whole result: these strategies make their money from the
+rare enormous trade.
+
+**Damage:** a false "SURVIVORS: NONE" across six files and 18 strategy families.
+Weeks of work discarded strategies that worked.
+
+**Rule:** no fixed profit target in any trend or momentum test, ever. If a test
+uses one, its negative verdicts are void.
+
+### 2. The price-mirror bug — flattered shorts 4×
+
+To reuse the long engine for shorts, prices were mirrored around `2 × first_close`
+and traded as longs. Valid only if price never doubles. SOL rose **97×**, so 92%
+of its mirrored bars were *negative prices* — and since fees are charged as
+`fee × price`, the fee came out with the wrong sign.
+
+**Damage:** shorts reported +0.117R where the correct engine gives +0.028R. Every
+two-sided result derived from it was void.
+
+**Caught by:** two of our own test files disagreeing on identical trade counts.
+
+**Rule:** never transform the price series to reuse an engine. Handle direction
+natively (`d = −1`). Cross-check any new engine against an existing one on
+identical inputs.
+
+### 3. Hindsight universe — 3.05× inflation
+
+Backtesting "the top 9 coins today" means backtesting coins that already went up.
+
+**Rule:** universe selection must be point-in-time — rank by the *previous*
+period's dollar volume, never by anything that knows the future.
+
+### 4. Survivorship — 30% of coins are dead
+
+203 of 735 USDT pairs that ever existed are delisted. A backtest on today's list
+measures survivors only.
+
+Worse: positions still open when a coin's data *ended* were being silently
+dropped — deleting exactly the catastrophe that dead-coin data exists to measure.
+
+**Rule:** include delisted assets, and force-close open positions at the data's
+end (`close_at_end="close"` for an announced delisting, `"stop"` for a collapse).
+
+### 5. Unplaceable trades — 81% of one strategy's profit
+
+New-listing momentum showed +0.122R by counting every signal, regardless of
+whether a position slot was free. With a real 8-position cap, 81% of those trades
+couldn't have been taken, and every result went negative.
+
+**Rule:** every portfolio test enforces a concurrent-position cap.
+
+### 6. Compounding by trade instead of by date
+
+23,539 pooled trades were multiplied sequentially, as if 9 coins' trades happened
+one after another at full risk. They overlap in time.
+
+**Symptom that exposed it:** every table showed drawdown of exactly 100.0%.
+
+**Rule:** sum R across trades that closed on the same day, then compound the
+daily series.
+
+### 7. Ruin at a rounding error
+
+Equity was allowed to fall to 1e-9 and compound back up, producing "+12,854%/yr
+with a 100% drawdown". A real account down 99.99% holds a few cents and cannot
+meet any minimum order.
+
+**Rule:** practical ruin floor at 1% of starting equity. Below that the account
+is finished and every later figure is fiction.
+
+### 8. A silent no-op family name
+
+`"donch"` was never a valid family name, and `gen_signals` returned an all-HOLD
+series instead of raising — so 3 of 7 families in one file did nothing at all and
+reported it as a result.
+
+**Rule:** unknown names raise. Never return an empty signal series silently.
+
+---
+
+## Live-trading bugs
+
+### The entry-bar stop check
+
+The bot enters at a bar's close, then checked its stop against *that same bar's*
+high/low — data that predates the position. It killed a live ETH short in **62
+seconds** at −1.00R. Near-automatic for shorts.
+
+**Fix:** skip stop checks on the entry bar (`entry_bar` guard) and evaluate once
+per *closed bar*, not once per 60-second poll. The `bars` counter was counting
+polls.
+
+### Duplicate bot instances
+
+A process check (`wmic | grep`) missed a running bot because of line wrapping;
+between-bar silence was read as death; the restart put **two bots on one
+account**.
+
+**Fix:** `acquire_lock()` — a single-instance lock file.
+
+---
+
+## Reporting mistakes
+
+These produced no code bug but wasted time and destroyed trust:
+
+- **Quoted 9-coin returns for a 3-coin book** — a 3× overstatement on the live bot.
+- **Quoted numbers from three different simulation engines interchangeably**, and
+  two different hindsight ratios (2× vs the measured 3.05×). **Rule:** every
+  number in one comparison comes from one engine, or the engine is named.
+- **Declared data nonexistent after checking one source** — twice (delisted
+  history, tick data). Both were on `data.binance.vision`. **Rule:** "I couldn't
+  find it" is not "it doesn't exist"; name the sources checked.
+- **Over-generalised "5-minute bars are dead."** True for crypto (percentage
+  fees), false for gold and Nasdaq (fixed spread). **Rule:** cost conclusions are
+  per-instrument, because the fee *structure* differs.
+- **Read MAR (return ÷ drawdown) as improving with risk.** It inflates as
+  drawdown approaches 100% because drawdown is capped at 100%. **Rule:** MAR is
+  meaningless above ~60% drawdown.
+- **Got the minimum capital wrong three times, each time too low.** First $9
+  (used 0.5% risk for the order floor while the config risks 0.13%/unit), then
+  $116 / $35 (computed off the *cheapest* coin's minimum order instead of the
+  *binding* one). Measured properly in `backtest/venue_floor.py`: the 9-coin book
+  needs **~$1,500**, because ETH's 0.01 step is $25 of notional and the book needs
+  every coin in it. **Rule:** a portfolio's capital floor is set by its most
+  expensive contract, never its average or its cheapest — and the floor must hold
+  *at the bottom of the drawdown*, because an account that cannot place an order
+  cannot recover.
+- **Killed the wrong process** (PID 15036 — a running pre-registered test).
+
+---
+
+## The meta-lesson
+
+Nine of the ten errors above made results look **better** than reality; the
+profit cap made them look worse. Errors are not randomly signed — a bug that
+flatters a strategy survives longer than one that hurts it, because nobody
+investigates good news.
+
+**So:** register the prediction before running the test. Every file in
+`backtest/` that tests something new now states, in its docstring, what result
+would count as failure — *before* the numbers exist.

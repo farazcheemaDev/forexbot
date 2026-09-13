@@ -1,0 +1,80 @@
+FAST BARS FOR A MICRO ACCOUNT — why the old "5m is dead" verdict may not apply.
+
+THE OLD VERDICT AND ITS SCOPE
+    1m, 5m and 15m crypto were tested and killed on COST. The metric that killed them:
+
+        fee toll in R = fee_fraction / stop_fraction
+
+    A faster bar has a smaller ATR, so a 2xATR stop is a smaller percentage move, so
+    the same 12bp round trip eats a bigger share of every trade. At 1h the toll is
+    ~0.048R; each step down roughly doubles it.
+
+    That verdict was measured on a NORMALLY SIZED account, where the fee toll is the
+    only thing the timeframe changes.
+
+WHY A $10 ACCOUNT IS A DIFFERENT PROBLEM
+    Bitget's $5 minimum order means dollar risk per trade is $5 x stop_fraction - the
+    account does not choose it. So the timeframe sets the forced risk:
+
+        1h   stop ~2.5%  -> $0.126 per trade -> 1.26% of $10
+        15m  stop ~1.2%  -> $0.060           -> 0.60%
+        5m   stop ~0.7%  -> $0.035           -> 0.35%
+        1m   stop ~0.3%  -> $0.015           -> 0.15%
+
+    Forced over-risk is the single thing killing the micro account - 70% of paths die -
+    and NO other lever touched it. A faster bar cuts it by 2-8x. That is a real force
+    pulling the opposite way from the fee toll, and the two have never been weighed
+    against each other because the earlier test had no reason to.
+
+    Second effect, also in favour: far more trades per day, which matters when the
+    objective is reaching a multiple inside a short horizon rather than compounding
+    for years.
+
+THE COMPARISON MUST BE ON ONE WINDOW
+    1m data is expensive to fetch, so the temptation is to test 1h over six years and
+    1m over four months. That is not a comparison - it is two different markets. Every
+    timeframe here runs over the SAME recent window, and 1h over its full history is
+    printed separately for context only.
+
+REGISTERED PREDICTION: 15m roughly matches 1h on P($50) with clearly
+lower ruin; 5m marginal; 1m dead. If 1m or 5m WINS I check the fee model
+first.
+
+fetching — every timeframe clipped to the same 120-day window (6 coins)
+     1h:     397 trades over 115d
+    15m:   1,648 trades over 119d
+     5m:   5,037 trades over 119d
+     1m:  27,515 trades over 119d
+
+================================================================================================================
+THE COST/RISK TRADE-OFF — same 120 days, same coins, same rules
+================================================================================================================
+ bars   stop %  fee toll R  forced risk $10  trades/day    meanR   honest   win%
+   1h    1.70%       0.070            0.85%         3.5   +0.161   +0.054   23.7
+  15m    0.79%       0.151            0.40%        13.8   -0.127   -0.042   19.8
+   5m    0.42%       0.288            0.21%        42.3   -0.290   -0.097   19.4
+   1m    0.15%       0.782            0.08%       231.2   -0.823   -0.274   16.5
+
+================================================================================================================
+WHAT IT MEANS FOR $10 -> $50 (5x), risk 4% asked, Bitget $5 floor
+================================================================================================================
+ bars   P($50)   P(ruin)  med trades   elapsed  note
+   1h    37.7%     62.3%          49       14d  
+  15m    21.1%     78.9%          91        7d  NEGATIVE edge after fees — dead
+   5m    17.1%     82.9%          85        2d  NEGATIVE edge after fees — dead
+   1m     0.0%    100.0%         nan      nand  NEGATIVE edge after fees — dead
+
+================================================================================================================
+VERDICT
+================================================================================================================
+  1h control on this window: 37.7% chance of $50, 62.3% ruin, ~14 days
+
+  No faster timeframe beat 1h on either the chance or the ruin rate.
+  The halved forced risk did not pay for the doubled fee toll, which
+  means the old '5m is dead' verdict holds even under this different
+  lens - and the lens was worth checking, because the mechanism that
+  would have made it wrong is real.
+
+  NOTE: this window is 120 days, not the 6.5 years the 1h book
+  was validated on. It is a fair comparison BETWEEN timeframes and a poor
+  estimate of any of them in absolute terms.

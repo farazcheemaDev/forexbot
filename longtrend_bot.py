@@ -61,6 +61,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import subprocess
 import sys
 import time
 import urllib.request
@@ -138,13 +139,22 @@ TRAIL_MULT = 20.0        # uncapped trail; NO take-profit anywhere
 # the 87% of trades that fail still lose one unit.
 MAX_UNITS = 5            # units per position, including the initial entry (LONGS only)
 
-# SHORT SLEEVE. Point-in-time, survivorship-free, sharing the same slots:
-#     long only     +205.4%/yr  DD 72.2%  MAR 2.84  +9.75%/month
-#     long + short  +180.2%/yr  DD 64.0%  MAR 2.81  +8.96%/month
-# An 8.2-point drawdown cut for 0.8%/month, MAR unchanged - near-pure risk
-# reduction. It also rescued the losing years (2022 -27.7%->-8.2%,
-# 2025 -29.1%->+3.0% on the fixed universe), so the system no longer requires
-# crypto to rise. Shorts run ONE unit with a TIGHT trail; see bb_break_short.
+# SHORT SLEEVE. Point-in-time, survivorship-free, sharing the same slots.
+#
+# CORRECTED 2026-09-12 - the first figures here came from a broken short engine
+# that mirrored the price series and charged the wrong fee, flattering shorts ~4x.
+# See "THE PRICE-MIRROR BUG" in strategy_analysis/validation_protocol.md. The
+# numbers below are from the fixed native path (run_uncapped with d = -1):
+#
+#     long only     0.10%/unit  +205.4%/yr  DD 72.2%  +9.75%/month
+#     long + short  0.10%/unit  +173.2%/yr  DD 65.3%  +8.73%/month
+#     long + short  0.13%/unit  +240.1%/yr  DD 74.8%  +10.74%/month
+#
+# Interpolated to long-only's 72.2% drawdown the two-sided book is ~+10.2%/month
+# against +9.75% - shorts are worth about HALF A POINT a month, not the 1.3 points
+# the broken version claimed. Their real value is rescuing the losing years
+# (2022 -27.7%->-12.0%, 2025 -29.1%->-3.2%), so the system no longer needs crypto
+# to rise. Shorts run ONE unit with a TIGHT trail; see bb_break_short.
 SHORT_ENABLED = True
 SHORT_TRAIL_MULT = 5.0   # NOT 20 - shorts are negative at 20xATR
 ADD_EVERY_R = 2.0        # add the next unit each time price advances this much R
@@ -367,6 +377,22 @@ def cycle(ex, st: dict, dry: bool):
 
         # ---- manage an open position: add units, ratchet the trail, exit ------
         if rec:
+            # DO NOT MANAGE ON THE ENTRY BAR. We enter at the CLOSE of a bar, so
+            # that bar's HIGH/LOW already happened BEFORE the position existed.
+            # Checking the stop against it exits on price action we were never
+            # exposed to. It killed a live ETH short 62 seconds after entry at
+            # exactly -1.00R (2026-09-13 09:00:59 -> 09:02:01), and it is close to
+            # automatic for shorts: a bar that closes below the lower band is a
+            # big-range bar, so its high is usually already beyond close + 2xATR.
+            # The backtest is unaffected - it enters at the NEXT bar's open.
+            if rec.get("entry_bar") == bar:
+                continue
+            # ONCE PER CLOSED BAR. Without this the block ran every 60s poll, so
+            # `bars` counted polls (153 "bars" = 153 minutes) and the trail/pyramid
+            # were re-evaluated against an unchanged bar all hour.
+            if st["last_bar"].get(raw) == bar:
+                continue
+            st["last_bar"][raw] = bar
             rec["bars"] = rec.get("bars", 0) + 1
             rec.setdefault("units", 1)
             rec.setdefault("next_add", 1)
@@ -499,12 +525,20 @@ def cycle(ex, st: dict, dry: bool):
             continue
         st["open"][raw] = dict(entry=entry_ref, size=size, size_unit=size,
                                risk=stop_dist, stop=stop_px, side=side,
+                               entry_bar=bar,
                                high_water=(hi_last if d > 0 else lo_last),
                                bars=0, units=1, next_add=1,
                                opened=f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M:%S}")
-        log(f"[{base}] FILLED unit 1/{MAX_UNITS}. exchange stop at {stop_px:.4f} "
-            f"as backstop; {TRAIL_MULT}xATR trail managed here; will add a unit "
-            f"every +{ADD_EVERY_R}R")
+        # The trail and the unit ceiling are DIRECTION-DEPENDENT and this line used
+        # to print the long values for both, so a short showed "20xATR trail, will
+        # add a unit every 2R" while the management code correctly ran 5xATR and
+        # one unit. The behaviour was right; the log was lying, which is worse than
+        # useless when the log is the only view into a running bot.
+        log(f"[{base}] FILLED unit 1/{MAX_UNITS if d > 0 else 1}. exchange stop at "
+            f"{stop_px:.4f} as backstop; "
+            f"{TRAIL_MULT if d > 0 else SHORT_TRAIL_MULT}xATR trail managed here"
+            + (f"; will add a unit every +{ADD_EVERY_R}R" if d > 0
+               else "; single unit, no pyramid on shorts"))
 
 
 def status(st: dict):
@@ -525,6 +559,49 @@ def status(st: dict):
                   f"win rate {(rs > 0).mean()*100:.0f}%  best {rs.max():+.2f}  "
                   f"worst {rs.min():+.2f}")
     print()
+
+
+def acquire_lock(tag: str):
+    """Refuse to start if another instance of this bot is already alive.
+
+    ADDED 2026-09-12 after I started a second copy against the same demo account.
+    Cause: I checked what was running with `wmic | grep`, wmic WRAPS long command
+    lines so the bot fell across a line break and looked absent, and I then read
+    its between-bar silence as death - when the heartbeat is designed to log only
+    once per bar. Two weak signals agreeing produced a confident wrong conclusion.
+
+    Two instances would double every order. maker_probe.py got this same lock today
+    for the same reason; the trend bots had none.
+
+    Stale locks (from a killed process) are cleared, so a crash does not wedge it.
+    """
+    lock = LOGS / f"{tag}.pid"
+    if lock.exists():
+        try:
+            old = int(lock.read_text().strip())
+        except (ValueError, OSError):
+            old = -1
+        if old > 0 and old != os.getpid():
+            try:
+                out = subprocess.run(["tasklist", "/FI", f"PID eq {old}"],
+                                     capture_output=True, text=True,
+                                     timeout=15).stdout
+                alive = str(old) in out
+            except Exception:
+                alive = True          # cannot tell -> assume alive, refuse to run
+            if alive:
+                raise SystemExit(
+                    f"REFUSING TO START: another {tag} is already running "
+                    f"(pid {old}).\n"
+                    f"  Two instances would double every order. To check what is "
+                    f"running, use:\n"
+                    f"    powershell -NoProfile -Command \"Get-CimInstance "
+                    f"Win32_Process -Filter \\\"Name='python.exe'\\\" | Select "
+                    f"ProcessId,CommandLine\"\n"
+                    f"  If pid {old} is genuinely dead, delete {lock}")
+            log(f"clearing stale lock from dead pid {old}")
+    lock.write_text(str(os.getpid()))
+    return lock
 
 
 def resolve_mode(mode: str) -> dict:
@@ -566,6 +643,9 @@ def main():
     if args.status:
         status(st)
         return
+    # --status and --dry-run do not place orders, so they need no lock
+    if not args.dry_run:
+        acquire_lock(f"longtrend_{args.mode}")
     log("=" * 78)
     log(f"LEVERAGED LONG TREND on Bitget {args.mode.upper()}"
         + ("  *** REAL FUNDS ***" if args.mode == "live" else " (simulated)"))

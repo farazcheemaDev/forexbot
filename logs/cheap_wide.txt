@@ -1,0 +1,113 @@
+FULL BREADTH ON CHEAP CONTRACTS — can we get >10%/month without $1,140?
+
+THE INSIGHT THIS TESTS
+    backtest/small_book.py measured two things that were being confused:
+
+        RETURN scales with BREADTH.   3 coins +1.9%/mo, 9 coins +10.7%/mo
+        CAPITAL scales with the single most EXPENSIVE contract in the book.
+
+    Those are independent. The 9-coin book needs $1,140 only because the nine I
+    used happen to include ETH, whose smallest step is 0.01 ETH ~ $25. Nothing in
+    the strategy requires ETH. It ranks coins and trades breakouts; it has no
+    opinion about which tickers.
+
+    So: build a NINE (or twelve) coin book entirely out of contracts whose minimum
+    order is a dollar or two, and we should get full-breadth return at a small
+    account's floor. If that works it is the answer to the whole capital problem.
+
+WHY IT MIGHT NOT WORK — stated before running
+    1. Cheap contracts are cheap because the coin's unit price is low, which
+       correlates with smaller market cap. Smaller caps are more volatile and less
+       liquid, so slippage and fee drag are worse than on majors.
+    2. small_book.py measured a real penalty for cheapness at low k: at 4 coins,
+       cheap-first earned 47pp LESS CAGR than volume-first. If that penalty scales,
+       a cheap-9 book could land well below the +10.7%/month a major-9 book gives.
+       (At k=9 the penalty vanished, but only because both books WERE the same nine
+       coins. This file is the first honest test of the penalty at full breadth.)
+    3. Small caps die. Nine small caps is a survivorship trap, and the correction
+       for that is the same 3x hindsight divisor used throughout, which may be too
+       generous here rather than too harsh.
+
+REGISTERED PREDICTION: cheap-9 lands +5% to +9%/month honest, floor
+under $150. Above +10.7%/month I look for a bug first.
+
+querying MEXC for USDT perps with minimum order <= $2.50 ...
+  shortlisted 60 most liquid of them (901 pass the min-order test; downloading history for all would take hours to answer a question about the top of the list)
+  33 of them have >= 20,000 bars of Binance 1h history
+
+========================================================================================================
+CANDIDATE POOL — cheap contracts with real history, ranked by liquidity
+========================================================================================================
+  # coin        median $vol/bar     bars  min order $  median stop %
+  1 XRP               6,780,826   57,569        1.341          2.11%
+  2 SUI               2,392,792   29,459        0.710          2.99%
+  3 ADA               2,184,960   57,569        0.204          2.48%
+  4 LINK              1,987,138   57,569        1.131          2.72%
+  5 AVAX              1,639,949   52,311        0.731          2.78%
+  6 LTC               1,548,618   57,569        0.535          2.22%
+  7 ENA               1,537,752   21,443        1.397          3.81%
+  8 SHIB              1,315,492   46,805        0.005          2.50%
+  9 WLD               1,188,628   27,514        0.390          3.53%
+ 10 NEAR              1,183,239   51,789        2.287          3.26%
+ 11 DOT               1,168,959   53,139        0.100          2.55%
+ 12 ARB               1,159,788   30,439        0.138          2.58%
+ 13 TAO               1,000,818   21,223        2.321          3.36%
+ 14 UNI                 773,712   52,439        0.626          2.89%
+ 15 APT                 754,039   34,173        0.059          2.75%
+ 16 BCH                 745,599   57,569        2.235          2.23%
+ 17 AAVE                715,926   51,767        1.244          2.93%
+ 18 SEI                 685,423   26,999        0.444          2.96%
+ 19 TIA                 610,807   25,130        0.347          3.39%
+ 20 ATOM                550,558   57,569        0.159          2.63%
+
+====================================================================================================================
+GRID — book size x risk per unit.  HONEST = raw / 3.0 hindsight premium.  Target is HONEST > +10%/month
+====================================================================================================================
+  k  risk%  longs  shorts   decl   raw /mo  HONEST /mo      DD   floor $   binding  verdict
+  6   0.13   2088    3720    816    +6.86%      +2.88%   63.6%        65      LINK  
+  6   0.20   2088    3720    816    +9.09%      +4.07%   79.8%        76      LINK  
+  6   0.30   2088    3720    816   +11.13%      +5.26%   91.7%       124      LINK  
+
+  9   0.13   2551    3604   2527    +9.40%      +4.24%   61.6%       107       ENA  
+  9   0.20   2551    3604   2527   +12.57%      +6.15%   78.9%       126       ENA  
+  9   0.30   2551    3604   2527   +15.61%      +8.17%   91.9%       219       ENA  
+
+ 12   0.13   2782    3284   5394   +12.04%      +5.81%   68.7%       184      NEAR  
+ 12   0.20   2782    3284   5394   +16.45%      +8.76%   84.1%       235      NEAR  
+ 12   0.30   2782    3284   5394   +21.06%     +12.18%   94.3%       438      NEAR  ** CLEARS 10% **
+
+ 20   0.13   2904    3349  12127   +12.80%      +6.30%   78.0%       272       TAO  
+ 20   0.20   2904    3349  12127   +17.69%      +9.65%   90.6%       414       TAO  
+ 20   0.30   2904    3349  12127   +22.95%     +13.65%   97.3%       971       TAO  ** CLEARS 10% **
+
+====================================================================================================================
+SLOT SWEEP — the cap was set for a 9-coin book and is now binding
+====================================================================================================================
+  k  slots  risk%   taken   decl   raw /mo  HONEST /mo      DD   floor $  verdict
+ 12      8   0.13    6066   5394   +12.04%      +5.81%   68.7%       184  
+ 12      8   0.20    6066   5394   +16.45%      +8.76%   84.1%       235  
+ 12     12   0.13    8764   2696   +12.96%      +6.40%   81.2%       305  
+ 12     12   0.20    8764   2696   +17.55%      +9.55%   93.0%       530  
+
+ 20      8   0.13    6253  12127   +12.80%      +6.30%   78.0%       272  
+ 20      8   0.20    6253  12127   +17.69%      +9.65%   90.6%       414  
+ 20     12   0.13    9193   9187   +17.19%      +9.29%   87.6%       484  
+ 20     12   0.20    9193   9187   +23.58%     +14.15%   96.3%     1,067  ** CLEARS 10% **
+ 20     16   0.13   12083   6297   +16.31%      +8.66%   93.6%       931  
+ 20     16   0.20   12083   6297   +21.97%     +12.88%   98.7%     3,070  ** CLEARS 10% **
+ 20     20   0.13   14488   3892   +17.07%      +9.20%   96.9%     1,942  
+ 20     20   0.20   14488   3892   +22.88%     +13.60%   99.6%       nan  
+
+====================================================================================================================
+CLEARS +10%/MONTH, CHEAPEST CAPITAL FIRST
+====================================================================================================================
+  12 coins at 0.30%/unit -> +12.18%/month honest, DD 94.3%, needs $438 (binding: NEAR)
+  20 coins at 0.30%/unit -> +13.65%/month honest, DD 97.3%, needs $971 (binding: TAO)
+  20 coins at 0.20%/unit -> +14.15%/month honest, DD 96.3%, needs $1,067 (binding: TAO)
+  20 coins at 0.20%/unit -> +12.88%/month honest, DD 98.7%, needs $3,070 (binding: TAO)
+
+CHEAPEST ROUTE TO >10%/MONTH: $438 on 12 coins at 0.30%/unit
+
+Before acting: the minimum orders are MEXC metadata, the 3x divisor is a
+straight-line correction anchored at one book size, and a 94% drawdown on
+$438 leaves $25. Verify with one real demo order.

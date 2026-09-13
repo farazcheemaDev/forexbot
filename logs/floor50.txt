@@ -1,0 +1,152 @@
+DRIVING THE CAPITAL FLOOR TO $50 — and testing the breakeven stop on the MAJORS.
+
+TWO QUESTIONS, ONE FILE
+    1. Does the breakeven-at-3R stop help the 9 MAJOR-coin book - the validated one
+       at 67.5% drawdown? If it does, the configuration with the most history behind
+       it gets both cheaper and better, and that is the version worth real money.
+    2. Can the floor reach $50 while still clearing +10%/month?
+
+THE LEVER NOT YET PULLED, AND IT IS THE OBVIOUS ONE
+    floor = max over coins of [ min_order x stop_fraction ] / risk_fraction
+            / (1 - maxDD)
+
+    The MAX. One coin sets the floor for the whole book. In the 12-coin cheap book
+    that coin was NEAR, whose minimum order is $2.282 - three times the next worst.
+    Every other coin in that book could have traded on a third of the capital.
+
+    Previous runs treated the book as fixed and attacked maxDD. The cheaper move is
+    to SUBSTITUTE the one expensive coin for another liquid coin with a tiny
+    minimum, keeping breadth - and breadth is what drives return - while cutting the
+    numerator. There are 901 MEXC contracts with a minimum under $2.50, so there is
+    no shortage of candidates.
+
+    Second, subtler factor: notional = risk_dollars / stop_fraction, so a coin with
+    a WIDE stop needs a SMALLER position to carry the same dollar risk, which makes
+    its minimum order harder to clear. Wide-stop coins therefore raise the floor.
+    Majors have 1.2-2.2% stops against the alts' 2.5-3.8%, so on this axis majors
+    are BETTER - they just have larger minimums. The right selection objective is
+    the product, not either factor alone.
+
+WHAT IS BEING SELECTED ON, AND WHY THAT IS ACCEPTABLE
+    Coins are ranked by min_order x stop_fraction - a VENUE CONTRACT PROPERTY times a
+    VOLATILITY measure. Neither is performance. This is not "pick the coins that went
+    up"; a backtest never touches the ranking.
+
+    The volatility half is not entirely innocent, though: selecting low-ATR% coins
+    could favour coins that behaved differently, and low volatility is weakly
+    associated with weaker trends. So the selected book's return is reported against
+    the unselected cheap book's at the same size. If selection has bought a lower
+    floor by quietly picking worse-trending coins, that comparison shows it.
+
+REGISTERED PREDICTION: BE@3R helps the majors but less (DD 55-62%);
+substitution reaches ~$60-90, not $50. Under $50 -> check liquidity.
+
+======================================================================================================================
+1. THE 9 MAJOR COINS — does the breakeven stop help the VALIDATED book?
+======================================================================================================================
+book                     BE  risk%      n   raw /mo  HONEST /mo      DD   floor $   binding  note
+majors-9                  0   0.13   6160   +19.15%     +10.72%   67.6%     1,143       ETH  ** >10%/mo **
+majors-9                  2   0.13   6931   +20.37%     +11.64%   67.6%     1,144       ETH  ** >10%/mo **
+majors-9                  3   0.13   6521   +20.58%     +11.80%   66.9%     1,122       ETH  ** >10%/mo **
+majors-9                  4   0.13   6381   +20.20%     +11.52%   68.4%     1,174       ETH  ** >10%/mo **
+
+majors-9                  0   0.30   6160   +35.89%     +24.51%   92.9%     2,262       ETH  ** >10%/mo **
+majors-9                  2   0.30   6931   +39.19%     +27.40%   92.9%     2,261       ETH  ** >10%/mo **
+majors-9                  3   0.30   6521   +39.40%     +27.60%   92.6%     2,157       ETH  ** >10%/mo **
+majors-9                  4   0.30   6381   +38.46%     +26.76%   93.3%     2,403       ETH  ** >10%/mo **
+
+======================================================================================================================
+2. SUBSTITUTION — a book whose WORST minimum order is tiny (<= $0.80)
+======================================================================================================================
+   120 liquid MEXC contracts have a minimum order under $0.80
+   66 of them have >= 20,000 bars of history
+
+  # coin       min$ x stop  min order $   stop %  median $vol/bar
+  1 ILV             0.0001        0.004    2.75%           51,699
+  2 SHIB            0.0001        0.005    2.50%        1,315,492
+  3 KAVA            0.0002        0.007    2.85%          142,684
+  4 VET             0.0002        0.008    2.71%          374,138
+  5 LRC             0.0003        0.009    3.04%          117,805
+  6 ICX             0.0003        0.011    2.74%           55,549
+  7 W               0.0003        0.010    3.36%          172,089
+  8 CHZ             0.0004        0.015    2.90%          272,906
+  9 GALA            0.0005        0.017    3.06%          664,352
+ 10 GRT             0.0006        0.018    3.04%          304,834
+ 11 COTI            0.0006        0.016    3.53%           90,891
+ 12 SAGA            0.0006        0.017    3.71%          170,865
+ 13 XTZ             0.0007        0.028    2.53%          151,541
+ 14 ICP             0.0008        0.027    2.95%          512,835
+ 15 ZIL             0.0008        0.030    2.75%          144,785
+ 16 SAND            0.0010        0.036    2.81%          349,782
+ 17 CVC             0.0010        0.037    2.75%           31,775
+ 18 CRV             0.0012        0.035    3.39%          564,118
+ 19 STORJ           0.0012        0.039    3.09%           78,071
+ 20 JASMY           0.0013        0.039    3.19%          261,606
+
+book                     BE  risk%      n   raw /mo  HONEST /mo      DD   floor $   binding  note
+substituted-9             0   0.30   6759   +10.99%      +5.17%   99.9%       nan      GALA  
+substituted-9             3   0.30   7228   +13.50%      +6.75%   99.6%       nan      GALA  
+substituted-9             0   0.45   6759   +10.85%      +5.09%  100.0%       nan      GALA  
+substituted-9             3   0.45   7228   +14.48%      +7.40%  100.0%       nan      GALA  
+
+substituted-12            0   0.30   6950   +13.73%      +6.90%   99.9%       nan      SAGA  
+substituted-12            3   0.30   7529   +15.53%      +8.12%   99.9%       nan      SAGA  
+substituted-12            0   0.45   6950   +13.81%      +6.95%  100.0%       nan      SAGA  
+substituted-12            3   0.45   7529   +16.56%      +8.84%  100.0%       nan      SAGA  
+
+substituted-16            0   0.30   7179   +15.24%      +7.92%   99.9%       nan      SAND  
+substituted-16            3   0.30   7796   +15.54%      +8.12%   99.8%       nan      SAND  
+substituted-16            0   0.45   7179   +15.85%      +8.34%  100.0%       nan      SAND  
+substituted-16            3   0.45   7796   +16.36%      +8.70%  100.0%       nan      SAND  
+
+======================================================================================================================
+2b. SAME SEARCH, LIQUIDITY FLOOR $400,000/bar — 20 coins qualify
+======================================================================================================================
+   SHIB($0.005), GALA($0.017), ICP($0.027), CRV($0.035), APT($0.059), DOT($0.100), OP($0.095), ARB($0.136), ATOM($0.159), ADA($0.204), LTC($0.533), TIA($0.351), SEI($0.445), WLD($0.388), ORDI($0.405), ETC($0.751)
+book                     BE  risk%      n   raw /mo  HONEST /mo      DD   floor $   binding  note
+liq400k-6                 0   0.30   5132    +9.14%      +4.10%   98.0%        42       DOT  
+liq400k-6                 3   0.30   5378   +10.05%      +4.61%   96.7%        26       DOT  
+liq400k-6                 0   0.45   5132    +8.60%      +3.80%   99.8%       nan       DOT  
+liq400k-6                 3   0.45   5378   +10.04%      +4.61%   99.5%       nan       DOT  
+
+liq400k-9                 0   0.30   5624    +7.16%      +3.03%   99.3%       nan      ATOM  
+liq400k-9                 3   0.30   6015    +9.98%      +4.57%   98.8%       117      ATOM  
+liq400k-9                 0   0.45   5624    +6.27%      +2.58%  100.0%       nan      ATOM  
+liq400k-9                 3   0.45   6015   +10.10%      +4.64%   99.9%       nan      ATOM  
+
+liq400k-12                0   0.30   5996    +9.76%      +4.45%   99.4%       nan       TIA  
+liq400k-12                3   0.30   6507   +11.06%      +5.21%   99.0%       384       TIA  
+liq400k-12                0   0.45   5996    +9.47%      +4.28%  100.0%       nan       TIA  
+liq400k-12                3   0.45   6507   +11.33%      +5.38%   99.9%       nan       TIA  
+
+======================================================================================================================
+2b. SAME SEARCH, LIQUIDITY FLOOR $1,000,000/bar — 8 coins qualify
+======================================================================================================================
+   SHIB($0.005), DOT($0.100), ARB($0.136), ADA($0.204), LTC($0.533), WLD($0.388), AVAX($0.731), SUI($0.706)
+book                     BE  risk%      n   raw /mo  HONEST /mo      DD   floor $   binding  note
+liq1000k-6                0   0.30   5163    +8.26%      +3.61%   94.5%        83       WLD  
+liq1000k-6                3   0.30   5414    +8.06%      +3.50%   91.7%        55       WLD  
+liq1000k-6                0   0.45   5163    +8.73%      +3.87%   98.9%       271       WLD  
+liq1000k-6                3   0.45   5414    +8.50%      +3.74%   97.9%       148       WLD  
+
+======================================================================================================================
+CLEARS +10%/MONTH, CHEAPEST CAPITAL FIRST
+======================================================================================================================
+  $  1,122  majors-9         BE@3R 0.13%/unit  +11.80%/month  DD 66.9%  binding ETH
+  $  1,143  majors-9         BE@0R 0.13%/unit  +10.72%/month  DD 67.6%  binding ETH
+  $  1,144  majors-9         BE@2R 0.13%/unit  +11.64%/month  DD 67.6%  binding ETH
+  $  1,174  majors-9         BE@4R 0.13%/unit  +11.52%/month  DD 68.4%  binding ETH
+  $  2,157  majors-9         BE@3R 0.30%/unit  +27.60%/month  DD 92.6%  binding ETH
+  $  2,261  majors-9         BE@2R 0.30%/unit  +27.40%/month  DD 92.9%  binding ETH
+  $  2,262  majors-9         BE@0R 0.30%/unit  +24.51%/month  DD 92.9%  binding ETH
+  $  2,403  majors-9         BE@4R 0.30%/unit  +26.76%/month  DD 93.3%  binding ETH
+
+  CHEAPEST: $1,122 — majors-9, BE@3R, 0.13%/unit, +11.80%/month, DD 66.9%
+  TARGET OF $50 NOT REACHED. Short by $1,072.
+
+Every figure divided by the 3.0x hindsight premium. Minimum orders are
+MEXC metadata from 2026-09-13 and need one real demo order to confirm.
+A drawdown near 90% on a $50 account leaves single-digit dollars, which
+is at or under the venue minimum - so a LOW floor and a HIGH drawdown in
+the same row is close to self-contradictory. Prefer the lowest drawdown
+that clears the target, not the lowest floor.

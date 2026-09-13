@@ -55,3 +55,76 @@ is the difference
 2026-09-12 21:41:42 |   NOTE: 85% of profit comes from <1% of trades. Flat months are normal.
 is the difference
 2026-09-12 21:41:42 |   NOTE: 85% of profit comes from <1% of trades. Flat months are normal.
+2026-09-12 22:22:46 | ==============================================================================
+2026-09-12 22:22:46 | LONG TREND PAPER — 9 coins, max 8 concurrent positions
+2026-09-12 22:22:46 |   bb_break(30,1.5) 1h | LONG ONLY | trail 20.0xATR | NO take-profit
+2026-09-12 22:22:46 |   risk 0.13%/trade | fee 12.0bp round trip | simulated fills
+2026-09-12 22:22:46 |   book: BTCUSDT, ETHUSDT, XRPUSDT, SOLUSDT, BNBUSDT, DOGEUSDT, ADAUSDT, AVAXUSDT, LINKUSDT
+2026-09-12 22:22:46 |   expectation (point-in-time, survivorship-free, risk-matched):
+2026-09-12 22:22:46 |     +205.4%/yr = +9.75%/month at 72.2% DD with 5 units
+2026-09-12 22:22:46 |     the 1-unit version was +138.1%/yr at 89.3% DD - pyramiding is the difference
+2026-09-12 22:22:46 |   NOTE: 85% of profit comes from <1% of trades. Flat months are normal.
+is the difference
+2026-09-12 22:22:46 |   NOTE: 85% of profit comes from <1% of trades. Flat months are normal.
+2026-09-13 10:25:00 | ==============================================================================
+2026-09-13 10:25:00 | LONG TREND PAPER â€” 9 coins, max 8 concurrent positions
+2026-09-13 10:25:00 |   bb_break(30,1.5) 1h | LONG + SHORT | NO take-profit
+2026-09-13 10:25:00 |     LONG  trail 20.0xATR, up to 5 units (+1 every 2.0R)
+2026-09-13 10:25:00 |     SHORT trail 5.0xATR, 1 unit, no regime filter - asymmetric BY MEASUREMENT, a short at 20.0x is negative
+2026-09-13 10:25:00 |   risk 0.13%/trade | fee 12.0bp round trip | simulated fills
+2026-09-13 10:25:00 |   both sleeves share the SAME 8 slots - shorts compete for them, they are not extra exposure
+2026-09-13 10:25:00 |   book: BTCUSDT, ETHUSDT, XRPUSDT, SOLUSDT, BNBUSDT, DOGEUSDT, ADAUSDT, AVAXUSDT, LINKUSDT
+2026-09-13 10:25:00 |   expectation (point-in-time, survivorship-free, risk-matched):
+2026-09-13 10:25:00 |     +240.1%/yr = +10.7%/month at 74.8% DD  <- the validated config
+2026-09-13 10:25:00 |     long-only was +205.4%/yr = +9.75%/month at 72.2% DD
+2026-09-13 10:25:00 |     the 1-unit version was +138.1%/yr at 89.3% DD - pyramiding is the difference
+2026-09-13 10:25:00 |   NOTE: 85% of profit comes from <1% of trades. Flat months are normal.
+2026-09-13 10:25:04 | alive | bar 2026-09-13 09:00:00 | equity 20.00 | 0/8 slots | taken 0 (0L/0S) | declined 0 | too small 0
+2026-09-13 11:02:00 | [BTCUSDT] SHORT @76677.3 stop 76993.1 trail 5xATR unit $6.31 (1/8 slots used, trade #1)
+2026-09-13 11:02:01 | [ETHUSDT] SHORT SKIPPED - unit would be $3.13, below the $5 minimum (equity $20.00, stop 0.83%). 1 skipped so far
+2026-09-13 11:02:01 | [XRPUSDT] SHORT SKIPPED - unit would be $2.76, below the $5 minimum (equity $20.00, stop 0.94%). 2 skipped so far
+2026-09-13 11:02:02 | [SOLUSDT] SHORT SKIPPED - unit would be $2.57, below the $5 minimum (equity $20.00, stop 1.01%). 3 skipped so far
+2026-09-13 11:02:02 | [BNBUSDT] SHORT SKIPPED - unit would be $4.05, below the $5 minimum (equity $20.00, stop 0.64%). 4 skipped so far
+2026-09-13 11:02:03 | [DOGEUSDT] SHORT SKIPPED - unit would be $2.58, below the $5 minimum (equity $20.00, stop 1.01%). 5 skipped so far
+2026-09-13 11:02:03 | [ADAUSDT] SHORT SKIPPED - unit would be $1.76, below the $5 minimum (equity $20.00, stop 1.47%). 6 skipped so far
+2026-09-13 11:02:03 | [AVAXUSDT] SHORT SKIPPED - unit would be $2.11, below the $5 minimum (equity $20.00, stop 1.23%). 7 skipped so far
+2026-09-13 11:02:04 | [LINKUSDT] SHORT SKIPPED - unit would be $2.18, below the $5 minimum (equity $20.00, stop 1.19%). 8 skipped so far
+2026-09-13 11:02:04 | alive | bar 2026-09-13 10:00:00 | equity 20.00 | 1/8 slots | taken 1 (0L/1S) | declined 0 | too small 8
+2026-09-13 12:01:36 | [ETHUSDT] SHORT SKIPPED - unit would be $3.03, below the $5 minimum (equity $20.00, stop 0.86%). 9 skipped so far
+2026-09-13 12:01:36 | [XRPUSDT] SHORT SKIPPED - unit would be $2.73, below the $5 minimum (equity $20.00, stop 0.95%). 10 skipped so far
+2026-09-13 12:01:37 | [SOLUSDT] SHORT SKIPPED - unit would be $2.53, below the $5 minimum (equity $20.00, stop 1.03%). 11 skipped so far
+2026-09-13 12:01:37 | [BNBUSDT] SHORT SKIPPED - unit would be $3.83, below the $5 minimum (equity $20.00, stop 0.68%). 12 skipped so far
+2026-09-13 12:01:37 | [DOGEUSDT] SHORT SKIPPED - unit would be $2.58, below the $5 minimum (equity $20.00, stop 1.01%). 13 skipped so far
+2026-09-13 12:01:38 | [ADAUSDT] SHORT SKIPPED - unit would be $1.76, below the $5 minimum (equity $20.00, stop 1.48%). 14 skipped so far
+2026-09-13 12:01:38 | [AVAXUSDT] SHORT SKIPPED - unit would be $2.13, below the $5 minimum (equity $20.00, stop 1.22%). 15 skipped so far
+2026-09-13 12:01:38 | [LINKUSDT] SHORT SKIPPED - unit would be $2.16, below the $5 minimum (equity $20.00, stop 1.20%). 16 skipped so far
+2026-09-13 12:01:38 | alive | bar 2026-09-13 11:00:00 | equity 20.00 | 1/8 slots | taken 1 (0L/1S) | declined 0 | too small 16
+2026-09-13 13:01:13 | [ETHUSDT] SHORT SKIPPED - unit would be $2.97, below the $5 minimum (equity $20.00, stop 0.87%). 17 skipped so far
+2026-09-13 13:01:14 | [XRPUSDT] SHORT SKIPPED - unit would be $2.64, below the $5 minimum (equity $20.00, stop 0.98%). 18 skipped so far
+2026-09-13 13:01:14 | [SOLUSDT] SHORT SKIPPED - unit would be $2.56, below the $5 minimum (equity $20.00, stop 1.01%). 19 skipped so far
+2026-09-13 13:01:14 | [BNBUSDT] SHORT SKIPPED - unit would be $3.82, below the $5 minimum (equity $20.00, stop 0.68%). 20 skipped so far
+2026-09-13 13:01:15 | [DOGEUSDT] SHORT SKIPPED - unit would be $2.57, below the $5 minimum (equity $20.00, stop 1.01%). 21 skipped so far
+2026-09-13 13:01:15 | [ADAUSDT] SHORT SKIPPED - unit would be $1.75, below the $5 minimum (equity $20.00, stop 1.48%). 22 skipped so far
+2026-09-13 13:01:15 | [AVAXUSDT] SHORT SKIPPED - unit would be $2.19, below the $5 minimum (equity $20.00, stop 1.19%). 23 skipped so far
+2026-09-13 13:01:16 | [LINKUSDT] SHORT SKIPPED - unit would be $2.10, below the $5 minimum (equity $20.00, stop 1.24%). 24 skipped so far
+2026-09-13 13:01:16 | alive | bar 2026-09-13 12:00:00 | equity 20.00 | 1/8 slots | taken 1 (0L/1S) | declined 0 | too small 24
+2026-09-13 14:00:51 | [ETHUSDT] SHORT SKIPPED - unit would be $2.68, below the $5 minimum (equity $20.00, stop 0.97%). 25 skipped so far
+2026-09-13 14:00:51 | [XRPUSDT] SHORT SKIPPED - unit would be $2.47, below the $5 minimum (equity $20.00, stop 1.05%). 26 skipped so far
+2026-09-13 14:00:51 | [SOLUSDT] SHORT SKIPPED - unit would be $2.40, below the $5 minimum (equity $20.00, stop 1.08%). 27 skipped so far
+2026-09-13 14:00:52 | [DOGEUSDT] SHORT SKIPPED - unit would be $2.40, below the $5 minimum (equity $20.00, stop 1.08%). 28 skipped so far
+2026-09-13 14:00:53 | [LINKUSDT] SHORT SKIPPED - unit would be $1.95, below the $5 minimum (equity $20.00, stop 1.34%). 29 skipped so far
+2026-09-13 14:00:53 | alive | bar 2026-09-13 13:00:00 | equity 20.00 | 1/8 slots | taken 1 (0L/1S) | declined 0 | too small 29
+2026-09-13 15:00:28 | [BTCUSDT] TRAIL HIT (short) R=-1.29 (1 units) after 4b  equity 19.97
+2026-09-13 15:00:31 | [LINKUSDT] SHORT SKIPPED - unit would be $1.91, below the $5 minimum (equity $19.97, stop 1.36%). 30 skipped so far
+2026-09-13 15:00:31 | alive | bar 2026-09-13 14:00:00 | equity 19.97 | 0/8 slots | taken 1 (0L/1S) | declined 0 | too small 30
+2026-09-13 16:00:05 | [XRPUSDT] SHORT SKIPPED - unit would be $2.20, below the $5 minimum (equity $19.97, stop 1.18%). 31 skipped so far
+2026-09-13 16:00:07 | [DOGEUSDT] SHORT SKIPPED - unit would be $2.26, below the $5 minimum (equity $19.97, stop 1.15%). 32 skipped so far
+2026-09-13 16:00:08 | [LINKUSDT] SHORT SKIPPED - unit would be $1.86, below the $5 minimum (equity $19.97, stop 1.40%). 33 skipped so far
+2026-09-13 16:00:08 | alive | bar 2026-09-13 15:00:00 | equity 19.97 | 0/8 slots | taken 1 (0L/1S) | declined 0 | too small 33
+2026-09-13 17:01:53 | alive | bar 2026-09-13 16:00:00 | equity 19.97 | 0/8 slots | taken 1 (0L/1S) | declined 0 | too small 33
+2026-09-13 18:01:30 | alive | bar 2026-09-13 17:00:00 | equity 19.97 | 0/8 slots | taken 1 (0L/1S) | declined 0 | too small 33
+2026-09-13 19:01:06 | alive | bar 2026-09-13 18:00:00 | equity 19.97 | 0/8 slots | taken 1 (0L/1S) | declined 0 | too small 33
+2026-09-13 20:00:48 | alive | bar 2026-09-13 19:00:00 | equity 19.97 | 0/8 slots | taken 1 (0L/1S) | declined 0 | too small 33
+2026-09-13 21:00:27 | [ADAUSDT] LONG SKIPPED - unit would be $1.47, below the $5 minimum (equity $19.97, stop 1.77%). 34 skipped so far
+2026-09-13 21:00:27 | [AVAXUSDT] LONG SKIPPED - unit would be $1.95, below the $5 minimum (equity $19.97, stop 1.33%). 35 skipped so far
+2026-09-13 21:00:27 | alive | bar 2026-09-13 20:00:00 | equity 19.97 | 0/8 slots | taken 1 (0L/1S) | declined 0 | too small 35

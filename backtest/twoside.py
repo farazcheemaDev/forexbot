@@ -49,6 +49,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from backtest.mass_search import fetch  # noqa: E402
+from backtest.convex import run_uncapped  # noqa: E402
 from backtest.pyramid import run_pyramid  # noqa: E402
 from backtest.shortside import signals  # noqa: E402
 from bot.core.indicators import atr as atr_ind  # noqa: E402
@@ -72,27 +73,30 @@ def load(c, days=2400):
 
 
 def short_trades(df, regime, trail):
-    """Shorts via the long engine on an inverted series.
+    """Shorts via run_uncapped's NATIVE short handling (d = -1).
 
-    run_pyramid only handles longs. Mirroring the price around its first value
-    turns a short into a long on the mirrored series: every distance, ATR and
-    trailing-stop relationship is preserved, so the R that comes out is the R a
-    short would have earned. Cleaner than duplicating the engine and risking the
-    two drifting apart.
+    BROKEN VERSION REMOVED 2026-09-12. The first implementation mirrored the price
+    series around twice its FIRST close and traded the mirror as a long. That is
+    only valid if the price never doubles. SOLUSDT rose 97x, so 92% of its mirrored
+    bars were NEGATIVE prices (mirrored min -280 against a real max of 286), and
+    since run_uncapped charges the fee as `fee * entry_price`, the fee came out with
+    the wrong sign and magnitude. It flattered shorts roughly 4x - reporting
+    +0.117R where the native path gives +0.028R - and it invalidated every
+    two-sided result derived from it.
+
+    Caught because two of my own tests disagreed on identical trade counts. The
+    lesson: never transform the price series to reuse an engine. run_uncapped
+    already handles d = -1 correctly - stop above entry, trail above the low water
+    mark ratcheting down, R = (exit - entry) * d / risk, fee on the REAL price.
+
+    Verified against backtest/shortside.py, which always used the native path.
     """
-    base = float(df["close"].iloc[0]) * 2.0
-    inv = df.copy()
-    inv["open"] = base - df["open"]
-    inv["close"] = base - df["close"]
-    inv["high"] = base - df["low"]        # mirroring swaps high and low
-    inv["low"] = base - df["high"]
-    sig = signals(df, "short", regime)                 # signal from REAL prices
-    sig = sig.replace({Action.SELL: Action.BUY})        # ...traded on the mirror
-    R, idx, _u, held = run_pyramid(inv, sig, sl_mult=2.0, trail=trail,
-                                   max_units=1, fee_bp=FEE_BP)
+    sig = signals(df, "short", regime)
+    R, idx, bars, _d = run_uncapped(df, sig, sl_mult=2.0, fee_bp=FEE_BP,
+                                    mode="trail_atr", trail=trail)
     t = df["time"].to_numpy()
-    return [(t[max(int(i) - int(h), 0)], t[int(i)], float(r), "S")
-            for r, i, h in zip(R, idx, held)]
+    return [(t[max(int(i) - int(b), 0)], t[int(i)], float(r), "S")
+            for r, i, b in zip(R, idx, bars)]
 
 
 def long_trades(df, trail, units):

@@ -1,0 +1,155 @@
+SHOULD A SMALL ACCOUNT TAKE PROFIT? — the survival question, not the growth one.
+
+THE IDEA BEING TESTED (user's, 2026-09-13)
+    Make the bot ADAPTIVE IN EQUITY. At $10-20 it takes profit at a fixed target to
+    climb to a threshold; past $30 it behaves differently; past $50 differently
+    again. The claim is that a small account needs a different rule from a large
+    one.
+
+WHY THIS IS NOT OBVIOUSLY WRONG, DESPITE THE PROFIT-CAP FINDING
+    Capping winners is the single worst error this project made: it turned 11
+    profitable trend families into 3, because the top 25 of 6,054 trades produced
+    102.3% of all profit. So a fixed target LOWERS expected growth. That is settled.
+
+    But expected growth is the wrong objective near an absorbing barrier. A $20
+    account on Bitget dies at roughly $5-10 - it cannot place another order - and
+    recovery requires trading. When the barrier is a few bad trades away, the
+    objective is P(reach the target BEFORE hitting the barrier), and that is a
+    different optimisation. Capping the right tail cuts VARIANCE hard in a
+    fat-tailed distribution, and less variance can raise P(survive to target) even
+    at a lower mean. Whether it does here is empirical.
+
+THE CONSTRAINT NEITHER SIDE OF THE ARGUMENT HAD PRICED
+    The venue forces small accounts to over-risk. A $5 minimum order against a ~2%
+    stop risks $0.10 per trade no matter what the config says:
+
+        $10 account -> 1.0% risk/trade      (7.7x the validated 0.13%)
+        $20 account -> 0.5%                 (3.8x)
+        $50 account -> 0.2%                 (1.5x)
+
+    2.5% total exposure was measured at 99.9% drawdown. So a small account is pushed
+    toward wipeout by arithmetic before any strategy choice is made. This simulation
+    enforces that: position size is max(MIN_ORDER, risk-target size), so forced
+    over-risk appears automatically rather than being assumed away.
+
+WHAT IS SIMULATED
+    Real per-trade R sequences from the validated book, resampled in BLOCKS to
+    preserve loss clustering - an i.i.d. bootstrap would scatter the losing streaks
+    that actually kill small accounts and would flatter every variant equally.
+
+    Modes:
+        TRAIL       uncapped trailing exit (the validated rule)
+        TP@1R/2R/3R fixed target, the "bootstrap mode" being proposed
+        TIERED      TP@2R until equity reaches the switch level, then TRAIL
+
+    Scored on:
+        P(reach target)   target = 5x the starting stake
+        P(ruin)           equity below what can fund one minimum order
+        median trades to target, and median final equity
+
+    SINGLE UNIT, no pyramiding. At $20 a 5-unit pyramid needs 5 separate $5 orders -
+    $25 of notional the account cannot fund - so modelling the validated 5-unit
+    distribution here would assume away the very constraint under test.
+
+REGISTERED PREDICTION: profit-taking WINS from $10-20 and LOSES from
+$50 up. If so the tiered idea is right and the switch is where they cross.
+
+stop fraction (median across 9 coins): 2.43% of price
+  TRAIL  n= 10727  meanR +0.3049  sdR 7.071  maxR    390.5  win 24.8%
+  TP@1R  n= 54501  meanR -0.0481  sdR 0.704  maxR      0.5  win 67.4%
+  TP@2R  n= 34200  meanR -0.0289  sdR 1.000  maxR      1.0  win 51.5%
+  TP@3R  n= 25724  meanR -0.0212  sdR 1.232  maxR      1.5  win 41.5%
+
+4000 block-bootstrapped paths per cell, block 20 trades, target 2x the stake
+minimum order $5, max leverage 10x
+
+================================================================================================================
+ stake  forced risk mode         P(reach 2x)   P(ruin)  med trades  med final $
+================================================================================================================
+    10        1.22% TRAIL              63.4%     36.6%         233           25
+    10        1.22% TP@1R               0.0%     90.2%         nan            0
+    10        1.22% TP@2R               5.8%     72.0%        1594            0
+    10        1.22% TP@3R              15.4%     67.6%        1474            0
+    10        1.22% TIERED              5.8%     72.0%        1594            0   (TP@2R until $25, then TRAIL)
+       -> best from $10: TRAIL at 63.4%
+
+    20        0.61% TRAIL              83.4%     15.2%         650           51
+    20        0.61% TP@1R               0.0%     51.1%         nan            0
+    20        0.61% TP@2R               0.2%     34.8%        2111            9
+    20        0.61% TP@3R               1.2%     33.4%        2196           11
+    20        0.61% TIERED              0.2%     34.8%        2111            9   (TP@2R until $50, then TRAIL)
+       -> best from $20: TRAIL at 83.4%
+
+    50        0.24% TRAIL              76.8%      0.8%        1533          126
+    50        0.24% TP@1R               0.0%      0.0%         nan           32
+    50        0.24% TP@2R               0.0%      0.2%         nan           40
+    50        0.24% TP@3R               0.0%      0.4%         nan           42
+    50        0.24% TIERED              0.0%      0.2%         nan           40   (TP@2R until $125, then TRAIL)
+       -> best from $50: TRAIL at 76.8%
+
+   150        0.08% TRAIL              63.2%      0.0%        1782          376
+   150        0.08% TP@1R               0.0%      0.0%         nan          124
+   150        0.08% TP@2R               0.0%      0.0%         nan          134
+   150        0.08% TP@3R               0.0%      0.0%         nan          137
+   150        0.08% TIERED              0.0%      0.0%         nan          134   (TP@2R until $375, then TRAIL)
+       -> best from $150: TRAIL at 63.2%
+
+================================================================================================================
+THE SAME QUESTION ON AN HONEST EDGE — mean R cut 3x for hindsight, tail shape kept
+================================================================================================================
+  TRAIL  meanR +0.1016 (was +0.3049)  sdR 7.071
+  TP@1R  meanR -0.0160 (was -0.0481)  sdR 0.704
+  TP@2R  meanR -0.0096 (was -0.0289)  sdR 1.000
+  TP@3R  meanR -0.0071 (was -0.0212)  sdR 1.232
+
+ stake mode         P(reach 2x)   P(ruin)  med trades  med final $
+    10 TRAIL              36.4%     63.6%         159            0
+    10 TP@2R              14.8%     53.4%        1671            0
+
+    20 TRAIL              46.2%     52.6%         558            0
+    20 TP@2R               0.5%     17.4%        2483           16
+
+    50 TRAIL              37.2%     19.4%        1590           80
+    50 TP@2R               0.0%      0.0%         nan           47
+
+   150 TRAIL              24.0%      0.1%        1791          188
+   150 TP@2R               0.0%      0.0%         nan          144
+
+   500 TRAIL              23.8%      0.0%        1793          628
+   500 TP@2R               0.0%      0.0%         nan          481
+
+These are the numbers to plan against. The panel above them is what a
+backtest on today's coin list would promise.
+
+================================================================================================================
+THE CAUSE: THE VENUE'S MINIMUM ORDER, NOT THE EXIT RULE
+================================================================================================================
+Same honest edge, same trailing exit, only the minimum order changes.
+ stake  venue floor  forced risk  P(reach 5x)   P(ruin)  med final $
+    10 Bitget $5.00        1.22%        36.4%     63.6%            0
+    20 Bitget $5.00        0.61%        46.2%     52.6%            0
+    50 Bitget $5.00        0.24%        37.2%     19.4%           80
+
+    10 MEXC XRP $1.34        0.33%        46.8%     31.9%           19
+    20 MEXC XRP $1.34        0.16%        26.6%      6.1%           28
+    50 MEXC XRP $1.34        0.13%        23.9%      0.0%           63
+
+    10 MEXC ADA $0.21        0.13%        23.8%      0.0%           13
+    20 MEXC ADA $0.21        0.13%        23.8%      0.0%           25
+    50 MEXC ADA $0.21        0.13%        23.8%      0.0%           63
+
+If the ruin column falls sharply as the venue floor falls, then the
+small-account problem was never the strategy or the exit rule - it was
+trading a $20 account on a venue with a $5 minimum.
+
+================================================================================================================
+HOW TO READ THIS
+================================================================================================================
+P(reach target) is the only column that answers the question. A mode
+with lower expected growth can still win here, because growth you never
+collect because the account died is worth nothing.
+
+If TP beats TRAIL at $10-20 and loses at $150, the adaptive idea is
+CORRECT and the crossover sets the switch level. If TP loses everywhere,
+the cap destroys more mean than it saves in variance, and the answer to
+small capital is capital - not a different rule.

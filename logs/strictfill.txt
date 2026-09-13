@@ -1,0 +1,85 @@
+RE-RUNNING TODAY'S CONCLUSIONS UNDER A PESSIMISTIC FILL.
+
+THE ASSUMPTION BEING CORRECTED
+    Every engine in this project advances the trailing stop using the CURRENT bar's
+    favourable extreme, then checks that stop from the NEXT bar onward. A bar's high
+    and low happen in unknown order, so if the newly advanced stop sits inside the
+    same bar's range, it would in reality already have filled.
+
+    convex.py has always documented this as "mildly optimistic". It is mild when the
+    stop sits far from price - a 20xATR long trail. It is NOT mild for a 5xATR short
+    trail, which sits close. backtest/exitlab.py measured the difference at ~0.07R per
+    short trade, which is LARGER THAN THE SHORT SLEEVE'S ENTIRE EDGE: the sleeve went
+    from +0.034 to -0.036.
+
+    Every two-sided result produced today used the optimistic convention. That
+    includes the $200 configuration, the drawdown reductions, and the timeframe
+    blend's rescue of 2022 and 2025 - all of which lean on the short sleeve.
+
+WHAT THIS FILE DECIDES
+    Whether the short sleeve survives an honest fill. Three outcomes:
+      * it survives           -> nothing changes, today's numbers stand
+      * it goes to ~zero      -> shorts are a drawdown hedge, not a profit source,
+                                 and the return figures must be restated long-only
+      * it goes negative      -> the strategy is long-only plus a regime gate, and
+                                 the bear-year rescue was an artifact
+
+    Every comparison is run BOTH ways side by side so the size of the correction is
+    visible rather than asserted.
+
+WHY THE CORRECTION IS NOT ITSELF PESSIMISTIC-BIASED
+    The strict rule can only ever CLOSE a position earlier than the optimistic rule,
+    never later, so it is a strict lower bound rather than a different estimate. The
+    truth sits between the two, and where exactly depends on the intrabar path, which
+    hourly bars cannot show. Reporting both brackets it honestly; reporting only the
+    optimistic one is what has been happening.
+
+    It is applied to BOTH sleeves. Applying it to shorts alone would rig the
+    comparison in the direction of the conclusion I now expect.
+
+REGISTERED PREDICTION: longs lose <0.01R, shorts go to zero or negative,
+long-only + regime gate becomes best, and the bear-year rescue shrinks but
+does not vanish.
+
+======================================================================================================================
+1. WHICH SLEEVE PAYS FOR THE OPTIMISM?   1h bars, 12-coin book
+======================================================================================================================
+configuration                   OPTIMISTIC (as reported)  | STRICT (pessimistic fill)  |      damage     
+                                  meanR       /mo      DD |    meanR       /mo      DD |    meanR      /mo
+long only                        +2.727   +11.09%   78.6% |   +2.686   +10.89%   78.5% |  -0.041   -0.20pp
+short only                       +0.034    +0.03%   52.3% |   -0.036    -0.39%   69.0% |  -0.070   -0.42pp
+long + short (the $200)          +1.538   +12.99%   67.7% |   +1.401   +12.06%   68.9% |  -0.137   -0.93pp
+
+======================================================================================================================
+2. THE TIMEFRAME BLEND — does the 2022/2025 rescue survive?
+======================================================================================================================
+configuration                   OPTIMISTIC (as reported)  | STRICT (pessimistic fill)  |      damage     
+                                  meanR       /mo      DD |    meanR       /mo      DD |    meanR      /mo
+1h both sleeves                  +1.538   +12.99%   67.7% |   +1.401   +12.06%   68.9% |  -0.137   -0.93pp
+1h + 4h                          +2.556   +20.13%   72.7% |   +2.361   +19.89%   73.9% |  -0.194   -0.24pp
+1h + 4h + 12h                    +2.740   +15.47%   63.2% |   +2.348   +12.48%   57.7% |  -0.392   -3.00pp
+
+======================================================================================================================
+3. BY YEAR UNDER THE STRICT FILL — the bear years are the whole point
+======================================================================================================================
+configuration           2020      2021      2022      2023      2024      2025      2026      DD      /mo    floor
+long only              +276%    +1342%     -217%     +619%     +724%      -67%      +64%   78.5%  +10.89%      115
+long + short           +276%    +1213%     -167%     +639%     +906%      -10%      +48%   68.9%  +12.06%       80
+1h+4h+12h              +225%    +1271%      +64%     +519%     +946%       -9%      +17%   57.7%  +12.48%      221
+
+  (yearly return at 0.30%/unit, summed R x risk, not compounded)
+
+======================================================================================================================
+VERDICT
+======================================================================================================================
+  long sleeve  : +2.727 -> +2.686 (-0.041)
+  short sleeve : +0.034 -> -0.036 (-0.070)
+  combined     : +1.538 -> +1.401 (-0.137)
+
+  SHORTS DO NOT SURVIVE AN HONEST FILL. They are at best a drawdown
+  hedge, not a profit source. Every two-sided figure reported today
+  must be restated, and the comparison to run is long-only versus
+  two-sided ON THE STRICT NUMBERS:
+    long only    +10.89%/mo  DD 78.5%  floor $115
+    long + short +12.06%/mo  DD 68.9%  floor $80
+    -> on capital floor, long + short wins

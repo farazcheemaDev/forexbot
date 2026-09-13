@@ -175,3 +175,136 @@
 2026-09-12 21:27:50     LOW    dev>=-0.5          1   -1.0429     nan
 2026-09-12 21:27:50     pre-registered minimum of 300 per cell reached: False
 2026-09-12 21:27:50     -> INCONCLUSIVE by design. No verdict until every cell has 300.
+2026-09-12 22:32:13  ---- PRE-REGISTERED VSA FORWARD TEST ----
+2026-09-12 22:32:13     total trades 2
+2026-09-12 22:32:13     group  cell               n     meanR      se
+2026-09-12 22:32:13     HIGH   dev<-0.5           0
+2026-09-12 22:32:13     HIGH   dev>=-0.5          1   -1.0373     nan
+2026-09-12 22:32:13     LOW    dev<-0.5           0
+2026-09-12 22:32:13     LOW    dev>=-0.5          1   -1.0429     nan
+2026-09-12 22:32:13     pre-registered minimum of 300 per cell reached: False
+2026-09-12 22:32:13     -> INCONCLUSIVE by design. No verdict until every cell has 300.
+2026-09-12 23:35:08  ---- PRE-REGISTERED VSA FORWARD TEST ----
+2026-09-12 23:35:08     total trades 2
+2026-09-12 23:35:08     group  cell               n     meanR      se
+2026-09-12 23:35:08     HIGH   dev<-0.5           0
+2026-09-12 23:35:08     HIGH   dev>=-0.5          1   -1.0373     nan
+2026-09-12 23:35:08     LOW    dev<-0.5           0
+2026-09-12 23:35:08     LOW    dev>=-0.5          1   -1.0429     nan
+2026-09-12 23:35:08     pre-registered minimum of 300 per cell reached: False
+2026-09-12 23:35:08     -> INCONCLUSIVE by design. No verdict until every cell has 300.
+2026-09-13 00:37:24  ---- PRE-REGISTERED VSA FORWARD TEST ----
+2026-09-13 00:37:24     total trades 2
+2026-09-13 00:37:24     group  cell               n     meanR      se
+2026-09-13 00:37:24     HIGH   dev<-0.5           0
+2026-09-13 00:37:24     HIGH   dev>=-0.5          1   -1.0373     nan
+2026-09-13 00:37:24     LOW    dev<-0.5           0
+2026-09-13 00:37:24     LOW    dev>=-0.5          1   -1.0429     nan
+2026-09-13 00:37:24     pre-registered minimum of 300 per cell reached: False
+2026-09-13 00:37:24     -> INCONCLUSIVE by design. No verdict until every cell has 300.
+2026-09-13 01:39:38  ---- PRE-REGISTERED VSA FORWARD TEST ----
+2026-09-13 01:39:38     total trades 2
+2026-09-13 01:39:38     group  cell               n     meanR      se
+2026-09-13 01:39:38     HIGH   dev<-0.5           0
+2026-09-13 01:39:38     HIGH   dev>=-0.5          1   -1.0373     nan
+2026-09-13 01:39:38     LOW    dev<-0.5           0
+2026-09-13 01:39:38     LOW    dev>=-0.5          1   -1.0429     nan
+2026-09-13 01:39:38     pre-registered minimum of 300 per cell reached: False
+2026-09-13 01:39:38     -> INCONCLUSIVE by design. No verdict until every cell has 300.
+2026-09-13 02:41:56  ---- PRE-REGISTERED VSA FORWARD TEST ----
+2026-09-13 02:41:56     total trades 2
+2026-09-13 02:41:56     group  cell               n     meanR      se
+2026-09-13 02:41:56     HIGH   dev<-0.5           0
+2026-09-13 02:41:56     HIGH   dev>=-0.5          1   -1.0373     nan
+2026-09-13 02:41:56     LOW    dev<-0.5           0
+2026-09-13 02:41:56     LOW    dev>=-0.5          1   -1.0429     nan
+2026-09-13 02:41:56     pre-registered minimum of 300 per cell reached: False
+2026-09-13 02:41:56     -> INCONCLUSIVE by design. No verdict until every cell has 300.
+2026-09-13 03:00:37  [PEPE/USDT:USDT] LOW ENTRY LONG @3.4387e-06 dev=+0.036 in_filter=False
+2026-09-13 03:44:16  ---- PRE-REGISTERED VSA FORWARD TEST ----
+2026-09-13 03:44:16     total trades 2
+2026-09-13 03:44:16     group  cell               n     meanR      se
+2026-09-13 03:44:16     HIGH   dev<-0.5           0
+2026-09-13 03:44:16     HIGH   dev>=-0.5          1   -1.0373     nan
+2026-09-13 03:44:16     LOW    dev<-0.5           0
+2026-09-13 03:44:16     LOW    dev>=-0.5          1   -1.0429     nan
+2026-09-13 03:44:16     pre-registered minimum of 300 per cell reached: False
+2026-09-13 03:44:16     -> INCONCLUSIVE by design. No verdict until every cell has 300.
+2026-09-13 04:46:39  ---- PRE-REGISTERED VSA FORWARD TEST ----
+2026-09-13 04:46:39     total trades 2
+2026-09-13 04:46:39     group  cell               n     meanR      se
+2026-09-13 04:46:39     HIGH   dev<-0.5           0
+2026-09-13 04:46:39     HIGH   dev>=-0.5          1   -1.0373     nan
+2026-09-13 04:46:39     LOW    dev<-0.5           0
+2026-09-13 04:46:39     LOW    dev>=-0.5          1   -1.0429     nan
+2026-09-13 04:46:39     pre-registered minimum of 300 per cell reached: False
+2026-09-13 04:46:39     -> INCONCLUSIVE by design. No verdict until every cell has 300.
+2026-09-13 05:01:10  [AAVE/USDT:USDT] LOW ENTRY LONG @126.99 dev=-0.817 in_filter=True
+2026-09-13 05:01:11  [ETC/USDT:USDT] LOW ENTRY SHORT @7.598 dev=-0.423 in_filter=False
+2026-09-13 05:01:12  [APT/USDT:USDT] LOW ENTRY SHORT @0.5926 dev=-0.552 in_filter=True
+2026-09-13 05:49:02  ---- PRE-REGISTERED VSA FORWARD TEST ----
+2026-09-13 05:49:02     total trades 2
+2026-09-13 05:49:02     group  cell               n     meanR      se
+2026-09-13 05:49:02     HIGH   dev<-0.5           0
+2026-09-13 05:49:02     HIGH   dev>=-0.5          1   -1.0373     nan
+2026-09-13 05:49:02     LOW    dev<-0.5           0
+2026-09-13 05:49:02     LOW    dev>=-0.5          1   -1.0429     nan
+2026-09-13 05:49:02     pre-registered minimum of 300 per cell reached: False
+2026-09-13 05:49:02     -> INCONCLUSIVE by design. No verdict until every cell has 300.
+2026-09-13 06:51:47  ---- PRE-REGISTERED VSA FORWARD TEST ----
+2026-09-13 06:51:47     total trades 2
+2026-09-13 06:51:47     group  cell               n     meanR      se
+2026-09-13 06:51:47     HIGH   dev<-0.5           0
+2026-09-13 06:51:47     HIGH   dev>=-0.5          1   -1.0373     nan
+2026-09-13 06:51:47     LOW    dev<-0.5           0
+2026-09-13 06:51:47     LOW    dev>=-0.5          1   -1.0429     nan
+2026-09-13 06:51:47     pre-registered minimum of 300 per cell reached: False
+2026-09-13 06:51:47     -> INCONCLUSIVE by design. No verdict until every cell has 300.
+2026-09-13 07:00:04  [BNB/USDT:USDT] HIGH EXIT SL R=-1.137 dev=+0.062 in_filter=False
+2026-09-13 07:55:00  ---- PRE-REGISTERED VSA FORWARD TEST ----
+2026-09-13 07:55:00     total trades 3
+2026-09-13 07:55:00     group  cell               n     meanR      se
+2026-09-13 07:55:00     HIGH   dev<-0.5           0
+2026-09-13 07:55:00     HIGH   dev>=-0.5          2   -1.0871  0.0497
+2026-09-13 07:55:00     LOW    dev<-0.5           0
+2026-09-13 07:55:00     LOW    dev>=-0.5          1   -1.0429     nan
+2026-09-13 07:55:00     pre-registered minimum of 300 per cell reached: False
+2026-09-13 07:55:00     -> INCONCLUSIVE by design. No verdict until every cell has 300.
+2026-09-13 08:01:10  [BTC/USDT:USDT] HIGH ENTRY SHORT @77092.9 dev=+0.161 in_filter=False
+2026-09-13 08:01:11  [XRP/USDT:USDT] HIGH ENTRY SHORT @1.3571 dev=+0.411 in_filter=False
+2026-09-13 08:01:11  [BNB/USDT:USDT] HIGH ENTRY SHORT @721.57 dev=+0.287 in_filter=False
+2026-09-13 08:01:12  [LINK/USDT:USDT] HIGH ENTRY SHORT @11.419 dev=+0.264 in_filter=False
+2026-09-13 08:57:22  ---- PRE-REGISTERED VSA FORWARD TEST ----
+2026-09-13 08:57:22     total trades 3
+2026-09-13 08:57:22     group  cell               n     meanR      se
+2026-09-13 08:57:22     HIGH   dev<-0.5           0
+2026-09-13 08:57:22     HIGH   dev>=-0.5          2   -1.0871  0.0497
+2026-09-13 08:57:22     LOW    dev<-0.5           0
+2026-09-13 08:57:22     LOW    dev>=-0.5          1   -1.0429     nan
+2026-09-13 08:57:22     pre-registered minimum of 300 per cell reached: False
+2026-09-13 08:57:22     -> INCONCLUSIVE by design. No verdict until every cell has 300.
+2026-09-13 09:01:29  [ARB/USDT:USDT] HIGH ENTRY SHORT @0.1351 dev=-0.515 in_filter=True
+2026-09-13 09:01:29  [ADA/USDT:USDT] HIGH ENTRY SHORT @0.2038 dev=-0.127 in_filter=False
+2026-09-13 09:01:30  [DOGE/USDT:USDT] HIGH ENTRY SHORT @0.08349 dev=-0.262 in_filter=False
+2026-09-13 09:01:30  [XLM/USDT:USDT] LOW ENTRY SHORT @0.17768 dev=-0.148 in_filter=False
+2026-09-13 09:01:30  [AAVE/USDT:USDT] LOW EXIT SL R=-1.140 dev=-0.817 in_filter=True
+2026-09-13 09:01:31  [PEPE/USDT:USDT] LOW EXIT SL R=-1.114 dev=+0.036 in_filter=False
+2026-09-13 09:59:51  ---- PRE-REGISTERED VSA FORWARD TEST ----
+2026-09-13 09:59:51     total trades 5
+2026-09-13 09:59:51     group  cell               n     meanR      se
+2026-09-13 09:59:51     HIGH   dev<-0.5           0
+2026-09-13 09:59:51     HIGH   dev>=-0.5          2   -1.0871  0.0497
+2026-09-13 09:59:51     LOW    dev<-0.5           1   -1.1401     nan
+2026-09-13 09:59:51     LOW    dev>=-0.5          2   -1.0787  0.0358
+2026-09-13 09:59:51     LOW difference (filter - rest) = -0.0614 +/- nan  t=+nan
+2026-09-13 09:59:51     pre-registered minimum of 300 per cell reached: False
+2026-09-13 09:59:51     -> INCONCLUSIVE by design. No verdict until every cell has 300.
+2026-09-13 10:01:51  [BTC/USDT:USDT] HIGH EXIT TP R=+1.039 dev=+0.161 in_filter=False
+2026-09-13 10:01:51  [BTC/USDT:USDT] HIGH ENTRY SHORT @76769.4 dev=+0.051 in_filter=False
+2026-09-13 10:01:52  [ETH/USDT:USDT] HIGH ENTRY SHORT @2484.48 dev=+0.071 in_filter=False
+2026-09-13 10:01:52  [XRP/USDT:USDT] HIGH EXIT TP R=+1.286 dev=+0.411 in_filter=False
+2026-09-13 10:01:52  [XRP/USDT:USDT] HIGH ENTRY SHORT @1.3438 dev=+0.625 in_filter=False
+2026-09-13 10:01:52  [SOL/USDT:USDT] HIGH EXIT TP R=+1.325 dev=-0.262 in_filter=False
+2026-09-13 10:01:52  [SOL/USDT:USDT] HIGH ENTRY SHORT @99.82 dev=-0.232 in_filter=False
+2026-09-13 10:01:54  [AAVE/USDT:USDT] LOW ENTRY SHORT @124.56 dev=+0.280 in_filter=False
+2026-09-13 10:01:56  [OP/USDT:USDT] LOW ENTRY SHORT @0.0952 dev=+0.016 in_filter=False

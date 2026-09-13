@@ -1,0 +1,83 @@
+STOP WIDTH — the one parameter this project has NEVER swept.
+
+THE IDEA BEING TESTED (user's, 2026-09-13)
+    On a small account, use much more leverage with a very tight stop: cut the trade
+    the moment it is down ~$0.50 on a $20 account, but size big so that a winner
+    pays properly.
+
+WHAT LEVERAGE ACTUALLY IS HERE
+    Leverage is not an input to this system. It is an output:
+
+        notional = risk_dollars / stop_fraction
+        leverage = notional / equity = risk_fraction / stop_fraction
+
+    So "more leverage" and "tighter stop" are the SAME knob, not two. Tightening the
+    stop while holding dollar risk constant automatically enlarges the position -
+    that is where the leverage comes from - and it does not by itself change what the
+    strategy earns.
+
+    Two things DO change, and they pull opposite ways:
+      * a tighter stop is hit by noise more often            (worse)
+      * a tighter stop means a given price move is worth more R   (better)
+    Which wins is empirical, and it has never been measured here: every test in this
+    project hardcoded sl_mult = 2.0.
+
+    A third effect is not ambiguous at all:
+        fee toll in R = fee_fraction x price / stop_distance
+    Cut the stop 10x and the fee cost per trade multiplies by 10. At 12bp round trip
+    against a 2.43% stop the toll is ~0.049R; against a 0.243% stop it is ~0.49R,
+    which would erase the entire measured edge of +0.10R on its own.
+
+WHY MEAN R IS COMPARABLE ACROSS STOP WIDTHS HERE
+    R is defined against the stop, so a narrower stop mechanically inflates both the
+    wins and the losses - the numbers are NOT comparable in the abstract. They become
+    comparable once the RISK FRACTION is held constant, because then
+
+        equity change per trade = R x risk_fraction
+
+    and risk_fraction is the same in every row. So with risk fixed, higher mean R
+    means faster growth, whatever the stop width. That is the only reading under
+    which this table means anything, and it is why risk is held at one value.
+
+THE SECOND HALF OF THE IDEA, WHICH IS SEPARATE
+    "$0.50 loss on a $20 account" is 2.5% risk per trade. That is not a stop-width
+    choice, it is a risk choice, and it was already measured: 2.5% total exposure
+    produced a 99.9% drawdown - ruin. The table reports the implied leverage and the
+    dollar risk at $20 so the two halves of the idea can be judged separately.
+
+REGISTERED PREDICTION: mean R falls as the stop tightens and collapses
+below ~1xATR. Best stop at or wider than 2.0. A tight-stop win would make
+me check the fee model first.
+
+median ATR(14) = 1.22% of price across 9 coins
+risk held at 0.13%/unit in every row, so mean R is comparable
+
+======================================================================================================================
+  stop  stop % fee toll R  lev @$20  $risk@20      n    meanR   win%     maxR  HONEST /mo      DD
+======================================================================================================================
+  0.25   0.30%      0.395     0.43x     0.026  44922   +2.358    2.9  21606.7     +12.68%  100.0%
+  0.50   0.61%      0.197     0.21x     0.026  24129   +2.394    5.9   7971.5     +31.08%   99.9%
+  1.00   1.22%      0.099     0.11x     0.026  12376   +2.344   12.1   3885.4     +20.44%   94.2%
+  1.50   1.82%      0.066     0.07x     0.026   8473   +2.417   17.0   2583.6     +15.67%   81.4%
+  2.00   2.43%      0.049     0.05x     0.026   6521   +2.372   20.2   1932.7     +11.80%   66.0%
+  3.00   3.65%      0.033     0.04x     0.026   4549   +1.834   24.7   1281.8      +5.61%   51.5%
+  4.00   4.87%      0.025     0.03x     0.026   3692   +1.537   26.1    956.3      +3.58%   35.6%
+  6.00   7.30%      0.016     0.02x     0.026   3013   +1.023   29.8    630.9      +1.77%   20.7%
+
+======================================================================================================================
+BEST mean R at stop 1.50xATR (+2.417), currently running 2.00x (+2.372)
+======================================================================================================================
+The 'fee toll R' column is the argument against a tight stop, and it is
+arithmetic rather than a backtest result: cost in R = fee / stop distance,
+so halving the stop doubles what every trade pays before it can win.
+
+SEPARATELY, on the '$0.50 loss on a $20 account' half of the idea:
+  $0.50 of 20 is 2.5% risk per trade. 2.5% total exposure was measured
+  at 99.9% drawdown - ruin - and that is independent of stop width. The
+  '$risk@20' column shows what THIS table's risk setting actually costs
+  per trade on a $20 account: $0.026.
+
+And the leverage column shows the other half: at this risk setting even
+the tightest stop here implies well under 1x leverage on $20. High
+leverage does not arrive from a tight stop alone - it arrives from
+raising RISK, which is the part already measured as ruinous.

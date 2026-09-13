@@ -1,0 +1,11 @@
+2026-09-13 21:06:52 | ==============================================================================
+2026-09-13 21:06:52 | POLYMARKET FORWARD TEST — records data only, no orders, no keys, no funds
+2026-09-13 21:06:52 |   H3: markets snapshotted at 0.50-0.65 resolve YES at least +0.10 above
+2026-09-13 21:06:52 |       their price. Backtest said +0.25; I do not believe it.
+2026-09-13 21:06:52 |   success needs 120 resolutions in that band, >2se, and gap > +0.10
+2026-09-13 21:06:52 |   0 markets already tracked
+2026-09-13 21:07:03 | snapshot: scanned 1200 open markets, recorded 978 new (total tracked 978)
+2026-09-13 21:07:39 | resolved 0 snapshots this pass
+2026-09-13 21:07:39 | ---- PRE-REGISTERED POLYMARKET FORWARD TEST ----
+2026-09-13 21:07:39 |    tracked 978 markets, 0 resolved so far
+2026-09-13 21:07:39 |    no resolutions yet

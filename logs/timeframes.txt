@@ -1,0 +1,65 @@
+HIGHER TIMEFRAMES — the blind spot. Every test in this project used 1h.
+
+THE GAP
+    393 configs, 19 indicator families, every exit rule, every universe, the whole
+    drawdown battery: all of it on ONE-HOUR bars. Lower timeframes were tested and
+    killed on cost (1m/5m/15m). HIGHER ones were never tried at all.
+
+    That is a strange omission, because classical trend following lives on DAILY
+    bars, and the one cost metric this project trusts says longer bars should be
+    cheaper to trade:
+
+        fee toll in R = fee_fraction / stop_fraction
+
+    ATR is a larger fraction of price on a longer bar, so the same 2xATR stop is a
+    much wider percentage move, and the same 12bp round trip costs far less in R.
+    Hourly: ATR ~1.22% -> 2xATR = 2.43% -> toll 0.049R.
+    If daily ATR is ~4.5%, the stop is ~9% and the toll is ~0.013R - a quarter.
+
+WHY IT MIGHT STILL LOSE
+    * FAR fewer trades. Hourly gives ~6,500 across 12 coins; daily might give 400.
+      Fewer compounding events means less growth even at a better mean R, and it
+      also means any result rests on a much smaller sample.
+    * The capital floor moves the WRONG way. notional = risk / stop_fraction, so a
+      wider stop means a SMALLER position, which is harder to get above the venue's
+      minimum order. Daily could raise the floor even while cutting drawdown.
+    * 2020-2026 is ~6.5 years. On daily bars that is ~2,400 observations per coin -
+      enough, but only just, and one trend cycle dominates.
+
+WHAT IS HELD CONSTANT
+    Identical rules at every timeframe: BB(30,1.5) entries, 2xATR stop, breakeven at
+    3R, long pyramid 5 units adding every 2R with a 20xATR trail, short 1 unit with a
+    5xATR trail, 8 slots, 0.30%/unit. Only the bar size changes. Trails stay in ATR
+    units, which is the point - ATR rescales with the timeframe automatically.
+
+    Bars are resampled from the SAME 1h source, so no new data and no new survivorship
+    question enters.
+
+REGISTERED PREDICTION: 4h is the sweet spot; daily has the best mean R,
+the worst total return, and a HIGHER capital floor. If 1h wins outright,
+crypto's trends are short and the blind spot is closed.
+
+======================================================================================================================
+  bars   stop %  fee toll R      n    meanR   win%      maxR  HONEST /mo      DD   floor $
+======================================================================================================================
+    1h    2.65%       0.045   6546   +1.538   20.5    1083.7     +13.93%   84.8%       163
+    4h    5.55%       0.022   1677   +3.761   23.5     868.0      +8.67%   75.4%       210
+   12h   10.11%       0.012    582   +4.110   24.2    1804.4      +1.53%   64.5%       263
+    1D   14.91%       0.008    308   +3.412   26.3     914.2      +0.73%   43.4%       239
+    2D   22.05%       0.005    162   +1.644   24.1     398.0      +0.22%   48.7%       388
+
+======================================================================================================================
+BY YEAR — the 1h book made 2.5% of its profit in 2025-2026. Do longer bars survive that stretch?
+======================================================================================================================
+  bars       2020       2021       2022       2023       2024       2025       2026
+    1h      +1.34      +5.20      -0.49      +2.06      +3.04      +0.03      +0.26
+    4h      +1.87     +17.78      +0.43      +0.19     +11.33      +0.58      +0.58
+   12h      +2.54     +41.76      +1.44      -1.00      +2.38      -0.11      -0.50
+    1D      -2.16      +6.88     +19.42      -1.00      +2.57      -2.82      -0.39
+    2D          -          -     +22.17      -0.94      -2.99      -3.19      +0.66
+
+(mean R per trade, by year. '-' means fewer than 10 trades.)
+
+best mean R: 12h at +4.110 (1h is +1.538)
+Judge on the BY-YEAR table, not the average. The whole reason for running
+this is that the 1h book's average is carried by 2021 and 2024.

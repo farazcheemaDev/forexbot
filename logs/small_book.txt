@@ -1,0 +1,102 @@
+DOES A CHEAP 4-COIN BOOK WORK? — the test that decides whether ~$100 can trade.
+
+WHY THIS EXISTS
+    backtest/venue_floor.py measured the capital floor for the validated 9-coin
+    book at ~$1,500, and the binding constraint is ONE contract: ETH's smallest
+    step is 0.01 ETH, about $25 of notional. Drop the expensive contracts and the
+    floor collapses:
+
+        9 coins (validated)            ~$1,500
+        6 cheapest                     ~$470
+        4 cheapest (ADA AVAX LINK XRP)   ~$82   on MEXC
+
+    That is an 18x reduction from a change the strategy might not care about - it
+    has no opinion about WHICH coins it trades. Might not. This file finds out,
+    because assuming it would be exactly the class of error that has cost this
+    project most.
+
+WHAT COULD GO WRONG, STATED BEFORE RUNNING
+    1. BREADTH. Already measured on the top-N-by-volume book:
+           3 coins   +59.7%/yr  DD 49.2%
+           5 coins  +118.8%/yr  DD 63.8%
+           9 coins  +256.9%/yr  DD 78.0%
+       Return scales hard with breadth because 8 slots sit idle at low coin
+       counts. A 4-coin book should land near +80-90%/yr, roughly +5.3%/month -
+       HALF the headline figure. That is the expected cost and it is not a
+       failure, it is a trade: half the return for 18x less capital required.
+    2. CHARACTER. The cheap contracts are cheap because their unit price is low,
+       which correlates with smaller market cap and higher volatility. That could
+       cut either way - more volatility means more breakouts, and also more false
+       ones.
+    3. CONCENTRATION. With 4 coins the book is one correlated bet. A 74.8%
+       drawdown on 9 coins could be worse, not better, on 4.
+
+REGISTERED PREDICTION: cheap-4 lands +60% to +110%/yr, DD 45-70%.
+If cheap-4 BEATS the 9-coin book I will look for a bug first.
+
+engine: fixed book, 8 shared slots, 0.13%/unit, long pyramid 5u trail 20x + short 1u trail 5x, fee 12.0bp
+NOT comparable to the +240.1%/yr point-in-time figure - different engine, fixed universe.
+
+======================================================================================================================
+ordering       k book                                longs  shorts  decl      CAGR      DD   /month  floor MEXC  floor Bitget
+======================================================================================================================
+cheap-first    3 ADA AVAX LINK                        1079    2374     0    +77.8%   45.6%   +4.91%         44          437
+cheap-first    4 ADA AVAX LINK XRP                    1519    3216     0   +125.5%   51.1%   +7.01%         49          487
+cheap-first    5 ADA AVAX LINK XRP BNB                1846    3657   420   +200.7%   54.0%   +9.61%        209          516
+cheap-first    6 ADA AVAX LINK XRP BNB BTC            2237    3703  1240   +304.1%   62.8%  +12.34%        258          638
+cheap-first    9 ADA AVAX LINK XRP BNB BTC DOGE SOL ETH   2849    3260  4624   +719.8%   67.5%  +19.16%      1,140        1,141
+
+volume-first   3 BTC ETH SOL                          1139    2417     0   +115.4%   43.8%   +6.60%        659          659
+volume-first   4 BTC ETH SOL XRP                      1579    3259     0   +173.2%   52.2%   +8.74%        775          775
+volume-first   5 BTC ETH SOL XRP BNB                  1908    3686   432   +275.5%   51.0%  +11.66%        757          757
+volume-first   6 BTC ETH SOL XRP BNB DOGE             2287    3776  1217   +474.4%   58.8%  +15.68%        901          901
+volume-first   9 BTC ETH SOL XRP BNB DOGE ADA AVAX LINK   2869    3292  4572   +719.1%   70.0%  +19.15%      1,235        1,235
+
+======================================================================================================================
+WHAT DID THE CHEAP CONSTRAINT COST? — same k, cheap-first vs volume-first
+======================================================================================================================
+  k=3: cheap    +77.8%/yr DD  45.6%  |  volume   +115.4%/yr DD  43.8%  |  cheap costs -37.6pp of CAGR, needs $44 vs $659 on MEXC
+  k=4: cheap   +125.5%/yr DD  51.1%  |  volume   +173.2%/yr DD  52.2%  |  cheap costs -47.7pp of CAGR, needs $49 vs $775 on MEXC
+  k=5: cheap   +200.7%/yr DD  54.0%  |  volume   +275.5%/yr DD  51.0%  |  cheap costs -74.9pp of CAGR, needs $209 vs $757 on MEXC
+  k=6: cheap   +304.1%/yr DD  62.8%  |  volume   +474.4%/yr DD  58.8%  |  cheap costs -170.3pp of CAGR, needs $258 vs $901 on MEXC
+  k=9: cheap   +719.8%/yr DD  67.5%  |  volume   +719.1%/yr DD  70.0%  |  cheap costs +0.7pp of CAGR, needs $1,140 vs $1,235 on MEXC
+
+======================================================================================================================
+RANKED BY WHAT ACTUALLY MATTERS: monthly return per dollar of capital required
+======================================================================================================================
+  cheap-first   k=4   +7.01%/month  floor $     49 (MEXC, binding: LINK)  DD  51.1%
+  cheap-first   k=3   +4.91%/month  floor $     44 (MEXC, binding: LINK)  DD  45.6%
+  cheap-first   k=6  +12.34%/month  floor $    258 (MEXC, binding: BNB)  DD  62.8%
+  cheap-first   k=5   +9.61%/month  floor $    209 (MEXC, binding: BNB)  DD  54.0%
+  volume-first  k=6  +15.68%/month  floor $    901 (MEXC, binding: ETH)  DD  58.8%
+  cheap-first   k=9  +19.16%/month  floor $  1,140 (MEXC, binding: ETH)  DD  67.5%
+  volume-first  k=9  +19.15%/month  floor $  1,235 (MEXC, binding: ETH)  DD  70.0%
+  volume-first  k=5  +11.66%/month  floor $    757 (MEXC, binding: ETH)  DD  51.0%
+
+The floor column is the whole point. A configuration you cannot fund
+has a return of zero, whatever the backtest says.
+
+======================================================================================================================
+HONEST EXPECTATION — every row above divided by the measured 3.0x hindsight premium
+======================================================================================================================
+  cross-check: the 9-coin fixed book reads +719.8%/yr here against +240.1%/yr point-in-time = 3.00x
+  the premium was measured independently at 3.03-3.05x. Two routes agreeing is why this divisor is used.
+
+ordering       k book                          raw /mo  HONEST /mo      DD  floor MEXC  binding
+cheap-first    3 ADA AVAX LINK                  +4.91%      +1.94%   45.6%         44     LINK
+cheap-first    4 ADA AVAX LINK XRP              +7.01%      +2.96%   51.1%         49     LINK
+cheap-first    5 ADA AVAX LINK XRP BNB          +9.61%      +4.36%   54.0%        209      BNB
+cheap-first    6 ADA AVAX LINK XRP BNB BTC     +12.34%      +6.01%   62.8%        258      BNB
+cheap-first    9 ADA AVAX LINK XRP BNB BTC DOGE SOL ETH  +19.16%     +10.73%   67.5%      1,140      ETH
+volume-first   3 BTC ETH SOL                    +6.60%      +2.75%   43.8%        659      ETH
+volume-first   4 BTC ETH SOL XRP                +8.74%      +3.87%   52.2%        775      ETH
+volume-first   5 BTC ETH SOL XRP BNB           +11.66%      +5.58%   51.0%        757      ETH
+volume-first   6 BTC ETH SOL XRP BNB DOGE      +15.68%      +8.22%   58.8%        901      ETH
+volume-first   9 BTC ETH SOL XRP BNB DOGE ADA AVAX LINK  +19.15%     +10.73%   70.0%      1,235      ETH
+
+The HONEST column is the one to plan against. The raw column is what
+a backtest on today's coin list reports, and it is wrong by 3x for a
+reason that has nothing to do with the strategy.
+
+Minimum-order figures are from 2026-09-13 metadata and MUST be re-verified
+with one real demo order before any of this is acted on.

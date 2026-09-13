@@ -1,0 +1,121 @@
+IS POLYMARKET MISPRICED? — the longshot-bias test, done properly.
+
+THE CLAIM BEING TESTED
+    In betting markets, longshots are systematically OVERPRICED and favourites
+    UNDERPRICED. It is one of the oldest documented anomalies in horse racing and it
+    survives in most bookmaker markets. If it holds on Polymarket, the exploit is
+    mechanical: buy high-probability contracts, hold to resolution, collect the gap.
+
+WHY POLYMARKET IS WORTH THE TROUBLE AT ALL
+    It has NO MINIMUM ORDER. That is the single constraint that killed every
+    small-capital idea measured today: Bitget's $5 floor forces a $10 account to risk
+    1.26% per trade whether it wants to or not, and that forced over-risk is why 70%
+    of paths die. On Polymarket a $10 account can hold twenty genuine positions.
+
+    And because a contract SETTLES ITSELF at $1 or $0, a hold-to-resolution strategy
+    crosses the spread ONCE. Measured live on the tradeable markets, that is ~2-3.5%
+    one way - expensive but survivable, where round-tripping at 5-7% would not be.
+
+THE TEST
+    For every resolved market: take the YES price N days BEFORE it closed, bucket by
+    that price, and measure what fraction of each bucket actually resolved YES.
+
+    Perfect calibration means resolution rate == price, in every bucket. The claim
+    predicts a specific shape:
+        low buckets  (longshots)  resolve LESS often than their price  -> overpriced
+        high buckets (favourites) resolve MORE often than their price -> underpriced
+
+    An edge only counts if the gap beats the ~2-3% it costs to get in.
+
+THREE WAYS THIS TEST CAN LIE, AND WHAT IS DONE ABOUT EACH
+    1. CLUSTERING. Twenty "will X win the nomination" markets are ONE event: one
+       resolves YES and nineteen resolve NO by construction. Treating them as twenty
+       independent observations would inflate significance enormously - the same error
+       that made a pooled crypto p-value meaningless earlier today. Markets are
+       therefore grouped by event and the EVENT COUNT is reported as the real sample
+       size alongside the market count.
+    2. SELECTION. Ordering by volume selects large, well-known markets, which are
+       exactly the ones most likely to be efficiently priced. That biases AGAINST
+       finding an edge, so it is the conservative direction - but it is stated rather
+       than hidden.
+    3. HORIZON. The bias is not the same 1 day out as 90 days out. Several horizons
+       are reported rather than one convenient choice.
+
+REGISTERED PREDICTION: longshot bias appears at the low end but is NOT
+exploitable (the profitable side is shorting 3c contracts). Favourites
+resolving >3 points above their price WOULD be exploitable and new.
+
+fetching up to 800 resolved markets...
+    100 markets...
+    200 markets...
+    300 markets...
+    400 markets...
+    500 markets...
+    600 markets...
+    700 markets...
+    800 markets...
+  800 returned
+  753 are cleanly resolved binary Yes/No markets
+  spanning 307 distinct events
+
+fetching price history (cached)...
+    100/753
+    200/753
+    300/753
+    400/753
+    500/753
+    600/753
+    700/753
+
+========================================================================================================
+CALIBRATION — does the price predict the outcome?
+========================================================================================================
+Perfect calibration: 'resolved YES' equals 'avg price' in every row.
+'edge after cost' buys the bucket at its price plus a 2.5% one-way spread and holds to resolution.
+
+  1 day(s) before resolution   738 markets across 302 EVENTS (events are the real sample size)
+  price bucket       n  avg price  resolved YES      gap      se  edge after cost
+  0.00-0.05        482      0.004        0.008   +0.004   0.007          -0.021
+  0.05-0.10         22      0.072        0.136   +0.065   0.079          +0.040
+  0.10-0.20         15      0.143        0.333   +0.191   0.142          +0.166
+  0.20-0.35         31      0.264        0.323   +0.058   0.087          +0.033
+  0.35-0.50         34      0.434        0.324   -0.111   0.080          -0.136
+  0.50-0.65         53      0.575        0.660   +0.086   0.065          +0.061
+  0.65-0.80         32      0.728        0.625   -0.103   0.086          -0.128
+  0.95-1.00         54      0.994        1.000   +0.006   0.000          -0.019 *
+   * gap exceeds 2 standard errors on the EVENT count
+
+  7 day(s) before resolution   686 markets across 266 EVENTS (events are the real sample size)
+  price bucket       n  avg price  resolved YES      gap      se  edge after cost
+  0.00-0.05        459      0.005        0.007   +0.002   0.007          -0.023
+  0.05-0.10         26      0.067        0.192   +0.125   0.080          +0.100
+  0.10-0.20         26      0.153        0.231   +0.078   0.094          +0.053
+  0.20-0.35         25      0.275        0.320   +0.045   0.097          +0.020
+  0.35-0.50         28      0.441        0.357   -0.084   0.091          -0.109
+  0.50-0.65         34      0.580        0.676   +0.097   0.080          +0.072
+  0.65-0.80         29      0.711        0.690   -0.022   0.086          -0.047
+  0.95-1.00         39      0.991        1.000   +0.009   0.000          -0.016 *
+   * gap exceeds 2 standard errors on the EVENT count
+
+  30 day(s) before resolution   622 markets across 218 EVENTS (events are the real sample size)
+  price bucket       n  avg price  resolved YES      gap      se  edge after cost
+  0.00-0.05        409      0.005        0.007   +0.002   0.008          -0.023
+  0.05-0.10         31      0.072        0.129   +0.058   0.066          +0.033
+  0.10-0.20         32      0.149        0.312   +0.163   0.088          +0.138
+  0.20-0.35         29      0.264        0.345   +0.081   0.097          +0.056
+  0.35-0.50         31      0.435        0.355   -0.080   0.086          -0.105
+  0.50-0.65         35      0.570        0.771   +0.202   0.072          +0.177 *
+  0.65-0.80         26      0.712        0.654   -0.058   0.093          -0.083
+  0.95-1.00         15      0.989        1.000   +0.011   0.000          -0.014 *
+   * gap exceeds 2 standard errors on the EVENT count
+
+========================================================================================================
+VERDICT
+========================================================================================================
+  BUCKETS THAT BEAT THE SPREAD, on 20+ independent events:
+    30d out, price 0.50-0.65: paid 0.570, resolved 0.771  ->  +0.177 per $1 staked (+17.7%)
+
+  Before believing it: these buckets were selected AFTER seeing the
+  table, across 3 horizons x 10 buckets = 30 cells, so roughly 1.5
+  would clear 2 standard errors by chance. Trust a bucket only if its
+  NEIGHBOURS lean the same way and it repeats at other horizons.

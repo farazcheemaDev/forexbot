@@ -1,0 +1,71 @@
+RENKO + A WIDE UNIVERSE — fixing the one thing wrong with Renko.
+
+THE IDEA
+    backtest/barsampling.py found Renko bricks earn +0.517 mean R against the 1h time
+    bar's +0.229 - more than double per trade, with the fat tail intact. It still lost
+    overall, because it fires 48 times a year per coin against 1h's 165, and trade
+    count is what compounds.
+
+    But trade count is not fixed. It is coins x frequency. Renko at ~34 coins fires as
+    often as 1h at 10, and if mean R holds anywhere near +0.5 the total edge is
+    roughly 2.3x the control.
+
+    There is a second reason the two fit together. With 12 coins on 1h bars the 8-slot
+    cap already overflows badly - 5,394 trades DECLINED against 2,782 taken. Renko's
+    lower per-coin frequency means many more coins can share the same 8 slots before
+    they crowd each other. The earlier breadth rule ("peak where COINS ~= SLOTS + 1")
+    was measured on 1h bars and should not transfer.
+
+    And the capital floor should NOT rise: execution stays on the real 1h OHLC with a
+    2xATR(1h) stop in every variant, so the stop fraction - which is what sets the
+    floor alongside the minimum order - is unchanged by the bar type.
+
+WHY IT MIGHT FAIL
+    Adding coins means adding LESS LIQUID coins, and that has already burned this
+    project once: ranking purely by tiny minimum order surfaced ILV, ICX, CVC and
+    friends at $30k-170k of volume per bar, and every book built from them drew down
+    99.6-100%. So the pool here is ranked by LIQUIDITY and the table reports where
+    adding coins stops helping - if mean R collapses as the universe widens, the
+    Renko edge was a property of the ten good coins, not of the bar type.
+
+REGISTERED PREDICTION: Renko at 30-40 coins beats the 1h 12-coin book on
+return AND drawdown; mean R decays but stays above +0.35 at 30 coins. Below
+the 1h control's +0.229 by 30 coins means the edge was the coins.
+
+building the candidate pool (MEXC minimum <= $2.50, ranked by liquidity)...
+  45 coins with >= 20,000 bars
+
+  XRP, SUI, ADA, LINK, AVAX, WIF, LTC, ENA, SHIB, WLD, NEAR, DOT, ARB, TAO, UNI, APT, BCH, OP, AAVE, SEI, GALA, TIA, CRV, ATOM, ETC, ICP, ETHFI, ORDI, FET, FLOKI, XLM, VET, LDO, HBAR, SAND, CAKE, PENDLE, ALGO, JUP, CHZ, JASMY, AR, JTO, EGLD, THETA
+
+time split at 2024-09-11
+
+======================================================================================================================
+bars          coins    meanR  trades/yr    decl |  TUNE /mo      DD |   OUT /mo      DD    floor
+======================================================================================================================
+1h time          12   +1.480      1,000   5,043 |   +17.47%   84.5% |    +4.60%   90.2%      258
+1h time          20   +1.521      1,028  11,718 |   +20.56%   84.8% |    +5.05%   85.5%      182
+1h time          30   +1.477      1,094  20,569 |   +20.84%   86.9% |    +4.27%   86.5%      196
+1h time          45   +1.294      1,112  35,900 |   +16.28%   89.7% |    +4.40%   85.0%      176
+
+RENKO 1xATR      12   +1.398        738     779 |   +11.03%   87.2% |    +1.39%   87.9%      210
+RENKO 1xATR      20   +1.808        855   3,327 |   +20.07%   79.5% |    +5.55%   77.0%      115
+RENKO 1xATR      30   +1.857        968   7,128 |   +22.73%   75.4% |    +7.64%   78.4%      122
+RENKO 1xATR      45   +1.339      1,083  14,060 |   +19.67%   93.6% |    +1.76%   96.6%      766
+
+RENKO 2xATR      12   +1.601        494     225 |    +5.52%   69.2% |    +8.06%   66.5%       76
+RENKO 2xATR      20   +1.101        644   1,292 |    +7.24%   65.9% |    +1.34%   78.0%      120
+RENKO 2xATR      30   +1.315        783   3,169 |   +12.87%   66.0% |    +2.81%   75.5%      108
+RENKO 2xATR      45   +1.377        939   6,816 |   +12.90%   80.5% |    +4.24%   81.3%      141
+
+======================================================================================================================
+VERDICT — against the current $221 book (1h time, 12 coins)
+======================================================================================================================
+  baseline out of sample: +4.60%/mo  DD 90.2%  floor $258  meanR +1.480
+  RENKO 2xATR   12 coins  OUT  +8.06%/mo  DD  66.5%  floor $76  meanR +1.601
+  RENKO 1xATR   30 coins  OUT  +7.64%/mo  DD  78.4%  floor $122  meanR +1.857
+  RENKO 1xATR   20 coins  OUT  +5.55%/mo  DD  77.0%  floor $115  meanR +1.808
+  1h time       20 coins  OUT  +5.05%/mo  DD  85.5%  floor $182  meanR +1.521
+
+  4 of 12 cells. Believe one only if the
+  neighbouring universe sizes improved too — a single good coin count
+  is a fitted number.

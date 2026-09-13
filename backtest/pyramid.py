@@ -72,8 +72,18 @@ def load(c, days=2400):
 def run_pyramid(df: pd.DataFrame, sig: pd.Series, *, sl_mult: float = 2.0,
                 trail: float = 20.0, max_units: int = 1,
                 add_every: float = 2.0, fee_bp: float = FEE_BP,
-                atr_period: int = 14):
+                atr_period: int = 14, breakeven_at: float = 0.0,
+                strict_fill: bool = False):
     """R per closed POSITION (all units combined), in units of the initial risk.
+
+    breakeven_at > 0 moves the stop to the FIRST entry price once the position has
+    gained that many R, before the trail would otherwise reach it. Added
+    2026-09-13 to test drawdown control: a 20xATR trail gives back 10R, so a
+    position can show +5R and still be guaranteed to close at a loss. The live bot
+    demonstrated exactly that - three shorts at +0.70R to +2.13R open profit, all
+    three with their stops still on the losing side of entry.
+
+    OFF by default (0.0), so every existing caller is unaffected.
 
     Causality is identical to run_uncapped: entry at open[i] sized from atr[i-1],
     stop checked against the bar's own extreme before the trail advances.
@@ -119,8 +129,28 @@ def run_pyramid(df: pd.DataFrame, sig: pd.Series, *, sl_mult: float = 2.0,
                 pos["next_add"] += 1
         pos["best"] = max(pos["best"], h[i])
         cand = pos["best"] - trail * a[i - 1]
+        # BREAKEVEN floor, applied before the trail so the wider of the two wins.
+        # Measured from the FIRST entry, and it protects only the first unit's
+        # cost - later units were bought higher, so the position as a whole is
+        # still slightly negative at this stop after fees. Claiming otherwise
+        # would overstate the protection.
+        if breakeven_at > 0 and (pos["best"] - pos["entries"][0]) / risk >= breakeven_at:
+            cand = max(cand, pos["entries"][0])
         if cand > pos["stop"]:
             pos["stop"] = cand
+        if strict_fill and lo[i] <= pos["stop"]:
+            # PESSIMISTIC SAME-BAR FILL — see the note in convex.run_uncapped. The
+            # stop was just advanced off this bar's high, so if it now sits inside
+            # this bar's range it would already have filled. Costs the long sleeve
+            # almost nothing (a 20xATR trail sits far from price) but it must be
+            # applied to BOTH sleeves or the comparison between them is rigged.
+            px = pos["stop"]
+            gross = sum((px - e) for e in pos["entries"]) / risk
+            cost = sum(fee * e for e in pos["entries"]) / risk
+            Rs.append(gross - cost); idx.append(i)
+            units_used.append(len(pos["entries"]))
+            held.append(i - pos["bar"])
+            pos = None
     if pos is not None:                       # close what is still open at the end
         px = c[n - 1]
         gross = sum((px - e) for e in pos["entries"]) / pos["risk"]

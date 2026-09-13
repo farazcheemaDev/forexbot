@@ -77,9 +77,23 @@ def run_uncapped(df: pd.DataFrame, sig: pd.Series, *, sl_mult: float = 2.0,
                  max_bars: int = 2000, breakeven_at: float = 0.0,
                  fee_bp: float = FEE_BP, atr_period: int = 14,
                  trail_on_close: bool = False,
-                 close_at_end: str | None = None):
+                 close_at_end: str | None = None,
+                 be_at: float = 0.0, strict_fill: bool = False):
     """R per trade with NO profit target. Same causality rules as rtest.run_r:
-    entry at open[i] sized from atr[i-1]; stops beat targets on ties."""
+    entry at open[i] sized from atr[i-1]; stops beat targets on ties.
+
+    be_at > 0 adds a BREAKEVEN FLOOR to any mode: once the position has gained that
+    many R, the stop may not sit worse than entry. Added 2026-09-13.
+
+    This is deliberately NOT the same thing as mode="breakeven", which SUSPENDS the
+    trail entirely until the gain threshold is met and therefore changes holding
+    behaviour as well as protection. Testing a "breakeven stop" with mode=
+    "breakeven" on one sleeve and a trail-plus-floor on the other compares two
+    different rules and attributes the difference to the wrong cause - which is
+    exactly what happened on the first pass of backtest/ddcontrol.py, where the
+    short sleeve silently held far longer and the trade count FELL below baseline
+    as the threshold rose.
+    """
     s = sig.to_numpy() if isinstance(sig, pd.Series) else np.asarray(sig)
     o = df["open"].to_numpy(float)
     h = df["high"].to_numpy(float)
@@ -124,8 +138,30 @@ def run_uncapped(df: pd.DataFrame, sig: pd.Series, *, sl_mult: float = 2.0,
                     pos["be"] = True
             else:                                   # timed
                 cand = pos["stop"]
+            # BREAKEVEN FLOOR, independent of the mode: the wider of trail and
+            # entry wins once the trade has earned be_at. Applied before the
+            # ratchet so it can only ever improve the stop.
+            if be_at > 0 and gain_r >= be_at:
+                cand = max(cand, e) if d == 1 else min(cand, e)
             # a stop only ever ratchets toward profit
             pos["stop"] = max(pos["stop"], cand) if d == 1 else min(pos["stop"], cand)
+            if strict_fill:
+                # PESSIMISTIC SAME-BAR FILL. The stop was just advanced using THIS
+                # bar's favourable extreme; a bar's high and low occur in unknown
+                # order, so if the new stop now sits inside this bar's range it would
+                # already have been hit. The default (checking only from the next bar)
+                # is the mildly optimistic convention documented at the top of this
+                # file. "Mildly" holds for a 20xATR trail sitting far from price; for
+                # a 5xATR short trail it is worth ~0.07R per trade, which is larger
+                # than the short sleeve's entire measured edge. Found 2026-09-13 in
+                # backtest/exitlab.py.
+                brk = (lo[i] <= pos["stop"]) if d == 1 else (h[i] >= pos["stop"])
+                if brk:
+                    px = pos["stop"]
+                    R = (px - e) * d / risk - (fee * e) / risk
+                    Rs.append(R); idx.append(i); bars.append(i - pos["bar"])
+                    dirs.append(d)
+                    pos = None
             continue
         R = (px - e) * d / risk - (fee * e) / risk
         Rs.append(R); idx.append(i); bars.append(i - pos["bar"]); dirs.append(d)
