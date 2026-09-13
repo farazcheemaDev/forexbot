@@ -1,0 +1,44 @@
+[Unit]
+Description=Bitget DEMO order-path test — $221 sizing, 3 contracts, real demo orders
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__USER__
+WorkingDirectory=__APP_DIR__
+
+# CREDENTIALS COME FROM A ROOT-OWNED FILE, NOT FROM THIS UNIT.
+#
+# Putting them in Environment= lines here would place them in the repo, in
+# `systemctl cat`, and in `systemctl show` for any user on the box. /etc/forexbot.env
+# is chmod 600 root:root and is NOT in git.
+#
+# Bitget demo uses the SAME api key as live trading, only a different product type,
+# so this key must be IP-WHITELISTED to this VM on Bitget's API settings page. That
+# is the control that makes a leaked key worthless; ALLOW_REAL=False in the source is
+# the second layer, not the first.
+EnvironmentFile=/etc/forexbot.env
+
+ExecStart=__APP_DIR__/.venv/bin/python -u longtrend_bot.py --mode demo
+
+# This bot PLACES ORDERS, so a restart loop is not harmless the way it is for the
+# paper runners. RestartSec is long and StartLimit stops it flapping: if it fails
+# three times in ten minutes it stays down and waits for a human, rather than
+# hammering the exchange with a bad request every 30 seconds.
+Restart=on-failure
+RestartSec=120
+StartLimitIntervalSec=600
+StartLimitBurst=3
+
+StandardOutput=journal
+StandardError=journal
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+ReadWritePaths=__APP_DIR__/logs
+
+[Install]
+WantedBy=multi-user.target
