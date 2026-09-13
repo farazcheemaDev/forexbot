@@ -1,0 +1,44 @@
+# ---------------------------------------------------------------- python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# ------------------------------------------------------------------ data ----
+# 1.3 GB of cached market data: Binance klines, the 203 delisted-coin archive,
+# and the Polymarket market cache. All of it is REGENERABLE - every fetch()
+# rebuilds its own cache on first use - and GitHub rejects files over 100 MB.
+# Keeping it out is what makes this repo cloneable onto a 1 GB VM.
+strategy_analysis/data/
+
+# ------------------------------------------------------------- run state ----
+# Machine-specific. A VPS that cloned these would resume from THIS machine's
+# open positions and single-instance locks, which is wrong in both directions.
+logs/*_state.json
+logs/*.pid
+logs/*.tmp
+
+# Log text is noisy and regenerates itself; the CSVs below are the actual record.
+logs/*.log
+
+# KEEP, explicitly - these are results, not artifacts:
+!logs/trades_*.csv
+!logs/poly_snapshots.csv
+
+# ---------------------------------------------------------------- secrets ----
+# Nothing here holds credentials today (Bitget keys come from environment
+# variables and config.yaml carries only placeholders), and this list exists so
+# that stays true by accident as well as by intent.
+*.pem
+*.key
+*.ppk
+.env
+.env.*
+secrets.yaml
+credentials.json
+
+# ------------------------------------------------------------------- os ----
+Thumbs.db
+.DS_Store
+desktop.ini
