@@ -51,9 +51,13 @@ THE PREDICTION, FIXED BEFORE ANY DATA IS COLLECTED
     quietly become a test of only the band that already looked good.
 
 HONEST TIMELINE
-    ~200-600 open binary markets are snapshotted per run, of which maybe 5-10% sit in
-    the 0.50-0.65 band. Resolutions arrive over days to months depending on the market.
-    Expect a first readable answer in 4-8 WEEKS and a solid one in 3 months.
+    The first run scanned only 1,200 open markets and caught 27 in the target band,
+    which put the answer months away for no better reason than a small sample. It now
+    scans up to 8,000 (SCAN_MAX) and checks for resolutions every 3 hours rather than
+    every 24, because recording a market and noticing it resolved are different jobs.
+
+    Most open markets sit in the 0-5c longshot band, so the target band fills slowly
+    relative to the total scanned. Expect a first readable answer in 1-3 WEEKS.
 
     This records data. It places no orders and needs no keys or funds.
 
@@ -81,7 +85,21 @@ LOGF = LOGS / "poly_forward.log"
 GAMMA = "https://gamma-api.polymarket.com/markets"
 BANDS = [(0.00, 0.05), (0.05, 0.15), (0.15, 0.30), (0.30, 0.50),
          (0.50, 0.65), (0.65, 0.80), (0.80, 0.90), (0.90, 1.00)]
+
+# SCAN DEPTH. The first run stopped at 1,200 open markets and produced only 27 in the
+# 0.50-0.65 band, against the 120 resolutions this test needs - which put the answer
+# months away purely because the sample was small, not because markets resolve slowly.
+#
+# Polymarket lists thousands of open markets and most sit in the 0-5c longshot band,
+# so reaching the target band requires scanning deep. Raising this is the single
+# largest reduction in time-to-answer available.
+SCAN_MAX = 8000
+
+# Snapshot once a day; check for RESOLUTIONS far more often. They are different jobs:
+# a market only needs recording once, but it can resolve at any hour, and the sooner a
+# resolution is captured the sooner the band fills.
 POLL_H = 24
+RESOLVE_EVERY_H = 3
 
 
 def log(m):
@@ -147,7 +165,7 @@ def rewrite(snaps):
 def snapshot(snaps):
     """Record every OPEN binary market not already recorded."""
     fresh, off, seen = [], 0, 0
-    while off < 1200:
+    while off < SCAN_MAX:
         page = get(f"{GAMMA}?closed=false&limit=100&offset={off}"
                    f"&order=volumeNum&ascending=false")
         if not page:
@@ -264,6 +282,29 @@ def report(snaps):
         log("   nothing resolved in the 0.50-0.65 band yet")
         return
     n, ne, pm, rate, gap, se = target
+    # WHAT CAN THIS SAMPLE ALREADY SEE?
+    #
+    # The 120 threshold was chosen to resolve +0.10 - HALF the backtested claim. It is
+    # not the size needed to see the claim itself. Detecting an effect of size g at two
+    # standard errors needs roughly n = 4 * p(1-p) / g^2, so for a coin-flip-ish band:
+    #
+    #     +0.25 (the backtested edge)  ->  ~16 events
+    #     +0.15                        ->  ~45
+    #     +0.10 (the pre-registered)   ->  ~100
+    #
+    # So an interim read CAN already rule the big claim in or out long before 120. It
+    # cannot rule out a small real edge, and saying so is the difference between an
+    # interim report and moving the goalposts.
+    detect = 2 * np.sqrt(max(rate * (1 - rate), 0.2) / max(ne, 1))
+    print("")
+    print(f"   INTERIM POWER: with {ne} events this sample can detect a gap of")
+    print(f"     about {detect:+.3f} or larger at 2 standard errors.")
+    if detect <= 0.25:
+        print(f"     -> ALREADY big enough to confirm or refute the backtested +0.25.")
+    else:
+        print(f"     -> not yet big enough to see even the backtested +0.25.")
+    print("     The pre-registered verdict still waits for 120; this line only says")
+    print("     what the data in hand can and cannot see.")
     ok_n = n >= 120
     ok_sig = gap > 2 * se
     ok_size = gap > 0.10
@@ -297,16 +338,23 @@ def main():
     log(f"  {len(snaps)} markets already tracked")
     if args.once:
         snapshot(snaps); resolve(snaps); report(snaps); return
+    # Snapshot on a daily clock, resolve on a much faster one. Splitting them is what
+    # turns "months" into "weeks": a market is recorded once, but it can resolve at any
+    # hour, and an unnoticed resolution is sample the test does not have.
+    last_snap = 0.0
     while True:
         try:
-            snapshot(snaps)
+            now = time.time()
+            if now - last_snap >= POLL_H * 3600:
+                snapshot(snaps)
+                last_snap = now
             resolve(snaps)
             report(snaps)
         except KeyboardInterrupt:
             log("stopped"); return
         except Exception as e:
             log(f"cycle error: {type(e).__name__}: {str(e)[:180]}")
-        time.sleep(POLL_H * 3600)
+        time.sleep(RESOLVE_EVERY_H * 3600)
 
 
 if __name__ == "__main__":
