@@ -38,7 +38,11 @@ print(' price feed OK, last close', float(d['close'].iloc[-1]))
 # can reach Binance for 60 bars but not 900 fails here rather than three weeks in with
 # a silently short history.
 echo "== 4b. blend runner: one cycle, no orders =="
-./.venv/bin/timeout 600 ./.venv/bin/python blend_paper.py --once | tail -15
+# `timeout` is a coreutils binary in /usr/bin, NOT something the venv provides.
+# Writing ./.venv/bin/timeout failed with "No such file or directory" and took the
+# whole script down before it installed any services.
+timeout 900 ./.venv/bin/python blend_paper.py --once 2>&1 | tail -15 || \
+  echo "  (blend smoke test did not finish - check the output above)"
 
 # Polymarket uses two endpoints neither of the crypto bots touch, so reachability is a
 # separate question - some hosting providers and regions block them.
