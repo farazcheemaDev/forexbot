@@ -117,3 +117,4 @@ ts_utc,sid,symbol,event,side,limit,fill,slip_bp,bars_waited,note
 2026-09-13 17:15:55,maker_bb_break_15m,SETHSUSDT,REJECTED,buy,2504.85,,,,bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime
 2026-09-13 17:30:18,maker_bb_break_15m,SETHSUSDT,REJECTED,buy,2501.45,,,,bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime
 2026-09-13 17:45:51,maker_bb_break_15m,SETHSUSDT,REJECTED,buy,2499.8,,,,bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime
+2026-09-13 22:30:41,maker_bb_break_15m,SETHSUSDT,REJECTED,sell,2483.64,,,,bitget {"code":"40762","msg":"The order amount exceeds the balance","requestTime

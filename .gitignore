@@ -42,3 +42,12 @@ credentials.json
 Thumbs.db
 .DS_Store
 desktop.ini
+
+# Process stdout capture from nohup/Start-Process launches — pure noise, and it
+# churns on every bot cycle.
+logs/*.out
+logs/*.err
+
+# Dry-run state and trade files. A dry run now keeps its own copies so it cannot
+# race the live bot on logs/longtrend_state.json — see longtrend_bot.main().
+logs/*.dryrun.*

@@ -166,12 +166,41 @@ ADD_EVERY_R = 2.0        # add the next unit each time price advances this much 
 #     0.20%/unit (1.0% total)  ->  DD ~85%
 #     0.50%/unit (2.5% total)  ->  DD  99.9%   RUIN - the account does not survive
 #
-# Set to 0.40 for an aggressive demo run at the user's explicit request. That is
-# 2.0% total exposure, just inside the level measured to wipe out. On a demo this
-# is informative; on real funds it is a wipeout with extra steps.
-RISK_PCT = 0.40
+# Set to 0.30 to match the VALIDATED $221 configuration, so this demo run and the
+# blend paper runner on the VPS are testing the same risk. It was 0.40 for an
+# aggressive demo at the user's request; that is 2.0% total, just inside the level
+# measured to wipe out, and there is no longer a reason to test a setting nobody
+# intends to run.
+RISK_PCT = 0.30
 MIN_NOTIONAL = 5.0       # Bitget minimum per order
 POLL_S = 60
+
+# SIZE AS IF THE ACCOUNT HELD THIS MUCH. Set to 0 to use the real balance.
+#
+# Bitget's demo hands out a fixed ~2,900 SUSDT. Sizing off that tests order placement
+# for an account nobody has. At 221 every order, every minimum-order rejection and
+# every margin refusal is the one a real $221 account would hit - which is the entire
+# reason to run a demo rather than more paper.
+VIRTUAL_EQUITY = 221.0
+
+# BREAKEVEN STOP, validated 2026-09-13 in backtest/ddcontrol.py. Once a position has
+# earned this many R the stop may not sit worse than entry.
+#
+# 12 of 12 swept cells reduced drawdown and BOTH risk levels peaked at 3R on a smooth
+# curve, which is why 3 and not a rounder number. On the 12-alt book it cut drawdown
+# 95.2% -> 87.6% and RAISED return; on the majors it added ~1 point of monthly return
+# for almost no drawdown change.
+#
+# This is NOT the profit cap that wrongly killed 8 of 11 trend families. A target caps
+# the CEILING and deletes the rare enormous winners; a breakeven stop raises the FLOOR
+# and leaves the trail running to 20xATR. Opposite mechanism.
+BE_AT_R = 3.0
+
+# PORTFOLIO REGIME GATE, validated in backtest/opt200.py - the only one of 26 cells
+# that beat the baseline out of sample on return, drawdown AND capital floor.
+# Quarter risk while BTC trades below its own 200-hour average.
+REGIME_MA = 200
+REGIME_MULT = 0.25
 
 BOOK = {
     "BTCUSDT": "SBTC/SUSDT:SUSDT",
@@ -289,6 +318,29 @@ def connect():
     return ex
 
 
+_BEAR_CACHE: dict = {}
+
+
+def btc_below_ma(ex=None) -> bool:
+    """True while BTC's last CLOSED hourly bar is under its 200h average.
+
+    Cached per bar: one poll must not fetch BTC once per contract in the book.
+    Signals come from Binance even in demo, because Bitget's 'SBTC' demo series is
+    thin and is not the market the regime is defined on.
+    """
+    d = klines("BTCUSDT", 300)
+    if d is None or len(d) < REGIME_MA + 2:
+        return bool(_BEAR_CACHE.get("bear", False))
+    closed = d.iloc[:-1]
+    bar = str(closed["time"].iloc[-1])
+    if _BEAR_CACHE.get("bar") == bar:
+        return bool(_BEAR_CACHE["bear"])
+    ma = closed["close"].rolling(REGIME_MA).mean().iloc[-1]
+    bear = bool(closed["close"].iloc[-1] < ma) if np.isfinite(ma) else False
+    _BEAR_CACHE.update(bar=bar, bear=bear)
+    return bear
+
+
 def equity(ex) -> float:
     r = ex.privateMixGetV2MixAccountAccounts({"productType": PRODUCT_TYPE})
     for a in r.get("data", []):
@@ -342,8 +394,18 @@ def log_trade(row: dict):
 
 
 def cycle(ex, st: dict, dry: bool):
-    eq = equity(ex) if ex else 10000.0
+    # SIZE AS IF THE ACCOUNT HELD `VIRTUAL_EQUITY`, while trading the real balance.
+    #
+    # Bitget's demo hands out a fixed balance (~2,900 SUSDT here) that has nothing to
+    # do with the account being tested. Sizing off it would place orders 13x larger
+    # than a $221 account ever could, so every minimum-order and margin constraint -
+    # the things a demo run exists to expose - would silently never bind.
+    #
+    # The account's REAL equity is still logged, because it is what actually pays for
+    # the orders; only the position sizing is scaled.
+    eq = float(VIRTUAL_EQUITY) if VIRTUAL_EQUITY else (equity(ex) if ex else 10000.0)
     live = positions(ex) if ex else {}
+    bear = btc_below_ma(ex)
 
     for base, demo_sym in BOOK.items():
         df = klines(base, 300)
@@ -374,6 +436,25 @@ def cycle(ex, st: dict, dry: bool):
                            bars=rec.get("bars", 0)))
             st["open"].pop(raw, None)
             rec = None
+
+        # ---- the OPPOSITE reconciliation, which was missing --------------------
+        # A position on the exchange that this bot has no record of. Happens after a
+        # state file is lost, wiped, or edited while positions are open. Without this
+        # guard the bot sees "flat" and opens a SECOND position on the same symbol,
+        # doubling the intended risk silently - the same failure mode as the two
+        # duplicate instances on 2026-09-12, arriving by a different route.
+        #
+        # It refuses to trade the symbol rather than adopting the position, because
+        # adopting one means inventing an entry price, a stop and a water mark that
+        # were never recorded, and every one of those would be a guess.
+        if on_exchange and not rec:
+            if st.setdefault("_orphan", {}).get(raw) != bar:
+                st["_orphan"][raw] = bar
+                log(f"[{base}] ORPHAN POSITION on the exchange with no local record "
+                    f"- refusing to trade this symbol. Close it manually, or restore "
+                    f"the state file. NOT adopting it: entry, stop and water mark "
+                    f"were never recorded and would all be guesses.")
+            continue
 
         # ---- manage an open position: add units, ratchet the trail, exit ------
         if rec:
@@ -431,6 +512,17 @@ def cycle(ex, st: dict, dry: bool):
             # preference - measured. Shorts go NEGATIVE at 20x.
             tm = TRAIL_MULT if d > 0 else SHORT_TRAIL_MULT
             cand = rec["high_water"] - d * tm * a_now
+            # BREAKEVEN FLOOR at +BE_AT_R. Takes the wider of trail and entry, so it
+            # can only ever improve the stop - it raises the floor and never touches
+            # the ceiling, which is what separates it from a profit target.
+            gain_now = (rec["high_water"] - rec["entry"]) * d / rec["risk"]
+            if BE_AT_R > 0 and gain_now >= BE_AT_R:
+                cand = (max(cand, rec["entry"]) if d > 0
+                        else min(cand, rec["entry"]))
+                if not rec.get("be_armed"):
+                    rec["be_armed"] = True
+                    log(f"[{base}] BREAKEVEN ARMED at +{gain_now:.1f}R - stop may no "
+                        f"longer sit worse than entry {rec['entry']:.4f}")
             if (cand > rec["stop"]) if d > 0 else (cand < rec["stop"]):
                 rec["stop"] = cand            # a stop only ratchets toward profit
             gain_r = (px_last - rec["entry"]) * d / rec["risk"]
@@ -487,7 +579,12 @@ def cycle(ex, st: dict, dry: bool):
         side = "long" if go_long else "short"
         d = 1 if side == "long" else -1
 
-        risk_amt = eq * RISK_PCT / 100.0
+        # REGIME GATE: quarter risk while BTC is under its 200h average. The fraction
+        # used is stored on the position, because the risk that SIZED a trade is the
+        # risk that must be used when reporting it - re-reading the gate at exit would
+        # apply a different fraction to the same trade.
+        risk_pct_used = RISK_PCT * (REGIME_MULT if bear else 1.0)
+        risk_amt = eq * risk_pct_used / 100.0
         stop_dist = SL_MULT * a_now
         size = risk_amt / stop_dist
         entry_ref = px_last
@@ -498,9 +595,12 @@ def cycle(ex, st: dict, dry: bool):
                 mkt = ex.market(demo_sym)
                 min_amt = (mkt["limits"]["amount"] or {}).get("min") or 0
                 if size < min_amt or notional < MIN_NOTIONAL:
+                    st["too_small"] = st.get("too_small", 0) + 1
                     log(f"[{base}] SIGNAL but size {size} (${notional:.2f}) below "
                         f"minimum (amt {min_amt}, ${MIN_NOTIONAL}) - skipping. "
-                        f"Equity {eq:.2f} too small for {RISK_PCT}% risk here.")
+                        f"${eq:.2f} too small for {risk_pct_used:.3f}% risk here. "
+                        f"({st['too_small']} skipped so far - this count IS the "
+                        f"finding if it outgrows the trades taken)")
                     continue
             except Exception as e:
                 log(f"[{base}] precision/limits note: {str(e)[:120]}")
@@ -508,7 +608,9 @@ def cycle(ex, st: dict, dry: bool):
 
         log(f"[{base}] BREAKOUT -> {side.upper()} {size} @~{entry_ref:.4f} "
             f"(${notional:.2f}) stop {stop_px:.4f} risk ${risk_amt:.2f} "
-            f"({RISK_PCT}% of {eq:.2f})")
+            f"({risk_pct_used:.3f}% of ${eq:.2f}"
+            f"{' VIRTUAL' if VIRTUAL_EQUITY else ''})"
+            f"{'  [BTC BEAR -> x' + format(REGIME_MULT, '.2f') + ' risk]' if bear else ''}")
         if dry:
             log(f"[{base}] DRY RUN - no order placed")
             continue
@@ -639,11 +741,24 @@ def main():
     args = ap.parse_args()
     global BOOK
     BOOK = resolve_mode(args.mode)
+    # A DRY RUN MUST NOT TOUCH THE LIVE BOT'S STATE.
+    #
+    # It places no orders, so it was given no lock - but it still calls save_state()
+    # every cycle, against the same logs/longtrend_state.json the running bot owns.
+    # Two processes writing one state file is a corruption waiting to happen, and the
+    # symptom seen first was quieter: the dry run LOADED the live bot's state, found
+    # last_bar already equal to the current bar for every coin, and silently decided
+    # nothing at all. A dry run that reports nothing looks like a broken strategy
+    # rather than a shared file.
+    global STATE, TRADES
+    if args.dry_run:
+        STATE = LOGS / "longtrend_state.dryrun.json"
+        TRADES = LOGS / "trades_longtrend.dryrun.csv"
     st = load_state()
     if args.status:
         status(st)
         return
-    # --status and --dry-run do not place orders, so they need no lock
+    # --status and --dry-run place no orders, so they need no lock
     if not args.dry_run:
         acquire_lock(f"longtrend_{args.mode}")
     log("=" * 78)
@@ -665,7 +780,19 @@ def main():
     if RISK_PCT * MAX_UNITS >= 2.0:
         log(f"  *** AGGRESSIVE: {RISK_PCT*MAX_UNITS:.1f}% total. Measured drawdown "
             f"at 2.5% total was 99.9% (ruin). Demo only. ***")
+    if VIRTUAL_EQUITY:
+        log(f"  *** SIZING AS IF EQUITY WERE ${VIRTUAL_EQUITY:.0f} *** the demo's real"
+            f" balance is used to PAY for orders but not to size them, so every")
+        log(f"      minimum-order and margin refusal is the one a ${VIRTUAL_EQUITY:.0f}"
+            f" account would actually hit")
+    log(f"  breakeven stop at +{BE_AT_R:.0f}R (validated: 12/12 swept cells cut "
+        f"drawdown; NOT a profit target - it raises the floor, not the ceiling)")
+    log(f"  regime gate: risk x{REGIME_MULT} while BTC < its {REGIME_MA}h average "
+        f"(currently {'BEAR - gate ACTIVE' if btc_below_ma() else 'bull - full risk'})")
     log(f"  book: {', '.join(BOOK.values())}")
+    log("  NOTE: 3 contracts is a DEMO limit. The validated config needs 12 coins x")
+    log("        3 timeframes, so this tests the ORDER PATH, not the strategy -")
+    log("        blend_paper.py on the VPS tests the strategy.")
     log("  signals from Binance 1h (tracks demo within 8bp), execution on Bitget")
     log(f"  exchange stop at -{SL_MULT}xATR as backstop; {TRAIL_MULT}xATR trail "
         f"managed in-process")
