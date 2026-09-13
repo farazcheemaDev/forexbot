@@ -40,7 +40,7 @@ The 50–65¢ band shows a **+25% edge per resolution.**
 | Split by time | older half +0.233, recent half +0.326 |
 | Second independent sample (different ordering) | +0.225, t = +3.03, both halves positive |
 
-## Why it is not believed
+## Why it was not believed
 
 **Three measurement artifacts were found inside this same test, and each looked like a
 discovery first:**
@@ -116,8 +116,12 @@ test remains the only thing immune to how the data was chosen.
 
 ## The forward test
 
-`poly_forward.py`, running on the VPS as `poly-forward`. Records live prices on **open**
-markets and checks them at resolution. No history-length filter, no sampling order, no
+`poly_forward.py`. **Runs on the local PC, not the VPS** — the Azure VM is in Korea
+Central and Polymarket returns HTTP 451 there, a jurisdictional block rather than a
+network fault. That costs little: it snapshots once a day and markets stay open for
+weeks, so a day the PC is off rarely loses a market permanently.
+
+Records live prices on **open** markets and checks them at resolution. No history-length filter, no sampling order, no
 anchor — the outcome has not happened yet, so nothing about the snapshot can depend on
 it.
 
@@ -161,8 +165,8 @@ python poly_forward.py --report
 
 ## What this is not
 
-**Not a reason to fund a Polymarket bot.** The number is too good and this test has
-broken three times. If the forward version confirms it, that is the first genuinely new
+**Not yet a reason to fund a Polymarket bot.** The number is large and this test has
+broken three times, so the forward evidence comes first. If the forward version confirms it, that is the first genuinely new
 edge in the project and it works at $10 — because there is no minimum order. If it does
 not, the backtest was survivorship in a new costume and the matter is closed properly.
 
@@ -172,5 +176,6 @@ not, the backtest was survivorship in a new costume and the matter is closed pro
 |---|---|
 | `backtest/polymarket_bias.py` | the historical calibration test, with all three artifacts documented in the code |
 | `poly_forward.py` | the pre-registered forward test |
-| `deploy/poly-forward.service` | systemd unit |
+| `backtest/poly_fast.py` | the lifetime-stratification test that killed the artifact hypothesis |
+| `deploy/poly-forward.service` | systemd unit — **do not enable in a region that returns 451** |
 | `logs/poly_snapshots.csv` | one row per market, written once |
