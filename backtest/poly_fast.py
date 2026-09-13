@@ -200,6 +200,15 @@ def main():
         print("  barely applies. A lifetime filter cannot produce that. This is the")
         print("  first evidence FOR the edge rather than against it - but the forward")
         print("  test still decides, because only it is immune to sampling entirely.")
+    elif trend < -0.05:
+        print("")
+        print(f"  THE GAP SHRINKS WITH LIFETIME ({short_g:+.3f} -> "
+              f"{long_g:+.3f}) - the OPPOSITE of the artifact signature,")
+        print("  and it is largest in markets that lived under a week, where a")
+        print("  history-length filter barely applies. Selection cannot")
+        print("  produce this shape.")
+        print("  But read the per-stratum errors before calling it a trend: the")
+        print("  shrinking end is usually the smallest, least precise sample.")
     else:
         print(f"\n  MIXED / WEAK ({short_g:+.3f} -> {long_g:+.3f}). Not enough to call")
         print("  either way; the forward test remains the decider.")
