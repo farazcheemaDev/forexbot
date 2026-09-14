@@ -76,10 +76,19 @@ total risk**, which is unusual — most return boosters cost drawdown. The reaso
 added units are funded by profit that already exists, so the extra size only
 appears on trades that are already working.
 
-### Why shorts at all, when they barely make money
+### Why shorts at all, when they LOSE money
 
-Standalone, shorts earn +0.056R against the long side's +0.674R — nearly nothing.
-They are in the book because they earn in the years the long book bleeds:
+**Under an honest fill the short sleeve is negative: −0.036R per trade, −0.39%/month**
+(`logs/strictfill.txt`). It reads +0.034R only under the optimistic convention, and the
+realistic fill costs ~0.07R per short trade — *larger than the sleeve's entire edge*,
+because a 5×ATR trail sits close to price where fill optimism actually bites.
+
+**So expect the shorts to lose. A run of losing shorts is the strategy working to
+spec, not misbehaving.** They are in the book as a **drawdown hedge**, and they earn
+that keep two ways:
+
+- drawdown **78.6% → 68.9%** versus long-only
+- and they earn in the years the long book bleeds:
 
 | Year | Short-only return |
 |---|---|
@@ -91,6 +100,10 @@ They are in the book because they earn in the years the long book bleeds:
 
 The long-only version needs crypto to rise. This is the only thing tested that
 addresses that.
+
+**Read the sleeves separately, always.** `--status` breaks results down by side for this
+reason: "shorts down, longs open" is the expected shape, and averaging the two together
+hides which half is doing what.
 
 ### Why 8 slots
 
