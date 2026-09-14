@@ -19,9 +19,10 @@ gate while every log line still reports it armed.
 interactive prompt through Azure Run command. Fix that before the next change: either a
 fresh read-only PAT in the remote URL, or make the repo public (checked 2026-09-14:
 312 tracked files, no `.env`, no `.pem`, no hardcoded keys). Also note Azure Run command
-JSON-decodes the script, so **any `
-` inside a pasted heredoc becomes a real newline** and
-breaks Python — write patch scripts with no backslashes at all.
+JSON-decodes the script, so a backslash-n inside a pasted heredoc becomes a REAL
+NEWLINE and breaks Python mid-string. **Write patch scripts with no backslashes at all** —
+use `chr(10)` and line-based edits. This very paragraph was mangled by that bug on the
+first attempt at writing it.
 
 | What | Where | Status |
 |---|---|---|
@@ -43,7 +44,7 @@ spec, and one line proves the machinery:
 
 > 7.48R × 0.30%/unit × **0.25** = 0.561% → exactly the −0.56% reported.
 
-**The BTC regime gate is live and quarter-sizing every trade**, so a −7.48R run cost
+**That was the OLD 200h gate**, quarter-sizing every trade, so a −7.48R run cost
 0.56% instead of 2.24%. Also confirmed: all 7 closed were *shorts* and all 4 open are
 *longs* (5×ATR trail vs 20×ATR — shorts churn, longs sit), and losses clustered at
 −1.05R to −1.09R, meaning live fills are paying the **0.07R/trade the pessimistic
@@ -74,7 +75,10 @@ Per-sleeve and per-side breakdown, which is how you tell "the strategy is losing
 from "half of it isn't running." Run it through Azure portal → your VM → **Run command**
 → `RunShellScript` if you don't want to set up SSH.
 
-**Don't read anything into the first ~30 closed trades.** The book filled 8/8 on its
+*The reading above predates the 1000h/12-slot change, so treat it as evidence the
+machinery is wired correctly rather than as a performance baseline.*
+
+**Don't read anything into the first ~30 closed trades.** The book filled every slot on its
 first cycle, which is a cold-start artifact — a bot that had been running would have
 entered those over time. And you lose 4 trades in 5 by design.
 
