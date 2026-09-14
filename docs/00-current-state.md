@@ -771,3 +771,65 @@ are both observable on the day — so a live bot can apply exactly this rule. Fl
 
 **Next job, in order:** MCPT and block bootstrap on the PIT configuration, then a genuine
 holdout that does not touch 2025–2026, then a dynamic tradeability filter.
+
+### Validating the point-in-time book: most of the +8.86% does not survive (2026-09-14)
+
+`backtest/pit_validate.py`. Three of the four flagged gaps were closed, and two of my own
+predictions were wrong.
+
+#### 1. The advantage is NOT a trend — it is one window
+
+The defence of "evaluate it on recent data" had to be a *shape*: if the universe genuinely
+settled over time, the PIT-minus-FIXED gap must move from negative to positive across the
+years. Under the real rules it does not.
+
+| Year | FIXED mean R | PIT mean R | Gap |
+|---|---|---|---|
+| 2020 | 8.689 | 10.587 | **+1.898 PIT** |
+| 2021 | 3.963 | 0.812 | −3.152 FIXED |
+| 2022 | −0.388 | −0.265 | +0.124 PIT |
+| 2023 | 3.993 | 1.514 | −2.478 FIXED |
+| 2024 | 4.304 | −0.000 | −4.304 FIXED |
+| 2025 | −0.014 | −0.126 | −0.112 FIXED |
+| 2026 | 0.071 | 0.528 | **+0.457 PIT** |
+
+**Correlation of the gap with year: −0.09.** PIT wins in 2020, 2022 and 2026; FIXED wins
+2021, 2023, 2024 and 2025. **My registered prediction was that the gap trends. It does
+not.** Note also that 2025 flips sign versus `hindsight.py`'s simpler engine — the
+advantage is not even stable across engines.
+
+#### 2. Choosing the rule honestly costs most of the return
+
+36 cells (top 6/9/12/18 × 1/2/3-month window × volume / range / volume×range), **swept on
+2020–2024 and tested on 2025–2026**:
+
+| Rule | In-sample /mo | **Out-of-sample /mo** | OOS DD |
+|---|---|---|---|
+| **best in-sample:** top 6, 3mo, volume | **+9.72%** | **+2.09%** | 74.3% |
+| 2nd in-sample: top 12, 3mo, volume | +9.00% | **−0.12%** | 61.9% |
+| top 12, 1mo, volume *(the default)* | +8.12% | +4.68% | 47.5% |
+| top 9, 1mo, volume | +3.20% | **+5.74%** | **42.1%** |
+| top 12, 1mo, **range** | +3.91% | **−10.73%** | **93.1%** |
+
+**Picking the rule the only honest way — on in-sample data — yields +2.09%/month out of
+sample.** The +4.68% and +5.74% cells are only visible *after* looking at the answer. And
+the +8.86% previously reported was 2026 alone, with a post-hoc coin exclusion.
+
+**Prediction C was right:** dollar volume beats the alternatives decisively. Every
+`range`-ranked cell is negative out of sample, one at −10.73% with a 93.1% drawdown.
+Ranking by volatility instead of activity is actively destructive.
+
+#### Where that leaves it
+
+| | Honest /mo |
+|---|---|
+| Deployed fixed book, after its 3× haircut | **+0.16%** |
+| Point-in-time, rule chosen honestly | **+2.09%** |
+
+**The idea survives directionally and is roughly 13× the deployed book — but it is ~2%/month,
+not 8.86%.** Third time today a headline number died under a holdout: gold's +0.697R, the
+0.45% risk increase, and now this.
+
+**MCPT is still not run.** Permuting 284 coins × 3 timeframes through the pyramid engine is
+hours of compute. It remains the last open gate, and nothing should be funded on this until
+it is closed.

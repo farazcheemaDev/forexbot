@@ -1,0 +1,98 @@
+VALIDATING THE POINT-IN-TIME BOOK, AND SWEEPING THE ONE RULE NEVER SWEPT.
+
+    python -m backtest.pit_validate
+
+WHAT NEEDS SETTLING
+    pit_blend.py found the point-in-time universe earning +8.86%/month in 2026 against
+    the deployed book's +0.46% (which still owes a 3x haircut, while PIT owes none). Four
+    things were flagged as unfinished, and three of them are here.
+
+    1. IS THE ADVANTAGE A TREND OR ONE LUCKY WINDOW?
+       "Recent" was chosen as the evaluation window AFTER seeing that recent is where PIT
+       wins. That is selection. The defence is not an argument, it is a shape: if the
+       universe genuinely settled over time, the PIT-minus-FIXED gap must move smoothly
+       from negative to positive across the years. If it is noise, it will jump around
+       and merely happen to be positive in 2026.
+
+    2. THE SELECTION RULE ITSELF HAS NEVER BEEN SWEPT.
+       TOP=12 was chosen only to match the deployed book size. The ranking window (one
+       prior month) and the ranking metric (dollar volume) were never varied either.
+       These are the three free parameters of the idea and all three were set by default.
+
+       SWEPT ON 2020-2024 ONLY, TESTED ON 2025-2026. That ordering is the whole point:
+       picking a rule on the same window used to report the result is what invalidated
+       the slot count, and it is not repeated here.
+
+    3. MCPT AND BLOCK BOOTSTRAP on whatever survives.
+       MCPT asks whether the edge beats the same rules run on permuted markets.
+       The bootstrap resamples trades in BLOCKS OF 20 so loss clustering survives -
+       drawdown is a property of ordering, and an i.i.d. resample destroys it and
+       flatters the drawdown badly.
+
+    SURVIVORSHIP NEEDS NO SEPARATE TEST HERE, and that is a real strength of the design
+    rather than an omission: the point-in-time universe is drawn from all 284 coins
+    INCLUDING the 202 delisted ones, and a coin that later died is still ranked, still
+    traded, and still allowed to lose money. The bias is absent by construction instead
+    of corrected after the fact.
+
+EFFICIENCY NOTE
+    Trades depend only on WHICH COINS exist, never on the selection rule. So the sleeves
+    are built ONCE for the union of every candidate set, and each rule is then just a
+    different eligibility filter over the same trade stream. Without that the sweep would
+    rebuild 100k+ trades per cell.
+
+REGISTERED: (A) the gap trends; (B) the swept rule lands nearer +4-5%/mo
+out of sample, not +8.86%; (C) a 1-month ranking window wins; (D) MCPT passes.
+
+loading every coin, alive and delisted...
+  284 coins loaded; 276 ever eligible under ANY rule
+building sleeves once for that union (slow, then everything is cheap)...
+  276,124 candidate trades, 15,736 deployed-book trades
+
+====================================================================================================
+1. IS THE PIT ADVANTAGE A TREND, OR ONE LUCKY WINDOW?
+====================================================================================================
+  year     FIXED meanR   PIT meanR      gap   direction
+  2020           8.689      10.587   +1.898   PIT better
+  2021           3.963       0.812   -3.152   FIXED better
+  2022          -0.388      -0.265   +0.124   PIT better
+  2023           3.993       1.514   -2.478   FIXED better
+  2024           4.304      -0.000   -4.304   FIXED better
+  2025          -0.014      -0.126   -0.112   FIXED better
+  2026           0.071       0.528   +0.457   PIT better
+
+  correlation of gap with year: -0.09
+  NOT a clean trend. The 2026 win may be one window.
+
+====================================================================================================
+2. SWEEP THE SELECTION RULE ON 2020-2024, TEST ON 2025-2026
+====================================================================================================
+   top  win     metric    IS /mo  IS meanR  |   OOS /mo  OOS meanR  OOS DD
+     6    1     volume    +4.73%     1.606  |    +2.43%      0.571   69.0%
+     6    1      range    -0.77%     0.333  |    -6.69%     -0.775   79.5%
+     6    1  volxrange    +1.70%     0.593  |    -4.42%     -0.199   73.4%
+     6    2     volume    +5.15%     1.882  |    -1.47%      0.186   71.0%
+     6    2      range    +4.74%     0.807  |    -2.90%     -0.262   50.6%
+     6    2  volxrange    +7.19%     1.703  |    -1.16%     -0.072   54.9%
+     6    3     volume    +9.72%     2.316  |    +2.09%      0.432   74.3%
+     6    3      range    +2.74%     0.860  |    -1.75%     -0.244   36.6%
+     6    3  volxrange    +7.78%     1.828  |    -4.47%     -0.163   74.8%
+     9    1     volume    +3.20%     0.809  |    +5.74%      0.436   42.1%
+     9    1      range    -0.34%     0.375  |   -10.64%     -0.669   90.1%
+     9    1  volxrange    +0.31%     0.575  |    -1.81%      0.085   74.6%
+     9    2     volume    +4.46%     0.999  |    +1.89%      0.080   63.4%
+     9    2      range    +1.48%     0.519  |    -7.17%     -0.649   76.5%
+     9    2  volxrange    +5.84%     1.520  |    +3.61%      0.214   50.5%
+     9    3     volume    +8.10%     1.964  |    +3.30%      0.137   59.8%
+     9    3      range    +1.76%     0.593  |    -2.77%     -0.326   55.2%
+     9    3  volxrange    +8.59%     1.746  |    -0.60%      0.010   63.3%
+    12    1     volume    +8.12%     1.920  |    +4.68%      0.164   47.5%
+    12    1      range    +3.91%     0.678  |   -10.73%     -0.547   93.1%
+    12    1  volxrange    +3.67%     1.322  |    -1.44%     -0.117   79.2%
+    12    2     volume    +7.77%     1.867  |    +1.60%      0.219   55.0%
+    12    2      range    +1.02%     0.534  |    -7.61%     -0.673   79.5%
+    12    2  volxrange    +5.24%     0.770  |    -0.09%      0.102   80.4%
+    12    3     volume    +9.00%     2.195  |    -0.12%     -0.073   61.9%
+    12    3      range    +5.78%     0.755  |    -1.67%     -0.230   57.8%
+    12    3  volxrange    +7.61%     1.150  |    +1.69%      0.041   66.6%
+    18    1     volume   +10.41%     1.353  |    +4.61%      0.314   49.7%
