@@ -102,6 +102,13 @@ SCAN_MAX = 8000
 POLL_H = 24
 RESOLVE_EVERY_H = 3
 
+# TRADABILITY FLOOR. A snapshot is only evidence if it is a price you could have been
+# filled at. 15c is deliberately loose - the 59 genuine band markets have a MEDIAN
+# spread under 2c and median liquidity $43,797, so this rejects abandoned books
+# without touching anything real. See the note in snapshot().
+MAX_SPREAD = 0.15
+MIN_LIQUIDITY = 100.0
+
 
 def log(m):
     line = f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M:%S} | {m}"
@@ -189,6 +196,26 @@ def snapshot(snaps):
                 if not (0.0 < bb < ba < 1.0):
                     continue
                 mid = (bb + ba) / 2.0
+                # ---------------------------------------------------------------
+                # ARTIFACT #4, caught 2026-09-14 before it could do damage.
+                #
+                # Polymarket keeps DEAD markets open indefinitely - 49 tracked here
+                # are past their endDate and still active, one by 10 months. An
+                # abandoned market has bid ~0.002 / ask ~0.998, and the midpoint of
+                # that empty book is 0.50, which lands it in the MIDDLE OF THE
+                # TARGET BAND. Its "price" is not a price; nobody paid it.
+                #
+                # `0 < bid < ask < 1` alone does not exclude them. Measured impact
+                # so far: 3 of 62 band markets, 5% - small only because the scan is
+                # ordered by volume, which is luck, not a filter. It would grow as
+                # the scan reaches deeper into the tail.
+                #
+                # A snapshot must be a price you could actually have TRADED at,
+                # because the whole claim is that entry costs ~1.9% of price.
+                # ---------------------------------------------------------------
+                liq = float(m.get("liquidityNum") or 0)
+                if (ba - bb) > MAX_SPREAD or liq < MIN_LIQUIDITY:
+                    continue
                 ev = m.get("events") or []
                 row = dict(
                     ts_utc=f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M:%S}",
