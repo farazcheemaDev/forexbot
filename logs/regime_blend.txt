@@ -1,0 +1,76 @@
+DOES THE 1,000-HOUR REGIME GATE SURVIVE ON THE ACTUALLY DEPLOYED BOOK?
+
+    python -m backtest.regime_blend
+
+WHAT THIS SETTLES
+    backtest/regime.py found that the deployed regime gate uses a 200-HOUR (8.5 day)
+    lookback to detect multi-year regimes, that the lookback had never been swept, and
+    that 1,000h beat it: MAR 3.62 -> 4.10, drawdown 64.0% -> 58.3%.
+
+    That was measured on the 1h-ONLY book. The thing actually running on the VM is
+    blend_paper.py: 12 coins x 1h + 4h + 12h sharing 8 slots. A lever measured on one
+    sleeve is not a lever on three - the sleeves fire at different times, so a gate that
+    helps the fast sleeve can be neutral or harmful once slow sleeves compete for the
+    same slots.
+
+    So this re-runs the sweep through blend.run(), the same harness that produced the
+    deployed configuration, and therefore:
+      * the HINDSIGHT divisor (3.0) is applied, so `hpm` is comparable to the ~+8%/month
+        expectation rather than to regime.py's raw figures
+      * the per-coin MEXC minimums and the real capital floor come out of it
+      * slots are shared across sleeves exactly as the live bot shares them
+
+HOW THE LOOKBACK IS INJECTED
+    blend.btc_bear() hardcodes rolling(200) and caches into the module global _BTC,
+    returning the cache when it is not None. So the lookback is changed by WRITING that
+    cache, not by editing the validated harness:
+
+        blend._BTC = <bear series at the lookback under test>
+
+    Nothing in blend.py is modified. If that caching behaviour ever changes, this file
+    breaks loudly rather than silently testing 200h while printing another number - which
+    is why the injection is asserted below before any cell runs.
+
+REGISTERED PREDICTION: the 1,000h edge SHRINKS on the blend and may vanish,
+because the 12h sleeve already absorbs part of what the gate fixes (blend DD
+57.7% vs 1h-book 64%). Overlapping fixes do not add.
+
+deployed config: 12 coins x 1h + 4h + 12h, 8 shared slots, risk 0.3%/unit, BE@3.0R
+hindsight divisor 3.0x applied, so /mo is comparable to the
+~+8%/month expectation. holdout split 2024-06-17
+
+================================================================================================
+FULL SAMPLE — gate multiplier x0.25, lookback swept
+================================================================================================
+  lookback                n       /mo       DD    MAR   floor $    meanR
+  200h (8d)            4042   +15.47%    63.2%   2.94       254    2.740
+  500h (21d)           4042   +14.70%    56.3%   3.13       214    2.740
+  1000h (42d)          4042   +14.39%    52.4%   3.29       197    2.740
+  2000h (83d)          4042   +15.68%    56.7%   3.32       216    2.740
+  3000h (125d)         4042   +14.72%    59.8%   2.95       233    2.740
+  no gate              4042   +15.45%    76.8%   2.42       403    2.740
+
+================================================================================================
+HOLDOUT — every lookback, IS = first 60%, OOS = last 40%
+================================================================================================
+  lookback              IS /mo   OOS /mo   IS DD  OOS DD  OOS MAR      verdict
+  200h (8d)            +21.16%    +6.31%   63.2%   57.0%     1.33        HOLDS
+  500h (21d)           +18.32%    +8.43%   54.6%   56.3%     1.80        HOLDS
+  1000h (42d)          +16.46%   +10.66%   49.1%   41.7%     3.07        HOLDS
+  2000h (83d)          +19.14%    +9.68%   42.1%   56.7%     2.05        HOLDS
+  3000h (125d)         +18.70%    +8.01%   46.0%   59.8%     1.61        HOLDS
+
+================================================================================================
+VERDICT
+================================================================================================
+  deployed 200h : +15.47%/mo  DD 63.2%  MAR 2.94  floor $254
+  best 1000h    : +14.39%/mo  DD 52.4%  MAR 3.29  floor $197
+  no gate       : +15.45%/mo  DD 76.8%  MAR 2.42  floor $403
+  OUT OF SAMPLE   200h MAR 1.33  vs  1000h MAR 3.07   <- the criterion
+
+  1000h beats the deployed 200h by +1.74 MAR (2.94 -> 3.29),
+  drawdown 63.2% -> 52.4%, floor $254 -> $197.
+  Change it ONLY if the holdout row for that lookback says HOLDS.
+
+  One sample, one universe, 6.6 years. A MAR gain under ~0.5 here is not
+  distinguishable from luck, whatever the table says.

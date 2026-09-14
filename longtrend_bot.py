@@ -199,7 +199,9 @@ BE_AT_R = 3.0
 # PORTFOLIO REGIME GATE, validated in backtest/opt200.py - the only one of 26 cells
 # that beat the baseline out of sample on return, drawdown AND capital floor.
 # Quarter risk while BTC trades below its own 200-hour average.
-REGIME_MA = 200
+# 1000h (42 days). See the note in blend_paper.py: a 200-hour average fires on
+# ordinary pullbacks inside uptrends. Out of sample MAR 1.33 -> 3.07.
+REGIME_MA = 1000
 REGIME_MULT = 0.25
 
 BOOK = {
@@ -321,14 +323,59 @@ def connect():
 _BEAR_CACHE: dict = {}
 
 
+
+def klines_deep(symbol: str, need: int) -> "pd.DataFrame | None":
+    """Binance caps klines at 1000 bars per request; the 1000h regime MA needs more.
+    Pages BACKWARDS with endTime and dedupes on open time.
+
+    DELIBERATELY SEPARATE FROM klines(). klines() runs for every coin on every poll -
+    the hot path - while this runs once per bar for one symbol. A bug in here cannot
+    reach coin signals.
+
+    WHY THIS FUNCTION HAD TO EXIST AT ALL: REGIME_MA went 200 -> 1000 on 2026-09-14,
+    and the guard below is `len(d) < REGIME_MA + 2`. Left on the old 300-bar fetch,
+    that guard would have been true forever, the function would have returned the
+    cached default of False, and THE REGIME GATE WOULD HAVE SILENTLY TURNED ITSELF OFF
+    while every log line still claimed it was armed.
+    """
+    rows: dict = {}
+    end = None
+    for _ in range(6):
+        u = (f"https://api.binance.com/api/v3/klines?symbol={symbol}"
+             f"&interval=1h&limit=1000")
+        if end is not None:
+            u += f"&endTime={end}"
+        try:
+            raw = json.load(urllib.request.urlopen(u, timeout=25))
+        except Exception as e:
+            log(f"[{symbol}] deep klines failed: {type(e).__name__}: {str(e)[:70]}")
+            break
+        if not raw:
+            break
+        for k in raw:
+            rows[int(k[0])] = k
+        if len(rows) >= need:
+            break
+        end = int(raw[0][0]) - 1
+    if len(rows) < need:
+        return None
+    raw = [rows[t] for t in sorted(rows)]
+    d = pd.DataFrame(raw, columns=["t", "open", "high", "low", "close", "volume",
+                                   "ct", "qv", "n", "tb", "tq", "ig"])
+    for c in ("open", "high", "low", "close", "volume"):
+        d[c] = pd.to_numeric(d[c], errors="coerce")
+    d["time"] = pd.to_datetime(d["t"], unit="ms")
+    return d[["time", "open", "high", "low", "close",
+              "volume"]].reset_index(drop=True)
+
 def btc_below_ma(ex=None) -> bool:
-    """True while BTC's last CLOSED hourly bar is under its 200h average.
+    """True while BTC's last CLOSED hourly bar is under its REGIME_MA-hour average.
 
     Cached per bar: one poll must not fetch BTC once per contract in the book.
     Signals come from Binance even in demo, because Bitget's 'SBTC' demo series is
     thin and is not the market the regime is defined on.
     """
-    d = klines("BTCUSDT", 300)
+    d = klines_deep("BTCUSDT", REGIME_MA + 100)
     if d is None or len(d) < REGIME_MA + 2:
         return bool(_BEAR_CACHE.get("bear", False))
     closed = d.iloc[:-1]

@@ -603,3 +603,57 @@ Return barely moves. **The entire gain is drawdown**, which is the point.
 - **The %/mo figures are pre-haircut** — no hindsight or survivorship correction — so they
   are valid for comparing cells *inside this harness* and are **not** forecasts. The
   honest expectation for the deployed system remains ~+8%/month.
+
+### It survives on the deployed blend — and it is now live (2026-09-14)
+
+`backtest/regime_blend.py` re-ran the sweep through `blend.run()` — the same harness that
+produced the deployed config, so the 3× hindsight divisor is applied and `/mo` is
+comparable to the ~+8%/month expectation. **My prediction was that the edge would shrink
+on the blend. On the full sample it did. Out of sample it more than tripled.**
+
+| Lookback | IS /mo | **OOS /mo** | IS DD | **OOS DD** | **OOS MAR** |
+|---|---|---|---|---|---|
+| **200h (8d) — was deployed** | +21.16% | **+6.31%** | 63.2% | 57.0% | **1.33** |
+| 500h (21d) | +18.32% | +8.43% | 54.6% | 56.3% | 1.80 |
+| **1000h (42d) — now deployed** | +16.46% | **+10.66%** | 49.1% | **41.7%** | **3.07** |
+| 2000h (83d) | +19.14% | +9.68% | 42.1% | 56.7% | 2.05 |
+| no gate | — | — | — | 76.8% (full) | 2.42 (full) |
+
+**1,000h wins out-of-sample return, drawdown and MAR — 3.07 against 1.33.** And note the
+shape: as the lookback lengthens, in-sample return *falls* (21.16 → 16.46) while
+out-of-sample *rises* (6.31 → 10.66). That is the signature of removing an overfit, not of
+finding a new one. Capital floor drops **$254 → $197**, which matters at $221.
+
+**Two independent harnesses agree on 1,000h** — `regime.py` on the 1h-only book and
+`regime_blend.py` out-of-sample on the blend. That is worth more than either alone.
+
+#### The mechanism, caught live
+
+At the moment of the change, BTC's last close was 77,698:
+
+| | MA | Gate says |
+|---|---|---|
+| 200h | 78,187 | **BEAR — quarter risk** |
+| 1000h | 72,714 | not bear — full risk |
+
+**The old gate was cutting risk by 75% because BTC dipped below its 8-day average, while
+sitting 7% above its 42-day.** An ordinary pullback inside an uptrend — precisely when a
+trend book should be at full size. That is why it looked fine in-sample and bled out of it.
+
+#### The silent failure this nearly caused
+
+Both bots fetched `klines("BTCUSDT", 300)`, and the guard is
+`if len(d) < REGIME_MA + 2: return cached`. Setting `REGIME_MA = 1000` with a 300-bar fetch
+would have made that guard true **forever**, returned the cached default `False`, and
+**switched the regime gate off entirely while every log line still reported it as armed.**
+Binance caps klines at 1000 per request (verified: `limit=1500` returns 1000), so
+`klines_deep()` pages backwards with `endTime`. It is kept separate from `klines()` on
+purpose — `klines()` is the hot path for 12 coins every poll; the regime check runs once
+per bar for one symbol.
+
+#### A third verdict-rule bug, same day
+
+`regime_blend.py`'s first verdict ranked cells on **full-sample** MAR and named 2000h,
+while the holdout table printed directly above it showed 1000h winning OOS return,
+OOS drawdown and OOS MAR. Ranking on a window that contains the in-sample period rewards
+the exact overfitting the holdout exists to expose. Fixed to rank on OOS MAR.

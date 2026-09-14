@@ -82,7 +82,13 @@ SL_MULT = 2.0
 LONG_TRAIL, SHORT_TRAIL = 20.0, 5.0
 MAX_UNITS, ADD_EVERY_R = 5, 2.0
 BE_AT_R = 3.0
-REGIME_MA, REGIME_MULT = 200, 0.25
+# 1000h (42 days), NOT 200h. A 200-hour (8.5 day) average was being used to detect
+# multi-year regimes, and it fires on ordinary pullbacks inside uptrends - exactly
+# when a trend book should be at FULL size. backtest/regime_blend.py, out of sample:
+#   200h  -> +6.31%/mo, 57.0% DD, MAR 1.33
+#   1000h -> +10.66%/mo, 41.7% DD, MAR 3.07
+# Changing this REQUIRES klines_deep(): Binance caps a request at 1000 bars.
+REGIME_MA, REGIME_MULT = 1000, 0.25
 MAX_LEVERAGE = 10.0
 POLL_S = 120
 SLEEVES = ("1h", "4h", "12h")
@@ -186,10 +192,55 @@ def rec_trade(row: dict):
         f.write(",".join(str(v) for v in row.values()) + "\n")
 
 
+
+def klines_deep(symbol: str, need: int) -> "pd.DataFrame | None":
+    """Binance caps klines at 1000 bars per request; the 1000h regime MA needs more.
+    Pages BACKWARDS with endTime and dedupes on open time.
+
+    DELIBERATELY SEPARATE FROM klines(). klines() runs for every coin on every poll -
+    the hot path - while this runs once per bar for one symbol. A bug in here cannot
+    reach coin signals.
+
+    WHY THIS FUNCTION HAD TO EXIST AT ALL: REGIME_MA went 200 -> 1000 on 2026-09-14,
+    and the guard below is `len(d) < REGIME_MA + 2`. Left on the old 300-bar fetch,
+    that guard would have been true forever, the function would have returned the
+    cached default of False, and THE REGIME GATE WOULD HAVE SILENTLY TURNED ITSELF OFF
+    while every log line still claimed it was armed.
+    """
+    rows: dict = {}
+    end = None
+    for _ in range(6):
+        u = (f"https://api.binance.com/api/v3/klines?symbol={symbol}"
+             f"&interval=1h&limit=1000")
+        if end is not None:
+            u += f"&endTime={end}"
+        try:
+            raw = json.load(urllib.request.urlopen(u, timeout=25))
+        except Exception as e:
+            log(f"[{symbol}] deep klines failed: {type(e).__name__}: {str(e)[:70]}")
+            break
+        if not raw:
+            break
+        for k in raw:
+            rows[int(k[0])] = k
+        if len(rows) >= need:
+            break
+        end = int(raw[0][0]) - 1
+    if len(rows) < need:
+        return None
+    raw = [rows[t] for t in sorted(rows)]
+    d = pd.DataFrame(raw, columns=["t", "open", "high", "low", "close", "volume",
+                                   "ct", "qv", "n", "tb", "tq", "ig"])
+    for c in ("open", "high", "low", "close", "volume"):
+        d[c] = pd.to_numeric(d[c], errors="coerce")
+    d["time"] = pd.to_datetime(d["t"], unit="ms")
+    return d[["time", "open", "high", "low", "close",
+              "volume"]].reset_index(drop=True)
+
 def btc_bear(cache: dict) -> bool:
-    """True while BTC's last CLOSED 1h bar is below its 200h average. Cached per bar
-    so one poll does not fetch BTC twelve times."""
-    d = klines("BTCUSDT", 300)
+    """True while BTC's last CLOSED 1h bar is below its REGIME_MA-hour average. Cached
+    per bar so one poll does not fetch BTC twelve times."""
+    d = klines_deep("BTCUSDT", REGIME_MA + 100)
     if d is None or len(d) < REGIME_MA + 2:
         return cache.get("bear", False)
     closed = d.iloc[:-1]
