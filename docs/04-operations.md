@@ -164,3 +164,51 @@ should not be started on a second machine while it's running here.
 The demo bot's 0.40% is roughly **3× the validated setting**, on purpose, to
 generate trades and surface bugs fast. Do not read its returns as a forecast —
 and note the 3-coin book will behave very differently from the 9-coin backtest.
+
+## Free forex and metals history (2026-09-14)
+
+```bash
+python fx_fetch.py --list                  # what depth is available
+python fx_fetch.py                         # majors + gold, 1h and 4h
+python fx_fetch.py --symbols XAUUSDm --tf 1h 15m --days 2400
+```
+
+**The belief that forex intraday history was limited to 30–60 days was wrong.** The MT5
+terminal already installed on this machine holds ~60,000 H1 bars per symbol back to
+**2014** — 12.2 years — on a free Exness demo account. No API key, nothing purchased.
+
+**What hid it:** `mt5.copy_rates_range()` returns `(-2, 'Terminal: Invalid params')` for
+every intraday timeframe at every date range, *including ranges well inside the data it
+holds*. D1 works; M1 and H1 do not. That error reads like "no such data."
+`copy_rates_from_pos()` works on the same symbol and timeframe — and a single request
+above ~50,000 bars fails with the *same* misleading error, so page size matters too.
+
+> **Rule:** page with `copy_rates_from_pos`. Never read `copy_rates_range`'s error as
+> proof the data is absent.
+
+**It needs no changes to the backtest suite.** `mass_search.fetch()` is cache-first, so
+writing MT5 bars into `{symbol}_{interval}_{days}d.json` makes all 90 backtest files
+accept forex without knowing where the bars came from.
+
+| Verified | |
+|---|---|
+| `XAUUSDm` 1h | 38,845 bars, 2020-02-18 → 2026-09-14 |
+| `EURUSDm` 1h | 40,901 bars, same window |
+| Server clock | **UTC+0.0** on `Exness-MT5Trial16` — no offset to correct |
+
+Two things that would silently corrupt a crypto comparison, both handled: MT5 stamps
+**server time** (this server happens to be UTC; `--utc` converts if you switch brokers),
+and forex has no consolidated tape so `volume` is **tick count**, an activity proxy, not
+size.
+
+### Do not use `rtest.run_r` for trend following on this data
+
+`run_r` is a fixed stop/target engine. Setting `tp_mult` high to dodge the profit cap
+removes the target **without adding a trailing exit**, so a position can run for years and
+the only realistic exit left is the stop. The symptom is unmistakable and was seen
+immediately on gold: **2.4% win rates on 42 trades in 6.6 years**, with mean R carried
+entirely by a couple of enormous winners.
+
+That is not an edge, it is a missing exit. Trend-following tests belong in
+`backtest/convex.py`, which has real trails. Use `fee_abs` for forex (spread in price
+units — gold ≈0.30, EURUSD ≈0.00010), not `fee_bp`.
