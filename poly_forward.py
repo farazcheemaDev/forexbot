@@ -79,6 +79,7 @@ from pathlib import Path
 import numpy as np
 
 ROOT = Path(__file__).resolve().parent
+sys.path.insert(0, str(ROOT))
 LOGS = ROOT / "logs"; LOGS.mkdir(exist_ok=True)
 SNAP = LOGS / "poly_snapshots.csv"
 LOGF = LOGS / "poly_forward.log"
@@ -330,6 +331,12 @@ def main():
     snaps = load_snaps()
     if args.report:
         report(snaps); return
+    # SINGLE INSTANCE. Two copies would both rewrite logs/poly_snapshots.csv, and
+    # although rewrite() replaces atomically, two processes interleaving a
+    # read-modify-write can still lose rows. A logon task plus a manual start is
+    # exactly how a second copy happens.
+    from longtrend_bot import acquire_lock
+    acquire_lock("poly_forward")
     log("=" * 78)
     log("POLYMARKET FORWARD TEST — records data only, no orders, no keys, no funds")
     log("  H3: markets snapshotted at 0.50-0.65 resolve YES at least +0.10 above")
