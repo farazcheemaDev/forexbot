@@ -1,0 +1,146 @@
+THE VALIDATED CRYPTO CONFIG, AND HIS LEVEL FADE, ON REAL FOREX / METALS / INDEX BARS.
+
+    python -m backtest.forex
+
+WHY THIS IS NOW POSSIBLE
+    Every result in this project came from crypto, because forex intraday history was
+    believed to be limited to 30-60 days. fx_fetch.py disproved that: the already
+    installed Exness MT5 terminal holds 6.6 years of H1 and 4.2 years of M15. Two things
+    that were previously untestable are now testable:
+
+      A  the DEPLOYED configuration - bb_break(30,1.5), 20xATR trail, BE@3R - on
+         instruments it has never seen. A genuine out-of-universe test, not another
+         sweep of the same six years of crypto.
+
+      B  HIS strategy. strategy_analysis/his_strategy.md section 8 names the blocker
+         outright: "Free NQ 5m history = only 60 days. Robust validation needs
+         months/years." His primary instrument is NASDAQ (USTECm on this broker) and his
+         secondary is gold. Both now have a year or more of 5m bars.
+
+THE COST THAT DOES NOT EXIST IN CRYPTO, AND DOMINATES HERE
+    Crypto perps paid this project money to hold positions - funding carry was +5-8%/yr.
+    Forex and CFDs charge it, and the charge is large relative to the spread:
+
+        symbol     round-trip spread      swap on a LONG        held 2 weeks
+        XAUUSDm             1.22 bp        1.25 bp/night          ~18 bp
+        USTECm              0.77 bp        2.04 bp/night          ~29 bp
+        EURUSDm             1.39 bp        0.49 bp/night           ~7 bp
+
+    A 20xATR trail holds for WEEKS. So swap is 15-35x the spread for this strategy, and
+    a backtest that charges only the spread is not wrong by a rounding error - it is
+    wrong by the entire edge. Measured live from mt5.symbol_info (swap_mode=POINTS).
+
+    Charged PER TRADE from the bars each trade was actually open, not as an average,
+    because holding time and profitability are correlated: winners run and losers are
+    stopped, so an average would tax the winners too little.
+
+REGISTERED PREDICTIONS (in the file, written before running):
+  A: trend config weaker on FX, gold the only hope, indices die on swap.
+  B: his level fade fails again; if anything survives it is the SESSION
+     window, not the level logic.
+
+====================================================================================================
+A. THE DEPLOYED CONFIG ON INSTRUMENTS IT HAS NEVER SEEN
+   bb_break(30,1.5) | 20xATR trail | BE@3R | sl 2xATR   (blend_paper.py)
+====================================================================================================
+   Showing spread-only FIRST and spread+swap SECOND, so the size of the
+   holding cost is visible rather than asserted.
+
+                                      n    meanR   win%     PF   totalR
+  XAUUSDm 1h  spread only           356    0.294   11.2   1.39    104.5
+  XAUUSDm 1h  + swap (1.0d median hold)    356    0.188   11.0   1.24     67.0
+  XAUUSDm 4h  spread only            95    0.918   11.6   2.25     87.2
+  XAUUSDm 4h  + swap (4.2d median hold)     95    0.697   11.6   1.86     66.2
+  XAGUSDm 1h  spread only           364    0.282   12.4   1.35    102.5
+  XAGUSDm 1h  + swap (0.8d median hold)    364    0.226   12.1   1.28     82.3
+  XAGUSDm 4h  spread only           110    0.284    8.2   1.40     31.2
+  XAGUSDm 4h  + swap (4.2d median hold)    110    0.195    8.2   1.26     21.5
+  EURUSDm 1h  spread only           403   -0.089   11.2   0.89    -36.0
+  EURUSDm 1h  + swap (0.8d median hold)    403   -0.172   10.9   0.80    -69.2
+  EURUSDm 4h  spread only            70    0.278   12.9   1.39     19.5
+  EURUSDm 4h  + swap (5.3d median hold)     70    0.062   11.4   1.08      4.4
+  GBPUSDm 1h  spread only           358   -0.109   12.3   0.86    -39.1
+  GBPUSDm 1h  + swap (1.0d median hold)    358   -0.189   11.7   0.77    -67.5
+  GBPUSDm 4h  spread only           100   -0.105    8.0   0.86    -10.5
+  GBPUSDm 4h  + swap (3.0d median hold)    100   -0.242    7.0   0.71    -24.2
+  USDJPYm 1h  spread only           397    0.253   11.8   1.32    100.4
+  USDJPYm 1h  + swap (0.9d median hold)    397    0.174   11.1   1.21     69.0
+  USDJPYm 4h  spread only            74    0.667   18.9   1.94     49.4
+  USDJPYm 4h  + swap (4.3d median hold)     74    0.480   16.2   1.64     35.6
+  USTECm 1h  spread only             91   -0.467    7.7   0.41    -42.5
+  USTECm 1h  + swap (0.7d median hold)     91   -0.537    7.7   0.36    -48.9
+  USTECm   4h   only 1568 bars, skipped
+  US30m 1h  spread only              71   -0.386   12.7   0.51    -27.4
+  US30m 1h  + swap (0.8d median hold)     71   -0.493   12.7   0.41    -35.0
+  US30m    4h   only 1568 bars, skipped
+
+====================================================================================================
+A2. THE SAME, SPLIT IN TIME — first 60% in-sample, last 40% HELD OUT
+====================================================================================================
+   A config chosen on crypto cannot be 'fitted' to forex, so this is not a
+   fitting check. It asks whether any forex result is STABLE or came from
+   one era - the failure mode that made 2021 carry 40% of the crypto book.
+
+                                  IS meanR  OOS meanR   IS n  OOS n     verdict
+  XAUUSDm 1h                        -0.056      0.622    228    128  ONE REGIME
+  XAUUSDm 4h                        -0.437      3.705     69     26  ONE REGIME
+  XAGUSDm 1h                         0.076      0.458    221    143       HOLDS
+  XAGUSDm 4h                         0.008      0.499     68     42       HOLDS
+  EURUSDm 1h                        -0.023     -0.349    219    184   dead both
+  EURUSDm 4h                         0.351     -0.346     41     29    dies OOS
+  GBPUSDm 1h                        -0.064     -0.359    207    151   dead both
+  GBPUSDm 4h                         0.163     -0.631     49     51    dies OOS
+  USDJPYm 1h                         0.303     -0.009    232    165    dies OOS
+  USDJPYm 4h                         1.329     -0.281     35     39    dies OOS
+  USTECm 1h                         -0.424     -0.818     65     26   dead both
+  US30m 1h                          -0.481     -0.515     47     24   dead both
+
+====================================================================================================
+B. HIS LEVEL FADE — on years of data instead of 60 days
+====================================================================================================
+   His profile: 30s-4min holds, 5-18 point targets, ~70-90% win rate, cuts
+   losers small. That is a TIGHT STOP AND SMALL TARGET, so run_r (fixed
+   stop/target) is the right engine here, not the trail engine in part A.
+   Level step per his doc: 25 points on NASDAQ. Gold is scaled to the same
+   FRACTION of price, because a fixed 25 means nothing across instruments.
+
+  --- USTECm 5m   69,314 bars   2025-09-21 -> 2026-09-14   level step 25.0 / prox 8.00
+                                      n    meanR   win%     PF   totalR
+  level fade  sl1.0 tp1.5          3649   -0.148   38.3   0.78   -538.7
+  level fade  sl1.0 tp1.0          4081   -0.131   48.6   0.77   -533.7
+  level fade  sl0.75 tp1.5         4257   -0.182   31.9   0.77   -776.0
+    session 13-15 ET (his window)    350   -0.020   42.0   0.97     -7.1
+    session 09-12 ET                846   -0.079   39.7   0.88    -66.8
+    session all hours              3649   -0.148   38.3   0.78   -538.7
+
+  --- USTECm 15m   23,122 bars   2025-09-21 -> 2026-09-14   level step 25.0 / prox 8.00
+                                      n    meanR   win%     PF   totalR
+  level fade  sl1.0 tp1.5          1424   -0.107   37.9   0.84   -152.6
+  level fade  sl1.0 tp1.0          1574   -0.117   46.9   0.79   -184.8
+  level fade  sl0.75 tp1.5         1686   -0.128   31.5   0.83   -216.5
+    session 13-15 ET (his window)    198   -0.016   40.9   0.97     -3.2
+    session 09-12 ET                423   -0.109   37.6   0.83    -46.3
+    session all hours              1424   -0.107   37.9   0.84   -152.6
+
+  --- XAUUSDm 5m   100,000 bars   2025-04-16 -> 2026-09-14   level step 3.57 / prox 1.14
+                                      n    meanR   win%     PF   totalR
+  level fade  sl1.0 tp1.5          5328   -0.157   38.4   0.77   -838.8
+  level fade  sl1.0 tp1.0          5956   -0.155   48.1   0.73   -920.6
+  level fade  sl0.75 tp1.5         6219   -0.204   31.7   0.74  -1271.1
+    session 13-15 ET (his window)    464   -0.130   39.7   0.81    -60.2
+    session 09-12 ET                914   -0.092   39.8   0.86    -84.2
+    session all hours              5328   -0.157   38.4   0.77   -838.8
+
+  --- XAUUSDm 15m   100,000 bars   2022-06-21 -> 2026-09-14   level step 2.09 / prox 0.67
+                                      n    meanR   win%     PF   totalR
+  level fade  sl1.0 tp1.5          5752   -0.128   38.5   0.81   -734.7
+  level fade  sl1.0 tp1.0          6464   -0.124   48.3   0.78   -801.0
+  level fade  sl0.75 tp1.5         6759   -0.150   32.4   0.80  -1016.3
+    session 13-15 ET (his window)    567   -0.086   39.3   0.87    -48.5
+    session 09-12 ET               1541   -0.098   39.1   0.85   -150.6
+    session all hours              5752   -0.128   38.5   0.81   -734.7
+
+====================================================================================================
+Server clock is UTC+0 on Exness-MT5Trial16, so bar hours ARE UTC.
+13:00-15:00 ET = 17:00-20:00 UTC in summer (EDT, UTC-4). Winter shifts it
+an hour; not corrected here, so treat the session rows as +/-1h.

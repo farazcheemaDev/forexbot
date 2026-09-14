@@ -1,0 +1,40 @@
+terminal  C:\Program Files\MetaTrader 5 EXNESS\terminal64.exe
+broker    Exness Technologies Ltd  account 472698318 on Exness-MT5Trial16
+server clock  UTC+0.0h  -> written AS-IS in server time. Pass --utc to mix with crypto data.
+
+symbol     tf        bars  from       to           yrs  file
+USTECm     1h       5,771  2025-09-21 2026-09-14   1.0  USTECm_1h_2400d.json
+USTECm     4h       1,568  2025-09-21 2026-09-14   1.0  USTECm_4h_2400d.json
+USTECm     15m     23,122  2025-09-21 2026-09-14   1.0  USTECm_15m_2400d.json
+USTECm     5m      69,314  2025-09-21 2026-09-14   1.0  USTECm_5m_2400d.json
+US30m      1h       5,784  2025-09-21 2026-09-14   1.0  US30m_1h_2400d.json
+US30m      4h       1,568  2025-09-21 2026-09-14   1.0  US30m_4h_2400d.json
+US30m      15m     23,122  2025-09-21 2026-09-14   1.0  US30m_15m_2400d.json
+US30m      5m      69,313  2025-09-21 2026-09-14   1.0  US30m_5m_2400d.json
+
+wrote 8 file(s) into D:\forexbot\strategy_analysis\data
+These are now readable by the ENTIRE existing suite with no code change,
+because backtest/mass_search.fetch() is cache-first:
+
+    from backtest.mass_search import fetch
+    df = fetch('USTECm', '1h', 2400)
+
+Before comparing any result against a crypto one, read the two warnings at
+the top of this file: server time vs UTC, and tick volume vs real volume.
+terminal  C:\Program Files\MetaTrader 5 EXNESS\terminal64.exe
+broker    Exness Technologies Ltd  account 472698318 on Exness-MT5Trial16
+server clock  UTC+0.0h  -> written AS-IS in server time. Pass --utc to mix with crypto data.
+
+symbol     tf        bars  from       to           yrs  file
+XAUUSDm    5m     100,000  2025-04-16 2026-09-14   1.4  XAUUSDm_5m_2400d.json
+XAUUSDm    1m     100,000  2026-06-03 2026-09-14   0.3  XAUUSDm_1m_2400d.json
+
+wrote 2 file(s) into D:\forexbot\strategy_analysis\data
+These are now readable by the ENTIRE existing suite with no code change,
+because backtest/mass_search.fetch() is cache-first:
+
+    from backtest.mass_search import fetch
+    df = fetch('XAUUSDm', '5m', 2400)
+
+Before comparing any result against a crypto one, read the two warnings at
+the top of this file: server time vs UTC, and tick volume vs real volume.

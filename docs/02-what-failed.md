@@ -114,3 +114,81 @@ broken, not the strategy.** See [doc 03](03-mistakes.md).
   pooled trades are nowhere near 40,000 independent observations. Count coins, not
   trades. This alone explains one of this project's two "statistically significant"
   results.
+
+---
+
+## Forex, metals and indices (2026-09-14) — `backtest/forex.py`
+
+First test ever run outside crypto, on 6.6 years of H1 and 1–4 years of M5/M15 pulled
+free from the MT5 terminal (`fx_fetch.py`). **Costs are measured, not assumed** —
+`mt5.symbol_info` spreads, plus **swap charged per trade from the bars each trade was
+actually open**, because winners run and losers get stopped, so an average would tax
+winners too little.
+
+### A. The deployed config on instruments it has never seen
+
+`bb_break(30,1.5)`, 20×ATR trail, BE@3R. After spread **and** swap, split 60/40 in time:
+
+| Instrument | meanR | PF | In-sample → holdout | Verdict |
+|---|---|---|---|---|
+| **XAGUSDm 1h** | **+0.226** | **1.28** | +0.076 → **+0.458** | **HOLDS** |
+| **XAGUSDm 4h** | **+0.195** | **1.26** | +0.008 → **+0.499** | **HOLDS** |
+| XAUUSDm 4h | +0.697 | 1.86 | **−0.437** → +3.705 | **ONE REGIME** |
+| XAUUSDm 1h | +0.188 | 1.24 | **−0.056** → +0.622 | **ONE REGIME** |
+| USDJPYm 4h | +0.480 | 1.64 | +1.329 → **−0.281** | dies OOS |
+| USDJPYm 1h | +0.174 | 1.21 | +0.303 → −0.009 | dies OOS |
+| EURUSDm 4h | +0.062 | 1.08 | +0.351 → −0.346 | dies OOS |
+| EURUSDm 1h | −0.172 | 0.80 | −0.023 → −0.349 | dead both |
+| GBPUSDm 1h / 4h | −0.189 / −0.242 | 0.77 / 0.71 | negative | dead / dies OOS |
+| **USTECm 1h** | **−0.537** | **0.36** | −0.424 → −0.818 | dead both |
+| **US30m 1h** | **−0.493** | **0.41** | −0.481 → −0.515 | dead both |
+
+**Gold's headline is a lie the holdout catches.** +0.697R at PF 1.86 on 4h looks like the
+best result in the table. It is **negative in-sample and +3.705 out-of-sample** — the
+entire result is the 2024–2026 gold bull market. That is the *same* inflation already
+recorded for the first gold test, arriving in a new costume.
+
+**Silver is the only thing that holds**, positive in both halves and stronger in the
+holdout. Modest (PF 1.26–1.28) and it carries the most expensive spread here (9.52bp
+round trip, 7× gold's), so treat it as a lead, not a result.
+
+**FX majors are dead**, as predicted — most efficient market that exists.
+
+### B. His level fade — settled, on years instead of 60 days
+
+`strategy_analysis/his_strategy.md` §8 named the blocker: *"Free NQ 5m history = only 60
+days."* That blocker is gone. Tested on his **primary** instrument (NASDAQ = `USTECm`) and
+his **secondary** (gold), at 5m and 15m, 3,649–6,759 trades each:
+
+| Instrument | Best PF across three stop/target profiles |
+|---|---|
+| USTECm 5m | **0.78** |
+| USTECm 15m | **0.84** |
+| XAUUSDm 5m | **0.77** |
+| XAUUSDm 15m | **0.81** |
+
+**Dead on both of his own instruments, on years of data, at every stop/target setting.**
+Not marginal — losing 12–20% of risk per trade over thousands of trades. This closes the
+question that §8 left open.
+
+**But his timing intuition was real.** The session window was tested separately, and
+**his 13:00–15:00 ET window is the best of the three windows in all four samples**:
+
+| Sample | His window | 09–12 ET | All hours |
+|---|---|---|---|
+| USTECm 5m | **PF 0.97** | 0.88 | 0.78 |
+| USTECm 15m | **PF 0.97** | 0.83 | 0.84 |
+| XAUUSDm 5m | **PF 0.81** | 0.86 | 0.77 |
+| XAUUSDm 15m | **PF 0.87** | 0.85 | 0.81 |
+
+Consistently least-bad, never above 1.0. **The human's read on *when* was right and the
+encoding of *what* is what fails** — which is the honest answer to "was he lucky or good":
+the timing was skill, the level logic does not systematize.
+
+### Two predictions of mine that were wrong
+
+1. **"Indices will fail on swap."** They fail on the **signal**. USTECm is PF **0.41 on
+   spread alone**; swap only moved it 0.41 → 0.36. Wrong cause attributed.
+2. **"Swap is 15–35× the spread."** Based on a two-week hold that does not happen — the
+   measured median hold is **0.7–5.3 days**, so swap runs ~1–5× the spread. Real, and it
+   took gold 4h from PF 2.25 → 1.86, but not the dominant cost I claimed.
