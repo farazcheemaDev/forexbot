@@ -63,6 +63,42 @@ State survives restarts — each bot writes its open positions to `logs/*_state.
 and reloads them. The demo bot also holds a single-instance lock, so a second copy
 refuses to start rather than double-trading.
 
+## Is it working? One command
+
+```bash
+python health.py
+```
+
+**Use this instead of eyeballing the process list.** On 2026-09-12 a duplicate bot was
+started against the same demo account because `wmic | grep` wrapped a long command line
+so a running bot looked absent, and its between-bar silence was read as death — two weak
+signals agreeing produced a confident wrong answer
+([doc 03](03-mistakes.md), `longtrend_bot.acquire_lock`).
+
+So `health.py` reports **three independent signals separately**, and when they disagree
+that disagreement is the point:
+
+| Signal | What it is | Why not the obvious thing |
+|---|---|---|
+| **Process** | pid from the bot's own lock file, **cross-checked against the command line** | a pid can be recycled after a crash; a stale lock plus any python process would otherwise read as alive |
+| **Heartbeat** | mtime of the file the bot writes **every cycle** (`*_state.json`) | **not the log.** The bots log once per closed *bar* — a 12h sleeve is silent for 12h while working perfectly — but they `save_state()` every poll |
+| **Progress** | equity, open positions, trades taken, rows recorded | a healthy bot can legitimately take no trades for days, so this is reported *apart* from the verdict |
+
+| Verdict | Meaning | Do |
+|---|---|---|
+| `OK` | alive and writing | nothing |
+| `WEDGED` | **alive but not writing** — worse than dead: it holds the lock so a restart refuses, and it is not trailing stops on open trades | kill the pid, then start it |
+| `DEAD` | gone | start it |
+| `PROBABLY OK` | files fresh, process not visible | **trust the files.** Do not start a second copy — this is the exact direction the 2026-09-12 mistake went |
+| `TWO COPIES` | two instances of one bot | kill all but one immediately; duplicates double every order |
+
+Other forms:
+
+```bash
+python health.py --log demo      # tail one bot's log
+python health.py --vm <VM-IP>    # also read the VM's status page (TCP 8080 must be open)
+```
+
 ## Logs
 
 | File | Contents |

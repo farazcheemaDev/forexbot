@@ -16,12 +16,25 @@ The thing that matters is already running.
 
 ## Check on it whenever
 
+**On your PC — is anything wedged or dead:**
+
+```bash
+python health.py
+```
+
+Three signals per bot (process / heartbeat / progress), reported separately so a
+silent-but-healthy bot is never mistaken for a dead one. Full explanation of the
+verdicts in [doc 04](04-operations.md).
+
+**On the VM — is the strategy actually making money:**
+
 ```bash
 cd /opt/forexbot && ./.venv/bin/python blend_paper.py --status
 ```
 
 Per-sleeve and per-side breakdown, which is how you tell "the strategy is losing"
-from "half of it isn't running."
+from "half of it isn't running." Run it through Azure portal → your VM → **Run command**
+→ `RunShellScript` if you don't want to set up SSH.
 
 **Don't read anything into the first ~30 closed trades.** The book filled 8/8 on its
 first cycle, which is a cold-start artifact — a bot that had been running would have
