@@ -657,3 +657,62 @@ per bar for one symbol.
 while the holdout table printed directly above it showed 1000h winning OOS return,
 OOS drawdown and OOS MAR. Ranking on a window that contains the in-sample period rewards
 the exact overfitting the holdout exists to expose. Fixed to rank on OOS MAR.
+
+## The 3× hindsight penalty is wrong for recent years — and the book is the problem (2026-09-14)
+
+`backtest/hindsight.py`. The 3.0× divisor was measured **once over the whole history**,
+two ways that agreed (3.03–3.05× and 719.8/240.1 = 3.00×), and then applied **flat to
+every sub-period** including the window used to set the forward expectation. Nobody
+checked whether it is constant in time. It is not.
+
+Two books, one engine, split by year. **FIXED** = the 12 coins actually deployed, chosen
+in 2026 knowing what survived. **PIT** = top 12 by realised dollar volume in the *prior*
+month, drawn from all 284 coins including the 202 delisted ones — what someone could
+actually have picked at the time.
+
+| Year | FIXED mean R | PIT mean R | Premium |
+|---|---|---|---|
+| 2020 | +0.802 | +0.322 | 2.49× |
+| 2021 | +1.300 | +0.386 | **3.36×** |
+| 2022 | −0.136 | −0.331 | both ≤ 0 |
+| 2023 | +0.116 | +0.128 | 0.91× |
+| 2024 | +0.890 | +0.333 | 2.68× |
+| **2025** | **−0.188** | **−0.042** | **PIT is 4.5× less bad** |
+| **2026** | **+0.049** | **+0.328** | **0.15× — PIT is 6.7× BETTER** |
+
+2020–2022 mean **2.93×** (confirming the original 3.00× measurement for a lifetime
+figure). 2024–2026 mean **1.41×**.
+
+### The premium did not shrink. It INVERTED.
+
+In 2025 and 2026 the point-in-time book **beats** the hand-picked one. That is not a
+smaller hindsight bonus — it is a **penalty**. The deployed 12-coin book has become the
+weak link, and picking coins by last month's volume would do better.
+
+Same engine, monthly compounded, regime gate at 1000h, 12 slots:
+
+| Window | Book | /mo | Winning months | Divisor needed |
+|---|---|---|---|---|
+| 2025+ | FIXED | +0.36% | 33% | ÷3 → +0.12% |
+| 2025+ | **PIT** | **+1.44%** | 33% | **none** |
+| 2026+ | FIXED | +0.72% | 33% | ÷3 → +0.24% |
+| 2026+ | **PIT** | **+1.99%** | 33% | **none** |
+
+**PIT needs no hindsight divisor at all, by construction** — it never sees the future. So
+the honest comparison for 2026 is **+0.24%/month against +1.99%/month: roughly 8×.**
+
+### What this changes, and what it does not
+
+**The fix is not a new divisor. It is to stop using a fixed hand-picked book** and select
+the universe by prior-month volume, rebalanced monthly. That removes the bias by
+construction rather than estimating it away.
+
+**What this does NOT establish:** the absolute return a PIT book would earn under the
+*full* deployed rules. This comparison uses `pit_universe`'s simpler engine — one
+timeframe, one unit, 12× trail, no breakeven, no short sleeve — so it is internally valid
+on both sides but its absolute figures are **not** comparable to `blend.py`'s. Wiring the
+point-in-time universe into the blend engine is the next job, and until that is done
+"+1.99%/month" is a *relative* result, not a forecast.
+
+**Still nowhere near 10%/month**, and still losing in 2 months out of 3 with a worst month
+of −16.6%.

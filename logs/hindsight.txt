@@ -1,0 +1,83 @@
+IS THE 3x HINDSIGHT PENALTY THE SAME IN EVERY YEAR? IT IS APPLIED AS IF IT IS.
+
+    python -m backtest.hindsight
+
+THE ASSUMPTION UNDER ATTACK
+    Every honest figure in this project divides by HINDSIGHT = 3.0. That number was
+    measured ONCE over the whole history, two ways that agreed:
+        pit_universe.py   point-in-time universe vs today's top coins -> 3.03-3.05x
+        small_book.py     719.8%/yr fixed book vs 240.1%/yr point-in-time -> 3.00x
+    Two independent measurements agreeing is why it was trusted, and it is still the
+    right correction for a LIFETIME figure.
+
+    But it is then applied FLAT to every sub-period, including "2026 onward". Nobody
+    ever checked whether the premium is constant in time, and there is a strong reason
+    to think it is not:
+
+        The premium is the value of KNOWING WHICH COINS WOULD MATTER. In 2020-2021 that
+        knowledge was worth a fortune - today's names were tiny or did not exist, and
+        the coins that were actually liquid then have largely died. By 2025-2026 the
+        universe is settled: the coins in the book were already liquid, already ranked
+        where they rank now. There is much less to know in advance.
+
+    If that is right, a flat 3.0x over-penalises recent performance - which is exactly
+    the window used to set the forward expectation. Every recent number in this project
+    would be too low, by up to 3x.
+
+    The opposite is also possible and would make things WORSE: if the premium is LARGER
+    recently - because the book's cheap alts are the survivors of a cohort that mostly
+    died in 2022-2024 - then the honest recent figure is lower still.
+
+HOW IT IS MEASURED
+    Two books, one engine, split by year.
+
+      FIXED  the 12 coins actually deployed in blend_paper.py. Chosen in 2026 with full
+             knowledge of what survived. This is the book whose numbers get quoted.
+      PIT    top 12 by realised dollar volume in the PRIOR month, drawn from every coin
+             available including the 202 DELISTED ones. This is what a person could
+             actually have picked at the time, with no knowledge of the future.
+
+    premium_year = fixed mean R / PIT mean R
+
+    Mean R per trade is the ratio statistic rather than annual return, because a ratio
+    of returns is meaningless the moment one side is negative, and in 2025 both sides
+    are near zero. Sign disagreements are reported rather than divided through.
+
+REGISTERED PREDICTION: the premium SHRINKS over time - well above 3x in
+2020-21, near 1x by 2025-26 - so the flat 3.0x over-penalises the recent
+window. If it is flat or rising, this argument is closed.
+
+loading every coin, alive and delisted...
+  284 coins loaded
+  deployed book: 12 of 12 coins usable
+  point-in-time universe built for 107 months
+
+============================================================================================
+THE HINDSIGHT PREMIUM, YEAR BY YEAR
+============================================================================================
+  year     FIXED meanR      n   PIT meanR      n   premium   note
+  2017               (one side missing)
+  2018               (one side missing)
+  2019               (one side missing)
+  2020           0.802    321       0.322    910     2.49x   
+  2021           1.300    470       0.386    761     3.36x   
+  2022          -0.136    616      -0.331    946       n/a   both <= 0
+  2023           0.116    828       0.128    963     0.91x   
+  2024           0.890    878       0.333    933     2.68x   
+  2025          -0.188   1000      -0.042    989       n/a   both <= 0
+  2026           0.049    707       0.328    673     0.15x   
+
+============================================================================================
+VERDICT
+============================================================================================
+  premium by year: 2020:2.49x  2021:3.36x  2023:0.91x  2024:2.68x  2026:0.15x
+
+  2020-2022 mean 2.93x     2024-2026 mean 1.41x
+
+  THE PREMIUM SHRINKS. A flat 3.0x OVER-penalises the recent
+  window. The right recent divisor is nearer 1.41x, which raises
+  every recent figure by 2.12x.
+
+  One universe, one engine, ~6 years. Yearly mean R on a fat-tailed
+  distribution is noisy, so read the DIRECTION across years, not any
+  single year's ratio.
