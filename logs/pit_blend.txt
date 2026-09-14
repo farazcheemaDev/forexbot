@@ -1,0 +1,86 @@
+THE POINT-IN-TIME UNIVERSE THROUGH THE ACTUAL DEPLOYED RULES.
+
+    python -m backtest.pit_blend
+
+WHY
+    backtest/hindsight.py found that the 3x hindsight divisor is not constant, and that
+    in 2025-2026 it INVERTED: a book of "top 12 by last month's volume" beat the
+    hand-picked 12 by 6.7x on mean R in 2026. But that comparison ran on
+    pit_universe's simpler engine - one timeframe, one unit, 12x trail, no breakeven,
+    no shorts - so it established a RATIO and not a return.
+
+    This runs both universes through the REAL rules: 1h + 4h + 12h sleeves, 5-unit long
+    pyramid on a 20xATR trail, 1-unit short on 5xATR, breakeven at 3R, the 1000h regime
+    gate, 12 shared slots. Same portfolio pass on both sides, so the only difference is
+    HOW THE COINS ARE CHOSEN.
+
+HOW THE UNIVERSE IS SWAPPED WITHOUT TOUCHING blend.py
+    blend.load() is cache-first on the module global _D, and blend.sleeve() iterates
+    blend.BOOK. So both are redirected by assignment:
+
+        blend._D.update(frames)      # dead coins included, keyed by symbol
+        blend.BOOK = candidates
+        blend._S.clear()             # sleeve cache MUST be dropped or it replays
+                                     # the old book's trades under the new label
+
+    That _S.clear() is the whole trap. sleeve() caches per RULE, not per book, so
+    without clearing it the "PIT" run silently returns the FIXED book's trades and the
+    two columns come out identical - the same failure mode as the byte-identical
+    Polymarket tables. An assertion below checks the trade sets actually differ.
+
+    Only coins that appear in SOME month's top 12 can ever be traded, so the sleeve is
+    built for that candidate set rather than all 284 coins - same result, far less work.
+
+WHAT THIS CANNOT TELL YOU: THE CAPITAL FLOOR
+    blend's floor needs MIN_ORDER per coin, and that table exists only for the 12
+    deployed names. The point-in-time universe contains coins that are delisted, may not
+    be on MEXC at all, or may carry much larger minimums. So a PIT book might be
+    UNTRADEABLE at $221 even if its returns are better, and this file deliberately does
+    not print a floor rather than print a wrong one. Establishing tradeability is a
+    separate job and it gates any deployment.
+
+REGISTERED PREDICTION: PIT still beats FIXED recently but by LESS than the
+6.7x on the simple engine (the blend already diversifies part of it) - call it
+2-3x. FIXED wins over the full history, where its hindsight is real.
+
+loading every coin, alive and delisted...
+  284 coins loaded, 107 months of eligibility
+  93 coins ever reach a month's top 12 — only these can trade
+  deployed book overlap: 12/12
+
+building sleeves under the real rules (this is the slow part)...
+  PIT candidate sleeves: 106,637 trades
+  deployed book sleeves: 15,736 trades
+
+========================================================================================================
+SAME RULES, SAME 12 SLOTS, SAME 1000h GATE — ONLY THE COIN CHOICE DIFFERS
+========================================================================================================
+  window        universe                    trades   meanR      /mo  win mo   median   worst      DD   divisor
+  all 2020-2026 FIXED (hand-picked 12)        5503   2.603  +22.45%     50%   -0.12%  -42.9%   61.7% /3 needed
+  all 2020-2026 POINT-IN-TIME top 12          7281   1.602   +8.13%     40%   -1.83%  -35.2%   70.4%      NONE
+
+  2025 onward   FIXED (hand-picked 12)        1794   0.018   +3.19%     33%   -4.73%  -42.9%   61.7% /3 needed
+  2025 onward   POINT-IN-TIME top 12          1640   0.393   +3.17%     33%   -6.19%  -22.4%   57.3%      NONE
+
+  2026 onward   FIXED (hand-picked 12)         771   0.071   +0.46%     22%   -4.90%  -30.2%   53.1% /3 needed
+  2026 onward   POINT-IN-TIME top 12           790   0.624   +5.23%     33%   -4.53%  -23.9%   35.3%      NONE
+
+========================================================================================================
+HONEST SIDE BY SIDE — FIXED gets its 3x haircut, PIT needs none
+========================================================================================================
+  window            FIXED after /3   PIT as measured    ratio
+  all 2020-2026            +13.26%            +8.13%     0.6x
+  2025 onward               +1.19%            +3.17%     2.7x
+  2026 onward               +0.16%            +5.23%    33.4x
+
+========================================================================================================
+VERDICT
+========================================================================================================
+  2026: point-in-time +5.23%/mo vs hand-picked +0.46%/mo before any haircut,
+        and the hand-picked figure still owes a 3x haircut while this one owes none.
+
+  NO CAPITAL FLOOR IS PRINTED ON PURPOSE. MIN_ORDER exists only for the 12
+  deployed coins; the point-in-time universe contains delisted names and
+  coins that may not be on MEXC at all. A better-returning book that cannot
+  be traded at $221 is not an improvement, and proving tradeability is the
+  job that gates deploying this.

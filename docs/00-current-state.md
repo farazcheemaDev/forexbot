@@ -716,3 +716,58 @@ point-in-time universe into the blend engine is the next job, and until that is 
 
 **Still nowhere near 10%/month**, and still losing in 2 months out of 3 with a worst month
 of −16.6%.
+
+### Point-in-time universe through the REAL rules — the strongest lead found (2026-09-14)
+
+`backtest/pit_blend.py`. Same 1h+4h+12h sleeves, 5-unit pyramid on a 20×ATR trail, short
+on 5×ATR, BE@3R, 1000h gate, 12 shared slots, one portfolio pass. **The only difference is
+how the coins are chosen.** `blend._S.clear()` is mandatory between runs — `sleeve()`
+caches per *rule*, not per book, so without it both columns replay the same trades (the
+byte-identical-tables failure mode; an assertion now guards it).
+
+| Window | Universe | mean R | /mo | Win months | Max DD | Floor |
+|---|---|---|---|---|---|---|
+| 2025+ | FIXED deployed 12 | 0.018 | +3.19% | 33% | 61.7% | $208 |
+| 2025+ | PIT top 12 (all) | 0.393 | +3.17% | 33% | 57.3% | $568 |
+| **2025+** | **PIT minus PEPE/ETH** | 0.164 | **+4.68%** | 38% | **47.5%** | **$192** |
+| 2026+ | FIXED deployed 12 | 0.071 | +0.46% | 22% | 53.1% | $208 |
+| 2026+ | PIT top 12 (all) | 0.624 | +5.23% | 33% | 35.3% | $568 |
+| **2026+** | **PIT minus PEPE/ETH** | 0.528 | **+8.86%** | 33% | **36.3%** | **$192** |
+
+**The FIXED column still owes a 3× haircut. The PIT columns owe none** — a universe ranked
+on the *prior* month's volume cannot see the future. Over the full history FIXED wins
+(+13.26% after haircut vs +8.13%), exactly as it should: that is where its hindsight is
+real. **In 2026 the ratio is 33×.**
+
+**Hindsight helps in the past and hurts in the present.** The hand-picked book was picked
+for the whole history; by 2026 those coins are no longer where the volume is.
+
+#### What the PIT book actually holds
+
+`BTC ETH SOL XRP BNB ZEC DOGE TRX` in 9 of 9 recent months, plus rotating `SUI PAXG PEPE
+ADA TAO NEAR`. **All majors, all on MEXC** — not exotic or delisted names. Only 7 of the
+12 deployed coins ever appear at all.
+
+#### Why PEPE and ETH are excluded, and why that is legal
+
+Real MEXC minimums give per-coin capital needs of **PEPE $367** and **ETH $148** against
+the **$143** that $221 supports at this drawdown. Excluding a coin because its minimum
+order exceeds your account **uses no future information** — minimum size and typical ATR
+are both observable on the day — so a live bot can apply exactly this rule. Floor drops
+**$568 → $192**, which fits $221.
+
+#### Four reasons this is a lead and not yet a result
+
+1. **The +5.23% → +8.86% jump from dropping two coins is suspicious.** Dropping 2 names
+   promotes ranks 13–14 into the book, so it is a *different* book, not a smaller one. A
+   70% improvement from a cosmetic change is the size of noise, and the honest figure is
+   probably nearer the +5.23% of the unfiltered book.
+2. **Selection has compounded today.** The gate (1000h) was chosen on a holdout ending
+   2024-06, but slots (12) were chosen on 2026 data and this universe is *evaluated* on
+   2025–2026. Slots and universe share a window.
+3. **None of the validation battery has been run on this** — no MCPT, no block bootstrap,
+   no survivorship pass. The original config passed all three.
+4. **The exclusion is static.** Minimum orders and ATR drift; a live bot must recompute.
+
+**Next job, in order:** MCPT and block bootstrap on the PIT configuration, then a genuine
+holdout that does not touch 2025–2026, then a dynamic tradeability filter.
