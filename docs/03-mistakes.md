@@ -116,6 +116,41 @@ account**.
 
 **Fix:** `acquire_lock()` — a single-instance lock file.
 
+**Second fix, 2026-09-14:** `health.py`. The lock stops the damage but did nothing about
+the *misreading* that caused it. The check now reports three independent signals
+separately — process (pid cross-checked against the command line), heartbeat (mtime of
+the file written every cycle, **never** the log, because bots log once per closed bar),
+and progress — so "silent" can no longer be mistaken for "dead". It also names the state
+that is worse than death: **WEDGED**, alive but not writing, holding the lock so a
+restart refuses while open trades go unmanaged. See [doc 04](04-operations.md).
+
+---
+
+### 9. Re-trusting a field that had already lied
+
+The Polymarket forward test was given a "1–3 weeks to an answer" estimate computed from
+each market's `endDate`. `endDate` was **already known to be unreliable** — it is the
+field behind artifact #2, where it sat a median of 574 days after the last real trade.
+It was distrusted as a *price anchor*, then used as a *schedule*, as though the
+unreliability attached to the use rather than to the field. It ran up to **ten months**
+early: 49 tracked markets are past their stated end date and still trading.
+
+**Rule:** a field that has been caught lying once is retired for *every* purpose, not
+just the one it was caught on. Distrust attaches to the data, not to the use.
+
+### 10. A liveness guard that admitted dead books
+
+`poly_forward.py` accepted any market satisfying `0 < bid < ask < 1`. An abandoned
+Polymarket market — kept `active` indefinitely — has bid ~0.002 / ask ~0.998, and **the
+midpoint of that empty book is exactly 0.50, the middle of the pre-registered target
+band.** The guard tested that a book was *well-formed*, not that it was *tradable*.
+
+Caught at 5% contamination (3 of 62 band markets) and only that low because the scan
+happened to be ordered by volume.
+
+**Rule:** when the claim depends on a cost of execution, every recorded price must be one
+that could actually have been executed. Well-formed is not the same as tradable.
+
 ---
 
 ## Reporting mistakes

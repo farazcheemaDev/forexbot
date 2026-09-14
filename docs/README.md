@@ -9,11 +9,11 @@ Everything we know about this project, in the order you'd want to read it.
 | 01 | [The strategy](01-strategy.md) | Exactly what the bot trades and why each setting is what it is. |
 | 02 | [The graveyard](02-what-failed.md) | Every approach tested and killed, with the number that killed it. Read before proposing anything. |
 | 03 | [Mistakes and rules](03-mistakes.md) | Every bug that produced a wrong result, and the rule added to stop it recurring. |
-| 04 | [Running the bots](04-operations.md) | What's live, how to start/stop, Oracle deployment, the real-money gate. |
+| 04 | [Running the bots](04-operations.md) | **`python health.py`** — is it working? Plus what's live, start/stop, deployment, the real-money gate. |
 | 05 | [VSA](05-vsa.md) | The one open question, and how it got settled. |
 | 06 | [Deploying $221](06-deploy-221.md) | **Start here to put the validated config on a VPS.** Steps, and the two things that would invalidate the test. |
 | 07 | [The $5–10 account](07-micro-account.md) | The go-for-broke bet: 29.7% chance of 5×, 70% chance of zero. The odds, and why two of my predictions about it were wrong. |
-| 08 | [Polymarket](08-polymarket.md) | A +25% apparent edge, three artifacts found inside the same test, and the forward test now running to settle it. |
+| 08 | [Polymarket](08-polymarket.md) | A +25% apparent edge, **four** artifacts found inside the same test, and why $5 buys worse evidence than the free collector already running. |
 
 ## Also in the repo
 
