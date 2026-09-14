@@ -193,3 +193,31 @@ investigates good news.
 **So:** register the prediction before running the test. Every file in
 `backtest/` that tests something new now states, in its docstring, what result
 would count as failure — *before* the numbers exist.
+
+### 11. Mistake #6 is still live in `blend.py` — the harness that validated everything
+
+`blend.run()` does exactly what rule #6 forbids:
+
+```python
+for a_, b_, r, tag, _c in tr:      # trades from 12 coins x 3 timeframes
+    eq *= (1 + r * f)              # multiplied SEQUENTIALLY
+```
+
+Those trades overlap in time. The rule says sum R across trades closing on the same day,
+then compound the daily series. Found 2026-09-14 when two harnesses disagreed on the same
+number and the wrong one was the validated one.
+
+**Size of the error, on the deployed config:**
+
+| Window | Per trade (wrong) | **Per day (right)** |
+|---|---|---|
+| 2020–2026 | +15.47%/mo | **+14.22%/mo** |
+| **2026** | **+0.22%/mo** | **−0.13%/mo** |
+
+Over the full history it inflates by ~8% — survivable. **In 2026 it flips the sign.** Every
+figure quoted from `blend.run()` today carries this, including the "~+8%/month"
+expectation and the +240%/yr headline.
+
+**Rule (restated, because stating it once was not enough):** a rule written in this file is
+not applied until the code that produces the headline number is checked against it.
+`ddcontrol.py` and `pit_blend.py` compound correctly; `blend.py` never did.
