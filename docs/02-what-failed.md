@@ -76,7 +76,7 @@ matters. Position management, costs and universe selection moved results by
 
 | Approach | Result |
 |---|---|
-| Perpetual funding-rate carry (long spot + short perp) | **+5–8%/year**, positive in 80–85% of all 8-hour periods over 3 years. Structurally real, just modest. |
+| Perpetual funding-rate carry (long spot + short perp) | **DEAD as of 2026-09-14, and the old "+5–8%/year" was wrong for this era.** `backtest/cash_carry.py` run to completion for the first time: funding measured **+0.25bp per 8h** over Nov 2024 – Sep 2026, which is **2.7%/year gross**. Best of 18 cells is +0.5%/yr and negative in one half. Fees (4bp maker per leg) exceed the carry. |
 | Cross-sectional market-neutral momentum | Passed a shuffled-market test at **p = 0.0033** (0 of 300 shuffles beat it) and an unseen 500-day holdout (+12.6% vs −7.3% for long-only). But Sharpe 0.62 — genuine and too small. |
 | Trend following gold / silver / BTC (Donchian, MACD) | PF 1.05–1.09. The initial "+114%/yr on gold" was gold's 2022–26 bull run, not an edge. |
 | Crypto momentum + Kaufman efficiency filter | PF 1.25–1.31 at real Bitget fees, profitable on 6/6 unseen assets. Portfolio correlation tax cut it to +0.03 to +0.087R with 35–59% drawdowns. |
@@ -192,3 +192,51 @@ the timing was skill, the level logic does not systematize.
 2. **"Swap is 15–35× the spread."** Based on a two-week hold that does not happen — the
    measured median hold is **0.7–5.3 days**, so swap runs ~1–5× the spread. Real, and it
    took gold 4h from PF 2.25 → 1.86, but not the dominant cost I claimed.
+
+---
+
+## Market-neutral / "does not care about the market" — the category is closed (2026-09-14)
+
+Two fully-designed strategies existed in the repo with **no recorded run**. Both were run
+to completion. Both are dead.
+
+**`backtest/funding_xs.py`** — cross-sectional funding dislocation. Rank the universe by
+funding, short the crowded longs, long the crowded shorts, equal dollar weight. Market
+neutral, no price forecast, funding collected on both legs. **All 18 cells negative:
+−20% to −75%/year.** Mean −17 to −48bp per trade against a 12bp cost. Rotating every
+8–72h pays fees faster than crowding unwinds.
+
+**`backtest/cash_carry.py`** — the structurally cleaner version: both legs in the **same
+coin**, so price cancels by construction rather than by weighting. **Nothing positive in
+both halves.** Best cell +0.5%/year at maker fees, negative in the second half.
+
+### The one line that explains it, and closes the category
+
+```
+funding: mean +0.25bp/8h, 90th +1.0bp, 99th +3.5bp
+basis change per 8h: sd 4.93bp
+```
+
+**Funding averaged 0.25 basis points per 8 hours — 2.7%/year gross.** Maker fees are 4bp
+per leg round trip. **The service pays less than it costs to provide.** The old graveyard
+figure of "+5–8%/year" was measured on an earlier, higher-funding era and does not hold for
+Nov 2024 – Sep 2026.
+
+### Why this was always going to be the answer
+
+Returns come from exactly three places:
+
+1. **Bearing risk** — paid for holding what others won't. This is the trend book, and it is
+   **regime-dependent by definition**, because the regime *is* the risk.
+2. **Providing a service** — liquidity, leverage, settlement. The fee is set by
+   competition, and competition drives it toward the cost of capital. **Measured here:
+   2.7%/year.**
+3. **Information nobody else has** — unavailable at retail.
+
+**Asking for category-1 returns with category-2 risk is arithmetically unavailable.** If a
+market-neutral book paid 10%/month, every fund on earth would lever it until the rate
+collapsed. **That funding pays 2.7% is the proof it is genuinely low-risk.**
+
+> **Regime dependence is not a defect of the strategy. It is the receipt for the return.**
+> A book that earned in 2021 and 2024 and not 2025 is being paid to bear crypto trend
+> risk. Remove the regime dependence and you remove the payment.
