@@ -556,3 +556,50 @@ all 19 detected the same thing. See [doc 02](02-what-failed.md).
   Scripts are written (`deploy/setup.sh` + systemd units); needs the VM created.
 - Let the demo bot accumulate trades. It has 3 so far.
 - Decide on capital. The strategy is ready; $10 is not.
+
+## The regime filter was pointed at the wrong timescale (2026-09-14)
+
+`backtest/regime.py`. The deployed gate scales risk to ×0.25 while BTC sits below its
+**200-hour** average. 200 hours is **8.5 days** — and it is being asked to separate a
+two-year bull market (2021: +1213%) from a two-year bleed (2025: −10%).
+
+`opt200.py` swept that gate in 3 cells, and **all three varied the multiplier**. The
+lookback was hardcoded at `rolling(200)` and never varied. There was also no **go flat**
+option at all: `regime=0.0` meant "gate disabled", so the only choices ever tested were
+"trade smaller in a bear", never "don't trade in a bear."
+
+Ranked on **MAR** (return per unit of drawdown), because drawdown is the budget — the
+capital-floor formula carries `1/(1 − maxDD)`, so drawdown saved is both capital freed and
+risk budget you can respend:
+
+| Gate (×0.25) | /mo | Max DD | **MAR** | Floor |
+|---|---|---|---|---|
+| none (reference) | +17.61% | 88.3% | 2.39 | $211 |
+| **200h (8d) — deployed** | +19.32% | 64.0% | **3.62** | $69 |
+| 500h (21d) | +20.07% | 66.7% | 3.61 | $75 |
+| **1000h (42d) — best** | **+19.91%** | **58.3%** | **4.10** | **$60** |
+| 2000h (83d) | +20.11% | 72.3% | 3.34 | $90 |
+| 4800h (200d) | +17.66% | 81.2% | 2.61 | $132 |
+
+**1,000 hours (42 days) beats the deployed 200h: MAR 4.10 vs 3.62, drawdown 64.0% →
+58.3%, floor $69 → $60.** It **HOLDS** the 60/40 split (IS +23.24%, OOS +12.63%).
+
+Return barely moves. **The entire gain is drawdown**, which is the point.
+
+### Two predictions of mine that were wrong
+
+1. **"Go flat beats ×0.25 on drawdown."** It loses on *both*. FLAT 200h is 65.6% DD
+   against ×0.25's 64.0%, and worse on return at nearly every lookback. **Sizing down
+   beats opting out**, because crypto bears contain violent rallies — scaling down keeps
+   you in them with less size; going flat takes you out entirely.
+2. **"4,800h will look great and fail the holdout."** It doesn't look great at all — it's
+   the *worst* cell (MAR 2.61 ≈ the no-gate 2.39). BTC sits above its 200-day average for
+   most of a six-year uptrend, so a lookback that long barely fires and converges on
+   having no gate.
+
+### Two limits before this gets deployed
+
+- **Measured on the 1h book, not the deployed 1h+4h+12h blend.** Must be re-run there.
+- **The %/mo figures are pre-haircut** — no hindsight or survivorship correction — so they
+  are valid for comparing cells *inside this harness* and are **not** forecasts. The
+  honest expectation for the deployed system remains ~+8%/month.
