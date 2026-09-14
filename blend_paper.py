@@ -74,7 +74,18 @@ LOGF = LOGS / "blend_paper.log"
 
 START_EQ = 221.0
 RISK_PCT = 0.30                  # per unit
-SLOTS = 8                        # shared across every coin AND every timeframe
+# 12, not 8. Slots were swept at 8/12/16 while the regime gate was still 200h; after
+# the gate moved to 1000h the sweep was re-run and 12 wins in the RECENT regime:
+#   2026+, 0.30%/unit:   8 slots -> +1.05%/mo, 47.4% DD, floor $178
+#                       12 slots -> +2.20%/mo, 55.0% DD, floor $208
+# Return and return-per-drawdown both improve, so this is not simply more risk. The
+# live bot corroborated it before the test: declined(slots) hit 9 in the first 24h,
+# i.e. the book was generating signals it had no room to take.
+#
+# WHAT THIS COSTS: the capital floor rises $178 -> $208 against $221 of capital - a 6%
+# margin, the thinnest in this configuration. Raising slots again (16) pushes the floor
+# past $221 and is not affordable.
+SLOTS = 12                       # shared across every coin AND every timeframe
 FEE_BP = 12.0
 BB_PERIOD, BB_STD = 30, 1.5
 ATR_PERIOD = 14
