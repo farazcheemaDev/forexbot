@@ -96,3 +96,34 @@ building sleeves once for that union (slow, then everything is cheap)...
     12    3      range    +5.78%     0.755  |    -1.67%     -0.230   57.8%
     12    3  volxrange    +7.61%     1.150  |    +1.69%      0.041   66.6%
     18    1     volume   +10.41%     1.353  |    +4.61%      0.314   49.7%
+    18    1      range    +3.47%     0.652  |    -9.26%     -0.430   92.8%
+    18    1  volxrange   +12.35%     2.165  |    +4.88%      0.254   61.9%
+    18    2     volume   +10.94%     1.736  |    +5.25%      0.253   31.2%
+    18    2      range    +3.24%     0.600  |    -8.25%     -0.439   82.6%
+    18    2  volxrange    +7.02%     1.283  |    +2.08%      0.254   59.4%
+    18    3     volume   +10.32%     1.607  |    +1.00%     -0.016   41.2%
+    18    3      range    +5.73%     1.026  |    -7.17%     -0.628   79.8%
+    18    3  volxrange    +8.65%     1.121  |    +4.89%      0.094   33.3%
+
+  BEST ON 2020-2024 (chosen without seeing 2025+): top 18, 1-month window, volxrange
+    in-sample  +12.35%/mo   meanR 2.165
+    OUT OF SAMPLE +4.88%/mo   meanR 0.254   DD 61.9%   win months 38%
+    (the default top 12 / 1 month / volume gives +4.68%/mo out of sample)
+
+====================================================================================================
+3. BLOCK BOOTSTRAP on the chosen rule's out-of-sample trades
+====================================================================================================
+  1863 out-of-sample trades, mean R +0.254
+  blocks of 20 (loss clustering preserved), 4000 resamples:
+    mean R    5th -0.337   median +0.229   95th +0.944
+    P(mean R <= 0) = 27.3%
+    drawdown  median 81.3%   95th 95.7%   worst 99.2%
+
+====================================================================================================
+READ THIS BEFORE BELIEVING ANY NUMBER ABOVE
+====================================================================================================
+  The rule was chosen on 2020-2024 and the OOS column is 2025-2026, so the
+  OOS figure is the only one that means anything. The in-sample column is
+  printed solely so the size of the shrinkage is visible.
+  MCPT is NOT in this file: permuting 284 coins x 3 timeframes through the
+  pyramid engine is hours of compute, not minutes. It is the remaining gate.
