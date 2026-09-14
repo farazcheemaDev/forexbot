@@ -6,11 +6,26 @@
 
 The thing that matters is already running.
 
-*State below verified 2026-09-14 ~14:50 PST with `python health.py`.*
+*State below verified 2026-09-14 with `python health.py` and on the VM directly.*
+
+**The VM runs the 1000h gate and 12 slots as of 2026-09-14.** Verified on the box:
+`REGIME_MA = 1000`, `klines_deep` returns 2000 bars against the 1002 needed, and
+`btc_bear()` returns a real decision rather than its cached default. That last check is
+the one that matters — with the old 300-bar fetch a 1000h average silently disables the
+gate while every log line still reports it armed.
+
+**It was patched in place, not pulled.** `git pull` on the VM fails with
+`could not read Username for 'https://github.com'` — no cached credentials and no
+interactive prompt through Azure Run command. Fix that before the next change: either a
+fresh read-only PAT in the remote URL, or make the repo public (checked 2026-09-14:
+312 tracked files, no `.env`, no `.pem`, no hardcoded keys). Also note Azure Run command
+JSON-decodes the script, so **any `
+` inside a pasted heredoc becomes a real newline** and
+breaks Python — write patch scripts with no backslashes at all.
 
 | What | Where | Status |
 |---|---|---|
-| **$221 blend — the validated strategy** | **Azure VM, `blend-paper`** | **running 24/7** ✅ |
+| **$221 blend — the validated strategy** | **Azure VM, `blend-paper`** | **running 24/7 on the 2026-09-14 config** ✅ |
 | Status page | Azure VM, `status-server` | running ✅ |
 | Polymarket forward collector | your PC, Startup launcher | running, **1,814 markets, 0 resolved** ✅ |
 | Bitget demo order-path test | your PC | **DEAD since the ~05:00 reboot, 3 positions open** ⚠️ |
