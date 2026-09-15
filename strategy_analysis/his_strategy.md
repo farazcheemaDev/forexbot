@@ -447,3 +447,71 @@ complete data.
 **46 NASDAQ entries**, not 26, with exact times and a confirmed timezone. §15's
 fade-vs-follow question needed ~85 for significance; 46 roughly halves the gap and makes
 the direction testable with real power. That is the next analysis.
+
+## 17. The entry analysis, run on the statement — one real finding (2026-09-16)
+
+`backtest/his_entries_analysis.py`, on the 46 NASDAQ entries with the broker-confirmed
+GMT+5 offset. 39 had enough prior bar history.
+
+### My registered prediction failed
+
+I predicted the follow rate would reach significance at n=46. **It did not.**
+
+| Horizon | Follow rate | p |
+|---|---|---|
+| 5 min | 59% | 0.337 |
+| 15 min | 62% | 0.200 |
+| 30 min | 62% | 0.200 |
+| 60 min | 59% | 0.337 |
+
+Consistent in direction across all four horizons, significant at none. Day-range position
+agrees: **SELL minus BUY = −0.096** (p=0.326), the wrong sign for a fader and too small to
+claim.
+
+> **The fade thesis stays contradicted in direction and unconfirmed in significance —
+> exactly where §15 left it, on nearly twice the data.** Going from 26 to 46 entries did
+> not move it. That is itself informative: if the effect were as large as 65% it should
+> have firmed up. The honest reading is that **the preceding move does not explain his
+> entries.**
+
+### What IS significant: the hour
+
+| | |
+|---|---|
+| Hours he trades across | 12 |
+| Busiest hour | **11:00 ET — 12 of 46 entries** |
+| Expected if spread evenly | 7.3 |
+| **Permutation p** | **0.0032** |
+
+| 11:00–13:00 ET | Rest of the day |
+|---|---|
+| 20 of 46 entries (43%) | 26 entries |
+| **$1,598 — 51% of all NASDAQ profit** | $1,532 |
+| **win rate 100%** | 92% |
+| **$80 per trade** | $59 |
+
+**He concentrates in a three-hour window, and that window carries half his profit at a
+100% win rate.**
+
+### And §4's timing claim was wrong
+
+§4 said the cluster was **13:00–15:00 ET**. That was computed against an assumed GMT+3.
+With the broker-confirmed GMT+5, the real cluster is **11:00–13:00 ET** — the US cash
+open plus the first two hours, not the afternoon. **Every time-of-day statement in this
+file written before §15 is off by two hours.**
+
+### Why winners-vs-losers could not be tested
+
+**38 winners, 1 loser** in the covered window. Nothing can separate them, and the reason
+is the headline: on NASDAQ he is running at a **97% win rate**.
+
+### Where this leaves the reverse-engineering
+
+Two of the three original pillars are now gone. §3's **level fade** is contradicted, and
+§4's **13:00–15:00 window** was an artifact of the wrong timezone. What survives is
+narrower and better evidenced than either: **he trades NASDAQ, in a three-hour window
+around the US open, roughly 5 times a month, and wins ~96% of the time.**
+
+That is a description, not a rule. The rule — what he actually sees at 11:00 ET — remains
+unexplained, and 46 entries spread over 12 hours is not enough to find it. **The next
+thing that would help is not more analysis; it is asking him what he looks at.**
