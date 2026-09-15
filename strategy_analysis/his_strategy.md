@@ -318,3 +318,57 @@ dataset cannot explain it*.
 
 Without (1) and (2) this line of analysis is closed, and further effort on it is
 speculation dressed as research.
+
+## 15. TIMEZONE SOLVED — and the LEVEL FADE thesis is contradicted (2026-09-16)
+
+### His platform clock is UTC+5
+
+Not UTC, and not the GMT+3 assumed in §4. Established by **minimum basis variance**: a
+real futures basis is near-constant within a contract month, so the true offset is the one
+that makes `his_fill − index` a stable number rather than a random one.
+
+| Offset | Basis std dev (26 entries, within contract month) |
+|---|---|
+| UTC+0 | 109.83 pts |
+| UTC+3 | 41.41 pts |
+| **UTC+5** | **13.10 pts** |
+| UTC+7 | 73.62 pts |
+
+**UTC+5 is Pakistan Standard Time.** The app renders the device's local clock, which is why
+it looked like a broker setting. Every earlier time-of-day claim in this file was computed
+against the wrong offset.
+
+### With the offset resolved: he is a FOLLOWER, not a fader
+
+| Measure | Result | Null |
+|---|---|---|
+| Entries going WITH the prior 15-min move | **17 of 26 (65%)** | 50% |
+| Position in the day's range, BUY | 0.63 | 0.50 |
+| Position in the day's range, SELL | 0.56 | 0.50 |
+| **SELL minus BUY position** | **−0.07** | a fader needs this strongly POSITIVE |
+| Prior 60-min move before a BUY | **+45.6 pts** | — |
+| Prior 60-min move before a SELL | **+48.8 pts** | — |
+
+**A fader sells high in the range and buys low. He does neither** — he enters in the *upper*
+part of the day's range in both directions, and after the market has risen ~45–49 points in
+the prior hour regardless of which way he trades.
+
+**Timing** clusters in the US session and peaks at **14:00 ET** (6 of 26), broadly
+consistent with §4's 13:00–15:00 window.
+
+### What this means, and the caveat that limits it
+
+§3 named "LEVEL FADE" as the cracked logic, and `backtest/forex.py` tested exactly that —
+returning PF 0.77–0.84. **If he is actually a momentum follower, that test answered the
+wrong question, which would explain the gap between PF 0.8 and his real PF 3.37.**
+
+**But 26 entries cannot establish it.** The follow rate of 65% against a 50% null gives
+p ≈ 0.17 — not significant. The range-position difference is the right sign for "not a
+fader" and far too small to call.
+
+> **Status: the fade thesis is contradicted in direction by every measure tested, and
+> confirmed by none of them at this sample size.** That is a reason to stop testing fades,
+> not yet a reason to test follows.
+
+The blocker is unchanged and is now purely sample size: **a full statement export.** The
+timezone question is closed.
