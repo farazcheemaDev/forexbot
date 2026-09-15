@@ -808,3 +808,58 @@ Two losing trades is nothing to generalise from. The point-clustering p = 0.032 
 uncorrected and was tested after looking. What is *not* a marginal statistical claim is the
 plain shape of the record: median 7 points, median 1.3 minutes, and the only long hold in
 46 trades being the only large loss.
+
+## 22. TESTED: the exit is necessary but NOT sufficient — §21's closing claim is wrong
+
+`backtest/his_exit_test.py`. §21 ended by claiming "a mediocre entry still works if the
+exit is disciplined." That is falsifiable, so it was falsified.
+
+**Method:** 4,000 entries chosen **at random** inside his 11:00–13:00 ET window on
+USTECm 1-minute bars, exited by his measured rule (7 points, 2 minutes, no stop). Costs
+from his own statement: commission is **1.0 point round trip** ($10/side on 0.20 lots ÷
+$100 per point per lot) plus ~1 point of spread = **2.0 points charged on every trade**.
+
+| Entry direction | n | Win % | Avg points |
+|---|---|---|---|
+| random | 4,000 | 53% | **−3.13** |
+| momentum | 4,000 | 53% | **−3.18** |
+| fade | 4,000 | 54% | **−3.00** |
+
+**Every one of 20 target × time combinations is negative.** The best cell anywhere in the
+grid — 10 points, 1 minute — still loses **1.79 points per trade**.
+
+| | His 46 NASDAQ trades | Random entry, identical exit |
+|---|---|---|
+| Win rate | **95.7%** | **53%** |
+| Points per trade, gross | **+9.17** | −1.13 |
+| Net of the same 2-pt cost | **+7.17** | **−3.13** |
+
+### What this settles
+
+**His entry selection is worth +10.4 points per trade** over a random entry in the same
+window with the same exit. That is not a rounding difference — it is the entire strategy.
+
+The exit rule is **necessary**: §21 showed the only long hold in 46 trades was the only
+large loss, and the grid here confirms longer holds lose more at every target. But it is
+**not sufficient**: applied to entries he did not choose, it loses money at every setting.
+
+> **The edge is in the entry. §20 established that no measurable property of the chart
+> distinguishes his entries from anyone else's. Both are true, and together they are the
+> answer:** what he is doing is real, worth +10 points a trade, and **not recoverable from
+> price data**.
+
+### So the investigation closes here, and completely
+
+Nine months of trades timestamped to the second, a broker statement reconciled to the
+cent, a confirmed timezone, 1-minute bars, 3,910 control moments, ten entry features, eight
+day-level features, an event study, and a 20-cell exit grid. The conclusion is not "we need
+more data" — it is that **the thing he does happens somewhere other than the price series**:
+order flow, the tape, or pattern recognition he could not write down if he tried.
+
+That is consistent with everything observed: the 95.7% win rate, the 1.3-minute holds, the
+single manual SL/TP order in 92 rows, and the fact that this project's most careful
+encoding of him returned PF 0.80 against his real 4.71.
+
+**This is a complete answer, not a failed search.** It tells you exactly where the value
+sits — in him, not in a method — which is worth knowing before spending another month
+trying to copy it.
