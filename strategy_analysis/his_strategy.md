@@ -654,3 +654,71 @@ right guards and it passed both at p=0.000, which is why this is stated as a fin
 rather than a lead. But it is a **filter**, not a complete system: "move under 0.5 ATR"
 still admits 18% of all moments, and he trades ~5 times a month. Something further
 narrows it, and that something is not among the ten features tested.
+
+## 20. §19 IS RETRACTED — the trigger was an artifact of my controls (2026-09-16)
+
+Found while preparing to backtest the §19 rule. It does not survive.
+
+### The bug
+
+In `his_trigger.py`, each control bar was assigned **the direction of its own preceding
+60-minute move**. That makes `move60` positive *by construction* for every control. His
+entries were assigned **his actual trade direction**, which is sometimes against the prior
+move. So the test compared **his signed move against the controls' absolute move**, and a
+difference was guaranteed before any data was looked at.
+
+### The corrected test
+
+| | His 46 | Controls | p |
+|---|---|---|---|
+| **signed** move60 (ATR) — the rigged comparison | 0.07 | 1.94 | 0.000 |
+| **absolute** move60 (ATR) — the fair one | **2.22** | **1.94** | **0.296** |
+
+| Percentile of \|move\| | His | Controls |
+|---|---|---|
+| 25th | 0.70 | 0.68 |
+| 50th | 1.29 | 1.44 |
+| 75th | 2.99 | 2.68 |
+
+**Indistinguishable.** The "he enters while the move is under 0.5 ATR" rule keeps 15% of
+his trades and 18% of all moments — *worse* than chance.
+
+It passed Holm correction and an out-of-sample holdout, and was still wrong, because
+**both were computed against the same biased control set.** Neither guard can detect a bias
+baked into the comparison itself.
+
+### What the signed result actually showed
+
+Only that **he trades in both directions relative to the prior move** while my controls
+were all one direction by construction. That is a fact about my code, not about him.
+
+### Corrected verdict on the trigger
+
+**None of the ten features separates his entries from random moments once compared
+fairly.** Not move size, speed, volatility expansion, session extreme, range position, run
+length, distance from the open, or time since open.
+
+> **His trigger is not a measurable property of the 5-minute chart at the moment he
+> enters.** That is now the finding, and it is a real one.
+
+### What survives all of this
+
+| Established | Evidence |
+|---|---|
+| He is profitable | 91 trades, official statement, P = 100% |
+| ~11.5%/month, 10.9% max drawdown, 0 losing months in 9 | broker statement, reconstructed to the cent |
+| Payouts funded by trading, not deposits | $3,328 earned vs $2,661 paid = 125% |
+| **NASDAQ, not gold** | 46 trades +$3,130 vs 41 trades +$118 |
+| **Clusters at 11:00–13:00 ET** | p = 0.0032, 51% of profit, 100% win rate |
+| **The edge has a ~15-minute half-life** | event study, sign-aligned, no control set involved |
+| He is **not** a level-fader | contradicted by every measure tested |
+
+**Dead:** the level-fade thesis (§3), the 13:00–15:00 window (§4, wrong timezone), and the
+early-entry trigger (§19, this correction).
+
+### The rule for this file, added the hard way
+
+> **A control group must be built without reference to the outcome variable.** If controls
+> are assigned a direction, positions, or a label derived from the same quantity being
+> tested, no amount of multiple-comparison correction or holdout testing will save the
+> result — both operate downstream of the bias.
