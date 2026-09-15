@@ -515,3 +515,64 @@ around the US open, roughly 5 times a month, and wins ~96% of the time.**
 That is a description, not a rule. The rule — what he actually sees at 11:00 ET — remains
 unexplained, and 46 entries spread over 12 hours is not enough to find it. **The next
 thing that would help is not more analysis; it is asking him what he looks at.**
+
+## 18. THE MECHANISM, FOUND — an event study rather than a hypothesis test (2026-09-16)
+
+`backtest/his_event_study.py`. §17 tested pre-chosen hypotheses and every one came back
+directionally consistent and statistically silent. A hypothesis test can only answer the
+question you brought. So: align all 39 entries at t=0, sign-flip the sells so "up" always
+means his way, express everything as points relative to the entry bar (which cancels the
+futures basis exactly), and **look**.
+
+| | −60m | −30m | −10m | **ENTRY** | +15m | +30m | +60m |
+|---|---|---|---|---|---|---|---|
+| **All 39** | **−23.5** | −6.6 | −3.4 | **0** | **+8.4** | +1.4 | **0.0** |
+| 11:00–13:00 ET (20) | −28.3 | −2.0 | −4.7 | 0 | +4.5 | **−10.4** | −8.1 |
+| Other hours (19) | −18.4 | −11.5 | −2.1 | 0 | +12.6 | +13.8 | +8.5 |
+
+### He is a momentum entry with a 15-minute half-life
+
+**Price moves ~23 points INTO his direction over the hour before he enters.** He buys
+after a rise and sells after a fall. That settles §3's "LEVEL FADE" thesis definitively:
+**it is backwards.** He is not fading anything; he is joining a move already underway.
+
+**The edge lasts about fifteen minutes and then evaporates.** +8.4 points at +15min,
++1.4 at +30, **exactly 0.0 by +60.**
+
+> **His 20-second-to-4-minute holding time is not a style preference. It is the whole
+> strategy.** The move he enters gives back everything it gave within an hour. A trader
+> doing the identical entries with a one-hour hold makes nothing.
+
+### And his best window is the one that reverses hardest
+
+The 11:00–13:00 ET cluster — 51% of his profit at a 100% win rate (§17) — is where the
+move **reverses fastest**: +4.5 at 15 minutes, then **−10.4 by 30 minutes**. Outside that
+window the move persists (+13.8 at 30min).
+
+So in his most profitable hours he is scalping the opening thrust and getting out before
+the snap-back. That is internally consistent with everything else: it explains the tiny
+targets, the sub-4-minute holds, and why the single 48-minute hold in the record is also
+the single worst loss (−$483).
+
+### Why every previous encoding of him failed
+
+`backtest/forex.py` tested **the fade direction with trailing exits** and returned
+PF 0.77–0.84. On this evidence it had the direction backwards *and* the exit wrong — two
+errors that each on their own would be fatal. His real PF is 4.71.
+
+### What he actually does, stated as a rule for the first time
+
+> **Join a NASDAQ move that has already run ~20+ points, preferably in the first two
+> hours of the US cash session, and be out inside four minutes.**
+
+He captures roughly 5 of the ~8 points available — consistent with exiting well before
+the +15-minute peak rather than trying to time it.
+
+### The honest limit
+
+39 entries. The event-study shape is far more legible than anything in §17, but it is an
+*average* over 39 paths with wide dispersion (see `logs/his_event_study.png` — the grey
+lines are individual trades). **It explains his style; it does not yet give an entry
+trigger.** What makes a given 20-point move worth joining, and the 20-point move an hour
+earlier not worth joining, is still unexplained — and that is the part that is likely to
+be judgment rather than rule.
