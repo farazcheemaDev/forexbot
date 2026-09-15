@@ -252,3 +252,69 @@ the first approach here that could explain a PF of 3.35.
 - 55 trades over 9 months is thin for someone who placed 8 in one hour on 2026-09-14 —
   these screenshots are a **sample of his activity, not all of it**.
 - Gold prices in the record range 4305 → 5011 within weeks, which is worth querying.
+
+## 14. Reverse-engineering from his ACTUAL entries — what it could and could not settle
+
+`strategy_analysis/his_entries.csv` — his 26 NASDAQ entries with fill prices and
+timestamps to the second, tested against `USTECm` 1m/5m bars from `fx_fetch.py`.
+
+### What failed: aligning his clock to the bars
+
+His broker stamps a timezone the screenshots never name. Three methods were tried and
+**they disagree**, so the offset is unresolved:
+
+| Method | Answer |
+|---|---|
+| Fill price inside the 5m bar range (basis removed) | UTC+4h, but 29.5 pts outside the bar |
+| His move vs index move, 5m bars | UTC+4h (r=0.78) — **but slope 0.50** |
+| Same, slope closest to 1.0 | UTC+3h (slope 1.09, r=0.69) |
+| Same, 1m bars | UTC+5h (slope 0.95) or UTC+2h (slope 1.04) |
+
+**The cause is his holding time.** Trades of 20 seconds to 4 minutes cannot be measured
+against 1-minute bars, and the rolling futures basis across three contract months
+(Mar/June/Sep) breaks absolute price matching.
+
+**So every bar-derived feature — position in the day's range, size of the preceding move,
+volatility state — is unavailable.** Not "weak"; unavailable. Reporting them off an
+unresolved offset would be inventing a result.
+
+### What the data CAN settle, needing no bars and no timezone
+
+**The 25-point level claim: borderline, and it does not survive honest treatment.**
+Null = his own prices with the last two digits randomised, which preserves the price level
+and destroys only the round-number part.
+
+| Level | Mean distance | Within 8 pts | Null | p |
+|---|---|---|---|---|
+| 10 | 2.38 | 100% | 2.50 | 0.340 |
+| **25** | **5.08** | **81%** | 6.25 | **0.050** |
+| 50 | 13.46 | 35% | 12.49 | 0.753 |
+| 100 | 27.79 | 12% | 25.02 | 0.836 |
+
+25 is the only level that shows anything, exactly as §3 claimed — but **four levels were
+tested, so p=0.050 becomes p≈0.20 corrected**, and 26 entries is a thin sample. The
+direction supports the original reverse-engineering; the significance does not.
+
+**His timing does cluster.** 62% of entries fall in four hours of his broker clock
+(18, 19, 21, 23), which is consistent with §4's US-session claim without confirming the
+specific window.
+
+**Fade vs follow: 8 usable cases. Not enough to say anything.**
+
+### The honest conclusion
+
+**26 entries cannot support reverse-engineering a rule.** The one testable claim came in
+at the significance threshold and fails a multiple-comparison correction. That is not a
+refutation of his edge — §13 establishes the edge at P(profitable)=100% — it means *this
+dataset cannot explain it*.
+
+### What would actually settle it, in order of value
+
+1. **His broker's timezone.** One question to him. It unlocks every bar-derived feature
+   and turns this from impossible into merely hard.
+2. **A full statement export**, not screenshots. Hundreds of entries instead of 26.
+3. **Tick or second-resolution index data** for his instrument, since his holds are
+   shorter than the bars available here.
+
+Without (1) and (2) this line of analysis is closed, and further effort on it is
+speculation dressed as research.
