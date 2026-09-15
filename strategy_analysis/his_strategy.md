@@ -181,3 +181,74 @@ Even if not fully profitable as a blind bot, a **signal/alert** version is viabl
 detect "price stretched into a 25-level or prior-day H/L + RSI extreme in US session"
 and alert — a human then applies the final judgment (which is where the edge lives).
 This is the realistic near-term product: assistive signals, not full automation.
+
+---
+
+## 13. HIS ACTUAL TRADE RECORD — 55 trades transcribed (2026-09-15)
+
+Until now this file reverse-engineered his method from a **recording**. The folder
+`Strategy video/` held 55 screenshots of his broker history that had never been
+transcribed. They span **2026-01-02 to 2026-09-15** across NASDAQ, GOLD and SILVER.
+Extracted to `strategy_analysis/his_trades.csv`.
+
+| | |
+|---|---|
+| Trades | **55** |
+| Net | **+$1,875.39** |
+| Win rate | **81.8%** (45/55) |
+| Average win / loss | $59.44 / $79.95 |
+| Loss ÷ win | **1.34×** |
+| **Breakeven win rate needed** | **57.4%** |
+| **Profit factor** | **3.35** |
+
+**95% range for his true win rate: 70%–90%. The entire range sits above the 57.4%
+breakeven. P(genuinely profitable) = 99.99%.**
+
+He is profitable in both eras, and improved:
+
+| Era | n | Win % | Net | PF |
+|---|---|---|---|---|
+| Jan–Feb (0.01–0.07 lots, no commission) | 39 | 76.9% | +$302.89 | 1.96 |
+| Jul–Sep (0.10–0.25 lots, commission) | 16 | 93.8% | +$1,572.50 | 4.25 |
+
+It survives removing his best trades: without the top 3 it is still **+$976.64**.
+
+### The error this corrects
+
+An earlier read of **8 trades** from one session concluded his loss/win ratio was 3.08×
+and he needed **75.5%** to break even — leaving a 31% chance he was a losing trader. That
+8-trade window happened to contain **his single worst trade in nine months** (−$483.75).
+Across 55 trades the real ratio is **1.34×** and breakeven is **57.4%**.
+
+**A tail event in a small sample inverted the conclusion.** Exactly the failure this
+project documents everywhere else, committed here on someone else's data.
+
+### What this means for our own testing
+
+`backtest/forex.py` tested our *encoding* of his method — 25-point level fade plus RSI
+stretch plus session — on years of NASDAQ and gold: **PF 0.77–0.84**. His actual record is
+**PF 3.35**.
+
+> **The encoding is wrong, not the edge.** The gap between PF 0.8 and PF 3.35 is the
+> thing to close, and it is not closed by testing the same description again.
+
+### The next job, now possible for the first time
+
+His 55 entries are timestamped **to the second** with exact prices. `fx_fetch.py` now
+supplies `USTECm` and `XAUUSDm` at M1/M5/M15. So instead of guessing his rules from a
+video, **pull the actual bars around each of his 55 entries and measure what they have in
+common** — position in the day's range, distance to round levels, preceding move size,
+time of day, volatility state.
+
+That is reverse-engineering from what he *did* rather than from what he *said*, and it is
+the first approach here that could explain a PF of 3.35.
+
+### Caveats that remain
+
+- Transcribed from ~19 of 55 screenshots (list views, so not biased toward winners, but
+  **incomplete**). More trades exist in the unread images.
+- Screenshots are not a certified statement. The app has date filters and periods may be
+  missing.
+- 55 trades over 9 months is thin for someone who placed 8 in one hour on 2026-09-14 —
+  these screenshots are a **sample of his activity, not all of it**.
+- Gold prices in the record range 4305 → 5011 within weeks, which is worth querying.
