@@ -51,3 +51,6 @@ logs/*.err
 # Dry-run state and trade files. A dry run now keeps its own copies so it cannot
 # race the live bot on logs/longtrend_state.json — see longtrend_bot.main().
 logs/*.dryrun.*
+
+# pulled account history - real trade data, keep local until reviewed
+strategy_analysis/mt5_history.csv
