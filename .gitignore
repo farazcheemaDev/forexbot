@@ -54,3 +54,7 @@ logs/*.dryrun.*
 
 # pulled account history - real trade data, keep local until reviewed
 strategy_analysis/mt5_history.csv
+
+# official broker statement - contains a real name and account number
+strategy_analysis/statement_raw.txt
+strategy_analysis/statement_trades.csv
