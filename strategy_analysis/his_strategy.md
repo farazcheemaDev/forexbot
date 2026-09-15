@@ -576,3 +576,81 @@ lines are individual trades). **It explains his style; it does not yet give an e
 trigger.** What makes a given 20-point move worth joining, and the 20-point move an hour
 earlier not worth joining, is still unexplained — and that is the part that is likely to
 be judgment rather than rule.
+
+## 19. THE TRIGGER, FOUND — he enters EARLY in moves, not late (2026-09-16)
+
+`backtest/his_trigger.py`. §17 and §18 described his entries in isolation, which can never
+say what he *skipped*. This builds the opportunity set: **46 entries he took against 3,910
+comparable moments he did not**, same hours, same days, each control given the direction
+of its own preceding move so the comparison is "which momentum moments does he pick",
+not "does he trade with momentum" (settled in §18).
+
+Ten features declared before looking, Holm-corrected across the family, and ranked on the
+first two-thirds by date with the last third held out.
+
+| Feature | His | Skipped | p | Holm p |
+|---|---|---|---|---|
+| **prior 60min move in ATR units** | **0.61** | **1.94** | **0.000** | **0.004** ✅ |
+| prior 60min move (points) | 26.56 | 59.17 | 0.007 | 0.060 |
+| prior 15min move (points) | 2.59 | 14.72 | 0.106 | 0.678 |
+| position in session range | 0.54 | 0.64 | 0.076 | 0.606 |
+| ATR expansion, new extreme, run length, distance from open, time since open | — | — | 0.35–0.93 | 1.000 |
+
+**One feature survived Holm correction. It then held out of sample: held-out difference
+−2.71, p = 0.000.**
+
+### And the sign is the opposite of what §18 implied
+
+| Prior 60-min move, in ATR | His 46 entries | The 3,910 he skipped |
+|---|---|---|
+| median | **0.29** | **1.44** |
+| mean | 0.61 | 1.94 |
+| share under 0.5 ATR | **52%** | 18% |
+| share under 1.0 ATR | **70%** | 37% |
+
+**It is a CEILING, not a floor.** He does not wait for a big move — he enters while the
+move is still small relative to the market's own volatility, and skips the ones that have
+already run.
+
+### This corrects §18
+
+§18 concluded "join a move that has already run ~20+ points". That was read off a **mean**
+of sign-aligned paths. The mean is right — price does move ~25 points his way beforehand —
+but the **median is 0.29 ATR**, near flat, and 25 points is *small* against the 59 points a
+typical momentum moment has already run. Both facts are true and only together are they
+meaningful:
+
+> **There is a move in his direction, and it is a young one.** He enters roughly 3–5×
+> earlier in the life of a move than a naive momentum trader would.
+
+### It predicts his own results, not just his behaviour
+
+| His entries | n | Average net |
+|---|---|---|
+| on moves below his median (0.29 ATR) | 23 | **$81.66** |
+| on larger moves | 23 | $54.42 |
+
+**50% better on the trades that satisfy the filter** — so this is not merely descriptive
+of what he does, it tracks what works when he does it.
+
+### Why this makes the whole picture consistent
+
+§18 measured a **15-minute half-life**: the move gives everything back within an hour.
+That is exactly what should happen if you enter late. **Entering at 0.3 ATR leaves room;
+entering at 1.9 ATR is buying the exhaustion.** The trigger and the half-life are the same
+fact seen from two sides, and together they explain the tiny targets and the sub-4-minute
+holds.
+
+### The rule, restated correctly
+
+> **Join a NASDAQ move in the first two hours of the US session while it is still small
+> relative to current volatility — under ~0.5 ATR over the prior hour — and be out inside
+> four minutes.**
+
+### Limits
+
+46 entries; one feature out of ten. Holm correction and an out-of-sample holdout are the
+right guards and it passed both at p=0.000, which is why this is stated as a finding
+rather than a lead. But it is a **filter**, not a complete system: "move under 0.5 ATR"
+still admits 18% of all moments, and he trades ~5 times a month. Something further
+narrows it, and that something is not among the ten features tested.
