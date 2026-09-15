@@ -722,3 +722,89 @@ early-entry trigger (§19, this correction).
 > are assigned a direction, positions, or a label derived from the same quantity being
 > tested, no amount of multiple-comparison correction or holdout testing will save the
 > result — both operate downstream of the bias.
+
+## 21. THE EDGE IS THE EXIT — found by looking at the half I had ignored (2026-09-16)
+
+§17–§20 spent everything on entries and found nothing. Entries are half a strategy. The
+other half had never been examined.
+
+**A parser bug had to be fixed first.** The price regex `(\d+\.\d{2,3})(\d+\.\d{2,3})`
+greedily took 3 decimals from 2-decimal NASDAQ prices, stealing the leading digit of the
+close: `25780.0025741.75` split as `25780.002` + `5741.75`. Exit points came out as ±30,000.
+Fixed by requiring both prices to have the same decimal count **and** be within 5% of each
+other — same instrument, minutes apart. Verified: points × lots × $100 now reproduces the
+statement's profit column exactly. *Entry prices were nearly unaffected (off by 0.002), so
+§15's timezone work stands; everything else used bar data, not his prices.*
+
+### What his exits look like
+
+| | |
+|---|---|
+| NASDAQ trades | 46 — **44 winners, 2 losers** |
+| Points captured, median | **7.00** |
+| Hold time, median | **1.3 minutes** |
+| **Winners held** | **median 1.3 min** |
+| **Losers held** | **median 24 min** |
+
+### He exits on POINTS, not dollars
+
+| Exit size | Times |
+|---|---|
+| **7.00 pts** | **5** |
+| 6.25 pts | 3 |
+| 8.75 pts | 3 |
+
+Repeat-pairs observed **40** against **24.5** expected at random, **p = 0.032**. The same
+test on *dollar* profit finds **4** repeat-pairs — nothing. **He is watching the chart, not
+the P&L.** A fixed dollar target would show the opposite pattern.
+
+### He does NOT cut losses short
+
+| | |
+|---|---|
+| Average win | **10.48 pts** |
+| Average loss | **19.62 pts** |
+| Ratio | **1.87× — his losers are BIGGER** |
+
+**His entire edge is the 95.7% win rate, not the payoff ratio.** That inverts the usual
+advice and explains why the strategy is so fragile to a single held loser.
+
+### The one time he broke his own rule
+
+| The two losses | | |
+|---|---|---|
+| 2026-02-04 | −$24 | held **12 seconds** — cut instantly |
+| 2026-09-15 | **−$483.75** | held **47.9 minutes** |
+
+That single trade is **15% of his entire nine-month NASDAQ profit** and undoes **5.9
+average wins**. Without it: 45 trades, **97.8% win rate, $3,614**.
+
+> **His median winner is held 1.3 minutes. His one disaster was held 48 minutes.** The
+> discipline is not a detail of the strategy — it *is* the strategy.
+
+### Why this makes everything else cohere
+
+§18 measured a **15-minute half-life**: the move gives everything back within an hour. If
+that is the environment, then **taking ~7 points inside two minutes is not impatience, it
+is the only correct response.** Entry timing barely matters when the move reverses that
+fast; what matters is being gone before it does.
+
+And it explains why every backtest of him failed. `backtest/forex.py` tested **trailing
+exits and wide targets** — the exact opposite of a 7-point fixed target with a 2-minute
+time stop. It was measuring a strategy he does not run.
+
+### The rule, finally stated in the half that matters
+
+> **Take ~7 NASDAQ points. Be out inside two minutes. Never let one run.**
+
+The entry is not recoverable from price data (§20) and may not need to be: at a 15-minute
+half-life and a 7-point target, a mediocre entry still works if the exit is disciplined.
+**That is a testable proposition** — and it is the first one this file has produced that
+was not contradicted within a day.
+
+### Limits
+
+Two losing trades is nothing to generalise from. The point-clustering p = 0.032 is
+uncorrected and was tested after looking. What is *not* a marginal statistical claim is the
+plain shape of the record: median 7 points, median 1.3 minutes, and the only long hold in
+46 trades being the only large loss.
