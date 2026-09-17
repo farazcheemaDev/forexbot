@@ -209,6 +209,72 @@ decide it when the forward test has its ~200 closed trades.
 
 ---
 
+## Not dead, not tradable: token unlock cliffs (2026-09-18) — `backtest/unlocks.py`
+
+The only test in this project whose input is not a price. A vesting cliff is a
+supply increase at a timestamp published months in advance, so the seller's decision
+is a calendar rather than information - the same non-informational mechanism class as
+the liquidation-cascade thesis, with weeks of warning instead of milliseconds.
+
+**The data is free.** `defillama-datasets.llama.fi/emissions/{slug}` needs no key.
+372 protocols carry schedules; **101 have a token on Binance USDT perps**, giving
+18,836 scheduled events, 14,066 of them past cliffs, against 84,058 daily bars.
+
+**The control is the whole test.** Alts fell over this sample, so shorting anything
+made money. Every event window is matched against non-event windows **of the same
+tokens over the same dates**. With all 20,301 eligible control windows used - no
+sampling - shorting T-1 to T+1 on cliffs >= 1% of supply gives:
+
+| | n | mean | excess | p |
+|---|---|---|---|---|
+| unlock windows | 508 | +1.151% | | |
+| all matched non-event windows | 20,301 | +0.153% | **+0.998%** | **0.016** |
+
+That is a stable number, not a sampling artifact: across 40 different random control
+draws the excess ran **+1.010% with an sd of 0.200**, never changing sign, p < 0.05
+in 26 of 40. *(An earlier reading of mine blamed control resampling for the spread
+between 1.258 and 0.662. Wrong - the resampling sd is only 0.2pp and those values sit
+inside its range.)*
+
+**It fails for two better reasons.**
+
+**1. It does not scale with the supply shock.** A real cliff effect must grow with
+cliff size. It does not:
+
+| threshold | n | excess | p |
+|---|---|---|---|
+| >= 0.5% of supply | 862 | **+0.001%** | 0.996 |
+| >= 1.0% | 508 | +0.998% | 0.016 |
+| >= 2.0% | 241 | +1.059% | 0.087 |
+| >= 5.0% | 51 | +0.662% | 0.607 |
+
+Exactly zero at 0.5%, peaks in the middle, fades at the largest cliffs. A mechanism
+does not behave that way; noise with one lucky band does.
+
+**2. Nothing survives the window grid.** Eight declared entry/exit windows,
+Holm-corrected as a family: best corrected **p = 0.114**. The T-1..T+1 and T-5..T+1
+cells are uncorrected hits only - which is what 8 tests produce by chance.
+
+Per-token, **27 of 50 tokens had a positive excess against a coin-flip 25**, and both
+tails are single-event names (YB +45% on n=1, XPL -55% on n=1).
+
+**Two biases flatter all of the above and cannot be removed here:**
+- **Schedule revision.** DefiLlama serves today's schedule. A quietly renegotiated
+  cliff is seen at its new date, not the date the market watched.
+- **Survivorship.** Binance-listed tokens only. This project already measured a 30%
+  death rate among USDT pairs, and dead tokens are exactly the ones whose unlocks
+  hurt most.
+
+### The one follow-up that would settle it
+
+Re-run against the **delisted-coin universe** in `backtest/dead_fetch.py` - 203 dead
+USDT pairs that are virgin test data for this hypothesis. If the excess is real it
+should be *larger* there, since those are the tokens that actually died of supply. If
+it vanishes, the +1% was survivorship all along. Until then this is a recorded
+non-result, not an edge.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
