@@ -47,15 +47,65 @@ both *cheaper* than BTC hourly. Those instruments died for a different reason
 
 | Approach | Why it's out of reach |
 |---|---|
-| Options volatility selling (Deribit DVOL) | needs **~$2,000** per contract |
 | Gold / forex via Exness MT5 | minimum lot sizes make small capital unusable |
 
-The options one hurts, because it **worked**: implied volatility exceeded
-subsequent realised volatility by **+10.07 volatility points** on the
-conservative Parkinson estimator, **84.3% hit rate**, t = +3.27, positive in all
-six years *including 2022*. It is the cleanest statistical edge found in this
-entire project. It is simply not accessible at $50–500.
-(`backtest/volprem.py`)
+### Options vol selling: the floor claim was WRONG, and it died anyway (2026-09-18)
+
+This entry used to read *"Deribit DVOL needs ~$2,000 per contract"* and cited
++10.07 vol points at an 84.3% hit rate, t = +3.27. **Both halves were wrong.**
+
+**The floor was a Deribit-only number.** Verified live from the exchange APIs:
+
+| venue / underlying | min notional | 24h option volume | ATM spread |
+|---|---|---|---|
+| Deribit BTC (0.1 BTC) | $7,643 | - | - |
+| Deribit ETH (1 ETH) | $2,446 | - | - |
+| Binance BTC (0.01) | **$764** | $7.7M | 0.5-1.4% |
+| Binance ETH (0.01) | **$24.46** | $2.5M | 0.2-1.1% |
+| Binance SOL/DOGE/XRP/BNB | $1.50-9 | $6k-12k | too thin |
+| Binance XAU (gold) | $43 | $4.4k | too thin |
+
+Spreads are **0.2-1.4% of premium**, not the 2-5% `volprem.py` assumed. The
+capital constraint that closed this category simply does not exist.
+
+**The cited edge was stale too.** Re-running `volprem.py` on data through
+2026-08 gives +9.48 vol points at **73.6%** positive, honest t = +4.68 - not
+84.3% and +3.27.
+
+**It dies for a better reason** (`backtest/volprem_eth.py`):
+
+| | mean | pos% | worst window | one bad window costs | honest t |
+|---|---|---|---|---|---|
+| BTC | +8.61 | 72.3% | -45.24 | 5.3 average windows | **+4.56** |
+| **ETH** | **+4.51** | 64.4% | **-111.60** | **24.7 average windows** | **+1.96** |
+
+**The only instrument small capital can size is ETH, and ETH does not carry the
+premium** - half the mean, 2.5x the tail, not significant. The registered
+prediction was that ETH would be *better* than BTC because its realised vol is
+higher. It is far worse.
+
+**And the premium is gone this year, on both:**
+
+| year | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 |
+|---|---|---|---|---|---|---|
+| BTC | +18.02 | +12.17 | +6.61 | +7.18 | +6.45 | **+0.00** |
+| ETH | +11.56 | +8.96 | +5.33 | +3.35 | **-2.55** | +0.44 |
+
+A monotone decline to exactly zero. The worst BTC windows in all 5.5 years are
+every one of them **January 2026**.
+
+**The one conditional test failed.** "Sell only when IV is already high" - the
+standard result in the literature - came in at p = 0.083 in-sample and
+**p = 0.289 on the holdout**. ETH DVOL today (50.6) sits below the 72.7
+threshold anyway, so the filter would not even fire.
+
+**For the record, BTC at its floor is the one configuration worth writing down:**
+0.01 contracts = $764 notional on $221 of capital = 3.46x, and there is no
+smaller size. +6.51%/month on the 5.5-year average, +4.80% on 2025,
+**-0.31% on 2026 YTD**, worst 30-day window **-35.9% of capital**. Not a petty
+return - a *non-current* one. Revisit only if the premium comes back, which is
+one number checked daily.
+(`backtest/volprem.py`, `backtest/volprem_eth.py`)
 
 ## Dead: sounded good, measured badly
 
