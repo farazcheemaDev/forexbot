@@ -147,6 +147,68 @@ Mean reversion's kill largely still stands. Trend's did not. This is the one
 legitimate reason to reopen a graveyard entry: **the measurement itself was
 broken, not the strategy.** See [doc 03](03-mistakes.md).
 
+## Dead: correlation-clustered slot allocation (2026-09-18) — `backtest/corr_alloc.py`
+
+The claim was that the gap between **+0.13R per trade** and **+0.03R per portfolio**
+is the allocator's waste, not the market's, because `blend.run()` fills slots
+first-come-first-served with no idea what is already held. Cap slots *per
+correlation cluster* and 12 slots should buy 12 bets instead of 1.6.
+
+**The premise is true.** Measured on 57,594 hourly bars across the 12-coin book:
+mean pairwise correlation **0.63**, which is **1.51 effective independent bets out
+of 12**.
+
+**The fix does not work.** Clusters refit monthly on the trailing 90 days, strictly
+point-in-time, k and the per-cluster cap swept, tuned on the first 60% and decided
+on the last 40%:
+
+| holdout variant | mean R | /month | maxDD | R/DD |
+|---|---|---|---|---|
+| baseline, global cap 12 | +1.224 | **+14.60%** | 78.4% | 1.561 |
+| control, global cap 8 | +1.743 | +13.44% | **69.0%** | **2.525** |
+| CORR k=4, max 3 per cluster | +1.012 | +7.87% | 73.5% | 1.378 |
+| random k=4, max 3 per cluster | +0.635 | +3.34% | 73.2% | 0.867 |
+
+Correlation clustering **halves the return** and does not even reduce drawdown as
+much as simply lowering the slot cap. On the tune window it beat its own
+random-cluster control in **2 of 8 cells against a coin-flip expectation of 4**.
+
+**The registered prediction was right for the right reason.** Twelve series that
+all correlate 0.51-0.76 do not have stable clusters; each monthly refit produces a
+different arbitrary grouping. There is nothing for a clustering engine to find.
+
+> **The correlation tax is the market's, not the allocator's.** No slot rule
+> reclaims it, because the redundancy is in the assets rather than in the choice of
+> which ones to hold.
+
+### The byproduct, which matters more than the test
+
+The de-leveraging control - plain **global cap 8** - dominates the deployed cap of
+12 on risk-adjusted terms in **both** halves, and `blend.py`'s own existing sweep
+says the same thing. `corr_alloc.py` reproduces `blend.py`'s drawdowns to the
+decimal (87.0% / 78.4% / 69.0%), which is an independent cross-check of both.
+
+From `blend.py`, out of sample, with the MEXC minimum-order table:
+
+| sleeves | slots | /month | maxDD | **capital floor** |
+|---|---|---|---|---|
+| 1h + 4h | 8 | +11.96% | 69.0% | **$167** |
+| 1h + 4h | 12 | +13.62% | 78.4% | $240 |
+| **1h + 4h + 12h** (deployed) | **8** | +8.32% | 57.0% | **$217** |
+| **1h + 4h + 12h** (deployed) | **12** | **+13.17%** | 75.2% | **$377** |
+
+**The deployed configuration's own out-of-sample capital floor is $377, and the
+account is $221.** Twelve slots buys +4.85 points of monthly return and raises the
+floor by $160 - past the account. That is not a return/risk trade-off, it is the
+absorbing barrier from doc 00: below the minimum order the account cannot recover
+by trading.
+
+Eight slots is the configuration that fits $221. Recorded here rather than shipped,
+because changing the live config mid-forward-test resets the trade count to zero -
+decide it when the forward test has its ~200 closed trades.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
