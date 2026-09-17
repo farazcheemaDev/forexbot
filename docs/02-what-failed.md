@@ -265,13 +265,61 @@ tails are single-event names (YB +45% on n=1, XPL -55% on n=1).
   death rate among USDT pairs, and dead tokens are exactly the ones whose unlocks
   hurt most.
 
-### The one follow-up that would settle it
+### The follow-up was run, and it could not settle it (2026-09-18)
 
-Re-run against the **delisted-coin universe** in `backtest/dead_fetch.py` - 203 dead
-USDT pairs that are virgin test data for this hypothesis. If the excess is real it
-should be *larger* there, since those are the tokens that actually died of supply. If
-it vanishes, the +1% was survivorship all along. Until then this is a recorded
-non-result, not an edge.
+`backtest/unlocks_dead.py`. 15 of the 202 delisted pairs in `dead_fetch.py` carry a
+DefiLlama schedule, giving **116 usable cliff events across 11 tokens**.
+
+| universe | events | controls | unlock | control | excess | p |
+|---|---|---|---|---|---|---|
+| LIVE (survivors) | 508 | 20,301 | +1.151% | +0.153% | **+0.998%** | 0.016 |
+| **DEAD (delisted)** | **116** | **10,937** | +0.591% | -0.168% | **+0.759%** | **0.402** |
+| POOLED | 624 | 31,238 | +1.047% | +0.041% | +1.006% | 0.011 |
+
+**My registered prediction was wrong.** I expected the excess to vanish or invert on
+dead coins if it was survivorship. It did neither - same sign, only slightly smaller.
+
+**But the test had no power to decide.** On the dead arm the per-event sd is 11.78%:
+
+```
+to detect +0.759% at 80% power, p<0.05  ->  ~3,780 events needed
+                                  have  ->       116
+smallest effect detectable at n=116     ->     +4.33%
+effect under test                       ->     +0.76%   (5.7x too small to see)
+```
+
+**The deciding test was underpowered by 33x.** Its p=0.402 is not evidence of
+absence; it is the absence of evidence. And only 116 such events exist, so this is a
+**hard data ceiling, not a research gap** - no amount of further work raises it.
+
+The POOLED p=0.011 is not a fix either: 81% of its events are the live sample, so
+pooling dilutes the test rather than removing the bias.
+
+### What the dead universe DID show, and it is the real result
+
+Size-scaling fails a second time, independently, and worse:
+
+| dead, threshold | events | excess | p |
+|---|---|---|---|
+| >= 0.25% of supply | 196 | +0.691% | 0.336 |
+| >= 0.50% | 123 | +0.647% | 0.472 |
+| >= 1.00% | 116 | +0.759% | 0.408 |
+| >= 2.00% | 47 | +0.408% | 0.773 |
+| **>= 5.00%** | 20 | **-1.665%** | 0.413 |
+
+**On the coins that actually died of supply, the largest cliffs show a NEGATIVE
+excess.** Two independent universes, and in both the effect fails the one property a
+supply mechanism cannot fail: it must grow with the size of the supply.
+
+Nothing survives Holm on the dead grid either (all corrected p = 1.000), and 6 of 11
+tokens were positive against a coin-flip 5.5, with every tail owned by an n=1 name
+(OM +6.79% on one event, OMNI -6.94% on one).
+
+> **Verdict: the category is closed by power, not by evidence.** There is a stable
+> ~+1% on survivors that cannot be shown to be real and cannot be shown to be
+> spurious, and the data needed to tell the difference does not exist. Treat it as
+> untradable and stop - an effect you cannot distinguish from survivorship at 33x
+> less data than required is not something to risk money on.
 
 ---
 
