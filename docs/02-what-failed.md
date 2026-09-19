@@ -323,6 +323,61 @@ tokens were positive against a coin-flip 5.5, with every tail owned by an n=1 na
 
 ---
 
+## Dead: protecting the pyramid (2026-09-20) — `backtest/pyramid_exits.py`
+
+Prompted by the live book: +161.7R open, -139.0R if every position fell back to its
+printed stop. The breakeven floor protects only the FIRST unit; a 5-unit position
+stopped there loses 0+2+4+6+8 = -20R. Profit targets were ruled out first: the top
+1% of 5,503 trades carry 114% of all profit, and capping winners at +6R turns
++14,323R into -4,398R. So three ways to protect gains **without capping them** were
+tested on the deployed 1h+4h+12h / 12-slot blend. The rewritten exit engine
+reproduces `run_pyramid` exactly on 12 coin/sleeve pairs, and that is asserted.
+
+| variant | tune /mo | DD | floor | holdout /mo | DD | floor |
+|---|---|---|---|---|---|---|
+| current (first-entry BE) | +29.23% | 75.7% | $385 | +13.17% | 75.2% | $377 |
+| scale_out (added units on 5xATR) | +8.77% | 46.7% | $176 | +12.10% | **45.7%** | **$172** |
+| avg_be (BE at average entry) | +9.94% | 67.2% | $285 | +8.77% | 49.4% | $185 |
+| ratchet (20 -> 10xATR past +10R) | +19.85% | 73.2% | $349 | +15.04% | 71.7% | $331 |
+
+**None pass the declared rule** (better return/drawdown on tune AND holdout, lower
+floor). All three improve the holdout and lose the tune window.
+
+**Scale-out's holdout looked almost free, and the yearly split shows why:**
+
+| year | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 |
+|---|---|---|---|---|---|---|---|
+| current | 299 | 1783 | 2 | 673 | 1423 | 102 | 14 |
+| scale_out | 95 | 522 | 61 | 183 | 560 | 187 | 73 |
+| difference | -205 | **-1261** | +59 | -490 | -863 | +85 | +59 |
+
+*(summed R x 0.30%, not compounded - comparable across rows, not exact)*
+
+It wins every **weak** year (2022, 2025, 2026) by a little and loses every **trend**
+year (2020, 2021, 2023, 2024) by a lot. The holdout starts 2024-08-29, so it is mostly
+2025-2026 - the weak regime - and that is what made scale-out look nearly costless. It
+is insurance that pays in chop and costs the years the strategy exists for.
+
+Why, in one position: live AVAX at 5 units and +46.8R gets **33.4R of it from units
+2-5.** The added units ARE the right tail. Protecting them removes it.
+
+Of 1,081 full pyramids (3+ units) under the current exit, **68% closed at a loss**
+and the mean was still **+23.57R**. That is not a defect to fix; it is the shape of
+the edge.
+
+> **The -20R-at-breakeven exposure is the price of the +1,804R trade.** Every way of
+> protecting it tested here is a way of selling that trade.
+
+Registered predictions: avg_be failing was right; "scale_out cuts drawdown most and
+costs most return" was right on the full sample; **"ratchet likeliest to pass" was
+wrong** - it is worse in nearly every year.
+
+**It does not fix the capital floor for free.** Scale-out's $172 floor fits the $221
+account, but only by shrinking the strategy into a weak-regime one. It belongs in the
+same end-of-forward-test decision as 8 slots versus 12, not as a patch.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
