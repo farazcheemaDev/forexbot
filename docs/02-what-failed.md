@@ -431,6 +431,63 @@ tempted to make, and it is the only one that is catastrophic.
 
 ---
 
+## Dead: cheaper fees as a step change (2026-09-20) — `backtest/fee_sweep.py`
+
+The reasoning was: this project's measured breakeven is 6-8.5bp round trip, every test
+ran at Bitget's 12bp taker, and Hyperliquid is 3bp maker-maker (verified from its API:
+234 perp markets, maker 0.015%/taker 0.045%, zero gas per trade/cancel/modify, up to
+40x leverage, no KYC). A 4x fee cut on a strategy priced past its own breakeven should
+be transformative.
+
+**It is worth +0.67 points of monthly return.** Deployed config, 12 slots, holdout:
+
+| fee | what it needs | holdout /mo | DD | floor | n | mean R |
+|---|---|---|---|---|---|---|
+| 12bp | Bitget taker (every test so far) | +13.17% | 75.2% | $377 | 2032 | +1.374 |
+| 9bp | Hyperliquid TAKER - venue change only | +13.40% | 74.5% | $367 | 2032 | +1.390 |
+| 6bp | one maker, one taker | +13.62% | 73.9% | $358 | 2032 | +1.405 |
+| **3bp** | Hyperliquid MAKER both sides | **+13.84%** | 73.2% | $349 | 2032 | +1.421 |
+| 2bp | high-volume maker tier | +13.92% | 73.0% | $346 | 2032 | +1.426 |
+
+**The trade count is identical at every fee level** - 2032 - which is the tell. No trade
+changes sign; each one just keeps a little more.
+
+### Why the registered prediction (roughly double) was wrong
+
+The 6-8.5bp breakeven belongs to the **short-horizon momentum families**, whose gross
+edge is ~+0.05R per trade. **It does not belong to this strategy.** The blend's stop is
+2xATR, which on these alts is 8-15% of price, so 12bp is only **~0.02R** - about 2% of
+its +1.374R average trade. A trend book with a huge average trade is structurally
+fee-insensitive, and conflating the two breakevens was the error.
+
+> **Fee reduction helps strategies whose edge is small per trade. This one's edge is
+> 1.4R per trade.**
+
+### And Hyperliquid is WORSE for this book, not better
+
+I claimed a $10 minimum order with 20-40x leverage would stop the capital floor from
+binding. That is backwards: the floor is `min_order_NOTIONAL x stop / risk / (1-DD)`,
+and leverage does not reduce the notional.
+
+| venue | binding coin | capital floor |
+|---|---|---|
+| MEXC (min order $0.005-$2.28) | NEAR | **$349** |
+| Hyperliquid ($10 min order value) | ENA | **$1,846** |
+
+**5.3x worse.** MEXC's sub-dollar minimums are the reason this book is fundable at all.
+For the deployed blend, stay where it is.
+
+### Where the fee win is actually available
+
+`backtest/maker_r.py` already measured it, for the families that DID die on fees:
+bb_break goes from **-3.32 sumR/yr at taker to +21.81 at maker** (86.5% fill, with
+non-fill and adverse selection both modelled), and rsi_mom and roc_mom the same. That
+is a genuine sign flip - but a rough conversion of the best row lands near 2%/month
+after the hindsight divisor, not above 10%. Worth measuring properly; not worth
+expecting a step change from.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
