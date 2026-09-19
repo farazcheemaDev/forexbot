@@ -571,6 +571,27 @@ Returns come from exactly three places:
 market-neutral book paid 10%/month, every fund on earth would lever it until the rate
 collapsed. **That funding pays 2.7% is the proof it is genuinely low-risk.**
 
+### The qualification this argument needs (added 2026-09-20)
+
+The "every fund would lever it" argument assumes the strategy SCALES. It only binds on
+strategies with capacity. A niche that absorbs $2,000 before its own edge disappears is
+invisible to a fund with $200M - the cost of researching and operating it exceeds
+anything it can return at that size - so competition never arrives and the rate never
+collapses.
+
+**That is not a loophole in the argument, it is the boundary of it.** Every category in
+this graveyard was tested at a size where capacity does not bind (crypto perps, majors,
+liquid options), so the argument applies to all of them. But it does NOT license the
+conclusion "nobody earns 1.5%/day", and it was used that way in this project more than
+once. High rates on small capital are exactly where capacity-limited edges live.
+
+Two things stay true regardless:
+- **Compounding still ends it.** Any rate is a temporary rate, because the capital grows
+  into the capacity limit. 1.5%/day on $500 is credible; 1.5%/day sustained is not, and
+  the arithmetic that "breaks the world economy" applies to the GOAL, never to the claim.
+- **Capacity-limited does not mean edge.** It means competition is absent, not that a
+  profitable trade exists. It has to be measured like anything else.
+
 > **Regime dependence is not a defect of the strategy. It is the receipt for the return.**
 > A book that earned in 2021 and 2024 and not 2025 is being paid to bear crypto trend
 > risk. Remove the regime dependence and you remove the payment.
