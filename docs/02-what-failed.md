@@ -378,6 +378,59 @@ same end-of-forward-test decision as 8 slots versus 12, not as a patch.
 
 ---
 
+## Dead: human supervision as a signals-only bot (2026-09-20) — `backtest/human_loop.py`
+
+If the bot only alerts and a person places the trade, three things change. All were
+simulated on the deployed blend (1h+4h+12h, 12 slots), exits assumed to be resting
+stop orders that fire on time - an assumption that favours the human.
+
+| | full /mo | DD | floor | total R | holdout /mo | holdout floor |
+|---|---|---|---|---|---|---|
+| bot, no delay (deployed) | +23.82% | 75.7% | $385 | +14,323 | **+13.17%** | $377 |
+| human, 1h late | +19.64% | 84.4% | $602 | +13,465 | +6.14% | $619 |
+| human, 3h late | +16.77% | 81.1% | $495 | +13,886 | +4.07% | $496 |
+| human, 8h late | +19.27% | 76.8% | $404 | +14,047 | +2.56% | $340 |
+| human, asleep 8h a night | +14.89% | 81.5% | $506 | **+11,559** | +6.11% | $364 |
+
+**Delay does not destroy the signal's edge.** Total R moves only -2% to -3% even at
+8 hours, and the ordering of the drawdown column is not monotone (1h late is the
+WORST at 84.4%). What delay wrecks is the realised path: the capital floor jumps from
+$385 to $602 at one hour late, and every holdout figure collapses. Read that as
+path instability, not as a dose-response - `blend.run` compounds by trade order
+(mistake #6), so hpm is path-sensitive in a way total R is not.
+
+**Sleep is the honest cost of being a person:** -19% of the raw edge (14,323 -> 11,559
+R), holdout return more than halved, floor $385 -> $506. A breakout that is still
+firing at wake-up is taken; one that faded is gone.
+
+**Random skipping is far cheaper than predicted** - 30 draws each:
+
+| | median /mo | 5th pct | 95th pct | worst | draws below half the bot |
+|---|---|---|---|---|---|
+| bot, takes all | +23.82% | | | | |
+| skip 10% of signals | +21.45% | +17.02% | +24.28% | +16.44% | 0 of 30 |
+| skip 25% of signals | +16.00% | +12.49% | +19.14% | +11.65% | 2 of 30 |
+
+**Registered prediction wrong:** I expected skipping to widen the spread badly,
+because 1% of trades carry 114% of profit. It does not - the cost is roughly
+proportional. The mechanism is the correlation already measured here: 12 slots hold
+~1.5 independent bets, so a skipped signal frees its slot for another coin breaking
+out on the same move. **The book's redundancy, which caps the return, also makes it
+robust to a distracted operator.**
+
+### What was NOT simulated, because it is already measured
+
+A supervisor taking profit early. Capping winners at +6R turns +14,323R into
+-4,398R. That is the one override a person watching a position at +46.8R is most
+tempted to make, and it is the only one that is catastrophic.
+
+> **Supervision has no step in this strategy that a human does better.** Every
+> channel measured subtracts. The legitimate human roles are the ones a backtest
+> cannot express: a kill switch for venue failure (a bot does not know its exchange
+> is insolvent), the capital decision ($377 floor against $221), and the go-live gate.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
