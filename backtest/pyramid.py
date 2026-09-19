@@ -131,9 +131,11 @@ def run_pyramid(df: pd.DataFrame, sig: pd.Series, *, sl_mult: float = 2.0,
         cand = pos["best"] - trail * a[i - 1]
         # BREAKEVEN floor, applied before the trail so the wider of the two wins.
         # Measured from the FIRST entry, and it protects only the first unit's
-        # cost - later units were bought higher, so the position as a whole is
-        # still slightly negative at this stop after fees. Claiming otherwise
-        # would overstate the protection.
+        # cost. Later units were bought add_every R higher each, so at this stop
+        # the POSITION loses 0 + 2 + 4 + ... R: -2R at 2 units, -6R at 3, -12R at
+        # 4, -20R at 5 (before fees). Not "slightly negative" - an earlier version
+        # of this comment said so, and the live bot's worst closed trade (-6.22R,
+        # 2026-09-20) is a 3-unit position stopped exactly here.
         if breakeven_at > 0 and (pos["best"] - pos["entries"][0]) / risk >= breakeven_at:
             cand = max(cand, pos["entries"][0])
         if cand > pos["stop"]:
