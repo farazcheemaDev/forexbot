@@ -1019,6 +1019,57 @@ and a better win rate, NOT as a drawdown fix.**
 
 ---
 
+## Dead, and it validates the existing design: splitting slots by side (2026-09-20) — `backtest/slot_split.py`
+
+Shorts are 64% of all sleeve trades and contribute +529R against longs' +19,113R. The
+shared 12-slot queue therefore gives most of its capacity to the side that produces
+almost none of the profit, and the live bot declines ~7 signals for every one it takes -
+so who gets the slot is not academic. Separate caps per side, compounded by CLOSE DATE:
+
+| split | TUNE /mo | DD | HOLD /mo | DD | worst month | longs taken | shorts taken |
+|---|---|---|---|---|---|---|---|
+| **shared 12 (deployed)** | +27.13% | 72.6% | **+9.07%** | 76.9% | -32.8% | 919 | 1,113 |
+| 2 long / 10 short | +2.39% | 39.0% | +0.43% | **38.6%** | -26.3% | 362 | 2,375 |
+| 6 long / 6 short | +7.23% | 64.6% | +5.13% | 51.5% | -25.5% | 910 | 1,509 |
+| 8 long / 4 short | +12.40% | 70.3% | +5.88% | 61.6% | **-19.4%** | 1,151 | 1,063 |
+| 10 long / 2 short | +21.32% | 76.8% | +5.98% | 71.0% | -29.6% | 1,397 | 527 |
+| 12 long / 0 short | +24.58% | 80.6% | +6.49% | 82.8% | -47.6% | 1,579 | 0 |
+| 8/8 = 16 total *(more exposure)* | +12.09% | 71.6% | +5.95% | 58.2% | -24.1% | 1,151 | 1,990 |
+| 12/12 = 24 total *(more exposure)* | +23.66% | 81.6% | +7.15% | 74.9% | -42.7% | 1,579 | 2,714 |
+
+**The shared queue beats every split, including the two with MORE total exposure.**
+
+### The part that is genuinely surprising
+
+**12 long / 0 short takes 1,579 longs - 72% more than the shared queue's 919 - and
+returns 28% LESS** (+6.49% against +9.07%). So the extra longs a bigger long cap admits
+are *worse than the average long*. The rationing is selecting better trades, not merely
+fewer.
+
+The mechanism: **the shared cap is not a naive queue, it is a limit on TOTAL concurrent
+exposure.** When many signals fire in the same hour - which is the normal case in
+crypto - it takes the first 12 and declines the correlated pile-on behind them. Split the
+caps and that pile-on gets admitted; 12/12 allows up to 24 concurrent positions in a book
+measured at ~1.5 independent bets, and it earns less than 12 shared.
+
+That also retroactively explains `backtest/corr_alloc.py`, where correlation clustering
+lost to a plain global cap: **the global cap was already doing the correlation work.**
+
+**Registered prediction half right.** I predicted reserving slots for longs would beat
+the shared cap clearly - wrong, it loses 2.6 to 8.6 points of monthly return. I predicted
+drawdown would worsen as the short hedge thins - right, and strongly: 38.6% at 2/10
+rising monotonically to 82.8% at 12/0.
+
+**Also worth keeping:** 8 long / 4 short has the best worst-month of any row (-19.4%
+against the deployed -32.8%) at 61.6% drawdown, for 3.2 points of monthly return. If a
+future decision ever prioritises the worst month over the mean, that is the row.
+
+**Net effect on the deployed config: none.** The shared 12-slot queue stands, and the
+only surviving improvement from today's work is the 3.0x short multiplier in bears
+(+9.07% -> +10.07% per month, win rate 38% -> 54%).
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
