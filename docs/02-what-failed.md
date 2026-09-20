@@ -1325,6 +1325,69 @@ numbers above are the corrected ones.
 
 ---
 
+## Answered: isolated margin at high leverage (2026-09-21) — `backtest/mae.py`, `backtest/lev_test.py`
+
+The idea, and it is a good one: post a small ISOLATED margin at high leverage. The most you
+can lose is the margin; the upside is uncapped. A lottery ticket with a known ticket price.
+
+**The measured fact that makes it plausible.** Maximum adverse excursion - how far below
+entry a position goes before it wins:
+
+| group | n | median MAE | 75th | 90th |
+|---|---|---|---|---|
+| ALL positions | 5,628 | 3.21% | 5.25% | 8.36% |
+| **RUNNERS (peak >= +100R)** | 198 | **1.04%** | 2.03% | 3.65% |
+| non-runners | 5,430 | 3.28% | 5.33% | 8.48% |
+
+**Runners barely dip.** They go up almost immediately; losers chop around first. So a tight
+liquidation line removes losers preferentially - at 20x (liquidation ~-5%) **94.9% of
+runners survive while only 72.8% of all positions do.**
+
+### The first pass said 20x BEATS the deployed config. It was wrong.
+
+That pass dropped liquidated positions instead of charging them, and did not let the signal
+re-fire. Both fixed - liquidation modelled as a stop at avg_entry x (1 - 1/L), firing
+whenever it is tighter than the strategy's own stop, R charged over all units, re-entries
+allowed:
+
+| leverage | liquidation at | positions | liquidated | win% | mean R | total R | vs deployed |
+|---|---|---|---|---|---|---|---|
+| **none (deployed)** | - | 5,628 | 0 | 6% | **+3.396** | **+19,113** | - |
+| 3x | -33.3% | 5,629 | 1 | 6% | +3.395 | +19,111 | **-2** |
+| 5x | -20.0% | 5,642 | 46 | 6% | +3.386 | +19,105 | **-8** |
+| **10x** | **-10.0%** | 5,817 | 503 | 6% | +3.284 | **+19,105** | **-8** |
+| 20x | -5.0% | 6,873 | 2,645 | 4% | +2.491 | +17,119 | -1,994 |
+| 50x | -2.0% | 11,453 | 9,915 | 2% | +1.286 | +14,724 | -4,389 |
+| 100x | -1.0% | 20,300 | **20,002** | 1% | +0.469 | +9,522 | -9,591 |
+
+**Two findings, one useful and one decisive.**
+
+**Up to 10x is FREE.** -8R out of +19,113R is noise. Only 503 of 5,817 positions liquidate
+and total R is unchanged. That matters because the live book already runs at **1.20x gross**
+(measured: $250.72 of notional on $209.77 of equity), so some futures leverage is already
+in use and there is headroom to 10x at no cost.
+
+**Above 10x it degrades monotonically, and the mechanism is not the loss size.** Look at the
+position count: 5,628 at no leverage, **20,300 at 100x, of which 20,002 are liquidations.**
+Mean R stays POSITIVE at every leverage (+0.469 even at 100x) - the strategy does not
+become a loser, it becomes a much worse one, because frequency rises 3.6x while mean R
+falls 7.2x.
+
+> **Isolated margin caps the loss per event. High leverage multiplies the number of
+> events.** Losing 0.3% is nothing; losing it 20,002 times is everything. That is the
+> answer to "if losing does not matter, why not max leverage".
+
+Same shape as `freq_capture.py`: monotone in the parameter, so the optimum sits at the
+boundary - here, the lowest leverage. And the same re-entry drag that killed eleven exit
+rules kills this too: being removed from a position does not bank anything, it returns you
+to the queue.
+
+**Caveats that make the table optimistic:** -1/L ignores maintenance margin, fees and
+slippage, so real liquidation is closer than shown; and a liquidation is a market order on
+a wick, which can close you at a price the 1h low does not capture.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
