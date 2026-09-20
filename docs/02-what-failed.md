@@ -864,6 +864,67 @@ size it as the insurance the numbers say it is.
 
 ---
 
+## WORKS: the regime gate is pointed the wrong way for shorts (2026-09-20) — `backtest/bear_side.py`
+
+The deployed config applies ONE multiplier to both sides - while BTC is below its
+1000h average, longs AND shorts are quarter-sized. A bear regime is precisely when a
+short should work and a long should not, so the gate is symmetric where it has no
+reason to be. `blend.sleeve()` discards the side tag, which is why this split had never
+been measured.
+
+### Shorts earn more in bears, but they are not an engine
+
+15,736 sleeve trades, 2020-02 to 2026-09, **54% of trades open in a bear regime**:
+
+| | n | mean R | win% | total R |
+|---|---|---|---|---|
+| long, bull | 2,935 | **+6.295** | 8% | +18,475 |
+| long, bear | 2,693 | +0.237 | 4% | +638 |
+| short, bull | 4,324 | +0.014 | 31% | +59 |
+| **short, bear** | 5,784 | **+0.081** | 34% | +470 |
+
+**+0.081R in bears against +0.014R in bulls.** Real, consistent, and small - my
+registered prediction of +0.2R vs -0.3R was wrong in both directions. And it is NOT one
+year: short-in-bear R is positive in **6 of 7 years** (only 2021 negative), strongest in
+2022 (+0.280) and 2025 (+0.152).
+
+### Sizing the hedge when it is needed improves everything
+
+Five gate variants, declared before running, as (long, short) bear multipliers:
+
+| variant | TUNE /mo | DD | floor | HOLD /mo | DD | floor |
+|---|---|---|---|---|---|---|
+| current (0.25L, 0.25S) | +29.23% | 75.7% | $385 | +13.17% | 75.2% | $377 |
+| free_short (0.25L, 1.00S) | +30.47% | 68.8% | $300 | +13.96% | 73.4% | $352 |
+| **lean_short (0.25L, 2.00S)** | **+32.07%** | **59.8%** | **$233** | **+14.91%** | **71.5%** | **$328** |
+| flat_long (0.00L, 1.00S) | +22.86% | 84.7% | $611 | +14.07% | 69.4% | $306 |
+| all_in_bear (1.00L, 1.00S) | +30.76% | 86.5% | $694 | +11.60% | 88.4% | $805 |
+
+**lean_short improves return, drawdown AND capital floor, in BOTH halves.** That is the
+first change in two weeks that is not paid for out of something else. `all_in_bear`
+being clearly worse is the control confirming the existing gate does real work.
+
+### The mechanism, so this is not mistaken for "shorts make money"
+
+Shorts average +0.081R - nowhere near a profit source. docs/01 already records that the
+short sleeve is a drawdown hedge (78.6% -> 68.9%). What this test found is that **the
+hedge was being shrunk in the only regime where it pays.** Doubling it there cuts
+drawdown, and lower drawdown compounds into higher return. The gain is risk management,
+not a new edge.
+
+### Before shipping
+
+- Only three short multipliers were tried (0.25 / 1.00 / 2.00). 2.00 beats the other two;
+  it is not established as optimal, and sweeping further would be fitting the multiplier.
+- The tune window's drawdown gain (-15.9 points) is four times the holdout's (-3.7). The
+  effect is weaker out of sample, as usual.
+- ~88% of the short-in-bear total R comes from 2022 and 2025, even though the sign holds
+  in 6 of 7 years.
+- Do not change the live config mid-forward-test; this is a candidate for the decision at
+  ~200 closed trades, alongside 8-vs-12 slots.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
