@@ -1279,6 +1279,52 @@ signal is.
 
 ---
 
+## Dead: take profit early and trade more often (2026-09-21) — `backtest/freq_capture.py`
+
+Every prior exit test held the entry fixed, so it only measured the capture side. This
+sweeps BOTH axes: entry looseness (Bollinger k from 1.0 to 2.5) against a fixed profit
+target. And it is the one version of the idea not killed by costs - `fee_sweep.py` showed
+a 2xATR stop is 8-15% of price here, so 12bp is ~0.012R against a +3.4R average position.
+**Trading ten times as often costs almost nothing in fees.**
+
+**The relationship is monotone, and that settles it.** Single unit, 2xATR stop, k=1.5:
+
+| exit | target in R | trades | frequency | win% | **mean R** | total R |
+|---|---|---|---|---|---|---|
+| target 2xATR | 1.0R | 45,854 | **8.1x** | **51%** | **-0.011** | -509 |
+| target 3xATR | 1.5R | 32,915 | 5.8x | 42% | +0.003 | +89 |
+| target 5xATR | 2.5R | 20,302 | 3.6x | 30% | +0.027 | +556 |
+| target 10xATR | 5.0R | 9,242 | 1.6x | 19% | +0.076 | +704 |
+| **none - 20xATR trail, 5-unit pyramid** | - | 5,628 | 1.0x | **6%** | **+3.396** | **+19,113** |
+
+**Every time the target widens, mean R rises and the win rate falls.** Five points, no
+inflection. A monotone function has its optimum at the boundary, and the boundary is **no
+target at all.**
+
+The win rates also land almost exactly on their own breakeven lines - 51% against 50% for
+a 1:1 payoff, 42% against 40%, 30% against 28.6%, 19% against 16.7%. **The strategy is
+barely better than a coin flip at any fixed target.** Its entire edge lives past +5R.
+
+**Frequency cannot close the gap.** The deployed mean R is +3.396 against the best
+target cell's +0.045 - a **75x** difference. The loosest entry tested buys **9.3x** the
+trades. To match on total R you would need ~428,000 trades, and they would all compete for
+the same 12 slots, which this test does not even model.
+
+**Entry looseness barely matters on its own**, which is a mild validation of the deployed
+parameter: k=1.0 gives +18,705R, k=1.5 (deployed) +19,113R, k=2.0 +18,530R, k=2.5
++16,638R. The deployed setting is at the peak of a flat curve.
+
+> **Taking profit early works exactly as intended - the win rate goes from 6% to 51%.
+> And it makes no money.** Win rate is not P&L. This is the eleventh exit rule tested and
+> the eleventh to lose.
+
+**Labelling correction:** the first run of this file printed targets as "+2R..+10R" when
+`run_r`'s `tp_mult` is in ATR units and 1R = 2xATR. Every target was half what the label
+said. The conclusion is unchanged - the monotone relationship holds either way - but the
+numbers above are the corrected ones.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
