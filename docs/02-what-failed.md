@@ -488,6 +488,65 @@ expecting a step change from.
 
 ---
 
+## ALIVE, small: taker-flow continuation (2026-09-20) — `backtest/positioning.py`
+
+The first test in this project whose input is not price, and the first survivor in
+weeks. Binance's free positioning archive (`backtest/metrics_fetch.py`): **5,989,482
+rows**, 13 symbols, 5-minute resolution, back to 2020-09 for BTC. Four features
+declared before looking, three horizons, Holm across all 12, significance computed
+**across coins** (never pooled across rows), quintiles ranked on a trailing 90 days
+with `closed="left"`.
+
+| family | h | coins | mean spread | coins agreeing | t | p | Holm |
+|---|---|---|---|---|---|---|---|
+| **taker** | **4** | 11 | **-0.094%** | **10/11** | -5.69 | 0.000 | **0.002** |
+| taker | 12 | 11 | -0.058% | 6/11 | -2.26 | 0.047 | 0.423 |
+| crowd | 24 | 11 | +0.377% | 9/11 | 2.64 | 0.025 | 0.273 |
+| crowd | 12 | 11 | +0.179% | 9/11 | 2.59 | 0.027 | 0.273 |
+| size_gap | 24 | 11 | +0.249% | 8/11 | 1.98 | 0.076 | 0.610 |
+| oi_div | 24 | 11 | +0.305% | 8/11 | 1.39 | 0.194 | 1.000 |
+
+**Holdout: taker at 4h HOLDS** - spread **-0.142%** (larger than in tune), t = -6.79,
+p = 0.000, and again **10 of 11 coins agree**.
+
+### My direction was backwards, and so was my pick
+
+`taker` was declared as an EXHAUSTION feature and negated accordingly, so a negative
+spread means the hypothesis is inverted: **aggressive taker BUYING predicts 4-hour
+continuation, not exhaustion.** It is short-horizon order-flow momentum.
+
+I also predicted `oi_div` was likeliest because it has a mechanism. It measured
+nothing (p=0.194 at best). And I dismissed order flow earlier in the same session as
+an institutional fantasy on the grounds that its edge lives in seconds and dies to
+12bp of fees. **It survives at a 4-hour horizon with 12bp charged.**
+
+### What it is and is not worth
+
+- The effect **decays with horizon** - -0.094% at 4h, -0.058% at 12h, -0.013% at 24h -
+  which is what a real flow effect should do, and it means the usable window is ~4h.
+- The magnitude is **small**: 0.14% net per 4h on a top-minus-bottom quintile SPREAD,
+  so ~0.07% per leg. It is a cross-sectional long/short, which is also why it is
+  interesting - the market factor cancels, and correlation is this book's ceiling.
+- **It does NOT gate the deployed blend.** As an entry filter on the 1h sleeve,
+  taker's pooled gap looks large (+0.891R) but only **6 of 11 coins agree** - a coin
+  flip. The pooled number is the trap; the agreement column is the test.
+
+### The secondary lead
+
+`crowd` (share of all accounts long, tested contrarian) shows **+0.377% at 24h with
+9 of 11 coins agreeing** and fails Holm at 0.273. Under this project's rules that is
+discarded - but it has a longer horizon and a bigger effect than the survivor, and it
+deserves one dedicated test with its own registered prediction rather than a slot in a
+12-test family.
+
+### What has to happen before this is a strategy
+
+A cross-sectional long/short backtest on the taker feature: real slot caps, real
+fees, per-coin minimum order sizes, and a capital floor. A quintile spread is not a
+trade. Until that runs, this is a measured effect, not an edge.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
