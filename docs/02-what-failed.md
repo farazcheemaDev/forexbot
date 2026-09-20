@@ -706,6 +706,40 @@ there, and P is 0.0% over 600 trades.
 
 ---
 
+## Dead: buying diversification with risk on a $5 account (2026-09-20) — `backtest/ruin.py`
+
+Raising risk lowers every funding line, because required equity is
+`min_order x stop / risk`. So a $5 account CAN fund more coins by betting bigger. The
+question is what that costs. PIT distribution, 600 trades, starting from $5:
+
+| risk/unit | coins fundable | worst historical trade | median equity | 5th pct | P(crippled) | P(<$1) |
+|---|---|---|---|---|---|---|
+| 0.30% | 3 of 12 | -11% | $11.72 | $1.54 | 100.0% | 1.1% |
+| **0.50%** | 4 of 12 | -19% | **$12.81** | $0.63 | 99.9% | 9.5% |
+| 1.00% | 5 of 12 | -38% | $7.22 | $0.05 | 99.3% | 28.9% |
+| 2.00% | 8 of 12 | -75% | $0.22 | $0.00 | 94.2% | 59.9% |
+| 3.00% | 10 of 12 | **-113%** | $0.00 | $0.00 | 97.0% | 81.3% |
+| 5.00% | 11 of 12 | -188% | $0.00 | $0.00 | 100.0% | 99.7% |
+
+**The median peaks at 0.50% and collapses.** By 2% it is $0.22; by 3% the worst single
+historical position (-37.7R) exceeds the whole account, and 1 trade in 7,280 is worse
+than -100% (1 in 161 at 5% risk). **No risk level leaves the account un-crippled** -
+P(crippled) never falls below 94%.
+
+> **You cannot buy diversification with risk.** Betting bigger to fund more coins adds
+> variance faster than it adds independent bets.
+
+That is the third independent confirmation of the rule already in doc 00 - *"chasing
+return with risk RAISES the capital floor rather than lowering it"* - arriving this time
+from the ruin side rather than the drawdown side.
+
+**The one legitimate use of $5:** not a trading account, an INSTRUMENT. Real money on a
+real venue is the only way to verify fills, fees and slippage against what the backtest
+assumes. The demo order-path test cannot do that. $5 is a good instrumentation cost and
+a terrible investment.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
