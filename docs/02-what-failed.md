@@ -961,6 +961,51 @@ Also from the grid: the LONG multiplier barely matters in the tune window (0.25 
 1.00 all within 0.4 points) but matters clearly in the holdout, where 0.25 is best and
 1.00 is worst by 4.9 points. The existing long gate is doing real work.
 
+### RECHECKED by close date, and the drawdown claim shrinks (2026-09-20) — `backtest/bear_date.py`
+
+`bear_side.run` and `blend.run` both apply each trade's P&L in order of trade OPEN time -
+mistake #6. That bites hardest here, because shorts exit in hours on a 5xATR trail while
+pyramided longs run for weeks on 20xATR, so **changing the long/short mix changes the
+holding-period mix, which is exactly what an open-order curve mis-times.** The whole case
+for 3x was a drawdown shape, so it had to be rebuilt on a curve indexed by CLOSE DATE.
+
+| short mult | TUNE /mo | TUNE DD | HOLD /mo | HOLD DD | worst month | win% |
+|---|---|---|---|---|---|---|
+| 0.25 *(deployed)* | +27.13% | 72.6% | **+9.07%** | 76.9% | -32.8% | 38% |
+| 1.00 | +28.27% | 67.1% | +9.55% | 76.0% | -33.0% | 46% |
+| 2.00 | +29.65% | 59.4% | +9.93% | **75.6%** | -33.7% | 50% |
+| **3.00** | +30.85% | **54.5%** | **+10.07%** | 76.1% | -37.2% | 54% |
+| 4.00 | +31.90% | 57.2% | +9.99% | 78.7% | -43.5% | 58% |
+| 6.00 | +33.55% | 63.0% | +9.27% | 84.1% | -56.0% | 58% |
+
+**Three things change, two of them against the earlier write-up.**
+
+1. **The deployed config's honest holdout return drops from +13.17% to +9.07% per
+   month.** A 31% haircut, purely from fixing the compounding order. Every "+13%" figure
+   in this repo that came from `blend.run` carries the same defect.
+2. **The drawdown benefit is much smaller than claimed.** Holdout DD goes 76.9% -> 76.1%
+   at 3x - under one point, not the 4.6 points the trade-order run reported. The large
+   drawdown improvement (72.6% -> 54.5%) exists only in the TUNE window.
+3. **But the evidence got STRONGER in one way.** By trade order, holdout return was
+   monotone to the grid edge, which is no evidence at all. By date it has a real
+   **interior peak at 3x (+10.07%)**, falling to +9.99% at 4x and +9.27% at 6x. MAR also
+   peaks at 3x. An interior optimum agreed on by two different accounting methods is
+   worth more than a monotone slope.
+
+Also visible: the worst single month gets steadily worse - **-32.8% at 0.25x to -37.2% at
+3x to -56.0% at 6x**. So 3x buys ~1 point of monthly return and 16 points of monthly win
+rate for ~4.4 points of worst-month.
+
+**Neither method is correct.** Trade-order scrambles time; close-date books a
+twenty-week trade's entire P&L on a single day, which inflates daily variance. True
+drawdown needs bar-level mark-to-market of open positions, which no file here does. What
+the two methods AGREE on is the direction and the location: **leaning short in a bear
+helps, and the useful range is 2x-3x.** What they disagree on is how much drawdown it
+saves, so that part should not be quoted.
+
+**Revised recommendation: 0.25 long / 3.0 short, claimed as +1 point of monthly return
+and a better win rate, NOT as a drawdown fix.**
+
 ### Before shipping
 
 - Only three short multipliers were tried (0.25 / 1.00 / 2.00). 2.00 beats the other two;
