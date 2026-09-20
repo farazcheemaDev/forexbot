@@ -269,3 +269,83 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# --------------------------------------------------------------------------- #
+#  ADDED 2026-09-20 — the multiplier sweep, with the smoothness test that
+#  decides whether it is evidence or fitting. docs/00 set the standard when
+#  the breakeven threshold was swept: "All 12 cells reduced drawdown, and both
+#  risk levels peaked at the same place on a smooth curve ... A smooth
+#  single-peaked response at a consistent location is evidence; a lone good
+#  cell surrounded by bad ones is curve fitting."
+# --------------------------------------------------------------------------- #
+LONGS = (0.00, 0.25, 0.50, 1.00)
+SHORTS = (0.25, 0.50, 1.00, 1.50, 2.00, 3.00, 4.00, 6.00)
+
+
+def sweep():
+    tr, stops = all_trades()
+    ts_all = pd.DatetimeIndex(sorted(x[0] for x in sleeve_sided("1h")[0]))
+    cut = ts_all[int(len(ts_all) * 0.6)]
+
+    sides = {}
+    bear = blend.btc_bear()
+    for a_, _b, r, _rule, _c, side in tr:
+        try:
+            ib = bool(bear.asof(a_))
+        except Exception:
+            ib = False
+        sides.setdefault((side, ib), []).append(r)
+    sb = np.array(sides.get(("short", True), []))
+    print(f"WHAT A BIG SHORT MULTIPLIER ACTUALLY RISKS")
+    print(f"  shorts are ONE unit, no pyramid. Worst short-in-bear trade: "
+          f"{sb.min():+.2f}R   1st pct {np.percentile(sb,1):+.2f}R")
+    print(f"  base risk 0.30%/unit, so a multiplier of:")
+    for m in (2, 3, 4, 6):
+        print(f"    {m}x -> {0.30*m:.2f}% per unit, worst single short = "
+              f"{sb.min()*0.30*m/100*100:+.1f}% of equity")
+    print()
+
+    print("HOLDOUT %/month  (rows = long mult in bear, cols = short mult in bear)")
+    hdr = "  long |" + "".join(f"{s:>8.2f}" for s in SHORTS)
+    print(hdr)
+    grids = {}
+    for lm in LONGS:
+        row_h, row_d, row_t = [], [], []
+        for sm in SHORTS:
+            a = run(tr, stops, (lm, sm), t_to=cut)
+            b = run(tr, stops, (lm, sm), t_from=cut)
+            row_t.append(a["hpm"] if a else float("nan"))
+            row_h.append(b["hpm"] if b else float("nan"))
+            row_d.append(b["dd"] if b else float("nan"))
+        grids[lm] = (row_t, row_h, row_d)
+        print(f"  {lm:>4.2f} |" + "".join(f"{v:>+8.2f}" for v in row_h))
+    print()
+    print("HOLDOUT max drawdown %")
+    print(hdr)
+    for lm in LONGS:
+        print(f"  {lm:>4.2f} |" + "".join(f"{v:>8.1f}" for v in grids[lm][2]))
+    print()
+    print("TUNE %/month  (does the tune window agree on where the peak is?)")
+    print(hdr)
+    for lm in LONGS:
+        print(f"  {lm:>4.2f} |" + "".join(f"{v:>+8.2f}" for v in grids[lm][0]))
+
+    print("\nSMOOTHNESS — the deployed long multiplier (0.25), short sweep:")
+    rt, rh, rd = grids[0.25]
+    print(f"  {'short':>7}{'tune /mo':>11}{'hold /mo':>11}{'hold DD':>10}"
+          f"{'hold MAR':>10}")
+    for sm, tv, hv, dv in zip(SHORTS, rt, rh, rd):
+        print(f"  {sm:>6.2f}x{tv:>+11.2f}{hv:>+11.2f}{dv:>9.1f}%"
+              f"{hv/dv*100:>10.2f}")
+    pk_t = SHORTS[int(np.nanargmax(rt))]
+    pk_h = SHORTS[int(np.nanargmax(rh))]
+    pk_m = SHORTS[int(np.nanargmax([h/d for h, d in zip(rh, rd)]))]
+    print(f"\n  peak return: tune at {pk_t}x, holdout at {pk_h}x   "
+          f"| peak MAR on holdout at {pk_m}x")
+    if pk_t == pk_h:
+        print("  BOTH HALVES PEAK IN THE SAME PLACE — that is the smooth, consistent")
+        print("  response docs/00 calls evidence rather than fitting.")
+    else:
+        print("  THE HALVES PEAK IN DIFFERENT PLACES. Take the smaller of the two and")
+        print("  treat the difference as the width of your ignorance.")

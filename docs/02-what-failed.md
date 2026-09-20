@@ -912,6 +912,55 @@ hedge was being shrunk in the only regime where it pays.** Doubling it there cut
 drawdown, and lower drawdown compounds into higher return. The gain is risk management,
 not a new edge.
 
+### The multiplier sweep, and why 3x is the defensible number (2026-09-20)
+
+**First, what a big short multiplier actually risks.** Shorts are ONE unit on a 5xATR
+trail with breakeven at 3R - no pyramid. The **worst short-in-bear trade in the whole
+sample is -1.19R** (1st percentile -1.11R). So:
+
+| multiplier | risk per unit | worst single short |
+|---|---|---|
+| 2x | 0.60% | -0.7% of equity |
+| 3x | 0.90% | -1.1% |
+| 4x | 1.20% | -1.4% |
+| 6x | 1.80% | -2.1% |
+
+**That is the whole reason this sweep can go so high.** A pyramided long can lose 20R at
+breakeven and 37.7R at worst; a short's loss is bounded near -1.2R. 6x on shorts is not
+remotely 6x on longs.
+
+**The curve at the deployed long multiplier (0.25):**
+
+| short mult | tune /mo | holdout /mo | holdout DD | holdout MAR |
+|---|---|---|---|---|
+| 0.25 *(deployed)* | +29.23% | +13.17% | 75.2% | 17.53 |
+| 1.00 | +30.47% | +13.96% | 73.4% | 19.01 |
+| 2.00 | +32.07% | +14.91% | 71.5% | 20.87 |
+| **3.00** | +33.59% | **+15.75%** | **70.6%** | 22.31 |
+| 4.00 | +35.03% | +16.47% | 72.4% | **22.75** |
+| 6.00 | +37.69% | +17.58% | 79.5% | 22.12 |
+
+**Return is MONOTONE to the edge of the grid.** That is not a peak - it is "6x was the
+largest value tested". `bear_side.sweep()` printed *"both halves peak in the same place,
+that is evidence"*, and **that logic is wrong at a grid boundary**: a monotone response
+has no interior optimum and says nothing about where to stop.
+
+**Drawdown is what has a real optimum.** It falls to a minimum at **3x (70.6%)** and then
+rises - 72.4% at 4x, 79.5% at 6x. That U-shape IS the smooth single-peaked response
+docs/00 calls evidence, and it is the number to trust.
+
+So: **3x minimises drawdown, 4x maximises MAR, and return keeps climbing past both**
+because past 3x you are no longer sizing a hedge, you are adding a +0.081R book at size.
+The drawdown turn is where that crossover happens.
+
+**Recommendation: 0.25 long / 3.0 short in bears.** +15.75%/mo against +13.17%
+deployed, at 70.6% drawdown against 75.2%. 4x is defensible on MAR; 6x is off the grid
+edge and should not be trusted.
+
+Also from the grid: the LONG multiplier barely matters in the tune window (0.25 / 0.50 /
+1.00 all within 0.4 points) but matters clearly in the holdout, where 0.25 is best and
+1.00 is worst by 4.9 points. The existing long gate is doing real work.
+
 ### Before shipping
 
 - Only three short multipliers were tried (0.25 / 1.00 / 2.00). 2.00 beats the other two;
