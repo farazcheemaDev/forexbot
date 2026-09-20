@@ -740,6 +740,61 @@ a terrible investment.
 
 ---
 
+## REOPENED: silver is fundable at $25, not $15,869 (2026-09-20)
+
+`backtest/forex.py` found exactly one instrument outside crypto that survives: **silver**,
+positive in BOTH halves and stronger out of sample (meanR +0.226, PF 1.28 on 1h;
++0.195, PF 1.26 on 4h; in-sample +0.076 -> holdout +0.458). It was parked because
+"minimum lot sizes make small capital unusable" - Exness's 0.01 lot is 50 oz, which is
+$47.61 of risk on a 2xATR stop.
+
+**That was a broker artifact, not a market constraint.** Verified live from the Binance
+futures API on 2026-09-20:
+
+| venue | minimum | equity needed at 0.30% risk/unit |
+|---|---|---|
+| Exness (0.01 lot = 50 oz) | 50 oz | **$15,869** |
+| **Binance XAGUSDT perp** | **$5 notional**, step 0.001 | **$25.22** |
+
+**629x.** And it is liquid: **$145M of 24h quote volume, 73,130 trades**. Gold
+(XAUUSDT, $258M/day) and tokenised gold (XAUTUSDT) list too.
+
+Funding, from 500 periods of history: **XAGUSDT +0.322bp/8h mean (+3.5%/yr paid by
+longs), median 0.000bp** with occasional spikes to +3.99bp. XAUUSDT +0.247bp/8h. A real
+but modest cost, and income on the short side.
+
+**This is the second time the identical error appeared today.** The options premium was
+filed under "needs ~$2,000 per contract" on a Deribit figure when Binance's minimum was
+$24.46. Silver was filed under "minimum lot sizes make small capital unusable" on an
+Exness figure when Binance's minimum was $5 of notional. **A capital floor quoted from
+ONE venue is not a capital floor.** Both entries were wrong in the same direction, and
+in both cases nobody had checked a second venue.
+
+### Why this matters more than the floor
+
+The crypto blend's weakness is measured: most of its lifetime profit is 2021 and 2024,
+with 2025 and 2026 earning a small fraction. **Metals trended in 2025-2026 precisely
+when crypto did not.** A validated trend strategy on a different asset class is the
+textbook second stream - and a second uncorrelated stream is the only thing in finance
+that cuts drawdown without cutting return.
+
+### What has to be tested before believing it
+
+1. **Re-cost it on Binance.** forex.py charged MT5 spread (9.52bp round trip) plus swap.
+   Binance perp is ~10bp round trip taker, ~4bp maker, plus 3.5%/yr funding on longs.
+   Similar, but it must be measured rather than assumed.
+2. **Measure the correlation** of the silver sleeve's monthly returns against the blend's.
+   That is the entire point, and it must be computed on CALENDAR months.
+3. **Regime risk.** Silver passes the test gold failed - positive in both halves, not
+   just the recent one. But its holdout half is 6x stronger than its in-sample half, and
+   that holdout coincides with the metals bull market. It is one instrument, on one
+   signal family, in one regime that has been kind.
+
+The XAGUSDT perp itself only onboarded 2026-01-07, so the backtest must use the 6.6
+years of MT5 bars for signal and the perp only for cost and execution.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
