@@ -1070,6 +1070,74 @@ only surviving improvement from today's work is the 3.0x short multiplier in bea
 
 ---
 
+## Dead: relative-value dispersion as a bear trade (2026-09-20) — `backtest/bear_alpha.py`
+
+The last untested structural shape for earning when crypto falls. Every prior short test
+shorted a coin outright, fighting crypto's upward drift and paying funding. This one is
+RELATIVE: long BTC, short the alts, dollar-neutral, only while the regime gate says bear.
+The market factor cancels, so it needs only alts to fall FURTHER than BTC.
+
+| book | months | geo/month | median | up% | maxDD |
+|---|---|---|---|---|---|
+| deployed crypto book *(reference)* | 80 | +24.44% | -1.17% | 48% | 76.4% |
+| bear: long BTC / short alts, GROSS | 73 | +0.19% | +0.26% | 55% | 22.2% |
+| **bear: net of fees** | 78 | **+0.04%** | +0.04% | 50% | 23.3% |
+| bull mirror: long alts / short BTC, net | 78 | +0.74% | -0.11% | 45% | 32.6% |
+
+**+0.04% per month is zero.** Weekly turnover 0.50, so fees take almost the entire gross.
+
+### And it loses in the year it was built for
+
+| year | deployed | bear dispersion | bull mirror |
+|---|---|---|---|
+| 2021 | +1,612% | -9.3% | **+109.0%** |
+| 2022 | +62% | +10.2% | -3.9% |
+| 2023 | +622% | +17.3% | +3.6% |
+| 2024 | +1,359% | -10.6% | +5.3% |
+| 2025 | +196% | +20.7% | -8.4% |
+| **2026** | +42% | **-14.0%** | -18.1% |
+
+**2026 - the current non-trending year, the exact conditions this was meant to exploit -
+is the bear leg's worst.** And the bull mirror's entire lifetime profit is 2021's alt
+season; it is negative in 4 of 7 years. Monthly correlation with the deployed book is
+-0.010, genuinely zero - but an uncorrelated stream that returns nothing is worth nothing.
+
+### Correcting my own tool, for the second time today
+
+`bear_alpha.main()` printed **"BOTH DIRECTIONS WORK - that is a dispersion edge"** because
+its verdict test was `cumulative > 1`. A +0.04%/month result passes that and is
+indistinguishable from zero. Earlier the same day `bear_side.sweep()` printed "both halves
+peak in the same place, that is evidence" at a grid boundary, where a monotone response is
+no evidence at all. **Both verdict functions were too lax, and in both cases the tables
+contradicted the verdict line.** Read the tables.
+
+### Part 1: the regime gate is a detector, and a noisy one
+
+Months tagged by the gate's state at their start:
+
+| month started in | n | mean | median | up% | sum |
+|---|---|---|---|---|---|
+| bull | 46 | +66.6% | **+0.85%** | 50% | +3,063% |
+| bear | 34 | +31.2% | **-2.56%** | 44% | +1,062% |
+
+It does discriminate - positive median in bull-start months, negative in bear-start
+months, and 74% of the profit sum in bull months. But **the gate flipped state 41 times in
+80 months, once every 2 months.** It identifies that a trend has begun, late and with
+whipsaw. **There is no predictor here and there is no point building one.**
+
+### The conclusion for bear markets, now settled
+
+Five independent attempts at a crypto short edge: 19 indicator families (none), the short
+sleeve (+0.081R, a hedge), taker flow (retracted), crowd positioning (beta), and now
+relative-value dispersion (+0.04%/mo). **Crypto does not offer a retail-accessible short
+edge.**
+
+**What DID earn in 2026:** silver, +135%, while crypto made +14% and the dispersion trade
+lost 14%. The answer to "how do we earn when crypto falls" is not a crypto short - it is
+not crypto. See the silver entry above.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
