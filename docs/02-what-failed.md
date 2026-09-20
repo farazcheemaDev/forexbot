@@ -1138,6 +1138,75 @@ not crypto. See the silver entry above.
 
 ---
 
+## MEASURED for the first time: we keep 21% of peak (2026-09-21) — `backtest/giveback.py`
+
+Prompted by the live book: AVAX +89.2R open with its stop still at the entry price. Nobody
+had measured the obvious thing - for a position that reaches a peak of +X R, what does it
+actually close at? 5,628 long pyramid positions, deployed config, all three sleeves:
+
+| peak bucket | n | median peak | median exit | capture | sum exit | given back |
+|---|---|---|---|---|---|---|
+| 0-2R | 3,777 | +0.5 | -1.0 | -212% | -3,947 | +6,362 |
+| 2-5R | 624 | +3.1 | -4.1 | -129% | -2,126 | +4,176 |
+| 5-10R | 422 | +6.6 | **-6.1** | -92% | -1,927 | +4,889 |
+| 10-20R | 242 | +13.8 | **-10.1** | -73% | -2,114 | +5,555 |
+| **20-50R** | 227 | **+31.4** | **-12.4** | **-40%** | -2,330 | +9,786 |
+| 50-100R | 138 | +65.7 | +11.3 | 17% | +1,415 | +8,109 |
+| **100R+** | **198** | **+186.5** | **+79.2** | **42%** | **+30,141** | +31,186 |
+
+**Across everything: peak sum +89,176R, exit sum +19,113R. We keep 21% of peak and give
+back 70,063R.**
+
+### Two facts that are worse than "we give back a lot"
+
+**1. Every bucket from 5R to 50R closes NEGATIVE on the median.** A position that showed
++31.4R at its peak closes at **-12.4R**. That is the pyramid plus the breakeven floor: it
+adds units on the way up, reverses, and the floor sits at the FIRST entry, so the added
+units lose 2R, 4R, 6R, 8R each.
+
+**2. 198 positions out of 5,628 - 3.5% - produce +30,141R against the book's total
++19,113R.** Everything below +50R of peak sums to **-12,444R**. The strategy is 3.5% of its
+trades carrying 158% of the profit, which is even more concentrated than the 1%/114%
+figure measured on trades.
+
+### Six more exit rules tested. All worse.
+
+A trail that leaves the 20xATR alone until a HIGH threshold, then tightens - the opposite
+of `pyramid_exits.py`'s ratchet, which started at +10R and taxed the whole distribution:
+
+| rule | positions | total R | vs deployed | median exit of >50R peaks |
+|---|---|---|---|---|
+| deployed | 5,628 | **+19,113** | - | +39.5 |
+| tighten above +80R to 0.5x | 6,068 | +14,932 | -4,181 | +46.8 |
+| tighten above +80R to 0.25x | 6,279 | +9,476 | -9,637 | **+58.3** |
+| tighten above +40R to 0.5x | 6,379 | +13,464 | -5,649 | +40.6 |
+| tighten above +20R to 0.25x | 7,409 | +5,974 | -13,139 | +43.1 |
+
+**Tightening DOES capture more of each big winner** - median exit on >50R peaks rises from
++39.5 to +58.3. **And total R falls anyway.** Look at the position count: 5,628 becomes
+6,279. Exiting a winner early does not bank the profit, it **puts you back in the queue for
+another entry**, and a fresh entry is a 77%-loser lottery. The giveback is not waste; it is
+the alternative to re-entry.
+
+### The reason no exit rule can work, stated properly
+
+**At the moment a position is at +31R, it is observationally identical to a 100R+ position
+passing through +31R on its way to +186R.** The median 20-50R position closes at -12.4R;
+the median 100R+ position closes at +79.2R; and at +31R they look the same. Any rule keyed
+on R must treat them identically.
+
+> **This is not a tuning problem, it is an identification problem.** Nine exit rules have
+> now been tested (profit target, scale-out, average-entry breakeven, uniform ratchet, and
+> five high-threshold trails). All of them lose, and they lose for the same reason: the
+> information needed to act is not present at the moment of acting.
+
+The only thing that could break the tie is a FEATURE at +20R that separates continuation
+from reversal - which is a new signal, not an exit rule. That is the one remaining version
+of this question and it is well defined: **among positions that first cross +20R, does
+anything predict which reach +100R?** If nothing does, the question closes permanently.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
