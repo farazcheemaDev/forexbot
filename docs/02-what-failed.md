@@ -645,6 +645,67 @@ independent, and the correct starting constraint for any future micro-capital se
 
 ---
 
+## Settled: 0.30% risk is correctly sized, and the $377 "floor" is not a survival line (2026-09-20) — `backtest/ruin.py`
+
+Every capital floor in this project came from MAX DRAWDOWN padded by 1/(1-DD). That is
+one historical worst case, not a probability. This computes the actual thing: block
+bootstrap (blocks of 25, so losing streaks survive resampling) of the strategy's own
+realised trade Rs, 20,000 paths per cell, against the real absorbing barriers - each
+coin needs `min_order x stop / risk` of equity before it can be sized, and those lines
+differ 500x across the book, so a falling account loses coins one at a time rather than
+dying.
+
+**On the REAL point-in-time trade distribution** (7,281 trades from the
+survivorship-free universe, delisted coins included, mean **+1.602R**, sd 57.37),
+starting from $221, after 600 trades (~2.5 months at the live rate):
+
+| risk/unit | median equity | 5th pct | P(crippled: <6 coins) | P(halved) | P(2x+) |
+|---|---|---|---|---|---|
+| 0.10% | $343 | $152 | 0.0% | 0.1% | 37.3% |
+| 0.20% | $458 | $105 | 0.0% | 6.1% | 51.0% |
+| **0.30% (deployed)** | **$526** | $68 | **0.0%** | 13.0% | 54.2% |
+| 0.50% | **$572** | $28 | 0.8% | 22.1% | 54.4% |
+| 0.75% | $483 | $9 | 6.3% | 30.6% | 51.1% |
+| 1.00% | $302 | $2 | 16.7% | 39.2% | 46.1% |
+
+**Growth-optimal is 0.50%; the deployed 0.30% captures 92% of it at a third of the
+cripple risk.** The deployed size is right. 1.00% is visibly past the optimum - median
+equity FALLS from $572 to $302 as risk doubles, which is the signature of over-betting.
+
+### A false alarm of mine, and what caused it
+
+A first pass used a SYNTHETIC haircut - every R shifted down until the mean was one
+third of the fixed-book mean - to stand in for the point-in-time edge. It reported
+**P(crippled) = 43.1%** at the deployed 0.30% and a median outcome of $221 -> $78, i.e.
+that the live bot was mis-sized by 6x. **That was an artifact of the haircut.**
+
+The 3.0x hindsight premium measured in `pit_universe.py` is on COMPOUNDED ANNUAL
+RETURN, not on mean R per trade. The real PIT mean is **+1.602R against the fixed
+book's +2.603R - a 1.6x haircut, not 3x** - and the PIT universe also has a FATTER
+right tail (best trade +4,437R against +1,804R), because it contains coins that mooned
+while they were eligible. Shifting a distribution down by a constant destroys that.
+
+The process worked - the result was flagged as method-dependent and verified before
+anything was changed - but the lesson is specific: **do not convert a return-level
+correction into a trade-level one by subtraction.** Use the real distribution.
+
+### The correction that matters more
+
+I have repeatedly described the deployed config as needing **$377** against $221 of
+capital, and called that a live defect. It is not a survival threshold.
+
+`floor = min_order x stop / risk / (1 - DD)` asks: *after the worst historical
+drawdown, can I still fund the DEAREST coin in the book?* At 0.30% risk the line where
+half the book becomes unfundable is **$18** - the account would have to fall 92% to get
+there, and P is 0.0% over 600 trades.
+
+> **$377 is a comfort level, not a floor.** At $221 a deep drawdown costs access to the
+> one or two most expensive coins (NEAR, ENA), not the book. So 8 slots versus 12 is a
+> RETURN question, not a survival question, and the earlier framing of it as a defect
+> was wrong.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
