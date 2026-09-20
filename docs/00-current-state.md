@@ -13,6 +13,48 @@ honest testing looks like. Most trading ideas do not work, and the ones that
 "work" in a sloppy test stop working the moment you charge real fees and stop
 cherry-picking which coins to trade.
 
+## The expected return, stated honestly (added 2026-09-20)
+
+**There is no single expected monthly return.** It is bimodal by regime, and quoting one
+number hides that. Compounded by close date (mistake #6 fixed), deployed config, raw and
+then divided by the 3.0x hindsight premium:
+
+| window | months | geo /month raw | median month | months up | /3 hindsight |
+|---|---|---|---|---|---|
+| 2020-2026 (all) | 80 | +24.44% | -1.17% | 48% | **+14.84%** |
+| 2020-2024 only | 59 | +32.50% | +1.81% | 51% | +21.57% |
+| **2025-2026 only** | 21 | **+4.32%** | **-6.70%** | 38% | **+1.67%** |
+| 2026 only | 9 | **-2.41%** | -10.78% | **11%** | -0.73% |
+
+Summed monthly return by year, raw: 2020 +231%, 2021 **+1,612%**, 2022 +62%,
+2023 +622%, 2024 **+1,359%**, 2025 +196%, 2026 +42%.
+
+**Read 2026 carefully: it SUMS to +42% and COMPOUNDS to -2.41% per month**, because only
+1 of 9 months was up. A positive sum of monthly returns is not a positive return -
+volatility drag eats it. That distinction is the single most misleading thing about every
+"%/month" figure in this repo.
+
+### So what should be expected
+
+- **Trending regime** (2021, 2024): 20%+ per month.
+- **Non-trending regime** (2022, 2025, 2026): roughly **0-4% per month**, and 2026 alone
+  compounds NEGATIVE.
+- **Full-history blend: ~15%/month** - but that is an average of two worlds that is never
+  experienced as an average.
+- **The median month is NEGATIVE in every recent window.**
+
+**Planning number: assume 0-4%/month and treat the big months as a bonus.** The
++10.73%/month headline elsewhere in this doc is a full-history figure carried by 2021 and
+2024. It is not wrong; it is not what the last two years delivered.
+
+This also qualifies `backtest/ruin.py`: its median outcome of $221 -> $540 over 600 trades
+block-bootstraps all history at equal weight, which gives 2021 and 2024 far more weight
+than a 2025-2026-like stretch would. In the current regime, expect much less.
+
+> **Regime dependence is not a defect, it is the receipt for the return** (doc 02). The
+> strategy's job is to be positioned when the trend arrives. Between times it treads
+> water, and "between times" has been most of the last two years.
+
 ## The numbers
 
 | | |
