@@ -795,6 +795,75 @@ years of MT5 bars for signal and the perp only for cost and execution.
 
 ---
 
+## PROMISING, not proven: silver as a second book (2026-09-20) — `backtest/silver_pair.py`
+
+### Silver survives Binance's costs
+
+| cost model | trades | meanR | PF | in-sample | holdout |
+|---|---|---|---|---|---|
+| MT5 (what forex.py charged) | 1,015 | +0.749 | 1.62 | +0.103 | +1.718 |
+| **Binance TAKER** (10bp + 0.97bp/night funding) | 1,015 | **+0.746** | 1.62 | +0.099 | +1.717 |
+| Binance MAKER (4bp) | 1,015 | +0.811 | 1.70 | +0.166 | +1.779 |
+
+The venue change is free: Binance funding (+0.322bp/8h measured over 500 periods) is
+CHEAPER than Exness swap, and the fee is unchanged. Note these Rs are per POSITION of up
+to 5 pyramid units, so they are not comparable to forex.py's single-unit +0.226.
+
+### The correlation is genuinely zero
+
+**Monthly correlation with the crypto blend: -0.042 over 80 overlapping months.** Not
+low - zero. And the by-year table shows why:
+
+| year | crypto | silver |
+|---|---|---|
+| 2020 | +299% | **+77%** |
+| 2021 | +1,783% | **-26%** |
+| 2022 | +2% | **-37%** |
+| 2023 | +673% | +12% |
+| 2024 | +1,423% | +6% |
+| 2025 | +103% | **+61%** |
+| **2026** | **+14%** | **+135%** |
+
+**They alternate.** Crypto earns in 2021/2023/2024; silver earns in 2020/2025/2026 - and
+2026, crypto's worst year, is silver's best by a wide margin.
+
+### The pair does cut drawdown
+
+| book | /month | maxDD | return/DD |
+|---|---|---|---|
+| crypto only | +22.25% | 90.9% | 0.245 |
+| **75/25 crypto/silver** | **+20.42%** | **76.2%** | **0.268** |
+| 50/50 | +16.94% | 64.3% | 0.263 |
+| silver only | +1.83% | 56.9% | 0.032 |
+
+**90.9% -> 76.2% of drawdown for 1.8 points of monthly return.** That is the first
+risk improvement found in two weeks that does not come out of the return.
+
+### Why it is NOT proven
+
+1. **Silver's edge is 17x stronger in its holdout than in-sample** (+0.099 -> +1.717),
+   and that holdout is the metals bull market. Gold was killed for this exact pattern -
+   gold was NEGATIVE in-sample, silver is barely positive. That is a thin distinction.
+2. **Silver lost money in 2021 and 2022** and made almost everything in 2025-2026. Two
+   good years is not a track record.
+3. **Silver wins only 28% of months.** As a standalone book it is close to worthless
+   (+1.83%/mo at 56.9% DD); its entire value here is the correlation.
+4. **The crypto series in this test omits the regime gate.** `blend.run`'s raw R was used
+   without the x0.25 BTC-bear multiplier, so crypto's +22.25%/month and 90.9% drawdown
+   are both inflated relative to the deployed config's ~13%/mo and ~75%. The correlation
+   is unaffected and the relative drawdown improvement should hold, but the absolute
+   levels in the tables above are not the deployed numbers.
+5. The XAGUSDT perp itself only listed 2026-01-07, so live execution on it is unproven.
+
+### What to do
+
+Paper-trade it alongside the crypto blend. It costs nothing, it needs $25 of capital
+rather than $15,869, and it answers the only open question - whether silver earns outside
+the metals bull - in real time rather than by argument. Do not size it as a second engine;
+size it as the insurance the numbers say it is.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
