@@ -1207,6 +1207,78 @@ anything predict which reach +100R?** If nothing does, the question closes perma
 
 ---
 
+## CLOSED: the runner is identifiable and still not tradable (2026-09-21) — `backtest/runner_id.py`, `backtest/runner_pnl.py`
+
+The last version of the exit question. `giveback.py` established that at +20R a position
+heading for -12R and one heading for +186R are observationally identical, so the only
+remaining hope was a FEATURE that separates them.
+
+**563 positions crossed +20R. 198 (35%) went on to +100R.** Runners close at **+79.2R**
+median, the rest at **-5.3R**. Perfect foresight - closing the 365 non-runners at +20R -
+would be worth **+9,246R against the book's lifetime +19,113R**. A 48% improvement. The
+prize was real.
+
+### A feature does separate them, and it survives everything
+
+Eight features declared before looking, Holm-corrected, then held out by date:
+
+| feature | runners | others | AUC | p | Holm |
+|---|---|---|---|---|---|
+| **atr_ratio** (ATR now / ATR at entry) | **1.948** | **1.783** | **0.604** | **0.003** | **0.028** |
+| ext_ma | 1.249 | 1.195 | 0.565 | 0.004 | 0.028 |
+| btc_bear | 0.096 | 0.188 | 0.454 | 0.028 | 0.170 |
+| coin_30 | 0.213 | 0.170 | 0.544 | 0.055 | 0.276 |
+| bars_held, r_per_bar, units, btc_30 | - | - | 0.45-0.55 | 0.20-0.87 | 1.000 |
+
+**Holdout: `atr_ratio` HOLDS with a HIGHER AUC out of sample - 0.604 -> 0.647, p=0.001.**
+`ext_ma` does not (AUC 0.513). So volatility expansion since entry genuinely predicts
+which positions run.
+
+**Both registered predictions were wrong.** I said `r_per_bar` would be best - it measured
+nothing (AUC 0.546, p=0.811). And I said any survivor would be a REGIME feature; this is a
+position feature.
+
+### Using it loses money at every threshold
+
+Exit at the CLOSE of the crossing bar (never its high) when volatility has not expanded,
+with re-entries allowed to happen normally - which is what makes this P&L rather than a
+statistic:
+
+| rule | positions | total R | vs deployed |
+|---|---|---|---|
+| **deployed (hold everything)** | 5,628 | **+19,113** | - |
+| exit if atr_ratio < 1.5 | 6,141 | +17,945 | -1,168 |
+| exit if atr_ratio < 1.8 | 6,745 | +13,115 | **-5,999** |
+| exit if atr_ratio < 1.9 | 6,958 | +11,470 | -7,643 |
+| exit if atr_ratio < 2.5 | 7,907 | +6,207 | -12,907 |
+
+**Monotonically worse the more the filter is used** - and 1.8-1.9 is precisely where the
+two distributions part, so this is not a bad threshold choice. It is the rule.
+
+### Why a real feature still cannot be used
+
+Two costs, and together they swamp an AUC of 0.647:
+
+1. **The error asymmetry.** Exiting a true runner at +20R gives up **59.2R** (79.2 - 20).
+   Saving a true reversal gains **25.3R** (20 - -5.3). You lose 2.3x more when wrong than
+   you gain when right, and at AUC 0.647 you are wrong about a third of the time in each
+   direction.
+2. **There is no cash state.** Position count rises 5,628 -> 7,907. Exiting does not bank
+   the profit, it returns you to the queue, and the next entry is a 77%-loser lottery. The
+   same mechanism killed the six high-threshold trails.
+
+> **Ten exit rules have now been tested and all ten lose.** Profit target, scale-out,
+> average-entry breakeven, uniform ratchet, five high-threshold trails, and a
+> statistically validated runner-detector. **The 21% capture is not a defect to be
+> engineered away - it is the strategy.**
+
+**This question is closed.** Hold everything, keep 21% of peak, and stop looking for an
+exit rule. Any future idea here must first explain how it beats the 2.3:1 error asymmetry
+AND the re-entry drag, because those two facts kill every rule regardless of how good its
+signal is.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
