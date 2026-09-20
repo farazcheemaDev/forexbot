@@ -440,6 +440,55 @@ def log_trade(row: dict):
         f.write(",".join(str(row[k]) for k in row) + "\n")
 
 
+def actual_fill(ex, order, sym, side_closing: str, fallback: float):
+    """The price a close REALLY filled at, with the source recorded.
+
+    THE DEFECT THIS FIXES (2026-09-21). This bot exists to verify that real orders
+    fill where the backtest assumes they do, and it was never recording a real fill
+    on any path:
+
+      * a TRAIL exit logged `exit = rec["stop"]` - the price we WANTED - and then
+        sent a market order whose actual fill was never read.
+      * a position closed by the exchange stop logged `exit = ""` and `R = ""`,
+        so 4 of the first 6 trades carry no result at all.
+
+    Without this the order-path test can run for months and still say nothing about
+    slippage, which is the only reason it exists.
+
+    Three sources, best first. Every one is wrapped: a RECORDING improvement must
+    never be able to break the trading loop, so any failure falls back to the
+    assumed price and says so.
+    """
+    # 1. the order response itself - present for market orders on most venues
+    if isinstance(order, dict):
+        for k in ("average", "price"):
+            v = order.get(k)
+            if v:
+                try:
+                    return float(v), k
+                except (TypeError, ValueError):
+                    pass
+    # 2. re-read the order by id
+    if isinstance(order, dict) and order.get("id") and ex:
+        try:
+            o = ex.fetch_order(order["id"], sym)
+            for k in ("average", "price"):
+                if o.get(k):
+                    return float(o[k]), f"fetch_order.{k}"
+        except Exception:
+            pass
+    # 3. the fill history - the only route when the EXCHANGE closed the position
+    if ex:
+        try:
+            tr = ex.fetch_my_trades(sym, limit=20) or []
+            for t in reversed(tr):
+                if str(t.get("side", "")).lower() == side_closing and t.get("price"):
+                    return float(t["price"]), "fetch_my_trades"
+        except Exception:
+            pass
+    return float(fallback), "assumed"
+
+
 def cycle(ex, st: dict, dry: bool):
     # SIZE AS IF THE ACCOUNT HELD `VIRTUAL_EQUITY`, while trading the real balance.
     #
@@ -477,9 +526,19 @@ def cycle(ex, st: dict, dry: bool):
         if rec and not on_exchange and ex:
             log(f"[{base}] position gone from exchange - exchange stop fired or "
                 f"was closed manually. Clearing local record.")
+            d_ = 1 if rec.get("side", "long") == "long" else -1
+            want = float(rec.get("stop", rec["entry"]))
+            got, src = actual_fill(ex, None, demo_sym,
+                                   "sell" if d_ > 0 else "buy", want)
+            R_ = (got - rec["entry"]) * d_ / rec["risk"] if rec.get("risk") else 0.0
+            slip = (got - want) / want * 1e4 * d_ if want else 0.0
+            log(f"[{base}] recovered exit {got:.6f} from {src}  R={R_:+.2f}  "
+                f"slip {slip:+.1f}bp vs the {want:.6f} stop")
             log_trade(dict(ts=f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M:%S}",
-                           symbol=base, entry=rec["entry"], exit="",
-                           reason="EXCHANGE_STOP_OR_MANUAL", R="",
+                           symbol=base, entry=f"{rec['entry']:.6f}",
+                           exit=f"{got:.6f}", exit_intended=f"{want:.6f}",
+                           exit_src=src, R=f"{R_:+.4f}", slip_bp=f"{slip:+.1f}",
+                           reason="EXCHANGE_STOP_OR_MANUAL",
                            bars=rec.get("bars", 0)))
             st["open"].pop(raw, None)
             rec = None
@@ -580,21 +639,34 @@ def cycle(ex, st: dict, dry: bool):
                 log(f"[{base}] TRAIL HIT ({rec['side']}) -> exiting at market. "
                     f"entry {rec['entry']:.4f} stop {rec['stop']:.4f} R={R:+.2f} "
                     f"after {rec['bars']} bars")
+                got, src = exit_px, "assumed"
                 if not dry and ex:
                     try:
-                        ex.create_order(demo_sym, "market",
-                                        "sell" if d > 0 else "buy",
-                                        rec["size"], None,
-                                        {"reduceOnly": True})
+                        o = ex.create_order(demo_sym, "market",
+                                            "sell" if d > 0 else "buy",
+                                            rec["size"], None,
+                                            {"reduceOnly": True})
                     except Exception as e:
                         log(f"[{base}] EXIT ORDER FAILED: {str(e)[:160]} - "
                             f"position left open, exchange stop still in place")
                         st["open"][raw] = rec
                         continue
+                    # the ACTUAL fill, not the price we asked for. Without this the
+                    # order-path test measures nothing - see actual_fill().
+                    got, src = actual_fill(ex, o, demo_sym,
+                                           "sell" if d > 0 else "buy", exit_px)
+                R_got = (got - rec["entry"]) * d / rec["risk"]
+                slip = (got - exit_px) / exit_px * 1e4 * d if exit_px else 0.0
+                if src != "assumed":
+                    log(f"[{base}] filled {got:.6f} vs {exit_px:.6f} wanted "
+                        f"({src}) -> R {R:+.2f} intended, {R_got:+.2f} actual, "
+                        f"slip {slip:+.1f}bp")
                 log_trade(dict(ts=f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M:%S}",
                                symbol=base, entry=f"{rec['entry']:.6f}",
-                               exit=f"{exit_px:.6f}", reason="TRAIL",
-                               R=f"{R:+.4f}", bars=rec["bars"]))
+                               exit=f"{got:.6f}", exit_intended=f"{exit_px:.6f}",
+                               exit_src=src, R=f"{R_got:+.4f}",
+                               slip_bp=f"{slip:+.1f}", reason="TRAIL",
+                               bars=rec["bars"]))
                 st["open"].pop(raw, None)
             else:
                 log(f"[{base}] HOLD {rec['bars']}b  entry {rec['entry']:.4f}  "

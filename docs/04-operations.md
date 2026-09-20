@@ -212,3 +212,41 @@ entirely by a couple of enormous winners.
 That is not an edge, it is a missing exit. Trend-following tests belong in
 `backtest/convex.py`, which has real trails. Use `fee_abs` for forex (spread in price
 units — gold ≈0.30, EURUSD ≈0.00010), not `fee_bp`.
+
+## The demo order-path test records real fills now (2026-09-21)
+
+`longtrend_bot.py` exists to verify that real orders fill where the backtest assumes.
+It was not recording a real fill on ANY path:
+
+* a TRAIL exit logged `exit = rec["stop"]` - the price we wanted - then sent a market
+  order whose actual fill was never read.
+* a position closed by the exchange stop logged `exit = ""` and `R = ""`. **4 of the
+  first 6 trades carried no result at all.**
+
+`actual_fill()` now recovers the price from three sources, best first: the order
+response (`average`/`price`), then `fetch_order` by id, then `fetch_my_trades`. Every
+one is wrapped - a recording improvement must never break the trading loop - and a
+total failure falls back to the assumed price and labels itself `assumed`.
+
+**The trade CSV schema changed**, so the old 6 rows were rotated to
+`logs/trades_longtrend_v1_noslip.csv`. New columns:
+
+```
+ts, symbol, entry, exit, exit_intended, exit_src, R, slip_bp, reason, bars
+```
+
+`exit` is now the real fill, `exit_intended` the price asked for, `slip_bp` the
+difference signed so negative is worse for us, and `exit_src` says which of the three
+sources produced it. **Read `exit_src`: a column full of `assumed` means the venue is
+not returning fills and the test is still measuring nothing.**
+
+### What this test can and cannot tell you
+
+**Bitget's demo lists only 3 contracts - SBTC, SETH, SXRP.** It cannot be widened to
+the 12-coin book; the bot's own startup banner says so. So it verifies the ORDER PATH
+(orders place, stops fire, fills get recorded) on the two most liquid coins on earth.
+It does **not** measure slippage on ENA, WLD, SUI or ARB, which is what going live at
+$200 would actually depend on. At 0.86 trades/day it also needs ~6 weeks for 30 fills.
+
+For slippage on the real book the options are a venue whose testnet lists the actual
+symbols (Binance futures testnet does), or a small real account. Neither is built.
