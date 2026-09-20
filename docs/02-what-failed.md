@@ -598,6 +598,53 @@ trade. Until that runs, this is a measured effect, not an edge.
 
 ---
 
+## Dead: crowd positioning as a book (2026-09-20) — `backtest/crowd_ls.py`
+
+The second and last lead from the positioning archive, tested as a PORTFOLIO first
+this time rather than as a quintile spread - the lesson from the taker retraction.
+Contrarian on `count_long_short_ratio`, each coin against its own trailing 90 days,
+non-overlapping grids.
+
+**Gross, before any cost:**
+
+| hold | mode | turnover | gross/period tune | gross/period holdout |
+|---|---|---|---|---|
+| 12h | directional | 0.56 | **+0.1492%** | **+0.0280%** |
+| 12h | market-neutral | 0.40 | +0.0214% | **-0.0120%** |
+| 24h | directional | 0.74 | +0.2921% | **-0.0174%** |
+| 24h | market-neutral | 0.51 | +0.0157% | **-0.0512%** |
+
+One configuration - 12h directional - is positive gross in both halves. It dies anyway:
+
+| fee | tune CAGR | holdout CAGR | holdout Sharpe |
+|---|---|---|---|
+| 0bp | +88.8% (DD 35.2%, Sharpe 1.73) | **-4.8%** | 0.29 |
+| 3bp | +80.7% | -10.1% | 0.20 |
+| **12bp** | +58.6% | **-24.2%** | **-0.06** |
+
+**And the mode column is the whole story.** "Directional" allows net market exposure;
+"market-neutral" removes it. The neutral version measures **+0.0214% then -0.0120%** -
+nothing. So the tune window's +88.8% CAGR at Sharpe 1.73 is **beta, not alpha**: it is
+a long-biased book in a rising market, and it does not survive either the holdout or
+the removal of market exposure.
+
+Note also that gross +0.0280%/period produced a **-4.8% CAGR** in the holdout. The
+arithmetic mean of period returns is positive while the compounded result is negative -
+volatility drag. Mean per-period return is not a return.
+
+**Both leads from the positioning archive are now closed**, and the archive's headline
+result was an artifact of overlapping windows. The data itself (5,989,482 rows) stays
+cached and free; what it does not contain is an edge we can find.
+
+### The one thing carried forward from this whole line
+
+A book with **no stop** has a capital floor of **$6-8** for 4-8 positions, against the
+deployed blend's **$377**, because `min_order x stop_fraction / risk` is a ~40x
+amplifier that a position-sized book never enters. That is structural, signal-
+independent, and the correct starting constraint for any future micro-capital search.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
