@@ -488,7 +488,7 @@ expecting a step change from.
 
 ---
 
-## ALIVE, small: taker-flow continuation (2026-09-20) — `backtest/positioning.py`
+## RETRACTED same day: taker-flow continuation (2026-09-20) — `backtest/positioning.py`
 
 The first test in this project whose input is not price, and the first survivor in
 weeks. Binance's free positioning archive (`backtest/metrics_fetch.py`): **5,989,482
@@ -538,6 +538,57 @@ an institutional fantasy on the grounds that its edge lives in seconds and dies 
 discarded - but it has a longer horizon and a bigger effect than the survivor, and it
 deserves one dedicated test with its own registered prediction rather than a slot in a
 12-test family.
+
+### RETRACTION (2026-09-20, hours later) — `backtest/taker_ls.py`
+
+It became a portfolio and died **gross of all fees**, in two independent
+constructions:
+
+| construction | turnover/period | gross/period tune | gross/period holdout |
+|---|---|---|---|
+| cross-sectional L/S, k=3 | 1.31 | **-0.0009%** | -0.0009% |
+| time-series, directional | 1.55 | **-0.0182%** | -0.0013% |
+| time-series, market-neutral | 1.09 | **-0.0162%** | -0.0094% |
+
+At zero fees. Every row negative. The fee ladder is then irrelevant - 12bp takes it
+to -80%/yr and 3bp to -40%/yr, but there was nothing to charge fees against.
+
+**So the quintile spread was not an edge, it was a statistic that does not
+translate.** The likeliest reason is the one thing the across-coin t-test cannot fix:
+`positioning.py` measured on an HOURLY grid with 4-hour forward returns, so every
+observation overlapped the next three. Quintile membership persists across consecutive
+hours, which means far fewer independent episodes than the row count implies. Testing
+across coins corrects the standard error for correlation BETWEEN coins; it does
+nothing about overlap WITHIN a coin's own series. Re-sampled to a non-overlapping
+4-hour grid, the effect is gone.
+
+**The "10 of 11 coins agreeing" figure survived both a Holm correction and a holdout
+and was still not tradable.** That is the third time in this project a result passed
+correction and a holdout and was wrong anyway (see §19 in his_strategy.md, and
+mistake #9). Consistency across coins is not the same as consistency across
+independent time.
+
+### What IS worth keeping from this
+
+**The capital floor of a book with no stop.** Every floor in this project came from
+`min_order x stop_fraction / risk`, where an 8-15% stop against 0.30% risk is a ~40x
+amplifier. A position-sized book has no stop in that formula, so its floor is just the
+minimum orders of its open positions:
+
+| book | floor |
+|---|---|
+| the deployed blend (stop-sized) | **$377** |
+| a 6-position no-stop book (MEXC minimums) | **$8** |
+
+**That is a 47x difference, and it is structural rather than about this signal.** It is
+the first real answer to "what can $10-20 trade": not a stop-and-target strategy -
+those are priced out by construction - but a position-sized one. Any future search for
+a micro-capital strategy should start from that constraint rather than discover it at
+the end.
+
+The 5,989,482-row positioning archive is also now cached locally and reusable, and the
+`crowd` lead (+0.377% at 24h, 9 of 11 coins) has never been tested as a portfolio -
+though after today the prior on a quintile spread translating should be low.
 
 ### What has to happen before this is a strategy
 
