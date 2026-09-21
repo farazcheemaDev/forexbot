@@ -1754,6 +1754,50 @@ Copying it adds costs to a signal that is not there.
 
 ---
 
+## Answered: betting more in bull markets (2026-09-22) — `backtest/bull_boost.py`
+
+The idea: keep the x0.25 bear gate, and raise long risk *above* 1x while BTC is above its
+average. The control is raising risk uniformly in every regime. A bull-only boost is worth
+something only if it buys more return per point of drawdown than simply betting more.
+
+Every row also reports the account's **gross leverage** through time, built from each
+position's actual stop distance and the bar each pyramid unit was added.
+
+| 1000h gate (deployed) | tune /mo | DD | holdout /mo | DD | worst month | gross leverage p99 |
+|---|---|---|---|---|---|---|
+| **deployed (bull x1)** | +22.87% | 54% | **+11.63%** | 64% | -42.9% | **8.7x** |
+| bull x1.25 | +27.06% | 66% | +13.74% | 70% | -54.3% | 10.9x |
+| bull x1.5 | +30.77% | 75% | +15.51% | 76% | -65.8% | 13.0x |
+| bull x2 | +36.97% | 87% | +18.09% | 84% | -88.7% | 17.2x |
+| *uniform x1.25* | +28.14% | 64% | +13.62% | 72% | -53.6% | 10.9x |
+| *uniform x1.5* | +32.93% | 72% | +15.21% | 79% | -64.3% | 13.1x |
+| *uniform x2* | +41.22% | 84% | +17.32% | 88% | -85.8% | 17.5x |
+
+**Three findings:**
+
+1. **The regime condition adds nothing.** Bull-only and uniform boosts land in the same place:
+   slightly better on the holdout, slightly worse on the tune half. It is "bet more" with an
+   extra step.
+2. **Any boost breaks the leverage ceiling.** The deployed book already reaches **8.7x gross
+   at the 99th percentile** (9.6x at peak). x1.25 takes it to 10.9x, and x2 to 17x. This is
+   not tradable at the 10x setting, and `lev_test.py` showed liquidation turns destructive
+   above 10x.
+3. **The tail grows fast.** In a block bootstrap, the chance of an 80% drawdown within three
+   years is **0.9% deployed, 11% at x1.5, and 35% at x2**.
+
+**What this also uncovered: the research backtests used a different gate from the one
+deployed.** `blend.btc_bear()` uses a 200h average. The live bots have used 1000h since
+2026-09-14. On the 1000h gate the deployed config's holdout is **+11.63%/mo at 64% DD**,
+against **+9.07% at 77%** on the 200h gate that escalate, bear_date, bear_side and tradfi
+all used. The deployed book is better than those files reported. However, 1000h was
+chosen by a sweep that included this holdout period, so treat +11.63% as optimistic and
++9.07% as the conservative figure. Relative comparisons within any one file are unaffected.
+
+**The deployed sizing is at the ceiling already.** Returns grow only through more capital or
+a better edge. Leverage and risk have no room left.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
