@@ -1132,6 +1132,10 @@ sleeve (+0.081R, a hedge), taker flow (retracted), crowd positioning (beta), and
 relative-value dispersion (+0.04%/mo). **Crypto does not offer a retail-accessible short
 edge.**
 
+*(2026-09-21: one exception, and it is event-driven, not a book. When an old coin gets its
+first Binance perp, shorting it against BTC earned +10%/trade and passed a placebo. The
+events stopped in May 2025. See "Three new bear ideas" below.)*
+
 **What DID earn in 2026:** silver, +135%, while crypto made +14% and the dispersion trade
 lost 14%. The answer to "how do we earn when crypto falls" is not a crypto short - it is
 not crypto. See the silver entry above.
@@ -1443,6 +1447,101 @@ on the holdout. Three reasons it is not adopted:
   rejected even more often.
 
 Worth rechecking once the account is large enough that minimum order sizes stop binding.
+
+---
+
+## Three new bear ideas on every perp that ever existed (2026-09-21) — `backtest/perp_fetch.py`, `backtest/bear_shorts.py`
+
+Every earlier short test used today's 12-14 big coins. This one uses **all 864 USDT perps
+Binance ever listed, 339 of them dead**, with perp prices, 12bp, and the actual funding paid
+or received at every settlement. Each result is shown raw and as **excess** over shorting a
+point-in-time index of established perps for the same days, because shorting anything in
+2022 made money. t-statistics are computed across months.
+
+### 1. Shorting new listings: dead (registered primary failed)
+
+Primary, registered before the data: new token, short at the open of day 1, hold 30 days,
+stop at +100%.
+
+| | n | mean | median | win% | funding | t (months) | excess |
+|---|---|---|---|---|---|---|---|
+| all | 645 | +2.2% | **+11.3%** | 63% | -0.8% | +0.68 | +1.7% |
+| holdout | 258 | +1.6% | +4.2% | 59% | -1.1% | **-0.02** | -1.0% |
+| as a book (10 slots, 1x) | 386 taken | **+0.66%/mo** | | | | max DD 72% | worst month -66.6% |
+
+**The typical new listing does fall 11% in its first month. The average short still makes
+nothing**, because the few that double wipe out the rest. Without a stop it is a catastrophe:
+the worst single trade loses **-12,741%** of its notional. Best of 36 grid cells t = +1.90,
+which does not survive Holm. My prediction that 2021 would be the losing year was wrong;
+2024 was.
+
+### 2. Fading pumps: dead
+
+Short an established perp after +30% to +100% in 3-7 days: **22 of 24 cells have a negative
+mean.** The median is positive and the mean is negative in almost every cell, the same
+squeeze arithmetic as idea 1. This makes seven failed reversal ideas.
+
+### 3. Shorting the weakest coins: dead as a bear trade
+
+| weekly short, mean | bottom decile (30d) | everything | top decile |
+|---|---|---|---|
+| BTC-bear weeks | -0.37% | **+0.05%** | -1.27% |
+| BTC-bull weeks | -0.14% | -1.59% | -2.16% |
+
+**Even shorting everything earns nothing in bear weeks.** By the time BTC is below its
+average the fall has already happened, and bounces follow. In bear weeks, shorting the
+losers does worse than shorting everything, and shorting the winners is the worst choice in
+every regime. That is cross-sectional momentum again (`xs_paper.py`), not a bear edge.
+
+### The lead: an OLD coin getting its first Binance perp
+
+This came from the grid's control group, not the registered primary, so read it as a
+finding to confirm. It is a coin that had traded on Binance spot for more than 60 days
+before its perp was listed. Short it at the open of day 7, hold 30 days, stop at +50%, and
+**buy the same dollar amount of BTC as a hedge** (BTC funding and fees charged):
+
+| | n | pair mean | median | t (months) | months up |
+|---|---|---|---|---|---|
+| all | 199 | **+10.3%** | +17.1% | +3.06 | 73% |
+| tune (< 2023-08) | 119 | +6.6% | +13.0% | +1.08 | 64% |
+| **holdout** | 80 | **+16.0%** | +20.1% | **+4.10** | 88% |
+
+**It passes a placebo.** Run the same trade on the same coins starting later, when there is
+no listing, and the result disappears:
+
+| enter on day | 7 | 60 | 120 | 180 | 365 | 540 |
+|---|---|---|---|---|---|---|
+| pair mean | **+10.3%** | -0.3% | +1.5% | +2.5% | +0.2% | +1.3% |
+| t | **+3.06** | -0.05 | +0.93 | +1.24 | +0.84 | +0.92 |
+
+So this is not the general bleed of small altcoins against BTC. The effect belongs to the
+listing window.
+
+**It has a dose-response, and a known mechanism.** The longer the coin traded without a way
+to short it, the bigger the effect: +6.0% (60-180 days of spot history), +3.9% (180-365),
++8.5% (365-730), **+15.8% at 730+ days (t +2.91)**. That is Miller's short-sale-constraint
+hypothesis. While nobody can short a coin, its price reflects only the optimists. A perp lets
+the pessimists in, and the price corrects. It is also the documented story of CME Bitcoin
+futures in December 2017.
+
+### Why it cannot be traded: the events have run out
+
+| year | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 |
+|---|---|---|---|---|---|---|---|
+| old-coin perp listings | 37 | 40 | 13 | 58 | 38 | 13 | **0** |
+
+**The last one was OGUSDT on 2025-05-12.** Binance has now listed a perp for
+almost every old spot coin it had. In 2026 only 17 of 223 new perps had Binance spot at all.
+Binance lists perps first now. Of the 120 spot coins still without a perp, most are
+tokenized stocks (MSTRB, NVDAB...). The crypto ones left are a short list: LUNA, FTT, RAY,
+XNO, REQ, OSMO, NEXO, AI, CITY, GLMR, 1000SATS.
+
+**What it is worth:** a real edge with a mechanism, a placebo pass and a dose-response,
+whose supply of events on Binance has dried up. Worth a small watcher that alerts when
+Binance lists a perp for a coin with long spot history, since each event is worth about +10%
+to +16% on the pair. It is not a book. Other venues listing their first perp on an old coin
+are the obvious place to look next. The mechanism should be weaker there if Binance or
+someone else already lets people short the coin.
 
 ---
 
