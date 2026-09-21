@@ -1701,21 +1701,34 @@ with minute candles from GeckoTerminal.
 Costs are 2% round trip, with a 5% stress case. An exit worth under 5% of entry is booked
 as a total loss.
 
-**First read, 141 real graduations** (random subset; the rest of the day was still
-downloading):
+**Full day, 631 real graduations** (692 real, minus 61 data glitches whose price jumps
+more than 50x inside the first hour on dust volume; one "WSOS" pool showed a $167M market
+value on $500 a minute of trading, and alone turned the 1h mean from -55% to +10% until it
+was excluded - see the bug note below):
 
 | strategy | n | mean (net) | 95% CI | median | win | lost >90% |
 |---|---|---|---|---|---|---|
-| buy +1 min, sell +1h | 133 | **-47.9%** | [-66%, -26%] | -95.7% | 18% | 59% |
-| buy +1 min, sell +6h | 100 | **-84.5%** | [-96%, -66%] | -100% | 4% | 80% |
-| buy +15 min, sell +1h | 131 | -28.2% | [-41%, -14%] | -8.6% | 15% | 27% |
-| buy +15 min, sell +6h | 100 | -48.0% | [-58%, -39%] | -48.6% | 11% | 34% |
-| **wait for proof**: still above graduation price at +1h, then hold 6h | 16 of 133 | **-79.0%** | [-98%, -57%] | -100% | 12% | 62% |
+| buy +1 min, sell +15 min | 631 | -27.9% | [-37%, -18%] | -74.2% | 26% | 37% |
+| buy +1 min, sell +1h | 631 | **-55.1%** | [-67%, -42%] | -96.9% | 10% | 62% |
+| buy +1 min, sell +6h | 528 | **-80.0%** | [-88%, -70%] | -100% | 3% | 76% |
+| buy +15 min, sell +1h | 631 | -27.6% | [-35%, -19%] | -14.1% | 10% | 25% |
+| buy +15 min, sell +6h | 528 | -43.5% | [-48%, -39%] | -37.0% | 8% | 32% |
+| **wait for proof**: still above graduation price at +1h, then hold 6h | 56 of 631 | **-62.8%** | [-79%, -44%] | -100% | 16% | 55% |
+
+The only row whose interval reaches zero is buy +15 min / sell +15 min (-6.8%, [-17%, +8%]).
+
+**A bug that nearly reversed the headline.** The glitch flag was computed but never
+applied. The column is object dtype (True/False/NaN), and `~` on Python bools gives -1/-2,
+both truthy, so the filter kept everything. Worse, the edit that was meant to apply it had
+silently failed to patch the file. With the 61 glitches still in, two 1h rows showed
+**positive** means (+10.3%, +17.9%). This is the same `~`-on-object-dtype slip that
+bull_boost.py hit on the same day. Any boolean column read back from a DataFrame of mixed
+rows needs `.astype(bool)` before it is negated.
 
 **What the price paths show.** A typical coin graduates at ~$50k, spikes to $75-110k within
 five minutes as snipers buy, and is worth ~$2,400 by minute fifteen. The insiders who
-bundled the launch sell everything into the first buyers. Only **12%** of graduates are
-still above their graduation price an hour later, and even those lose 79% over the next six
+bundled the launch sell everything into the first buyers. Only **9%** of graduates are
+still above their graduation price an hour later, and even those lose 63% over the next six
 hours. The spike in the first minutes is real, but trading it means being inside the
 graduation block itself, which is a sub-second race among professional snipers that a home
 setup cannot enter.

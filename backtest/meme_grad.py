@@ -216,9 +216,16 @@ def main():
             print(f"  {k + 1}/{len(g)} pools fetched", flush=True)
     R = pd.DataFrame(res)
     R.to_pickle(OUT / "grad_outcomes.pkl")
-    real = R[R.real]
-    print(f"\n{len(R)} pools with candles; {len(real)} REAL graduations (opening market "
-          f"value ${MCAP_LO/1e3:.0f}k-${MCAP_HI/1e3:.0f}k); {len(R) - len(real)} filtered")
+    # astype(bool) matters: these columns are object dtype (True/False/NaN), and ~ on an
+    # object column of Python bools gives -1/-2, both truthy - which silently kept every
+    # glitch in the first version of this table
+    is_real = R["real"].fillna(False).astype(bool)
+    glitch = R.get("glitch", pd.Series(False, index=R.index)).fillna(False).astype(bool)
+    real = R[is_real & ~glitch]
+    print(f"\n{len(R)} pools with candles; {int(is_real.sum())} REAL graduations (opening "
+          f"market value ${MCAP_LO/1e3:.0f}k-${MCAP_HI/1e3:.0f}k); "
+          f"{len(R) - int(is_real.sum())} filtered; {int((is_real & glitch).sum())} data "
+          f"glitches excluded (price >50x its opening inside the first hour)")
     print(f"  opening market value, median ${real.mcap0.median():,.0f}")
     print(f"  best price ever reached vs opening: median {real.peak_x.median():.2f}x, "
           f"{(real.peak_x >= 2).mean()*100:.0f}% ever doubled, "
