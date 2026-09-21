@@ -312,3 +312,31 @@ mode is forced and then **asserted against the resolved URL**; the bot refuses t
 the endpoint is not testnet, so there is no flag that points it at live Binance. A pid lock
 prevents a second instance. Reconciliation runs both ways every cycle and an orphan
 position is reported, never adopted.
+
+## The TIGHT book beside the paper blend (2026-09-22) — `blend_paper.py`
+
+`blend_paper.py` now runs two books in one process on the same prices. The **main** book is
+the deployed rules, unchanged. It was verified identical to the old code on the same state.
+The **tight** book forks from it on the first cycle, with the same equity and the same open
+positions, and differs by one rule: when BTC's 4h close breaks its own trail (highest close
+since the last break minus 5 x ATR), its open longs switch from the 20xATR trail to 5xATR
+for good. The evidence is in `backtest/btc_exit.py` and doc 02 ("PROMISING: tighten the
+alts' trails").
+
+| file | what |
+|---|---|
+| `logs/blend_state.json`, `logs/trades_blend.csv` | main book, as before |
+| `logs/blend_state_tight.json`, `logs/trades_blend_tight.csv` | tight book (trades carry a `tightened` column) |
+
+`python blend_paper.py --status` prints both books, the equity difference, and which tight
+positions are on the tightened trail. **The books stay identical until BTC breaks its 4h
+trend**; breaks come roughly every two weeks (the last three were 08-03, 08-14 and 09-10).
+An error anywhere in the tight path is logged and skipped, and the main book is saved
+before the tight path runs.
+
+**Deploying:** the VM cannot `git pull`, so `deploy/patch_tight_book.sh` carries the file
+gzipped and base64-encoded, with no backslashes (see doc 09). It checks the sha256, backs
+up the old file to `logs/blend_paper.py.bak-<stamp>`, restarts `blend-paper`, and prints
+the status. To roll back:
+
+    cp /opt/forexbot/logs/blend_paper.py.bak-<stamp> /opt/forexbot/blend_paper.py && systemctl restart blend-paper
