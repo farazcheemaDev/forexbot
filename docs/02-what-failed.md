@@ -1727,6 +1727,33 @@ waiting will rescue it: the hold that waited for proof was the worst row.
 
 ---
 
+## Dead: copying the best Hyperliquid traders (2026-09-22) — `backtest/hl_copy.py`
+
+Hyperliquid publishes every account's PnL history. "Copy the top wallets" only works if
+last period's winners keep winning, so this tests that precondition on the wallets' **own**
+returns. Copying can only do worse: lag, slippage and sizing.
+
+**Sample:** 3,000 random accounts from the 40,078 on the public leaderboard that traded at
+least $1M lifetime. The leaderboard still lists blown-up accounts (16,308 of its 46,621 are
+worth under $10), so losers are in it. At each month-end, accounts worth at least $10k are
+ranked by return over the prior 90 days, then measured over the next 30. That gives 27
+months, with 58 to 767 accounts each.
+
+| next-month return, top decile vs everyone | months | mean difference | median vs median | rank correlation |
+|---|---|---|---|---|
+| all months | 27 | -2.98% (t -0.45) | -4.86% (t -1.10) | +0.044 |
+| excluding the HYPE airdrop months (Sep-Dec 2024) | 23 | +2.55% (t +0.75) | -3.65% (t -1.24) | +0.069 |
+| 2025-2026 only | 18 | +1.04% (t +0.24) | **-5.79%** (t -1.62) | +0.074 |
+
+**No persistence.** The correlation between one quarter's ranking and the next month's
+result is about +0.05. The **typical** top-decile trader does *worse* than the typical
+trader the following month (-4% to -6% median vs median). The occasional positive mean
+comes from a few outliers; in 2025-09 the top decile averaged +49% while its median lost
+40%. Last quarter's leaderboard is mostly luck and leverage, and luck does not persist.
+Copying it adds costs to a signal that is not there.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
