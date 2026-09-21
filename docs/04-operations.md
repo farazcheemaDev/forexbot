@@ -250,3 +250,65 @@ $200 would actually depend on. At 0.86 trades/day it also needs ~6 weeks for 30 
 
 For slippage on the real book the options are a venue whose testnet lists the actual
 symbols (Binance futures testnet does), or a small real account. Neither is built.
+
+## Order-path test on Binance futures testnet (2026-09-21) — `blend_testnet.py`
+
+`longtrend_bot.py` can only reach 3 contracts (Bitget demo lists SBTC/SETH/SXRP), so it
+measures fills on the most liquid coins on earth rather than on ENA, WLD, SUI or ARB.
+**Binance's futures testnet lists all 12 of the book** - verified 2026-09-21: 605 trading
+symbols, every book coin present, $5 minimum notional, SHIB as `1000SHIBUSDT`. So the real
+configuration can be run against a real matching engine.
+
+```
+set BINANCE_TESTNET_KEY=...      from testnet.binancefuture.com (fake money)
+set BINANCE_TESTNET_SECRET=...
+python -u blend_testnet.py --dry-run    # loop only, places nothing, needs no keys
+python -u blend_testnet.py              # places orders on TESTNET
+python -u blend_testnet.py --status      # includes the slippage summary
+```
+
+### The problem blend_paper.py never had to solve
+
+The strategy holds logical positions keyed by coin AND sleeve - `DOTUSDT:1h` and
+`DOTUSDT:4h` are open simultaneously right now, and the same for LINK and NEAR. **An
+exchange holds ONE NET POSITION PER SYMBOL.** There is no way to give a venue two separate
+long positions in DOT.
+
+So this bot keeps the logical book internally and sends only the **net delta per symbol**.
+Confirmed working in the dry run: AVAX:4h and AVAX:12h both opened and produced a single
+1.276239-contract order; NEAR:1h and NEAR:4h produced a single 3.72-contract order.
+
+**blend_paper has therefore been simulating something not directly executable**, which is
+worth knowing before real money is involved.
+
+### No exchange stop, deliberately
+
+Netting makes per-sleeve stops incoherent - three sleeves with three stops cannot be one
+stop on the net. Stops are managed in-process only, so **a dead bot leaves positions
+unprotected.** Fine on fake money; it is the reason this design cannot be lifted to a live
+account unchanged. A live version needs one sleeve per coin, or a disaster stop on the net
+at the worst sleeve's level.
+
+### What the first dry run already proved
+
+Seven signals taken, **three rejected for size**:
+
+```
+[ENAUSDT:4h]  SKIPPED - unit $4.89 below the $5.00 Binance minimum
+[NEARUSDT:12h] SKIPPED - unit $4.78 below the $5.00 Binance minimum
+[ARBUSDT:12h] SKIPPED - unit $3.92 below the $5.00 Binance minimum
+```
+
+**At $221 equity and 0.30% risk, unit sizes land at $3.92-$11.49, and Binance's $5 floor
+rejects roughly 30% of signals.** That is the venue floor measured against a real matching
+engine instead of read off a table, and it confirms doc 00: MEXC's sub-dollar minimums are
+the only reason $221 works at all. Binance, Bitget and Bybit all need roughly 2-3x the
+capital to run this book intact.
+
+### Safety
+
+Keys from the environment ONLY - never a file, never an argument, never logged. Sandbox
+mode is forced and then **asserted against the resolved URL**; the bot refuses to start if
+the endpoint is not testnet, so there is no flag that points it at live Binance. A pid lock
+prevents a second instance. Reconciliation runs both ways every cycle and an orphan
+position is reported, never adopted.
