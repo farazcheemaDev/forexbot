@@ -1685,6 +1685,48 @@ poller arrives after both.
 
 ---
 
+## Dead: buying Solana memecoin graduations (2026-09-22) — `backtest/meme_grad.py`, `meme_collector.py`
+
+The trade most "memecoin bots" run is to buy a pump.fun coin when it graduates from its
+bonding curve to a PumpSwap pool. The only honest sample is **every** graduate, including
+the dead ones. pump.fun's API lists graduates newest-first but pages only ~1,050 deep, which
+is the last ~24 hours. So this is one full day of graduations, fetched in random order,
+with minute candles from GeckoTerminal.
+
+**What was excluded, and why:**
+- "Complete" coins that never really filled a curve: 82 of 223 had an opening market value
+  outside $20k-$300k (one pool was worth $2.82).
+- A handful of data glitches, such as a $160M "market value" one minute after a $47k open.
+
+Costs are 2% round trip, with a 5% stress case. An exit worth under 5% of entry is booked
+as a total loss.
+
+**First read, 141 real graduations** (random subset; the rest of the day was still
+downloading):
+
+| strategy | n | mean (net) | 95% CI | median | win | lost >90% |
+|---|---|---|---|---|---|---|
+| buy +1 min, sell +1h | 133 | **-47.9%** | [-66%, -26%] | -95.7% | 18% | 59% |
+| buy +1 min, sell +6h | 100 | **-84.5%** | [-96%, -66%] | -100% | 4% | 80% |
+| buy +15 min, sell +1h | 131 | -28.2% | [-41%, -14%] | -8.6% | 15% | 27% |
+| buy +15 min, sell +6h | 100 | -48.0% | [-58%, -39%] | -48.6% | 11% | 34% |
+| **wait for proof**: still above graduation price at +1h, then hold 6h | 16 of 133 | **-79.0%** | [-98%, -57%] | -100% | 12% | 62% |
+
+**What the price paths show.** A typical coin graduates at ~$50k, spikes to $75-110k within
+five minutes as snipers buy, and is worth ~$2,400 by minute fifteen. The insiders who
+bundled the launch sell everything into the first buyers. Only **12%** of graduates are
+still above their graduation price an hour later, and even those lose 79% over the next six
+hours. The spike in the first minutes is real, but trading it means being inside the
+graduation block itself, which is a sub-second race among professional snipers that a home
+setup cannot enter.
+
+**Limits:** this is one day. `meme_collector.py` (data only, no wallet) now records every
+graduation as it happens and fetches each coin's first week once it is 7 days old, so
+day- and week-long holds can be measured forward. Nothing in the first read suggests
+waiting will rescue it: the hold that waited for proof was the worst row.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
