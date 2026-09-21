@@ -1798,6 +1798,69 @@ a better edge. Leverage and risk have no room left.
 
 ---
 
+## PROMISING: tighten the alts' trails when BTC's own trend breaks (2026-09-22) — `backtest/btc_exit.py`
+
+The first exit change in this project that does not lose. It came from asking whether
+BTC reversal patterns could protect the whole alt book.
+
+**The reversal patterns predict nothing.** After each BTC signal switches on, BTC's next 7
+days average about the same as any week (+0.96%):
+
+| signal | BTC next 7d after switch-on |
+|---|---|
+| below 1000h average | -0.30% |
+| 5% / 8% / 12% below 7-day high | -0.09% / +1.56% / **+2.01%** (a bounce) |
+| 4h trail break, 3 / 5 ATR | -0.01% / -0.18% |
+| **bearish RSI divergence** | **+0.93%**, which is noise |
+| EMA20 < EMA50 | +0.07% |
+
+**Closing every alt long on a BTC signal loses** in 8 of 8 signals, as predicted. The
+registered primary (regime flip + close) made +15,474R against +19,113R. The cause is the
+same re-entry drag that killed eleven exit rules.
+
+**Tightening instead of closing** means switching open longs from the 20xATR trail to 5xATR
+(or 3x) once BTC's signal fires. That cuts drawdown without losing profit. Each setting was
+run over 5 random tie-break orders. The **order in which simultaneous entries are taken
+moves the deployed book's holdout between +4.2% and +11.4%/mo**, so single-run
+differences under ~3%/mo are noise.
+
+| mean of 5 orderings | long R | tune /mo | DD | holdout /mo | DD | worst month |
+|---|---|---|---|---|---|---|
+| **deployed** | +19,113 | +20.11% | 58% | +8.74% | 61% | -37.2% |
+| BTC 4h trail5, tighten 5x | +23,742 | +17.27% | **36%** | +11.42% | 56% | **-21.4%** |
+| BTC 4h EMA20/50, tighten 5x | +22,086 | +15.21% | **40%** | +11.96% | **39%** | **-22.9%** |
+| BTC 4h trail3, tighten 5x | +19,452 | +12.87% | **34%** | +15.98% | **37%** | **-23.3%** |
+
+**In the neighbourhood** (22 settings: BTC trail 4-8 ATR on 4h/12h, EMA pairs, tighten to
+3-10 ATR), **drawdown falls in nearly every setting** (tune DD 32-55% against 58%) and total
+long R is at or above deployed in most. The best region is a BTC 4h trail of 4-5 ATR,
+tightening to 3x: +25,233R to +28,871R, tune DD 32-34%, worst month about -20%. Monthly
+*returns* are split: lower on the tune half, higher on the holdout.
+
+**By year, it trades the biggest bull years for the choppy ones:**
+
+| year | deployed | trail5 tighten | EMA tighten |
+|---|---|---|---|
+| 2021 | +1,267% | +766% | +559% |
+| 2022 | **-34%** | **+7%** | **+12%** |
+| 2023 | +342% | **+816%** | +561% |
+| 2024 | +1,133% | +955% | +885% |
+| 2026 | +91% | +153% | +181% |
+
+(sum of R x risk, not compounded)
+
+**Why it works where eleven exit rules failed:** those keyed on the position's own R, where
+a runner and a reversal look identical. BTC's trend state is information from *outside* the
+position, which is the one thing `giveback.py` said could break the tie. It does not
+predict tops, as the first table shows. It separates trending markets, where the 20x trail
+should stay wide, from choppy ones, where the wide trail just gives profit back.
+
+**Before shipping:** this was selected from 24 first-pass variants, then checked across a
+neighbourhood. That is strong evidence of a real drawdown effect and weak evidence of a
+return effect. It should run forward beside the deployed rules before it replaces them.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
