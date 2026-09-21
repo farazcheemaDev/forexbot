@@ -1639,6 +1639,52 @@ decides that.
 
 ---
 
+## Dead: trading exchange listing announcements (2026-09-22) — `backtest/listing_events.py`, `backtest/upbit_fade.py`
+
+An information edge rather than a chart signal. When Upbit (Korea) or Binance announces a
+listing for a coin that already trades, a new user base arrives at once. Announcements come
+from Upbit's notice API (777 notices, original posting time) and Binance CMS catalog 48
+(2,263 articles). Prices come from Binance's 1-minute archive, for coins that already traded
+there.
+
+**The pump is real, and it is gone before a home setup can act.** The table covers 122
+Upbit KRW listings:
+
+| | |
+|---|---|
+| peak within 60 min of the notice | **median +29%**, mean +47% |
+| already in the price at the first full minute | **+17%** |
+| buy 1 min late, sell after 1h / 24h / 72h | -0.5% / **-5.4%** / **-9.0%** (net) |
+
+The fastest bots take the whole move in under a minute. There is no leak beforehand (the 60
+minutes before the notice average +0.9% with a median of 0).
+
+**The fade looks like an edge until funding is charged.** The primary test was registered
+before running: short the Binance perp 60 minutes after the notice, hold 72h, stop +50%,
+30bp costs.
+
+| | n | mean | median | win | **funding** | t |
+|---|---|---|---|---|---|---|
+| all | 117 | +2.32% | +5.53% | 66% | **-4.51%** | +1.05 |
+| holdout | 47 | +2.86% | +5.16% | 66% | -5.50% | +0.76 |
+| 2026 | 34 | **-1.39%** | +2.46% | 56% | -5.63% | -0.32 |
+
+**The price fade is about +7% gross, and funding takes -4.5% of it.** Everyone shorts the
+pump, so shorts pay longs about 1.5% a day. The perp market prices the expected fade into
+the cost of carrying the short. As a book at 20% per trade: +10%/yr, 24% drawdown. The best
+of 27 grid cells is t = +2.26, which does not survive Holm.
+
+**Binance spot listings of perp-first coins** (n = 33) show +3.4% in the first hour for a
+1-minute-late entry. That is not significant, and 2026 is weaker (+1.5%). **Binance perp
+launches** (n = 20) fall 12% over 72h, but that is the old-coin perp event, which stopped
+occurring in May 2025.
+
+**What this category teaches:** the information edge is real and large, but it is priced
+within seconds, and what the fast money leaves behind is priced into funding. A retail
+poller arrives after both.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
