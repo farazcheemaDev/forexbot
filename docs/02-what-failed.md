@@ -1388,6 +1388,64 @@ a wick, which can close you at a price the 1h low does not capture.
 
 ---
 
+## Answered: bigger pyramid adds, "more leverage on each add" (2026-09-21) — `backtest/escalate.py`
+
+The idea: buy unit 1 at normal size, then put more leverage on each later add. Leverage by
+itself only changes the margin you post, so the real question is whether each add should be
+a **bigger notional** than the one before.
+
+**The adds already carry more risk than unit 1.** Unit 5 is bought 8R above the first
+entry, and the stop is floored at breakeven, so it can lose 8R on its own. That is why a
+5-unit position stopped at breakeven loses 20R. Making the adds bigger scales up that loss
+along with the runners.
+
+**Method.** Weights do not change when anything exits, so the trade list and the slot cap
+are the same in every variant. The simulation runs once and keeps each unit's own R. Each
+weight scheme is then a dot product over those rows. A guard asserts that equal weights
+reproduce `run_pyramid` exactly (5,628 positions). Shorts are unchanged. Results are
+compounded by close date.
+
+**Each unit earns about the same total, and every unit's median is a loss:**
+
+| unit | bought | mean R | median R | win% | total R |
+|---|---|---|---|---|---|
+| 1 | 5,628 | +0.68 | -1.03 | 10% | +3,806 |
+| 2 | 1,849 | +2.19 | -2.04 | 23% | +4,052 |
+| 3 | 1,081 | +3.58 | -3.55 | 32% | +3,867 |
+| 4 | 729 | +5.20 | -2.67 | 38% | +3,791 |
+| 5 | 562 | +6.40 | -2.21 | 40% | +3,597 |
+
+**The literal idea (same first bet, bigger adds) is just betting more:**
+
+| scheme | tune /mo | DD | holdout /mo | DD | worst month | worst position |
+|---|---|---|---|---|---|---|
+| **deployed** (1,1,1,1,1) | +27.03% | 73% | **+9.07%** | 77% | -32.8% | -6.2% |
+| adds x1.25 each | +40.16% | 87% | +10.83% | 90% | -57.2% | -12.3% |
+| *control: flat at 1.5x risk* | +37.54% | 87% | +10.79% | 90% | -49.6% | -9.3% |
+| adds x1.5 each | +54.47% | 96% | +9.54% | 98% | **-95.2%** | -22.3% |
+| *control: flat at 2x risk* | +45.86% | 94% | +11.10% | 96% | -66.4% | -12.3% |
+| adds x2 each (1,2,4,8,16) | -3.31% | 100% | -3.32% | 100% | -230.6% | -59.9% — **ruin in both halves** |
+
+**x1.25 per add gives the same result as raising the whole book to 0.45% risk** (+10.83% vs
++10.79%, both at 90% drawdown), with a worse worst month. Once the adds reach x1.5 the
+flat control wins outright, and x2 wipes out the account. This is the risk-size question
+from `ruin.py` again. Taking drawdown from 77% to 90% buys about 1.7%/month, and that trade
+was already declined.
+
+**With the same total budget and only the shape changed:** back-loading (smaller first
+unit, bigger adds) cuts drawdown from 77% to 65% at a cost of 0.6%/month. Scaled up until
+drawdown matches the deployed book, back-loaded x1.5 at 1.2x risk makes **+9.54% vs +9.07%**
+on the holdout. Three reasons it is not adopted:
+- its worst month is -42.8% against -32.8%, and its worst single position is -10.1% against -6.2%;
+- the gain shrinks out of sample, from +4.4%/month on the tune half to +0.5% on the holdout;
+- **unit 1 falls to 0.46x of today's size**, and at $221 Binance's $5 floor already rejects
+  30% of signals at full size (`blend_testnet.py` dry run). A smaller first unit gets
+  rejected even more often.
+
+Worth rechecking once the account is large enough that minimum order sizes stop binding.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
