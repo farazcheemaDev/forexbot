@@ -252,7 +252,13 @@ def resolve(snaps):
     for i in range(0, len(pend), 20):
         ids = [r["condition_id"] for r in pend[i:i + 20]]
         q = "&".join(f"condition_ids={c}" for c in ids)
-        page = get(f"{GAMMA}?{q}&limit=20")
+        # closed=true is REQUIRED. Gamma silently leaves closed markets out of every
+        # query that does not ask for them, so without it a market vanishes from the
+        # results at the exact moment it resolves. Until 2026-09-21 this line had no
+        # closed filter and the test recorded 0 resolutions in a week of 1,976
+        # markets - not because nothing resolved, but because nothing resolved could
+        # ever be returned.
+        page = get(f"{GAMMA}?{q}&limit=20&closed=true")
         if not page:
             continue
         for m in page:

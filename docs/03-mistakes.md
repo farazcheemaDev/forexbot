@@ -151,6 +151,20 @@ happened to be ordered by volume.
 **Rule:** when the claim depends on a cost of execution, every recorded price must be one
 that could actually have been executed. Well-formed is not the same as tradable.
 
+### 11. A resolver that could never see a resolution (2026-09-21)
+
+`poly_forward.py` looked up its tracked markets on Gamma with no `closed` filter. **Gamma
+silently leaves closed markets out of any query that does not ask for them**, so a market
+dropped out of the results at the exact moment it resolved. For a week the log read
+"0 resolved" across 1,976 markets. That was read as "slow" when it meant "blind".
+Adding `closed=true` found **207 resolutions on the first pass**.
+
+It went unnoticed because zero was a plausible-looking number. Doc 08 had just explained
+why the test would be slow, so a count of zero seemed to confirm that explanation.
+
+**Rule:** before trusting a count of zero, check that the code path can produce a
+non-zero. Feed the resolver one market that is known to be resolved and watch it come back.
+
 ---
 
 ## Reporting mistakes

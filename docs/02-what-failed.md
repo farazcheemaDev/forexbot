@@ -1545,6 +1545,51 @@ someone else already lets people short the coin.
 
 ---
 
+## Dead: the deployed rules on Binance's 199 TradFi perps (2026-09-21) — `backtest/tradfi.py`
+
+Binance futures now lists 199 non-crypto perps on the same account, with the same code and
+the same $5 minimum: gold, silver, platinum, palladium, copper, WTI, Brent, natgas, SPY,
+QQQ, country ETFs and ~150 stocks. The hope was more independent bets, since 12 coins
+behave like 1.5. The deployed rules were run unchanged on daily bars back to 2005. Fills
+are gap-aware (a stop the market opens through fills at the open), and costs are 12bp plus
+1bp/8h funding on longs. A guard reproduces `run_pyramid` on crypto to within 0.2R.
+
+**The diversification is real. The edge is not.**
+
+| | result |
+|---|---|
+| correlation with the crypto blend | **-0.06 to +0.09** for all 12 commodities/ETFs |
+| effective bets within those 12 | **~4.0** (mean pairwise corr +0.18), vs crypto's 1.5 |
+| **commodities + ETFs as a book** | **-0.03%/mo, 83% DD. Loses in 14 of 19 years; 2026 alone is +227% (the metals bull)** |
+| hold in both halves | 1 of 12 (QQQ, at +0.10R) |
+
+Gold, silver, Brent, Korea and Japan are all "one regime": negative in the first 60% of
+history, positive only in the recent bull. That is the same pattern that killed gold in
+`forex.py`, now on 20 years.
+
+**Stocks cannot be measured on Binance's own list.** NVDA +22.6R per position, AVGO +26.3R,
+PLTR +44.3R. Binance lists these stocks *because* they won, the same selection that put a
+3x premium into the crypto book. The fair version uses the **40 largest US companies at
+end-2005**, chosen by size at the time:
+
+| | result |
+|---|---|
+| hold in both halves | 8 of 40 |
+| longs | +6.9R per position, but **negative every year 2006-2013** (2008: -580R) |
+| shorts | **-0.38R per position, 3,154 of them** (PF 0.49), negative in 18 of 21 years |
+| as a book (12 slots) | **+0.21%/mo, 81% DD** |
+
+On daily bars a 20xATR trail means holding for years. The long results are mostly the
+2014-2026 US bull market carried on a wide stop, after eight straight losing years. Adding
+the long-only stock book to crypto lifts the 2020-26 overlap from +24.3% to +26.7%/month
+only because that overlap is the stock bull. The book would have lost 2006-2013 on its own.
+
+**Short side on stocks is the cleanest negative result in the project**: 3,154 positions,
+losing in 18 of 21 years, including 2008 barely (+45R) and 2022 (-22R). Shorting trend
+breakdowns does not work on equities any more than on crypto.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and

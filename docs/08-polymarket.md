@@ -182,6 +182,31 @@ So an interim read can confirm or refute the big claim far sooner — `--report`
 the sample in hand can actually detect, while being explicit that it cannot rule out a
 small real edge.
 
+### UPDATE 2026-09-21: the resolver was blind, now fixed, and the first read is against the claim
+
+The "0 resolved" above was a bug, not slowness (doc 03, mistake #11). Gamma omits closed
+markets unless asked, so no resolution could ever be returned. After the fix, the first
+pass found **207**. The collector had also been down since 2026-09-20 17:20 and was
+restarted.
+
+| band | n | avg price | resolved YES | gap |
+|---|---|---|---|---|
+| **0.50-0.65 (pre-registered)** | **14** | 0.567 | **0.571** | **+0.005** |
+| 0.65-0.80 | 19 | 0.737 | 1.000 | +0.263 |
+| 0.80-0.90 | 11 | 0.846 | 1.000 | +0.154 |
+| 0.00-0.05 | 74 | 0.013 | 0.000 | -0.013 |
+
+**The backtested claim is already in trouble.** It says 80-86% of the band resolves YES.
+The result so far is 8 of 14. If the true rate were 0.82, a result that low happens with
+p = **0.027**; with no edge at all, p = 0.61. The pre-registered verdict still waits for
+120 resolutions, but +0.25 is now the unlikely hypothesis.
+
+**Do not read the 30-for-30 favourites as an edge.** Early resolutions are biased toward
+YES. A "will X happen by date D" market resolves the moment X happens, but a NO has to
+wait for the deadline. Several of the 30 are exactly that ("Will Bitcoin dip to $75k by
+Dec 31" resolved in September), and six are one Fed meeting. The bias also inflates the
+band's 57%, so the evidence against the claim is, if anything, understated.
+
 ### The timeline estimate was wrong, and how it was wrong matters
 
 **An earlier version of this doc said "1–3 weeks." Delete that from memory.** It was
