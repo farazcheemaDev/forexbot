@@ -22,6 +22,7 @@ SOURCE
     from a genuinely new token.
 
     python -m backtest.perp_fetch            # everything, resumable
+    python -m backtest.perp_fetch --hourly   # 1h bars too (after the daily run)
 """
 from __future__ import annotations
 
@@ -171,7 +172,59 @@ def one(sym, alive):
     return m
 
 
+def hourly(sym, alive):
+    """1h perp bars, same archive, for the short-side family test. Cached; resumable."""
+    f = OUT / f"{sym}_1h.csv.gz"
+    if f.exists():
+        return True
+    keys = list_prefix(f"data/futures/um/monthly/klines/{sym}/1h/")
+    rows = []
+    for k in keys:
+        r = read_zip(k)
+        if r:
+            rows += [(int(x[0]), float(x[1]), float(x[2]), float(x[3]), float(x[4]),
+                      float(x[7])) for x in r]
+    if alive:
+        try:
+            start = max((r[0] for r in rows), default=0) + 1
+            for _ in range(3):
+                u = f"{FAPI}/fapi/v1/klines?symbol={sym}&interval=1h&limit=1500"
+                if start > 1:
+                    u += f"&startTime={start}"
+                got = json.loads(get(u))
+                if not got:
+                    break
+                rows += [(int(x[0]), float(x[1]), float(x[2]), float(x[3]),
+                          float(x[4]), float(x[7])) for x in got]
+                start = int(got[-1][0]) + 1
+                if len(got) < 1500:
+                    break
+        except Exception:
+            pass
+    if not rows:
+        return False
+    d = pd.DataFrame(rows, columns=["t", "open", "high", "low", "close", "qvol"])
+    d = d.drop_duplicates("t").sort_values("t").reset_index(drop=True)
+    d.insert(0, "time", pd.to_datetime(d.pop("t"), unit="ms"))
+    d.to_csv(f, index=False, compression="gzip")
+    return True
+
+
+def main_hourly():
+    uni = json.load(open(OUT / "universe.json"))
+    print(f"1h bars for {len(uni)} perps", flush=True)
+    done = ok = 0
+    with ThreadPoolExecutor(16) as ex:
+        for r in ex.map(lambda m: hourly(m["sym"], m["alive"]), uni):
+            done += 1; ok += bool(r)
+            if done % 50 == 0:
+                print(f"  {done}/{len(uni)}", flush=True)
+    print(f"done: {ok} of {len(uni)} with 1h bars")
+
+
 def main():
+    if "--hourly" in sys.argv:
+        return main_hourly()
     OUT.mkdir(parents=True, exist_ok=True)
     dirs = list_prefix("data/futures/um/monthly/klines/", dirs=True)
     syms = sorted({d.rstrip("/").split("/")[-1] for d in dirs})

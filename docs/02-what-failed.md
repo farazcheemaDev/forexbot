@@ -1590,6 +1590,55 @@ breakdowns does not work on equities any more than on crypto.
 
 ---
 
+## CLOSED: every long family, run short, fairly (2026-09-22) — `backtest/short_families.py`
+
+The old result ("19 of 19 families profitable long, 0 of 19 short") was measured on 9 coins
+that are big today. That is the worst possible sample for shorts, because the coins that
+died were the best shorts. This rerun removes every excuse:
+
+- **Universe:** the 365 perps that were ever a top-40 perp by the prior month's volume,
+  dead ones included (LUNA, FTT, SRM...), chosen point in time.
+- **Families:** 16: ma_cross, donchian, rsi_mom, bb_break, macd, roc_mom, rsi_rev, bb_rev,
+  supertrend, keltner, squeeze, psar, aroon, adx_dmi, ichimoku, chandelier.
+- **Timeframes:** 1h, 4h and 12h, with all entries and bear-only entries (BTC below its
+  1000h average).
+- **Management:** the deployed short rules (2xATR stop, 5xATR trail, breakeven at 3R), 12bp,
+  actual funding in R, and pessimistic same-bar fills.
+- **Size:** 776,936 trades.
+- **The control:** random short entries on the same coins, timeframe, exit and regime, at the
+  deployed rule's signal density. The test is the pooled per-trade difference, with the
+  standard error from resampling whole months.
+
+**Result: over 96 cells, nothing beats random entries after Holm.** Five cells reach
+p < 0.05, which is what chance produces in 96 tries. The best is psar 12h at t = +2.20.
+
+| random short entries | 1h | 4h | 12h |
+|---|---|---|---|
+| all regimes | -0.056R | -0.034R | -0.058R |
+| **bear only** | +0.001R | **+0.104R** | +0.069R |
+
+**In bears, the entire short profit comes from being short, not from the signal.** At 4h the
+deployed `bb_break` short makes +0.068R in bears, which is *less* than random entries
+(+0.104R). The short sleeve works as a hedge because the regime gate puts it on in bears. Its
+entry rule contributes nothing. Even the random 4h bear number is only t = +1.45 on its own.
+
+Two measurement errors were caught and fixed before the result was read:
+1. **Frozen prices.** Six coins sat at a frozen price during delisting (FTT, BAKE, HIFI,
+   VANRY, ALPACA, LEND). ATR was about zero there, so R came out near ±1e30 on 1,387 trades.
+   A guard now drops any trade whose stop distance is under 0.1% of price.
+2. **The wrong statistic.** The first paired test averaged each month's mean and weighted
+   every month equally. It reported donchian 12h at t = -5.76 against random while their
+   per-trade means were -0.051 and -0.058. Trend families trade in crash months, so
+   equal-weighting months punishes them for months in which they barely traded.
+
+**This closes the question of short signals on crypto.** It has now been tested on
+survivors, on the dead, at three timeframes, in both regimes and against a random baseline.
+A chart pattern does not tell you when to short crypto any better than a coin flip. What
+matters is whether you are short at all during a bear, and the regime gate already
+decides that.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
