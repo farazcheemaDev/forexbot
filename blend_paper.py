@@ -48,8 +48,24 @@ WHAT IS SIMULATED AND WHAT IS NOT
     instead and is therefore over-pessimistic for this implementation; it was run as a
     robustness check and the result survived it.)
 
-    python blend_paper.py            live loop
-    python blend_paper.py --status   report and exit
+A SECOND BOOK, "TIGHT", RUNS BESIDE IT (added 2026-09-22) - backtest/btc_exit.py
+    Same signals, same sizing, same slots, its own state and trades files. The ONLY
+    difference: when BTC's own 4h trend breaks - a 4h close below (highest close since
+    the last break - 5 x ATR(14)) - every open long in the tight book switches from the
+    20xATR trail to 5xATR. Over 5 tie-break orderings and 22 neighbouring settings this
+    cut drawdown in nearly every case (58% -> ~36%, worst month -37% -> -21%) with
+    total R at or above deployed; the monthly-return effect was split between halves,
+    which is why it runs on paper beside the deployed rules instead of replacing them.
+
+    It FORKS from the main book the first time it runs - identical open positions and
+    equity - so from that moment the two books differ by the rule alone.
+
+    The BTC trigger uses Wilder ATR (bot.core.indicators) to match the backtest. Note the
+    coin trails in this file use a simple-average ATR, as they always have; the backtest
+    used Wilder for those too. Same in both books, so the comparison is unaffected.
+
+    python blend_paper.py            live loop (both books)
+    python blend_paper.py --status   report and exit (both books)
     python blend_paper.py --once     one cycle and exit
 """
 from __future__ import annotations
@@ -71,6 +87,10 @@ LOGS = ROOT / "logs"; LOGS.mkdir(exist_ok=True)
 STATE = LOGS / "blend_state.json"
 TRADES = LOGS / "trades_blend.csv"
 LOGF = LOGS / "blend_paper.log"
+TIGHT_STATE = LOGS / "blend_state_tight.json"
+TIGHT_TRADES = LOGS / "trades_blend_tight.csv"
+BTC_TRAIL_K = 5.0                # BTC 4h trend break: close < best close - 5 x ATR(14)
+TIGHT_TRAIL = 5.0                # the tight book's long trail once BTC has broken
 
 START_EQ = 221.0
 RISK_PCT = 0.30                  # per unit
@@ -177,27 +197,27 @@ def fresh() -> dict:
             "started": datetime.now(timezone.utc).isoformat()}
 
 
-def load_state() -> dict:
-    if STATE.exists():
+def load_state(path: Path = STATE) -> dict:
+    if path.exists():
         try:
-            s = json.load(open(STATE))
+            s = json.load(open(path))
             for k, v in fresh().items():
                 s.setdefault(k, v)
             return s
         except Exception:
-            log("state unreadable — starting fresh")
+            log(f"state unreadable ({path.name}) — starting fresh")
     return fresh()
 
 
-def save_state(s: dict):
-    tmp = STATE.with_suffix(".tmp")
+def save_state(s: dict, path: Path = STATE):
+    tmp = path.with_suffix(".tmp")
     json.dump(s, open(tmp, "w"), indent=1)
-    tmp.replace(STATE)                # atomic, so a kill mid-write cannot corrupt it
+    tmp.replace(path)                 # atomic, so a kill mid-write cannot corrupt it
 
 
-def rec_trade(row: dict):
-    new = not TRADES.exists()
-    with open(TRADES, "a", encoding="utf-8") as f:
+def rec_trade(row: dict, path: Path = TRADES):
+    new = not path.exists()
+    with open(path, "a", encoding="utf-8") as f:
         if new:
             f.write(",".join(row) + "\n")
         f.write(",".join(str(v) for v in row.values()) + "\n")
@@ -261,6 +281,63 @@ def btc_bear(cache: dict) -> bool:
     return bear
 
 
+def _ns(x):
+    """Nanosecond resolution on pandas 2 (kline times arrive as datetime64[ms]); a no-op
+    on pandas 1, where everything is already nanoseconds and as_unit does not exist."""
+    return x.as_unit("ns") if hasattr(x, "as_unit") else x
+
+
+def btc_breaks(cache: dict) -> "pd.Series | None":
+    """BTC 4h trend-break flags for the TIGHT book, indexed like backtest/btc_exit.py:
+    4h bars resampled from closed 1h bars, Wilder ATR(14), and a trailing reference that
+    tracks the highest close since the last break. Recomputed once per closed BTC hour.
+
+    Returns None if BTC history is unavailable; the tight book then treats the trigger
+    as OFF, which makes it behave exactly like the main book - the safe failure."""
+    d = klines_deep("BTCUSDT", 4000)
+    if d is None or len(d) < 500:
+        return cache.get("breaks")
+    closed = d.iloc[:-1]
+    key = str(closed["time"].iloc[-1])
+    if cache.get("breaks_key") == key:
+        return cache.get("breaks")
+    b = resample(closed, "4h")
+    c = b["close"].to_numpy(float)
+    prev = np.roll(c, 1); prev[0] = np.nan
+    tr = np.nanmax(np.vstack([b["high"] - b["low"], np.abs(b["high"] - prev),
+                              np.abs(b["low"] - prev)]), axis=0)
+    a = pd.Series(tr).ewm(alpha=1 / ATR_PERIOD, adjust=False).mean().to_numpy()
+    best, flags = -np.inf, []
+    for px, at in zip(c, a):
+        best = max(best, px)
+        broke = bool(np.isfinite(at) and px < best - BTC_TRAIL_K * at)
+        flags.append(broke)
+        if broke:
+            best = px
+    # nanosecond index: the kline times are datetime64[ms], and asof() with a
+    # clock timestamp (ns) raises "Cannot losslessly convert units" otherwise
+    s = pd.Series(flags, index=_ns(pd.DatetimeIndex(b["time"])))
+    cache["breaks"], cache["breaks_key"] = s, key
+    return s
+
+
+def trig_at(breaks: "pd.Series | None", t) -> bool:
+    """Was the most recent BTC 4h bar at or before t a trend break?"""
+    if breaks is None or not len(breaks):
+        return False
+    t = _ns(pd.Timestamp(t))
+    if t < breaks.index[0]:
+        return False
+    return bool(breaks.asof(t))
+
+
+def bar_start(rule: str, bar_time) -> pd.Timestamp:
+    """Start of a sleeve's bar as btc_exit.py defines it: 1h bars carry their open time;
+    resampled bars carry their right edge, so their start is one rule earlier."""
+    t = pd.Timestamp(bar_time)
+    return t if rule == "1h" else t - pd.Timedelta(rule)
+
+
 def manage(st, key, rec, bar, hi, lo, a):
     """One position against the bar that just closed.
 
@@ -295,6 +372,8 @@ def manage(st, key, rec, bar, hi, lo, a):
                 rec["lev_warned"] = True
                 log(f"[{key}] PYRAMID BLOCKED at unit {rec['units']} — no margin")
     tm = LONG_TRAIL if d > 0 else SHORT_TRAIL
+    if d > 0 and rec.get("tight"):
+        tm = TIGHT_TRAIL                   # tight book only: BTC's 4h trend has broken
     cand = rec["water"] - d * tm * a
     if gain_r >= BE_AT_R:
         cand = max(cand, rec["entry"]) if d > 0 else min(cand, rec["entry"])
@@ -303,11 +382,25 @@ def manage(st, key, rec, bar, hi, lo, a):
     return None
 
 
-def cycle(st: dict, regime_cache: dict):
+def cycle(st: dict, regime_cache: dict, kc: "dict | None" = None,
+          tight: bool = False, breaks: "pd.Series | None" = None,
+          bear: "bool | None" = None):
+    """One pass over every coin and sleeve for ONE book.
+
+    kc shares this poll's klines between the two books, so the tight book adds no API
+    calls and both books always see the same bars; bear is passed in for the same
+    reason. tight=True applies the BTC-break rule; the main book never sets
+    rec["tight"], so its behaviour is unchanged."""
     fee = FEE_BP / 1e4
-    bear = btc_bear(regime_cache)
+    if bear is None:
+        bear = btc_bear(regime_cache)
+    tag = "T|" if tight else ""
+    trades_path = TIGHT_TRADES if tight else TRADES
+    kc = {} if kc is None else kc
     for base in BOOK:
-        raw = klines(base)
+        if base not in kc:
+            kc[base] = klines(base)
+        raw = kc[base]
         if raw is None or len(raw) < BARS_NEEDED // 2:
             continue
         for rule in SLEEVES:
@@ -317,6 +410,7 @@ def cycle(st: dict, regime_cache: dict):
             closed = df.iloc[:-1]                  # never the forming bar
             bar = str(closed["time"].iloc[-1])
             key = f"{base}:{rule}"
+            lkey = tag + key                       # log label only; state keys unchanged
             a = float(atr(closed).iloc[-1])
             px = float(closed["close"].iloc[-1])
             hi = float(closed["high"].iloc[-1])
@@ -329,7 +423,19 @@ def cycle(st: dict, regime_cache: dict):
                 if st["last_bar"].get(key) == bar:
                     continue                       # once per closed bar, not per poll
                 st["last_bar"][key] = bar
-                exit_px = manage(st, key, rec, bar, hi, lo, a)
+                if tight and rec["side"] == "long":
+                    # btc_exit.py's rule, bar for bar: a break already on at entry does
+                    # not count until it has switched off; after that, any break tightens
+                    # the trail for good. Never on the entry bar itself.
+                    on = trig_at(breaks, bar_start(rule, closed["time"].iloc[-1]))
+                    if not on:
+                        rec["armed"] = True
+                    if on and rec.get("armed") and rec.get("entry_bar") != bar \
+                            and not rec.get("tight"):
+                        rec["tight"] = True
+                        log(f"[{lkey}] BTC 4h trend broke -> trail {LONG_TRAIL:.0f}x -> "
+                            f"{TIGHT_TRAIL:.0f}xATR ({rec.get('units', 1)}u)")
+                exit_px = manage(st, lkey, rec, bar, hi, lo, a)
                 if exit_px is None:
                     st["open"][key] = rec
                     continue
@@ -337,16 +443,20 @@ def cycle(st: dict, regime_cache: dict):
                 entries = [rec["entry"]] + rec.get("adds", [])
                 R = sum((exit_px - e) * d - fee * e for e in entries) / rec["risk"]
                 st["equity"] *= (1 + R * rec["risk_used"] / 100.0)
-                log(f"[{key}] EXIT {rec['side']} R={R:+.2f} "
-                    f"({rec.get('units',1)}u, {rec['bars']}b) "
+                log(f"[{lkey}] EXIT {rec['side']} R={R:+.2f} "
+                    f"({rec.get('units',1)}u, {rec['bars']}b"
+                    f"{', tightened' if rec.get('tight') else ''}) "
                     f"equity {st['equity']:.2f}")
-                rec_trade(dict(
+                row = dict(
                     ts=f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M:%S}",
                     symbol=base, sleeve=rule, side=rec["side"],
                     entry=f"{rec['entry']:.8f}", exit=f"{exit_px:.8f}",
                     units=rec.get("units", 1), R=f"{R:+.4f}", bars=rec["bars"],
                     risk_pct=f"{rec['risk_used']:.3f}",
-                    equity=f"{st['equity']:.2f}"))
+                    equity=f"{st['equity']:.2f}")
+                if tight:
+                    row["tightened"] = int(bool(rec.get("tight")))
+                rec_trade(row, trades_path)
                 st["open"].pop(key, None)
                 continue
 
@@ -364,8 +474,9 @@ def cycle(st: dict, regime_cache: dict):
             d = 1 if go_long else -1
             if len(st["open"]) >= SLOTS:
                 st["declined"] += 1
-                log(f"[{key}] {side.upper()} DECLINED — {SLOTS} slots full "
-                    f"({st['declined']} so far)")
+                if not tight:                      # the main book already says it
+                    log(f"[{lkey}] {side.upper()} DECLINED — {SLOTS} slots full "
+                        f"({st['declined']} so far)")
                 continue
             # REGIME GATE: quarter risk while BTC is below its 200h average. Stored on
             # the position, because the risk that sized it is the risk that must be
@@ -379,13 +490,13 @@ def cycle(st: dict, regime_cache: dict):
                        for r in st["open"].values())
             if used + notional > st["equity"] * MAX_LEVERAGE:
                 st["no_margin"] += 1
-                log(f"[{key}] {side.upper()} SKIPPED — no margin "
+                log(f"[{lkey}] {side.upper()} SKIPPED — no margin "
                     f"({st['no_margin']} so far)")
                 continue
             floor = MIN_ORDER.get(base, 5.0)
             if notional < floor:
                 st["too_small"] += 1
-                log(f"[{key}] {side.upper()} SKIPPED — unit ${notional:.3f} below "
+                log(f"[{lkey}] {side.upper()} SKIPPED — unit ${notional:.3f} below "
                     f"the ${floor:.3f} MEXC minimum (equity ${st['equity']:.2f}, "
                     f"stop {risk/px*100:.2f}%). {st['too_small']} so far")
                 continue
@@ -394,9 +505,14 @@ def cycle(st: dict, regime_cache: dict):
                                    water=(hi if d > 0 else lo), bars=0, units=1,
                                    next_add=1, notional=notional,
                                    risk_used=risk_used, entry_bar=bar)
+            if tight and d > 0:
+                # entry is at this bar's close = the start of the next bar
+                nxt = pd.Timestamp(closed["time"].iloc[-1]) + \
+                    (pd.Timedelta(hours=1) if rule == "1h" else pd.Timedelta(0))
+                st["open"][key]["armed"] = not trig_at(breaks, nxt)
             st["taken"] += 1
             st[f"taken_{side}"] += 1
-            log(f"[{key}] {side.upper()} @{px:.8g} stop {px-d*risk:.8g} "
+            log(f"[{lkey}] {side.upper()} @{px:.8g} stop {px-d*risk:.8g} "
                 f"trail {LONG_TRAIL if d>0 else SHORT_TRAIL:.0f}xATR "
                 f"unit ${notional:.2f} risk {risk_used:.3f}%"
                 f"{' [BTC BEAR]' if bear else ''} "
@@ -443,14 +559,57 @@ def status(st: dict):
     print("trades is noise.\n")
 
 
+def status_tight(st: dict, tst: dict):
+    """The TIGHT book next to the main one. Both forked from the same state, so the
+    difference between them is the BTC-break rule and nothing else."""
+    if not tst:
+        print("TIGHT book: not started yet (it forks from this book on the first cycle)\n")
+        return
+    print(f"TIGHT BOOK - same signals; long trail {LONG_TRAIL:.0f}x -> {TIGHT_TRAIL:.0f}xATR "
+          f"once BTC's 4h trend breaks ({BTC_TRAIL_K:.0f}xATR)")
+    print(f"forked from the main book {tst.get('forked', '?')}")
+    eq, meq = tst["equity"], st["equity"]
+    print(f"  equity  tight {eq:.2f}   main {meq:.2f}   difference {eq - meq:+.2f}")
+    n_t = sum(1 for r in tst["open"].values() if r.get("tight"))
+    print(f"  open {len(tst['open'])}/{SLOTS}, of which {n_t} on the tightened trail")
+    for k, r in sorted(tst["open"].items()):
+        m = st["open"].get(k)
+        same = "same as main" if m and abs(m["stop"] - r["stop"]) < 1e-12 else \
+            (f"main stop {m['stop']:.6g}" if m else "not open in main")
+        print(f"    {k:<18} {r['side']:<5} stop {r['stop']:.6g} {r.get('units', 1)}u"
+              f"{'  TIGHT' if r.get('tight') else ''}  ({same})")
+    if TIGHT_TRADES.exists():
+        d = pd.read_csv(TIGHT_TRADES)
+        rs = pd.to_numeric(d["R"], errors="coerce").dropna()
+        if len(rs):
+            print(f"  closed since fork {len(rs)}  total {rs.sum():+.2f}R  "
+                  f"win {(rs > 0).mean()*100:.0f}%")
+    print("  A difference only appears after BTC breaks its 4h trend; until then the")
+    print("  two books are identical by construction.\n")
+
+
+def fork_tight(st: dict, breaks) -> dict:
+    """Start the tight book as an exact copy of the main book. Positions already open
+    are armed only if no break is on right now - btc_exit.py's rule for a signal that
+    was already on when the position began."""
+    t = json.loads(json.dumps(st))
+    t["forked"] = datetime.now(timezone.utc).isoformat()
+    on = trig_at(breaks, pd.Timestamp.now(tz="UTC").tz_localize(None))
+    for r in t["open"].values():
+        if r["side"] == "long":
+            r["armed"], r["tight"] = (not on), False
+    return t
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--once", action="store_true")
     args = ap.parse_args()
     st = load_state()
+    tst = load_state(TIGHT_STATE) if TIGHT_STATE.exists() else None
     if args.status:
-        status(st); return
+        status(st); status_tight(st, tst); return
     log("=" * 78)
     log(f"BLEND PAPER — ${START_EQ:.0f}, {len(BOOK)} coins x {len(SLEEVES)} "
         f"timeframes, {SLOTS} shared slots")
@@ -464,20 +623,48 @@ def main():
     log("  not the +12% full-history figure — 2021 carried 40% of lifetime profit.")
     log("  shorts are a HEDGE (-0.036R standalone); they earn their place by cutting")
     log("  drawdown, which raises compounded return.")
+    log(f"  TIGHT book beside it: long trail -> {TIGHT_TRAIL:.0f}xATR once BTC's 4h trend "
+        f"breaks ({BTC_TRAIL_K:.0f}xATR). {'resuming' if tst else 'forks on first cycle'}")
     regime_cache: dict = {}
+    brk_cache: dict = {}
+
+    def one_poll():
+        nonlocal tst
+        kc: dict = {}
+        bear = btc_bear(regime_cache)
+        # the MAIN book first, saved before the tight book is touched, so nothing in
+        # the tight path can cost the main book a cycle
+        cycle(st, regime_cache, kc, bear=bear)
+        save_state(st)
+        try:
+            breaks = btc_breaks(brk_cache)
+            if tst is None:
+                tst = fork_tight(st, breaks)
+                log(f"TIGHT book forked from main: equity {tst['equity']:.2f}, "
+                    f"{len(tst['open'])} open, BTC break on now: "
+                    f"{trig_at(breaks, pd.Timestamp.now(tz='UTC').tz_localize(None))}")
+            cycle(tst, regime_cache, kc, tight=True, breaks=breaks, bear=bear)
+            save_state(tst, TIGHT_STATE)
+        except Exception as e:
+            log(f"TIGHT book error (main book unaffected): {type(e).__name__}: "
+                f"{str(e)[:160]}")
+
     if args.once:
-        cycle(st, regime_cache); save_state(st); status(st); return
+        one_poll(); status(st); status_tight(st, tst); return
     while True:
         try:
-            cycle(st, regime_cache)
+            one_poll()
             newest = max(st["last_bar"].values(), default=None)
             if newest and st["hb"].get("logged") != newest:
                 st["hb"]["logged"] = newest
                 log(f"alive | bar {newest} | equity {st['equity']:.2f} | "
                     f"{len(st['open'])}/{SLOTS} slots | taken {st['taken']} "
                     f"({st.get('taken_long',0)}L/{st.get('taken_short',0)}S) | "
-                    f"declined {st['declined']} | too small {st.get('too_small',0)}")
-            save_state(st)
+                    f"declined {st['declined']} | too small {st.get('too_small',0)}"
+                    + (f" | TIGHT equity {tst['equity']:.2f}, "
+                       f"{sum(1 for r in tst['open'].values() if r.get('tight'))} tightened"
+                       if tst else ""))
+                save_state(st)
         except KeyboardInterrupt:
             log("stopped"); save_state(st); return
         except Exception as e:
