@@ -2286,6 +2286,61 @@ record - not another backtest - is what decides them.
 
 ---
 
+## SETTLED: the minimum order is not the binding constraint (2026-09-23) — `backtest/small_capital.py`
+
+`blend.run` reported an implied capital "floor" from the widest stop and the largest minimum
+order, but no test ever SIMULATED the rejections. That matters because the effect compounds:
+a small account skips signals whose unit is below the venue minimum, which changes what it
+holds, which changes how fast it grows, which changes what it can next afford.
+
+**Two honesty fixes this file needed:**
+- **The minimum is a COIN count, not a dollar amount.** MEXC's minimum is one contract, so its
+  dollar value tracked the coin's price. NEAR's minimum was $1.21 in 2020 and is $2.28 now;
+  ENA's was **$6.15** at its 2024 listing and is $1.39 now. The step is recovered in coin units
+  and re-priced at every trade.
+- **Equity may only advance from trades that have already CLOSED.** The first version of this
+  file compounded in entry order and read 85% drawdowns where the same book measures 56% -
+  mistake #6 again, caught by that discrepancy. A second bug let a **98% drawdown** config be
+  chosen as "best" because the ruin test only fired at a 99% loss.
+
+**Result: percentage returns are flat from about $15 to $5,000.**
+
+| starting capital | signals skipped for size | holdout /mo | DD |
+|---|---|---|---|
+| $10 | **18%** | +14.33% | 62% |
+| $15 | 11% | +13.18% | 56% |
+| $25 | 9% | +10.97% | 56% |
+| $50 | 4% | +12.19% | 56% |
+| $100 | 1% | +12.45% | 56% |
+| $221 (deployed) | **0%** | +10.32% | 56% |
+| $5,000 | 0% | +10.30% | 56% |
+
+**At $221 the minimum order rejects nothing at all.** At $100 it costs 1% of signals, at $25
+9%, and only below ~$15 does it bite (18%).
+
+**Do not read the tiny accounts as better.** The spread from +10.3% to +14.3% sits inside the
++-3%/mo ordering noise, and the mechanism is mechanical: a unit's notional is equity x risk /
+stop fraction, so rejections fall hardest on WIDE-stop trades, i.e. the 12h sleeve and the
+high-volatility coins. Skipping those is the same mild tilt `book_structure.py` measured when
+weighting away from 12h. It is not an edge, and $10 pays for it with a 62% drawdown.
+
+**Also retired:** "the best configuration for a small account". Sweeping risk and slots per
+capital just cranks risk to whatever drawdown limit is imposed (0.50%/12 slots at a **76%**
+drawdown). Higher risk does genuinely reduce rejections - a real small-capital mechanism, since
+a bigger unit clears the minimum - but the drawdown cost dominates it. **No special
+small-account configuration is needed; the deployed 0.30%/12-slot book works unchanged from
+about $15 up.**
+
+**What the dollars imply, with the warning that matters more than the number.** Over the
+24-month holdout at the haircut rate, $221 implies about **$2,400** and $100 about **$1,700**.
+The simulation's own raw endings are 6x those, which is what the 3x hindsight haircut and
+coin-selection bias exist to discount. And per the admission above, **this holdout has been
+scored by dozens of variants in one day, so it is no longer a clean test.** The only unbiased
+evidence in this project is the four paper books, now running against prices that did not
+exist when any of this was fitted.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
