@@ -1874,6 +1874,42 @@ return effect. It should run forward beside the deployed rules before it replace
 
 ---
 
+## Dead: collecting funding spikes on small perps (2026-09-22) — `backtest/funding_spikes.py`
+
+The average funding rate died in `cash_carry.py`. This tested the fat tail instead: when a
+small coin's funding runs at 0.1-2% per settlement, collect it with price hedged. The data
+covers 477 perps that had Binance spot and 2,068,799 settlements. Costs are 0.30% for four
+taker legs, entering after the settlement that revealed the spike.
+
+**Positive spikes (short the perp, hold spot): the ceiling was a 2021 phenomenon.** Mean net
+per event, before any basis risk, entering at >= 0.20% per 8h:
+
+| 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 |
+|---|---|---|---|---|---|---|
+| +0.45% | **+1.82%** (788 events) | ~0 (3) | ~0 (4) | +0.08% | +0.26% | +0.10% |
+
+Since 2022 even the best case, with no price risk at all, barely clears fees. The median
+event loses.
+
+**Negative spikes: the fully hedged version is large and growing** (<= -0.50% per 8h: 976
+events in 2025 at +2.89% mean, 1,123 in 2026 at +3.11%). **But it cannot be built.**
+Collecting negative funding means long perp and short spot, which requires borrowing the
+coin. The funding is negative precisely because the coin cannot be borrowed and shorted
+anywhere else. The unhedged version, long the perp only, is what can actually be traded:
+
+| long the perp while funding <= -0.50%/8h | n | funding | price | **net** | median | win |
+|---|---|---|---|---|---|---|
+| 2025 | 970 | +3.21% | -2.03% | +1.08% | -1.84% | 39% |
+| 2026 | 1,123 | +3.41% | -4.12% | **-0.81%** | -3.35% | 33% |
+| all | 2,818 | +3.05% | -3.26% | **-0.31%** | -2.72% | 36% |
+
+**The price falls by about what the funding pays.** Shorts pay for the right to short a
+falling coin, and the market sets that price close to the expected fall. This is the third
+time in two days that funding has absorbed an apparent edge, after the Upbit fade (-4.5%)
+and new-listing shorts. **Funding is where the market prices what everyone can already see.**
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
