@@ -2233,6 +2233,59 @@ this project as regime-dependent until it survives forward.**
 
 ---
 
+## The last three dimensions, and an admission about the holdout (2026-09-23) — `backtest/final_variants.py`
+
+Baseline: tune +19.29%/mo at 55% DD, holdout +8.44% at 57%, worst -33.9%.
+
+| variant | tune | holdout | DD | worst |
+|---|---|---|---|---|
+| stop 1xATR | +24.02% | +9.67% | **91%** | -57.9% |
+| stop 1.5xATR | +19.22% | +7.61% | 81% | -48.1% |
+| stop 3xATR | +11.16% | +2.60% | 45% | -26.2% |
+| stop 4xATR | +5.00% | +1.49% | 21% | -14.5% |
+| time stop: below 0R after 100 bars | +20.15% | +9.30% | 54% | -29.4% |
+| **time stop: below 2R after 100 bars** | +17.38% | **+12.90%** | 49% | **-22.4%** |
+| entry limit 0.25xATR below the signal close | +13.97% | +5.16% | 61% | -29.8% |
+| entry limit 1xATR below | +18.61% | +2.03% | 67% | -32.1% |
+
+**The 2xATR stop is well chosen.** Tighter earns more on both halves and is unusable (91%
+drawdown); wider is safe and weak. The deployed value sits at the sensible middle of a steep
+trade-off, which is what a well-set parameter looks like.
+
+**Entry on a pullback is dead even done causally** - which is the confirmation the retracted
+ADD version needed. The limit is placed from the signal bar's close and can only fill on a
+LATER bar, so no intrabar ordering is assumed, and every setting loses on both halves. Waiting
+for a dip misses the signals that never look back, and those are the ones that pay.
+
+### The admission: this holdout is no longer a clean test
+
+Count the modifications that came out "helps the holdout, costs the tune half":
+
+| change | tune vs base | holdout vs base |
+|---|---|---|
+| BTC-break tight exit | -3.2 | **+4.3** |
+| short boost x5-x8 | -2.8 | **+6.1** |
+| trail 10x/20x/40x | -8.8 | **+4.3** |
+| entry band bb(30, 1.25) | -0.4 | **+4.9** |
+| time stop below 2R after 100 bars | -1.9 | **+4.5** |
+| runner sizing (position-only) | +4.7 | **+2.4** |
+
+Six independent knobs all point the same way. There are two readings and they are not
+mutually exclusive:
+
+1. **Real:** 2024-2026 rewards slower, looser, more protective trend capture than 2020-2024
+   did, and every knob that moves in that direction helps.
+2. **Overfitting by repetition:** dozens of variants have now been scored against this ONE
+   holdout in a single day. Selecting the ones that improved it is exactly how a holdout stops
+   being out-of-sample, no matter that each individual test was clean.
+
+**Both readings demand the same thing: stop mining this split.** No further variant should be
+adopted on the strength of this holdout. The tight exit and the short boost are already
+running on paper against data that did not exist when they were fitted, and that forward
+record - not another backtest - is what decides them.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
