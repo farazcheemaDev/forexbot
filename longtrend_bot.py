@@ -321,6 +321,33 @@ def connect():
 
 
 _BEAR_CACHE: dict = {}
+_BREAK_CACHE: dict = {}
+
+# ---- the three rules validated in backtest, applied here for an ORDER-PATH test -------
+# This venue lists THREE contracts, so nothing here measures the strategy - blend_paper.py's
+# four books do that. What it does measure is whether a real exchange accepts the orders
+# these rules generate: a tightened stop, a 5x-larger short, and a position sized off a
+# model. Imported from blend_paper so both live bots run identical code.
+#   tight exit   btc_exit.py       longs -> 5xATR trail once BTC's 4h trail breaks
+#   short boost  vol_target.py     short risk x5 while that break is on
+#   runner size  entry_runner.py   long risk x its runner-probability rank, mean 1
+# KNOWN second-order inconsistency: the frozen model was fitted with Wilder ATR while
+# runner_features uses this project's simple-average ATR. It is a ratio feature, so the tilt
+# direction is preserved; both live bots share the same version, so they stay comparable.
+from blend_paper import (  # noqa: E402
+    SBOOST_MULT, TIGHT_TRAIL, btc_breaks as _bp_breaks, runner_features as _bp_feats,
+    size_factor as _bp_size, trig_at as _bp_trig)
+
+
+def btc_break_now() -> bool:
+    """Is BTC's 4h trail broken as of the last closed 4h bar? False on any failure, which
+    makes every rule below fall back to the deployed behaviour - the safe direction."""
+    try:
+        br = _bp_breaks(_BREAK_CACHE)
+        return bool(_bp_trig(br, pd.Timestamp.now(tz="UTC").tz_localize(None)))
+    except Exception as e:
+        log(f"BTC-break check failed ({type(e).__name__}) - treating as not broken")
+        return False
 
 
 
@@ -614,9 +641,21 @@ def cycle(ex, st: dict, dry: bool):
                         rec["next_add"] += 1
                         rec["size"] = rec["size"] + add_sz
 
+            # TIGHT EXIT (btc_exit.py): a long switches to the short trail for good once
+            # BTC's 4h trail breaks. A break already on when the position opened does not
+            # count until it has switched off - otherwise a position entered mid-break
+            # would be tightened on its first managed bar.
+            if d > 0:
+                on = btc_break_now()
+                if not on:
+                    rec["barmed"] = True
+                elif rec.get("barmed") and not rec.get("tight"):
+                    rec["tight"] = True
+                    log(f"[{base}] BTC 4h trail broke -> trail {TRAIL_MULT:.0f}x -> "
+                        f"{TIGHT_TRAIL:.0f}xATR for this position ({rec.get('units',1)}u)")
             # ASYMMETRIC TRAIL: 20xATR for longs, 5xATR for shorts. Not a
             # preference - measured. Shorts go NEGATIVE at 20x.
-            tm = TRAIL_MULT if d > 0 else SHORT_TRAIL_MULT
+            tm = (TIGHT_TRAIL if rec.get("tight") else TRAIL_MULT) if d > 0 else SHORT_TRAIL_MULT
             cand = rec["high_water"] - d * tm * a_now
             # BREAKEVEN FLOOR at +BE_AT_R. Takes the wider of trail and entry, so it
             # can only ever improve the stop - it raises the floor and never touches
@@ -703,6 +742,26 @@ def cycle(ex, st: dict, dry: bool):
         # risk that must be used when reporting it - re-reading the gate at exit would
         # apply a different fraction to the same trade.
         risk_pct_used = RISK_PCT * (REGIME_MULT if bear else 1.0)
+        # SHORT BOOST (vol_target.py) and RUNNER SIZING (entry_runner.py). Both only ever
+        # scale the risk fraction, so the exchange sees a differently sized order and
+        # nothing else changes. A failure in either falls back to x1.
+        size_note, boosted, size_fac = "", 0, 1.0
+        brk_on = btc_break_now()
+        if d < 0 and brk_on:
+            boosted, size_fac = 1, SBOOST_MULT
+            risk_pct_used *= SBOOST_MULT
+            size_note = f"  [SHORT BOOSTED x{SBOOST_MULT:.0f} - BTC trail broken]"
+        elif d > 0:
+            try:
+                ma = closed["close"].rolling(BB_PERIOD).mean()
+                sd = closed["close"].rolling(BB_PERIOD).std(ddof=0)
+                size_fac = _bp_size(_bp_feats(closed, a_now,
+                                              float(ma.iloc[-1] + BB_STD * sd.iloc[-1])))
+            except Exception as e:
+                size_fac = 1.0
+                log(f"[{base}] runner-size note: {type(e).__name__} - using x1.00")
+            risk_pct_used *= size_fac
+            size_note = f"  [runner size x{size_fac:.2f}]"
         risk_amt = eq * risk_pct_used / 100.0
         stop_dist = SL_MULT * a_now
         size = risk_amt / stop_dist
@@ -729,7 +788,8 @@ def cycle(ex, st: dict, dry: bool):
             f"(${notional:.2f}) stop {stop_px:.4f} risk ${risk_amt:.2f} "
             f"({risk_pct_used:.3f}% of ${eq:.2f}"
             f"{' VIRTUAL' if VIRTUAL_EQUITY else ''})"
-            f"{'  [BTC BEAR -> x' + format(REGIME_MULT, '.2f') + ' risk]' if bear else ''}")
+            f"{'  [BTC BEAR -> x' + format(REGIME_MULT, '.2f') + ' risk]' if bear else ''}"
+            + size_note)
         if dry:
             log(f"[{base}] DRY RUN - no order placed")
             continue
@@ -749,6 +809,8 @@ def cycle(ex, st: dict, dry: bool):
                                entry_bar=bar,
                                high_water=(hi_last if d > 0 else lo_last),
                                bars=0, units=1, next_add=1,
+                               tight=False, barmed=(not brk_on),
+                               size_fac=round(size_fac, 3), boosted=boosted,
                                opened=f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M:%S}")
         # The trail and the unit ceiling are DIRECTION-DEPENDENT and this line used
         # to print the long values for both, so a short showed "20xATR trail, will
@@ -869,10 +931,15 @@ def main():
     # last_bar already equal to the current bar for every coin, and silently decided
     # nothing at all. A dry run that reports nothing looks like a broken strategy
     # rather than a shared file.
-    global STATE, TRADES
+    global STATE, TRADES, LOGF
     if args.dry_run:
         STATE = LOGS / "longtrend_state.dryrun.json"
         TRADES = LOGS / "trades_longtrend.dryrun.csv"
+        # ...and its own LOG. The state and trades files were separated after an earlier
+        # incident but the log was not, so a dry run's lines interleaved with the running
+        # bot's in one file. Reading that timeline afterwards, a dry run starting from an
+        # empty book looked exactly like the live bot having closed every position.
+        LOGF = LOGS / "longtrend.dryrun.log"
     st = load_state()
     if args.status:
         status(st)
