@@ -366,3 +366,26 @@ own errors, so neither tight nor sized can cost the main book a cycle.
 **Deploy:** `deploy/patch_sized_book.sh` (gzip+base64, sha256-checked, no backslashes — doc
 09), same pattern as the tight book. Rollback: restore `logs/blend_paper.py.bak-<stamp>`
 and restart `blend-paper`.
+
+## The SHORT-BOOST book, fourth beside main/tight/sized (2026-09-23) — `blend_paper.py`
+
+One process, four books, one set of klines. The fourth scales a SHORT's risk **x5** when
+BTC's 4h trail is broken at its entry (`SBOOST_MULT`). Evidence: shorts entered during a
+break earned **+0.481R against +0.043R** for all other shorts across 84 break episodes
+(`backtest/vol_target.py`). x5 is the safe end of the executable x5-x8 band — above x8 the
+book's **maximum** gross leverage breaks 10x.
+
+| file | book |
+|---|---|
+| `logs/blend_state.json` / `trades_blend.csv` | main (deployed) |
+| `logs/blend_state_tight.json` / `trades_blend_tight.csv` | tight (BTC-break trail on longs) |
+| `logs/blend_state_sized.json` / `trades_blend_sized.csv` | sized (runner-probability risk, `size_fac`) |
+| `logs/blend_state_sboost.json` / `trades_blend_sboost.csv` | short-boost (`boosted` flag per short) |
+
+**Read the `boosted` flag, not the equity gap.** Only ~2% of shorts are entered during a
+break, so the equity lines separate slowly; the trades file lets you compare boosted vs
+un-boosted mean R directly. `--status` prints that comparison as soon as a boosted short
+closes.
+
+**Deploy:** `deploy/patch_sboost_book.sh` (gzip+base64, sha256-checked, no backslashes).
+Rollback: restore `logs/blend_paper.py.bak-<stamp>` and restart `blend-paper`.
