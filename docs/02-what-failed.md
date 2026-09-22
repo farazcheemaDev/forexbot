@@ -2047,6 +2047,91 @@ measured on real stop fractions.
 
 ---
 
+## Five engine stones turned (2026-09-23) — `backtest/engine_variants.py`, `variant_leverage.py`, `vol_target.py`
+
+Everything outside the engine was already tested, so this batch attacked the untested choices
+INSIDE it. Every figure is averaged over 5 random orderings of simultaneous entries, because
+that ordering alone swings a run by 3-5%/mo. Deployed baseline: **tune +19.29%/mo at 55% DD,
+holdout +8.44%/mo at 57% DD, worst month -33.9%, gross leverage 8.7x at the 99th percentile.**
+
+### 1. RETRACTED the same day: pyramid adds on pullbacks
+
+The idea: units 2-5 are filled at fixed +2R breakout levels - bought HIGH, which is exactly
+where the -20R breakeven loss comes from. Fill them on a pullback instead. It looked like the
+best result in the project:
+
+| pullback 0.25xATR + tight exit | tune | holdout | DD | worst |
+|---|---|---|---|---|
+| **as first measured (WRONG)** | +19.4% | **+17.4%** | 47% | -19.7% |
+| **strictly causal (right)** | +12.6% | +9.3% | 64% | -25.7% |
+| deployed | +19.3% | +8.4% | 57% | -33.9% |
+
+It survived a plateau check (0.1 to 1.0 all beat base, peaking at an INTERIOR 0.25) and a
+leverage check. It died on causality. **The add was armed by a bar's HIGH and filled at that
+same bar's LOW**, which assumes the high came first - intrabar look-ahead, the same class of
+bug as the entry-bar stop check in doc 03. Requiring the fill to wait for the next bar cut
+the 1x holdout from +15.4% to +4.2%, dropped gross leverage from 8.5x to 4.3x (most adds
+never fill at all), and left it **worse than deployed on the tune half and tied on the
+holdout**. Dead.
+
+> **A plateau and an interior optimum are not evidence of realism.** Both held here while the
+> result was an artifact. Only the causality check found it.
+
+### 2. New sleeves: no winner
+
+Slots stay at 12, so extra sleeves mostly add declines. Holdout /mo: base (1h+4h+12h) +8.44%;
++8h **+10.33%** but tune falls to +16.12%; +1d +4.91%; +2h +9.00% at 72% tune DD; 12h+1d alone
+-1.15%. Nothing clears "better on both halves by >2%/mo". Adding a daily sleeve actively hurts.
+
+### 3. Multi-timeframe alignment: dead
+
+Taking 1h/4h entries only when the coin's 12h sleeve is also above its band cuts 5,628 longs
+to 2,006 and the holdout to +4.41%. Filter number N, same grave.
+
+### 4. Volatility targeting: dead, and instructively so
+
+Scaling risk by (target / realised vol of the book's own daily P&L), the standard
+managed-futures lever, is **worse on both halves AND has higher drawdown** (14d: +2.69%
+holdout at 69% DD; 30d: +3.46% at 75%; 60d: +9.24% at 78%; base 57%). The mechanism is
+visible in hindsight: **this book's volatility is lowest just before trends start and highest
+during them**, so inverse-vol sizing bets big into the quiet stretches that precede reversals
+and small during the moves that pay.
+
+### 5. A modest, executable lead: shorts sized up while BTC's 4h trail is broken
+
+`short_families.py` showed no short ENTRY signal beats random and the regime is the whole
+edge; `btc_exit.py` validated BTC's 4h trail break as a market-weakness signal. Untested until
+now: use it to size the short sleeve.
+
+| shorts x M on break | tune | holdout | DD | worst | gross (p99 / max) |
+|---|---|---|---|---|---|
+| x1 (deployed) | +19.29% | +8.44% | 57% | -33.9% | 8.7x / 9.6x |
+| **x5** | +19.61% | +9.78% | 49% | -31.7% | 8.7x / <10x |
+| **x8** | **+19.83%** | **+10.76%** | **47%** | **-30.5%** | 8.7x / <10x |
+| x12 | +20.11% | +12.01% | 44% | -29.8% | 9.1x / 10.5x |
+| x20 | +20.58% | +14.38% | 43% | -29.8% | 9.2x / **17.3x** |
+
+Better on both halves, lower drawdown and a better worst month - and it is **monotone with no
+turnover**, which by this project's own rule means the grid boundary, not an optimum. Two
+things bound it:
+
+- **Leverage.** Shorts are rare and short-lived, so p99 gross barely moves, but MAX gross
+  breaks 10x by x12. **x5-x8 is the executable range.**
+- **It rests on few trades.** Only **224 of 10,108 shorts (2.2%)** are entered while the break
+  is on, 100 of them in the holdout. Their mean is **+0.481R against +0.043R** for all other
+  shorts - a 9x better selection across **84 independent break episodes**.
+
+**Significance, month-block bootstrapped:** +0.439R pooled (**t +2.10**), +0.313R on the tune
+half (t +1.10), +0.592R on the holdout (t +1.98). Positive in both halves, neither
+individually significant. Encouragingly it is a whole-distribution shift, not one outlier:
+**win rate 41% vs 32%, median -0.419R vs -0.963R.**
+
+**Disposition:** a real-looking but modest lead (+2.3%/mo holdout at x8, drawdown 57% -> 47%),
+mechanism understood, executable, and using a signal already validated elsewhere. It belongs
+in the forward test, not in a conclusion.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
