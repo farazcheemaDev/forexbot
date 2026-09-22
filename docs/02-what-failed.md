@@ -1910,6 +1910,42 @@ and new-listing shorts. **Funding is where the market prices what everyone can a
 
 ---
 
+## Dead: ranking which signal gets the last slot (2026-09-22) — `backtest/slot_priority.py`
+
+The slots bind constantly: 1,093 moments had more simultaneous signals than free slots,
+involving 3,865 signals, and the paper bot has declined 462 signals against 47 taken.
+Random tie-breaking alone moves the deployed holdout between +5.1% and +10.4%/mo. So
+*which* trade takes the slot matters a lot, and choosing it better would add return with
+no added risk.
+
+Five features known at entry were each ranked in both directions: timeframe, 30-day
+momentum, ATR%, breakout strength, and volume surge. In the portfolio run two looked
+consistent, momentum HIGH-first (+22.6% / +11.1% against random's +19.5% / +8.9%) and
+breakout LOW-first. Both sat inside the random band's range.
+
+**The head-to-head test says the portfolio result was path noise.** It asks, at every
+moment with two or more simultaneous signals (3,230 of them), whether the signals ranked
+higher on the feature earned more R than those ranked lower. R is capped at -25/+100 so
+one runner cannot decide it, and t comes from a month-block bootstrap:
+
+| feature | high minus low | t | tune | holdout |
+|---|---|---|---|---|
+| 30d momentum | **-0.201R** | -1.28 | -0.20R | -0.20R |
+| breakout strength | -0.049R | -0.34 | -0.05R | -0.05R |
+| ATR% | +0.044R | +0.27 | +0.03R | +0.07R |
+| volume surge | -0.240R | -1.66 | -0.09R | -0.45R (t -2.12) |
+| timeframe | +0.120R | +0.11 | +0.39R | -0.39R |
+
+**Higher-momentum signals earn slightly *less*.** The portfolio gain did not come from
+picking better trades. It came from knock-on effects on which slots were free later.
+Nothing known at entry says which of two simultaneous signals will run.
+
+**What this means for reading any result:** the ±3-5%/mo spread from slot order is pure
+luck and cannot be steered. It sits inside every backtest figure in this document and
+inside the live paper account.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
