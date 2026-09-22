@@ -89,8 +89,32 @@ TRADES = LOGS / "trades_blend.csv"
 LOGF = LOGS / "blend_paper.log"
 TIGHT_STATE = LOGS / "blend_state_tight.json"
 TIGHT_TRADES = LOGS / "trades_blend_tight.csv"
+SIZED_STATE = LOGS / "blend_state_sized.json"
+SIZED_TRADES = LOGS / "trades_blend_sized.csv"
 BTC_TRAIL_K = 5.0                # BTC 4h trend break: close < best close - 5 x ATR(14)
-TIGHT_TRAIL = 5.0                # the tight book's long trail once BTC has broken
+TIGHT_TRAIL = 5.0               # the tight book's long trail once BTC has broken
+
+# ---- FROZEN runner-probability model for the SIZED book (backtest/runner_leverage.py) ----
+# A position-only logistic model (holdout AUC 0.591), fit on all 5,628 historical long
+# positions on 2026-09-22 and FROZEN here so the live period is genuinely out-of-sample and
+# the VM needs no sklearn - it is plain arithmetic. It scales each LONG's risk by its
+# runner-probability rank, mean held ~1, so the book takes no more total risk than the main
+# book; it only moves risk from low-runner-odds signals to high ones. Shorts are unsized.
+RS_FEATS = ["atr_expand", "ext_ma", "coin_30", "coin_90", "brk", "vsurge"]
+RS_MEAN = [0.974199, 0.958253, 0.022061, -0.040916, 0.425946, 2.130552]
+RS_STD = [0.237615, 0.074175, 0.044986, 0.088802, 0.472907, 3.003655]
+RS_COEF = [0.164832, 0.27414, -0.031434, -0.1998, -0.003506, -0.095652]
+RS_INTERCEPT = -0.027948
+RS_ZPCT = [0.0, 2.5, 5.0, 7.5, 10.0, 12.5, 15.0, 17.5, 20.0, 22.5, 25.0, 27.5, 30.0, 32.5,
+           35.0, 37.5, 40.0, 42.5, 45.0, 47.5, 50.0, 52.5, 55.0, 57.5, 60.0, 62.5, 65.0,
+           67.5, 70.0, 72.5, 75.0, 77.5, 80.0, 82.5, 85.0, 87.5, 90.0, 92.5, 95.0, 97.5, 100.0]
+RS_ZGRID = [-1.98484, -0.59592, -0.44112, -0.34636, -0.29868, -0.26563, -0.23227, -0.20818,
+            -0.18541, -0.16607, -0.14899, -0.13185, -0.11537, -0.0998, -0.08513, -0.07283,
+            -0.05971, -0.04618, -0.03505, -0.02367, -0.012, -0.00139, 0.01047, 0.02164,
+            0.03304, 0.0454, 0.05788, 0.07083, 0.08363, 0.09693, 0.1096, 0.12567, 0.14466,
+            0.16243, 0.18188, 0.20518, 0.23092, 0.26519, 0.3151, 0.41144, 2.38501]
+RS_SPREAD = 0.9                 # +-90% tilt around the median-runner-odds signal
+RS_CLIP = (0.10, 1.90)
 
 START_EQ = 221.0
 RISK_PCT = 0.30                  # per unit
@@ -338,6 +362,37 @@ def bar_start(rule: str, bar_time) -> pd.Timestamp:
     return t if rule == "1h" else t - pd.Timedelta(rule)
 
 
+def runner_features(closed: pd.DataFrame, a_now: float, up_b: float):
+    """The six frozen-model features at a long entry, from bars closed at/before it.
+    Matches backtest/entry_runner.py exactly. Returns None if history is too short."""
+    if len(closed) < 200:
+        return None
+    c = closed["close"].to_numpy(float); v = closed["volume"].to_numpy(float)
+    a_ser = atr(closed).to_numpy(float)
+    a_avg = np.nanmean(a_ser[-60:])
+    v_avg = np.nanmean(v[-21:-1]) if len(v) >= 21 else np.nan
+    ma200 = np.nanmean(c[-200:])
+    return {
+        "atr_expand": a_now / a_avg if a_avg and a_avg > 0 else 1.0,
+        "ext_ma": c[-1] / ma200 if ma200 and ma200 > 0 else 1.0,
+        "coin_30": c[-1] / c[-31] - 1 if len(c) >= 31 else 0.0,
+        "coin_90": c[-1] / c[-91] - 1 if len(c) >= 91 else 0.0,
+        "brk": (c[-1] - up_b) / a_now if a_now > 0 else 0.0,
+        "vsurge": v[-1] / v_avg if v_avg and v_avg > 0 else 1.0}
+
+
+def size_factor(feats: "dict | None") -> float:
+    """Risk multiplier for a long from its runner-probability rank. 1.0 (neutral) if the
+    features are unavailable, so a missing value can never quietly up-size a trade."""
+    if feats is None:
+        return 1.0
+    z = RS_INTERCEPT
+    for k, mu, sd, co in zip(RS_FEATS, RS_MEAN, RS_STD, RS_COEF):
+        z += co * ((float(feats[k]) - mu) / sd if sd else 0.0)
+    pct = float(np.interp(z, RS_ZGRID, RS_ZPCT)) / 100.0
+    return float(np.clip(1.0 + RS_SPREAD * (pct - 0.5) * 2, *RS_CLIP))
+
+
 def manage(st, key, rec, bar, hi, lo, a):
     """One position against the bar that just closed.
 
@@ -384,18 +439,18 @@ def manage(st, key, rec, bar, hi, lo, a):
 
 def cycle(st: dict, regime_cache: dict, kc: "dict | None" = None,
           tight: bool = False, breaks: "pd.Series | None" = None,
-          bear: "bool | None" = None):
+          bear: "bool | None" = None, sized: bool = False):
     """One pass over every coin and sleeve for ONE book.
 
-    kc shares this poll's klines between the two books, so the tight book adds no API
-    calls and both books always see the same bars; bear is passed in for the same
-    reason. tight=True applies the BTC-break rule; the main book never sets
-    rec["tight"], so its behaviour is unchanged."""
+    kc shares this poll's klines between the books, so the extra books add no API calls
+    and all books always see the same bars; bear is passed in for the same reason.
+    tight=True applies the BTC-break rule. sized=True scales each long's risk by the frozen
+    runner-probability model. The main book sets neither, so its behaviour is unchanged."""
     fee = FEE_BP / 1e4
     if bear is None:
         bear = btc_bear(regime_cache)
-    tag = "T|" if tight else ""
-    trades_path = TIGHT_TRADES if tight else TRADES
+    tag = "T|" if tight else ("S|" if sized else "")
+    trades_path = TIGHT_TRADES if tight else (SIZED_TRADES if sized else TRADES)
     kc = {} if kc is None else kc
     for base in BOOK:
         if base not in kc:
@@ -456,6 +511,8 @@ def cycle(st: dict, regime_cache: dict, kc: "dict | None" = None,
                     equity=f"{st['equity']:.2f}")
                 if tight:
                     row["tightened"] = int(bool(rec.get("tight")))
+                if sized:
+                    row["size_fac"] = rec.get("size_fac", 1.0)
                 rec_trade(row, trades_path)
                 st["open"].pop(key, None)
                 continue
@@ -483,6 +540,10 @@ def cycle(st: dict, regime_cache: dict, kc: "dict | None" = None,
             # used when it closes - reading the gate again at exit would apply a
             # different fraction to the same trade.
             risk_used = RISK_PCT * (REGIME_MULT if bear else 1.0)
+            size_fac = 1.0
+            if sized and d > 0:
+                size_fac = size_factor(runner_features(closed, a, up_b.iloc[-1]))
+                risk_used *= size_fac                # scales risk AND notional AND P&L
             risk = SL_MULT * a
             risk_usd = st["equity"] * risk_used / 100.0
             notional = risk_usd / (risk / px) if px > 0 else 0.0
@@ -505,6 +566,8 @@ def cycle(st: dict, regime_cache: dict, kc: "dict | None" = None,
                                    water=(hi if d > 0 else lo), bars=0, units=1,
                                    next_add=1, notional=notional,
                                    risk_used=risk_used, entry_bar=bar)
+            if sized:
+                st["open"][key]["size_fac"] = round(size_fac, 3)
             if tight and d > 0:
                 # entry is at this bar's close = the start of the next bar
                 nxt = pd.Timestamp(closed["time"].iloc[-1]) + \
@@ -515,6 +578,7 @@ def cycle(st: dict, regime_cache: dict, kc: "dict | None" = None,
             log(f"[{lkey}] {side.upper()} @{px:.8g} stop {px-d*risk:.8g} "
                 f"trail {LONG_TRAIL if d>0 else SHORT_TRAIL:.0f}xATR "
                 f"unit ${notional:.2f} risk {risk_used:.3f}%"
+                f"{f' size x{size_fac:.2f}' if sized and d > 0 else ''}"
                 f"{' [BTC BEAR]' if bear else ''} "
                 f"({len(st['open'])}/{SLOTS} slots, trade #{st['taken']})")
 
@@ -588,6 +652,34 @@ def status_tight(st: dict, tst: dict):
     print("  two books are identical by construction.\n")
 
 
+def status_sized(st: dict, sst: dict):
+    """The SIZED book next to the main one. Same signals; each new long's risk is scaled
+    by its runner-probability (frozen model, mean 1), so it earns more per correct big
+    winner without taking more total risk."""
+    if not sst:
+        print("SIZED book: not started yet (it forks from this book on the first cycle)\n")
+        return
+    print(f"SIZED BOOK - each long's risk x its runner-probability (frozen model, mean 1)")
+    print(f"forked from the main book {sst.get('forked', '?')}")
+    eq, meq = sst["equity"], st["equity"]
+    print(f"  equity  sized {eq:.2f}   main {meq:.2f}   difference {eq - meq:+.2f}")
+    longs = [r for r in sst["open"].values() if r["side"] == "long"]
+    facs = [r.get("size_fac", 1.0) for r in longs]
+    print(f"  open {len(sst['open'])}/{SLOTS}; long size factors "
+          f"{'min %.2f  mean %.2f  max %.2f' % (min(facs), sum(facs)/len(facs), max(facs)) if facs else 'n/a'}")
+    for k, r in sorted(sst["open"].items()):
+        print(f"    {k:<18} {r['side']:<5} stop {r['stop']:.6g} {r.get('units', 1)}u"
+              f"{'  x%.2f' % r.get('size_fac', 1.0) if r['side'] == 'long' else ''}")
+    if SIZED_TRADES.exists():
+        d = pd.read_csv(SIZED_TRADES)
+        rs = pd.to_numeric(d["R"], errors="coerce").dropna()
+        if len(rs):
+            print(f"  closed since fork {len(rs)}  total {rs.sum():+.2f}R  "
+                  f"win {(rs > 0).mean()*100:.0f}%")
+    print("  Books diverge as new longs are opened at non-1 sizes; a size <1 can fall")
+    print("  below the MEXC minimum and be skipped - that interaction is the thing to watch.\n")
+
+
 def fork_tight(st: dict, breaks) -> dict:
     """Start the tight book as an exact copy of the main book. Positions already open
     are armed only if no break is on right now - btc_exit.py's rule for a signal that
@@ -601,6 +693,17 @@ def fork_tight(st: dict, breaks) -> dict:
     return t
 
 
+def fork_sized(st: dict) -> dict:
+    """Start the sized book as an exact copy of the main book. Positions already open keep
+    their sizes (size_fac 1.0) - only NEW longs after the fork are sized, so the two books
+    diverge purely through the sizing rule going forward."""
+    t = json.loads(json.dumps(st))
+    t["forked"] = datetime.now(timezone.utc).isoformat()
+    for r in t["open"].values():
+        r.setdefault("size_fac", 1.0)
+    return t
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--status", action="store_true")
@@ -608,8 +711,9 @@ def main():
     args = ap.parse_args()
     st = load_state()
     tst = load_state(TIGHT_STATE) if TIGHT_STATE.exists() else None
+    sst = load_state(SIZED_STATE) if SIZED_STATE.exists() else None
     if args.status:
-        status(st); status_tight(st, tst); return
+        status(st); status_tight(st, tst); status_sized(st, sst); return
     log("=" * 78)
     log(f"BLEND PAPER — ${START_EQ:.0f}, {len(BOOK)} coins x {len(SLEEVES)} "
         f"timeframes, {SLOTS} shared slots")
@@ -625,15 +729,17 @@ def main():
     log("  drawdown, which raises compounded return.")
     log(f"  TIGHT book beside it: long trail -> {TIGHT_TRAIL:.0f}xATR once BTC's 4h trend "
         f"breaks ({BTC_TRAIL_K:.0f}xATR). {'resuming' if tst else 'forks on first cycle'}")
+    log(f"  SIZED book beside it: each long's risk x its runner-probability (frozen model, "
+        f"mean 1). {'resuming' if sst else 'forks on first cycle'}")
     regime_cache: dict = {}
     brk_cache: dict = {}
 
     def one_poll():
-        nonlocal tst
+        nonlocal tst, sst
         kc: dict = {}
         bear = btc_bear(regime_cache)
-        # the MAIN book first, saved before the tight book is touched, so nothing in
-        # the tight path can cost the main book a cycle
+        # the MAIN book first, saved before the extra books are touched, so nothing in
+        # their paths can cost the main book a cycle
         cycle(st, regime_cache, kc, bear=bear)
         save_state(st)
         try:
@@ -648,9 +754,19 @@ def main():
         except Exception as e:
             log(f"TIGHT book error (main book unaffected): {type(e).__name__}: "
                 f"{str(e)[:160]}")
+        try:
+            if sst is None:
+                sst = fork_sized(st)
+                log(f"SIZED book forked from main: equity {sst['equity']:.2f}, "
+                    f"{len(sst['open'])} open")
+            cycle(sst, regime_cache, kc, sized=True, bear=bear)
+            save_state(sst, SIZED_STATE)
+        except Exception as e:
+            log(f"SIZED book error (main book unaffected): {type(e).__name__}: "
+                f"{str(e)[:160]}")
 
     if args.once:
-        one_poll(); status(st); status_tight(st, tst); return
+        one_poll(); status(st); status_tight(st, tst); status_sized(st, sst); return
     while True:
         try:
             one_poll()
@@ -661,9 +777,8 @@ def main():
                     f"{len(st['open'])}/{SLOTS} slots | taken {st['taken']} "
                     f"({st.get('taken_long',0)}L/{st.get('taken_short',0)}S) | "
                     f"declined {st['declined']} | too small {st.get('too_small',0)}"
-                    + (f" | TIGHT equity {tst['equity']:.2f}, "
-                       f"{sum(1 for r in tst['open'].values() if r.get('tight'))} tightened"
-                       if tst else ""))
+                    + (f" | TIGHT {tst['equity']:.2f}" if tst else "")
+                    + (f" | SIZED {sst['equity']:.2f}" if sst else ""))
                 save_state(st)
         except KeyboardInterrupt:
             log("stopped"); save_state(st); return
