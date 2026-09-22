@@ -1946,6 +1946,65 @@ inside the live paper account.
 
 ---
 
+## PROMISING: the runner is predictable AT ENTRY, and it sizes (2026-09-22) — `backtest/entry_runner.py`
+
+`runner_id.py` found a feature (`atr_ratio`) that separates runners, but only *after* a
+trade crossed +20R, and using it to exit lost money. This asks the untested question: at
+**entry**, before a slot is committed, can we rank signals by their chance of becoming a
+big runner (peak >= 50R)? 5,628 long positions, features from bars closed at/before entry,
+a logistic model fit on the first 60% of history and scored only on the last 40%.
+
+**The runner is genuinely predictable out-of-sample:**
+
+| | holdout AUC |
+|---|---|
+| full model (8 features) | **0.675** |
+| position-only model (drop the two BTC/regime features) | **0.591** |
+| best single feature: `ext_ma` (price / 200-bar mean) | 0.607 |
+| `atr_expand` (ATR / its 60-bar average) | 0.596 |
+
+The model's **top decile of holdout signals runs at 10.7% (mean +10.77R); its bottom decile
+at 1.8% (mean -2.09R)**, against a 5.2% / +1.03R base. Extended coins with expanding
+volatility become runners more often — the trend-persistence premise, now measured at entry.
+
+**It does NOT help slot priority.** The prediction is cross-time (regime + trend state), not
+cross-sectional. Within a contested moment, where all signals share one regime, the AUC is
+0.383 (n=39) — no power to rank simultaneous signals. Using it to pick contested slots cost
+-0.69%/mo. This is why `slot_priority.py` found nothing: the pick is between signals that
+look alike.
+
+**Where it pays is SIZING.** Scale each position's risk by its runner-rank, mean held
+constant, so it is not simply betting more. Against a uniform bet **at the same drawdown**
+(the control `bull_boost.py` demands):
+
+| scheme (holdout) | /mo | DD | uniform at same DD | edge |
+|---|---|---|---|---|
+| deployed (flat) | +10.51% | 64% | - | - |
+| size by full model, ±90% | +16.64% | 75% | +12.59% | **+4.04%** |
+| size by position-only, ±50% | +12.30% | **65%** | +10.75% | **+1.55%** |
+| size by position-only, ±90% | +12.98% | 67% | +11.07% | **+1.91%** |
+
+The position-only rows are the honest ones — they cannot be regime-timing, and they add
+**+1.5 to +2%/mo at essentially the deployed drawdown**. The full-model edge is larger but
+leans on the market-regime features, which the gate already partly captures.
+
+**Why this is PROMISING, not shipped:**
+- It is one holdout period. The AUC is the solid part; the +1.5-2%/mo sizing edge is a
+  second-order quantity and more fragile.
+- Sizing scales positions linearly here. It does **not** re-check the MEXC min-order floor
+  (smaller positions may be rejected at $221) or slippage. At $221 the floor already binds;
+  this is cleanest on a larger account.
+- `coin_90` carries a negative coefficient (90-day winners run less) while `ext_ma` is
+  positive — momentum and mean-reversion partly fighting. The OOS AUC survives it, but it is
+  a sign the model is near its data's limit; keep it small (few features, strong
+  regularisation).
+
+**Next step:** a third paper book that sizes by the position-only model, beside the main and
+tight books, so the sizing edge is validated forward and the min-order interaction is seen
+live. This is the first entry-time predictive signal found in the project.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
