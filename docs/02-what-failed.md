@@ -2003,6 +2003,48 @@ leans on the market-regime features, which the gate already partly captures.
 tight books, so the sizing edge is validated forward and the min-order interaction is seen
 live. This is the first entry-time predictive signal found in the project.
 
+### The two edges STACK, via drawdown -> leverage capacity (2026-09-22) — `backtest/runner_leverage.py`
+
+Asked whether the edge is worth more, four levers were tested on the proper non-overlapping
+book (5,628 deployed longs), every figure averaged over 5 random slot-orderings because
+that ordering alone swings a single run by several %/mo:
+
+1. **Stronger model:** gradient boosting lifts holdout AUC to **0.614** (logistic 0.591).
+   Modest.
+2. **Harder sizing:** dropping the bottom 20% of runner-probability and tilting the rest
+   +-90% beats a uniform bet **at the same drawdown by +3.3%/mo** (vs +2.9% for a plain
+   linear tilt). The bottom decile really is dead money.
+3. **Sizing and the tight exit COMPETE, they do not add.** On the tight-exit book the sizing
+   edge shrinks to +1.3-1.5%/mo, because the tight trail clips the very runners sizing loads
+   onto.
+4. **But the tight exit's real gift is drawdown, and drawdown is leverage capacity.** This is
+   what I had missed. The tight exit cuts drawdown (52% vs 59% flat) and the worst month far
+   more (-17.5% vs -38.2%). A lower-drawdown book can safely carry more risk:
+
+| holdout, 5 orderings averaged | /mo | drawdown | worst month |
+|---|---|---|---|
+| **today's book** (deployed exit, flat) | +8.86% | 59% | -38.2% |
+| tight exit, flat, **levered x1.20** to 59% DD | +13.03% | 59% | -21.0% |
+| tight exit + convex sizing, **levered x1.15** to 59% DD | **+15.14%** | 59% | **-22.4%** |
+
+**At the same drawdown, the combination earns about +6%/mo more than today, with a worst
+month roughly half as deep.** The gain is not from betting blindly more (that was
+`bull_boost.py`, dead); it is from spending the drawdown the tight exit frees up.
+
+**Three hard caveats, so this is a lead and not a promise:**
+- **One holdout period.** The tight exit itself is still awaiting forward confirmation
+  (`btc_exit.py`), and the +6%/mo is a single draw of history stacked on a model tuned on
+  the other 60%.
+- **The leverage ceiling binds.** The book already runs ~8.7x gross at the 99th percentile
+  (`bull_boost.py`); x1.15-1.20 pushes it near 10x, where `lev_test.py` showed liquidations
+  start to bite. The extra risk may not be executable in full, which would shrink the +6%.
+- **Min-order floor and slippage are not re-checked**, and at $221 the floor already binds.
+
+**Disposition:** validate the pieces at 1x first (no extra leverage) - the tight exit is
+already live on paper, and the runner-sizing book is the next to add. The leverage-up is a
+decision for after both hold forward, and only once the gross-leverage interaction is
+measured on real stop fractions.
+
 ---
 
 ## Interesting non-results worth keeping
