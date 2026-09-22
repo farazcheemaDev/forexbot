@@ -2193,6 +2193,46 @@ short boost x5 since 2026-09-23). Nothing to change; the forward test decides it
 
 ---
 
+## Four structural choices, all dead - and one validates the design (2026-09-23) — `backtest/book_structure.py`
+
+Baseline: tune +19.29%/mo at 55% DD, holdout +8.44% at 57%. Bar to clear: better on BOTH
+halves by >2%/mo. Seed-averaged over 5 orderings.
+
+| variant | tune | holdout | DD (hold) | worst |
+|---|---|---|---|---|
+| **max 1 position per coin** | +9.87% | **+2.15%** | **78%** | -40.8% |
+| max 2 per coin | +16.43% | +5.73% | 59% | -37.8% |
+| trail 30x/20x/12x (wide on fast sleeves) | +21.25% | +9.27% | 64% | -39.4% |
+| trail 10x/20x/40x (wide on slow) | +10.46% | +12.78% | 55% | -29.4% |
+| risk x1.5/x1.0/x0.5 | +21.85% | +9.78% | 67% | -40.3% |
+| risk x2.0/x1.0/x0.25 | +23.89% | +10.43% | **76%** | -48.3% |
+| bb(20, 2.0) | +18.20% | +7.49% | 59% | -36.9% |
+| bb(50, 1.5) | +21.37% | +7.07% | 71% | -24.3% |
+| bb(30, 1.25) | +18.94% | +13.36% | 64% | -36.6% |
+
+**Nothing passes.** Three things worth keeping:
+
+**1. Duplicate coins across sleeves are a FEATURE.** The live book holds NEAR, DOT and LINK
+twice each, which looked like wasteful concentration. Capping it to one position per coin
+**cut the holdout from +8.44% to +2.15% and raised drawdown to 78%**. When a coin genuinely
+trends, all three sleeves fire on it, and holding all three is how the book catches its
+biggest winners. Capping duplicates forces the slots into worse coins. `corr_alloc.py` capped
+by cluster and `slot_split.py` by side; both also failed. **Every attempt to make this book
+more diversified has lost money.**
+
+**2. Per-sleeve risk weights are just leverage.** Tilting risk toward the 1h sleeve raises
+return and drawdown together (x2.0/x1.0/x0.25: +23.89% tune but 68/76% DD) - the `bull_boost.py`
+pattern again, not an edge.
+
+**3. The recurring shape of every near-miss.** Widening the slow sleeve's trail, and loosening
+the entry band, both **help the holdout and hurt the tune half** (10x/20x/40x: +12.78% holdout
+vs +10.46% tune; bb(30,1.25): +13.36% vs +18.94%). That is the same asymmetry the tight exit
+and the short boost show. Either 2024-2026 genuinely rewards slower, looser trend capture, or
+these variants are all fitting the same recent regime. **Treat any holdout-only improvement in
+this project as regime-dependent until it survives forward.**
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and

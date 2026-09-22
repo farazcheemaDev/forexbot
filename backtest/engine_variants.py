@@ -50,7 +50,8 @@ SEEDS = (0, 1, 2, 3, 4)
 _CACHE: dict = {}
 
 
-def long_walk(df, rule, coin, add_mode="breakout", pull_atr=1.0, align=None, tb=None):
+def long_walk(df, rule, coin, add_mode="breakout", pull_atr=1.0, align=None, tb=None,
+              trail=None):
     """Deployed long pyramid, one position at a time.
 
     add_mode 'breakout' fills unit k at entry + k*2R the moment price trades there (today).
@@ -110,7 +111,8 @@ def long_walk(df, rule, coin, add_mode="breakout", pull_atr=1.0, align=None, tb=
                         pos["ents"].append(want); pos["nxt"] += 1; pos["armed"] = False
                         pos["addt"].append(t[i])
         pos["best"] = max(pos["best"], h[i])
-        cand = pos["best"] - (5.0 if pos["tight"] else blend.LONG_TRAIL) * a[i - 1]
+        wide = blend.LONG_TRAIL if trail is None else trail
+        cand = pos["best"] - (5.0 if pos["tight"] else wide) * a[i - 1]
         if (pos["best"] - e0) / r >= blend.BE_AT:
             cand = max(cand, e0)
         if cand > pos["stop"]:
@@ -152,8 +154,9 @@ def break_map(df, rule):
     return br.reindex(br.index.union(starts)).ffill().reindex(starts)        .fillna(False).to_numpy(bool)
 
 
-def rows_for(rules, add_mode="breakout", pull_atr=1.0, aligned=False, tight=False):
-    key = (tuple(rules), add_mode, pull_atr, aligned, tight)
+def rows_for(rules, add_mode="breakout", pull_atr=1.0, aligned=False, tight=False,
+             trail=None):
+    key = (tuple(rules), add_mode, pull_atr, aligned, tight, trail)
     if key in _CACHE:
         return _CACHE[key]
     rows = []
@@ -168,7 +171,7 @@ def rows_for(rules, add_mode="breakout", pull_atr=1.0, aligned=False, tight=Fals
                 continue
             al = align_map(d, df, rule) if (aligned and rule != "12h") else None
             tb = break_map(df, rule) if tight else None
-            rows += long_walk(df, rule, coin, add_mode, pull_atr, al, tb)
+            rows += long_walk(df, rule, coin, add_mode, pull_atr, al, tb, trail)
     _CACHE[key] = rows
     return rows
 
