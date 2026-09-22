@@ -340,3 +340,29 @@ up the old file to `logs/blend_paper.py.bak-<stamp>`, restarts `blend-paper`, an
 the status. To roll back:
 
     cp /opt/forexbot/logs/blend_paper.py.bak-<stamp> /opt/forexbot/blend_paper.py && systemctl restart blend-paper
+
+## The SIZED book, third beside main and tight (2026-09-22) — `blend_paper.py`
+
+A third book runs in the same process. It takes the same signals and exits as the **main**
+book, but scales each new long's risk by a frozen runner-probability model
+(`backtest/runner_leverage.py`, position-only logistic, holdout AUC 0.591), mean factor ~1,
+so it carries no more total risk than main — it moves risk from low-runner-odds signals to
+high ones. Shorts are unsized. The model is frozen to plain-numpy constants in the file, so
+the VM needs no sklearn.
+
+| file | book |
+|---|---|
+| `logs/blend_state.json`, `logs/trades_blend.csv` | main (deployed) |
+| `logs/blend_state_tight.json`, `logs/trades_blend_tight.csv` | tight (BTC-break trail) |
+| `logs/blend_state_sized.json`, `logs/trades_blend_sized.csv` | sized (runner-probability risk; trades carry `size_fac`) |
+
+`python blend_paper.py --status` prints all three. The sized book forks from main on the
+first cycle (existing positions at ×1.0) and diverges as new longs open at factors between
+0.10× and 1.90×. **Watch two things:** whether it out-earns main at similar drawdown, and
+how often a factor < 1 drops a long below the MEXC minimum (that rejection is the $221
+interaction we want to measure). Each extra book saves the main book first and isolates its
+own errors, so neither tight nor sized can cost the main book a cycle.
+
+**Deploy:** `deploy/patch_sized_book.sh` (gzip+base64, sha256-checked, no backslashes — doc
+09), same pattern as the tight book. Rollback: restore `logs/blend_paper.py.bak-<stamp>`
+and restart `blend-paper`.
