@@ -2132,6 +2132,67 @@ in the forward test, not in a conclusion.
 
 ---
 
+## Dead, and it reverses an old result: BREADTH does not scale (2026-09-23) — `backtest/wide_book.py`
+
+`cheap_wide.py` measured that return scales with breadth (3 coins +1.9%/mo, 9 coins
++10.7%/mo) and the deployed book then took TWELVE coins, chosen for minimum-order
+affordability. With `perp_fetch.py`'s 855 perps (339 dead) the honest version is finally
+testable: same 12 slots, same engine, same perp price data, but signals drawn from a
+point-in-time top-N universe where dead coins are present while they lived.
+
+| universe, 12 slots | trades | coins | tune /mo | DD | holdout /mo | DD |
+|---|---|---|---|---|---|---|
+| **12 deployed coins** | 10,601 | 11 | **+13.08%** | 66% | **+6.56%** | 63% |
+| PIT top-30 | 40,939 | 283 | +5.32% | 78% | -0.09% | 68% |
+| PIT top-60 | 79,598 | 469 | +6.26% | 79% | -0.13% | 76% |
+| PIT top-100 | 128,146 | 588 | +5.28% | 77% | +0.75% | 64% |
+
+**Wider is drastically worse**, and more slots only buys drawdown: top-100 at 30 slots gives
++16.38% tune at **93% DD** and +0.24% on the holdout.
+
+**Why the old result reversed:** breadth was measured on coins that exist TODAY. In a
+survivorship-free universe the extra names are mostly things that pumped once and died -
+their breakouts chop and bleed, and they consume the slots. Two readings, both worth holding:
+the twelve are "cheap but REPUTABLE" and that quality filter is doing real work; and part of
+their edge is knowing in 2026 which coins stayed reputable, which is the same hindsight
+premium `pit_universe.py` already priced at 3x. Either way, **trading more coins is not the
+lever.**
+
+## The best book assemblable from what survived (2026-09-23) — `backtest/composite.py`
+
+Three changes are on paper. They touch different parts of the book - long exits, short
+sizing, long sizing - so they should be near-independent. Measured together, seed-averaged
+over 5 orderings, on the `engine_variants` path where stop fractions and add times are real
+so gross leverage can be checked:
+
+| book, 1x risk | tune | DD | holdout | DD | worst month | gross p99 / max |
+|---|---|---|---|---|---|---|
+| deployed | **+19.29%** | 55% | +8.44% | 57% | -33.9% | 8.7x / 9.6x |
+| tight exit | +16.08% | 37% | +12.73% | 54% | -20.9% | 9.1x / 10.0x |
+| **tight + short boost x5** (what is on paper) | +16.49% | 39% | **+14.49%** | 48% | **-21.0%** | 9.3x / 10.0x |
+| tight + short boost x8 | +16.78% | 39% | **+15.72%** | 42% | -21.0% | 9.3x / 10.0x |
+
+**Two of the three stack; the third adds nothing.** On the `composite.py` path, ALL THREE
+(+15.09% holdout at 43% DD) is no better than tight + short boost alone (+13.65% at 38% DD)
+once leverage headroom is accounted for - runner sizing raises drawdown enough to cost the
+leverage it would otherwise buy.
+
+**What it is worth, honestly:**
+- **Holdout return roughly doubles** (+14.5% vs +8.4%) with drawdown 48% vs 57% and a worst
+  month -21% vs -34%. Executable as-is: no extra leverage is used.
+- **It costs tune-half return** (+16.5% vs +19.3%). The gain is holdout-only, and both
+  components' evidence is holdout-favouring - so this may be a statement about 2024-2026
+  rather than about the strategy.
+- **There is no room to lever it.** Gross max already touches 10x, so the +20%/mo levered
+  figures in `composite.py` are not reachable.
+- The short-boost half rests on 224 trades, t +2.10 pooled. That fragility carries into the
+  composite.
+
+**Both halves of the winning pair are already running on paper** (tight since 2026-09-21,
+short boost x5 since 2026-09-23). Nothing to change; the forward test decides it.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and
