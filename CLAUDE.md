@@ -315,10 +315,17 @@ mined holdout; the paper books decide.
 
 **Seven paper books are live on the VM** (user deployed 2026-09-24; `blend_paper.py` sha256
 2c144637…c72a verified against origin/main before the paste). Books #2/#5/#6/#7 form a 2×2
-factorial over {time stop, 7 units} on the tight base. **The Bitget demo bot does NOT match**:
-`longtrend_bot.py` has tight + short boost + runner sizing, and has neither the time stop nor
-7 units. The books will not diverge until BTC closes a 4h bar under the break level (~$81.6k
-on 09-23; `python btc_regime_now.py` shows it live) or a trade reaches +10R.
+factorial over {time stop, 7 units} on the tight base. **The Bitget demo bot now carries both**
+(2026-09-24): `longtrend_bot.py` imports `TSTOP_BARS`, `TSTOP_R`, `UNITS_MAX` and `MAX_LEVERAGE`
+from `blend_paper.py`, asserts `MAX_UNITS == UNITS_MAX`, and applies blend_paper's 10× gross
+guard to entries AND adds. The guard is essential here: the demo PAYS from ~2,900 SUSDT but SIZES
+as $221, so the exchange would never refuse an add. It still also runs short boost and runner
+sizing, so it is "triple + two extras", matching no paper book exactly. It tests the order path,
+not the strategy. `tests/test_longtrend_rules.py` drives the real `cycle()` offline (8 tests),
+and three mutations (an 8th unit, no guard, no time stop) each fail it. **It takes effect only
+after the running demo process is restarted.** The books will not diverge until BTC closes a 4h
+bar under the break level (~$81.6k on 09-23; `python btc_regime_now.py` shows it live) or a trade
+reaches +10R.
 
 **Chop and liquidation, the two questions the new config had not been asked**
 (`backtest/regime_and_liq.py`, doc 11 part 10). Both answers matter more than the headline. The

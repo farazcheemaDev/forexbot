@@ -137,7 +137,12 @@ TRAIL_MULT = 20.0        # uncapped trail; NO take-profit anywhere
 # More return AND less drawdown at identical total risk - because the added units
 # are funded by open profit, so size grows only after price has confirmed, while
 # the 87% of trades that fail still lose one unit.
-MAX_UNITS = 5            # units per position, including the initial entry (LONGS only)
+# 5 -> 7 on 2026-09-24 (backtest/pyramid_params.py, units_on_tstop.py): units 6-7 are only
+# added at +10R/+12R, above the breakeven stop, so they carry upside with almost no downside.
+# Beat 5 on both halves, all four bar phases, and a matched-risk control; worth ~+1.19%/mo
+# with the 10x guard below (triple_capped.py). Asserted equal to blend_paper.UNITS_MAX after
+# the import further down, so the demo and paper book #7 cannot drift apart.
+MAX_UNITS = 7            # units per position, including the initial entry (LONGS only)
 
 # SHORT SLEEVE. Point-in-time, survivorship-free, sharing the same slots.
 #
@@ -334,9 +339,29 @@ _BREAK_CACHE: dict = {}
 # KNOWN second-order inconsistency: the frozen model was fitted with Wilder ATR while
 # runner_features uses this project's simple-average ATR. It is a ratio feature, so the tilt
 # direction is preserved; both live bots share the same version, so they stay comparable.
+#   time stop    graveyard_rescore close a long still under +2R after 100 bars (2026-09-24)
+#   7 units      pyramid_params    MAX_UNITS 5 -> 7, with blend_paper's 10x gross guard
 from blend_paper import (  # noqa: E402
-    SBOOST_MULT, TIGHT_TRAIL, btc_breaks as _bp_breaks, runner_features as _bp_feats,
+    MAX_LEVERAGE, SBOOST_MULT, TIGHT_TRAIL, TSTOP_BARS, TSTOP_R, UNITS_MAX,
+    btc_breaks as _bp_breaks, runner_features as _bp_feats,
     size_factor as _bp_size, trig_at as _bp_trig)
+
+assert MAX_UNITS == UNITS_MAX, "demo MAX_UNITS drifted from blend_paper.UNITS_MAX"
+
+
+def time_stop_due(rec: dict, close_px: float) -> bool:
+    """TIME STOP, as blend_paper.manage applies it to paper books #5 and #7: a LONG that has
+    been held TSTOP_BARS closed bars and whose close is still under TSTOP_R above the FIRST
+    entry. Shorts never - the backtest never applied it to them."""
+    return (rec.get("side", "long") == "long" and rec.get("bars", 0) >= TSTOP_BARS
+            and (close_px - rec["entry"]) / rec["risk"] < TSTOP_R)
+
+
+def gross_notional(open_recs: dict) -> float:
+    """Open notional at fill prices: each position's per-unit notional x its units - the
+    quantity blend_paper.manage checks against MAX_LEVERAGE x equity."""
+    return sum(r.get("size_unit", r.get("size", 0.0)) * r["entry"] * r.get("units", 1)
+               for r in open_recs.values())
 
 
 def btc_break_now() -> bool:
@@ -516,6 +541,46 @@ def actual_fill(ex, order, sym, side_closing: str, fallback: float):
     return float(fallback), "assumed"
 
 
+def exit_position(ex, dry: bool, st: dict, raw: str, base: str, demo_sym: str, rec: dict,
+                  exit_px: float, reason: str, d: int) -> bool:
+    """Close a managed position at market and log it. One path for every exit reason, so a
+    time-stop close and a trail close cannot differ in order type, fill recovery or the
+    columns written to the trades file. Returns False (position kept, exchange stop still
+    in place) if the exit order fails."""
+    R = (exit_px - rec["entry"]) * d / rec["risk"]
+    what = "TRAIL HIT" if reason == "TRAIL" else reason.replace("_", " ")
+    log(f"[{base}] {what} ({rec['side']}) -> exiting at market. "
+        f"entry {rec['entry']:.4f} {'stop' if reason == 'TRAIL' else 'close'} "
+        f"{exit_px:.4f} R={R:+.2f} after {rec['bars']} bars")
+    got, src = exit_px, "assumed"
+    if not dry and ex:
+        try:
+            o = ex.create_order(demo_sym, "market", "sell" if d > 0 else "buy",
+                                rec["size"], None, {"reduceOnly": True})
+        except Exception as e:
+            log(f"[{base}] EXIT ORDER FAILED: {str(e)[:160]} - "
+                f"position left open, exchange stop still in place")
+            st["open"][raw] = rec
+            return False
+        # the ACTUAL fill, not the price we asked for. Without this the
+        # order-path test measures nothing - see actual_fill().
+        got, src = actual_fill(ex, o, demo_sym, "sell" if d > 0 else "buy", exit_px)
+    R_got = (got - rec["entry"]) * d / rec["risk"]
+    slip = (got - exit_px) / exit_px * 1e4 * d if exit_px else 0.0
+    if src != "assumed":
+        log(f"[{base}] filled {got:.6f} vs {exit_px:.6f} wanted "
+            f"({src}) -> R {R:+.2f} intended, {R_got:+.2f} actual, "
+            f"slip {slip:+.1f}bp")
+    log_trade(dict(ts=f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M:%S}",
+                   symbol=base, entry=f"{rec['entry']:.6f}",
+                   exit=f"{got:.6f}", exit_intended=f"{exit_px:.6f}",
+                   exit_src=src, R=f"{R_got:+.4f}",
+                   slip_bp=f"{slip:+.1f}", reason=reason,
+                   bars=rec["bars"]))
+    st["open"].pop(raw, None)
+    return True
+
+
 def cycle(ex, st: dict, dry: bool):
     # SIZE AS IF THE ACCOUNT HELD `VIRTUAL_EQUITY`, while trading the real balance.
     #
@@ -617,13 +682,46 @@ def cycle(ex, st: dict, dry: bool):
             rec["high_water"] = (max(rec["high_water"], hi_last) if d > 0
                                  else min(rec["high_water"], lo_last))
 
+            # TIME STOP (paper books #5 and #7, added 2026-09-24): a long still under
+            # +TSTOP_R after TSTOP_BARS closed bars is dead money paying funding. Checked
+            # BEFORE any add, as blend_paper.manage does, and the stop still wins if this
+            # bar breached it - blend_paper checks the stop first, against the level it
+            # held during this bar, so the time stop never overrides a stop-out.
+            if time_stop_due(rec, px_last):
+                if lo_last <= rec["stop"]:
+                    exit_position(ex, dry, st, raw, base, demo_sym, rec, rec["stop"],
+                                  "TRAIL", d)
+                else:
+                    log(f"[{base}] TIME STOP - {rec['bars']}b held, still "
+                        f"{(px_last - rec['entry']) / rec['risk']:+.2f}R "
+                        f"(< {TSTOP_R:g}R)")
+                    exit_position(ex, dry, st, raw, base, demo_sym, rec, px_last,
+                                  "TIME_STOP", d)
+                continue
+
             # PYRAMID: add a unit once price has advanced ADD_EVERY_R from the
             # FIRST entry. Longs only - the short sleeve runs 1 unit, because its
             # best trail is 5xATR and a crash is over before a 2R-spaced ladder
             # could fill.
             if d > 0 and rec["units"] < MAX_UNITS:
                 adv = (hi_last - rec["entry"]) / rec["risk"]
+                add_ok = True
                 if adv >= rec["next_add"] * ADD_EVERY_R:
+                    # 10x GROSS GUARD, as blend_paper.manage applies it. The demo PAYS from
+                    # a ~2,900 SUSDT balance but SIZES as a $221 account, so the exchange
+                    # would never refuse an add for margin - this is the refusal a real
+                    # $221 account would get. Without it units 6-7 take the book past 10x
+                    # (12.2x in the backtest), where a gap liquidates instead of stopping.
+                    used = gross_notional(st["open"])
+                    add_n = rec["size_unit"] * rec["entry"]
+                    if used + add_n > eq * MAX_LEVERAGE:
+                        add_ok = False
+                        if not rec.get("lev_warned"):
+                            rec["lev_warned"] = True
+                            log(f"[{base}] PYRAMID BLOCKED at unit {rec['units']} - "
+                                f"gross ${used + add_n:,.0f} would pass "
+                                f"{MAX_LEVERAGE:.0f}x ${eq:,.0f}")
+                if add_ok and adv >= rec["next_add"] * ADD_EVERY_R:
                     add_sz = rec["size_unit"]
                     log(f"[{base}] PYRAMID add unit {rec['units']+1}/{MAX_UNITS} "
                         f"at +{adv:.1f}R (size {add_sz})")
@@ -673,40 +771,8 @@ def cycle(ex, st: dict, dry: bool):
             gain_r = (px_last - rec["entry"]) * d / rec["risk"]
             breached = (lo_last <= rec["stop"]) if d > 0 else (hi_last >= rec["stop"])
             if breached:
-                exit_px = rec["stop"]
-                R = (exit_px - rec["entry"]) * d / rec["risk"]
-                log(f"[{base}] TRAIL HIT ({rec['side']}) -> exiting at market. "
-                    f"entry {rec['entry']:.4f} stop {rec['stop']:.4f} R={R:+.2f} "
-                    f"after {rec['bars']} bars")
-                got, src = exit_px, "assumed"
-                if not dry and ex:
-                    try:
-                        o = ex.create_order(demo_sym, "market",
-                                            "sell" if d > 0 else "buy",
-                                            rec["size"], None,
-                                            {"reduceOnly": True})
-                    except Exception as e:
-                        log(f"[{base}] EXIT ORDER FAILED: {str(e)[:160]} - "
-                            f"position left open, exchange stop still in place")
-                        st["open"][raw] = rec
-                        continue
-                    # the ACTUAL fill, not the price we asked for. Without this the
-                    # order-path test measures nothing - see actual_fill().
-                    got, src = actual_fill(ex, o, demo_sym,
-                                           "sell" if d > 0 else "buy", exit_px)
-                R_got = (got - rec["entry"]) * d / rec["risk"]
-                slip = (got - exit_px) / exit_px * 1e4 * d if exit_px else 0.0
-                if src != "assumed":
-                    log(f"[{base}] filled {got:.6f} vs {exit_px:.6f} wanted "
-                        f"({src}) -> R {R:+.2f} intended, {R_got:+.2f} actual, "
-                        f"slip {slip:+.1f}bp")
-                log_trade(dict(ts=f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M:%S}",
-                               symbol=base, entry=f"{rec['entry']:.6f}",
-                               exit=f"{got:.6f}", exit_intended=f"{exit_px:.6f}",
-                               exit_src=src, R=f"{R_got:+.4f}",
-                               slip_bp=f"{slip:+.1f}", reason="TRAIL",
-                               bars=rec["bars"]))
-                st["open"].pop(raw, None)
+                exit_position(ex, dry, st, raw, base, demo_sym, rec, rec["stop"],
+                              "TRAIL", d)
             else:
                 log(f"[{base}] HOLD {rec['bars']}b  entry {rec['entry']:.4f}  "
                     f"stop {rec['stop']:.4f}  px {px_last:.4f}  "
@@ -782,6 +848,12 @@ def cycle(ex, st: dict, dry: bool):
                     continue
             except Exception as e:
                 log(f"[{base}] precision/limits note: {str(e)[:120]}")
+        # the same 10x gross guard at ENTRY (blend_paper.cycle refuses these as "no margin")
+        if gross_notional(st["open"]) + notional > eq * MAX_LEVERAGE:
+            st["no_margin"] = st.get("no_margin", 0) + 1
+            log(f"[{base}] {side.upper()} SKIPPED - no margin: gross would pass "
+                f"{MAX_LEVERAGE:.0f}x ${eq:,.0f} ({st['no_margin']} so far)")
+            continue
         stop_px = entry_ref - d * stop_dist     # ABOVE entry for a short
 
         log(f"[{base}] BREAKOUT -> {side.upper()} {size} @~{entry_ref:.4f} "
@@ -960,12 +1032,18 @@ def main():
             f"{TRAIL_MULT}xATR")
     else:
         log("  SHORT: disabled")
-    log(f"  PYRAMID: up to {MAX_UNITS} units, +1 every {ADD_EVERY_R}R of advance")
-    log(f"  risk {RISK_PCT}%/UNIT -> {RISK_PCT*MAX_UNITS:.2f}% total exposure "
-        f"| leverage {LEVERAGE}x | taker entries")
-    if RISK_PCT * MAX_UNITS >= 2.0:
-        log(f"  *** AGGRESSIVE: {RISK_PCT*MAX_UNITS:.1f}% total. Measured drawdown "
-            f"at 2.5% total was 99.9% (ruin). Demo only. ***")
+    log(f"  PYRAMID: up to {MAX_UNITS} units, +1 every {ADD_EVERY_R}R of advance; no add "
+        f"or entry past {MAX_LEVERAGE:.0f}x gross on ${VIRTUAL_EQUITY or 0:.0f}")
+    log(f"  TIME STOP: close a long still under +{TSTOP_R:g}R after {TSTOP_BARS} {TF} bars "
+        f"(paper books #5/#7)")
+    log(f"  risk {RISK_PCT}%/UNIT -> {RISK_PCT*MAX_UNITS:.2f}% if every unit filled (units "
+        f"2+ are added only on open profit) | leverage {LEVERAGE}x | taker entries")
+    # The danger line is RISK PER UNIT, not risk x units: kelly_corrected.py (2026-09-23)
+    # measured 0.45%/unit multiplying P(80% drawdown in 3 years) by nine. The old test here
+    # (risk x units >= 2%) predates 7 units and would fire on the validated 0.30% x 7.
+    if RISK_PCT >= 0.45:
+        log(f"  *** AGGRESSIVE: {RISK_PCT}%/unit. At 0.45% P(80% drawdown in 3 years) is "
+            f"~25% against ~3% at 0.30% (kelly_corrected.py). Demo only. ***")
     if VIRTUAL_EQUITY:
         log(f"  *** SIZING AS IF EQUITY WERE ${VIRTUAL_EQUITY:.0f} *** the demo's real"
             f" balance is used to PAY for orders but not to size them, so every")
