@@ -20,6 +20,17 @@ BLENDED BOOK - a quarter of the account in each phase, same total risk
   hold        +4.96%   52%    0.89         +4.68%            56%         0.88
   full        +5.92%   56%    1.07         +5.35%            61%         1.00
 
+THE $200 QUESTION - venue minimum enforced, unit size quartered by the blend
+  setup                              capital/book  rejected   HOLD/mo    DD
+  1 phase (deployed)                         200        0%    +4.67%   57%
+  1 phase (deployed)                       1,000        0%    +4.97%   55%
+  1 phase (deployed)                       5,000        0%    +4.97%   55%
+  4 phases, quarter each                      50        8%    +3.88%   54%
+  4 phases, quarter each                     250        0%    +4.94%   53%
+  4 phases, quarter each                   1,250        0%    +4.96%   52%
+  A rejection rate that jumps from ~0% to double digits is the blend being
+  unaffordable, not the rule failing.
+
   Prediction 4 is the one that matters: the blend's COMPOUNDED return should beat
   the mean phase because averaging before compounding removes volatility drag. If
   it does not, phase diversification is cosmetic and only the robustness reading

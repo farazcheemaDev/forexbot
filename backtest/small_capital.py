@@ -18,6 +18,14 @@ HOW THE MINIMUM IS MADE HONEST
     and counted. Everything else is the deployed engine: 12 slots, 1000h gate, compounded by
     close date, 3x hindsight haircut, 5 orderings averaged.
 
+CORRECTED 2026-09-23 - read this before quoting "the minimum is not binding"
+    This file measured the rejection RATE and found ~0% at $221, concluding the venue minimum is
+    not the binding constraint. The rate was right; the conclusion used the wrong statistic.
+    backtest/bar_phase.floor_check, on the corrected engine, finds $221 rejects 0.24% of signals
+    - 5 of 1,917 - and that costs 0.29%/month and 2 points of drawdown, because the top 25 trades
+    make over 100% of this book's profit and a rejected signal can be one of them. The threshold
+    for no drag is about $500, not $25.
+
     python -m backtest.small_capital
 """
 from __future__ import annotations

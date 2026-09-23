@@ -149,8 +149,12 @@ entry-sized compounding (rules 10–12). $200, 10 orderings, upside haircut 3×,
 | **tight book** | 56% | −34.7% | +128% raw / **+43% haircut** | **$285** | 51% |
 | *old figure (expectations.py)* | *57%* | *−34%* | *+58% haircut* | *$316* | *58%* |
 
-- **Capital does not change the percentage.** Above ~$25 the rejection rate is 0% and the
-  return is identical; $10 rejects 2% of signals. Capital buys dollars, not rate.
+- **Capital barely changes the percentage, but "barely" is not "not", and the threshold is
+  ~$500 rather than ~$25** (corrected 2026-09-23, `backtest/bar_phase.floor_check`). At $221 the
+  venue minimum rejects 0.24% of signals - 5 of 1,917 - and that costs **0.29%/month** plus 2
+  points of drawdown, because in a book where the top 25 trades make over 100% of the profit a
+  rejected signal may be one of the 25. $500 rejects 0.03% and earns the full +4.97%. The old
+  claim that $25 suffices used the rejection RATE; the return cost is the right statistic.
 - **The old +58% was inflated mostly by compounding**, not by the market. See mistake #14.
 - Full history, entry-sized: main +84% haircut / +251% raw median year, tight +113% / +338%.
   **2021 alone made ~40% of lifetime profit.** Full-history figures are not planning numbers.

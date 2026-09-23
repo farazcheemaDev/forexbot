@@ -65,6 +65,7 @@ from backtest.funding_cost import charged, long_funding, short_funding  # noqa: 
 from backtest.graveyard_rescore import walk  # noqa: E402
 from backtest.kelly_corrected import simulate  # noqa: E402
 from backtest.mtm_sizing import attach_prices  # noqa: E402
+from backtest.small_capital import price_maps  # noqa: E402
 from backtest.timeframes import resample  # noqa: E402
 
 SEEDS = tuple(range(10))
@@ -136,6 +137,99 @@ def agg(list_of):
     return {k: float(np.median([g[k] for g in good])) for k in good[0]}
 
 
+def simulate_floor(rows, bear, seed, risk_pct, capital, px, step, t_from=None, t_to=None):
+    """Entry-sized compounding WITH the venue minimum enforced, in dollars.
+
+    This is the test the blend has to pass before it can be used at $200. Four books at a
+    quarter of the capital each means every unit is a quarter the size, and unit notional =
+    dollars_at_risk / stop_fraction. The 12h sleeve has the widest stops, so it produces the
+    smallest notionals and is where rejections land first.
+
+    The contract step is recovered in COIN units from today's minimum and today's price, as
+    small_capital.py does, because MEXC's minimum is a fixed number of coins and its dollar
+    value tracked the coin's price - using today's dollar minimum across 2021 would understate
+    it badly."""
+    rng = np.random.default_rng(seed)
+    tie = rng.random(len(rows))
+    o = [rows[i] for i in sorted(range(len(rows)), key=lambda i: (rows[i]["t0"], tie[i]))]
+    eq, open_, pts = capital, [], []
+    taken = skipped = 0
+
+    def bank(upto):
+        nonlocal eq, open_
+        keep = []
+        for q in sorted(open_, key=lambda z: z["t1"]):
+            if q["t1"] <= upto:
+                eq = max(eq + q["dpr"] * q["R"], 0.0)
+                pts.append((q["t1"], eq))
+            else:
+                keep.append(q)
+        open_ = keep
+
+    for r in o:
+        t0 = pd.Timestamp(r["t0"])
+        if (t_from is not None and t0 < t_from) or (t_to is not None and t0 >= t_to):
+            continue
+        bank(t0)
+        if len(open_) >= 12:
+            continue
+        try:
+            ib = bool(bear.asof(t0))
+        except Exception:
+            ib = False
+        f = risk_pct / 100.0 * (blend.REGIME_MULT if ib else 1.0)
+        risk_usd = eq * f
+        notional = risk_usd / max(r["sf"], 1e-6)
+        coin = r["coin"]
+        price = px[coin].asof(t0) if coin in px else np.nan
+        floor = step.get(coin, 0.0) * (price if np.isfinite(price) else 0.0)
+        if notional < floor:
+            skipped += 1
+            continue
+        taken += 1
+        open_.append(dict(r, t1=pd.Timestamp(r["t1"]), dpr=risk_usd))
+    bank(pd.Timestamp("2100-01-01"))
+    if len(pts) < 20:
+        return None
+    s_ = pd.Series([q[1] for q in pts], index=pd.DatetimeIndex([q[0] for q in pts]))
+    cur = (s_.resample("D").last().ffill()) / capital
+    return dict(ret=cur.pct_change().replace([np.inf, -np.inf], np.nan).fillna(0.0),
+                taken=taken, skipped=skipped)
+
+
+def floor_check(rows, bear, cut):
+    """Does quartering the unit size break the book at $200? The question Part 5 left open."""
+    px, step = price_maps()
+    print()
+    print("THE $200 QUESTION - venue minimum enforced, unit size quartered by the blend")
+    print(f"  {'setup':<34}{'capital/book':>13}{'rejected':>10}{'HOLD/mo':>10}{'DD':>6}")
+    out = {}
+    for lab, nbooks in (("1 phase (deployed)", 1), ("4 phases, quarter each", 4)):
+        for cap in (200.0, 1000.0, 5000.0):
+            rets, rej = [], []
+            for i, seed in enumerate(SEEDS):
+                parts = []
+                for p in (PHASES[:1] if nbooks == 1 else PHASES):
+                    r = simulate_floor(rows[p], bear, seed, RISK, cap / nbooks, px, step,
+                                       t_from=cut)
+                    if r is None:
+                        break
+                    parts.append(r)
+                if len(parts) != nbooks:
+                    continue
+                df = pd.concat([x["ret"] for x in parts], axis=1).fillna(0.0)
+                rets.append(df.mean(axis=1))
+                tk = sum(x["taken"] for x in parts); sk = sum(x["skipped"] for x in parts)
+                rej.append(sk / max(tk + sk, 1) * 100)
+            st = agg([stats(x) for x in rets])
+            out[(lab, cap)] = st
+            print(f"  {lab:<34}{cap/nbooks:>12,.0f}{np.mean(rej):>9.0f}%"
+                  f"{st['hpm']:>+9.2f}%{st['dd']:>5.0f}%")
+    print("  A rejection rate that jumps from ~0% to double digits is the blend being")
+    print("  unaffordable, not the rule failing.")
+    return out
+
+
 def main():
     bear = regimes()[1000]
     ts = pd.DatetimeIndex(sorted(x[0] for x in sleeve_sided("1h")[0]))
@@ -189,6 +283,8 @@ def main():
         ms = float(np.mean([x["sharpe"] for x in per]))
         print(f"  {win:<8}{b['hpm']:>+9.2f}%{b['dd']:>5.0f}%{b['sharpe']:>8.2f}"
               f"{mh:>+14.2f}%{md:>14.0f}%{ms:>13.2f}")
+
+    floor_check(rows, bear, cut)
 
     print()
     print("  Prediction 4 is the one that matters: the blend's COMPOUNDED return should beat")
