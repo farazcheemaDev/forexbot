@@ -42,6 +42,27 @@ from backtest.wide_book import DATA, MIN_AGE_D, eligibility  # noqa: E402
 
 FEE = 12.0 / 1e4
 
+# EXCLUDED BY CATEGORY, not by performance. PAXG and XAUT are both claims on physical gold -
+# the SAME underlying - so a decile book can put two of six short slots on one bet, and a
+# "cross-sectional crypto momentum" book has no thesis about gold at all. USDCUSDT is a
+# stablecoin pair whose momentum rank is meaningless. Disclosed because it cuts both ways:
+# excluding them also IMPROVES the backtest (+1.130% -> +1.222%/wk, Sharpe 1.16 -> 1.22),
+# and that improvement is gold's 2025-26 bull run, which is exactly the hindsight this
+# project haircuts everywhere else. The category argument stands without the number; the
+# number is printed next to it so a reader can judge whether it is being leaned on.
+#
+# Matched on the EXACT base asset. A substring filter was tried first and silently deleted
+# VETUSDT ("TUSD"), UBUSDT ("BUSD"), VELVETUSDT, WCTUSDT and ZBTUSDT - VET alone was
+# eligible in 27 months - then reported the loss as the effect of removing gold.
+NON_CRYPTO = {"PAXG", "XAUT", "EUR", "GBP", "AEUR", "USDC", "TUSD", "BUSD", "FDUSD",
+              "USDP", "DAI", "USD1", "USDE", "SUSDE"}
+
+
+def drop_non_crypto(elig: dict) -> dict:
+    """elig without the gold-backed and fiat/stable perps. See NON_CRYPTO."""
+    return {k: v for k, v in elig.items()
+            if not (k.endswith("USDT") and k[:-4] in NON_CRYPTO)}
+
 
 def load_panel():
     """Daily closes and daily funding sums for every perp, plus each coin's first day."""
@@ -162,6 +183,8 @@ def main():
            "PIT top-60 | 30d momentum, weekly, RANKED ONE DAY BEFORE ENTRY (robustness)")
     report(run(C, F, first, eligibility(100), look=30, hold=7), reg,
            "PIT top-100 | 30d momentum, rebalanced every 7d")
+    report(run(C, F, first, drop_non_crypto(elig60), look=30, hold=7), reg,
+           "PIT top-60 | WITHOUT gold tokens and stables - what mn_paper.py trades live")
     print("\n  A book that does not care about direction must earn in bull AND bear AND chop.")
 
 

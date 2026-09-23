@@ -116,16 +116,44 @@ collapsing.
    so there is nothing to haircut — but that asymmetry flatters it in every side-by-side
    table above, including the 75/25 line.
 
-## What would have to be true before deploying it
+## It is now running forward — `mn_paper.py`, started 2026-09-23
 
-- **A paper book, forward, on the same clock as the other four.** Every number above is a
-  backtest; this project's rule is that backtests nominate and paper books decide.
-- **Turnover is the risk this book actually carries.** 12bp is charged on measured
-  overlap, but a 120-name book rebalancing weekly on a $200 account means ~$2 positions.
-  The minimum-order simulation in `small_capital.py` was built for a 12-coin book — it has
-  **not** been run against this one, and here the minimum probably *is* binding.
+Pre-registered, gross 1.0×, $221 start so it is directly comparable to the other four books.
+Verdict at **26 rebalances (6 months)**, and the success test is *two* conditions: net > 0
+**and** realised correlation to the main book below +0.30. A positive return at high
+correlation counts as a FAIL — that would mean this is the trend book wearing a hat.
+
+First basket: **6 long / 6 short at $18.41 each**, 6bp of turnover cost.
+
+### Two things running it corrected in this document
+
+**1. The minimum-order worry was wrong, and I had the arithmetic backwards.** This page
+previously said a "120-name book on $200 means ~$2 positions" and that the venue minimum
+would probably bind. A decile of 60 is **6 names per side, not 120** — so the book holds 12
+positions of **$18.41** against a Binance minimum of **$5**. The minimum is not binding, and
+`mn_paper.py` enforces and logs it per name rather than assuming either way.
+
+**2. The first live basket shorted PAXG and XAUT together** — two claims on physical gold
+filling two of six short slots. Excluded by category (`market_neutral.NON_CRYPTO`): same
+underlying, and a cross-sectional *crypto* momentum book has no thesis about gold.
+
+Disclosed because it cuts both ways: excluding them also **improves** the backtest, from
++1.130% to **+1.222%/wk** and Sharpe 1.16 → **1.22**. That improvement is gold's 2025–26 bull
+run, which is exactly the kind of hindsight this project haircuts everywhere else. The
+category argument stands without the number; the number is recorded next to it so the
+judgement can be second-guessed. The decision was made **before the first mark**, which is
+the only honest moment for it.
+
+*(A first attempt at that exclusion used substring matching and silently deleted `VETUSDT`
+— "TUSD" — along with UB, VELVET, WCT and ZBT, then reported the loss as the effect of
+removing gold. VET alone was eligible in 27 months. Exact base-asset matching now.)*
+
+## What is still true, and still unresolved
+
 - **Shorting 60 alts needs borrow that exists.** Deep perps only; the PIT universe includes
-  names whose perp is thin.
+  names whose perp is thin. Not yet measured.
+- **No slippage is modelled**, in the backtest or the paper book. A few bp per side on $18
+  clips, stated so it can be subtracted later.
+- **No order has been placed anywhere.** This is paper on live Binance prices.
 
-That first bullet is the blocker. Until it runs forward, this is a well-tested hypothesis,
-not an edge.
+Until the 26 rebalances are in, this is a well-tested hypothesis, not an edge.

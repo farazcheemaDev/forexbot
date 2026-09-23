@@ -78,6 +78,8 @@ backtest/          every experiment. blend.py holds the deployed constants.
   perp_fetch.py      downloads all 864 perps incl. the 339 dead ones
   wide_book.py       eligibility(n) = PIT top-N universe
 blend_paper.py     THE LIVE PAPER BOOKS — four in one process (main/tight/sized/sboost)
+mn_paper.py        the 5th book: market-neutral, pre-registered, verdict at 26 rebalances
+xs_paper.py        an EARLIER pre-registered XS test (21 coins, daily). Frozen — do not edit
 longtrend_bot.py   the Bitget demo bot. ALLOW_REAL = False
 micro_bot.py       the $10 go-for-broke bet. ALLOW_REAL = False
 health.py          "is anything wedged or dead" — three signals per bot

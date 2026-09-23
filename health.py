@@ -98,6 +98,13 @@ BOTS = [
          log=LOGS / "longtrend_paper.log", state=LOGS / "ltp_state.json",
          note="superseded by the blend. Kept for comparison."),
 
+    dict(key="mnp", label="market-neutral paper book (5th book)", match="mn_paper.py",
+         pidfile=LOGS / "mn_paper.pid", where="local",
+         beat=LOGS / "mnp_state.json", beat_max=45 * 60,
+         log=LOGS / "mn_paper.log", state=LOGS / "mnp_state.json",
+         rows=LOGS / "mnp_rebalances.csv",
+         note="paper. Marks once a DAY and rebalances weekly - a quiet log is normal."),
+
     dict(key="xsp", label="cross-sectional paper (older)", match="xs_paper.py",
          pidfile=LOGS / "xs_paper.pid", where="off",
          beat=LOGS / "xsp_state.json", beat_max=12 * 60,
@@ -238,6 +245,15 @@ def check(bot: dict, live: dict[int, str]) -> dict:
         op = st.get("open")
         if isinstance(op, dict):
             prog.append(f"{len(op)} open")
+        # mn_paper holds a dollar-neutral basket, not "open positions". xs_paper ALSO has
+        # a "weights" key, but its values are per-variant DICTS - hence the numeric guard.
+        wt = st.get("weights")
+        if isinstance(wt, dict) and wt and all(
+                isinstance(v, (int, float)) for v in wt.values()):
+            prog.append(f"{sum(1 for v in wt.values() if v > 0)}L/"
+                        f"{sum(1 for v in wt.values() if v < 0)}S")
+        if "n_rebal" in st:
+            prog.append(f"rebal {st['n_rebal']}")
         for k, lab in (("taken", "taken"), ("declined", "declined"),
                        ("too_small", "too small")):
             if k in st:

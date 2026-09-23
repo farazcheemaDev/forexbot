@@ -16,6 +16,7 @@ validation rules and the traps. This file is just "what is running and what is n
 | Bitget demo order-path test | your PC, pid 7612 | **running, 3 longs open, heartbeat 11s** ✅ |
 | Polymarket forward collector | your PC, Startup launcher | running, 2,065 rows ✅ |
 | Status page | Azure VM, `status-server` | running ✅ |
+| **Market-neutral paper book (5th)** | your PC, `mn_paper.py` | **running, 6L/6S, $220.87** ✅ |
 | $10 micro bot | built, `ALLOW_REAL = False` | off, by design |
 
 ## The four paper books, and why there are four
@@ -75,9 +76,10 @@ probably break.
 
 ## Open jobs, in the order I'd do them
 
-1. **Run the market-neutral book as a fifth paper book** (~1 hour). It is the only
-   unexplored direction left that isn't more mining. Everything needed is in
-   `backtest/market_neutral.py`.
+1. ~~Run the market-neutral book as a fifth paper book.~~ **Done 2026-09-23** —
+   `mn_paper.py`, running locally, pre-registered, verdict at 26 rebalances. Read it with
+   `python mn_paper.py --status`. **It should be moved to the VM**, for the same reason the
+   blend lives there: a book on a machine that gets switched off cannot accumulate a record.
 2. **Move the Bitget demo bot to the VM** (~15 min, [doc 06](06-deploy-221.md)). Stop the
    local bot first — one account, one bot, or every order doubles. IP-whitelist the key to
    the VM and drop Withdraw permission while you are in there.
