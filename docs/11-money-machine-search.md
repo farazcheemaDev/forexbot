@@ -849,3 +849,50 @@ exposure.
 - **Nothing found today helps in chop.** 63% of days remain a flat line, and the one honest
   improvement to that number is the time stop's +0.4 points.
 
+## Part 10b - "should we remove the 10x guard, since it costs return?"
+
+*Asked 2026-09-24. The guard costs the triple book −0.35 ± 0.02 %/mo on the holdout
+(`triple_capped.py`). Measured answer: **no**, and the reason is not caution.*
+
+**At the triple book's peak leverage of 13.2×, the adverse move that liquidates the whole book is
+7.6%.** Not a drawdown of 7.6% - a forced close by the exchange at its price, on every position at
+once, regardless of where your stops sit.
+
+**Did that ever happen during the high-leverage hours?** No. Across the 929 hours above 10×, BTC's
+worst 24-hour move was **−4.85%**, and not one of those hours had a trailing 24h worse than −8%. The
+guard has never been needed in this sample.
+
+**That is not evidence it is unnecessary.** For context, in the same data:
+
+| | |
+|---|---|
+| BTC falls ≥8% in 24h | **1.24% of all hours** (711 of 57,545); worst ever **−46.4%** |
+| SUIUSDT worst 24h | −28.5% (1,206 hours below −8%) |
+| ENAUSDT worst 24h | −27.3% (1,914 hours below −8%) |
+| WLDUSDT worst 24h | −34.0% (2,077 hours below −8%) |
+
+The book holds twelve **alt** positions, and alts fall two to four times as far as BTC. The
+liquidating event occurs in 1–4% of hours; the book is exposed for 1.6% of hours. Over six years
+those two ranges did not intersect - and they are correlated in the **wrong** direction, because
+every one of the high-leverage hours is in a bull regime (2023-10 to 2025-07), which is precisely
+when violent reversals arrive. Leverage peaks late in a run because positions are deep in profit;
+runs end with the kind of move that liquidates.
+
+## The argument that settles it
+
+**The backtest cannot model liquidation at all.** Every position in it exits at its stop, its trail
+or its time stop. Forced closure at an exchange's mark is not in the model.
+
+> So the unguarded **+10.78%/mo is not "the return with more risk" - it is the return computed in a
+> world where the only risk you took on by removing the guard does not exist.** Removing it does not
+> buy +0.35%/mo. It buys +0.35%/mo *in a simulation that omits the consequence*.
+
+**The trade on offer is about +4.3%/year of compounded return against a small chance of losing most
+of the account in one hour.** Keep the guard. And note what it really is: the guard is the thing that
+makes MAX_UNITS=7 a safe change rather than a leveraged one. Without it, 7 units is not the
+better-deployment-of-risk that the matched control proved - it is leverage that the model scores as
+free.
+
+**The 0.35% cannot be bought back by lowering risk either.** `kelly_corrected.py` puts 0.20%/unit at
+−0.96%/mo against 0.30%. Paying 0.96 to recover 0.35 is not a trade.
+

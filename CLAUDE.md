@@ -239,6 +239,12 @@ even less room. More return comes from 7 units or from capital, not from risk.
 
 ## 7. Hard safety rules — do not cross these
 
+- **`MAX_LEVERAGE = 10.0` in `blend_paper.py` is not a tuning parameter.** It costs the
+  triple book 0.35%/mo and it is the only thing standing between that book and liquidation:
+  at its 13.2x peak, a **7.6% adverse move closes the whole account**, and the alts it holds
+  fall 27-34% in a day at their worst. The backtest cannot model forced closure, so the
+  unguarded return is computed in a world without the risk removing it creates. Asked and
+  answered 2026-09-24, doc 11 part 10b.
 - **`ALLOW_REAL = False`** in `longtrend_bot.py` and `micro_bot.py` is a gate a **human**
   must edit. Never flip it, never work around it.
 - **Never handle the user's credentials.** Not in chat, not in a file, not in an argument,
