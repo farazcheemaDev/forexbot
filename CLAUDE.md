@@ -309,7 +309,8 @@ the detail lives in the numbered docs.*
 the whole search found. It stacks with the time stop, and the triple (tight + time stop + 7
 units) measures +10.43%/mo holdout WITH the bot's 10x guard (+10.76% without it) against
 main's +4.88% (haircut, entry-sized), with a
-typical year for $221 of **$568–619** against main's $270–406 (§6). It is a backtest on a
+typical year for $221 of **$536–584 with the guard** ($568–619 without it) against main's
+$270–406 (§6). It is a backtest on a
 mined holdout; the paper books decide.
 
 **Seven paper books are live on the VM** (user deployed 2026-09-24; `blend_paper.py` sha256

@@ -107,6 +107,11 @@ book #5 and is not deployed**. The bot running today is the main book. Quoting t
 | **main** | **DEPLOYED** | **$221 → $270 (+22%)** | **57%** | **−40.8%** | **53%** |
 | tight exit | paper book #2 | $221 → $315 (+43%) | 56% | −34.7% | 50% |
 | tight + time stop | paper book #5 | $221 → $485 (+119%) | 48% | −22.6% | 45% |
+| tight + time stop + 7 units, **with the bot's 10× guard** | paper book #7 | $221 → $536 (+143%) | 56% | −19.2% | 50% |
+
+*(Book #7's row: `triple_capped.py` for the typical year, drawdown and worst month;
+`month_dist.py` for months losing. Different simulators from book_stats.py, so compare rows
+loosely. Every row is a typical year on the holdout, after the 3× haircut.)*
 
 The deployed figure agrees with `expectations_honest.py` from a separate simulator ($200 → $241,
 i.e. +20%), which is the cross-check that makes it trustworthy. The strategy table above this one
