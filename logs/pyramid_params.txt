@@ -1,0 +1,46 @@
+baseline = TIGHT book on the deployed grid | 10 orderings | 3x haircut | tune < 2024-08-29 <= holdout
+bar: beats tight on BOTH halves with |t| > 2, then the phase test
+
+  TIGHT baseline: tune +7.72%/mo   holdout +6.86%/mo   worst month -31.3%
+
+ADD_EVERY  (deployed 2)
+      value   TUNE/mo    diff      t     w   HOLD/mo    diff      t     w  HOLD wm
+          1    +7.70%  -0.02%  -0.65   3/10    +5.99%  -0.87%  -7.49   0/10   -37.5
+        1.5    +7.73%  +0.01%  +0.61   7/10    +6.38%  -0.48%  -6.65   0/10   -37.4
+          2    +7.72%       -      -     -    +6.86%       -      -     -   -31.3  <- DEPLOYED
+          3    +7.42%  -0.30%  -8.74   0/10    +6.77%  -0.09%  -1.09   5/10   -22.8
+          4    +7.19%  -0.53% -12.46   0/10    +6.58%  -0.28%  -1.75   3/10   -15.5
+
+MAX_UNITS  (deployed 5)
+      value   TUNE/mo    diff      t     w   HOLD/mo    diff      t     w  HOLD wm
+          3    +5.59%  -2.13% -39.96   0/10    +5.14%  -1.71% -15.00   0/10   -22.3
+          4    +6.72%  -1.00% -45.62   0/10    +5.93%  -0.93% -16.48   0/10   -30.0
+          5    +7.72%       -      -     -    +6.86%       -      -     -   -31.3  <- DEPLOYED
+          7    +9.02%  +1.30% +33.24  10/10    +7.93%  +1.07% +18.90  10/10   -31.3   CLEARS STAGE 1
+         10   +10.51%  +2.79% +29.98  10/10    +8.59%  +1.73% +10.35  10/10   -31.3   CLEARS STAGE 1
+
+BE_AT  (deployed 3)
+      value   TUNE/mo    diff      t     w   HOLD/mo    diff      t     w  HOLD wm
+          2    +7.81%  +0.09%  +0.26   5/10    +5.73%  -1.13%  -3.77   1/10   -26.5
+          3    +7.72%       -      -     -    +6.86%       -      -     -   -31.3  <- DEPLOYED
+          5    +7.58%  -0.14%  -0.46   4/10    +5.41%  -1.45%  -3.46   1/10   -32.9
+      1e+09    +7.26%  -0.46%  -1.25   2/10    +5.07%  -1.79%  -5.19   1/10   -41.4
+
+  2 cell(s) clear stage 1 -> the phase test, because 1%/mo on one
+  grid is inside the 1.3-2.4 %/mo of bar-phase noise measured in doc 11 part 5.
+
+TIGHT + MAX_UNITS=7 vs TIGHT, paired within each ordering, on every bar phase
+  phase     TUNE d      t     w   HOLD d      t     w  TUNE wm  HOLD wm
+  0         +1.30% +33.24  10/10   +1.07% +18.90  10/10    -0.0    +0.0  <- DEPLOYED grid
+  1         +1.56% +33.17  10/10   +1.58% +21.06  10/10    -0.6    -0.0
+  2         +1.53% +20.88  10/10   +1.23% +16.30  10/10    -0.2    -0.1
+  3         +1.37% +14.21  10/10   +1.17% +20.32  10/10    -0.2    -0.1
+  return wins both halves on 4 of 4 phases   (wm = worst-month change in points, positive = shallower)
+
+TIGHT + MAX_UNITS=10 vs TIGHT, paired within each ordering, on every bar phase
+  phase     TUNE d      t     w   HOLD d      t     w  TUNE wm  HOLD wm
+  0         +2.79% +29.98  10/10   +1.73% +10.35  10/10    -0.0    +0.1  <- DEPLOYED grid
+  1         +3.23% +34.04  10/10   +2.37% +12.88  10/10    -0.6    -0.0
+  2         +3.07% +20.17  10/10   +1.59% +10.20  10/10    -1.8    -0.4
+  3         +2.80% +13.18  10/10   +1.67% +17.36  10/10    -2.5    -0.8
+  return wins both halves on 4 of 4 phases   (wm = worst-month change in points, positive = shallower)

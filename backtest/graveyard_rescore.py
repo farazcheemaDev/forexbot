@@ -76,10 +76,17 @@ _C: dict = {}
 
 
 def walk(df, rule, coin, trail=None, tb=None, time_stop=None, hi_thresh=None,
-         hi_mult=1.0, atr_n=14):
+         hi_mult=1.0, atr_n=14, add_every=None, max_units=None, be_at=None):
     """engine_variants.long_walk (deployed pyramid; records every unit's add time) plus
     optional time stop (bars, min R at the close) and high-threshold trail tightening
     (once the best gain reaches hi_thresh R, the trail multiplier x hi_mult)."""
+    # The pyramid's own parameters. None = the deployed value. These are swept in
+    # backtest/pyramid_params.py: ADD_EVERY=2R and MAX_UNITS=5 set where the book's profit comes
+    # from (adds are funded by profit that already exists) and neither had been checked on the
+    # corrected engine; BE_AT=3R was last swept in ddcontrol.py on the pre-fix engine.
+    ae = blend.ADD_EVERY if add_every is None else add_every
+    mu = blend.MAX_UNITS if max_units is None else max_units
+    ba = blend.BE_AT if be_at is None else be_at
     s = signals(df, "long", "all").to_numpy()
     o = df["open"].to_numpy(float); h = df["high"].to_numpy(float)
     lo = df["low"].to_numpy(float); c = df["close"].to_numpy(float)
@@ -115,15 +122,15 @@ def walk(df, rule, coin, trail=None, tb=None, time_stop=None, hi_thresh=None,
             close(pos["stop"], i); pos = None; continue
         if time_stop and i - pos["bar"] >= time_stop[0] and (c[i] - e0) / r < time_stop[1]:
             close(c[i], i); pos = None; continue
-        if len(pos["ents"]) < blend.MAX_UNITS and (h[i] - e0) / r >= pos["nxt"] * blend.ADD_EVERY:
-            pos["ents"].append(e0 + pos["nxt"] * blend.ADD_EVERY * r); pos["nxt"] += 1
+        if len(pos["ents"]) < mu and (h[i] - e0) / r >= pos["nxt"] * ae:
+            pos["ents"].append(e0 + pos["nxt"] * ae * r); pos["nxt"] += 1
             pos["addt"].append(t[i])
         pos["best"] = max(pos["best"], h[i])
         m = 5.0 if pos["tight"] else wide
         if hi_thresh is not None and (pos["best"] - e0) / r >= hi_thresh:
             m = m * hi_mult
         cand = pos["best"] - m * a[i - 1]
-        if (pos["best"] - e0) / r >= blend.BE_AT:
+        if (pos["best"] - e0) / r >= ba:
             cand = max(cand, e0)
         if cand > pos["stop"]:
             pos["stop"] = cand

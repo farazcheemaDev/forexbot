@@ -601,3 +601,82 @@ optimum around 14-21, not a coin toss.
 ORDERING survives the split tells you if you are looking at a parameter or at noise. Two
 quantities of identical spread can be opposite things.
 
+---
+
+# Part 8 - MAX_UNITS: the one genuine return improvement the search found
+
+*2026-09-24. Source: `backtest/pyramid_params.py`, log `logs/pyramid_params.txt`.*
+
+The pyramid is where this book earns: a position that works gets four more units funded by profit
+that already exists, and `pyramid.py` found that gave **more return AND less drawdown at matched
+risk** - unusual, and the largest improvement in the project's history. Its two governing numbers,
+`ADD_EVERY = 2.0` and `MAX_UNITS = 5`, had never been swept on the corrected engine. `BE_AT = 3.0`
+was last swept in `ddcontrol.py`, which predates funding, causal entry times and entry-sized
+compounding.
+
+Baseline is the **TIGHT** book, not main - an improvement has to beat the leading paper book.
+
+## Two of three parameters are already right
+
+| | result |
+|---|---|
+| **ADD_EVERY** | 2.0 confirmed. Tighter (1.0, 1.5) is **worse on the holdout** (−0.87%, −0.48%, 0/10 wins, t −7.5 and −6.7) and deepens the worst month to −37%. Wider (3, 4) costs tune return at t −8.7 and −12.5. Registered prediction 1 held. |
+| **BE_AT** | 3.0 confirmed. 2R costs −1.13%/mo on the holdout, 5R costs −1.45%, removing it entirely costs −1.79% and takes the worst month to −41.4%. Prediction 3 held, including that removing it raises drawdown. |
+
+## MAX_UNITS = 5 is NOT right, and this one is real
+
+| max units | TUNE diff | t | HOLD diff | t | wins |
+|---|---|---|---|---|---|
+| 3 | −2.13% | −39.96 | −1.71% | −15.00 | 0/10 |
+| 4 | −1.00% | −45.62 | −0.93% | −16.48 | 0/10 |
+| **5 (deployed)** | — | — | — | — | — |
+| **7** | **+1.30%** | **+33.24** | **+1.07%** | **+18.90** | **10/10** |
+| **10** | **+2.79%** | +29.98 | **+1.73%** | +10.35 | 10/10 |
+
+**And it survives the phase test** - both halves, all four bar grids, 10/10 orderings on every one:
+
+| phase | 7u TUNE | t | 7u HOLD | t |
+|---|---|---|---|---|
+| 0 (deployed) | +1.30% | +33.24 | +1.07% | +18.90 |
+| 1 | +1.56% | +33.17 | +1.58% | +21.06 |
+| 2 | +1.53% | +20.88 | +1.23% | +16.30 |
+| 3 | +1.37% | +14.21 | +1.17% | +20.32 |
+
+## The control that matters: is it just betting more?
+
+More units means more notional, so the obvious objection is that this is leverage in disguise -
+the thing `escalate.py` warned about and `bull_boost.py` built a uniform control to catch. Matched
+on RETURN:
+
+| setting | HOLD/mo | DD | worst DD | lev p99 |
+|---|---|---|---|---|
+| 5 units @ 0.30% (deployed) | +6.77% | 50% | 55% | 5.1× |
+| **7 units @ 0.30%** | **+7.80%** | **56%** | 60% | **6.3×** |
+| 5 units @ 0.42% (matched return) | +7.71% | **64%** | 68% | 7.2× |
+| 10 units @ 0.30% | +8.46% | 61% | 64% | 8.3× (**max 10.3× - over the line**) |
+| 5 units @ 0.50% | +7.67% | 72% | 76% | 8.6× |
+
+**Reaching 7-unit returns by raising risk instead costs 8 more points of drawdown and more
+leverage.** So it is not betting more; it is a better way to deploy the same risk.
+
+**The mechanism, and it is the same one `pyramid.py` found:** units 6 and 7 are only added once a
+trade is +10R and +12R up, by which point the breakeven stop sits above entry. Those units carry
+almost the full upside and almost none of the downside. Raising risk uniformly instead adds size to
+every trade, including the four in five that stop out at −1R. 492 positions reach six units or
+more, so this is not a handful of trades.
+
+## What to do, and what not to
+
+**MAX_UNITS = 7, not 10.** Ten earns more (+1.73%/mo holdout) but its maximum gross leverage hits
+**10.3×**, past the line where `lev_test.py` found liquidation turns destructive. Seven runs 6.3×
+at p99 and 7.8× at maximum, comfortably inside.
+
+**It is not free.** Drawdown goes 50% → 56% and the worst month is unchanged at −31%. It is
+better-than-leverage, not costless.
+
+**And it goes to a paper book, not the live config.** That is this project's rule and today is a bad
+day to break it: two claims of mine were retracted a few hours ago for exactly the kind of
+confidence this result invites. It has cleared more than anything else here - both halves, four
+grids, a matched-risk control and a mechanism - which is the argument for forking it, not for
+shipping it.
+
