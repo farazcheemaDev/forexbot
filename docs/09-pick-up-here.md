@@ -125,6 +125,39 @@ probably break.
    `funding_cost.charged` and an entry-sized evaluator (CLAUDE.md rules 10–12). The old files
    stay as they are; their docs now carry the corrected figures next to the originals.
 
+## A second Run-command trap, found the hard way 2026-09-23
+
+Doc 09 already warned that Azure Run command JSON-decodes a script, so **backslashes** get
+corrupted. There is a second one, and it broke a patch on the live VM:
+
+> **Long lines get wrapped at roughly 47-56 characters, and a wrapped line's tail runs as a
+> command.**
+
+`patch_entry_sized.sh` v1 carried its payload as a single 22KB `echo '<base64>' | base64 -d`
+line. That shattered into hundreds of fragments, each reported as `: not found`. A wrapped
+comment is worse than a wrapped command, because the tail loses its `#` and executes.
+
+**The rules for any VM patch script, now enforced by the generator:**
+
+1. **Every line under 44 characters** - commands *and* comments.
+2. **Payloads go in a heredoc**, never in a command line. `base64 -d` ignores newlines, so
+   heredoc data survives being wrapped at any width.
+3. **No backslashes** (the original trap).
+4. **`set -e` before the hash check**, so a corrupted decode aborts before the `mv` and the
+   live file is never touched.
+5. **Split a sha256 across short assignments** (`H1..H4`, 19 chars each) rather than one
+   82-character line.
+
+Verified by hard-wrapping the finished script and running it: correct at 47, 40 and 30 chars,
+and at 26 chars it fails *safely* - `set -e` catches it and `blend_paper.py` is untouched.
+
+One thing that looked like a third trap and was not: the shell's `<command>: not found`
+message prints the command *after* quote removal, so single quotes appeared to have been
+stripped when they were merely not echoed. Quotes are fine. Line length is the whole problem.
+
+**Check the box before patching it:** `deploy/check_vm.sh` is read-only and reports which
+version of `blend_paper.py` is on disk, by sha256, against both known-good hashes.
+
 ## What NOT to do
 
 **Stop sweeping the holdout.** ~75 configurations in one day, then dozens more on

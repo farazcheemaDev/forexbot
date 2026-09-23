@@ -1,0 +1,41 @@
+tune < 2025-03-17 <= holdout | bp per trade, funding charged on every settlement held
+
+--- |rate| >= 0.10% -----------------------------------------------
+  PRE long (neg funding) 2h          42,992  px   +9.7  fund  +38.5 |  12bp: tune  +41.0 (t+4.6) hold  +34.5 (t+4.5) |  30bp: tune  +23.0 (t+2.6) hold  +16.5 (t+2.1)
+  PRE short (pos funding) 2h         19,139  px   +1.8  fund  +15.3 |  12bp: tune   +3.3 (t+0.6) hold  +15.4 (t+0.8) |  30bp: tune  -14.7 (t-2.5) hold   -2.6 (t-0.1)
+  POST short (neg funding) 2h        42,692  px  +48.2  fund  -18.1 |  12bp: tune  +23.7 (t+4.6) hold  +16.1 (t+2.8) |  30bp: tune   +5.7 (t+1.1) hold   -1.9 (t-0.3)
+  POST long (pos funding) 2h         18,973  px  +25.9  fund   -0.4 |  12bp: tune  +13.6 (t+1.0) hold  +13.1 (t+0.7) |  30bp: tune   -4.4 (t-0.3) hold   -4.9 (t-0.3)
+  POST short (neg funding) 4h        42,691  px  +54.1  fund  -47.6 |  12bp: tune   +6.8 (t+0.9) hold   -9.9 (t-1.1) |  30bp: tune  -11.2 (t-1.5) hold  -27.9 (t-3.2)
+  POST long (pos funding) 4h         18,973  px   -4.6  fund   -2.5 |  12bp: tune  -18.5 (t-0.7) hold  -22.9 (t-0.7) |  30bp: tune  -36.5 (t-1.4) hold  -40.9 (t-1.3)
+
+--- |rate| >= 0.30% -----------------------------------------------
+  PRE long (neg funding) 2h          14,352  px   +9.6  fund  +74.6 |  12bp: tune  +57.6 (t+2.1) hold  +77.0 (t+4.7) |  30bp: tune  +39.6 (t+1.5) hold  +59.0 (t+3.6)
+  PRE short (pos funding) 2h          1,870  px  +58.1  fund  +31.3 |  12bp: tune  +77.8 (t+1.8) hold  +75.4 (t+0.9) |  30bp: tune  +59.8 (t+1.4) hold  +57.4 (t+0.7)
+  POST short (neg funding) 2h        14,226  px +103.7  fund  -35.2 |  12bp: tune  +64.2 (t+5.3) hold  +53.9 (t+4.6) |  30bp: tune  +46.2 (t+3.8) hold  +35.9 (t+3.1)
+  POST long (pos funding) 2h          1,853  px  +94.0  fund   -2.1 |  12bp: tune  +77.3 (t+0.9) hold  +90.9 (t+1.1) |  30bp: tune  +59.3 (t+0.7) hold  +72.9 (t+0.9)
+  POST short (neg funding) 4h        14,226  px +123.2  fund  -89.4 |  12bp: tune  +46.3 (t+2.9) hold  +13.8 (t+0.7) |  30bp: tune  +28.3 (t+1.8) hold   -4.2 (t-0.2)
+  POST long (pos funding) 4h          1,853  px  +56.6  fund   -9.0 |  12bp: tune  +54.8 (t+0.5) hold  -42.5 (t-0.4) |  30bp: tune  +36.8 (t+0.3) hold  -60.5 (t-0.5)
+
+--- POST short 2h after a <= -0.10% settlement, split ---------------------
+  interval 8h                         9,470  px  +39.1  fund   -0.3 |  12bp: tune  +17.6 (t+2.5) hold  +63.0 (t+4.8) |  30bp: tune   -0.4 (t-0.1) hold  +45.0 (t+3.4)
+  interval 4h                        21,139  px  +55.4  fund   -1.3 |  12bp: tune  +37.0 (t+6.9) hold  +43.2 (t+5.7) |  30bp: tune  +19.0 (t+3.5) hold  +25.2 (t+3.3)
+  interval 1-2h                      12,078  px  +42.7  fund  -61.4 |  12bp: tune  +33.9 (t+0.4) hold  -31.6 (t-3.0) |  30bp: tune  +15.9 (t+0.2) hold  -49.6 (t-4.6)
+  24h volume >= $50M                 29,436  px  +53.8  fund  -24.1 |  12bp: tune  +33.1 (t+5.3) hold  +11.6 (t+1.6) |  30bp: tune  +15.1 (t+2.4) hold   -6.4 (t-0.9)
+  24h volume $10-50M                 13,256  px  +35.6  fund   -4.7 |  12bp: tune   -5.6 (t-0.7) hold  +25.1 (t+3.9) |  30bp: tune  -23.6 (t-2.9) hold   +7.1 (t+1.1)
+
+  by year, 12bp, funding charged (mean bp, n):
+    2020:    +1.8  n=1,073  win 53%
+    2021:    +7.0  n=1,332  win 51%
+    2022:   +27.2  n=2,367  win 57%
+    2023:   +18.8  n=2,296  win 52%
+    2024:   +41.9  n=2,278  win 57%
+    2025:   +10.6  n=15,738  win 56%
+    2026:   +22.3  n=17,608  win 56%
+
+LATENCY, 1-minute bars, 240 random POST-short events (<= -0.10%, 4h/8h coins)
+  gross bp, short from entry to t+2h (funding not included here):
+    enter t+0m: mean  +43.3  median  +69.8  n 240
+    enter t+1m: mean  +10.0  median  +33.5  n 240
+    enter t+3m: mean   -2.4  median  +35.4  n 240
+    enter t+5m: mean   -7.8  median  +26.6  n 240
+  PRE long from t-2h, exit at t:  +35.3  exit at t+1m:   +1.6 (price only; this sample is POST-selected, so it is a timing check, not a PRE result)
