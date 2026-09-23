@@ -1,0 +1,23 @@
+10 orderings | 0.30%/unit | 12 slots | holdout from 2024-08-29
+regime from BTC's 50-day trend: chop 948d  bull 871d  bear 581d
+
+1. RETURN BY REGIME - mean %/month within each regime, full history, 3x haircut
+  config                    BULL      BEAR      CHOP       all  chop share
+  main (deployed)        +23.05%    +0.26%    -0.16%    +7.04%         39%
+  tight                  +30.08%    -0.43%    +0.08%    +8.75%         39%
+  tight + time stop      +33.10%    -0.64%    +0.27%    +9.50%         39%
+  triple (+7 units)      +47.19%    -0.74%    +0.20%   +12.57%         39%
+
+2. GROSS LEVERAGE THROUGH TIME - units timed at their own add bars
+  config                 median     p99     max  % hrs >10x  worst 24h  hrs >10x
+  main (deployed)          1.0x    7.8x    8.8x       0.00%       8.8x         0
+  tight                    0.7x    7.4x    8.3x       0.00%       8.3x         0
+  tight + time stop        0.8x    7.9x    8.9x       0.00%       8.9x         0
+  triple (+7 units)        0.8x   10.5x   12.2x       1.27%      12.2x       731
+
+3. WHEN leverage is highest, what is the regime and is the book in profit?
+  the top 1% of leverage hours (575 hours, mean 12.2x):
+    bull     100% of them
+    bear       0% of them
+    chop       0% of them
+  their calendar span: 2023-10 .. 2025-07

@@ -765,3 +765,77 @@ ten signals for every one it takes is the design operating, not a constraint to 
 3 right (20 slots breaches 10× at p99, capping the usable answer near 16), 4 right (drawdown rises
 sub-linearly: doubling slots from 12 to 24 takes drawdown 50% → 75%).
 
+---
+
+# Part 10 - chop and liquidation: the two questions the new config had not been asked
+
+*2026-09-24. Source: `backtest/regime_and_liq.py`, log `logs/regime_and_liq.txt`.*
+
+## 1. In chop, every version of this book earns nothing
+
+Mean %/month **within** each BTC regime, full history, 3× haircut:
+
+| config | BULL | BEAR | **CHOP** | all |
+|---|---|---|---|---|
+| main (deployed) | +23.05% | +0.26% | **−0.16%** | +7.04% |
+| tight | +30.08% | −0.43% | **+0.08%** | +8.75% |
+| tight + time stop | +33.10% | −0.64% | **+0.27%** | +9.50% |
+| **triple (+7 units)** | **+47.19%** | **−0.74%** | **+0.20%** | +12.57% |
+
+Days by regime: **chop 948, bull 871, bear 581.** So the book earns approximately nothing for
+**63% of all days**, and everything in the other 37%.
+
+**And today's improvement does not change that.** It doubles bull-market return (+23% → +47%/mo)
+and leaves chop at +0.20% against the deployed −0.16%. In bear it is slightly *worse* (−0.74%
+against +0.26%), because tightening exits and adding units both assume something will run.
+
+> The honest sentence: **today's work made a bull-market amplifier, not an all-weather book.** The
+> time stop was supposed to help in chop by cutting dead money; it moves chop from −0.16% to
+> +0.27%, which is real and is also nothing. Prediction 2 - "the triple beats the deployed book in
+> chop by MORE than its overall margin" - is wrong. The margin in chop is 0.36 points against 5.5
+> points overall.
+
+## 2. Liquidation: the deployed book is nowhere near it, the triple book touches it
+
+Gross leverage through time, with each unit contributing **from its own add bar** (the earlier
+measurement applied every position's final unit count from its first moment, which overstates):
+
+| config | median | p99 | max | % hours >10× | hours >10× |
+|---|---|---|---|---|---|
+| main (deployed) | 1.0× | 7.8× | 8.8× | **0.00%** | 0 |
+| tight | 0.7× | 7.4× | 8.3× | 0.00% | 0 |
+| tight + time stop | 0.8× | 7.9× | 8.9× | 0.00% | 0 |
+| **triple (+7 units)** | 0.8× | **10.5×** | **12.2×** | **1.27%** | **731** |
+
+**The 7-unit change is what pushes the book over the line.** `lev_test.py` put liquidation risk at
+10× gross. The deployed book never reaches it; the triple book spends 731 hours above it, peaking
+at 12.2×, where an ~8% adverse gap would liquidate rather than stop out.
+
+**All 731 of those hours are in BULL regimes** (100% of the top-1% leverage hours, spanning
+2023-10 to 2025-07), which is when positions are deep in profit and their stops sit above entry -
+the least dangerous time to be levered. But a trailing stop does not protect against a gap on a
+levered position; the exchange liquidates on margin, not on your stop.
+
+## 3. The live bot already caps this, which means the backtest is optimistic
+
+`blend_paper.py:511` refuses any pyramid add that would take gross notional past
+`MAX_LEVERAGE = 10.0`. **The backtest does not model that cap.** So the live paper book cannot
+reach 12.2× - it will log `PYRAMID BLOCKED — no margin` instead.
+
+Measured: of 4,315 sixth-and-seventh units attempted across five orderings, **293 (6.8%) were
+attempted while the book was already above 10×** and would be blocked live.
+
+> **So the honest expectation for the units change on the live book is about +1.44%/month, not
+> +1.54%** - roughly 93% of the backtested gain, with the other 7% refused by the margin guard
+> that already exists. That is the right way round: the guard costs a little return and removes the
+> liquidation exposure the backtest was quietly assuming.
+
+## What this means for the recommendation
+
+- **Keep the 10× guard.** It is the reason the live book is safe where the backtest is not.
+- **The triple book stays paper**, and now for a second reason: its backtest assumed leverage the
+  live bot will refuse.
+- **Expect +1.4%/month from the units change, not +1.5%**, and expect all of it in bull markets.
+- **Nothing found today helps in chop.** 63% of days remain a flat line, and the one honest
+  improvement to that number is the time stop's +0.4 points.
+
