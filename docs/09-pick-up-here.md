@@ -37,6 +37,25 @@ all of them run forward and the market decides.
 short-boost books only diverge on a **4h close below roughly $81,752** (−5.2% from here),
 which historically fires about every 15 days. Don't read "no divergence" as "no effect."
 
+### Re-scored on 2026-09-23 evening: what each book should now be expected to show
+
+Three engine errors were found and fixed: bar labels read as entry times, funding never
+charged, and compounding by equity a trade was never sized on (doc 03, #12–14). Re-scored
+(`backtest/honest_rescore.py`, `backtest/compounding.py`):
+
+| book | expectation now | why |
+|---|---|---|
+| **tight** | **the favourite**: beats main on both halves, +2–3%/mo, shallower worst month | its gain survived every correction; part of it is simply paying less funding |
+| **short-boost** | **tracks main within ~0.5%/mo** | most of its backtest edge was look-ahead. A flat result is the prediction, not a failure |
+| sized | not re-scored | its model and features are causal; funding and compounding would move it like main |
+| main | +4.9%/mo haircut (+10.5% raw) on both halves, entry-sized | about half the figures quoted before today |
+
+**The paper books' own equity is overstated.** `blend_paper.py` compounds each close by the
+current equity (`st["equity"] *= 1 + R × risk_used`), but it sized the position at entry. A
+real account at the same R shows less. The two-line fix (store `risk_usd` at entry, add
+`R × risk_usd` at close) is **not applied**: it changes a live process's accounting mid-test,
+so it is your call. Compare books by R and trade counts, not by equity, until it is fixed.
+
 Check them:
 
 ```bash
@@ -91,6 +110,20 @@ probably break.
    `blend_testnet.py` reads them from the environment only.
 5. **Nothing on Polymarket.** 229 resolutions in and the +0.25 edge claim is effectively
    refuted (8/14 inside the band). Do not deposit. [Doc 08](08-polymarket.md).
+6. **Decide on the paper-book equity fix** (added 2026-09-23). See the re-score above. Two
+   lines in `blend_paper.py`, then a VM patch. Until then, judge books by R, not equity.
+7. **Find out whether Bitget's unified account takes spot alts as futures collateral**
+   (~15 min of reading, no code). If it does, routing the 12h sleeve's longs to spot saves
+   its funding bill: +1.4%/mo on the tune half and ~0 now, in exchange for 8bp more fee
+   (`backtest/funding_routes.py`, doc 02). It is a pure cost cut with no prediction in it.
+   It does not fit as separate cash (0.64× equity at p99).
+8. **When `mn_paper.py` passes its verdict, overlay it on the tight book at k = 0.25–0.5.**
+   Don't split capital: `backtest/combine_honest.py` shows the overlay adds ~1.2%/mo at
+   unchanged drawdown and lifts weeks-up from 37% to 50%. Margin under the overlay has not
+   been simulated; do that first.
+9. **Make the engine's defaults honest.** New tests should call `causal_t0.real_t0`,
+   `funding_cost.charged` and an entry-sized evaluator (CLAUDE.md rules 10–12). The old files
+   stay as they are; their docs now carry the corrected figures next to the originals.
 
 ## What NOT to do
 

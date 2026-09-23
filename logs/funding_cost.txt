@@ -1,0 +1,29 @@
+PER POSITION (deployed book, every signal, before the slot cap)
+
+  side  rule      n   mean R  funding R   share  median fund    worst
+  long  12h     409   +6.467     -2.982  -46.1%       -0.017  -462.28
+  long  1h     4098   +2.532     -0.328  -12.9%       -0.006  -109.53
+  long  4h     1121   +5.435     -1.381  -25.4%       -0.008  -260.81
+  short 12h     577   +0.038     +0.013  +33.1%       +0.009    -0.27
+  short 1h     7712   +0.044     +0.005  +11.6%       +0.003    -0.56
+  short 4h     1819   +0.092     +0.007   +7.6%       +0.005    -0.33
+
+  total R vs total funding R, by year of exit:
+  year      long R  long fund   short R  short fund
+  2020       +1278       -246       -14         +10
+  2021       +9696      -2364      -125         +28
+  2022        -584       -124      +268          -9
+  2023       +2044       -260      -128         +13
+  2024       +7109       -942      +119         +25
+  2025        -796       -117      +379          -1
+  2026        +365        -58       +29          -7
+
+PORTFOLIO (causal t0, 12 slots, 1000h gate, 5 orderings, 3x haircut)
+  tune < 2024-08-29 <= holdout
+
+  book                                            TUNE/mo   DD  HOLD/mo   DD   worst
+  deployed, fees only (as every doc reports)      +16.48%  44%  +10.47%  50%  -37.0%
+  deployed, fees + FUNDING                        +12.23%  47%   +9.86%  51%  -37.9%
+  tight, fees only                                +17.42%  39%  +11.42%  49%  -33.9%
+  tight, fees + funding                           +14.18%  40%  +10.85%  50%  -34.3%
+  tight + short boost x5, fees + funding          +13.84%  43%  +11.41%  49%  -34.3%

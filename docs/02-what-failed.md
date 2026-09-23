@@ -2351,6 +2351,311 @@ exist when any of this was fitted.
 
 ---
 
+## RETRACTED: most of the short boost was look-ahead (2026-09-23) — `backtest/causal_t0.py`
+
+Found while adding funding to the engine. Every engine row carries `t0` = the **label** of its
+entry bar. For the 1h sleeve that is the real entry time. For the resampled sleeves it is not:
+`timeframes.resample()` labels a bar by its right edge, so a 4h bar labelled L opens at L−3h,
+and `signals()` enters at the bar's open. **4h rows are stamped 3 hours after their real entry,
+12h rows 11 hours after.**
+
+`vol_target.short_boost()` and `composite.rowset()` tag a short as boosted with
+`btc_trail(5).asof(t0)`. On a 4h/12h row that returns a BTC bar that **closed after the short
+was opened**: the flag is on *because* BTC broke down during the trade.
+
+| shorts tagged "boosted" | n | mean R | others |
+|---|---|---|---|
+| as measured (flag at label t0) | 224 | **+0.481R** | +0.043R |
+| causal (flag known at real entry) | 298 | **+0.305R** | +0.045R |
+| tagged only because of the look-ahead | 118 | +0.766R | |
+
+On the 4h and 12h sleeves the two tag sets share **zero** trades. The real effect exists: at
++0.305R against +0.045R, boosted shorts still do about 7× better per trade. What doesn't
+survive is its value to the book. Re-scored over 20 paired orderings
+(`backtest/honest_rescore.py`, causal t0, funding charged):
+
+| vs main book | tune /mo | holdout /mo |
+|---|---|---|
+| short boost x5, as previously reported (`composite.py`) | +0.3 | **+1.3** (x8: +2.3) |
+| **short boost x5, causal** | **−0.10 ± 0.01** | **+0.46 ± 0.04** |
+
+**The short boost is worth about +0.5%/mo on the holdout and nothing on the tune half.** The
+`sboost` paper book should track `main` closely; do not read that as the market refuting it.
+The live code (`blend_paper.trig_at`) was always causal, since a live bot can't see the future.
+Only the backtest estimate was inflated.
+
+The **tight exit's** alignment (`engine_variants.break_map`) was checked and is causal. The
+regime gate and the slot order also read the late `t0`, which is why the corrected *main* book
+moves too (tune +19.29% → +16.48%, holdout +8.44% → +10.47%, fees only). That movement is
+mostly slot-order reshuffling, which is inside the ±3–5%/mo ordering noise.
+
+> **The trap:** a bar's label is not its entry time. Any `asof(t0)` on a resampled row reads
+> the future by up to one bar. Use `causal_t0.real_t0(rows)` before gating, ordering or
+> tagging anything by time.
+
+---
+
+## MEASURED for the first time: funding costs 21% of the long book's profit (2026-09-23) — `backtest/funding_cost.py`
+
+No file behind the deployed book (`pyramid.py`, `convex.py`, `blend.py`, `engine_variants.py`,
+`bull_boost.py`) ever charged funding. For a book whose whole edge is five-unit pyramids held for
+weeks through bull markets, that is not a rounding error. Actual Binance funding, per unit, per
+settlement held, real entry times:
+
+| side | sleeve | positions | mean R | funding R | funding as % of R |
+|---|---|---|---|---|---|
+| long | 1h | 4,098 | +2.532 | −0.328 | **−12.9%** |
+| long | 4h | 1,121 | +5.435 | −1.381 | **−25.4%** |
+| long | 12h | 409 | +6.467 | −2.982 | **−46.1%** |
+| short | all | 10,108 | ≈+0.05 | +0.005 to +0.013 | (received) |
+
+**Longs paid −4,111R against +19,112R of lifetime long profit (21.5%)**, and 2021 alone paid
+−2,364R. The worst single position is an ADA 12h pyramid held 466 days through 2021: +1,804R
+before funding, −462R of funding. That is plausible, because ADA funding averaged about 39%/yr
+that year while the position's notional rose ~50×.
+
+| causal t0, 5 orderings | tune /mo | DD | holdout /mo | DD |
+|---|---|---|---|---|
+| main, fees only (what every doc reported) | +16.48% | 44% | +10.47% | 50% |
+| **main, fees + funding** | **+12.23%** | 47% | **+9.86%** | 51% |
+
+**Registered prediction:** 6–15% of long R, −2 to −4%/mo tune, −1 to −2%/mo holdout. **Worse
+than predicted on the share (21.5%) and the tune half (−4.25). Milder on the holdout (−0.61).**
+
+**And the venue the account uses charges more.** Bitget's API serves only ~3 months of funding
+(265 settlements from 2026-06-25). Over that window Bitget's mean rate was **higher than
+Binance's on all 11 book coins it lists**: 0.37–0.77bp/8h against −0.09–0.59bp. So the cost
+above is a **floor** for this account, not an estimate.
+
+**Side effect: cross-exchange funding arbitrage is screened out.** The Bitget−Binance gap on the
+book's coins averaged ~0.25bp/8h, about 2.7%/yr gross, against ~22bp for four taker legs.
+That's the same service-provision return `cash_carry.py` already measured. Not backtested
+further.
+
+---
+
+## UPGRADED: the tight exit now helps BOTH halves (2026-09-23) — `backtest/honest_rescore.py`
+
+Two of the six "helps holdout, costs tune" knobs in the holdout admission above were the short
+boost and the tight exit. With causal t0 and funding charged, 20 orderings, each variant
+compared with main **on the same ordering**:
+
+| vs main | tune /mo | holdout /mo | tune DD | holdout DD | worst month |
+|---|---|---|---|---|---|
+| main (absolute) | +11.45% | +8.37% | 49% | 52% | −38.5% |
+| **tight** | **+2.15 ± 0.66** | **+2.79 ± 0.74** | 41% | 49% | **−33.5%** |
+| short boost x5 | −0.10 ± 0.01 | +0.46 ± 0.04 | 50% | 50% | −38.5% |
+| tight + short boost x5 | +1.84 ± 0.65 | +3.29 ± 0.73 | 44% | 49% | −33.5% |
+
+(daily-sum %/mo, so the absolute levels are ~2× achievable; see the compounding section below.
+Under entry-sized compounding tight beats main by **+2.9 tune / +2.0 holdout**,
+`compounding.py`.)
+
+**The tight exit no longer has the mined-holdout signature.** It helps both halves, and the tune
+half gain comes mostly from funding: exiting chop earlier stops paying for positions that were
+going nowhere. The ± is **ordering noise only**, not market sampling error, so ~3σ here means
+"not an artifact of slot order" and says nothing about whether the market repeats. It was also
+selected from 24 variants (`btc_exit.py`). **Still, of everything on paper, it is the one
+improvement whose evidence got stronger under correction, not weaker.**
+
+The main book's own spread across 20 orderings: **tune +8.6% to +15.6%, holdout +3.2% to
++12.3%/mo.** Any single-run comparison inside that band is noise.
+
+---
+
+## PROMISING, with a catch: route the 12h sleeve to spot (2026-09-23) — `backtest/funding_routes.py`
+
+A spot long pays no funding. Bitget spot costs 8bp more per round trip than the perp, which is
+~0.007R on a 12h unit against ~3R of funding per 12h position.
+
+| causal, funding charged, 5 orderings | tune /mo | holdout /mo | routed notional / equity p99 | max |
+|---|---|---|---|---|
+| all perp (main) | +12.23% | +9.86% | | |
+| **12h longs on spot** | **+13.66%** | +9.95% | **0.64x** | 1.11x |
+| 4h + 12h longs on spot | +14.63% | +10.06% | 2.04x | 2.40x |
+| all longs on spot (upper bound) | +16.32% | +10.20% | 9.16x | 10.18x |
+
+**Registered prediction right on return (+1.4 tune, +0.1 holdout); wrong on fit.** I predicted
+the 12h sleeve's notional would fit in cash (p99 < 0.5x). It doesn't: 0.64x at p99, 1.11x at
+peak. So the 12h sleeve can only be spot-routed if **spot holdings count as futures collateral**,
+as they do in a unified trading account. Whether Bitget's UTA accepts these 12 coins, and at
+what haircut, is unverified. The gain is also regime-shaped: it is large when funding is high
+(bull years) and ~0 now. It is a pure cost saving, with no prediction in it, which is why it is
+the one item from today worth building if the collateral question comes back yes.
+
+## Dead: tightening the trail when funding goes extreme — same file
+
+The BIS "carry predicts crash risk" idea used as an exit: while the coin's last-3-settlement
+funding is above a threshold, open longs trail at 5xATR (the tight book's mechanics).
+
+| | tune /mo | DD | holdout /mo | DD |
+|---|---|---|---|---|
+| main (funding charged) | +12.23% | 47% | +9.86% | 51% |
+| tighten above 0.03%/8h | +7.49% | **61%** | +10.97% | **61%** |
+| tighten above 0.05%/8h | +8.45% | 63% | +11.68% | 53% |
+
+**Registered prediction wrong in direction:** I expected it to help the tune half (2021). It
+guts it. The 2021 runners paid extreme funding **the whole way up**, so tightening on funding
+clipped exactly the positions that made the year. This is exit rule number twelve to die, and
+it has the "helps holdout, costs tune" shape again.
+
+---
+
+## Dead: nine entry features from the literature, one pre-registered family (2026-09-23) — `backtest/entry_features.py`
+
+Sources: BIS WP 1087 *Crypto carry* (funding predicts crash risk); Concretum Group *Seasonality
+in Bitcoin Intraday Trend Trading* (the "Monday Asia open" trend window, weak US Sunday);
+practitioner claims that breakouts on rising open interest are "new money"; stablecoin supply
+growth as a liquidity regime signal (DefiLlama); Fear & Greed read contrarian (alternative.me).
+Every position the rules would open (15,734), causal t0, funding charged, R capped
+[−25, +100], top-minus-bottom tercile, month-block bootstrap. Pass required the predicted
+sign on **both** halves and Holm p < 0.05.
+
+| side | feature | predicted | tune | holdout | pooled t | Holm | coins agreeing |
+|---|---|---|---|---|---|---|---|
+| long | coin funding, last 24h | − | +0.31 | −0.00 | +0.49 | 1.000 | 4/12 |
+| long | BTC funding, last 7d | − | −2.12 | +2.33 | −0.32 | 1.000 | 6/12 |
+| long | open-interest change, 24h | + | −0.47 | −1.18 | −1.17 | 1.000 | 3/11 |
+| long | weekend entry | − | −0.90 | −1.20 | −1.74 | 0.740 | 9/12 |
+| long | Monday Asia-open entry | + | −0.90 | −1.04 | −1.45 | 1.000 | 3/12 |
+| long | stablecoin supply 30d growth | + | +1.62 | −2.99 | +0.50 | 1.000 | 7/12 |
+| long | Fear & Greed | − | −0.00 | +1.89 | +1.26 | 1.000 | 1/12 |
+| short | coin funding, last 24h | + | +0.05 | +0.30 | +1.50 | 1.000 | 9/12 |
+| short | BTC funding, last 7d | + | +0.02 | +0.37 | +0.58 | 1.000 | 8/12 |
+
+**Nothing passes.** Registered expectation: "at most one passes, most likely coin funding on
+longs". That feature is the *wrong sign*: long breakouts on expensive funding do slightly
+**better**, which is trend persistence rather than fragility. Open interest is wrong-signed
+too, and the Asia-open effect (a finding about BTC intraday trend models) does not carry over to
+this book's alt breakouts. Two features keep their sign on both halves without significance:
+weekend long entries are weaker (9/12 coins), and shorts do better on high funding (9/12).
+Under the rules both are discarded. Neither is strong enough to size on.
+
+These nine features are also the regime variables for any alternative gate. Stablecoin growth,
+market funding and Fear & Greed all flip sign between halves at the trade level, so a gate
+built on them has nothing to stand on. **Not tested as gates, for that reason.**
+
+---
+
+## Dead: equity-curve trading (2026-09-23) — `backtest/equity_filter.py`
+
+The most common retail "improvement" to a system: halve risk while the book's own
+closed-trade equity is below its 30- or 90-day average. Entry-sized compounding (see below),
+causal t0, funding charged, 10 orderings.
+
+| | tune /mo | DD | holdout /mo | DD |
+|---|---|---|---|---|
+| no filter (main, corrected) | +4.88% | 54% | +4.86% | 53% |
+| equity < 30d mean → x0.5 | +3.77% | 35% | +2.73% | 37% |
+| equity < 90d mean → x0.5 | +4.04% | 37% | +2.89% | 37% |
+| *control: every trade x0.7* | +3.99% | 41% | +4.12% | 40% |
+| *control: every trade x0.5* | +3.21% | 30% | +3.35% | 30% |
+
+At matched drawdown (~36%) the uniform control reads about +3.6% tune and +3.7% holdout. The
+filter ties it on the tune half and trails it by ~1%/mo on the holdout. **It is a slower way of
+betting less.** The registered prediction ("worse on both halves") was right about return and
+wrong to ignore the drawdown, which is why the control was needed. The mechanism is the one
+`vol_target.py` found: this book's losing stretches come just before its trends, so shrinking
+after losses leaves it small when the next trend starts.
+
+---
+
+## THE BOOK EARNS ABOUT HALF OF WHAT THE ENGINE REPORTS: the compounding convention (2026-09-23) — `backtest/compounding.py`
+
+Found when `equity_filter.py`'s baseline read +13.50%/mo on the holdout against
+`honest_rescore.py`'s +8.37% for the same book: same trades, same slots, same gate, same risk
+fraction. The only difference was how P&L becomes equity. The repo uses three conventions:
+
+| convention | used by | what it assumes |
+|---|---|---|
+| **sequential**: `eq *= 1 + R·f` at each close | `small_capital.simulate` → `expectations.py` → doc 00's planning table; **also `blend_paper.py`'s own paper-book equity** | each closing trade is scaled by the equity at its close |
+| **daily sum**: `eq_day *= 1 + Σ R·f` | `bull_boost.evaluate` → `engine_variants`, `composite`, `regime_gate`, most doc tables | the same, within a day |
+| **entry-sized**: `eq += R·f·eq_at_entry` | nothing, until now | a position's dollars are fixed when it opens, which is **what the bot does** (`risk_usd = equity × risk` at entry; adds reuse the unit) |
+
+The first two are the same error at different scales. When runner A closes at +200% of equity,
+a still-open runner B was sized on the old equity, and its dollars do not grow because A
+banked. Scaling B's R by the new equity credits it with a position size it never had. In this
+book the whole edge is a few overlapping runners, so the error compounds on itself. One
+holdout ordering has five trades closing on 2024-12-09 for +420% of equity summed: sequential
+turns that half's ×36 into ×105.
+
+Causal t0, funding charged, 10 orderings:
+
+| book | half | sequential | daily sum | **entry-sized** | DD (entry-sized) |
+|---|---|---|---|---|---|
+| main | tune | +12.05% | +11.54% | **+4.88%** | 54% |
+| main | holdout | +13.50% | +8.83% | **+4.88%** | 53% |
+| tight | tune | +16.85% | +14.32% | **+7.75%** | 42% |
+| tight | holdout | +19.52% | +11.58% | **+6.86%** | 50% |
+
+(%/mo after the 3× haircut. Un-haircut, entry-sized main is **+10.5%/mo** on both halves and
+tight **+15.0% / +13.6%**.)
+
+**Registered prediction right:** entry-sized below daily sum, both far below sequential. What I
+did not predict was the size: **about half**, on both halves.
+
+### Can a sizing rule recover it? No — `backtest/mtm_sizing.py`
+
+The obvious lever: size new entries on equity *including* open positions' unrealised P&L,
+so new trades grow with the runners.
+
+| book | sizing base | tune /mo | DD | holdout /mo | DD |
+|---|---|---|---|---|---|
+| main | closed equity (the bot today) | +4.88% | 54% | +4.86% | 53% |
+| main | + half of open gains | +4.81% | 56% | +4.91% | 54% |
+| main | + all open P&L (MTM) | +4.67% | 62% | +4.92% | 56% |
+| tight | closed equity | +7.72% | 42% | +6.84% | 50% |
+| tight | + all open P&L (MTM) | +8.26% | 52% | +7.22% | 56% |
+
+**Registered prediction wrong:** I expected MTM to recover 60–80% of the gap. It recovers
+almost none and costs 6–10 points of drawdown. The gap was never about the base for NEW
+trades. Daily-sum implicitly resizes positions that are **already open**, and no entry-time
+rule can reproduce that. Resizing an open runner means buying more of it at today's higher
+price, which does not earn R from the original entry. **The daily-sum and sequential figures are
+not achievable returns. They are an accounting artifact.**
+
+### What it changes
+
+- **Every %/mo figure from `evaluate()` is roughly 2× the achievable return**, and every figure
+  from `small_capital.py` / `expectations.py` more than that. Relative comparisons inside one
+  file mostly survive (tight beats main under all three), but no absolute level does.
+- **The paper books overstate their own equity.** `blend_paper.py` line ~523 does
+  `st["equity"] *= (1 + R * risk_used / 100)` at close, for a position sized at entry. A real
+  account at the same R will show less. The fix is to store `risk_usd` at entry and add
+  `R × risk_usd` at close. **Not changed here** because it is the live paper process, so the
+  user decides. The trade log has enough to rebuild the correct equity after the fact.
+- **The planning numbers change.** `backtest/expectations_honest.py`, $200, entry-sized,
+  10 orderings, upside haircut 3× and downside raw:
+
+| book | window | median month | months losing | worst month | median 12 mo (raw) | median 12 mo (haircut) | $200 → | DD |
+|---|---|---|---|---|---|---|---|---|
+| *as documented (sequential, label t0)* | holdout | −1.01% | 60% | −34.3% | +153% | +51% | $302 | 57% |
+| **main, corrected** | holdout | −0.49% | 56% | **−41.6%** | **+61%** | **+20%** | **$241** | 54% |
+| **tight, corrected** | holdout | −0.50% | 56% | −34.7% | **+128%** | **+43%** | **$285** | 51% |
+| main, corrected | full | −0.58% | 55% | −41.6% | +251% | +84% | $367 | 57% |
+| tight, corrected | full | −0.01% | 50% | −34.7% | +338% | +113% | $425 | 51% |
+
+**Registered prediction:** 12-month median well under +58% ✓ (+20%); months losing above 57% ✗
+(56%, unchanged).
+
+---
+
+## Not measurable here: exchange launchpools (2026-09-23)
+
+Lock BGB (Bitget) or BNB (Binance), or sometimes USDT, and receive newly listed tokens. It is
+not a trading strategy, but it answers the mandate directly, because **per-user caps favour
+small accounts**. Published figures, none verified: Binance's own count of ~$226 of rewards
+per BNB over Jan 2024 – Mar 2025 (valued at first-day closes, the peak launchpool era); Bitget
+Launchpool averaging ~40% APR (Bitget news, Oct 2025) and PoolX 10–45%. Three reasons it is
+not in the plan:
+1. **It competes for the same dollars.** Staked coins are locked and are not futures margin.
+2. **The staked asset carries its own price risk.** BGB/BNB exposure is a bet on the
+   exchange token; USDT pools pay far less than the headline rates.
+3. **There is no history to test.** Bitget's public API does not serve past pools. The only
+   honest measurement is a forward log of pool APRs and the realised sale price of each reward.
+
+---
+
 ## Interesting non-results worth keeping
 
 - **Kaufman efficiency ratio reverses sign** between directional and

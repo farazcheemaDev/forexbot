@@ -101,6 +101,48 @@ weekly win rate from **32% to 53%**. The deployed book loses two weeks in three.
 of the account in an uncorrelated book turns that into a coin flip, without the return
 collapsing.
 
+### Re-run on equal terms (2026-09-23) — `backtest/combine_honest.py`
+
+The table above charged the market-neutral book **actual funding** and the trend book
+**none** (`funding_cost.py`), and stamped the trend book's 4h/12h entries hours late
+(`causal_t0.py`). It also compounded the trend book by daily sum, which roughly doubles what the
+bot's entry-time sizing can achieve (`compounding.py`). The market-neutral book rebalances its
+whole basket weekly, so **its** compounding is achievable as simulated. Same method,
+corrected trend side:
+
+| trend side | correlation | trend alone /mo | Sharpe | weeks up |
+|---|---|---|---|---|
+| as above (no funding, label t0, daily sum) | +0.092 | +10.93% | 1.65 | 32% |
+| funding + real t0, daily sum | +0.135 | +9.35% | 1.41 | 31% |
+
+The correlation stays low, which is the whole case.
+
+**Overlay instead of split.** A futures account shares one margin pool. The market-neutral book
+is ~zero net exposure at 1.0× gross, and the trend book averages ~1.2× gross, so the second book
+need not take capital from the first. Trend at full size **plus** k × market-neutral, trend side
+**entry-sized** (the fair pairing):
+
+| trend book, entry-sized | k | /mo | DD\* | Sharpe | weeks up |
+|---|---|---|---|---|---|
+| main | 0 | +5.38% | 21% | 1.01 | 29% |
+| main | 0.25 | +6.54% | 24% | 1.15 | 49% |
+| main | 0.50 | +7.58% | 28% | 1.26 | 53% |
+| **tight** | **0** | +6.58% | 19% | 1.15 | 37% |
+| **tight** | **0.25** | **+7.74%** | **19%** | **1.28** | **50%** |
+| **tight** | **0.50** | **+8.79%** | 22% | **1.38** | **54%** |
+| tight | 1.00 | +10.53% | 37% | 1.50 | 55% |
+
+\* combine.py's convention: trend returns / 3, weekly compounding; comparable only within
+this table. **These /mo units are not the hpm units of doc 02.**
+
+**Tight + 0.25–0.5 × market-neutral is the best book assemblable from anything measured
+here.** At k = 0.25 it adds ~1.2 points a month at *unchanged* drawdown, and it turns the
+weeks-up rate from 37% to 50%. Past k = 0.5 drawdown starts climbing.
+
+**Every caveat below still applies to the market-neutral half**, and it adds one of its own:
+the overlay's margin has not been simulated against the trend book's 8.7× p99 gross. **Do not
+overlay anything until `mn_paper.py` reaches its 26-rebalance verdict.**
+
 ## The four caveats
 
 1. **Two dead years.** 2022 −0.124%/wk and 2024 −0.071%/wk. Six and a half years, two of

@@ -1,0 +1,24 @@
+15,734 positions with a live perp at entry | tune < 2024-08-29 <= holdout
+R includes funding; capped at [-25, +100] for the statistic; t from month-block bootstrap
+
+  side  feature     pred      n     TUNE     t     HOLD     t      ALL     t       p   Holm  verdict
+  long  fund24        -1   5627   +0.309 +0.31   -0.002 -0.00   +0.349 +0.49   0.627  1.000  fails
+  long  fund_mkt      -1   5627   -2.119 -1.07   +2.327 +1.20   -0.463 -0.32   0.745  1.000  fails
+  long  oi24          +1   4417   -0.471 -0.55   -1.184 -1.47   -0.690 -1.17   0.244  1.000  fails
+  long  weekend       -1   5627   -0.899 -1.31   -1.203 -1.18   -0.990 -1.74   0.082  0.740  sign holds, not sig
+  long  asia_open     +1   5627   -0.901 -0.81   -1.036 -1.14   -1.013 -1.45   0.146  1.000  fails
+  long  stable30      +1   5627   +1.620 +1.20   -2.989 -1.52   +0.572 +0.50   0.617  1.000  fails
+  long  fng           -1   5627   -0.003 -0.00   +1.894 +0.98   +1.693 +1.26   0.207  1.000  fails
+  short fund24        +1  10107   +0.051 +0.47   +0.295 +1.55   +0.144 +1.50   0.135  1.000  sign holds, not sig
+  short fund_mkt      +1  10107   +0.023 +0.16   +0.369 +1.32   +0.077 +0.58   0.565  1.000  sign holds, not sig
+
+  per-coin agreement with the predicted sign (pooled halves):
+    long  fund24     4/12
+    long  fund_mkt   6/12
+    long  oi24       3/11
+    long  weekend    9/12
+    long  asia_open  3/12
+    long  stable30   7/12
+    long  fng        1/12
+    short fund24     9/12
+    short fund_mkt   8/12

@@ -1,0 +1,10 @@
+$200 start, 10 orderings, holdout from 2024-08-29
+med 1mo haircut; loses / worst mo / 12mo RAW / DD raw; 12mo hc = haircut; $ = haircut
+
+  book                                    window     med 1mo  loses  worst mo 12mo RAW  12mo hc   $ 12mo  DD raw
+  SEQUENTIAL, as documented (label t0)    holdout     -1.01%    60%    -34.3%     +153%      +51%      302     57%
+  SEQUENTIAL, as documented (label t0)    full        +0.35%    47%    -34.3%    +1393%     +464%    1,129     59%
+  ENTRY-SIZED, main, corrected            holdout     -0.49%    56%    -41.6%      +61%      +20%      241     54%
+  ENTRY-SIZED, main, corrected            full        -0.58%    55%    -41.6%     +251%      +84%      367     57%
+  ENTRY-SIZED, tight, corrected           holdout     -0.50%    56%    -34.7%     +128%      +43%      285     51%
+  ENTRY-SIZED, tight, corrected           full        -0.01%    50%    -34.7%     +338%     +113%      425     51%

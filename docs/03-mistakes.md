@@ -235,3 +235,43 @@ expectation and the +240%/yr headline.
 **Rule (restated, because stating it once was not enough):** a rule written in this file is
 not applied until the code that produces the headline number is checked against it.
 `ddcontrol.py` and `pit_blend.py` compound correctly; `blend.py` never did.
+
+---
+
+## Three found on 2026-09-23, all flattering, all in the engine every result stands on
+
+### 12. A bar's label is not its entry time — `backtest/causal_t0.py`
+
+`timeframes.resample()` labels a 4h/12h bar by its right edge, and `signals()` enters at the
+bar's open, so every 4h row's `t0` is **3h after the real entry** and every 12h row's is
+**11h after**. Anything that reads a time series with `asof(t0)` on those rows sees the future.
+The short boost did (`vol_target.short_boost`, `composite.rowset`), and 118 of its 224
+"boosted" shorts were only boosted because BTC broke down *after* they opened. Boosted-short R
+fell +0.481 → +0.305 when this was fixed, and the boost's value to the book went from +1.3–2.3
+to about +0.5%/mo on the holdout. The regime gate and the slot queue read the same late
+stamp. **Rule:** before gating, ordering or tagging engine rows by time, call
+`causal_t0.real_t0(rows)`.
+
+### 13. Funding was never charged — `backtest/funding_cost.py`
+
+Fees were charged everywhere and funding nowhere, in a book that holds five-unit pyramids for
+weeks through bull markets. It cost **21.5% of lifetime long R**, 46% on the 12h sleeve, and it
+takes the tune half from +16.5% to +12.2%/mo. Bitget's funding ran *above* Binance's on all 11
+book coins over the window its API serves, so the true cost here is higher. **Rule:** a
+position held across settlements is charged `funding_cost.charged(...)`, and any file that
+does not is labelled "fees only".
+
+### 14. Compounding a trade by equity it was never sized on — `backtest/compounding.py`
+
+Mistake #6 fixed the ORDER of compounding. It left in place the assumption that a closing
+trade's R is scaled by the equity at its close. The bot fixes a position's dollars at entry.
+In a book whose profit is a few overlapping runners, scaling each one by equity the others
+already banked roughly **doubles** the reported monthly return (holdout main: +8.83% daily sum,
++13.50% sequential, **+4.88% entry-sized**). `mtm_sizing.py` checked whether any entry-time
+sizing rule could earn the difference back, and none can. The same assumption sits in
+`blend_paper.py`'s paper-book equity. **Rule:** report returns from an entry-sized curve
+(`mtm_sizing.simulate(..., "realised")`). Daily-sum figures are for relative comparisons inside
+one file only.
+
+All three made results look better. That fits the meta-lesson above: errors that flatter a
+result survive longest, because nobody investigates good news.

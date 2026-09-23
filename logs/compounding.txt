@@ -1,0 +1,16 @@
+causal t0, funding charged, 10 orderings | tune < 2024-08-29 <= holdout
+hpm = CAGR/3 per month (the docs' convention); raw = un-haircut per month
+
+  book   half     method            hpm      raw    DD    x final
+  main   tune     sequential    +12.05%  +20.84%   48%    67485.8
+  main   tune     daily_sum     +11.54%  +20.18%   49%    50003.4
+  main   tune     entry_sized    +4.88%  +10.49%   54%      453.7
+  main   holdout  sequential    +13.50%  +22.64%   51%      134.5
+  main   holdout  daily_sum      +8.83%  +16.43%   51%       42.7
+  main   holdout  entry_sized    +4.88%  +10.46%   53%       11.8
+  tight  tune     sequential    +16.85%  +26.88%   41%   509948.5
+  tight  tune     daily_sum     +14.32%  +23.77%   41%   123965.0
+  tight  tune     entry_sized    +7.75%  +14.99%   42%     2065.6
+  tight  holdout  sequential    +19.52%  +30.07%   48%      669.9
+  tight  holdout  daily_sum     +11.58%  +20.27%   49%       92.3
+  tight  holdout  entry_sized    +6.86%  +13.65%   50%       22.2

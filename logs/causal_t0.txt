@@ -1,0 +1,19 @@
+tune < 2024-08-29 <= holdout | 5 orderings averaged, 3x haircut on %/mo
+
+  TRADE LEVEL - shorts tagged 'boosted' (R per unit, before the multiplier)
+    as measured: br.asof(label t0)       boosted n= 224  mean +0.481R   others +0.043R
+    causal: flag known at real entry     boosted n= 298  mean +0.305R   others +0.045R
+
+  book                                          TUNE/mo   DD  HOLD/mo   DD   worst
+  -- as previously measured (t0 = bar label) --
+  deployed                                      +19.29%  55%   +8.44%  57%  -33.9%
+  short boost x5                                +19.61%  54%   +9.78%  49%  -31.7%
+  short boost x8                                +19.83%  54%  +10.76%  47%  -30.5%
+  tight                                         +16.08%  37%  +12.73%  54%  -20.9%
+  tight + short boost x5 (the paper books)      +16.49%  39%  +14.49%  48%  -21.0%
+  -- causal (t0 = real entry; flag known at entry) --
+  deployed                                      +16.48%  44%  +10.47%  50%  -37.0%
+  short boost x5                                +16.36%  45%  +10.94%  48%  -37.0%
+  short boost x8                                +16.26%  45%  +11.27%  47%  -37.0%
+  tight                                         +17.42%  39%  +11.42%  49%  -33.9%
+  tight + short boost x5 (the paper books)      +17.05%  42%  +11.99%  48%  -33.9%

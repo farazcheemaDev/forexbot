@@ -42,6 +42,14 @@ any one of these has produced a wrong answer here before:**
 7. **Every number in a doc names the file that produced it.** No exceptions.
 8. **Record the prediction before the test.** If a result surprised you, the doc says so.
 9. **Kills are permanent** unless the *measurement* was broken.
+10. **Charge funding** on anything held across settlements: `funding_cost.charged(...)`.
+    Funding costs this book 21% of its lifetime long profit (mistake #13).
+11. **Use real entry times**: `causal_t0.real_t0(rows)` before any `asof(t0)`, gate or slot
+    order. 4h/12h rows carry their bar LABEL, which is 3h/11h after the entry (mistake #12).
+12. **Quote returns from an ENTRY-SIZED curve** (`mtm_sizing.simulate(..., "realised")`).
+    `bull_boost.evaluate`'s daily sum and `small_capital.simulate`'s sequential compounding
+    both scale trades by equity they were never sized on, and they report ~2× what the bot
+    can earn (mistake #14). They are fine for comparisons *inside* one file.
 
 ### The holdout is mined out — the most important caveat in the repo
 
@@ -50,6 +58,12 @@ band, time stop, runner sizing) all read "helps holdout, costs tune." Either 202
 genuinely rewards slower protective capture, or dozens of variants scored against one
 holdout in one day have exhausted it. **Both readings say: adopt nothing further on this
 split.** New ideas must be judged by the forward paper books, not by another backtest sweep.
+
+**Update, 2026-09-23 evening** (`backtest/honest_rescore.py`): once measured causally and
+with funding, two of the six changed status. The **short boost** was mostly look-ahead and is
+worth ~+0.5%/mo. The **tight exit** now helps **both** halves (+2.2 tune / +2.8 holdout, 20
+paired orderings), so it no longer carries the mined-holdout signature. It is the strongest
+candidate on paper. The rule above still stands for everything else.
 
 ## 3. Traps that have already cost real time
 
@@ -64,6 +78,9 @@ split.** New ideas must be judged by the forward paper books, not by another bac
 | **Bash heredocs mangling escapes in Python literals** | Same class of bug, locally | Use the Edit/Write tool for code containing escapes |
 | **Haircutting a LOSS** | The 3× hindsight haircut divides an *annualised* rate by 3, which shrinks losses as eagerly as gains: a real −30% month reads −3.3%, and a year that ended at $92 reads $172. Found while answering "what happens at worst" — the first table showed a worst-ever month of −3.5% | Quote **downside raw, upside haircut**, and label which is which |
 | **Timestamp unit mismatch** | `.asof()` raises "Cannot losslessly convert units" (ms index vs ns clock) | `blend_paper._ns()` |
+| **Bar label read as entry time** | `asof(t0)` on a 4h/12h row reads a bar that closed hours after the entry. The short boost's "+0.481R" was 118 look-ahead trades; causal, it is +0.305R and worth ~+0.5%/mo | `causal_t0.real_t0(rows)` |
+| **Fees charged, funding not** | Every figure for the deployed book was fees-only. Funding takes the tune half +16.5% → +12.2%/mo | `funding_cost.charged(...)` |
+| **Scaling a trade by equity it was never sized on** | Daily-sum / sequential compounding credit open runners with profit other trades banked: ~2× the achievable return. `blend_paper.py`'s paper equity does it too | entry-sized curve, `mtm_sizing.simulate(..., "realised")` |
 
 ## 4. Where things are
 
@@ -112,18 +129,23 @@ hedge (78.6% → 68.9%), not a profit source.
 
 ## 6. What to expect — so you never quote a flattering number
 
-Source: `backtest/expectations.py`. Deployed book, venue minimum enforced, 3× haircut.
+Source: **`backtest/expectations_honest.py`** (2026-09-23), which supersedes
+`expectations.py`'s figures. Same method, but with funding charged, real entry times, and
+entry-sized compounding (rules 10–12). $200, 10 orderings, upside haircut 3×, downside raw.
+
+| holdout (2024-08 on) | months losing | worst month | median 12 months | $200 → | DD |
+|---|---|---|---|---|---|
+| **main book (deployed)** | 56% | **−41.6%** | +61% raw / **+20% haircut** | **$241** | 54% |
+| **tight book** | 56% | −34.7% | +128% raw / **+43% haircut** | **$285** | 51% |
+| *old figure (expectations.py)* | *57%* | *−34%* | *+58% haircut* | *$316* | *58%* |
 
 - **Capital does not change the percentage.** Above ~$25 the rejection rate is 0% and the
-  return is identical; $10 rejects 2% of signals. Capital buys dollars, not rate. The old
-  "minimum capital ~$1,140" in doc 00 is superseded.
-- **Holdout (2024-08 on, never tuned): median month −0.83%, and 57% of months lose money.**
-  Median 12 months +58%, i.e. $200 → ~$316.
-- Full history is far rosier (median 12mo +494%) but **2021 alone made 40% of lifetime
-  profit** and 2026 compounds negative. Full-history figures are not planning numbers.
-- **Drawdown 58%** un-haircut, at every capital level.
+  return is identical; $10 rejects 2% of signals. Capital buys dollars, not rate.
+- **The old +58% was inflated mostly by compounding**, not by the market. See mistake #14.
+- Full history, entry-sized: main +84% haircut / +251% raw median year, tight +113% / +338%.
+  **2021 alone made ~40% of lifetime profit.** Full-history figures are not planning numbers.
 - P(losing month) is the one figure no modelling choice can flatter — the haircut is
-  monotonic, so it cannot change a sign.
+  monotonic, so it cannot change a sign. It was ~56–57% under every correction.
 
 ## 7. Hard safety rules — do not cross these
 

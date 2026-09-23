@@ -1,0 +1,8 @@
+tune < 2024-08-29 <= holdout | causal, funding charged, 10 orderings
+
+  variant                               TUNE/mo   DD  HOLD/mo   DD
+  no filter (main, corrected)            +4.88%  54%   +4.86%  53%
+  equity < 30d mean -> x0.5              +3.77%  35%   +2.73%  37%
+  equity < 90d mean -> x0.5              +4.04%  37%   +2.89%  37%
+  control: every trade x0.7              +3.99%  41%   +4.12%  40%
+  control: every trade x0.5              +3.21%  30%   +3.35%  30%

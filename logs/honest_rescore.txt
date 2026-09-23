@@ -1,0 +1,9 @@
+tune < 2024-08-29 <= holdout | causal t0, funding charged, 20 orderings
+
+  book                        TUNE/mo   DD  HOLD/mo   DD   worst     vs main TUNE   vs main HOLD
+  main                        +11.45%  49%   +8.37%  52%  -38.5%
+  tight                       +13.60%  41%  +11.16%  49%  -33.5%    +2.15+-0.66    +2.79+-0.74
+  short boost x5              +11.35%  50%   +8.83%  50%  -38.5%    -0.10+-0.01    +0.46+-0.04
+  tight + short boost x5      +13.29%  44%  +11.66%  49%  -33.5%    +1.84+-0.65    +3.29+-0.73
+
+  main book, spread across orderings: tune +8.59..+15.63  holdout +3.20..+12.25 %/mo
