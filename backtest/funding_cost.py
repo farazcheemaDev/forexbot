@@ -86,6 +86,21 @@ def _exit(label, rule):
     return pd.Timestamp(label) + pd.Timedelta(hours=1) - pd.Timedelta(hours=RULE_H[rule]) / 2
 
 
+def _with_fund(r, e0):
+    """One long row plus its funding cost in R, given its entry price.
+
+    Each unit starts paying from its own add bar's START - conservative, since the add fills
+    somewhere inside that bar - and stops at the position's exit."""
+    risk = r["sf"] * e0
+    t_exit = _exit(r["t1"], r["rule"])
+    tot = 0.0
+    for k, ta in enumerate(r["adds"]):
+        start = _real(r["t0"], r["rule"]) if k == 0 else _real(ta, r["rule"])
+        if start < t_exit:
+            tot += paid(r["coin"], start, t_exit)
+    return dict(r, fund=-tot / risk)
+
+
 def long_funding(rows):
     """Adds 'fund' (R, negative = paid) to every long row. Needs each position's r and
     entry price, recovered from the coin's own bars at the entry label."""
@@ -94,21 +109,20 @@ def long_funding(rows):
     for r in rows:
         if r["side"] != "long":
             out.append(r); continue
+        # Prefer the entry price attach_prices already computed. It is the same number, it
+        # saves re-resampling, and it is the only version that is correct when the rows were
+        # walked on a SHIFTED bar grid (backtest/bar_phase.py) - a shifted t0 is not a label
+        # on the deployed grid, which raised KeyError here. Fallback keeps older callers that
+        # run long_funding without attach_prices first.
+        if "e0" in r:
+            out.append(_with_fund(r, float(r["e0"])))
+            continue
         key = (r["coin"], r["rule"])
         if key not in frames:
             df = resample(blend.load(r["coin"]), r["rule"])
             frames[key] = pd.Series(df["open"].to_numpy(float),
                                     index=pd.DatetimeIndex(df["time"]))
-        e0 = float(frames[key].loc[pd.Timestamp(r["t0"])])
-        risk = r["sf"] * e0
-        t_exit = _exit(r["t1"], r["rule"])
-        tot = 0.0
-        for k, ta in enumerate(r["adds"]):
-            start = _real(r["t0"], r["rule"]) if k == 0 else \
-                _real(ta, r["rule"])       # the add's bar START (conservative)
-            if start < t_exit:
-                tot += paid(r["coin"], start, t_exit)
-        out.append(dict(r, fund=-tot / risk))
+        out.append(_with_fund(r, float(frames[key].loc[pd.Timestamp(r["t0"])])))
     return out
 
 

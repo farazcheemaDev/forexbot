@@ -64,9 +64,16 @@ def price_at(coin, t_ns):
     return c[k] if k >= 0 else np.nan
 
 
-def attach_prices(raw_rows):
+def attach_prices(raw_rows, resampler=None):
     """Entry price, 1R distance and unit entry levels / known-times for every row. Rows
-    are the engine's own (label t0); the unit arithmetic mirrors long_walk exactly."""
+    are the engine's own (label t0); the unit arithmetic mirrors long_walk exactly.
+
+    resampler(coin, rule) -> OHLC frame, for callers whose rows were built on a bar grid other
+    than the deployed one (backtest/bar_phase.py shifts the 4h/12h phase). Default is the
+    deployed grid, so every existing caller is unaffected."""
+    if resampler is None:
+        def resampler(coin, rule):
+            return resample(blend.load(coin), rule)
     frames, look = {}, {}
     for rule in BASE_RULES:
         for x in short_rows_with_risk(rule):
@@ -76,7 +83,7 @@ def attach_prices(raw_rows):
         if r["side"] == "long":
             key = (r["coin"], r["rule"])
             if key not in frames:
-                df = resample(blend.load(r["coin"]), r["rule"])
+                df = resampler(r["coin"], r["rule"])
                 frames[key] = pd.Series(df["open"].to_numpy(float),
                                         index=pd.DatetimeIndex(df["time"]))
             e0 = float(frames[key].loc[pd.Timestamp(r["t0"])])

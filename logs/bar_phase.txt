@@ -1,0 +1,26 @@
+4 bar phases | 10 orderings | 3x haircut | tune < 2024-08-29 <= holdout
+1h sleeve and ALL shorts identical in every phase - only 4h/12h longs move
+  phase 0: 4h offset 0h, 12h offset 0h -> 15736 trades
+  phase 1: 4h offset 1h, 12h offset 3h -> 15721 trades
+  phase 2: 4h offset 2h, 12h offset 6h -> 15736 trades
+  phase 3: 4h offset 3h, 12h offset 9h -> 15713 trades
+
+  phase      TUNE/mo    DD   HOLD/mo    DD   FULL/mo    DD  Sharpe
+  0           +4.90%   53%    +4.97%   55%    +5.27%   57%    1.01  <- DEPLOYED
+  1           +4.51%   66%    +4.92%   53%    +5.14%   66%    1.03
+  2           +5.40%   58%    +4.95%   58%    +5.41%   59%    0.97
+  3           +5.69%   55%    +3.88%   59%    +5.60%   60%    1.00
+  phase spread on tune   1.18 %/mo (best phase 3, worst 1)
+  phase spread on hold   1.09 %/mo (best phase 0, worst 3)
+  phase spread on full   0.47 %/mo (best phase 3, worst 1)
+
+BLENDED BOOK - a quarter of the account in each phase, same total risk
+  window    blend/mo    DD  Sharpe  mean phase/mo  mean phase DD  mean Sharpe
+  tune        +5.58%   54%    1.24         +5.12%            58%         1.09
+  hold        +4.96%   52%    0.89         +4.68%            56%         0.88
+  full        +5.92%   56%    1.07         +5.35%            61%         1.00
+
+  Prediction 4 is the one that matters: the blend's COMPOUNDED return should beat
+  the mean phase because averaging before compounding removes volatility drag. If
+  it does not, phase diversification is cosmetic and only the robustness reading
+  survives - and that reading is the phase spread above.

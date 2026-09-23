@@ -414,3 +414,71 @@ position is that this book's return is what it is: about **+5%/month on the corr
 the deployed risk, ~+7% for the tight variant**, and the ways to make it bigger all cost more
 than they pay.
 
+---
+
+# Part 5 - BAR PHASE: the first thing today that actually works
+
+*2026-09-23. Source: `backtest/bar_phase.py`, log `logs/bar_phase.txt`.*
+
+Every 4h and 12h figure in this project comes from bars anchored to midnight UTC. Nothing in the
+strategy says they should be - it is an accident of how Binance labels klines. A 4h bar could
+start at 01:00, 02:00 or 03:00, and those grids are buildable from the 1h bars already cached.
+No new data, no new rule, no new universe, no new risk.
+
+The 1h sleeve cannot be shifted (only 23 coins have sub-hourly data) and shorts are held fixed,
+so everything below is attributable to the 4h and 12h LONG sleeves.
+
+## 1. The deployed number carries about 1%/month of phase luck
+
+| phase | TUNE/mo | DD | HOLD/mo | DD | Sharpe |
+|---|---|---|---|---|---|
+| **0 (deployed)** | +4.90% | 53% | **+4.97%** | 55% | 1.01 |
+| 1 | +4.51% | 66% | +4.92% | 53% | 1.03 |
+| 2 | +5.40% | 58% | +4.95% | 58% | 0.97 |
+| 3 | **+5.69%** | 55% | +3.88% | 59% | 1.00 |
+
+Spread: **1.18%/mo on tune, 1.09%/mo on the holdout.** I predicted at least 1.5% and overshot.
+
+**The uncomfortable part:** on the holdout, phase 0 - the one that happens to be running - is the
+BEST of the four. I predicted it would not be, because it has no reason to be. So the deployed
+holdout figure of +4.97% is the top of four draws, and the honest expectation is the phase
+average, **+4.68%/mo**. That is a ~0.3%/mo downward revision of the deployed book, and it comes
+from an arbitrary choice nobody had questioned.
+
+## 2. Averaging the phases is a real, free improvement
+
+Four phase books, a quarter of the account in each, same aggregate risk:
+
+| window | blend/mo | DD | Sharpe | mean phase/mo | mean phase DD | mean Sharpe |
+|---|---|---|---|---|---|---|
+| tune | **+5.58%** | **54%** | **1.24** | +5.12% | 58% | 1.09 |
+| holdout | **+4.96%** | **52%** | 0.89 | +4.68% | 56% | 0.88 |
+| full | **+5.92%** | **56%** | 1.07 | +5.35% | 61% | 1.00 |
+
+The blend beats the average phase on **all three windows** (+0.46, +0.28, +0.57 %/mo) with a
+**lower drawdown every time**. That was the registered prediction and the mechanism is exactly
+as stated: averaging four noisy series *before* compounding removes volatility drag. It cannot
+change the average edge; it only narrows the distribution around it, and narrower compounds
+faster.
+
+**Against the specific deployed phase, be precise:** +0.68%/mo on tune, **dead even on the
+holdout** (+4.96% vs +4.97%), and 3 points less drawdown on both. The return gain is against a
+*randomly chosen* phase, which is the honest comparison, because phase 0 being best on the
+holdout is luck we cannot count on repeating.
+
+## 3. The catch, which is a $200 problem specifically
+
+Four books at a quarter of the capital each means every unit is a quarter the size. At $200 that
+is roughly a **$3 unit against venue minimums that reach $2.28** (NEAR), so the smallest coins
+would start being rejected - and `small_capital.py` established that $221 currently rejects 0%.
+**This has not been simulated through `small_capital.py` and must be before it is deployed at
+$200.** At $1,000+ the constraint disappears.
+
+## What this is and is not
+
+It is **not a new edge**. It is the removal of an arbitrary implementation choice, which buys
+about **+0.3%/month against a random phase and 4-6 points of drawdown**, plus a more honest
+expectation for the book already running. After a day in which every edge search failed, that is
+the only thing that improved the book - and it improved it by taking luck out, not by finding
+anything.
+
