@@ -1,0 +1,86 @@
+panel: 793 perps (gold/stables dropped), 2020-01 .. 2026-09
+
+building each tier once (account-independent)...
+  1-20 (mega)         343 rebalances, 20 names, 4 a side
+  21-60 (large)       320 rebalances, 40 names, 8 a side
+  61-120 (mid)        304 rebalances, 60 names, 12 a side
+  121-250 (small)     250 rebalances, 130 names, 26 a side
+  251+ (micro)        128 rebalances, 167 names, 33 a side
+
+ACCOUNT $200
+  tier                  n    net/wk      ann Sharpe      t     gross   carry    fee  impact
+  1-20 (mega)         343   +0.358%      +20%   0.28   0.71   +0.296%  +0.163% +0.099%  +0.002%   ADV $411.9M
+  21-60 (large)       320   +0.594%      +36%   0.61   1.51   +0.539%  +0.166% +0.108%  +0.003%   ADV $110.3M
+  61-120 (mid)        304   -0.004%       -0%  -0.00  -0.01   +0.019%  +0.090% +0.110%  +0.003%   ADV $40.3M
+  121-250 (small)     250   -0.248%      -12%  -0.45  -0.99   -0.227%  +0.089% +0.107%  +0.004%   ADV $14.6M
+  251+ (micro)        128   -0.435%      -20%  -0.90  -1.41   -0.397%  +0.069% +0.103%  +0.004%   ADV $5.0M
+
+ACCOUNT $20,000
+  tier                  n    net/wk      ann Sharpe      t     gross   carry    fee  impact
+  1-20 (mega)         343   +0.341%      +19%   0.27   0.68   +0.296%  +0.163% +0.099%  +0.019%   ADV $411.9M
+  21-60 (large)       320   +0.569%      +34%   0.59   1.45   +0.539%  +0.166% +0.108%  +0.028%   ADV $110.3M
+  61-120 (mid)        304   -0.035%       -2%  -0.04  -0.10   +0.019%  +0.090% +0.110%  +0.034%   ADV $40.3M
+  121-250 (small)     250   -0.280%      -14%  -0.51  -1.11   -0.227%  +0.089% +0.107%  +0.035%   ADV $14.6M
+  251+ (micro)        128   -0.475%      -22%  -0.98  -1.54   -0.397%  +0.069% +0.103%  +0.044%   ADV $5.0M
+
+ACCOUNT $200,000
+  tier                  n    net/wk      ann Sharpe      t     gross   carry    fee  impact
+  1-20 (mega)         343   +0.300%      +17%   0.23   0.60   +0.296%  +0.163% +0.099%  +0.060%   ADV $411.9M
+  21-60 (large)       320   +0.509%      +30%   0.52   1.30   +0.539%  +0.166% +0.108%  +0.088%   ADV $110.3M
+  61-120 (mid)        304   -0.109%       -6%  -0.13  -0.31   +0.019%  +0.090% +0.110%  +0.108%   ADV $40.3M
+  121-250 (small)     250   -0.357%      -17%  -0.65  -1.42   -0.227%  +0.089% +0.107%  +0.112%   ADV $14.6M
+  251+ (micro)        128   -0.571%      -26%  -1.18  -1.85   -0.397%  +0.069% +0.103%  +0.140%   ADV $5.0M
+
+ACCOUNT $2,000,000
+  tier                  n    net/wk      ann Sharpe      t     gross   carry    fee  impact
+  1-20 (mega)         343   +0.171%       +9%   0.13   0.34   +0.296%  +0.163% +0.099%  +0.189%   ADV $411.9M
+  21-60 (large)       320   +0.320%      +18%   0.33   0.81   +0.539%  +0.166% +0.108%  +0.278%   ADV $110.3M
+  61-120 (mid)        304   -0.342%      -16%  -0.40  -0.97   +0.019%  +0.090% +0.110%  +0.342%   ADV $40.3M
+  121-250 (small)     250   -0.599%      -27%  -1.08  -2.37   -0.227%  +0.089% +0.107%  +0.354%   ADV $14.6M
+  251+ (micro)        128   -0.874%      -37%  -1.79  -2.81   -0.397%  +0.069% +0.103%  +0.443%   ADV $5.0M
+
+ACCOUNT $20,000,000
+  tier                  n    net/wk      ann Sharpe      t     gross   carry    fee  impact
+  1-20 (mega)         343   -0.236%      -12%  -0.18  -0.47   +0.296%  +0.163% +0.099%  +0.596%   ADV $411.9M
+  21-60 (large)       320   -0.280%      -14%  -0.29  -0.71   +0.539%  +0.166% +0.108%  +0.877%   ADV $110.3M
+  61-120 (mid)        304   -1.080%      -43%  -1.27  -3.08   +0.019%  +0.090% +0.110%  +1.079%   ADV $40.3M
+  121-250 (small)     250   -1.363%      -51%  -2.40  -5.26   -0.227%  +0.089% +0.107%  +1.119%   ADV $14.6M
+  251+ (micro)        128   -1.801%      -61%  -3.54  -5.54   -0.397%  +0.069% +0.103%  +1.371%   ADV $5.0M
+
+WHERE THE EDGE LIVES, net %/wk by tier and account size
+  tier                        $200       $20,000      $200,000    $2,000,000   $20,000,000
+  1-20 (mega)              +0.358%       +0.341%       +0.300%       +0.171%       -0.236%
+  21-60 (large)            +0.594%       +0.569%       +0.509%       +0.320%       -0.280%
+  61-120 (mid)             -0.004%       -0.035%       -0.109%       -0.342%       -1.080%
+  121-250 (small)          -0.248%       -0.280%       -0.357%       -0.599%       -1.363%
+  251+ (micro)             -0.435%       -0.475%       -0.571%       -0.874%       -1.801%
+
+BY REGIME at $200 (the account that matters here)
+  tier                    bull      bear      chop
+  1-20 (mega)          +1.544%   -0.615%   -0.111%
+  21-60 (large)        +1.284%   +0.049%   +0.292%
+  61-120 (mid)         +0.221%   -0.555%   +0.185%
+  121-250 (small)      +0.412%   -1.256%   -0.024%
+  251+ (micro)         -0.208%   -0.412%   -0.585%
+
+
+DOES 21-60 BEAT 1-20, OR IS IT ONE SAMPLE? (gross, account-independent)
+  tier                 TUNE/wk      t   HOLD/wk      t    ALL/wk      t
+  1-20 (mega)          +0.276%   0.67   +0.731%   0.67   +0.459%   0.92
+  21-60 (large)        +0.724%   1.89   +0.677%   0.85   +0.705%   1.80
+  61-120 (mid)         -0.264%  -0.53   +0.665%   1.38   +0.109%   0.31
+  121-250 (small)      -0.197%  -0.65   -0.049%  -0.11   -0.138%  -0.55
+  251+ (micro)         -0.534%  -1.17   -0.027%  -0.07   -0.328%  -1.06
+
+PAIRED vs the mega tier, same weeks (gross+carry). This is the real test.
+  tier                weeks   diff/wk      t     TUNE     HOLD     verdict
+  21-60 (large)         320   +0.278%   0.46  +0.501%  -0.057%  one half only
+  61-120 (mid)          304   -0.305%  -0.51  -0.388%  -0.182%  one half only
+  121-250 (small)       250   -0.461%  -0.79  -0.077%  -1.038%  one half only
+  251+ (micro)          128   -1.062%  -0.95  +0.132%  -2.807%  one half only
+
+  Registered bar: positive on BOTH halves AND |t| > 2 on the paired difference.
+  Anything less is a sample, not a finding.
+  The claim under test: small tiers win at $200 and lose by $2M. If the GROSS
+  column is not larger in small tiers, low capital is not an advantage here and
+  the thesis is dead regardless of what the net column says.

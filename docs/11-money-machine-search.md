@@ -317,3 +317,78 @@ worst month −24.7%; drawdown 48%; typical year +134% haircut. Calendar years r
 holdout-only (graveyard_rescore.py: −0.37%/mo on the tune half against tight alone). Its
 smaller worst month and drawdown show on both halves. The raw calendar-year figures carry the
 coin-selection hindsight the haircut exists for.
+
+---
+
+# Part 3 - "low capital is an advantage" put to the test, and refuted
+
+*2026-09-23, later. Source: `backtest/capacity_edge.py`, log `logs/capacity_edge.txt`.*
+
+Part 1 ended by asserting that what a small account can do better than a fund is hold what a
+fund cannot. That was a claim, not a measurement, and it is the kind of claim this project is
+supposed to test rather than take comfort in. So it was tested.
+
+**The design.** Run the same cross-sectional momentum book INSIDE volume tiers - ranks 1-20,
+21-60, 61-120, 121-250 and 251+ by the prior month's dollar volume, on the 793-perp
+survivorship-free panel - and charge a size-dependent impact cost so the identical strategy can
+be scored at $200, $20k, $200k, $2M and $20M. Impact uses the square-root law,
+`sigma x sqrt(Q/ADV)`, on every name that turns over, with each coin's own trailing 30-day
+volatility and dollar ADV. If the thesis is right, small tiers win at $200 and collapse by $2M.
+
+**Registered before running:** gross spread LARGER in small tiers; smallest tier best at $200;
+ordering reverses by $2M; the crossover between $50k and $500k.
+
+## All five predictions were wrong, and the gross column says why
+
+`gross` is account-independent, so it is the clean test of where the edge lives:
+
+| tier | median ADV | gross/wk | net/wk at $200 | Sharpe at $200 |
+|---|---|---|---|---|
+| 1-20 (mega) | $412M | +0.296% | +0.358% | 0.28 |
+| **21-60 (large)** | $110M | **+0.539%** | **+0.594%** | **0.61** |
+| 61-120 (mid) | $40M | +0.019% | -0.004% | -0.00 |
+| 121-250 (small) | $15M | **-0.227%** | -0.248% | -0.45 |
+| 251+ (micro) | $5M | **-0.397%** | -0.435% | -0.90 |
+
+**The raw edge gets monotonically WORSE as coins get smaller, and turns negative below about
+$40M of daily volume.** Not smaller-but-still-positive. Negative. There is no crossover account
+size either, because the small tiers were never ahead to begin with.
+
+**So low capital is not an advantage here. It is merely not a handicap.** That is the same thing
+`expectations.py` found from the other direction - capital does not change the percentage - and
+it now has a mechanism attached: the coins a fund cannot trade are the coins whose cross-section
+carries no signal.
+
+## The one unpredicted result also failed
+
+Ranks **21-60 beat the mega caps almost 2:1** on gross (+0.539% vs +0.296%) with double the
+Sharpe, and it was the only tier positive in a BTC bear (+0.049% against mega's -0.615%). Since
+the deployed market-neutral book trades PIT top-60 - blending both - dropping the top 20 looked
+like a free improvement.
+
+It is not. Paired against the mega tier on the SAME weeks, which is the statistic that matters
+because the two tiers share the market:
+
+| | weeks | diff/wk | t | tune | holdout |
+|---|---|---|---|---|---|
+| 21-60 vs 1-20 | 320 | +0.278% | **0.46** | **+0.501%** | **-0.057%** |
+
+Positive on the tune half, negative on the holdout, t nowhere near 2. **The registered bar was
+both halves AND |t| > 2. It fails.** Worth noting the mega tier's own all-sample t is 0.92 and
+21-60's is 1.80 - at this sample size the tier decomposition cannot reliably attribute the
+top-60 book's Sharpe 1.22 to any band inside it.
+
+## What this closes
+
+- **The capacity thesis is dead as a source of edge.** Small capital buys the same percentage,
+  not a better one.
+- **`market_neutral.py` keeps PIT top-60 unchanged.** The one candidate change failed its
+  holdout.
+- **Where capacity DOES bind is worth keeping:** the top-60 book stops working somewhere between
+  $2M and $20M (mega +0.171%/wk at $2M, -0.236% at $20M). That is a real number and it says the
+  strategy has years of headroom for this account - just no bonus for being small.
+
+*Prediction 3 was the only one partly right: by $20M every tier is negative. Being wrong about
+the direction of the size effect while right about the capacity ceiling is not a score of 1 in 5;
+it is one correct claim about a strategy that does not have the property it was built to test.*
+
