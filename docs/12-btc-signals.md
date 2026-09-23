@@ -93,17 +93,36 @@ during a break changes only ~30 of 7,434 trades (the break is an event, not a st
 | **What to buy** | 30-bar Bollinger break at 1.5σ on 1h/4h/12h, pyramid to 5 units | doc 01; indicator search exhausted (doc 02) |
 | **When to stop — the market** | BTC's 4h trail breaks → open longs trail at 5×ATR (tight exit) | beats main on both halves, +2.9 / +2.0 %/mo (`graveyard_rescore.py`) |
 | **When to stop — the trade** | still under +2R after 100 bars → close (time stop) | worst month −31% → −18%, both halves (`graveyard_rescore.py`) |
-| **How much** | 0.3% per unit; 0.6% is the most for "crazy" odds without ruin | `lottery.py` (doc 11 part 3) |
+| **How much** | **0.3% per unit.** 0.6% is the ceiling for *3-month* lottery odds, not for running the book | `lottery.py` **and** `kelly_corrected.py` - see the note below |
 
-**What it has returned** (`backtest/book_stats.py`, $221, corrected engine; upside also shown
-after the 3× hindsight haircut, downside raw):
+**What it has returned** (`backtest/book_stats.py`, $221, corrected engine; upside after the 3×
+hindsight haircut, downside raw).
 
-| | holdout (2024-08 →) | full history |
-|---|---|---|
-| typical 12 months | **+119% haircut** (+358% raw) | +134% haircut |
-| months losing money | 48% | 48% |
-| worst month | −22.6% | −24.7% |
-| max drawdown | 45% | 48% |
+**READ THE CONFIG COLUMN.** The table above describes tight exit + time stop, which is **paper
+book #5 and is not deployed**. The bot running today is the main book. Quoting the bottom row as
+"what the bot returns" overstates it by more than double:
+
+| config | status | typical 12mo (holdout) | months losing | worst month | max DD |
+|---|---|---|---|---|---|
+| **main** | **DEPLOYED** | **$221 → $270 (+22%)** | **57%** | **−40.8%** | **53%** |
+| tight exit | paper book #2 | $221 → $315 (+43%) | 56% | −34.7% | 50% |
+| tight + time stop | paper book #5 | $221 → $485 (+119%) | 48% | −22.6% | 45% |
+
+The deployed figure agrees with `expectations_honest.py` from a separate simulator ($200 → $241,
+i.e. +20%), which is the cross-check that makes it trustworthy. The strategy table above this one
+describes where the book is *heading* if the paper books hold up - not where it is.
+
+### The risk ceiling: 0.6% and 0.3% are both right, for different horizons
+
+`lottery.py` finds $221 at 0.6%/unit over **3 months** has 0% ruin (ruin = below 10% of start) and
+a better median multiple than 0.3% (1.67× against 1.39×). `kelly_corrected.py` finds that over the
+**full 6.5 years**, 0.60% has a *lower* holdout return than 0.30% (+4.55%/mo against +4.96%), a
+median drawdown of 81%, and 92% in the worst ordering.
+
+Both are correct. Three months is not long enough for an 80% drawdown to develop, so on a short
+horizon more risk is more upside; over years it compounds into destruction. **So 0.6% is a
+lottery-ticket setting for money that can be lost inside a quarter, and 0.3% is the setting for a
+book meant to keep running.** Doc 01 has the full sweep with leverage and ruin per fraction.
 
 On the honest, no-hindsight coin list (`lottery.py`, PIT top-12): typical year **2.2×** at 0.3%,
 **2.6×** at 0.6%; 5× in about one year in four; about 2× in a typical year even with the single
