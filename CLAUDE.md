@@ -1,6 +1,6 @@
 # CLAUDE.md — read this first, every session
 
-*Last updated 2026-09-23.*
+*Last updated 2026-09-23. Dated history in §10.*
 
 This file is the orientation for a new session. It is deliberately short. It tells you the
 goal, the rules that keep the numbers honest, where everything is, and the traps that have
@@ -8,6 +8,10 @@ already produced wrong answers in this project more than once.
 
 **Read this file, then [`docs/09-pick-up-here.md`](docs/09-pick-up-here.md) for live state,
 then [`docs/02-what-failed.md`](docs/02-what-failed.md) before proposing any strategy.**
+
+**[§10, the session log](#10-session-log), is what changed most recently and why** - read it
+before trusting a number you find elsewhere in the repo, because three engine bugs on
+2026-09-23 changed most of them.
 
 ---
 
@@ -77,6 +81,11 @@ candidate on paper. The rule above still stands for everything else.
 | **Azure Run command JSON-decodes scripts** | A backslash-n inside a pasted heredoc becomes a REAL NEWLINE and breaks Python mid-string | **Patch scripts contain zero backslashes.** Use `chr(10)`. See `deploy/patch_*.sh` |
 | **Bash heredocs mangling escapes in Python literals** | Same class of bug, locally | Use the Edit/Write tool for code containing escapes |
 | **Haircutting a LOSS** | The 3× hindsight haircut divides an *annualised* rate by 3, which shrinks losses as eagerly as gains: a real −30% month reads −3.3%, and a year that ended at $92 reads $172. Found while answering "what happens at worst" — the first table showed a worst-ever month of −3.5% | Quote **downside raw, upside haircut**, and label which is which |
+| **A non-stable sort on an append-only log** | `sort_values` defaults to quicksort. It reordered simultaneous closes and misaligned a log's own `equity` column against its rows, reading as a $4,534 self-check failure on a log that was correct | `kind="stable"` whenever row order carries meaning |
+| **Run command wraps long lines** | Near 50 chars, and a wrapped line's tail RUNS as a command. A wrapped COMMENT loses its `#` and executes. This destroyed a 22KB base64 one-liner | Every line in `deploy/*.sh` under 44 chars; payloads in heredocs, which `base64 -d` decodes however they are broken up |
+| **`VAR=cmd arg` is not an assignment** | `U=sudo -u $OWNER` makes the shell treat `U=sudo` as a prefix and run a command called `-u`. Aborted a live patch at line 34 | No spaces in an assignment value |
+| **Testing only the part you changed** | Both of the two bugs above survived a test that exercised only the payload block, because both were outside it | Run the WHOLE script against a fake target with stubbed `systemctl`/`sudo`/`sleep` |
+| **A test that cannot exhibit the bug** | With one position open at a time the two compounding conventions are arithmetically IDENTICAL, so a non-overlapping test showed $0.00 difference and passed while proving nothing. The bug only bites when positions OVERLAP | Construct the case so the bug MUST appear if it is present |
 | **Timestamp unit mismatch** | `.asof()` raises "Cannot losslessly convert units" (ms index vs ns clock) | `blend_paper._ns()` |
 | **Bar label read as entry time** | `asof(t0)` on a 4h/12h row reads a bar that closed hours after the entry. The short boost's "+0.481R" was 118 look-ahead trades; causal, it is +0.305R and worth ~+0.5%/mo | `causal_t0.real_t0(rows)` |
 | **Fees charged, funding not** | Every figure for the deployed book was fees-only. Funding takes the tune half +16.5% → +12.2%/mo | `funding_cost.charged(...)` |
@@ -175,8 +184,12 @@ On the VM (Azure portal → VM → Run command → RunShellScript):
 cd /opt/forexbot && ./.venv/bin/python blend_paper.py --status
 ```
 
-`git pull` on the VM **fails** — no cached credentials, no interactive prompt. Patch in
-place with `deploy/patch_*.sh`, which are gzip+base64 and sha256-verified.
+**Deploy to the VM by `git pull`** (the repo was made public 2026-09-23):
+`deploy/pull_and_rebuild.sh` pulls, verifies `blend_paper.py` by sha256, restarts and prints
+the books. `deploy/check_vm.sh` is a read-only "what is on that box" check.
+
+The old `deploy/patch_*.sh` base64 scripts are superseded. Keep them only as the record of how
+the box was patched before the repo was public.
 
 ## 9. Working style the user has asked for
 
@@ -187,3 +200,61 @@ place with `deploy/patch_*.sh`, which are gzip+base64 and sha256-verified.
   and the regime dependence every time.
 - When a result looks good, the next move is to look for the bug that made it look good.
   Every large improvement in this repo's history was a bug until proven otherwise.
+
+---
+
+## 10. Session log
+
+*Newest first. One entry per working day, and only what a later session needs to know -
+the detail lives in the numbered docs.*
+
+### 2026-09-23 - three flattering bugs, the numbers halved, two books added
+
+**Three bugs in the engine every stored result rested on** (doc 03, #12-14). Each made
+results look BETTER than they were, which is the direction to expect:
+
+- **funding was never charged** - 21.5% of lifetime long R, 46% on the 12h sleeve
+- **4h/12h rows carried the bar LABEL**, 3h and 11h after the real entry, so anything using
+  `asof(t0)` read the future. The short boost did: 118 of 224 "boosted" shorts were boosted
+  only because BTC broke down AFTER they opened. Its value fell from +1.3-2.3 to ~+0.5%/mo
+- **trades compounded against equity they were never sized on** - roughly 2x everything
+
+**The planning numbers changed, and not slightly.** $200 over a year: $316 -> **$241** (main),
+**$285** (tight). Per month +4.3% -> **+1.6%** main, **+3.0%** tight. Worst month -34% ->
+**-41.6%**. The one figure that survived every correction: **56% of months lose money.**
+
+**What improved.** The tight exit now beats main on BOTH halves (+2.87 +- 0.28 tune, +1.98 +-
+0.35 holdout, entry-sized); before the fixes it read as costing tune-half return. And the
+market-neutral book is better as an **overlay on the same margin** (k=0.25 on tight: +1.2%/mo,
+no extra drawdown, winning weeks 37% -> 50%) than as a split of capital, which is what I first
+told the user and had to correct.
+
+**Two books added, six running.** `mn_paper.py` (market-neutral, pre-registered, verdict at 26
+rebalances) and blend_paper's fifth book **TSTOP** = tight + close a long still under +2R after
+100 bars. Its return edge is holdout-only against tight; its **worst-month** edge shows on both
+halves, and that is the part to trust.
+
+**Doc 11, the money-machine search.** Seven mechanism-based ideas plus ~17 others: all dead.
+Verified by re-running, one count corrected (28 of 30 grid configs lose, not 24 of 26). The
+pattern is the finding: every real edge is priced within a second by co-located bots, competed
+to zero by the capital that found it, or too rare to separate from noise.
+
+**Deployment fixed.** The user made the repo public, so the VM now deploys by `git pull` - a
+69-line script instead of 584 lines of base64. Three paste attempts failed first, for two
+reasons now in the trap table: Run command wraps near 50 chars, and `U=sudo -u $OWNER` is not
+an assignment.
+
+**`--status` now reports realised / marked / floor for all five books.** Live reading:
+realised $209.77, **marked $440.36**, floor $153.06. Realised alone badly understates a book
+holding runners - losers stop out fast and get banked, winners sit open for weeks - which is
+why 35 closed trades read -1.03R while 12 open positions sat at +4R to +8R. The FLOOR is where
+an exit-rule difference appears first, weeks before realised equity moves.
+
+**One piece of luck worth recording.** The entry-sized fix landed about a week before those 12
+runners close. Under the old line they would have credited ~$480 instead of ~$233 on a $221
+account, and it would have been reported as real.
+
+**What NOT to do next.** Nothing needs tuning. Six books are accumulating forward data, and
+after three bugs in one day that all pointed the same way, forward data is the only evidence
+left that cannot be mined. Next meaningful read: ~30 closed trades per book, or whenever BTC
+breaks its 4h trend and the books finally diverge.
