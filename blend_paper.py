@@ -103,12 +103,12 @@ A SIXTH BOOK, "UNITS" (2026-09-24) - backtest/pyramid_params.py
     7 and not 10: ten earns more but its MAXIMUM gross leverage reaches 10.3x, past where
     lev_test.py found liquidation destructive. Cost of seven: drawdown 50% -> 56%.
 
-    All six books share one process and one set of klines. The MAIN book is saved before any
+    All seven books share one process and one set of klines. The MAIN book is saved before any
     extra book runs and each extra book's errors are caught, so none of them can cost the
     main book a cycle.
 
-    python blend_paper.py            live loop (all six books)
-    python blend_paper.py --status   report and exit (all six books)
+    python blend_paper.py            live loop (all seven books)
+    python blend_paper.py --status   report and exit (all seven books)
     python blend_paper.py --once     one cycle and exit
 """
 from __future__ import annotations
@@ -136,6 +136,8 @@ SIZED_STATE = LOGS / "blend_state_sized.json"
 SIZED_TRADES = LOGS / "trades_blend_sized.csv"
 SBOOST_STATE = LOGS / "blend_state_sboost.json"
 SBOOST_TRADES = LOGS / "trades_blend_sboost.csv"
+TRIPLE_STATE = LOGS / "blend_state_triple.json"
+TRIPLE_TRADES = LOGS / "trades_blend_triple.csv"
 UNITS_STATE = LOGS / "blend_state_units.json"
 UNITS_TRADES = LOGS / "trades_blend_units.csv"
 TSTOP_STATE = LOGS / "blend_state_tstop.json"
@@ -530,7 +532,7 @@ def manage(st, key, rec, bar, hi, lo, a, tstop=False, cl=None, max_units=None):
 def cycle(st: dict, regime_cache: dict, kc: "dict | None" = None,
           tight: bool = False, breaks: "pd.Series | None" = None,
           bear: "bool | None" = None, sized: bool = False, sboost: bool = False,
-          tstop: bool = False, units7: bool = False):
+          tstop: bool = False, units7: bool = False, triple: bool = False):
     """One pass over every coin and sleeve for ONE book.
 
     kc shares this poll's klines between the books, so the extra books add no API calls
@@ -545,9 +547,12 @@ def cycle(st: dict, regime_cache: dict, kc: "dict | None" = None,
         bear = btc_bear(regime_cache)
     # tstop is tested FIRST: that book also sets tight=True, so testing tight first
     # would file its trades in the tight book's CSV and label its logs as tight.
-    tag = ("U|" if units7 else "X|" if tstop else "T|" if tight else "S|" if sized
-           else "B|" if sboost else "")
-    trades_path = (UNITS_TRADES if units7 else TSTOP_TRADES if tstop else
+    # triple FIRST: it sets tstop and units7 too, and inferring the book from the
+    # flags would file its trades in the units book's CSV.
+    tag = ("3|" if triple else "U|" if units7 else "X|" if tstop else "T|" if tight
+           else "S|" if sized else "B|" if sboost else "")
+    trades_path = (TRIPLE_TRADES if triple else UNITS_TRADES if units7 else
+                   TSTOP_TRADES if tstop else
                    TIGHT_TRADES if tight else
                    SIZED_TRADES if sized else SBOOST_TRADES if sboost else TRADES)
     kc = {} if kc is None else kc
@@ -939,6 +944,50 @@ def fork_sboost(st: dict) -> dict:
     return t
 
 
+def fork_triple(st: dict, breaks) -> dict:
+    """Start the TRIPLE book - tight + time stop + 7 units - as a copy of the main book.
+
+    With tight (#2), tight+timestop (#5), tight+units (#6) and this (#7) all running from the
+    same ancestor, the four form a 2x2 factorial over {time stop, 7 units} on the tight base.
+    That reads both main effects AND their interaction forward, which no single book can. The
+    backtest says the interaction is positive: units adds +1.07%/mo on tight alone and +1.54 on
+    tight + time stop (backtest/units_on_tstop.py)."""
+    t = json.loads(json.dumps(st))
+    t["forked"] = datetime.now(timezone.utc).isoformat()
+    on = trig_at(breaks, pd.Timestamp.now(tz="UTC").tz_localize(None))
+    for r in t["open"].values():
+        if r["side"] == "long":
+            r["armed"], r["tight"] = (not on), False
+    return t
+
+
+def status_triple(st: dict, rst: dict, kc: "dict | None" = None):
+    """The TRIPLE book - the best configuration the backtests have produced, on paper."""
+    if not rst:
+        print("TRIPLE book: not started yet (forks from main on the first cycle)")
+        print()
+        return
+    print(f"TRIPLE BOOK - tight exit + time stop (+{TSTOP_R:g}R/{TSTOP_BARS}b) + "
+          f"{UNITS_MAX} pyramid units")
+    print(f"forked from the main book {rst.get('forked', '?')}")
+    compare_books("triple", rst, st, kc)
+    deep = sum(1 for r in rst["open"].values() if r.get("units", 1) > MAX_UNITS)
+    old = sum(1 for r in rst["open"].values()
+              if r["side"] == "long" and r.get("bars", 0) >= TSTOP_BARS)
+    print(f"  open {len(rst['open'])}/{SLOTS}, {deep} past {MAX_UNITS} units, "
+          f"{old} long(s) old enough for the time stop")
+    n = 0
+    if TRIPLE_TRADES.exists():
+        try:
+            n = sum(1 for _ in open(TRIPLE_TRADES)) - 1
+        except Exception:
+            n = 0
+    print(f"  {n} closed trades in {TRIPLE_TRADES.name}")
+    print("  Backtest: +8.89%/mo tune, +10.76% holdout, against main's +4.88/+4.88 - the best")
+    print("  config measured. Cost: drawdown 44->48% tune, 45->51% holdout against TSTOP alone.")
+    print()
+
+
 def fork_units(st: dict, breaks) -> dict:
     """Start the UNITS book (tight + a 7th unit) as an exact copy of the main book.
 
@@ -1063,11 +1112,12 @@ def main():
     bst = load_state(SBOOST_STATE) if SBOOST_STATE.exists() else None
     xst = load_state(TSTOP_STATE) if TSTOP_STATE.exists() else None
     ust = load_state(UNITS_STATE) if UNITS_STATE.exists() else None
+    rst = load_state(TRIPLE_STATE) if TRIPLE_STATE.exists() else None
     if args.status:
         sc: dict = {}    # ONE kline cache for all five books, not 60 requests
         status(st, sc); status_tight(st, tst, sc); status_sized(st, sst, sc)
         status_sboost(st, bst, sc); status_tstop(st, xst, sc)
-        status_units(st, ust, sc); return
+        status_units(st, ust, sc); status_triple(st, rst, sc); return
     log("=" * 78)
     log(f"BLEND PAPER — ${START_EQ:.0f}, {len(BOOK)} coins x {len(SLEEVES)} "
         f"timeframes, {SLOTS} shared slots")
@@ -1091,7 +1141,7 @@ def main():
     brk_cache: dict = {}
 
     def one_poll():
-        nonlocal tst, sst, bst, xst, ust
+        nonlocal tst, sst, bst, xst, ust, rst
         kc: dict = {}
         bear = btc_bear(regime_cache)
         # the MAIN book first, saved before the extra books are touched, so nothing in
@@ -1156,13 +1206,25 @@ def main():
         except Exception as e:
             log(f"UNITS book error (main book unaffected): {type(e).__name__}: "
                 f"{str(e)[:160]}")
+        try:
+            breaks = btc_breaks(brk_cache)
+            if rst is None:
+                rst = fork_triple(st, breaks)
+                log(f"TRIPLE book forked from main: equity {rst['equity']:.2f}, "
+                    f"{len(rst['open'])} open, tight + time stop + {UNITS_MAX} units")
+            cycle(rst, regime_cache, kc, tight=True, tstop=True, units7=True, triple=True,
+                  breaks=breaks, bear=bear)
+            save_state(rst, TRIPLE_STATE)
+        except Exception as e:
+            log(f"TRIPLE book error (main book unaffected): {type(e).__name__}: "
+                f"{str(e)[:160]}")
 
     if args.once:
         one_poll()
         sc: dict = {}    # ONE kline cache for all five books, not 60 requests
         status(st, sc); status_tight(st, tst, sc); status_sized(st, sst, sc)
         status_sboost(st, bst, sc); status_tstop(st, xst, sc)
-        status_units(st, ust, sc); return
+        status_units(st, ust, sc); status_triple(st, rst, sc); return
     while True:
         try:
             one_poll()

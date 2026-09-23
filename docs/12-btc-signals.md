@@ -163,3 +163,23 @@ lucky token away from 1.97×, and the holdout figure of 4.85× is more than half
 
 On 2026-09-23 15:00 UTC: BTC $83,996; gate BULL (+10.2% above $76,222); break level
 $81,622 (−2.8%); momentum +3/3; premium +0.002%; funding neutral; regime BULL.
+
+## Update 2026-09-24 — the pyramid finding stacks with the time stop — `backtest/units_on_tstop.py`
+
+The other session's `pyramid_params.py` found MAX_UNITS=7 beats 5 on the tight book (commit
+0214658; paper book #6). Its baseline was TIGHT. The recommended book is TIGHT + TIME STOP, so
+whether the two stack was checked here. Same corrected engine, 0.30% risk, 10 paired orderings
+(`logs/units_on_tstop.txt`):
+
+| book | tune %/mo | DD | worst mo | holdout %/mo | DD | worst mo |
+|---|---|---|---|---|---|---|
+| main (deployed) | +4.88 | 54% | −20.9% | +4.88 | 53% | −33.5% |
+| tight + time stop (paper #5) | +7.38 | 44% | −21.3% | +9.22 | 45% | −18.2% |
+| **tight + time stop + 7 units** | **+8.89** | 48% | −23.6% | **+10.76** | 51% | −19.2% |
+
+Paired: **+1.51 ± 0.06 tune, +1.54 ± 0.08 holdout over TSTOP, 10/10 orderings each**; against
+main +4.01 / +5.89. The tight + 7 units vs tight figure reproduces pyramid_params.py exactly
+(+1.31 / +1.07). **Registered prediction** (+0.9 to +1.3 on both halves, worst month within 2
+points): the gain was larger than predicted; the worst month was 2.3 points deeper on the tune
+half. No paper book runs all three rules together yet. A seventh book combining #5 and #6 is
+the next step, and it belongs to whoever owns `blend_paper.py`.

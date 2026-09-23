@@ -1,0 +1,13 @@
+corrected engine, entry-sized, 0.30% risk, 1000h gate, 10 orderings | %/mo = CAGR/3; DD, worst raw
+
+  book                              TUNE   DD   worst    HOLD   DD   worst
+  main                            +4.88%  54%  -20.9%  +4.88%  53%  -33.5%
+  tight                           +7.75%  42%  -29.7%  +6.86%  50%  -31.3%
+  tight + 7 units                 +9.06%  44%  -29.8%  +7.93%  56%  -31.2%
+  tight + time stop (TSTOP)       +7.38%  44%  -21.3%  +9.22%  45%  -18.2%
+  tight + time stop + 7 units     +8.89%  48%  -23.6% +10.76%  51%  -19.2%
+
+  PAIRED, same orderings:
+    tight + 7 units  vs  tight:  tune +1.31 +- 0.04 (t +33.2, 10/10 wins)   hold +1.07 +- 0.06 (t +18.9, 10/10 wins)
+    tight + time stop + 7 units  vs  tight + time stop (TSTOP):  tune +1.51 +- 0.06 (t +26.0, 10/10 wins)   hold +1.54 +- 0.08 (t +19.2, 10/10 wins)
+    tight + time stop + 7 units  vs  main:  tune +4.01 +- 0.32 (t +12.3, 10/10 wins)   hold +5.89 +- 0.52 (t +11.3, 10/10 wins)

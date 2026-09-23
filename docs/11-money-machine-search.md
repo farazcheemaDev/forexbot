@@ -680,3 +680,35 @@ confidence this result invites. It has cleared more than anything else here - bo
 grids, a matched-risk control and a mechanism - which is the argument for forking it, not for
 shipping it.
 
+## Part 8b - the units finding STACKS with the time stop, so the book to watch is the triple
+
+*Added 2026-09-24 after `backtest/units_on_tstop.py` (another session) checked the one thing Part 8
+left open. Verified by re-running: it reproduces, and it independently reproduces Part 8's own
+number from a separate file (+1.31 ± 0.04 / +1.07 ± 0.06 against my +1.30 / +1.07).*
+
+Part 8 measured 7 units against **tight**. The recommended book is **tight + time stop**, so the
+question was whether the two rules stack or compete. They act on different positions - the time
+stop closes longs still under +2R after 100 bars, units 6-7 are added at +10R and +12R - so they
+should add. They do, and by more than on tight alone:
+
+| book | tune %/mo | DD | worst mo | holdout %/mo | DD | worst mo |
+|---|---|---|---|---|---|---|
+| main (deployed) | +4.88 | 54% | −20.9% | +4.88 | 53% | −33.5% |
+| tight (#2) | +7.75 | 42% | −29.7% | +6.86 | 50% | −31.3% |
+| tight + 7 units (#6) | +9.06 | 44% | −29.8% | +7.93 | 56% | −31.2% |
+| tight + time stop (#5) | +7.38 | 44% | −21.3% | +9.22 | 45% | −18.2% |
+| **tight + time stop + 7 units (#7)** | **+8.89** | 48% | −23.6% | **+10.76** | 51% | −19.2% |
+
+Paired: **+1.51 ± 0.06 tune, +1.54 ± 0.08 holdout over TSTOP, 10/10 orderings each.** Against main,
+**+4.01 / +5.89**. Units adds *more* on top of the time stop (+1.54) than on tight alone (+1.07),
+so the interaction is positive.
+
+**A seventh paper book now runs it**, and the four books #2, #5, #6, #7 form a **2×2 factorial** over
+{time stop, 7 units} on the tight base. That reads both main effects *and* their interaction
+forward, which no single book can - and forward is the only evidence left that is not mined.
+
+**The cost is real and is the reason this is still paper:** against TSTOP alone the triple gives up
+4 points of tune drawdown and 6 of holdout drawdown, and its worst month is 2.3 points deeper on
+tune - which was outside `units_on_tstop.py`'s own registered prediction of "within 2 points". The
+return is the biggest in the project; the risk is not free.
+

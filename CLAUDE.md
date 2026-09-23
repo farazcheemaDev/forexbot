@@ -113,8 +113,10 @@ backtest/          every experiment. blend.py holds the deployed constants.
   combine.py         does book 2 combine with book 1 (doc 10)
   perp_fetch.py      downloads all 864 perps incl. the 339 dead ones
   wide_book.py       eligibility(n) = PIT top-N universe
-blend_paper.py     THE LIVE PAPER BOOKS — six in one process
-                     main / tight / sized / sboost / tstop / units (tight + 7 pyramid units)
+blend_paper.py     THE LIVE PAPER BOOKS — seven in one process. main / tight / sized /
+                     sboost / tstop / units / triple. The last four are a 2x2 factorial over
+                     {time stop, 7 units} on the tight base: both main effects and the
+                     interaction, read forward. Best backtest: triple, +10.76%/mo holdout.
 mn_paper.py        the 5th book: market-neutral, pre-registered, verdict at 26 rebalances
 xs_paper.py        an EARLIER pre-registered XS test (21 coins, daily). Frozen — do not edit
 longtrend_bot.py   the Bitget demo bot. ALLOW_REAL = False
