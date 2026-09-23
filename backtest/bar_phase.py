@@ -104,7 +104,7 @@ def resample_phase(df, rule, hours):
     return out.reset_index()
 
 
-def rows_for_phase(p, tight=False):
+def rows_for_phase(p, tight=False, **kw):
     """Every row of the deployed book with the 4h and 12h LONG sleeves on phase p.
 
     tight=True applies btc_exit.py's rule - the 20xATR long trail drops to 5xATR once BTC's own
@@ -120,7 +120,7 @@ def rows_for_phase(p, tight=False):
             df = resample_phase(d, rule, off if rule != "1h" else 0)
             if len(df) >= 300:
                 rows += walk(df, rule, coin,
-                             tb=break_map(df, rule) if tight else None)
+                             tb=break_map(df, rule) if tight else None, **kw)
     def rs(coin, rule):
         """attach_prices must price entries on the SAME grid the rows were walked on, or a
         shifted t0 is not a bar label it recognises (it raised KeyError on 13:00, which is not
@@ -320,6 +320,50 @@ def tight_across_phases(bear, cut):
         print(f"  {p:<8}{cells}" + ("  <- DEPLOYED" if p == 0 else ""))
     print(f"  tight wins both halves on {sum(verdict)} of {len(PHASES)} phases")
     print("  4 of 4 means the edge is not phase luck. 1 of 4 means paper book #2 is noise.")
+
+
+def worst_month(ret):
+    """The worst calendar month of a daily return series, in percent."""
+    if ret is None or len(ret) < 50:
+        return float("nan")
+    return float(ret.resample("ME").apply(lambda x: np.prod(1 + x) - 1).min() * 100)
+
+
+def variant_across_phases(bear, cut, label, base_kw, var_kw):
+    """Any variant against any baseline, paired within ordering AND within phase.
+
+    This is the test that promoted the tight exit from "looks good on one grid" to the only
+    robust finding in the repo, so every candidate should face it. Reports the return difference
+    and the WORST-MONTH difference, because a risk improvement can be real while a return
+    improvement is not - which is exactly what the time stop claims."""
+    print()
+    print(f"{label}, paired within each ordering, on every bar phase")
+    print(f"  {'phase':<7}{'TUNE d':>9}{'t':>7}{'w':>6}{'HOLD d':>9}{'t':>7}{'w':>6}"
+          f"{'TUNE wm':>9}{'HOLD wm':>9}")
+    both = 0
+    for p in PHASES:
+        br = rows_for_phase(p, **base_kw)
+        vr = rows_for_phase(p, **var_kw)
+        cells, ok, wm = "", True, []
+        for kw in (dict(t_to=cut), dict(t_from=cut)):
+            ds, dw = [], []
+            for seed in SEEDS:
+                a, b = daily(br, bear, seed, **kw), daily(vr, bear, seed, **kw)
+                if a is None or b is None:
+                    continue
+                ds.append(stats(b)["hpm"] - stats(a)["hpm"])
+                dw.append(worst_month(b) - worst_month(a))
+            d = np.array(ds)
+            se = d.std(ddof=1) / len(d) ** 0.5
+            cells += f"{d.mean():>+8.2f}%{d.mean()/se:>+7.2f}{(d > 0).sum():>4}/{len(d)}"
+            ok &= d.mean() > 0
+            wm.append(float(np.mean(dw)))
+        both += ok
+        print(f"  {p:<7}{cells}{wm[0]:>+8.1f}{wm[1]:>+8.1f}"
+              + ("  <- DEPLOYED grid" if p == 0 else ""))
+    print(f"  return wins both halves on {both} of {len(PHASES)} phases"
+          f"   (wm = worst-month change in points, positive = shallower)")
+    return both
 
 
 def main():

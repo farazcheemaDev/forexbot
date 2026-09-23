@@ -514,3 +514,38 @@ the error in Part 5's first draft - cannot.
 **So paper book #2 is on solid ground**, and the tight exit is the one thing this project has that
 would survive someone actively trying to break it.
 
+## 6. And the book forked today: is the TIME STOP phase-robust?
+
+Paper book #5 is tight + "close a long still under +2R after 100 bars". It was forked on the
+reading that its RETURN gain is holdout-only but its WORST-MONTH gain shows on both halves. The
+phase test checks both claims against a noise source that did not exist when the decision was
+made:
+
+| phase | TUNE return | t | HOLD return | t | TUNE worst mo | HOLD worst mo |
+|---|---|---|---|---|---|---|
+| **0 (deployed)** | −0.36% | −1.71 | **+2.36%** | +5.48 | **+8.4** | **+13.1** |
+| 1 | +0.03% | +0.08 | **+2.79%** | +13.22 | +3.5 | +10.7 |
+| 2 | +0.98% | +3.67 | **+2.51%** | +4.77 | +2.6 | +14.5 |
+| 3 | +0.10% | +0.27 | **+1.91%** | +3.86 | +4.1 | +5.2 |
+
+**Both claims hold, and they hold for different reasons:**
+
+- **Return: holdout-only, but emphatically so.** Tune is ~zero and flips sign between phases
+  (−0.36 to +0.98). Holdout is positive on every phase, t +3.86 to +13.22, **10/10 orderings on
+  all four**. So this is not phase luck - it is a genuine property of the 2024-2026 period.
+  Whether that is because the regime rewards cutting dead money or because the holdout is mined
+  out remains undecidable, which is precisely why it runs forward instead of being shipped.
+- **Worst month: shallower in all 8 cells**, by 2.6 to 14.5 points. That is the part doc 11 said
+  to trust, and it now survives the phase dimension as well as the tune/holdout one.
+
+**So forking paper book #5 was the right call and for the right reason:** it is a risk
+improvement that might also be a return improvement, not the other way round.
+
+### A limit of this whole method, stated plainly
+
+The 1h sleeve cannot be phase-shifted (only 23 coins have sub-hourly data) and shorts are
+identical on every grid by construction. So the phase test can validate **long-side** rules -
+tight, the time stop - and **cannot say anything about the short boost** (paper book #4). That
+book still rests on a single grid, and there is no cheap way to change that without 1m data for
+all twelve coins.
+
