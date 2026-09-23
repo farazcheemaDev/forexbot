@@ -684,7 +684,20 @@ def status(st: dict):
           f" | short {SHORT_TRAIL:.0f}xATR x1u | BE@{BE_AT_R:.0f}R | "
           f"risk {RISK_PCT}%/unit, x{REGIME_MULT} in BTC bear")
     eq = st["equity"]
-    print(f"\nequity {eq:.2f}  ({eq/START_EQ*100-100:+.2f}%  from ${START_EQ:.0f})")
+    print(f"\nequity (realised) {eq:.2f}  ({eq/START_EQ*100-100:+.2f}%  "
+          f"from ${START_EQ:.0f})")
+    # Realised equity alone misleads while the book holds runners: losers stop out fast and get
+    # banked, winners stay open for weeks and contribute nothing to the printed number. Over
+    # the first 35 closed trades that made the record read -1.03R a trade while the profit sat
+    # in 12 open positions at +4R to +8R peaks.
+    try:
+        u, sf, n, miss = mark_to_market(st)
+        print(f"equity (marked)   {eq + u:.2f}   = realised {eq:.2f} {u:+.2f} open, "
+              f"at current prices")
+        print(f"equity (floor)    {eq + sf:.2f}   if every open stop were hit right now"
+              f"   [{n} priced{f', {miss} UNPRICED' if miss else ''}]")
+    except Exception as e:
+        print(f"equity (marked)   unavailable ({type(e).__name__})")
     print(f"entries {st['taken']} ({st.get('taken_long',0)}L/"
           f"{st.get('taken_short',0)}S)  declined(slots) {st['declined']}  "
           f"skipped(min order) {st.get('too_small',0)}  "
@@ -714,6 +727,38 @@ def status(st: dict):
     print("\nexpect ~+8%/month and a LOSING month more often than not. 4 of 5 trades")
     print("lose; a handful of months carry the year. Any read under ~30 closed")
     print("trades is noise.\n")
+
+
+def mark_to_market(st: dict, kc: "dict | None" = None):
+    """What the open book is WORTH now, and the floor if every stop were hit.
+
+    Equity moves only on CLOSES (entry-sized, mistake #14), so a book holding running winners
+    reads far below its value: losers stop out fast and get banked, winners stay open for weeks
+    and contribute nothing to the printed number. Over the first 35 closed trades that made the
+    realised record look like -1.03R a trade while the profit sat in the 12 open positions.
+
+    Returns (unrealised_now, unrealised_at_stops, n_priced, n_unpriced)."""
+    kc = {} if kc is None else kc
+    now = stop = 0.0
+    priced = unpriced = 0
+    for key, r in st["open"].items():
+        base = key.split(":")[0]
+        if base not in kc:
+            kc[base] = klines(base, 3)
+        d = kc[base]
+        if d is None or not len(d):
+            unpriced += 1
+            continue
+        px = float(d["close"].iloc[-1])
+        sgn = 1 if r["side"] == "long" else -1
+        entries = [r["entry"]] + r.get("adds", [])
+        # dollars per price-unit = one unit's dollar risk / its price risk
+        rusd = r.get("risk_usd") or st["equity"] * r.get("risk_used", RISK_PCT) / 100.0
+        per = rusd / max(r["risk"], 1e-12)
+        now += sum((px - e) * sgn for e in entries) * per
+        stop += sum((r["stop"] - e) * sgn for e in entries) * per
+        priced += 1
+    return now, stop, priced, unpriced
 
 
 def status_tight(st: dict, tst: dict):
@@ -917,8 +962,7 @@ def main():
     xst = load_state(TSTOP_STATE) if TSTOP_STATE.exists() else None
     if args.status:
         status(st); status_tight(st, tst); status_sized(st, sst)
-        status_sboost(st, bst); status_tstop(st, xst)
-        status_sboost(st, bst); return
+        status_sboost(st, bst); status_tstop(st, xst); return
     log("=" * 78)
     log(f"BLEND PAPER — ${START_EQ:.0f}, {len(BOOK)} coins x {len(SLEEVES)} "
         f"timeframes, {SLOTS} shared slots")
