@@ -125,8 +125,34 @@ lottery-ticket setting for money that can be lost inside a quarter, and 0.3% is 
 book meant to keep running.** Doc 01 has the full sweep with leverage and ruin per fraction.
 
 On the honest, no-hindsight coin list (`lottery.py`, PIT top-12): typical year **2.2×** at 0.3%,
-**2.6×** at 0.6%; 5× in about one year in four; about 2× in a typical year even with the single
-best coin (MYX) removed.
+**2.6×** at 0.6%; 5× in about one year in four.
+
+**But one coin carries it, and the concentration test in `logs/lottery_concentration.txt` should be
+read before anyone acts on those odds.** `lottery.py`'s registered prediction was that PIT12 would
+be far worse than the hindsight book at every risk. It came out better, its author went looking for
+why, and found it:
+
+| PIT12, $221, 12-month horizon | median × | P(≥5×) |
+|---|---|---|
+| all starts, 0.3% | 2.20× | 22% |
+| all starts, **minus MYX** | 1.97× | **14%** |
+| all starts, minus BNB+BTC+MYX | 1.85× | 12% |
+| **holdout starts only, 0.3%** | **4.85×** | **49%** |
+| **holdout starts, minus MYX** | **2.02×** | **8%** |
+
+**On holdout starts, removing one coin takes the median from 4.85× to 2.02× and the chance of 5×
+from 49% to 8%.** MYX contributed **+3,600R of the +13,432R** of all long R in that universe - 27%
+from one name - including a single 1h trade worth **+2,205R**, which is an ~82× move from entry
+during MYX's September 2025 pump.
+
+That move was real. Whether it was *tradable* is a different question, and the backtest cannot
+answer it: MYX in September 2025 was a thin, violently moving token, and the simulation fills at
+the bar close with no slippage. The exit is a 20×ATR trailing stop firing into a crash in exactly
+the kind of book where that assumption fails hardest.
+
+**So the honest version of the no-hindsight odds is the minus-MYX row: about 2× in a typical year
+at 0.3%, with 5× in roughly one year in seven.** The headline 2.2× is not wrong, it is just one
+lucky token away from 1.97×, and the holdout figure of 4.85× is more than half one trade.
 
 ## The live readout
 
