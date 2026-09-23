@@ -1,6 +1,6 @@
 # CLAUDE.md — read this first, every session
 
-*Last updated 2026-09-23. Dated history in §10.*
+*Last updated 2026-09-24. Dated history in §10.*
 
 This file is the orientation for a new session. It is deliberately short. It tells you the
 goal, the rules that keep the numbers honest, where everything is, and the traps that have
@@ -55,7 +55,7 @@ any one of these has produced a wrong answer here before:**
     both scale trades by equity they were never sized on, and they report ~2× what the bot
     can earn (mistake #14). They are fine for comparisons *inside* one file.
 
-### The one finding that survived everything (2026-09-23)
+### The two findings that survived everything (2026-09-23 / 24)
 
 **The tight exit.** Every other candidate this project has produced was killed, or held on one
 half, or turned out to be a bug. The tight exit beats main on **both halves, on all four bar
@@ -63,6 +63,17 @@ phases, with t between +4.28 and +14.22 and 79 wins out of 80 ordering-by-phase 
 (`backtest/bar_phase.tight_across_phases`), and three independent simulators agree on its size
 (+2.8%/mo tune, +2.0%/mo holdout). When something in this repo looks good, this is the standard
 it has to meet.
+
+**The second one (2026-09-24): pyramid to 7 units, not 5** (`backtest/pyramid_params.py`). +1.30
+tune / +1.07 holdout %/mo over tight, t +33 / +19, 10/10 orderings, both halves on all four bar
+phases. It also passes a matched-risk control: reaching the same return by raising risk costs 8
+more points of drawdown. The mechanism is that units 6–7 are added at +10R/+12R, above the
+breakeven stop, so they carry upside with almost no downside. **It stacks with the time stop**
+(`backtest/units_on_tstop.py`): +1.51 ± 0.06 / +1.54 ± 0.08 over tight + time stop, 10/10.
+The "triple" (tight + time stop + 7 units) is the best book measured: +8.89% tune / **+10.76%
+holdout** %/mo against main's +4.88 / +4.88, at 48% / 51% drawdown. **Paper book #7, not
+deployed.** The same control rejected 16 slots (`slots_sweep.py`), which is what makes the pass
+believable.
 
 ### The holdout is mined out — the most important caveat in the repo
 
@@ -113,6 +124,12 @@ backtest/          every experiment. blend.py holds the deployed constants.
   combine.py         does book 2 combine with book 1 (doc 10)
   perp_fetch.py      downloads all 864 perps incl. the 339 dead ones
   wide_book.py       eligibility(n) = PIT top-N universe
+  graveyard_rescore.py  rows(tight=, time_stop=, max_units=...) - the CORRECTED engine
+                     (funding, real t0) most 2026-09-23/24 tests build on; score() pairs them
+  one_year.py / month_dist.py / book_stats.py   what $221 does in a month / a year, per book
+  kelly_corrected.py risk-per-unit sweep with leverage and ruin (why 0.30% stays)
+btc_regime_now.py  LIVE read-only readout: 1000h gate, 4h break level, momentum, Coinbase
+                     premium, funding. Public endpoints, no keys. (doc 12)
 blend_paper.py     THE LIVE PAPER BOOKS — seven in one process. main / tight / sized /
                      sboost / tstop / units / triple. The last four are a 2x2 factorial over
                      {time stop, 7 units} on the tight base: both main effects and the
@@ -122,7 +139,8 @@ xs_paper.py        an EARLIER pre-registered XS test (21 coins, daily). Frozen �
 longtrend_bot.py   the Bitget demo bot. ALLOW_REAL = False
 micro_bot.py       the $10 go-for-broke bet. ALLOW_REAL = False
 health.py          "is anything wedged or dead" — three signals per bot
-docs/              00-10 + README. Doc 02 is the graveyard; read it before proposing
+docs/              00-12 + README. Doc 02 is the graveyard; read it before proposing.
+                     11 = money-machine search, graveyard re-check, lottery odds. 12 = BTC signals
 deploy/            systemd units and the no-backslash VM patch scripts
 logs/              state, trades, and the saved stdout of every experiment
 ```
@@ -171,6 +189,23 @@ entry-sized compounding (rules 10–12). $200, 10 orderings, upside haircut 3×,
   **2021 alone made ~40% of lifetime profit.** Full-history figures are not planning numbers.
 - P(losing month) is the one figure no modelling choice can flatter — the haircut is
   monotonic, so it cannot change a sign. It was ~56–57% under every correction.
+
+**The best book, if the paper books hold it up** (triple = tight + time stop + 7 units; $221;
+`backtest/one_year.py`, `backtest/month_dist.py`; upside haircut, downside raw):
+
+| $221 after 12 months | bad year (25th) | typical | good year (75th) | ended below $221 | worst year |
+|---|---|---|---|---|---|
+| main, holdout / full | $250 / $245 | **$270 / $406** | $556 / $905 | 4% / 13% | $134 / $84 |
+| **triple, holdout / full** | $422 / $325 | **$568 / $619** | $1,405 / $1,914 | 1% / 8% | $204 / $163 |
+
+Triple, by month: 44–48% of months up; median month −0.5%; a quarter of months beat +20%;
+worst month −24% / −30%; best month +850% raw (December 2024). The year is made in one or
+two months.
+
+**Risk per unit stays 0.30%** (`backtest/kelly_corrected.py`). 0.45% buys +0.34%/mo on main's
+holdout and multiplies P(80% drawdown within 3 years) by nine (2.7% → 24.7%), with max gross
+leverage past 10×. 0.6%+ has a LOWER holdout return. 7 units adds notional, so the triple has
+even less room. More return comes from 7 units or from capital, not from risk.
 
 ## 7. Hard safety rules — do not cross these
 
@@ -222,6 +257,62 @@ the box was patched before the repo was public.
 
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
+
+### 2026-09-24 - the first real return improvement, seven paper books, and what moves BTC
+
+**The best book changed.** MAX_UNITS 5 → 7 (see §2) is the first genuine RETURN improvement
+the whole search found. It stacks with the time stop, and the triple (tight + time stop + 7
+units) measures +10.76%/mo holdout against main's +4.88% (haircut, entry-sized), with a
+typical year for $221 of **$568–619** against main's $270–406 (§6). It is a backtest on a
+mined holdout; the paper books decide.
+
+**Seven paper books are live on the VM** (user deployed 2026-09-24; `blend_paper.py` sha256
+2c144637…c72a verified against origin/main before the paste). Books #2/#5/#6/#7 form a 2×2
+factorial over {time stop, 7 units} on the tight base. **The Bitget demo bot does NOT match**:
+`longtrend_bot.py` has tight + short boost + runner sizing, and has neither the time stop nor
+7 units. The books will not diverge until BTC closes a 4h bar under the break level (~$81.6k
+on 09-23; `python btc_regime_now.py` shows it live) or a trade reaches +10R.
+
+**What moves BTC (doc 12, `backtest/btc_signals.py`).** Fourteen market-timing signals were
+tested: Coinbase premium, exchange flows, MVRV, positioning, taker flow, Nasdaq, DXY, VIX,
+momentum and others. Only the Coinbase premium and BTC's 7/28/90d momentum held their sign on
+both halves, weakly (t ≈ 1.9–2.0), and **neither improves the bot**:
+- as a risk dial it helps the holdout only (`btc_dial.py`);
+- as an exit it hurts;
+- as an entry gate it is noise (`btc_entry_gate.py`).
+
+As a pure BTC timing rule, **the bot's own 1000h gate beat all of them** (Sharpe 1.12 vs 0.68
+for holding; `btc_timing.py`). Two signals work contrarian: top traders piling long, and calm
+VIX, both precede weaker weeks.
+
+**The graveyard re-checked on the corrected engine** (doc 11 part 2, `graveyard_rescore.py`):
+- no buried edge among exits, sleeves, trails, slots or the entry band;
+- the bb(30,1.25) and 10/20/40-trail near-misses were the unfunded engine, and both now lose
+  on both halves;
+- the liquidation-cascade bounce, which never had a verdict, is dead on 4 years
+  (`cascade_redux.py`);
+- the options premium is still ~0 in 2026.
+
+The pyramid dimension was the one I did NOT re-check. The other session did, and that is where
+the edge was. Lesson: re-check EVERY parameter family of the engine after a measurement fix,
+not just the ones that were killed.
+
+**"Crazy returns on low capital" answered** (doc 11 part 3, `lottery.py`, `kelly_corrected.py`):
+- $10 cannot trade: Bitget's $5 minimum rejects 87–96% of units;
+- $50 is the practical floor;
+- capital buys dollars, not rate;
+- risk above ~0.35–0.45% buys ruin faster than return;
+- on the no-hindsight PIT top-12, a typical year at 0.30% is ~2.2× (about 2× without MYX,
+  which alone is 27% of that universe's long profit);
+- 5× happens in roughly one year in four.
+
+**Housekeeping.**
+- `.gitignore` covers `logs/*_state.json`, which misses `blend_state_tight.json`,
+  `…_tstop.json`, `…_triple.json` and the others. Harmless while nobody `git add -A`s, but a
+  committed copy would be restored over live state by the VM's `git reset --hard`. Worth adding
+  `logs/blend_state*.json`.
+- The 2026-09-23 advice that 0.6% per unit was fine for "crazy returns" was wrong for a book
+  meant to keep running: it holds only on a ~3-month horizon (`kelly_corrected.py`).
 
 ### 2026-09-23 - three flattering bugs, the numbers halved, two books added
 

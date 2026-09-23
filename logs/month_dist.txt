@@ -1,0 +1,20 @@
+
+main (deployed) | holdout 2024-08 -> | $221 start, 10 orderings pooled, RAW %/month
+  best month +654%   worst -41%   median -1.4%
+  5th -21%  25th -9.1%  75th +10.0%  95th +93%   months up 42%   months > +20%: 19%   months > +50%: 15%
+  five best months (average across orderings): 2024-12 +449%  2026-09 +88%  2025-08 +75%  2026-06 +59%  2025-07 +40%
+
+main (deployed) | full 2020 -> | $221 start, 10 orderings pooled, RAW %/month
+  best month +640%   worst -42%   median -2.1%
+  5th -17%  25th -7.9%  75th +18.8%  95th +107%   months up 44%   months > +20%: 24%   months > +50%: 11%
+  five best months (average across orderings): 2024-12 +446%  2024-03 +300%  2021-02 +255%  2023-11 +214%  2026-09 +88%
+
+triple (tight + time stop + 7 units) | holdout 2024-08 -> | $221 start, 10 orderings pooled, RAW %/month
+  best month +850%   worst -24%   median -0.7%
+  5th -17%  25th -10.0%  75th +20.5%  95th +292%   months up 44%   months > +20%: 26%   months > +50%: 12%
+  five best months (average across orderings): 2024-12 +583%  2025-07 +288%  2026-09 +199%  2026-05 +43%  2025-08 +30%
+
+triple (tight + time stop + 7 units) | full 2020 -> | $221 start, 10 orderings pooled, RAW %/month
+  best month +850%   worst -30%   median -0.5%
+  5th -18%  25th -8.1%  75th +19.5%  95th +283%   months up 48%   months > +20%: 25%   months > +50%: 15%
+  five best months (average across orderings): 2024-12 +609%  2021-01 +368%  2024-03 +366%  2023-11 +318%  2025-07 +288%

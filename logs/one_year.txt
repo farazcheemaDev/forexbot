@@ -1,0 +1,22 @@
+$221 after 12 months - every overlapping window, 10 orderings
+
+  main (deployed today) | recent (holdout starts, 2024-08 ->) | 140 windows
+    after the 3x haircut: bad (25th) $250   typical $270   good (75th) $556
+    raw:                  bad (25th) $308   typical $368   good (75th) $1,225   best $2,722
+    ended below $221: 4%   worst year $134 (raw)
+
+  main (deployed today) | all history (2020 ->) | 680 windows
+    after the 3x haircut: bad (25th) $245   typical $406   good (75th) $905
+    raw:                  bad (25th) $292   typical $775   good (75th) $2,273   best $8,296
+    ended below $221: 13%   worst year $84 (raw)
+
+  triple (tight + time stop + 7 units) | recent (holdout starts, 2024-08 ->) | 140 windows
+    after the 3x haircut: bad (25th) $422   typical $568   good (75th) $1,405
+    raw:                  bad (25th) $825   typical $1,263   good (75th) $3,772   best $12,604
+    ended below $221: 1%   worst year $204 (raw)
+
+  triple (tight + time stop + 7 units) | all history (2020 ->) | 680 windows
+    after the 3x haircut: bad (25th) $325   typical $619   good (75th) $1,914
+    raw:                  bad (25th) $532   typical $1,415   good (75th) $5,299   best $53,403
+    ended below $221: 8%   worst year $163 (raw)
+
