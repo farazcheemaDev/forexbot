@@ -87,12 +87,28 @@ A FIFTH BOOK, "TSTOP" (2026-09-23) - backtest/graveyard_rescore.py
 
     Mechanism: a long still under +2R after 100 bars is dead money that keeps paying funding.
 
-    All five books share one process and one set of klines. The MAIN book is saved before any
+A SIXTH BOOK, "UNITS" (2026-09-24) - backtest/pyramid_params.py
+    The tight book PLUS a 6th and 7th pyramid unit. MAX_UNITS=5 was never swept on the corrected
+    engine and it leaves return on the table: 7 units beats 5 on BOTH halves, on ALL FOUR bar
+    grids, 10/10 orderings, t +14 to +33, and it holds at $100 capital with no rise in venue
+    rejections - units 6-7 are the same notional as unit 1.
+
+    IT IS NOT LEVERAGE, which is the objection to check first. Matched on return, reaching
+    7-unit performance with 5 units needs 0.42% risk and costs 8 more points of drawdown (64%
+    against 56%) and more gross leverage (7.2x against 6.3x). The mechanism is pyramid.py's
+    original one: units 6 and 7 are only added once a trade is +10R and +12R up, by which point
+    the breakeven stop sits above entry, so they carry the upside and almost none of the
+    downside. Raising risk instead adds size to the four trades in five that stop at -1R.
+
+    7 and not 10: ten earns more but its MAXIMUM gross leverage reaches 10.3x, past where
+    lev_test.py found liquidation destructive. Cost of seven: drawdown 50% -> 56%.
+
+    All six books share one process and one set of klines. The MAIN book is saved before any
     extra book runs and each extra book's errors are caught, so none of them can cost the
     main book a cycle.
 
-    python blend_paper.py            live loop (all five books)
-    python blend_paper.py --status   report and exit (all five books)
+    python blend_paper.py            live loop (all six books)
+    python blend_paper.py --status   report and exit (all six books)
     python blend_paper.py --once     one cycle and exit
 """
 from __future__ import annotations
@@ -120,6 +136,8 @@ SIZED_STATE = LOGS / "blend_state_sized.json"
 SIZED_TRADES = LOGS / "trades_blend_sized.csv"
 SBOOST_STATE = LOGS / "blend_state_sboost.json"
 SBOOST_TRADES = LOGS / "trades_blend_sboost.csv"
+UNITS_STATE = LOGS / "blend_state_units.json"
+UNITS_TRADES = LOGS / "trades_blend_units.csv"
 TSTOP_STATE = LOGS / "blend_state_tstop.json"
 TSTOP_TRADES = LOGS / "trades_blend_tstop.csv"
 # Shorts entered while BTC's 4h trail is broken earned +0.481R against +0.043R for all other
@@ -140,6 +158,19 @@ TIGHT_TRAIL = 5.0               # the tight book's long trail once BTC has broke
 # +8.4 points better on tune, +13.1 on holdout. That is the part to trust, and the reason
 # this runs forward as paper instead of changing the live config.
 # Mechanism: a long still under +2R after 100 bars is dead money that keeps paying funding.
+# The UNITS book = tight + a seventh unit. backtest/pyramid_params.py swept the pyramid on the
+# corrected engine and found MAX_UNITS=5 leaves return on the table: 7 units beats 5 on BOTH
+# halves, on ALL FOUR bar grids, 10/10 orderings, t +14 to +33, and it holds at $100 capital with
+# no rise in venue rejections because units 6-7 are the same notional as unit 1.
+# It is NOT leverage: matched on return, reaching 7-unit performance with 5 units needs 0.42%
+# risk and costs 8 more points of drawdown (64% vs 56%) and more gross leverage (7.2x vs 6.3x).
+# The mechanism is pyramid.py's original one - units 6 and 7 are only added once a trade is
+# +10R and +12R up, by which point the breakeven stop sits above entry, so they carry the upside
+# and almost none of the downside.
+# 7 and not 10: ten earns more but its MAXIMUM gross leverage reaches 10.3x, past where
+# lev_test.py found liquidation destructive. Seven runs 6.3x p99 / 7.8x max.
+# Cost: drawdown 50% -> 56%. Better-than-leverage, not free.
+UNITS_MAX = 7
 TSTOP_BARS = 100
 TSTOP_R = 2.0
 
@@ -442,7 +473,7 @@ def size_factor(feats: "dict | None") -> float:
     return float(np.clip(1.0 + RS_SPREAD * (pct - 0.5) * 2, *RS_CLIP))
 
 
-def manage(st, key, rec, bar, hi, lo, a, tstop=False, cl=None):
+def manage(st, key, rec, bar, hi, lo, a, tstop=False, cl=None, max_units=None):
     """One position against the bar that just closed.
 
     ORDER MATTERS. The stop is checked FIRST, against the level it已 held during this
@@ -470,7 +501,8 @@ def manage(st, key, rec, bar, hi, lo, a, tstop=False, cl=None):
     # water mark, then trail, then the breakeven floor
     rec["water"] = (max(rec["water"], hi) if d == 1 else min(rec["water"], lo))
     gain_r = (rec["water"] - rec["entry"]) * d / rec["risk"]
-    if d > 0 and rec["units"] < MAX_UNITS:
+    mu = MAX_UNITS if max_units is None else max_units
+    if d > 0 and rec["units"] < mu:
         if gain_r >= rec["next_add"] * ADD_EVERY_R:
             used = sum(r.get("notional", 0) * r.get("units", 1)
                        for r in st["open"].values())
@@ -479,7 +511,7 @@ def manage(st, key, rec, bar, hi, lo, a, tstop=False, cl=None):
                 rec.setdefault("adds", []).append(
                     rec["entry"] + (rec["units"] - 1) * ADD_EVERY_R * rec["risk"])
                 rec["next_add"] += 1
-                log(f"[{key}] PYRAMID unit {rec['units']}/{MAX_UNITS} at "
+                log(f"[{key}] PYRAMID unit {rec['units']}/{mu} at "
                     f"+{gain_r:.1f}R")
             elif not rec.get("lev_warned"):
                 rec["lev_warned"] = True
@@ -498,7 +530,7 @@ def manage(st, key, rec, bar, hi, lo, a, tstop=False, cl=None):
 def cycle(st: dict, regime_cache: dict, kc: "dict | None" = None,
           tight: bool = False, breaks: "pd.Series | None" = None,
           bear: "bool | None" = None, sized: bool = False, sboost: bool = False,
-          tstop: bool = False):
+          tstop: bool = False, units7: bool = False):
     """One pass over every coin and sleeve for ONE book.
 
     kc shares this poll's klines between the books, so the extra books add no API calls
@@ -513,8 +545,10 @@ def cycle(st: dict, regime_cache: dict, kc: "dict | None" = None,
         bear = btc_bear(regime_cache)
     # tstop is tested FIRST: that book also sets tight=True, so testing tight first
     # would file its trades in the tight book's CSV and label its logs as tight.
-    tag = ("X|" if tstop else "T|" if tight else "S|" if sized else "B|" if sboost else "")
-    trades_path = (TSTOP_TRADES if tstop else TIGHT_TRADES if tight else
+    tag = ("U|" if units7 else "X|" if tstop else "T|" if tight else "S|" if sized
+           else "B|" if sboost else "")
+    trades_path = (UNITS_TRADES if units7 else TSTOP_TRADES if tstop else
+                   TIGHT_TRADES if tight else
                    SIZED_TRADES if sized else SBOOST_TRADES if sboost else TRADES)
     kc = {} if kc is None else kc
     for base in BOOK:
@@ -555,7 +589,8 @@ def cycle(st: dict, regime_cache: dict, kc: "dict | None" = None,
                         rec["tight"] = True
                         log(f"[{lkey}] BTC 4h trend broke -> trail {LONG_TRAIL:.0f}x -> "
                             f"{TIGHT_TRAIL:.0f}xATR ({rec.get('units', 1)}u)")
-                exit_px = manage(st, lkey, rec, bar, hi, lo, a, tstop=tstop, cl=px)
+                exit_px = manage(st, lkey, rec, bar, hi, lo, a, tstop=tstop, cl=px,
+                                 max_units=UNITS_MAX if units7 else None)
                 if exit_px is None:
                     st["open"][key] = rec
                     continue
@@ -904,6 +939,51 @@ def fork_sboost(st: dict) -> dict:
     return t
 
 
+def fork_units(st: dict, breaks) -> dict:
+    """Start the UNITS book (tight + a 7th unit) as an exact copy of the main book.
+
+    Arming follows fork_tight exactly. Positions already open keep their unit counts, so a
+    position sitting at 5 units when the fork happens can now add a 6th and 7th if it keeps
+    running - which is correct: the rule is about how far a winner is allowed to go, and an
+    inherited winner is still a winner."""
+    t = json.loads(json.dumps(st))
+    t["forked"] = datetime.now(timezone.utc).isoformat()
+    on = trig_at(breaks, pd.Timestamp.now(tz="UTC").tz_localize(None))
+    for r in t["open"].values():
+        if r["side"] == "long":
+            r["armed"], r["tight"] = (not on), False
+    return t
+
+
+def status_units(st: dict, ust: dict, kc: "dict | None" = None):
+    """The UNITS book. Its evidence is per-TRADE: how many positions reach 6 or 7 units and what
+    those units earn. The equity gap needs a runner to close before it says anything."""
+    if not ust:
+        print("UNITS book: not started yet (forks from main on the first cycle)")
+        print()
+        return
+    print(f"UNITS BOOK - tight exit PLUS the pyramid runs to {UNITS_MAX} units, not {MAX_UNITS}")
+    print(f"forked from the main book {ust.get('forked', '?')}")
+    compare_books("units", ust, st, kc)
+    deep = [(k, r) for k, r in ust["open"].items() if r.get("units", 1) > MAX_UNITS]
+    longs = [(k, r) for k, r in ust["open"].items() if r["side"] == "long"]
+    print(f"  open {len(ust['open'])}/{SLOTS}, {len(longs)} long, "
+          f"{len(deep)} already past {MAX_UNITS} units")
+    for k, r in sorted(deep):
+        risk = r.get("risk", 0.0) or 1e-9
+        print(f"    {k:<18} {r.get('units', 1)}u  peak "
+              f"{(r.get('water', r['entry']) - r['entry']) / risk:>+5.1f}R")
+    n = 0
+    if UNITS_TRADES.exists():
+        try:
+            n = sum(1 for _ in open(UNITS_TRADES)) - 1
+        except Exception:
+            n = 0
+    print(f"  {n} closed trades recorded in {UNITS_TRADES.name}")
+    print("  A position only reaches unit 6 at +10R, so the first divergence needs a runner.")
+    print()
+
+
 def fork_tstop(st: dict, breaks) -> dict:
     """Start the TSTOP book (tight + time stop) as an exact copy of the main book.
 
@@ -982,10 +1062,12 @@ def main():
     sst = load_state(SIZED_STATE) if SIZED_STATE.exists() else None
     bst = load_state(SBOOST_STATE) if SBOOST_STATE.exists() else None
     xst = load_state(TSTOP_STATE) if TSTOP_STATE.exists() else None
+    ust = load_state(UNITS_STATE) if UNITS_STATE.exists() else None
     if args.status:
         sc: dict = {}    # ONE kline cache for all five books, not 60 requests
         status(st, sc); status_tight(st, tst, sc); status_sized(st, sst, sc)
-        status_sboost(st, bst, sc); status_tstop(st, xst, sc); return
+        status_sboost(st, bst, sc); status_tstop(st, xst, sc)
+        status_units(st, ust, sc); return
     log("=" * 78)
     log(f"BLEND PAPER — ${START_EQ:.0f}, {len(BOOK)} coins x {len(SLEEVES)} "
         f"timeframes, {SLOTS} shared slots")
@@ -1009,7 +1091,7 @@ def main():
     brk_cache: dict = {}
 
     def one_poll():
-        nonlocal tst, sst, bst, xst
+        nonlocal tst, sst, bst, xst, ust
         kc: dict = {}
         bear = btc_bear(regime_cache)
         # the MAIN book first, saved before the extra books are touched, so nothing in
@@ -1063,12 +1145,24 @@ def main():
         except Exception as e:
             log(f"TSTOP book error (main book unaffected): {type(e).__name__}: "
                 f"{str(e)[:160]}")
+        try:
+            breaks = btc_breaks(brk_cache)
+            if ust is None:
+                ust = fork_units(st, breaks)
+                log(f"UNITS book forked from main: equity {ust['equity']:.2f}, "
+                    f"{len(ust['open'])} open, pyramid to {UNITS_MAX} units")
+            cycle(ust, regime_cache, kc, tight=True, units7=True, breaks=breaks, bear=bear)
+            save_state(ust, UNITS_STATE)
+        except Exception as e:
+            log(f"UNITS book error (main book unaffected): {type(e).__name__}: "
+                f"{str(e)[:160]}")
 
     if args.once:
         one_poll()
         sc: dict = {}    # ONE kline cache for all five books, not 60 requests
         status(st, sc); status_tight(st, tst, sc); status_sized(st, sst, sc)
-        status_sboost(st, bst, sc); status_tstop(st, xst, sc); return
+        status_sboost(st, bst, sc); status_tstop(st, xst, sc)
+        status_units(st, ust, sc); return
     while True:
         try:
             one_poll()
