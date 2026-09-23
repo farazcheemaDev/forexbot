@@ -1,0 +1,23 @@
+baseline = TRIPLE book (tight + time stop + 7 units), 17542 trades
+10 orderings | 0.30%/unit | 3x haircut | tune < 2024-08-29 <= holdout
+bar: both halves paired |t| > 2 AND gross leverage p99 under 10x
+
+    slots   TUNE/mo    diff      t     w   HOLD/mo    diff      t     w    DD   lev99  levmax
+        8    +6.09%  -2.77%  -9.65   0/10    +9.53%  -1.21%  -2.11   2/10   33%    4.4x    8.4x
+       12    +8.86%       -      -     -   +10.74%       -      -     -   50%    6.8x   12.6x  <- DEPLOYED
+       16   +10.88%  +2.02% +15.01  10/10   +11.33%  +0.59%  +1.24   8/10   58%    8.4x   17.2x
+       20   +12.69%  +3.83% +16.56  10/10   +11.31%  +0.58%  +1.26   6/10   71%   10.5x   20.7x  OVER 10x
+       24   +13.57%  +4.71% +19.32  10/10   +11.13%  +0.39%  +1.00   5/10   75%   12.4x   23.9x  OVER 10x
+       36   +13.10%  +4.24% +17.22  10/10    +9.77%  -0.97%  -2.71   3/10   80%   18.8x   31.9x  OVER 10x
+
+  THE CONTROL - does raising RISK at 12 slots reach the same place?
+  if it does, more slots is just exposure and not diversification
+  setting                        HOLD/mo    DD   lev99
+  12 slots @ 0.30% (deployed)    +11.05%   50%    6.8x
+  16 slots @ 0.30%               +11.20%   58%    8.4x
+  12 slots @ 0.40%               +12.50%   60%    9.2x
+  20 slots @ 0.30%               +11.57%   71%   10.5x  OVER 10x
+  12 slots @ 0.50%               +13.15%   69%   11.7x  OVER 10x
+
+  Nothing clears stage 1. 12 slots is not costing the book anything measurable,
+  and the 563 declined signals are declined for a reason.

@@ -65,7 +65,7 @@ LEV_CAP = 10.0            # lev_test.py: free below, destructive above
 SLOTS = 12
 
 
-def simulate(rows, bear, seed, risk_pct, t_from=None, t_to=None):
+def simulate(rows, bear, seed, risk_pct, t_from=None, t_to=None, slots=None):
     """Entry-sized compounding at an arbitrary risk fraction, tracking gross leverage.
 
     A position's dollars are fixed when it OPENS, from equity standing at that moment, and do
@@ -93,7 +93,9 @@ def simulate(rows, bear, seed, risk_pct, t_from=None, t_to=None):
         if (t_from is not None and t0 < t_from) or (t_to is not None and t0 >= t_to):
             continue
         bank(t0)
-        if len(open_) >= SLOTS:
+        # slots=None is the deployed 12. Swept in backtest/slots_sweep.py: the live
+        # book declines ~560 signals for want of a slot, so the cap binds hard.
+        if len(open_) >= (SLOTS if slots is None else slots):
             continue
         try:
             ib = bool(bear.asof(t0))

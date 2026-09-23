@@ -712,3 +712,56 @@ forward, which no single book can - and forward is the only evidence left that i
 tune - which was outside `units_on_tstop.py`'s own registered prediction of "within 2 points". The
 return is the biggest in the project; the risk is not free.
 
+---
+
+# Part 9 - SLOTS: the cap that binds hardest, and does not pay
+
+*2026-09-24. Source: `backtest/slots_sweep.py`, log `logs/slots_sweep.txt`.*
+
+`MAX_UNITS = 5` was an arbitrary cap set too low. `SLOTS = 12` is the same kind of number and it
+binds far harder: the live paper book's status line reads **563 signals declined for want of a slot
+against 47 taken**. Twelve coins × three sleeves is 36 possible positions, so 12 slots turns away
+two thirds of the book by construction. `graveyard_rescore.py` had only ever swept *downward*.
+
+Baseline is the TRIPLE book - the best configuration measured - so an improvement has to improve on
+the best. (Its 12-slot figures here, +8.86% tune / +10.74% holdout, reproduce `units_on_tstop.py`'s
++8.89 / +10.76 from a third separate file.)
+
+| slots | TUNE diff | t | wins | HOLD diff | t | wins | DD | lev p99 |
+|---|---|---|---|---|---|---|---|---|
+| 8 | −2.77% | −9.65 | 0/10 | −1.21% | −2.11 | 2/10 | 33% | 4.4× |
+| **12 (deployed)** | — | — | — | — | — | — | 50% | 6.8× |
+| 16 | **+2.02%** | +15.01 | 10/10 | **+0.59%** | **+1.24** | 8/10 | 58% | 8.4× |
+| 20 | +3.83% | +16.56 | 10/10 | +0.58% | +1.26 | 6/10 | 71% | **10.5× over** |
+| 24 | +4.71% | +19.32 | 10/10 | +0.39% | +1.00 | 5/10 | 75% | 12.4× over |
+| 36 | +4.24% | +17.22 | 10/10 | **−0.97%** | −2.71 | 3/10 | 80% | 18.8× over |
+
+**More slots buys tune-half return that does not appear on the holdout** (+2.02% against +0.59% at
+t 1.24), and past 16 it breaches the leverage line anyway. Nothing clears the bar.
+
+## The control is the point of this entry
+
+The same matched-risk control that MAX_UNITS=7 **passed**, slots=16 **fails**:
+
+| setting | HOLD/mo | DD | lev p99 |
+|---|---|---|---|
+| 12 slots @ 0.30% (deployed) | +11.05% | 50% | 6.8× |
+| 16 slots @ 0.30% | +11.20% | 58% | 8.4× |
+| **12 slots @ 0.40%** | **+12.50%** | 60% | 9.2× |
+
+**Raising risk at 12 slots earns MORE than adding four slots, at the same drawdown.** So extra slots
+contribute nothing that plain exposure does not contribute better - they are leverage with worse
+terms. Compare MAX_UNITS=7, where matching its return with 5 units cost 8 extra points of drawdown.
+
+> Two changes that both look like "raise an arbitrary cap" gave **opposite** answers to the same
+> control. That is what makes the MAX_UNITS finding worth believing: the test that confirmed it is
+> a test that can fail, and here it did.
+
+**And the 563 declined signals are not lost money.** They are declined because the slots are held by
+positions that are working - which is what a 20×ATR trail on a pyramid does. The book turning away
+ten signals for every one it takes is the design operating, not a constraint to relieve.
+
+**Predictions:** 1 wrong (16 does not beat 12 on both halves), 2 right (smaller than the units gain),
+3 right (20 slots breaches 10× at p99, capping the usable answer near 16), 4 right (drawdown rises
+sub-linearly: doubling slots from 12 to 24 takes drawdown 50% → 75%).
+
