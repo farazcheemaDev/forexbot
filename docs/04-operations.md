@@ -389,3 +389,45 @@ closes.
 
 **Deploy:** `deploy/patch_sboost_book.sh` (gzip+base64, sha256-checked, no backslashes).
 Rollback: restore `logs/blend_paper.py.bak-<stamp>` and restart `blend-paper`.
+
+## The entry-sized equity fix (2026-09-23)
+
+*Mistake #14 in [doc 03](03-mistakes.md). Source: `backtest/compounding.py`,
+`deploy/patch_entry_sized.sh`.*
+
+`blend_paper.py` sized a position's dollar risk at OPEN (`risk_usd = equity * risk% / 100`)
+but credited its result as a FRACTION of equity at CLOSE. So a trade's dollars grew with
+profits other trades banked while it was open - something the bot cannot do, because it never
+resizes an open position. In a worked case (open at $221, close at $400, +10R) the old line
+paid **1.81x** what a real account would earn.
+
+**Fixed:** `risk_usd` is stored on the position at open and the close does
+`equity += R * risk_usd`. Verified exact for single units and for 5-unit pyramids, because
+every pyramid add reuses `rec["notional"]` so `R` already aggregates the units.
+
+All four books share the `cycle()` that holds this, so one fix covers main, tight, sized and
+short-boost. `mn_paper.py` got the same convention (`base_eq`, set at each rebalance).
+`longtrend_bot.py` needed nothing - its equity is the real exchange balance.
+
+### To apply it on the VM
+
+```bash
+cat deploy/patch_entry_sized.sh
+```
+
+Paste the contents into Azure portal > VM > Run command > RunShellScript. It backs up
+`blend_paper.py` **and all four state files**, verifies sha256
+`15c8d624027e7018383edb3eb6b7ff32be5e813773d5c95c0e22728a4a32a363`, syntax-checks, writes a
+marker line into `blend_paper.log`, restarts and prints `--status`.
+
+### What it does NOT do
+
+- **It does not rewrite past equity.** Equity recorded before the marker line was credited
+  the old way and is overstated. The book was below its $221 start when the fix landed, so
+  the accumulated error is small, but it is not zero.
+- **It does not touch R.** `logs/trades_blend*.csv` records R and `risk_pct` per trade, so the
+  record stays comparable across the fix and a correct curve can be rebuilt from it at any
+  time. **Compare the books by R.**
+- **Positions already open** carry no `risk_usd` and fall back to the old behaviour for their
+  one closing trade, logging `pre-fix position, no risk_usd`. Expect a few of those lines
+  once, then none.

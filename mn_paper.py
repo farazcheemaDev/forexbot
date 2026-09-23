@@ -245,7 +245,7 @@ def cost(old: dict, new: dict) -> float:
 def fresh() -> dict:
     return dict(started=f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M:%S}",
                 equity=START_EQ, weights={}, mark_px={}, last_bar=None, last_rebal=None,
-                last_fund_ms=None, n_rebal=0, n_marks=0, dead=False,
+                last_fund_ms=None, base_eq=None, n_rebal=0, n_marks=0, dead=False,
                 cum_gross=0.0, cum_fund=0.0, cum_cost=0.0, skipped_small=0)
 
 
@@ -333,7 +333,12 @@ def cycle(st: dict):
         fnd = {s: funding_since(s, since) for s in w}
         # a long PAYS a positive funding rate, a short RECEIVES it
         carry = sum(-w[s] * fnd.get(s, 0.0) for s in w)
-        st["equity"] *= (1.0 + gross + carry)
+        # ENTRY-SIZED, same convention as blend_paper.py (mistake #14). The basket's dollars
+        # are fixed at the rebalance, so a daily mark earns on THAT base, not on equity as it
+        # drifts during the week. The error is small here - a week's drift is 1-2% of a ~1%
+        # weekly return - but the books have to be credited the same way to be comparable.
+        base = st.get("base_eq") or st["equity"]
+        st["equity"] += base * (gross + carry)
         st["cum_gross"] += gross
         st["cum_fund"] += carry
         st["n_marks"] += 1
@@ -389,6 +394,7 @@ def cycle(st: dict):
     st["equity"] *= (1.0 - c)
     st["cum_cost"] += c
     st["weights"] = tgt
+    st["base_eq"] = st["equity"]        # the dollars this basket is actually sized on
     st["last_rebal"] = key
     st["n_rebal"] += 1
     longs = sorted([s for s, x in tgt.items() if x > 0])

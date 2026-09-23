@@ -520,7 +520,19 @@ def cycle(st: dict, regime_cache: dict, kc: "dict | None" = None,
                 d = 1 if rec["side"] == "long" else -1
                 entries = [rec["entry"]] + rec.get("adds", [])
                 R = sum((exit_px - e) * d - fee * e for e in entries) / rec["risk"]
-                st["equity"] *= (1 + R * rec["risk_used"] / 100.0)
+                # ENTRY-SIZED, fixed 2026-09-23 (mistake #14, backtest/compounding.py).
+                # A position's dollar risk is set at OPEN (risk_usd below) and does NOT grow
+                # with profits other trades bank while it is open, because the bot never
+                # resizes an open position. Crediting R as a FRACTION of equity at CLOSE did
+                # let it grow, which roughly doubled every monthly figure in this repo.
+                # Legacy positions opened before this fix carry no risk_usd; fall back to
+                # the old behaviour for those rather than crash, and say so in the log.
+                rusd = rec.get("risk_usd")
+                if rusd is None:
+                    rusd = st["equity"] * rec["risk_used"] / 100.0
+                    log(f"[{lkey}] pre-fix position, no risk_usd - sizing off equity at "
+                        f"close (old behaviour) for this one trade")
+                st["equity"] += R * rusd
                 log(f"[{lkey}] EXIT {rec['side']} R={R:+.2f} "
                     f"({rec.get('units',1)}u, {rec['bars']}b"
                     f"{', tightened' if rec.get('tight') else ''}) "
@@ -600,7 +612,8 @@ def cycle(st: dict, regime_cache: dict, kc: "dict | None" = None,
                                    stop=px - d * risk,
                                    water=(hi if d > 0 else lo), bars=0, units=1,
                                    next_add=1, notional=notional,
-                                   risk_used=risk_used, entry_bar=bar)
+                                   risk_used=risk_used, risk_usd=risk_usd,
+                                   entry_bar=bar)
             if sized:
                 st["open"][key]["size_fac"] = round(size_fac, 3)
             if sboost:
