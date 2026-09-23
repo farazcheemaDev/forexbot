@@ -485,4 +485,32 @@ The cost was not.** Paired on the same orderings: **−0.02%/month, t = −0.37,
 CLAUDE.md and that file's docstring have been reverted, and the trap is now in the trap table -
 because it produced two confident, wrong claims within one hour, on two unrelated questions.
 
+## 5. The test that mattered most: is the TIGHT EDGE bigger than phase noise?
+
+The phase spread is 1.3-2.4 %/mo. The tight exit is +2.87 %/mo on tune and +1.98 on the holdout -
+the same order of magnitude, measured on ONE grid. If that edge only existed on the grid that
+happens to be deployed, it would be phase luck and paper book #2 would rest on nothing.
+
+Paired within each ordering AND within each phase, which isolates the rule from both noise
+sources:
+
+| phase | TUNE diff | t | wins | HOLD diff | t | wins |
+|---|---|---|---|---|---|---|
+| **0 (deployed)** | +2.84% | **+10.18** | 10/10 | +1.98% | **+5.73** | 10/10 |
+| 1 | +3.66% | +14.22 | 10/10 | +2.52% | +5.43 | 10/10 |
+| 2 | +2.69% | +7.90 | 10/10 | +1.97% | +6.23 | 10/10 |
+| 3 | +2.79% | +7.79 | 10/10 | +2.45% | +4.28 | 9/10 |
+
+**Four of four phases, both halves, t between +4.28 and +14.22, and 79 wins out of 80
+ordering-by-phase combinations.** Phase 0 reproduces `graveyard_rescore.py`'s +2.87/+1.98 from a
+different simulator, which is a third independent confirmation.
+
+**This is the strongest statistical result in the project**, and it draws the distinction that the
+phase work exists to draw: the phase spread and the tight edge are the same SIZE, but the spread
+flips sign between halves and between phases while the tight edge does not flip anywhere. One is
+noise that averages out; the other is a rule. A paired test separates them; comparing medians -
+the error in Part 5's first draft - cannot.
+
+**So paper book #2 is on solid ground**, and the tight exit is the one thing this project has that
+would survive someone actively trying to break it.
 

@@ -77,7 +77,7 @@ from backtest import blend  # noqa: E402
 from backtest.bear_side import sleeve_sided  # noqa: E402
 from backtest.bull_boost import regimes  # noqa: E402
 from backtest.causal_t0 import real_t0  # noqa: E402
-from backtest.engine_variants import shorts_for  # noqa: E402
+from backtest.engine_variants import break_map, shorts_for  # noqa: E402
 from backtest.funding_cost import charged, long_funding, short_funding  # noqa: E402
 from backtest.graveyard_rescore import walk  # noqa: E402
 from backtest.kelly_corrected import simulate  # noqa: E402
@@ -104,8 +104,12 @@ def resample_phase(df, rule, hours):
     return out.reset_index()
 
 
-def rows_for_phase(p):
-    """Every row of the deployed book with the 4h and 12h LONG sleeves on phase p."""
+def rows_for_phase(p, tight=False):
+    """Every row of the deployed book with the 4h and 12h LONG sleeves on phase p.
+
+    tight=True applies btc_exit.py's rule - the 20xATR long trail drops to 5xATR once BTC's own
+    4h trend has broken. break_map derives each bar's START from the grid it is given, so it
+    follows a shifted phase automatically and needs no adjustment."""
     rows = []
     for rule, off in (("1h", 0), ("4h", p), ("12h", 3 * p)):
         rows += shorts_for(rule)                    # identical in every phase, see docstring
@@ -115,7 +119,8 @@ def rows_for_phase(p):
                 continue
             df = resample_phase(d, rule, off if rule != "1h" else 0)
             if len(df) >= 300:
-                rows += walk(df, rule, coin)
+                rows += walk(df, rule, coin,
+                             tb=break_map(df, rule) if tight else None)
     def rs(coin, rule):
         """attach_prices must price entries on the SAME grid the rows were walked on, or a
         shifted t0 is not a bar label it recognises (it raised KeyError on 13:00, which is not
@@ -282,6 +287,41 @@ def paired(rows, bear, cut):
         print(f"  robustness number, and it is larger than the spread of the medians")
 
 
+def tight_across_phases(bear, cut):
+    """IS THE TIGHT-EXIT EDGE BIGGER THAN BAR-PHASE NOISE?
+
+    The phase spread is 1.3-2.4 %/mo. graveyard_rescore.py puts the tight exit at +2.87 %/mo on
+    tune and +1.98 on the holdout, measured on ONE phase. If that edge only appears on the grid
+    that happens to be deployed, it is phase luck and paper book #2 is built on nothing. If it
+    appears on all four, it is real and the phase spread is beside the point.
+
+    Paired within each ordering AND within each phase, which is the only comparison that
+    isolates the rule from both sources of noise."""
+    print()
+    print("TIGHT EXIT vs MAIN, paired within each ordering, on every bar phase")
+    print(f"  {'phase':<8}{'TUNE diff':>11}{'se':>6}{'t':>7}{'wins':>7}"
+          f"{'HOLD diff':>12}{'se':>6}{'t':>7}{'wins':>7}")
+    verdict = []
+    for p in PHASES:
+        mr, tr = rows_for_phase(p), rows_for_phase(p, tight=True)
+        cells, ok = "", True
+        for kw in (dict(t_to=cut), dict(t_from=cut)):
+            ds = []
+            for seed in SEEDS:
+                a, b = daily(mr, bear, seed, **kw), daily(tr, bear, seed, **kw)
+                if a is None or b is None:
+                    continue
+                ds.append(stats(b)["hpm"] - stats(a)["hpm"])
+            d = np.array(ds)
+            se = d.std(ddof=1) / len(d) ** 0.5
+            cells += f"{d.mean():>+10.2f}%{se:>6.2f}{d.mean() / se:>+7.2f}{(d > 0).sum():>5}/{len(d)}"
+            ok &= d.mean() > 0
+        verdict.append(ok)
+        print(f"  {p:<8}{cells}" + ("  <- DEPLOYED" if p == 0 else ""))
+    print(f"  tight wins both halves on {sum(verdict)} of {len(PHASES)} phases")
+    print("  4 of 4 means the edge is not phase luck. 1 of 4 means paper book #2 is noise.")
+
+
 def main():
     bear = regimes()[1000]
     ts = pd.DatetimeIndex(sorted(x[0] for x in sleeve_sided("1h")[0]))
@@ -337,6 +377,7 @@ def main():
               f"{mh:>+14.2f}%{md:>14.0f}%{ms:>13.2f}")
 
     paired(rows, bear, cut)
+    tight_across_phases(bear, cut)
     floor_check(rows, bear, cut)
 
     print()

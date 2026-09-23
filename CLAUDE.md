@@ -55,6 +55,15 @@ any one of these has produced a wrong answer here before:**
     both scale trades by equity they were never sized on, and they report ~2× what the bot
     can earn (mistake #14). They are fine for comparisons *inside* one file.
 
+### The one finding that survived everything (2026-09-23)
+
+**The tight exit.** Every other candidate this project has produced was killed, or held on one
+half, or turned out to be a bug. The tight exit beats main on **both halves, on all four bar
+phases, with t between +4.28 and +14.22 and 79 wins out of 80 ordering-by-phase combinations**
+(`backtest/bar_phase.tight_across_phases`), and three independent simulators agree on its size
+(+2.8%/mo tune, +2.0%/mo holdout). When something in this repo looks good, this is the standard
+it has to meet.
+
 ### The holdout is mined out — the most important caveat in the repo
 
 On 2026-09-22, six independent knobs (tight exit, short boost, slow-sleeve trail, looser
