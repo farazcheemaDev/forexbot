@@ -75,6 +75,12 @@ holdout** %/mo against main's +4.88 / +4.88, at 48% / 51% drawdown. **Paper book
 deployed.** The same control rejected 16 slots (`slots_sweep.py`), which is what makes the pass
 believable.
 
+**Quote the triple WITH the 10× margin guard** (`backtest/triple_capped.py`). The triple
+reaches 12.2× gross leverage in the backtest (`regime_and_liq.py`), and `blend_paper.py` refuses
+any entry or add past 10×. With that guard modelled: **+8.72% tune / +10.43% holdout**, which
+costs −0.25 ± 0.04 / −0.35 ± 0.02 (2.2% of adds blocked). 5-unit books are unaffected. With
+the guard off, the file reproduces `units_on_tstop.py` within 0.1.
+
 ### The holdout is mined out — the most important caveat in the repo
 
 On 2026-09-22, six independent knobs (tight exit, short boost, slow-sleeve trail, looser
@@ -106,6 +112,7 @@ candidate on paper. The rule above still stands for everything else.
 | **`VAR=cmd arg` is not an assignment** | `U=sudo -u $OWNER` makes the shell treat `U=sudo` as a prefix and run a command called `-u`. Aborted a live patch at line 34 | No spaces in an assignment value |
 | **Testing only the part you changed** | Both of the two bugs above survived a test that exercised only the payload block, because both were outside it | Run the WHOLE script against a fake target with stubbed `systemctl`/`sudo`/`sleep` |
 | **Comparing medians across orderings** | Per-ordering noise here is 0.25-0.48 %/mo, so two medians drawn from different seed outcomes differ by several tenths for nothing. It produced TWO confident claims in one hour that both died under a paired test: a blend "beating the average phase with 4-6 points less drawdown" (paired: +0.04%/mo, t=0.19) and "the venue minimum costs $221 0.29%/mo" (paired: -0.02%/mo, t=-0.37) | Pair on the SAME ordering, take the difference, report mean +- se and a win count - as `graveyard_rescore.py` already did |
+| **Mixed datetime64 units in the row set** | t0 comes back as `[us]` and t1 as `[ms]`, so `date_range` inherits `[us]` from its bounds while `Timestamp.value` returns ns. `searchsorted` then puts every span past the end of the grid and a whole leverage series came back silently ZERO (2026-09-24, cost a run) | Force BOTH sides with `.as_unit("ns")`, and assert the result is non-zero rather than trusting it |
 | **A test that cannot exhibit the bug** | With one position open at a time the two compounding conventions are arithmetically IDENTICAL, so a non-overlapping test showed $0.00 difference and passed while proving nothing. The bug only bites when positions OVERLAP | Construct the case so the bug MUST appear if it is present |
 | **Timestamp unit mismatch** | `.asof()` raises "Cannot losslessly convert units" (ms index vs ns clock) | `blend_paper._ns()` |
 | **Bar label read as entry time** | `asof(t0)` on a 4h/12h row reads a bar that closed hours after the entry. The short boost's "+0.481R" was 118 look-ahead trades; causal, it is +0.305R and worth ~+0.5%/mo | `causal_t0.real_t0(rows)` |
@@ -196,11 +203,34 @@ entry-sized compounding (rules 10–12). $200, 10 orderings, upside haircut 3×,
 | $221 after 12 months | bad year (25th) | typical | good year (75th) | ended below $221 | worst year |
 |---|---|---|---|---|---|
 | main, holdout / full | $250 / $245 | **$270 / $406** | $556 / $905 | 4% / 13% | $134 / $84 |
-| **triple, holdout / full** | $422 / $325 | **$568 / $619** | $1,405 / $1,914 | 1% / 8% | $204 / $163 |
+| triple, no leverage guard | $422 / $325 | $568 / $619 | $1,405 / $1,914 | 1% / 8% | $204 / $163 |
+| **triple WITH the bot's 10× guard** (`triple_capped.py`) | **$407 / $318** | **$536 / $584** | — | **1% / 8%** | **$207 / $164** |
+
+Plan on the guarded row. The bot refuses the adds that would breach 10×, so the unguarded row
+counts trades it would never place.
 
 Triple, by month: 44–48% of months up; median month −0.5%; a quarter of months beat +20%;
 worst month −24% / −30%; best month +850% raw (December 2024). The year is made in one or
 two months.
+
+**AND THE WHOLE RETURN IS ONE REGIME** (`backtest/regime_and_liq.py`). Mean %/month *within*
+each BTC regime, full history, haircut:
+
+| config | BULL | BEAR | **CHOP** |
+|---|---|---|---|
+| main (deployed) | +23.05% | +0.26% | **−0.16%** |
+| tight + time stop | +33.10% | −0.64% | +0.27% |
+| **triple** | **+47.19%** | **−0.74%** | **+0.20%** |
+
+Days by regime: **chop 948, bull 871, bear 581.** The book earns approximately nothing for **63%
+of all days** and everything in the other 37%. **And the 2026-09-24 improvement did not change
+that** - it doubled the bull number and left chop flat, and in a BEAR the triple is slightly
+*worse* than the deployed book, because tightening exits and adding units both assume something
+will run.
+
+> So the honest one-liner for anyone deciding whether to run this: **it is a bull-market
+> amplifier, not an all-weather book.** Six flat months is the expected experience of a chop
+> regime, not a malfunction, and no configuration tested changes it. Doc 11 part 10.
 
 **Risk per unit stays 0.30%** (`backtest/kelly_corrected.py`). 0.45% buys +0.34%/mo on main's
 holdout and multiplies P(80% drawdown within 3 years) by nine (2.7% → 24.7%), with max gross
@@ -272,6 +302,24 @@ factorial over {time stop, 7 units} on the tight base. **The Bitget demo bot doe
 `longtrend_bot.py` has tight + short boost + runner sizing, and has neither the time stop nor
 7 units. The books will not diverge until BTC closes a 4h bar under the break level (~$81.6k
 on 09-23; `python btc_regime_now.py` shows it live) or a trade reaches +10R.
+
+**Chop and liquidation, the two questions the new config had not been asked**
+(`backtest/regime_and_liq.py`, doc 11 part 10). Both answers matter more than the headline. The
+improvement is **bull-only**: it doubles bull-market return and leaves chop at +0.20%/mo against
+the deployed −0.16%, with bear slightly *worse*. 63% of days earn nothing, before and after. And
+the 7-unit change is what takes the book past 10× gross leverage - 731 hours, peaking at 12.2×,
+all of them in bulls - which only `blend_paper.py`'s existing margin guard prevents live. See §6.
+
+**Four theses tested and refuted today**, all with predictions registered first:
+- **"low capital is an advantage"** (`capacity_edge.py`): the gross edge gets monotonically WORSE
+  in smaller coins and turns negative below ~$40M daily volume. All five predictions wrong. Low
+  capital is not an advantage, only not a handicap.
+- **"risk can buy crazy returns"** (`kelly_corrected.py`): 0.30 → 0.45% buys +0.34%/mo and
+  multiplies P(80% drawdown) by nine. The holdout's own optimum is BELOW the tune half's.
+- **more slots** (`slots_sweep.py`): 16 slots is tune-only (+2.02% at t 15 / +0.59% at t 1.2) and
+  fails the same matched-risk control that MAX_UNITS passed - 12 slots at 0.40% earns more at the
+  same drawdown. The 563 declined signals are the design working.
+- **bar-phase blending** (`bar_phase.py`): retracted, see the trap table.
 
 **What moves BTC (doc 12, `backtest/btc_signals.py`).** Fourteen market-timing signals were
 tested: Coinbase premium, exchange flows, MVRV, positioning, taker flow, Nasdaq, DXY, VIX,

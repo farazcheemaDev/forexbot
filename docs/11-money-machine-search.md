@@ -825,17 +825,27 @@ reach 12.2× - it will log `PYRAMID BLOCKED — no margin` instead.
 Measured: of 4,315 sixth-and-seventh units attempted across five orderings, **293 (6.8%) were
 attempted while the book was already above 10×** and would be blocked live.
 
-> **So the honest expectation for the units change on the live book is about +1.44%/month, not
-> +1.54%** - roughly 93% of the backtested gain, with the other 7% refused by the margin guard
-> that already exists. That is the right way round: the guard costs a little return and removes the
-> liquidation exposure the backtest was quietly assuming.
+That 6.8% is a BOUND, not a measurement - it counts sixth/seventh units attempted while the book
+was already over 10×, which is not the same as the number a guard would actually refuse, because a
+guard also prevents the book from reaching 10× in the first place.
+
+**`backtest/triple_capped.py` (another session, same day) does the real thing and supersedes this
+bound.** Simulating the guard properly: the triple goes from **+10.78% to +10.43%/mo on the
+holdout**, a cost of **−0.35 ± 0.02**, with **2.2% of adds blocked**. 5-unit books are unaffected
+(−0.00 ± 0.00), which is the control that proves the guard only bites where extra units create the
+exposure.
+
+> **So the units change is worth about +1.19%/month live, not +1.54%** (the +1.54 over tight + time
+> stop, less the 0.35 the guard costs). My bound of +1.44% was too generous; the measured number is
+> lower and it is the one to use.
 
 ## What this means for the recommendation
 
 - **Keep the 10× guard.** It is the reason the live book is safe where the backtest is not.
 - **The triple book stays paper**, and now for a second reason: its backtest assumed leverage the
   live bot will refuse.
-- **Expect +1.4%/month from the units change, not +1.5%**, and expect all of it in bull markets.
+- **Expect +1.19%/month from the units change** (`triple_capped.py`, measured), and expect all
+  of it in bull markets.
 - **Nothing found today helps in chop.** 63% of days remain a flat line, and the one honest
   improvement to that number is the time stop's +0.4 points.
 

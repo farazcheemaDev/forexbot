@@ -1,0 +1,18 @@
+entry-sized, 12 slots, 1000h gate, 10 orderings | %/mo = CAGR/3 (haircut); DD/worst raw
+
+  book                                     guard    TUNE    HOLD    DD   worst   adds blocked
+  main (5 units)                             off  +4.85%  +4.92%   53%  -33.5%          0.0%
+  main (5 units)                             10x  +4.85%  +4.92%   53%  -33.5%          0.0%
+  tight + time stop (5 units)                off  +7.44%  +9.25%   45%  -18.2%          0.0%
+  tight + time stop (5 units)                10x  +7.44%  +9.25%   45%  -18.2%          0.0%
+  TRIPLE (tight + time stop + 7 units)       off  +8.97% +10.78%   51%  -19.2%          0.0%
+  TRIPLE (tight + time stop + 7 units)       10x  +8.72% +10.43%   50%  -19.2%          2.2%
+
+  cost of the guard, paired on the same orderings :
+    main (5 units)                         tune -0.00 +- 0.00   hold +0.00 +- 0.00 %/mo
+    tight + time stop (5 units)            tune +0.00 +- 0.00   hold +0.00 +- 0.00 %/mo
+    TRIPLE (tight + time stop + 7 units)   tune -0.25 +- 0.04   hold -0.35 +- 0.02 %/mo
+
+  TRIPLE with the 10x guard, $221 after 12 months (holdout): typical $536 (haircut) / $1,166 raw; bad year (25th) $407; ended below $221 1%; worst $207 raw
+
+  TRIPLE with the 10x guard, $221 after 12 months (full): typical $584 (haircut) / $1,311 raw; bad year (25th) $318; ended below $221 8%; worst $164 raw

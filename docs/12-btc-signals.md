@@ -183,3 +183,29 @@ main +4.01 / +5.89. The tight + 7 units vs tight figure reproduces pyramid_param
 points): the gain was larger than predicted; the worst month was 2.3 points deeper on the tune
 half. No paper book runs all three rules together yet. A seventh book combining #5 and #6 is
 the next step, and it belongs to whoever owns `blend_paper.py`.
+
+## Update 2026-09-24 (later) — the triple with the bot's 10× margin guard — `backtest/triple_capped.py`
+
+The triple reaches 12.2× gross leverage in the backtest (`regime_and_liq.py`).
+`blend_paper.py` refuses any entry or pyramid add that would take gross notional past 10×
+equity. That guard is now modelled: each position is split into its units, and a unit is
+refused if it would breach 10× realised equity.
+
+| book | guard | tune %/mo | holdout %/mo | DD | worst month | adds blocked |
+|---|---|---|---|---|---|---|
+| main | off / 10× | +4.85 / +4.85 | +4.92 / +4.92 | 53% | −33.5% | 0% |
+| tight + time stop | off / 10× | +7.44 / +7.44 | +9.25 / +9.25 | 45% | −18.2% | 0% |
+| **triple** | off | +8.97 | +10.78 | 51% | −19.2% | — |
+| **triple** | **10×** | **+8.72** | **+10.43** | 50% | −19.2% | 2.2% |
+
+- **The guard costs the triple −0.25 ± 0.04 (tune) / −0.35 ± 0.02 (holdout) %/mo.** The 5-unit
+  books never reach 10×. With the guard off the file reproduces `units_on_tstop.py` within
+  0.1, which is the check that the unit decomposition is right.
+- **$221 after 12 months, guarded:** typical **$536** (holdout) / **$584** (full), haircut;
+  bad year $407 / $318; ended below $221 in 1% / 8% of windows; worst $207 / $164 raw.
+- **Registered prediction** (a 0.1–0.2 %/mo cost, a lower worst month): the cost came out a
+  little larger than predicted, and the worst month did not change.
+- **A bug caught before any number was quoted.** The first run read 1,116 trades instead of
+  1,893 and a guard that never fired. A position that closed on its own entry bar had its close
+  sorted before its entry, so it never closed and held a slot forever. It is fixed, commented
+  in the file, and verified on one ordering against `btc_dial.taken` (+5.23 vs +5.21 %/mo).
