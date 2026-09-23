@@ -416,189 +416,73 @@ than they pay.
 
 ---
 
-# Part 5 - BAR PHASE: the first thing today that actually works
+# Part 5 - BAR PHASE: a real robustness finding, and two claims I had to retract
 
 *2026-09-23. Source: `backtest/bar_phase.py`, log `logs/bar_phase.txt`.*
 
 Every 4h and 12h figure in this project comes from bars anchored to midnight UTC. Nothing in the
-strategy says they should be - it is an accident of how Binance labels klines. A 4h bar could
-start at 01:00, 02:00 or 03:00, and those grids are buildable from the 1h bars already cached.
-No new data, no new rule, no new universe, no new risk.
+strategy says they should be - it is an accident of how Binance labels klines. Three other grids
+are buildable from the 1h bars already cached. No new data, no new rule, no new risk.
 
-The 1h sleeve cannot be shifted (only 23 coins have sub-hourly data) and shorts are held fixed,
-so everything below is attributable to the 4h and 12h LONG sleeves.
+**The first write-up of this section claimed the 4-phase blend was a free improvement. It is
+not, and the error is more instructive than the test.** I compared the MEDIAN return across ten
+orderings for one setup against the median for another. Per-ordering noise here is 0.25-0.48
+%/mo, so two medians drawn from different seed outcomes differ by several tenths for no reason.
+Everything below is now PAIRED: same ordering, difference taken within it, mean with a standard
+error and a win count - which is what `graveyard_rescore.py` already did and this file did not.
 
-## 1. The deployed number carries about 1%/month of phase luck
+## 1. What survives: the deployed number carries 1.3-2.4%/month of phase luck
 
-| phase | TUNE/mo | DD | HOLD/mo | DD | Sharpe |
+Within-ordering spread between the best and worst phase:
+
+| window | spread | |
+|---|---|---|
+| tune | **1.31 %/mo** | |
+| holdout | **2.37 %/mo** | larger than the whole tight-exit edge |
+
+That is the finding, and it is **bigger than the spread of medians I first reported (1.09%)**.
+Phase 3 is the best phase on tune (+0.67%/mo, t +2.56) and the *worst* on the holdout (−0.99%/mo,
+t −2.07) - a clean demonstration that the choice is noise, not signal. The deployed grid is one
+draw from a distribution about 2%/month wide, and no part of the strategy justifies it.
+
+**What to do with that:** nothing to the bot, but expectations should carry it. The honest holdout
+figure for the deployed book is ±1%/month wider than any single-phase backtest implies.
+
+## 2. What does not survive: the blend is not an improvement
+
+Paired against phase 0, same ordering:
+
+| | tune diff | t | holdout diff | t | holdout wins |
 |---|---|---|---|---|---|
-| **0 (deployed)** | +4.90% | 53% | **+4.97%** | 55% | 1.01 |
-| 1 | +4.51% | 66% | +4.92% | 53% | 1.03 |
-| 2 | +5.40% | 58% | +4.95% | 58% | 0.97 |
-| 3 | **+5.69%** | 55% | +3.88% | 59% | 1.00 |
+| 4-phase blend | **+0.64%/mo** | **+3.70** | **+0.04%/mo** | **+0.19** | 5/10 |
 
-Spread: **1.18%/mo on tune, 1.09%/mo on the holdout.** I predicted at least 1.5% and overshot.
+**Tune only.** By this repo's own bar - both halves - it fails. Drawdown paired is 0.1-0.2 points,
+not the 4-6 I first claimed.
 
-**The uncomfortable part:** on the holdout, phase 0 - the one that happens to be running - is the
-BEST of the four. I predicted it would not be, because it has no reason to be. So the deployed
-holdout figure of +4.97% is the top of four draws, and the honest expectation is the phase
-average, **+4.68%/mo**. That is a ~0.3%/mo downward revision of the deployed book, and it comes
-from an arbitrary choice nobody had questioned.
+The one real property: the blend's standard error across orderings is **0.17-0.23 against
+0.25-0.48 for single phases**. Averaging four grids genuinely makes the ESTIMATE more stable. That
+is worth having for forecasting and it is not extra return.
 
-## 2. Averaging the phases is a real, free improvement
+## 3. At $200 the blend is significantly harmful, and that part is solid
 
-Four phase books, a quarter of the account in each, same aggregate risk:
+Quartering the capital per book quarters the unit size. Paired, with the venue minimum enforced:
 
-| window | blend/mo | DD | Sharpe | mean phase/mo | mean phase DD | mean Sharpe |
-|---|---|---|---|---|---|---|
-| tune | **+5.58%** | **54%** | **1.24** | +5.12% | 58% | 1.09 |
-| holdout | **+4.96%** | **52%** | 0.89 | +4.68% | 56% | 0.88 |
-| full | **+5.92%** | **56%** | 1.07 | +5.35% | 61% | 1.00 |
+| capital | blend vs 1 phase | t | rejected |
+|---|---|---|---|
+| **$200** | **−0.83%/mo** | **−3.40** | **8.4%** |
+| $1,000 | +0.06%/mo | +0.25 | 0.1% |
+| $5,000 | +0.04%/mo | +0.19 | 0.0% |
 
-The blend beats the average phase on **all three windows** (+0.46, +0.28, +0.57 %/mo) with a
-**lower drawdown every time**. That was the registered prediction and the mechanism is exactly
-as stated: averaging four noisy series *before* compounding removes volatility drag. It cannot
-change the average edge; it only narrows the distribution around it, and narrower compounds
-faster.
+So the blend is harmful at $200 and neutral above it. There is no capital level at which it helps.
 
-**Against the specific deployed phase, be precise:** +0.68%/mo on tune, **dead even on the
-holdout** (+4.96% vs +4.97%), and 3 points less drawdown on both. The return gain is against a
-*randomly chosen* phase, which is the honest comparison, because phase 0 being best on the
-holdout is luck we cannot count on repeating.
+## 4. And the retraction that matters most, because it defended an existing finding
 
-## 3. The catch, measured: the blend needs about $1,000
+I briefly claimed `small_capital.py` was wrong - that $221 rejects 0.24% of signals and those 5
+rejections cost 0.29%/month, so the real threshold was $500 rather than $25. **The 0.24% is right.
+The cost was not.** Paired on the same orderings: **−0.02%/month, t = −0.37, worse in 5 of 10.**
 
-Four books at a quarter of the capital each means every unit is a quarter the size, and unit
-notional = dollars_at_risk / stop_fraction. Run with the venue minimum enforced in dollars
-(holdout, entry-sized):
-
-| setup | capital per book | rejected | HOLD/mo | DD |
-|---|---|---|---|---|
-| 1 phase (deployed) at $200 | $200 | 0.27% | **+4.67%** | 57% |
-| **4 phases at $200** | **$50** | **8%** | **+3.88%** | 54% |
-| 1 phase at $1,000 | $1,000 | 0.00% | +4.97% | 55% |
-| **4 phases at $1,000** | **$250** | **0.00%** | **+4.94%** | **53%** |
-| 4 phases at $5,000 | $1,250 | 0.00% | +4.96% | **52%** |
-
-**At $200 the blend is a net loss** - it rejects 8% of signals and gives up 0.79%/month against
-simply running one phase. The finding does not apply at this account's size.
-
-**From about $1,000 it is free drawdown reduction:** equal return, 2-3 points less drawdown, and
-the phase luck removed. So this is a real improvement that is *waiting on capital*, which is a
-more useful thing to know than either "it works" or "it does not".
-
-## 3b. And the venue minimum is NOT free at $221, which corrects an earlier claim
-
-`small_capital.py` concluded that "$221 rejects 0% of signals - the minimum order is not the
-binding constraint." Measured on the corrected engine with the return cost rather than the rate:
-
-| capital | rejected | signals lost | HOLD/mo | DD |
-|---|---|---|---|---|
-| $100 | 1.50% | 29 of 1,945 | +4.66% | 57% |
-| **$221** | **0.24%** | **5 of 1,917** | **+4.68%** | 57% |
-| $500 | 0.03% | 1 | **+4.97%** | 55% |
-| $1,000 | 0.00% | 0 | +4.97% | 55% |
-
-**Rejecting 5 signals out of 1,917 costs 0.29%/month and 2 points of drawdown.** That is not a
-contradiction of the old finding, it is the reason the old finding used the wrong statistic: in a
-book where the top 25 trades produce over 100% of the profit, a 0.24% rejection rate is not
-negligible, because the rejected trade may be one of the 25.
-
-**So the capital threshold for "no minimum-order drag" is about $500, not $25.** Going from $221
-to $500 buys +0.29%/month and 2 points of drawdown for nothing but capital.
-
-## 3c. The original note, kept
-
-Four books at a quarter of the capital each means every unit is a quarter the size. At $200 that
-is roughly a **$3 unit against venue minimums that reach $2.28** (NEAR), so the smallest coins
-would start being rejected - and `small_capital.py` established that $221 currently rejects 0%.
-**This has not been simulated through `small_capital.py` and must be before it is deployed at
-$200.** At $1,000+ the constraint disappears.
-
-## What this is and is not
-
-It is **not a new edge**. It is the removal of an arbitrary implementation choice, which buys
-about **+0.3%/month against a random phase and 4-6 points of drawdown**, plus a more honest
-expectation for the book already running. After a day in which every edge search failed, that is
-the only thing that improved the book - and it improved it by taking luck out, not by finding
-anything.
+`small_capital.py`'s conclusion stands: at $221 the venue minimum is not the binding constraint.
+CLAUDE.md and that file's docstring have been reverted, and the trap is now in the trap table -
+because it produced two confident, wrong claims within one hour, on two unrelated questions.
 
 
----
-
-# Part 3 — "crazy returns on tiny capital": the real odds — `backtest/lottery.py`
-
-No new strategy is needed for this. The only validated edge (tight exit + time stop) run at
-HIGHER RISK on money you can afford to lose *is* the crazy-returns bet. The honest deliverable
-is its odds. doc 07's "29.7% chance of 5× from $10" came from trades bootstrapped ONE AT A
-TIME on the old engine. This uses real overlapping paths: funding, real entry times,
-entry-sized compounding, Bitget's $5 minimum per unit, a 10× gross-leverage cap, and ruin at
-−90%. Starts on the 1st of every month 2020-07..2025-09, 3 orderings each. The windows
-overlap, so these are **historical frequencies, not independent odds.**
-
-**PIT12 is the honest universe:** the top-12 perps by the prior month's volume, dead coins
-included, no hindsight, so no haircut. BOOK12 (the hand-picked 12) is optimistic, and its
-numbers are in `logs/lottery.txt`.
-
-### 12 months, PIT12 (honest)
-
-| start | risk / unit | median outcome | ≥2× | ≥5× | ≥10× | touched 5× | **wiped out** | ended down | units rejected |
-|---|---|---|---|---|---|---|---|---|---|
-| $10 | 0.6% | 0.90× | 3% | 2% | 2% | 2% | 3% | 75% | **96%** |
-| $10 | 1.0% | 0.50× | 14% | 11% | 5% | 21% | **65%** | 81% | 87% |
-| $50 | 0.3% | 1.89× | 48% | 16% | 11% | 16% | 0% | 17% | 69% |
-| **$50** | **0.6%** | **3.19×** | 63% | **33%** | **22%** | 54% | **0%** | 25% | 50% |
-| $50 | 1.0% | 2.54× | 52% | 31% | 23% | 60% | 10% | 41% | 51% |
-| $50 | 2.0% | 0.13× | 22% | 15% | 13% | 37% | **52%** | 71% | 55% |
-| **$221** | **0.3%** (deployed) | **2.20×** | 56% | **22%** | 14% | 26% | 0% | 13% | 25% |
-| **$221** | **0.6%** | **2.57×** | 59% | **28%** | **18%** | 36% | 2% | 21% | 15% |
-| $221 | 1.0% | 2.40× | 53% | 32% | 23% | 59% | **17%** | 33% | 22% |
-| $221 | 2.0% | 0.21× | 24% | 16% | 13% | 40% | **47%** | 66% | 37% |
-| $221 | 4.0% | 0.09× | 5% | 3% | 2% | 21% | **89%** | 93% | 55% |
-
-**What the table says:**
-- **The sweet spot is 0.3–0.6% risk per unit.** Above ~1%, the chance of 5× barely rises while
-  the chance of being wiped out explodes (17% → 47% → 89%). Doubling the bet does not double
-  the odds; it adds ruin.
-- **$10 does not work.** Bitget's $5 minimum rejects 87–96% of units. To trade at all, risk
-  has to be raised until ruin dominates. **$50 is the practical floor**, and at 0.6% it
-  matches $221's odds (its rejected units concentrate it on fewer, wider-stop trades).
-- **"Crazy" is a minority outcome even in the good cells:** roughly a 1-in-4 to 1-in-3 chance
-  of 5× in a year, 1-in-5 of 10×, and 1-in-5 of ending the year down.
-
-### How much of it is one monster
-
-| $221, 12 months | 0.3% median | ≥5× | 0.6% median | ≥5× |
-|---|---|---|---|---|
-| PIT12 | 2.20× | 22% | 2.57× | 28% |
-| without MYX (Sep 2025, ~100×; 27% of all PIT12 long R) | 1.97× | 14% | 2.04× | 17% |
-| without the top 3 (MYX, BTC, BNB) | 1.85× | 12% | 1.47× | 17% |
-| holdout starts only (2024-09..2025-09) | 4.85× | 49% | 7.64× | 64% |
-| holdout starts, without MYX | 2.02× | 8% | 1.81× | 15% |
-
-The spectacular holdout numbers **are MYX**. MYX was a legitimate point-in-time pick (top-12 by
-the prior month's volume), so it is not hindsight. It is one event, though, and every holdout
-window contains it. Take MYX out and a typical year is still about 2×, but 5× becomes roughly
-a 1-in-7 shot.
-
-**A cross-check worth recording:** the honest universe at the deployed risk (2.20× typical
-year) lands almost exactly where the hand-picked book lands after its 3× hindsight haircut
-(BOOK12 4.41× raw → CAGR/3 ≈ 2.1×). **On the corrected engine the 3× haircut is well
-calibrated.**
-
-**Registered predictions:** BOOK12 P(5×) ~10% ✗ (46%); ruin > 50% at 4% ✓ (85–89%); PIT12
-P(5×) < 5% everywhere ✗ (22–33%); $10 worse at low risk ✓ and similar at high risk ✗
-(worse: ruin). I underestimated how often the book catches a monster. Most of that
-underestimate is MYX and 2021.
-
-**What is optimistic here:** no mark-to-market liquidation (a pyramided book at 1%+ risk can
-be liquidated intrabar before its stops); adds past the leverage cap are not blocked; no
-slippage on 100× pump coins. All three matter most at high risk, which is exactly where the
-table already says not to go.
-
-**A loose end this exposes:** `wide_book.py` ("breadth does not scale") scored the PIT
-universes through `evaluate()`, which divides every CAGR by 3. Rule 5 says a PIT universe
-gets no haircut. Its conclusion for top-30+ likely survives (the holdout was ~0 even before
-the haircut), but top-12 was never tested there, and on the corrected engine PIT12 ≈ the
-haircut 12-coin book. **A PIT12 paper book is the only version of this strategy that can
-catch the NEXT MYX**, because the fixed 12 coins never will.

@@ -85,6 +85,7 @@ candidate on paper. The rule above still stands for everything else.
 | **Run command wraps long lines** | Near 50 chars, and a wrapped line's tail RUNS as a command. A wrapped COMMENT loses its `#` and executes. This destroyed a 22KB base64 one-liner | Every line in `deploy/*.sh` under 44 chars; payloads in heredocs, which `base64 -d` decodes however they are broken up |
 | **`VAR=cmd arg` is not an assignment** | `U=sudo -u $OWNER` makes the shell treat `U=sudo` as a prefix and run a command called `-u`. Aborted a live patch at line 34 | No spaces in an assignment value |
 | **Testing only the part you changed** | Both of the two bugs above survived a test that exercised only the payload block, because both were outside it | Run the WHOLE script against a fake target with stubbed `systemctl`/`sudo`/`sleep` |
+| **Comparing medians across orderings** | Per-ordering noise here is 0.25-0.48 %/mo, so two medians drawn from different seed outcomes differ by several tenths for nothing. It produced TWO confident claims in one hour that both died under a paired test: a blend "beating the average phase with 4-6 points less drawdown" (paired: +0.04%/mo, t=0.19) and "the venue minimum costs $221 0.29%/mo" (paired: -0.02%/mo, t=-0.37) | Pair on the SAME ordering, take the difference, report mean +- se and a win count - as `graveyard_rescore.py` already did |
 | **A test that cannot exhibit the bug** | With one position open at a time the two compounding conventions are arithmetically IDENTICAL, so a non-overlapping test showed $0.00 difference and passed while proving nothing. The bug only bites when positions OVERLAP | Construct the case so the bug MUST appear if it is present |
 | **Timestamp unit mismatch** | `.asof()` raises "Cannot losslessly convert units" (ms index vs ns clock) | `blend_paper._ns()` |
 | **Bar label read as entry time** | `asof(t0)` on a 4h/12h row reads a bar that closed hours after the entry. The short boost's "+0.481R" was 118 look-ahead trades; causal, it is +0.305R and worth ~+0.5%/mo | `causal_t0.real_t0(rows)` |
@@ -149,12 +150,11 @@ entry-sized compounding (rules 10–12). $200, 10 orderings, upside haircut 3×,
 | **tight book** | 56% | −34.7% | +128% raw / **+43% haircut** | **$285** | 51% |
 | *old figure (expectations.py)* | *57%* | *−34%* | *+58% haircut* | *$316* | *58%* |
 
-- **Capital barely changes the percentage, but "barely" is not "not", and the threshold is
-  ~$500 rather than ~$25** (corrected 2026-09-23, `backtest/bar_phase.floor_check`). At $221 the
-  venue minimum rejects 0.24% of signals - 5 of 1,917 - and that costs **0.29%/month** plus 2
-  points of drawdown, because in a book where the top 25 trades make over 100% of the profit a
-  rejected signal may be one of the 25. $500 rejects 0.03% and earns the full +4.97%. The old
-  claim that $25 suffices used the rejection RATE; the return cost is the right statistic.
+- **Capital does not change the percentage.** Above ~$25 the rejection rate is ~0% and the
+  return is statistically indistinguishable; $10 rejects 2% of signals. Capital buys dollars, not
+  rate. (A 2026-09-23 attempt to overturn this - "the venue minimum costs $221 0.29%/month" - was
+  itself wrong: unpaired medians. Paired on the same orderings, -0.02%/month at t = -0.37. The
+  original claim stands.)
 - **The old +58% was inflated mostly by compounding**, not by the market. See mistake #14.
 - Full history, entry-sized: main +84% haircut / +251% raw median year, tight +113% / +338%.
   **2021 alone made ~40% of lifetime profit.** Full-history figures are not planning numbers.

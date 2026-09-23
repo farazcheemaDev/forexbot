@@ -34,6 +34,23 @@ WHAT IS HELD FIXED
     Scored on the corrected engine throughout: entry-sized compounding, funding charged, causal
     entry times, 10 orderings, 3x haircut, tune/holdout as everywhere else.
 
+HOW THE FIRST READING OF THIS FILE WAS WRONG - read before trusting any table below
+    The first version compared the MEDIAN hpm across 10 orderings for one setup against the
+    median for another. With per-ordering noise of 0.25-0.48 %/mo, two medians drawn from
+    different seed outcomes differ by several tenths for no reason at all. That produced two
+    confident claims that both evaporated under a PAIRED test (same ordering, difference taken
+    trade for trade):
+
+      "the blend beats the average phase on all three windows with 4-6 points less drawdown"
+          -> paired: +0.04 %/mo on the holdout, t = 0.19, and 0.1-0.2 points of drawdown
+      "the venue minimum costs $221 about 0.29 %/mo"
+          -> paired: -0.02 %/mo, t = -0.37, worse in 5 of 10 orderings. small_capital.py was
+             right and the correction to it has been reverted
+
+    Every comparison here is now paired against phase 0 on the same ordering, with a standard
+    error and a win count. The repo already did this in graveyard_rescore.py; this file simply
+    failed to.
+
 REGISTERED PREDICTIONS (before the run, 2026-09-23)
     1. The spread across phases on the holdout is at least 1.5%/month, i.e. the deployed number
        carries material phase luck.
@@ -230,6 +247,41 @@ def floor_check(rows, bear, cut):
     return out
 
 
+def paired(rows, bear, cut):
+    """Every phase and the blend, PAIRED against phase 0 on the same ordering.
+
+    The only honest way to compare two setups that share the same trade population: take the
+    difference within each ordering, then look at its mean, standard error and sign count.
+    Comparing medians across orderings is what produced two retracted claims - see the
+    docstring."""
+    for win, kw in (("TUNE", dict(t_to=cut)), ("HOLDOUT", dict(t_from=cut))):
+        H = {p: [] for p in PHASES}
+        B = []
+        for seed in SEEDS:
+            ser = {p: daily(rows[p], bear, seed, **kw) for p in PHASES}
+            if any(v is None for v in ser.values()):
+                continue
+            for p in PHASES:
+                H[p].append(stats(ser[p])["hpm"])
+            B.append(stats(pd.concat([ser[p] for p in PHASES], axis=1)
+                           .fillna(0.0).mean(axis=1))["hpm"])
+        base = np.array(H[0])
+        print()
+        print(f"{win}: paired against phase 0, same ordering")
+        print(f"  {'':<20}{'mean/mo':>9}{'diff':>8}{'se':>6}{'t':>7}{'wins':>8}")
+        print(f"  {'phase 0 (deployed)':<20}{base.mean():>+8.2f}%")
+        for lab, arr in ([(f"phase {p}", np.array(H[p])) for p in PHASES[1:]]
+                         + [("4-phase blend", np.array(B))]):
+            d = arr - base
+            se = d.std(ddof=1) / len(d) ** 0.5
+            print(f"  {lab:<20}{arr.mean():>+8.2f}%{d.mean():>+7.2f}%{se:>6.2f}"
+                  f"{d.mean() / se:>+7.2f}{(d > 0).sum():>6}/{len(d)}")
+        sp = [max(H[p][i] for p in PHASES) - min(H[p][i] for p in PHASES)
+              for i in range(len(base))]
+        print(f"  within-ordering phase spread {np.mean(sp):.2f} %/mo - this is the real")
+        print(f"  robustness number, and it is larger than the spread of the medians")
+
+
 def main():
     bear = regimes()[1000]
     ts = pd.DatetimeIndex(sorted(x[0] for x in sleeve_sided("1h")[0]))
@@ -284,6 +336,7 @@ def main():
         print(f"  {win:<8}{b['hpm']:>+9.2f}%{b['dd']:>5.0f}%{b['sharpe']:>8.2f}"
               f"{mh:>+14.2f}%{md:>14.0f}%{ms:>13.2f}")
 
+    paired(rows, bear, cut)
     floor_check(rows, bear, cut)
 
     print()
