@@ -1,0 +1,13 @@
+80 PRE-selected events with ticks (previous rate <= -0.10%, 4h/8h, 2024-2026)
+  first trade after t arrives 0.043s after it (median)
+  funding these longs received at t: +28.9bp mean
+  market SELL L seconds after t, vs the first trade at/after t (funding_farm.py's exit):
+    t+0.1       -4.3bp mean     -0.3bp median
+    t+0.25      -7.0bp mean     -2.3bp median
+    t+0.5       -9.7bp mean     -2.1bp median
+    t+1        -12.6bp mean     -3.7bp median
+    t+2        -17.2bp mean     -6.2bp median
+    t+5        -21.0bp mean    -12.3bp median
+    t+10       -19.9bp mean    -13.3bp median
+    t+30       -23.6bp mean    -16.1bp median
+    t+60       -14.5bp mean    -13.7bp median

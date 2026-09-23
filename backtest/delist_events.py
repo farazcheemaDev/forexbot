@@ -26,6 +26,20 @@ CONTROL
     Dying coins fall anyway; only the excess over that placebo is an event effect.
     Standard errors cluster by ANNOUNCEMENT (one notice often names 5 coins at once).
 
+SECOND PASS (added after the first run, same day) - MORE EVENTS FROM SOURCES THAT PLAYED NO
+PART IN FINDING IT. The first run found SPOT notices: +4.7% excess over placebo at 72h and
++7.9% at 7d, positive in both halves and every year with events, but only 27 announcements
+(clustered t 1.45 / 1.84). Three further event types, each a separate out-of-sample test of
+the same mechanism (a forced, calendar-driven exit):
+      BN_MONITOR    "Binance Will Extend the Monitoring Tag to Include ..." (catalog 49, 27
+                    notices) - Binance's own warning that a coin may be delisted
+      UPBIT_WARN    Upbit "거래 유의 종목 지정 안내" (new trading-caution designation; not
+                    extensions or releases) - Korea's warning, the precursor to delisting
+      UPBIT_DELIST  Upbit "거래지원 종료" (end of trading support)
+    REGISTERED for the second pass: the same SIGN in all three (short earns excess over
+    placebo at 72h and 7d); UPBIT_DELIST largest, BN_MONITOR smallest. If any of the three
+    is negative at 7d, the SPOT result is treated as noise.
+
 REGISTERED PREDICTIONS (before running)
     SPOT: most of the drop is gone before a +10-70 minute entry (median -10% to -20% already);
     from entry the short earns +3-6% gross over 72h, funding takes 1-3%, and the excess over
@@ -73,6 +87,30 @@ def events():
             if m2:
                 for s in re.split(r",\s*|\s+and\s+", m2.group(1)):
                     ev.append(dict(kind="PERP", t=t, coin=s.strip(), aid=a["t"]))
+    # --- second pass sources ---
+    f49 = CMS.parent / "binance_cms49.json"
+    if f49.exists():
+        for a in json.load(open(f49, encoding="utf-8")):
+            m = re.search(r"Monitoring Tag to Include (.+?)(?: on \d|, Remove|$)", a["title"])
+            if m:
+                t = pd.to_datetime(a["t"], unit="ms")
+                for x in re.split(r",\s*|\s+and\s+|\s*&\s*", m.group(1)):
+                    if re.fullmatch(r"[A-Z0-9]{2,12}", x.strip()):
+                        ev.append(dict(kind="BN_MONITOR", t=t, coin=x.strip(), aid=a["t"]))
+    fu = CMS.parent / "upbit_notices.json"
+    if fu.exists():
+        for a in json.load(open(fu, encoding="utf-8")):
+            title = a["title"]
+            kind = None
+            if "유의 종목 지정 안내" in title and "연장" not in title and "해제" not in title:
+                kind = "UPBIT_WARN"
+            elif ("거래지원 종료" in title or "거래 지원 종료" in title) and "변경" not in title:
+                kind = "UPBIT_DELIST"
+            if kind:
+                t = pd.Timestamp(a["first_listed_at"]).tz_convert("UTC").tz_localize(None)
+                aid = int(t.value // 10**6)
+                for x in re.findall(r"\(([A-Z0-9]{2,12})\)", title):
+                    ev.append(dict(kind=kind, t=t, coin=x, aid=aid))
     E = pd.DataFrame(ev).drop_duplicates(["kind", "coin", "aid"])
     return E.sort_values("t").reset_index(drop=True)
 
@@ -158,7 +196,7 @@ def main():
     cut = R.t.quantile(0.6)
     print(f"{len(E)} ticker-events parsed; {len(R)} with a Binance perp trading at the notice | "
           f"tune < {cut:%Y-%m-%d} <= holdout\n")
-    for kind in ("SPOT", "PERP"):
+    for kind in ("SPOT", "PERP", "BN_MONITOR", "UPBIT_WARN", "UPBIT_DELIST"):
         K = R[R.kind == kind]
         if len(K) < 10:
             continue

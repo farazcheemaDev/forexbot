@@ -51,7 +51,7 @@ from backtest.btc_exit import btc_trail  # noqa: E402
 from backtest.bull_boost import regimes  # noqa: E402
 from backtest.engine_variants import BASE_RULES, rows_for, run  # noqa: E402
 
-LATE = {"1h": pd.Timedelta(0), "4h": pd.Timedelta(hours=3), "12h": pd.Timedelta(hours=11)}
+LATE = {r: pd.Timedelta(hours=h - 1) for r, h in (("1h", 1), ("2h", 2), ("4h", 4), ("8h", 8), ("12h", 12), ("1d", 24))}
 
 
 def real_t0(rows):

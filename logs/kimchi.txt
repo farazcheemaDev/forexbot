@@ -1,0 +1,15 @@
+229 coins on both Upbit KRW and Binance perps, 2020-01 .. 2026-09
+coin-specific premium: median +0.06%, 95th pct +0.71%
+
+WEEKLY long-low / short-high premium quintiles: 320 weeks
+  gross +0.259%/wk  net +0.176%/wk  t +1.04  tune +0.247  hold +0.070
+  top-premium quintile excess return vs all eligible: -0.457%/wk
+  by year (net %/wk): 2020: +0.81  2021: +0.40  2022: +0.26  2023: -0.14  2024: -0.02  2025: -0.05  2026: +0.39
+
+EVENT: coin premium crosses +5%: 338 events, 7-day excess return -1.56% (median -1.24%), tune -0.73%  hold -2.66%
+EVENT: coin premium crosses +5%: 338 events, 7-day excess return -1.56% (median -1.24%), tune -0.73%  hold -2.66%
+
+EVENT, costed (post-hoc): 336 events in 147 weeks | short coin vs basket 7d
+  net +0.06%/event (median +0.37%, win 51%)  t(week-clustered) +0.85
+  tune +0.08%  hold +0.03%  | placebo (same coins, random weeks) +0.62%
+  by year: 2020: +0.07% (n18)  2021: +2.11% (n47)  2022: -1.58% (n37)  2023: +1.14% (n32)  2024: +1.47% (n25)  2025: -1.55% (n132)  2026: +2.41% (n45)

@@ -1,0 +1,31 @@
+821 perps listed 2020-02 .. 2026-08; fetching first-trade dates (cached)...
+  first-trade fetch 0/821
+  first-trade fetch 50/821
+  first-trade fetch 100/821
+  first-trade fetch 150/821
+  first-trade fetch 200/821
+  first-trade fetch 250/821
+  first-trade fetch 300/821
+  first-trade fetch 350/821
+  first-trade fetch 400/821
+  first-trade fetch 450/821
+  first-trade fetch 500/821
+  first-trade fetch 550/821
+  first-trade fetch 600/821
+  first-trade fetch 650/821
+  first-trade fetch 700/821
+  first-trade fetch 750/821
+  first-trade fetch 800/821
+
+821 events | tune < 2025-06-17 <= holdout | pair = short coin + long BTC, 12bp/leg, funding both legs
+
+  class          n  pair mean   median  t(mo)   win  short leg  pl d60  pl d120  pl d180    TUNE    HOLD
+  OLD_BN       199     +10.5%   +17.2%  +3.07   76%      +6.7%    -0.3%    +1.5%    +2.5%  +10.5%   +nan%
+  OLD_OTHER    102      +3.4%    +9.7%  +1.05   63%      -0.2%   +10.2%    -0.2%    +0.2%   +5.0%   -1.6%
+  NEW          520      +3.6%    +7.8%  +1.52   57%      +2.3%    +3.0%    -2.1%    -3.1%  +10.2%   -1.1%
+
+  OLD_OTHER dose-response by prior history, and by listing year:
+    60-180d    n   27  pair -4.6%  placebo d60 +3.1%
+    180-365d   n   25  pair +6.8%  placebo d60 +14.0%
+    365d+      n   50  pair +6.1%  placebo d60 +12.3%
+    2020: -19.2% (n5)  2021: +23.5% (n4)  2022: +12.1% (n5)  2023: +7.5% (n13)  2024: -2.4% (n30)  2025: +11.8% (n34)  2026: -12.3% (n11)

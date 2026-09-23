@@ -1,0 +1,28 @@
+
+PREVIOUS rate <= -0.10% | 800 events with 1m data of 30,690 eligible | tune < 2025-03-17 <= holdout
+  net = price + funding - 12bp fee - 8.3bp exit slippage (bp per event)
+  enter t-120m: n 800  price +11.6  funding +24.6  NET +15.9 (median -17.0, sd 409, win 47%, t_clust +1.04)
+      tune:   +34.1bp  n 292  t_clust +1.33
+      hold:    +5.4bp  n 508  t_clust +0.29
+      by year: 2020: +17 (n23)  2021: -8 (n43)  2022: +110 (n56)  2023: +30 (n58)  2024: +16 (n60)  2025: +15 (n289)  2026: -1 (n271)
+      per-settlement basket: 743 settlements, mean +18.2bp, win 47%, by year: 2020: +17  2021: +20  2022: +97  2023: +30  2024: +21  2025: +18  2026: -0
+  enter t-60m: n 800  price +12.0  funding +24.6  NET +16.3 (median -1.4, sd 278, win 50%, t_clust +1.53)
+      tune:   +30.6bp  n 292  t_clust +1.55
+      hold:    +8.1bp  n 508  t_clust +0.68
+      by year: 2020: +22 (n23)  2021: -38 (n43)  2022: +103 (n56)  2023: +17 (n58)  2024: +44 (n60)  2025: +10 (n289)  2026: +7 (n271)
+      per-settlement basket: 743 settlements, mean +20.8bp, win 50%, by year: 2020: +22  2021: +11  2022: +101  2023: +17  2024: +44  2025: +14  2026: +9
+
+PREVIOUS rate <= -0.30% | 600 events with 1m data of 10,057 eligible | tune < 2025-03-17 <= holdout
+  net = price + funding - 12bp fee - 8.3bp exit slippage (bp per event)
+  enter t-120m: n 600  price +20.0  funding +48.4  NET +48.0 (median +17.3, sd 534, win 53%, t_clust +2.04)
+      tune:   +79.1bp  n 189  t_clust +1.51
+      hold:   +33.8bp  n 411  t_clust +1.42
+      by year: 2020: +220 (n14)  2021: -45 (n26)  2022: +83 (n27)  2023: +152 (n47)  2024: -129 (n41)  2025: +110 (n203)  2026: +2 (n242)
+      per-settlement basket: 556 settlements, mean +60.4bp, win 54%, by year: 2020: +233  2021: +57  2022: +83  2023: +148  2024: -129  2025: +113  2026: +20
+  enter t-60m: n 600  price +3.1  funding +48.4  NET +31.2 (median +20.6, sd 345, win 55%, t_clust +1.93)
+      tune:   +63.0bp  n 189  t_clust +1.84
+      hold:   +16.5bp  n 411  t_clust +0.95
+      by year: 2020: +184 (n14)  2021: -122 (n26)  2022: +40 (n27)  2023: +95 (n47)  2024: +97 (n41)  2025: +47 (n203)  2026: +1 (n242)
+      per-settlement basket: 556 settlements, mean +43.0bp, win 57%, by year: 2020: +184  2021: +36  2022: +40  2023: +91  2024: +97  2025: +49  2026: +11
+
+[exited with code 0]

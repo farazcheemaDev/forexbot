@@ -10,6 +10,19 @@ at stake here. So: 20 orderings, and each variant is compared to main on the SAM
 (paired), which removes the shared noise and gives a standard error for the difference.
 
     python -m backtest.honest_rescore
+
+SUPERSEDED IN ONE RESPECT - READ BEFORE QUOTING ANY NUMBER FROM HERE
+    This file compounds by DAILY SUM. It fixes causal t0 and charges funding, but it does NOT
+    apply the entry-sized fix (mistake #14), so its %/mo figures are roughly DOUBLE the
+    corrected ones. backtest/compounding.py was found precisely because this file read +8.37%
+    on the holdout while equity_filter.py read +13.50% for the same book.
+
+    For entry-sized figures use mtm_sizing.py, expectations_honest.py or graveyard_rescore.py.
+    The paired tight-vs-main difference is not even in the same order across the two
+    conventions: +2.15/+2.79 (here) versus +2.87/+1.98 (entry-sized). The VERDICT agrees -
+    tight beats main on both halves - but the numbers must not be mixed.
+
+    Kept unchanged because doc 03 mistake #14 cites the disagreement as how the bug was found.
 """
 from __future__ import annotations
 

@@ -1,0 +1,123 @@
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+D:\forexbot\backtest\settlement_ticks.py:64: DtypeWarning: Columns (0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6) have mixed types. Specify dtype option on import or set low_memory=False.
+  d = pd.read_csv(z.open(z.namelist()[0]), header=None)
+60 events with ticks (of 60 sampled), 2024-2026, rate <= -0.10%, 4h/8h coins
+
+  POST short, gross bp to the t+2h exit (12bp cost + no funding for a 2h hold on 4h/8h coins)
+  enter at        mean  median  net 12bp   win   median actual lag
+  t+0.1           +8.0   +17.2      -4.0   52%              0.22s
+  t+0.25          +3.0   +12.8      -9.0   50%              0.74s
+  t+0.5           +0.9   +12.8     -11.1   50%              0.80s
+  t+1             -5.7   +12.8     -17.7   50%              1.40s
+  t+2             -9.7    +4.4     -21.7   50%              2.26s
+  t+5            -15.3    -6.9     -27.3   47%              5.10s
+  t+10           -15.3    -5.8     -27.3   47%             10.36s
+  t+30           -11.5    -9.9     -23.5   48%             30.36s
+  t+60           -10.0    +0.4     -22.0   50%             60.25s
+
+  price jump across the settlement instant (first sell print after t vs last before t): mean -3.3bp, median +0.0bp
+  PRE long exit, price vs the last print before t (negative = what waiting costs):
+    exit t+0.1       -3.3bp  (funding received on these events: +36.1bp)
+    exit t+0.25      -8.3bp  (funding received on these events: +36.1bp)
+    exit t+0.5      -10.3bp  (funding received on these events: +36.1bp)
+    exit t+1        -16.8bp  (funding received on these events: +36.1bp)
+    exit t+2        -20.8bp  (funding received on these events: +36.1bp)
+    exit t+5        -26.4bp  (funding received on these events: +36.1bp)
+    exit t+10       -26.4bp  (funding received on these events: +36.1bp)
+    exit t+30       -22.6bp  (funding received on these events: +36.1bp)
+    exit t+60       -21.3bp  (funding received on these events: +36.1bp)

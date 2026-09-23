@@ -1,0 +1,17 @@
+5,948,661 five-minute stamps, 13 coins, 2020-09 .. 2026-09; tune < 2024-12-23 <= holdout
+
+  quadrant                                n     +15m     +30m     +60m   gross bp in the direction of REVERSION
+  forced SELL (px down, OI down)      30523     +9.0    +10.5    +14.0
+  voluntary sell (px down, OI up)      8124     +2.6    +10.4    +14.9
+  forced BUY (px up, OI down)         14088     -2.5     -9.8    -13.0
+  voluntary buy (px up, OI up)        19153     -3.4     -5.9     -8.2
+
+  TRADE: fade the forced move at the revealing stamp, taker 12bp round trip
+    forced SELL  +15 m n 30506  net    -3.0bp  t -0.45  tune    -4.1  hold    -0.7  win 49%
+    forced SELL  +30 m n 30504  net    -1.5bp  t +0.38  tune    -1.7  hold    -1.0  win 50%
+    forced SELL  +60 m n 30510  net    +2.0bp  t +1.59  tune    +0.2  hold    +5.5  win 51%
+    forced BUY   +15 m n 14081  net   -14.5bp  t -9.36  tune   -13.3  hold   -16.7  win 43%
+    forced BUY   +30 m n 14086  net   -21.8bp  t -5.29  tune   -16.5  hold   -31.5  win 45%
+    forced BUY   +60 m n 14084  net   -25.0bp  t -6.17  tune   -17.9  hold   -38.0  win 45%
+
+  forced-sell +30m net by year: 2020: -3bp (n207)  2021: +17bp (n566)  2022: -4bp (n5328)  2023: -5bp (n7291)  2024: +2bp (n6863)  2025: +0bp (n5276)  2026: -3bp (n4973)

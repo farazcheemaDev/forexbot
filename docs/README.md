@@ -17,6 +17,7 @@ of the rules and the traps, and it is the only file you must not skip.
 | 07 | [The $5–10 account](07-micro-account.md) | The go-for-broke bet: 29.7% chance of 5×, 70% chance of zero. The odds, and why two of my predictions about it were wrong. |
 | 08 | [Polymarket](08-polymarket.md) | A +25% apparent edge, **four** artifacts found inside the same test, and why $5 buys worse evidence than the free collector already running. |
 | 10 | [The second book](10-market-neutral.md) | Market-neutral cross-sectional momentum: **correlation +0.09** with the live book, and why its bear-market performance is carry, not prediction. |
+| 11 | [The money-machine search](11-money-machine-search.md) | Seven mechanism-based ideas (funding settlements down to tick data, delistings, grid bots, HLP, CME gaps, first-perp shorts, the kimchi premium). **None is a machine**, and each result shows where edges go to die. |
 
 ## Also in the repo
 

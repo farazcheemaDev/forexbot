@@ -1,0 +1,39 @@
+corrected engine: real t0, funding, ENTRY-SIZED compounding, 10 paired orderings
+tune < 2024-08-29 <= holdout; %/mo is CAGR/3; DD and worst month are raw
+
+  variant                                TUNE   DD   HOLD   DD  worst       d TUNE       d HOLD  verdict
+  MAIN (deployed rules)                +4.88%  54% +4.88%  53% -33.5%  +0.00+-0.00  +0.00+-0.00  
+
+  A. exits that shorten holds
+  tight exit                           +7.75%  42% +6.86%  50% -31.3%  +2.87+-0.28  +1.98+-0.35  BEATS MAIN, BOTH HALVES
+  time stop: < +2R after 100 bars      +5.13%  56% +6.94%  43% -20.9%  +0.25+-0.38  +2.07+-0.56  holdout only
+  time stop: < 0R after 100 bars       +4.91%  53% +5.30%  53% -36.2%  +0.02+-0.25  +0.43+-0.50  -
+  tighten x0.5 above +80R              +4.68%  57% +4.90%  54% -34.2%  -0.21+-0.24  +0.03+-0.44  -
+  tight + time stop 2R/100             +7.38%  44% +9.22%  45% -18.2%  +2.50+-0.29  +4.34+-0.48  BEATS MAIN, BOTH HALVES
+
+  B. sleeve sets
+  1h+4h                                +5.67%  68% +4.34%  62% -35.1%  +0.79+-0.26  -0.54+-0.29  tune only
+  1h+4h+8h                             +4.84%  65% +4.37%  59% -43.5%  -0.05+-0.25  -0.50+-0.35  -
+  1h+2h+4h                             +5.44%  71% +4.66%  63% -34.2%  +0.56+-0.25  -0.22+-0.23  tune only
+  1h+4h+8h+12h                         +3.87%  53% +4.09%  51% -30.4%  -1.01+-0.24  -0.79+-0.38  -
+
+  C. per-sleeve trails (1h/4h/12h)
+  trail 20 / 20 / 12                   +4.63%  61% +5.06%  54% -36.6%  -0.26+-0.14  +0.19+-0.50  -
+  trail 10 / 20 / 40                   +2.45%  73% +4.60%  50% -25.3%  -2.43+-0.26  -0.28+-0.37  -
+
+  D. allocation / size
+  8 slots                              +3.82%  42% +4.40%  42% -21.3%  -1.06+-0.18  -0.47+-0.33  -
+  risk x0.67                           +3.89%  39% +4.03%  38% -23.0%  -0.99+-0.04  -0.85+-0.07  -
+  risk x1.33                           +5.54%  66% +5.23%  65% -43.5%  +0.65+-0.03  +0.36+-0.07  BEATS MAIN, BOTH HALVES
+
+  E. entry band
+  bb(30, 1.25)                         +4.38%  50% +4.17%  68% -35.8%  -0.50+-0.30  -0.71+-0.39  -
+
+  F. shorts
+  lean short: shorts x3 in bears       +5.74%  51% +3.60%  65% -33.6%  +0.86+-0.03  -1.28+-0.10  tune only
+
+  'd' = paired difference vs MAIN on the same orderings, +- one standard error (ordering noise only).
+
+  TIGHT + TIME STOP vs TIGHT alone (paired):
+    tune: -0.37 +- 0.21 %/mo, DD +3 pts, worst month +8.4 pts
+    hold: +2.36 +- 0.43 %/mo, DD -6 pts, worst month +13.1 pts

@@ -2820,3 +2820,15 @@ Two things stay true regardless:
 > **Regime dependence is not a defect of the strategy. It is the receipt for the return.**
 > A book that earned in 2021 and 2024 and not 2025 is being paid to bear crypto trend
 > risk. Remove the regime dependence and you remove the payment.
+
+---
+
+## Re-scored on the corrected engine (2026-09-23 evening) — see [doc 11, part 2](11-money-machine-search.md)
+
+After the three engine fixes (doc 03 #12–14), the engine-level kills were re-run
+(`backtest/graveyard_rescore.py`). **Nothing buried came back to life.** The tight exit is
+confirmed on both halves. A time stop (exit below +2R after 100 bars) added on top of it
+improves the worst month on both halves (+8 / +13 pts) and is a paper candidate. The
+bb(30,1.25) and 10/20/40-trail near-misses turn negative on both halves: their old holdout
+gains were the unfunded engine. The liquidation-cascade bounce, which never had a verdict, is
+dead on 4 years of data (`backtest/cascade_redux.py`).

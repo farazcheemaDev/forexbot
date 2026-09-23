@@ -1,0 +1,76 @@
+$221 start, 0.30% risk/unit, 12 slots, corrected engine, 10 orderings
+
+============================================================================================
+  MAIN - the deployed rules
+============================================================================================
+
+  HOLDOUT (2024-08-29 -> 2026-09, never tuned on)
+    average month (compounded)    raw +10.44%   after 3x haircut  +4.86%
+    median month                   raw  -2.25%
+    months that lose money           57%     best month +654%   worst month -40.8%
+    a random 12 months             median raw +67%  (haircut +22%)   25th pct raw +39%   P(12 months at a loss) 4%
+    $221 after a typical 12 months  $270 (haircut)   $368 (raw)
+    max drawdown (raw)             53%  (range 42-60% across orderings)   longest time under water ~10 months
+    trades taken                   78.6/month (36.6 long, 42.0 short)   long win rate 6%   short win rate 33%
+    long trades: median -1.05R, mean +2.14R, best +894R, worst -21.5R; top 5% of longs = 201% of long profit; median hold 1.3 days
+
+  FULL HISTORY (2020-02 -> 2026-09)
+    average month (compounded)    raw +11.07%   after 3x haircut  +5.23%
+    median month                   raw  -1.87%
+    months that lose money           55%     best month +640%   worst month -41.6%
+    a random 12 months             median raw +251%  (haircut +84%)   25th pct raw +32%   P(12 months at a loss) 13%
+    $221 after a typical 12 months  $406 (haircut)   $775 (raw)
+    max drawdown (raw)             57%  (range 50-64% across orderings)   longest time under water ~21 months
+    trades taken                   67.3/month (29.9 long, 37.4 short)   long win rate 7%   short win rate 35%
+    long trades: median -1.06R, mean +4.05R, best +1342R, worst -37.7R; top 5% of longs = 156% of long profit; median hold 1.3 days
+    by calendar year (raw)        2020: +99%  2021: +1228%  2022: -42%  2023: +491%  2024: +2029%  2025: +47%  2026: +74%
+
+============================================================================================
+  TIGHT EXIT - on paper
+============================================================================================
+
+  HOLDOUT (2024-08-29 -> 2026-09, never tuned on)
+    average month (compounded)    raw +13.63%   after 3x haircut  +6.84%
+    median month                   raw  -1.60%
+    months that lose money           56%     best month +712%   worst month -34.7%
+    a random 12 months             median raw +128%  (haircut +43%)   25th pct raw +78%   P(12 months at a loss) 1%
+    $221 after a typical 12 months  $315 (haircut)   $503 (raw)
+    max drawdown (raw)             50%  (range 44-55% across orderings)   longest time under water ~10 months
+    trades taken                   89.1/month (43.0 long, 46.1 short)   long win rate 10%   short win rate 34%
+    long trades: median -1.05R, mean +2.77R, best +894R, worst -21.5R; top 5% of longs = 155% of long profit; median hold 1.5 days
+
+  FULL HISTORY (2020-02 -> 2026-09)
+    average month (compounded)    raw +14.62%   after 3x haircut  +7.50%
+    median month                   raw  -0.02%
+    months that lose money           50%     best month +712%   worst month -34.7%
+    a random 12 months             median raw +338%  (haircut +113%)   25th pct raw +85%   P(12 months at a loss) 4%
+    $221 after a typical 12 months  $470 (haircut)   $968 (raw)
+    max drawdown (raw)             51%  (range 44-55% across orderings)   longest time under water ~11 months
+    trades taken                   80.4/month (37.5 long, 42.8 short)   long win rate 11%   short win rate 35%
+    long trades: median -1.05R, mean +3.54R, best +1050R, worst -29.3R; top 5% of longs = 142% of long profit; median hold 1.5 days
+    by calendar year (raw)        2020: +166%  2021: +3232%  2022: -8%  2023: +433%  2024: +2823%  2025: +102%  2026: +116%
+
+============================================================================================
+  TIGHT EXIT + TIME STOP (below +2R after 100 bars)
+============================================================================================
+
+  HOLDOUT (2024-08-29 -> 2026-09, never tuned on)
+    average month (compounded)    raw +17.05%   after 3x haircut  +9.20%
+    median month                   raw  +0.64%
+    months that lose money           48%     best month +634%   worst month -22.6%
+    a random 12 months             median raw +358%  (haircut +119%)   25th pct raw +237%   P(12 months at a loss) 1%
+    $221 after a typical 12 months  $485 (haircut)   $1,012 (raw)
+    max drawdown (raw)             45%  (range 38-52% across orderings)   longest time under water ~9 months
+    trades taken                   98.7/month (49.0 long, 49.7 short)   long win rate 9%   short win rate 34%
+    long trades: median -1.05R, mean +2.70R, best +894R, worst -20.7R; top 5% of longs = 154% of long profit; median hold 1.4 days
+
+  FULL HISTORY (2020-02 -> 2026-09)
+    average month (compounded)    raw +15.39%   after 3x haircut  +8.03%
+    median month                   raw  +0.80%
+    months that lose money           48%     best month +634%   worst month -24.7%
+    a random 12 months             median raw +403%  (haircut +134%)   25th pct raw +118%   P(12 months at a loss) 5%
+    $221 after a typical 12 months  $518 (haircut)   $1,112 (raw)
+    max drawdown (raw)             48%  (range 41-52% across orderings)   longest time under water ~10 months
+    trades taken                   90.0/month (43.3 long, 46.7 short)   long win rate 11%   short win rate 35%
+    long trades: median -1.05R, mean +2.96R, best +1050R, worst -26.5R; top 5% of longs = 151% of long profit; median hold 1.5 days
+    by calendar year (raw)        2020: +265%  2021: +3504%  2022: -10%  2023: +378%  2024: +1542%  2025: +288%  2026: +165%

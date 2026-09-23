@@ -50,7 +50,7 @@ from bot.core.indicators import atr as atr_ind  # noqa: E402
 
 PERPS = Path(__file__).resolve().parents[1] / "strategy_analysis" / "data" / "perps"
 PERP_NAME = {"SHIBUSDT": "1000SHIBUSDT"}
-RULE_H = {"1h": 1, "4h": 4, "12h": 12}
+RULE_H = {"1h": 1, "2h": 2, "4h": 4, "8h": 8, "12h": 12, "1d": 24}
 _F: dict = {}
 
 
@@ -152,7 +152,7 @@ def short_rows_with_risk(rule):
 def short_funding(rows):
     """Adds 'fund' to every short row: a short RECEIVES positive funding."""
     look = {}
-    for rule in BASE_RULES:
+    for rule in sorted({r["rule"] for r in rows if r["side"] == "short"}):
         for x in short_rows_with_risk(rule):
             look[(rule, x["coin"], str(x["t0"]), round(x["R"], 9))] = x
     out = []
