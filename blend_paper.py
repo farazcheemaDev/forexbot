@@ -676,7 +676,7 @@ def cycle(st: dict, regime_cache: dict, kc: "dict | None" = None,
                 f"({len(st['open'])}/{SLOTS} slots, trade #{st['taken']})")
 
 
-def status(st: dict):
+def status(st: dict, kc: "dict | None" = None):
     print(f"\nBLEND PAPER — {len(BOOK)} coins x {len(SLEEVES)} timeframes, "
           f"{SLOTS} shared slots")
     print(f"started {st.get('started','?')}")
@@ -691,7 +691,7 @@ def status(st: dict):
     # the first 35 closed trades that made the record read -1.03R a trade while the profit sat
     # in 12 open positions at +4R to +8R peaks.
     try:
-        u, sf, n, miss = mark_to_market(st)
+        u, sf, n, miss = mark_to_market(st, kc)
         print(f"equity (marked)   {eq + u:.2f}   = realised {eq:.2f} {u:+.2f} open, "
               f"at current prices")
         print(f"equity (floor)    {eq + sf:.2f}   if every open stop were hit right now"
@@ -761,7 +761,33 @@ def mark_to_market(st: dict, kc: "dict | None" = None):
     return now, stop, priced, unpriced
 
 
-def status_tight(st: dict, tst: dict):
+def compare_books(name: str, bst: dict, st: dict, kc: "dict | None" = None):
+    """Three-line comparison of a forked book against main: realised, marked and floor.
+
+    All five books hold the same twelve coins, so ONE kline cache serves every call - pass the
+    same dict through or this costs 60 requests instead of 12.
+
+    Realised alone will understate every one of these books the moment they diverge, for the
+    same reason it understates main: it moves on closes, and a book that holds its winners
+    longer banks less sooner. The FLOOR is the honest comparison between exit rules, because it
+    is what each book cannot fall below without a gap - and exit rules are exactly what tight,
+    tstop and short-boost change."""
+    kc = {} if kc is None else kc
+    eq, meq = bst["equity"], st["equity"]
+    print(f"  realised  {name} {eq:.2f}   main {meq:.2f}   difference {eq - meq:+.2f}")
+    try:
+        bu, bf, _bn, bmiss = mark_to_market(bst, kc)
+        mu, mf, _mn, _mm = mark_to_market(st, kc)
+        print(f"  marked    {name} {eq + bu:.2f}   main {meq + mu:.2f}   "
+              f"difference {(eq + bu) - (meq + mu):+.2f}")
+        print(f"  floor     {name} {eq + bf:.2f}   main {meq + mf:.2f}   "
+              f"difference {(eq + bf) - (meq + mf):+.2f}"
+              f"{f'   [{bmiss} UNPRICED]' if bmiss else ''}")
+    except Exception as e:
+        print(f"  marked/floor unavailable ({type(e).__name__})")
+
+
+def status_tight(st: dict, tst: dict, kc: "dict | None" = None):
     """The TIGHT book next to the main one. Both forked from the same state, so the
     difference between them is the BTC-break rule and nothing else."""
     if not tst:
@@ -770,8 +796,7 @@ def status_tight(st: dict, tst: dict):
     print(f"TIGHT BOOK - same signals; long trail {LONG_TRAIL:.0f}x -> {TIGHT_TRAIL:.0f}xATR "
           f"once BTC's 4h trend breaks ({BTC_TRAIL_K:.0f}xATR)")
     print(f"forked from the main book {tst.get('forked', '?')}")
-    eq, meq = tst["equity"], st["equity"]
-    print(f"  equity  tight {eq:.2f}   main {meq:.2f}   difference {eq - meq:+.2f}")
+    compare_books("tight", tst, st, kc)
     n_t = sum(1 for r in tst["open"].values() if r.get("tight"))
     print(f"  open {len(tst['open'])}/{SLOTS}, of which {n_t} on the tightened trail")
     for k, r in sorted(tst["open"].items()):
@@ -790,7 +815,7 @@ def status_tight(st: dict, tst: dict):
     print("  two books are identical by construction.\n")
 
 
-def status_sized(st: dict, sst: dict):
+def status_sized(st: dict, sst: dict, kc: "dict | None" = None):
     """The SIZED book next to the main one. Same signals; each new long's risk is scaled
     by its runner-probability (frozen model, mean 1), so it earns more per correct big
     winner without taking more total risk."""
@@ -799,8 +824,7 @@ def status_sized(st: dict, sst: dict):
         return
     print(f"SIZED BOOK - each long's risk x its runner-probability (frozen model, mean 1)")
     print(f"forked from the main book {sst.get('forked', '?')}")
-    eq, meq = sst["equity"], st["equity"]
-    print(f"  equity  sized {eq:.2f}   main {meq:.2f}   difference {eq - meq:+.2f}")
+    compare_books("sized", sst, st, kc)
     longs = [r for r in sst["open"].values() if r["side"] == "long"]
     facs = [r.get("size_fac", 1.0) for r in longs]
     print(f"  open {len(sst['open'])}/{SLOTS}; long size factors "
@@ -831,7 +855,7 @@ def fork_tight(st: dict, breaks) -> dict:
     return t
 
 
-def status_sboost(st: dict, bst: dict):
+def status_sboost(st: dict, bst: dict, kc: "dict | None" = None):
     """The SHORT-BOOST book. Only shorts entered while BTC's 4h trail is broken differ, so
     the per-TRADE comparison in its trades file is the real evidence, not the equity gap."""
     if not bst:
@@ -839,8 +863,7 @@ def status_sboost(st: dict, bst: dict):
         return
     print(f"SHORT-BOOST BOOK - a short's risk x{SBOOST_MULT:.0f} when BTC's 4h trail is broken")
     print(f"forked from the main book {bst.get('forked', '?')}")
-    print(f"  equity  boost {bst['equity']:.2f}   main {st['equity']:.2f}   "
-          f"difference {bst['equity'] - st['equity']:+.2f}")
+    compare_books("boost", bst, st, kc)
     nb = sum(1 for r in bst["open"].values() if r.get("boosted"))
     print(f"  open {len(bst['open'])}/{SLOTS}, of which {nb} boosted shorts")
     if SBOOST_TRADES.exists():
@@ -903,7 +926,7 @@ def fork_tstop(st: dict, breaks) -> dict:
     return t
 
 
-def status_tstop(st: dict, xst: dict):
+def status_tstop(st: dict, xst: dict, kc: "dict | None" = None):
     """The TSTOP book. Its evidence is the WORST MONTH and the drawdown, not the return -
     the return gain was holdout-only against tight alone (see TSTOP_BARS above)."""
     if not xst:
@@ -913,8 +936,7 @@ def status_tstop(st: dict, xst: dict):
     print(f"TSTOP BOOK - tight exit PLUS: close a long still under +{TSTOP_R:g}R after "
           f"{TSTOP_BARS} bars")
     print(f"forked from the main book {xst.get('forked', '?')}")
-    print(f"  equity  tstop {xst['equity']:.2f}   main {st['equity']:.2f}   "
-          f"difference {xst['equity'] - st['equity']:+.2f}")
+    compare_books("tstop", xst, st, kc)
     longs = [(k, r) for k, r in xst["open"].items() if r["side"] == "long"]
     print(f"  open {len(xst['open'])}/{SLOTS}, {len(longs)} long")
     # Show the PEAK R, because age alone reads as danger and is not. Units only accumulate
@@ -961,8 +983,9 @@ def main():
     bst = load_state(SBOOST_STATE) if SBOOST_STATE.exists() else None
     xst = load_state(TSTOP_STATE) if TSTOP_STATE.exists() else None
     if args.status:
-        status(st); status_tight(st, tst); status_sized(st, sst)
-        status_sboost(st, bst); status_tstop(st, xst); return
+        sc: dict = {}    # ONE kline cache for all five books, not 60 requests
+        status(st, sc); status_tight(st, tst, sc); status_sized(st, sst, sc)
+        status_sboost(st, bst, sc); status_tstop(st, xst, sc); return
     log("=" * 78)
     log(f"BLEND PAPER — ${START_EQ:.0f}, {len(BOOK)} coins x {len(SLEEVES)} "
         f"timeframes, {SLOTS} shared slots")
@@ -1042,8 +1065,10 @@ def main():
                 f"{str(e)[:160]}")
 
     if args.once:
-        one_poll(); status(st); status_tight(st, tst); status_sized(st, sst)
-        status_sboost(st, bst); status_tstop(st, xst); return
+        one_poll()
+        sc: dict = {}    # ONE kline cache for all five books, not 60 requests
+        status(st, sc); status_tight(st, tst, sc); status_sized(st, sst, sc)
+        status_sboost(st, bst, sc); status_tstop(st, xst, sc); return
     while True:
         try:
             one_poll()
