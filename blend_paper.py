@@ -872,11 +872,26 @@ def status_tstop(st: dict, xst: dict):
           f"difference {xst['equity'] - st['equity']:+.2f}")
     longs = [(k, r) for k, r in xst["open"].items() if r["side"] == "long"]
     print(f"  open {len(xst['open'])}/{SLOTS}, {len(longs)} long")
+    # Show the PEAK R, because age alone reads as danger and is not. Units only accumulate
+    # every ADD_EVERY_R, so a 5-unit position has been at least +8R and is a runner, not dead
+    # money. The rule closes positions that are old AND went nowhere.
+    #
+    # The decision itself uses the CURRENT close, which this report cannot see without a
+    # price fetch - so a runner that has retraced below +2R after 100 bars WOULD be closed.
+    # Peak R tells you how far a position would have to give back to get there.
     for k, r in sorted(longs):
         px = r.get("entry", 0.0)
         age = r.get("bars", 0)
-        flag = "  <- eligible, waiting on R" if age >= TSTOP_BARS else ""
-        print(f"    {k:<18} {age:>4}b  entry {px:<12.6g} {r.get('units', 1)}u{flag}")
+        risk = r.get("risk", 0.0) or 1e-9
+        peak = (r.get("water", px) - px) / risk
+        if age < TSTOP_BARS:
+            flag = f"  too young by {TSTOP_BARS - age}b"
+        elif peak < TSTOP_R:
+            flag = "  <- AT RISK: old and never reached +2R"
+        else:
+            flag = f"  safe unless it gives back to +{TSTOP_R:g}R"
+        print(f"    {k:<18} {age:>4}b  entry {px:<12.6g} {r.get('units', 1)}u  "
+              f"peak {peak:>+6.1f}R{flag}")
     n = 0
     if TSTOP_TRADES.exists():
         try:
