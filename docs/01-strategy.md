@@ -29,15 +29,31 @@ fast.
 | Signal | Hourly close **below** the lower Bollinger band (same 30 / 1.5) |
 | Size | **1 unit only** — no pyramiding |
 | Exit | Stop trails **5 × ATR** behind the best price. Much tighter than longs. |
-| Regime filter | **None.** Tested; it didn't help. |
+| Own regime filter | **None.** A short-entry-specific filter was tested and didn't help. The book-wide gate below still applies ×0.25 to shorts - that is a different thing. |
 
 ### Portfolio
 
+*Updated 2026-09-23 to the config the bots actually run. The previous version of this
+table (9 coins, 8 slots, 0.13% risk) described a book that was superseded by the
+three-timeframe blend and is no longer what is deployed anywhere.*
+
 | | |
 |---|---|
-| Universe | 9 coins, re-picked monthly by *previous* month's dollar volume |
-| Position cap | 8 open at once, longs and shorts sharing the same 8 slots |
-| Risk | 0.13% of equity per unit → 0.65% if a position reaches all 5 units |
+| Universe | **12 coins** (`blend.BOOK`) × **3 sleeves** (1h / 4h / 12h) = 36 independent signal streams |
+| Position cap | **12 open at once**, shared across every coin *and* every timeframe |
+| Risk | **0.30% of equity per unit** → 1.5% if a position reaches all 5 units |
+| Duplicates | A coin may be open in more than one sleeve at once. Tested: that is a **feature**, not a leak (`book_structure.py` — capping at one per coin dropped the holdout to +2.15% at a 78% drawdown) |
+
+### The regime gate
+
+| | |
+|---|---|
+| Rule | While BTC's last closed 1h bar is **below its 1000-hour average**, risk per unit is cut to **×0.25** |
+| Both sides | Applies to longs and shorts alike |
+| Live implementation | `blend_paper.btc_bear()`, via `klines_deep()` — Binance caps a klines request at 1000 bars, so the 1000h average needs backwards paging. Verified 2026-09-23: fetches 2000 bars against the 1002 it needs |
+
+**The 1000h vs 200h question is settled — see below. Short answer: the deployed gate is
+the better one, and the gain is in drawdown, not return.**
 
 ## Why each setting is what it is
 
@@ -105,17 +121,19 @@ addresses that.
 reason: "shorts down, longs open" is the expected shape, and averaging the two together
 hides which half is doing what.
 
-### Why 8 slots
+### Why a slot cap at all (the number was 8 when this was written, it is 12 now)
 
 Because with more, the strategy takes trades a real account could not fund. An
 earlier test pooled every signal regardless of whether a slot was free — on the
 new-listing strategy, **81% of the "profitable" trades were ones you couldn't
 have taken**, and once the cap was enforced every result went negative.
 
-### Why 9 coins picked by last month's volume
+### Why coins are picked by LAST month's volume (9 then, 12 now)
 
-Because picking "the 9 biggest coins today" means picking the coins that
-*already went up*. Measured inflation from that hindsight: **3.05×**
+Because picking "the biggest coins today" means picking the coins that
+*already went up*. Measured inflation from that hindsight: **3.05×** - this is where
+`blend.HINDSIGHT = 3.0` comes from, and why every %/month figure in these docs is
+divided by it.
 (`backtest/pit_universe.py`).
 
 ## What this strategy is not
@@ -139,3 +157,95 @@ Because picking "the 9 biggest coins today" means picking the coins that
 | `backtest/shortside.py` | The asymmetric-exit sweep |
 | `longtrend_bot.py` | Live/demo execution on Bitget |
 | `longtrend_paper.py` | Paper version, $20 account |
+
+## The 1000h / 200h regime-gate discrepancy, resolved
+
+*Added 2026-09-23. Source: `backtest/regime_gate.py`, log `logs/regime_gate.txt`.*
+
+### What the discrepancy was
+
+The live bots cut risk while BTC is below its **1000-hour** average. But `REGIME_MULT =
+0.25` was validated in `opt200.py` against a **200-hour** average, and `blend.btc_bear()` —
+the function behind most of this repo's stored figures — still uses `rolling(200)`.
+
+200h is about 8 days. 1000h is about 6 weeks. A multiplier tuned for one being applied to
+the other is not a cosmetic mismatch, so it got measured properly instead of staying a note.
+
+### First: they are not the same kind of signal
+
+| gate | hours flagged | entries gated | flips/yr | mean run | longest run | bear-hours in a run ≥7d |
+|---|---|---|---|---|---|---|
+| 200h | 47% | 54% | 292 | 1.2d | **18d** | 42% |
+| 500h | 46% | 52% | 152 | 2.2d | 38d | 71% |
+| **1000h** | 45% | 51% | 97 | 3.4d | **88d** | 84% |
+| 2000h | 42% | 49% | 63 | 4.9d | 109d | 89% |
+
+**The coverage is nearly identical** — every length flags ~45% of hours and ~50% of entries.
+What changes is **persistence**. A 200h gate has *never once* stayed on for a month (0% of
+its bear-hours sit in 30-day-plus runs; longest run in six years, 18 days). At 1000h, 49%
+do, and the longest run is 88 days. One is a dip filter; the other is a bear-market flag.
+
+*(An earlier version of this table reported median run length, which is ~0.1 days at every
+MA and hides the entire difference — price oscillates across any average and throws off a
+swarm of one-bar runs. The statistic was wrong, not the data.)*
+
+### Second: the deployed gate is the better one
+
+Deployed book, bear ×0.25, 5 orderings averaged, 3× haircut:
+
+| gate | TUNE/mo | DD | HOLD/mo | DD | worst month |
+|---|---|---|---|---|---|
+| no gate | +23.97% | 86% | +3.64% | 86% | −48.8% |
+| 100h | +23.37% | 81% | +2.38% | 79% | −31.8% |
+| **200h** (tuned on) | **+23.48%** | **76%** | **+5.74%** | **74%** | −27.9% |
+| 500h | +21.96% | 64% | +7.24% | 69% | −24.7% |
+| **1000h** (deployed) | **+19.29%** | **55%** | **+8.44%** | **57%** | −33.9% |
+| 2000h | +21.69% | 43% | +8.39% | 49% | −31.8% |
+
+**The answer to "does the discrepancy hurt gains?" is no — it costs 4.2%/month of tune-half
+return and buys a 21-point reduction in drawdown.** 76% → 55% on the tune half and 74% →
+57% on the holdout.
+
+That drawdown improvement is the part to trust, because **it shows up on both halves in the
+same direction and the same size.** The +2.7%/month holdout *return* improvement is the part
+not to trust: it is the "helps holdout, costs tune" signature that six other variants
+produced on 2026-09-22, which is what an exhausted holdout looks like.
+
+So: **the gate that is running is the right one, for a reason that survives the holdout
+caveat.** Nothing needs changing.
+
+### Third: ×0.25 is not a tuned parameter, it is a bet on the next regime
+
+| gate | bear mult | TUNE/mo | DD | HOLD/mo | DD |
+|---|---|---|---|---|---|
+| 200h | 0.00 | +22.73% | 73% | +6.24% | 71% |
+| 200h | **0.25** | **+23.48%** | 76% | **+5.74%** | 74% |
+| 200h | 1.00 | +23.97% | 86% | +3.64% | 86% |
+| 1000h | 0.00 | +15.73% | 55% | **+10.07%** | **48%** |
+| 1000h | **0.25** | **+19.29%** | 55% | +8.44% | 57% |
+| 1000h | 0.50 | +21.51% | 69% | +6.79% | 69% |
+| 1000h | 1.00 | +23.97% | 86% | +3.64% | 86% |
+
+Read the direction, not the best cell. **On the tune half, a bigger multiplier is always
+better. On the holdout, a smaller one is always better. At both gate lengths.** The tune
+half (2020 – 2024-08) was trend-rich, so betting through dips paid; the holdout (2024-08 on)
+was chop, so cutting paid.
+
+> The bear multiplier is not a parameter with a correct value. It is a bet on whether the
+> next stretch trends or chops — and no amount of backtesting on past data can settle that.
+
+×0.25 sits in the middle of that trade-off, which is the only defensible place for it to be
+when the direction reverses between halves. **No change warranted.** What *would* be
+defensible is treating it as a dial the user sets by conviction, not a number to optimise:
+0.00 is the defensive end, 0.50 the aggressive end, and the drawdown cost is steep
+(55% → 69% at 1000h going from 0.25 to 0.50).
+
+### One operational trap this uncovered
+
+2000h looks marginally attractive in the table above. **Do not set it without changing the
+fetch.** `btc_bear()` requests `REGIME_MA + 100` bars and bails to its cached default if it
+gets fewer than `REGIME_MA + 2`. At 2000h that needs 2002 bars from a paging function
+currently asked for 2100 — it would work, but the margin is thin, and this exact failure
+mode already happened once: when `REGIME_MA` went 200 → 1000 on 2026-09-14 on the old
+300-bar fetch, **the gate silently turned itself off while every log line still claimed it
+was armed.** Any change to `REGIME_MA` must be verified on the box, not assumed.

@@ -93,9 +93,16 @@ trail at 20×ATR and **pyramid up to 5 units, one every 2R**; shorts take 1 unit
 5×ATR. Breakeven stop at 3R. While BTC is below its **1000-hour** average, risk is cut to
 **×0.25**.
 
-> **Known discrepancy:** the live bots gate on a **1000h** BTC average; the backtests were
-> run on **200h**. Documented, not yet reconciled. Don't quietly "fix" one to match the
-> other — that changes the meaning of every stored number.
+> **The 1000h / 200h gate question is SETTLED** (2026-09-23, `backtest/regime_gate.py`,
+> [doc 01](docs/01-strategy.md)). The live bots gate on a **1000h** average; `REGIME_MULT`
+> was tuned against **200h**, and `blend.btc_bear()` still uses 200h. Measured: the
+> deployed 1000h gate costs 4.2%/month of tune-half return and buys a **21-point drawdown
+> reduction** (76% → 55%), consistently on *both* halves. **The gate that is running is the
+> right one. No change warranted.** Also settled: the ×0.25 multiplier is not a tunable
+> parameter — bigger is better on the tune half and smaller is better on the holdout, at
+> *both* gate lengths, so it is a bet on the next regime, not a number with a correct value.
+> Backtests using `blend.btc_bear()` still read 200h; that is a known, quantified offset,
+> not a bug to silently "fix".
 
 Shorts are **supposed to lose** (−0.036R/trade under honest fill). They are a drawdown
 hedge (78.6% → 68.9%), not a profit source.

@@ -1,0 +1,47 @@
+1. HOW DIFFERENT ARE THE TWO GATES?
+
+  hours where they AGREE: 71%
+  gate      hours bear  entries gated  flips/yr  mean run  longest    bear-hrs in a run >=7d
+  50h              47%            54%       653      0.5d       6d                        0%
+  100h             47%            53%       425      0.8d      12d                        9%
+  200h             47%            54%       292      1.2d      18d                       42%
+  500h             46%            52%       152      2.2d      38d                       71%
+  1000h            45%            51%        97      3.4d      88d                       84%
+  1500h            44%            50%        84      3.8d      98d                       89%
+  2000h            42%            49%        63      4.9d     109d                       89%
+
+  The COVERAGE is nearly identical - every gate flags ~45% of hours and ~50%
+  of entries. What differs is PERSISTENCE. A 200h gate never stays on for a
+  month: 0% of its bear-hours are in 30-day-plus runs and its longest run ever
+  is 18 days. At 1000h, 49% are, and the longest run is 88 days. These are not
+  the same kind of signal - one is a dip filter, the other a bear-market flag.
+
+2. THE DEPLOYED BOOK UNDER EACH GATE (bear x0.25 both sides)
+  tune < 2024-08-29 <= holdout | 5 orderings averaged | 3x haircut
+
+  gate                    |   TUNE/mo    DD |   HOLD/mo    DD  worst mo |   FULL/mo    DD
+  NO GATE (x1 always)     |   +23.97%   86% |    +3.64%   86%    -48.8% |   +16.56%   88%
+  50h                     |   +22.69%   87% |    +1.90%   85%    -37.5% |   +14.66%   88%
+  100h                    |   +23.37%   81% |    +2.38%   79%    -31.8% |   +15.38%   82%
+  200h  <- TUNED ON       |   +23.48%   76% |    +5.74%   74%    -27.9% |   +17.29%   77%
+  500h                    |   +21.96%   64% |    +7.24%   69%    -24.7% |   +16.98%   69%
+  1000h  <- DEPLOYED      |   +19.29%   55% |    +8.44%   57%    -33.9% |   +15.80%   59%
+  1500h                   |   +21.46%   52% |    +7.61%   54%    -31.3% |   +17.00%   56%
+  2000h                   |   +21.69%   43% |    +8.39%   49%    -31.8% |   +17.48%   51%
+
+3. IS x0.25 STILL THE RIGHT CUT? (the multiplier was tuned at 200h)
+  gate        bear mult|   TUNE/mo    DD |   HOLD/mo    DD  worst mo
+  200h             0.00|   +22.73%   73% |    +6.24%   71%    -26.4%
+  200h             0.10|   +23.08%   74% |    +6.06%   72%    -26.9%
+  200h             0.25|   +23.48%   76% |    +5.74%   74%    -27.9%  *
+  200h             0.50|   +23.90%   80% |    +5.11%   78%    -32.2%
+  200h             1.00|   +23.97%   86% |    +3.64%   86%    -48.8%
+
+  1000h            0.00|   +15.73%   55% |   +10.07%   48%    -32.6%
+  1000h            0.10|   +17.40%   52% |    +9.42%   50%    -33.1%
+  1000h            0.25|   +19.29%   55% |    +8.44%   57%    -33.9%  *
+  1000h            0.50|   +21.51%   69% |    +6.79%   69%    -35.1%
+  1000h            1.00|   +23.97%   86% |    +3.64%   86%    -48.8%
+
+  * = the deployed multiplier. If a different row is better on BOTH halves at
+    1000h, the deployed config is mis-tuned and that is worth acting on.

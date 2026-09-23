@@ -81,9 +81,10 @@ probably break.
 2. **Move the Bitget demo bot to the VM** (~15 min, [doc 06](06-deploy-221.md)). Stop the
    local bot first — one account, one bot, or every order doubles. IP-whitelist the key to
    the VM and drop Withdraw permission while you are in there.
-3. **Reconcile the 1000h / 200h gate discrepancy.** The live bots gate on a 1000-hour BTC
-   average; the backtests were run on 200. Don't "fix" it silently — re-run the backtests on
-   1000h and see what changes.
+3. ~~Reconcile the 1000h / 200h gate discrepancy.~~ **Done 2026-09-23** —
+   `backtest/regime_gate.py`, written up in [doc 01](01-strategy.md). The deployed 1000h gate
+   is the better one: it costs 4.2%/month of tune-half return and buys a 21-point drawdown
+   reduction on *both* halves. Nothing to change.
 4. **Binance testnet keys, created by you**, if you want a real slippage measurement.
    `blend_testnet.py` reads them from the environment only.
 5. **Nothing on Polymarket.** 229 resolutions in and the +0.25 edge claim is effectively
