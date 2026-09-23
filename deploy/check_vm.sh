@@ -16,8 +16,10 @@ echo d097160aa3c2cae8f5a7262ade6339130ddbb087b4f238e7da16abd277944e7c
 echo expected-POST-fix-applied:
 echo 15c8d624027e7018383edb3eb6b7ff32be5e813773d5c95c0e22728a4a32a363
 echo neither-means-DAMAGED-restore-from-a-backup-below
-echo ==3-risk_usd-COUNT-0-means-prefix-3-means-patched==
-grep -c risk_usd blend_paper.py || true
+echo ==3-IS-THE-FIX-PRESENT-both-0-or-both-1==
+grep -c rec.get.risk_usd blend_paper.py || true
+grep -c risk_usd=risk_usd blend_paper.py || true
+echo 0-and-0-means-prefix-1-and-1-means-patched
 echo ==4-LEFTOVER-JUNK-FROM-THE-FAILED-RUN==
 ls -la blend_paper.py.new 2>/dev/null || echo none
 ls -la bp.gz 2>/dev/null || echo none

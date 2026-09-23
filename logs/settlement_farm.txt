@@ -1,0 +1,18 @@
+
+PREVIOUS rate <= -0.10%, 4h/8h coins, 400 random events with 1m data (tune 130 / holdout 270)
+  net bp at 12bp cost = price leg + funding received - 12; (price, funding) below
+  enter                  exit t+0m             exit t+1m             exit t+2m             exit t+5m            exit t+15m
+  t-120    m   +35.7 (  +21, +26)   +13.5 (   -1, +26)    +8.3 (   -6, +26)    +0.7 (  -14, +26)    +9.3 (   -5, +26)
+  t-60     m   +21.0 (   +7, +26)    -1.1 (  -16, +26)    -6.6 (  -21, +26)   -13.8 (  -28, +26)    -5.7 (  -20, +26)
+  t-30     m   +24.4 (  +10, +26)    +2.6 (  -12, +26)    -3.1 (  -18, +26)   -10.0 (  -24, +26)    -2.3 (  -17, +26)
+  enter t-60m / exit t+1m by half: tune: -8.1bp (n 130, win 53%)  hold: +2.2bp (n 270, win 46%)
+  by year: 2020: -26  2021: -133  2022: +5  2023: +16  2024: +36  2025: +2  2026: +7
+
+PREVIOUS rate <= -0.30%, 4h/8h coins, 300 random events with 1m data (tune 95 / holdout 205)
+  net bp at 12bp cost = price leg + funding received - 12; (price, funding) below
+  enter                  exit t+0m             exit t+1m             exit t+2m             exit t+5m            exit t+15m
+  t-120    m   +85.9 (  +45, +53)   +33.6 (   -7, +53)   +31.5 (   -9, +53)   +25.6 (  -15, +53)   +11.0 (  -30, +53)
+  t-60     m   +64.3 (  +24, +53)   +12.2 (  -29, +53)   +10.0 (  -31, +53)    +4.4 (  -36, +53)    -8.7 (  -49, +53)
+  t-30     m   +35.4 (   -5, +53)   -16.2 (  -57, +53)   -18.2 (  -59, +53)   -24.0 (  -65, +53)   -36.5 (  -77, +53)
+  enter t-60m / exit t+1m by half: tune: -25.5bp (n 95, win 52%)  hold: +29.7bp (n 205, win 55%)
+  by year: 2020: -16  2021: -89  2022: +77  2023: -75  2024: -89  2025: +19  2026: +38

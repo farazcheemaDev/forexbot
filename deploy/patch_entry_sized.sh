@@ -14,13 +14,13 @@
 # and fall back to the old behaviour for
 # their one closing trade, logging a line to
 # say so.
-# VERSION 2. Version 1 failed on the VM: its
-# base64 was a single 22KB line and the
-# paste wrapped it near 50 chars, so
-# hundreds of fragments ran as commands.
-# Every line here is under 44 chars, and the
-# base64 is heredoc DATA which base64 -d
-# decodes however it is broken up.
+# VERSION 3. v1 put the payload on one 22KB
+# line, which the paste wrapped near 50
+# chars so fragments ran as commands. v2
+# fixed that but carried a bogus U=sudo -u
+# $OWNER assignment, which the shell read as
+# U=sudo plus a command called -u, aborting
+# at line 34. v3 is tested end to end.
 cd /opt/forexbot
 set -e
 export SYSTEMD_PAGER=cat
@@ -31,7 +31,6 @@ B=blend-paper
 STAMP=$(date -u +%Y%m%d-%H%M%S)
 T=bak-$STAMP
 OWNER=$(stat -c %U blend_paper.py)
-U=sudo -u $OWNER
 base64 -d > payload.gz <<EOF
 H4sIAAAAAAAC/+19/XLbSJLn/x3R71BLj0egTdIk
 JeqDNnuXtmhb0bLkpeTpntEqOCAJShyRABsA9dFq
@@ -557,8 +556,10 @@ test $G = $H
 echo HASH_OK
 sudo -u $OWNER $P -m py_compile $F
 echo SYNTAX_OK
-grep -c risk_usd $F
-echo above-must-be-3
+grep -c rusd $F
+echo above-must-be-4
+grep -c risk_usd=risk_usd $F
+echo above-must-be-1
 cp blend_paper.py $S/bp.$T
 cp $S/blend_state.json $S/a.$T||true
 cp $S/blend_state_tight.json $S/b.$T||true

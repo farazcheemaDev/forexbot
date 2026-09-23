@@ -8,8 +8,8 @@
 # checks it reproduces the log own equity
 # column. If that fails it says so, and the
 # corrected numbers must not be trusted.
-# VERSION 2 - short lines, see
-# patch_entry_sized.sh
+# VERSION 3 - see patch_entry_sized.sh for
+# what v1 and v2 got wrong.
 cd /opt/forexbot
 set -e
 export SYSTEMD_PAGER=cat
@@ -20,7 +20,6 @@ B=blend-paper
 STAMP=$(date -u +%Y%m%d-%H%M%S)
 T=bak-$STAMP
 OWNER=$(stat -c %U blend_paper.py)
-U=sudo -u $OWNER
 base64 -d > payload.gz <<EOF
 H4sIAAAAAAAC/5Vaf3PbRpL931X+DlN0vAYUEhIV
 Z6/CC30ly/RatbKoJRX7Uo6LGQJDEScQ4GIASYxW
@@ -185,4 +184,5 @@ mv $F rebuild_equity.py
 chown $OWNER:$OWNER rebuild_equity.py
 echo installed
 wc -l $S/trades_blend.csv||true
-sudo -u $OWNER $P rebuild_equity.py
+R=rebuild_equity.py
+sudo -u $OWNER $P $R
