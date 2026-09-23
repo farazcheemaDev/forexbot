@@ -72,12 +72,27 @@ A THIRD BOOK, "SIZED" (2026-09-22), and a FOURTH, "SHORT-BOOST" (2026-09-23)
     (backtest/vol_target.py). Every short it takes records whether it was boosted, so the
     per-trade effect is readable before the equity gap separates.
 
-    All four books share one process and one set of klines. The MAIN book is saved before any
+A FIFTH BOOK, "TSTOP" (2026-09-23) - backtest/graveyard_rescore.py
+    The tight book PLUS a time stop: close a LONG still under +2R after 100 bars of its own
+    sleeve. Found by re-scoring the graveyard on the corrected engine (causal entry times,
+    funding charged, entry-sized compounding) - the funding fix is not neutral between
+    variants, because rules that shorten long holds were never credited with the funding
+    they save.
+
+    READ ITS EVIDENCE THE WAY DOC 01 READS THE 1000h GATE. Against MAIN it clears both
+    halves (+2.50 +- 0.29 tune, +4.34 +- 0.48 holdout). Against TIGHT alone - the book it
+    forks beside - the RETURN gain is holdout-only (-0.37 tune, +2.36 holdout), which is the
+    mined-split signature. The WORST MONTH improves on both halves in the same direction
+    (+8.4 points tune, +13.1 holdout), and that is the part to trust.
+
+    Mechanism: a long still under +2R after 100 bars is dead money that keeps paying funding.
+
+    All five books share one process and one set of klines. The MAIN book is saved before any
     extra book runs and each extra book's errors are caught, so none of them can cost the
     main book a cycle.
 
-    python blend_paper.py            live loop (all four books)
-    python blend_paper.py --status   report and exit (all four books)
+    python blend_paper.py            live loop (all five books)
+    python blend_paper.py --status   report and exit (all five books)
     python blend_paper.py --once     one cycle and exit
 """
 from __future__ import annotations
@@ -105,6 +120,8 @@ SIZED_STATE = LOGS / "blend_state_sized.json"
 SIZED_TRADES = LOGS / "trades_blend_sized.csv"
 SBOOST_STATE = LOGS / "blend_state_sboost.json"
 SBOOST_TRADES = LOGS / "trades_blend_sboost.csv"
+TSTOP_STATE = LOGS / "blend_state_tstop.json"
+TSTOP_TRADES = LOGS / "trades_blend_tstop.csv"
 # Shorts entered while BTC's 4h trail is broken earned +0.481R against +0.043R for all other
 # shorts over 84 break episodes (backtest/vol_target.py). x5 is the safe end of the
 # executable x5-x8 range; above x8 the book's MAX gross leverage breaks 10x. Every short
@@ -113,6 +130,18 @@ SBOOST_TRADES = LOGS / "trades_blend_sboost.csv"
 SBOOST_MULT = 5.0
 BTC_TRAIL_K = 5.0                # BTC 4h trend break: close < best close - 5 x ATR(14)
 TIGHT_TRAIL = 5.0               # the tight book's long trail once BTC has broken
+# The TSTOP book = tight + a time stop. Close a LONG that is still under TSTOP_R after
+# TSTOP_BARS bars of its own sleeve: 100 bars is ~4 days on 1h and ~50 days on 12h.
+# Validated in backtest/graveyard_rescore.py on the corrected engine (causal entry times,
+# funding charged, entry-sized compounding, 10 paired orderings). Against MAIN it clears
+# both halves (+2.50 +- 0.29 tune, +4.34 +- 0.48 holdout). Against TIGHT alone - the book
+# it actually forks from - the return gain is HOLDOUT ONLY (-0.37 tune, +2.36 holdout),
+# which is the mined-split signature. What shows up on BOTH halves is the worst month:
+# +8.4 points better on tune, +13.1 on holdout. That is the part to trust, and the reason
+# this runs forward as paper instead of changing the live config.
+# Mechanism: a long still under +2R after 100 bars is dead money that keeps paying funding.
+TSTOP_BARS = 100
+TSTOP_R = 2.0
 
 # ---- FROZEN runner-probability model for the SIZED book (backtest/runner_leverage.py) ----
 # A position-only logistic model (holdout AUC 0.591), fit on all 5,628 historical long
@@ -413,7 +442,7 @@ def size_factor(feats: "dict | None") -> float:
     return float(np.clip(1.0 + RS_SPREAD * (pct - 0.5) * 2, *RS_CLIP))
 
 
-def manage(st, key, rec, bar, hi, lo, a):
+def manage(st, key, rec, bar, hi, lo, a, tstop=False, cl=None):
     """One position against the bar that just closed.
 
     ORDER MATTERS. The stop is checked FIRST, against the level it已 held during this
@@ -429,6 +458,15 @@ def manage(st, key, rec, bar, hi, lo, a):
     breached = (lo <= rec["stop"]) if d == 1 else (hi >= rec["stop"])
     if breached:
         return rec["stop"]
+    # TIME STOP - the tstop book only, and LONGS only, exactly as graveyard_rescore.walk
+    # applies it: after the stop check and BEFORE any pyramid add, measured from the FIRST
+    # entry, and filled at this bar's close. Shorts are untouched; the backtest never
+    # applied it to them, so neither does this.
+    if tstop and d == 1 and cl is not None and rec["bars"] >= TSTOP_BARS \
+            and (cl - rec["entry"]) / rec["risk"] < TSTOP_R:
+        log(f"[{key}] TIME STOP - {rec['bars']}b held, still "
+            f"{(cl - rec['entry']) / rec['risk']:+.2f}R (< {TSTOP_R:g}R)")
+        return cl
     # water mark, then trail, then the breakeven floor
     rec["water"] = (max(rec["water"], hi) if d == 1 else min(rec["water"], lo))
     gain_r = (rec["water"] - rec["entry"]) * d / rec["risk"]
@@ -459,21 +497,25 @@ def manage(st, key, rec, bar, hi, lo, a):
 
 def cycle(st: dict, regime_cache: dict, kc: "dict | None" = None,
           tight: bool = False, breaks: "pd.Series | None" = None,
-          bear: "bool | None" = None, sized: bool = False, sboost: bool = False):
+          bear: "bool | None" = None, sized: bool = False, sboost: bool = False,
+          tstop: bool = False):
     """One pass over every coin and sleeve for ONE book.
 
     kc shares this poll's klines between the books, so the extra books add no API calls
     and all books always see the same bars; bear is passed in for the same reason.
     tight=True applies the BTC-break rule to open longs. sized=True scales each long's risk
     by the frozen runner-probability model. sboost=True scales a SHORT's risk by SBOOST_MULT
-    when BTC's 4h trail is broken at its entry. The main book sets none of them, so its
-    behaviour is unchanged."""
+    when BTC's 4h trail is broken at its entry. tstop=True adds the time stop and is
+    always passed WITH tight=True, because that book is tight + time stop. The main book
+    sets none of them, so its behaviour is unchanged."""
     fee = FEE_BP / 1e4
     if bear is None:
         bear = btc_bear(regime_cache)
-    tag = "T|" if tight else ("S|" if sized else ("B|" if sboost else ""))
-    trades_path = TIGHT_TRADES if tight else (SIZED_TRADES if sized else
-                                              (SBOOST_TRADES if sboost else TRADES))
+    # tstop is tested FIRST: that book also sets tight=True, so testing tight first
+    # would file its trades in the tight book's CSV and label its logs as tight.
+    tag = ("X|" if tstop else "T|" if tight else "S|" if sized else "B|" if sboost else "")
+    trades_path = (TSTOP_TRADES if tstop else TIGHT_TRADES if tight else
+                   SIZED_TRADES if sized else SBOOST_TRADES if sboost else TRADES)
     kc = {} if kc is None else kc
     for base in BOOK:
         if base not in kc:
@@ -513,7 +555,7 @@ def cycle(st: dict, regime_cache: dict, kc: "dict | None" = None,
                         rec["tight"] = True
                         log(f"[{lkey}] BTC 4h trend broke -> trail {LONG_TRAIL:.0f}x -> "
                             f"{TIGHT_TRAIL:.0f}xATR ({rec.get('units', 1)}u)")
-                exit_px = manage(st, lkey, rec, bar, hi, lo, a)
+                exit_px = manage(st, lkey, rec, bar, hi, lo, a, tstop=tstop, cl=px)
                 if exit_px is None:
                     st["open"][key] = rec
                     continue
@@ -794,6 +836,60 @@ def fork_sboost(st: dict) -> dict:
     return t
 
 
+def fork_tstop(st: dict, breaks) -> dict:
+    """Start the TSTOP book (tight + time stop) as an exact copy of the main book.
+
+    It forks from MAIN, not from the tight book, for the same reason every other book does:
+    one common ancestor means every pair of books is comparable, and tight-vs-tstop is still
+    readable because tight forked from the same place.
+
+    Two things are inherited deliberately. The BTC-break arming follows fork_tight exactly -
+    a break already on at the fork does not count until it has switched off. And the open
+    positions keep the `bars` they have ALREADY accumulated in the main book, so a long that
+    has been sitting for 300 bars is eligible for the time stop immediately rather than
+    getting a free 100-bar reprieve for having been inherited. Resetting bars to 0 would
+    quietly suppress the rule on exactly the stale positions it exists to close."""
+    t = json.loads(json.dumps(st))
+    t["forked"] = datetime.now(timezone.utc).isoformat()
+    on = trig_at(breaks, pd.Timestamp.now(tz="UTC").tz_localize(None))
+    for r in t["open"].values():
+        if r["side"] == "long":
+            r["armed"], r["tight"] = (not on), False
+    return t
+
+
+def status_tstop(st: dict, xst: dict):
+    """The TSTOP book. Its evidence is the WORST MONTH and the drawdown, not the return -
+    the return gain was holdout-only against tight alone (see TSTOP_BARS above)."""
+    if not xst:
+        print("TSTOP book: not started yet (forks from main on the first cycle)")
+        print()
+        return
+    print(f"TSTOP BOOK - tight exit PLUS: close a long still under +{TSTOP_R:g}R after "
+          f"{TSTOP_BARS} bars")
+    print(f"forked from the main book {xst.get('forked', '?')}")
+    print(f"  equity  tstop {xst['equity']:.2f}   main {st['equity']:.2f}   "
+          f"difference {xst['equity'] - st['equity']:+.2f}")
+    longs = [(k, r) for k, r in xst["open"].items() if r["side"] == "long"]
+    print(f"  open {len(xst['open'])}/{SLOTS}, {len(longs)} long")
+    for k, r in sorted(longs):
+        px = r.get("entry", 0.0)
+        age = r.get("bars", 0)
+        flag = "  <- eligible, waiting on R" if age >= TSTOP_BARS else ""
+        print(f"    {k:<18} {age:>4}b  entry {px:<12.6g} {r.get('units', 1)}u{flag}")
+    n = 0
+    if TSTOP_TRADES.exists():
+        try:
+            n = sum(1 for _ in open(TSTOP_TRADES)) - 1
+        except Exception:
+            n = 0
+    print(f"  {n} closed trades recorded in {TSTOP_TRADES.name}")
+    print("  The backtest says to watch the WORST MONTH and the drawdown here, not the")
+    print("  return: against tight alone the return gain was holdout-only, while the")
+    print("  worst-month improvement showed on both halves.")
+    print()
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--status", action="store_true")
@@ -803,8 +899,10 @@ def main():
     tst = load_state(TIGHT_STATE) if TIGHT_STATE.exists() else None
     sst = load_state(SIZED_STATE) if SIZED_STATE.exists() else None
     bst = load_state(SBOOST_STATE) if SBOOST_STATE.exists() else None
+    xst = load_state(TSTOP_STATE) if TSTOP_STATE.exists() else None
     if args.status:
         status(st); status_tight(st, tst); status_sized(st, sst)
+        status_sboost(st, bst); status_tstop(st, xst)
         status_sboost(st, bst); return
     log("=" * 78)
     log(f"BLEND PAPER — ${START_EQ:.0f}, {len(BOOK)} coins x {len(SLEEVES)} "
@@ -829,7 +927,7 @@ def main():
     brk_cache: dict = {}
 
     def one_poll():
-        nonlocal tst, sst, bst
+        nonlocal tst, sst, bst, xst
         kc: dict = {}
         bear = btc_bear(regime_cache)
         # the MAIN book first, saved before the extra books are touched, so nothing in
@@ -869,10 +967,24 @@ def main():
         except Exception as e:
             log(f"SHORT-BOOST book error (main book unaffected): {type(e).__name__}: "
                 f"{str(e)[:160]}")
+        try:
+            breaks = btc_breaks(brk_cache)
+            if xst is None:
+                xst = fork_tstop(st, breaks)
+                stale = sum(1 for r in xst["open"].values()
+                            if r["side"] == "long" and r.get("bars", 0) >= TSTOP_BARS)
+                log(f"TSTOP book forked from main: equity {xst['equity']:.2f}, "
+                    f"{len(xst['open'])} open, {stale} long(s) already past "
+                    f"{TSTOP_BARS} bars and so eligible immediately")
+            cycle(xst, regime_cache, kc, tight=True, tstop=True, breaks=breaks, bear=bear)
+            save_state(xst, TSTOP_STATE)
+        except Exception as e:
+            log(f"TSTOP book error (main book unaffected): {type(e).__name__}: "
+                f"{str(e)[:160]}")
 
     if args.once:
         one_poll(); status(st); status_tight(st, tst); status_sized(st, sst)
-        status_sboost(st, bst); return
+        status_sboost(st, bst); status_tstop(st, xst); return
     while True:
         try:
             one_poll()

@@ -12,16 +12,16 @@ validation rules and the traps. This file is just "what is running and what is n
 | What | Where | Status |
 |---|---|---|
 | **$221 blend — the validated strategy** | Azure VM, `blend-paper` | **running 24/7** ✅ |
-| **Three forked paper books** (tight / sized / short-boost) | same process on the VM | **running, all four books live** ✅ |
+| **Four forked paper books** (tight / sized / short-boost / **tstop**) | same process on the VM | **running, all five books live** ✅ |
 | Bitget demo order-path test | your PC, pid 7612 | **running, 3 longs open, heartbeat 11s** ✅ |
 | Polymarket forward collector | your PC, Startup launcher | running, 2,065 rows ✅ |
 | Status page | Azure VM, `status-server` | running ✅ |
 | **Market-neutral paper book (5th)** | your PC, `mn_paper.py` | **running, 6L/6S, $220.87** ✅ |
 | $10 micro bot | built, `ALLOW_REAL = False` | off, by design |
 
-## The four paper books, and why there are four
+## The five paper books, and why there are five
 
-One process, four independent books, all on the same live price feed. They exist because
+One process, five independent books, all on the same live price feed. They exist because
 2026-09-22 produced six variants that all "helped the holdout and cost the tune half" —
 which is exactly what an exhausted holdout looks like. Rather than pick one on a backtest,
 all of them run forward and the market decides.
@@ -32,8 +32,9 @@ all of them run forward and the market decides.
 | **tight** | long trail drops to 5×ATR once BTC breaks its 4h trend | 2026-09-21 23:30 |
 | **sized** | entry size tilted ±90% by a frozen at-entry runner model | 2026-09-22 19:37 |
 | **short-boost** | short risk ×5 | 2026-09-22 21:05 |
+| **tstop** | tight, PLUS close a long still under +2R after 100 bars | 2026-09-23 |
 
-**All four are still identical**, and will stay that way until BTC breaks. The tight and
+**The first four are still identical**, and will stay that way until BTC breaks. The tight and
 short-boost books only diverge on a **4h close below roughly $81,752** (−5.2% from here),
 which historically fires about every 15 days. Don't read "no divergence" as "no effect."
 

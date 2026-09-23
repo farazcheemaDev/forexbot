@@ -94,7 +94,8 @@ backtest/          every experiment. blend.py holds the deployed constants.
   combine.py         does book 2 combine with book 1 (doc 10)
   perp_fetch.py      downloads all 864 perps incl. the 339 dead ones
   wide_book.py       eligibility(n) = PIT top-N universe
-blend_paper.py     THE LIVE PAPER BOOKS — four in one process (main/tight/sized/sboost)
+blend_paper.py     THE LIVE PAPER BOOKS — five in one process
+                     main / tight / sized / sboost / tstop (tight + time stop)
 mn_paper.py        the 5th book: market-neutral, pre-registered, verdict at 26 rebalances
 xs_paper.py        an EARLIER pre-registered XS test (21 coins, daily). Frozen — do not edit
 longtrend_bot.py   the Bitget demo bot. ALLOW_REAL = False
