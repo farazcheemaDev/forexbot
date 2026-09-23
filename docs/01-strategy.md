@@ -249,3 +249,52 @@ currently asked for 2100 — it would work, but the margin is thin, and this exa
 mode already happened once: when `REGIME_MA` went 200 → 1000 on 2026-09-14 on the old
 300-bar fetch, **the gate silently turned itself off while every log line still claimed it
 was armed.** Any change to `REGIME_MA` must be verified on the box, not assumed.
+
+## Why 0.30% risk per unit, and why turning it up does not work
+
+*Added 2026-09-23. Source: `backtest/kelly_corrected.py`, log `logs/kelly_corrected.txt`.
+This supersedes `ruin.py`, which answered the same question on an engine that overstated
+returns ~2x, charged no funding and read some entries from the future - and an overstated
+return implies an overstated optimal bet size, so the old answer erred toward MORE leverage
+than the strategy can carry.*
+
+Swept on the corrected engine (entry-sized compounding, causal entry times, funding charged,
+10 orderings, 3x haircut). Median geometric %/month:
+
+| risk/unit | TUNE/mo | HOLD/mo | DD | worst DD | lev p99 | lev max | P(DD>80%) in 3yr |
+|---|---|---|---|---|---|---|---|
+| 0.10% | +2.35% | +2.48% | 20% | 27% | 1.6x | 3.1x | 0.1% |
+| 0.20% | +3.85% | +4.00% | 38% | 48% | 3.2x | 6.2x | **0.1%** |
+| **0.30% (deployed)** | **+4.89%** | **+4.96%** | **53%** | 64% | 4.8x | 9.4x | **2.7%** |
+| 0.35% | +5.29% | +5.18% | 60% | 70% | 5.6x | **11.0x** | — |
+| 0.45% | +5.86% | +5.30% | 70% | 80% | 7.3x | 14.2x | **24.7%** |
+| 0.60% | +6.26% | **+4.55%** | 81% | 92% | 10.0x | 19.0x | — |
+| 0.90% | +5.69% | **+0.97%** | 94% | 100% | 15.6x | 29.3x | 94.3% |
+| 1.80% | −0.68% | −2.42% | 100% | 100% | 60.8x | 2218x | — |
+
+**The answer is no, and the reason is not the one I predicted.** I expected gross leverage to
+bind first. It does not - at the deployed 0.30% the book runs only **4.8x at p99**, so the 10x
+p99 line sits near 0.63%. What actually binds is the probability of an unrecoverable drawdown:
+
+> **Going 0.30% → 0.45% buys about +0.34%/month on the holdout and multiplies the chance of an
+> 80% drawdown by nine, from 2.7% to 24.7%.** On a $200 account an 80% drawdown is $40, where the
+> venue minimums start rejecting signals and the book stops being the book.
+
+Three more things the sweep settles:
+
+- **The holdout wants LESS risk than the tune half, not more.** Growth-optimal is 0.60–0.90% on
+  tune but **0.45%** on the holdout, and by 0.60% the holdout return is already *falling*
+  (+4.55% against +4.96% at 0.30%). I predicted the opposite. The half that was not fitted says
+  the deployed setting is close to right.
+- **`risk x1.33` (0.40%) is not the free win it looked like.** `graveyard_rescore.py` had it
+  beating main on both halves, and doc 11 called it "a dial, not an edge". True - but its
+  MAXIMUM gross leverage crosses 10x by 0.35%, and its ruin probability is on the steep part of
+  the curve. It is a dial whose next click costs far more than it pays.
+- **Cutting to 0.20% is cheap insurance.** −0.96%/month on the holdout takes P(DD>80%) from
+  2.7% to 0.1% and the worst observed drawdown from 64% to 48%. For an account that must survive
+  to compound, that is a defensible trade in the other direction.
+
+**The cross-check that matters:** the TIGHT book reads +7.65% tune / +6.77% holdout at 0.30%
+against main's +4.89% / +4.96% - agreeing with `graveyard_rescore.py` from a completely separate
+simulator. Two independent files, same verdict on the tight exit.
+

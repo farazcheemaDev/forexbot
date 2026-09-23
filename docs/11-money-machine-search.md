@@ -392,3 +392,25 @@ top-60 book's Sharpe 1.22 to any band inside it.
 the direction of the size effect while right about the capacity ceiling is not a score of 1 in 5;
 it is one correct claim about a strategy that does not have the property it was built to test.*
 
+---
+
+# Part 4 - can LEVERAGE buy the returns instead?
+
+*2026-09-23. Source: `backtest/kelly_corrected.py`. Full table in
+[doc 01](01-strategy.md#why-030-risk-per-unit-and-why-turning-it-up-does-not-work).*
+
+If no new edge exists, the remaining lever is size. It was swept on the corrected engine, and
+the answer is **no**: 0.30% → 0.45% buys +0.34%/month on the holdout and takes P(80% drawdown)
+from 2.7% to 24.7%. The holdout's own growth optimum is 0.45%, below the tune half's 0.60-0.90%,
+so the un-fitted data says the deployed setting is close to right rather than timid.
+
+**Two of my four registered predictions were wrong.** I expected gross leverage to bind first -
+it does not, the book runs 4.8x at p99 where 10x is the danger line. And I expected the holdout
+to tolerate MORE size than the tune half; it tolerates less. Both errors were in the direction of
+thinking there was more room than there is.
+
+With Part 3 refuting the capacity thesis and Part 4 refuting the leverage one, the honest
+position is that this book's return is what it is: about **+5%/month on the corrected engine at
+the deployed risk, ~+7% for the tight variant**, and the ways to make it bigger all cost more
+than they pay.
+

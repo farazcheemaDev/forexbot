@@ -1,0 +1,55 @@
+building the corrected row set (causal t0 + funding charged)...
+15736 trades | 10 orderings | tune < 2024-08-29 <= holdout
+hpm = median geometric %/month after the 3x haircut
+
+MAIN BOOK
+   risk/unit   TUNE/mo    DD   HOLD/mo    DD   FULL/mo    DD  worstDD  lev p99  lev max  flag
+       0.10%    +2.35%   20%    +2.48%   20%    +2.58%   22%      27%      1.6x     3.1x
+       0.20%    +3.85%   38%    +4.00%   38%    +4.21%   42%      48%      3.2x     6.2x
+       0.30%    +4.89%   53%    +4.96%   55%    +5.27%   57%      64%      4.8x     9.4x  <- DEPLOYED
+       0.35%    +5.29%   60%    +5.18%   61%    +5.63%   64%      70%      5.6x    11.0x
+       0.45%    +5.86%   70%    +5.30%   72%    +6.06%   74%      80%      7.3x    14.2x
+       0.60%    +6.26%   81%    +4.55%   82%    +6.03%   85%      92%     10.0x    19.0x  a 90%+ DD in some ordering
+       0.90%    +5.69%   94%    +0.97%   97%    +4.19%   97%     100%     15.6x    29.3x  OVER 10x - NOT TRADABLE
+       1.20%    +4.01%   99%    -0.98%  100%    +1.90%  100%     100%     22.7x   100.4x  OVER 10x - NOT TRADABLE
+       1.80%    -0.68%  100%    -2.42%  100%    -1.50%  100%     100%     60.8x  2217.5x  OVER 10x - NOT TRADABLE
+       2.40%    -2.14%  100%    -3.00%  100%    -2.77%  100%     100%    571.4x 10172.0x  OVER 10x - NOT TRADABLE
+  gross leverage at the deployed 0.30% is 4.8x at p99,
+  so the 10x line sits at about 0.63% per unit
+  and the largest SWEPT fraction that stays under it is 0.60%.
+  growth-optimal in the BACKTEST: tune 0.60%, holdout 0.45% - ignore both if they are over the leverage line
+  P(drawdown > 80%) over 3 years, 30-day block bootstrap:
+     0.20%    0.1%
+     0.30%    2.7%
+     0.45%   24.7%
+     0.90%   94.3%   (over the leverage line)
+
+TIGHT BOOK
+   risk/unit   TUNE/mo    DD   HOLD/mo    DD   FULL/mo    DD  worstDD  lev p99  lev max  flag
+       0.10%    +3.19%   16%    +3.27%   20%    +3.22%   20%      23%      1.7x     2.8x
+       0.20%    +5.69%   29%    +5.40%   37%    +5.70%   37%      41%      3.5x     5.7x
+       0.30%    +7.65%   41%    +6.77%   50%    +7.57%   51%      55%      5.3x     8.7x  <- DEPLOYED
+       0.35%    +8.46%   47%    +7.27%   57%    +8.30%   57%      61%      6.2x    10.2x
+       0.45%    +9.77%   56%    +7.75%   67%    +9.41%   68%      71%      8.1x    13.3x
+       0.60%   +11.09%   69%    +6.95%   80%   +10.17%   80%      84%     11.1x    18.2x  OVER 10x - NOT TRADABLE
+       0.90%   +11.74%   86%    +2.11%   94%    +8.32%   95%     100%     17.4x    30.1x  OVER 10x - NOT TRADABLE
+       1.20%    +9.94%   97%    -2.35%  100%    +4.90%  100%     100%     27.5x   332.4x  OVER 10x - NOT TRADABLE
+       1.80%    +5.36%  100%    -2.92%  100%    +0.81%  100%     100%     96.5x  3212.1x  OVER 10x - NOT TRADABLE
+       2.40%    +2.22%  100%    -3.22%  100%    -1.61%  100%     100%    462.9x  7483.2x  OVER 10x - NOT TRADABLE
+  gross leverage at the deployed 0.30% is 5.3x at p99,
+  so the 10x line sits at about 0.57% per unit
+  and the largest SWEPT fraction that stays under it is 0.45%.
+  growth-optimal in the BACKTEST: tune 0.90%, holdout 0.45% - ignore both if they are over the leverage line
+  P(drawdown > 80%) over 3 years, 30-day block bootstrap:
+     0.20%    0.0%
+     0.30%    1.7%
+     0.45%   18.8%
+C:\Users\HP\AppData\Local\Programs\Python\Python312\Lib\site-packages\numpy\_core\fromnumeric.py:54: RuntimeWarning: invalid value encountered in accumulate
+  return bound(*args, **kwds)
+D:\forexbot\backtest\bull_boost.py:181: RuntimeWarning: invalid value encountered in divide
+  dd = (1 - cur / np.maximum.accumulate(cur, axis=1)).max(1)
+     0.90%   77.8%   (over the leverage line)
+
+  The question was whether risk can buy crazy returns. Read the leverage columns
+  before the return columns: a fraction that breaches 10x gross is not a setting,
+  it is a liquidation.

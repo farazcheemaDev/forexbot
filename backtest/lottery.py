@@ -233,5 +233,71 @@ def main():
                 print()
 
 
-if __name__ == "__main__":
+if __name__ == "__main__" and not ({"--check", "--concentration"} & set(sys.argv)):
     main()
+
+
+def check():
+    """Sanity checks after the first run (2026-09-23): the PIT12 odds came out far better
+    than registered prediction 3 said, so look for what might be flattering them.
+      1. the largest long trades - is any of it a frozen-price / tiny-stop artifact?
+      2. the same odds using ONLY start months from the holdout (2024-09 .. 2025-09), so the
+         2021 bull cannot carry the median."""
+    bear = regimes()[1000]
+    pit = sorted(pit_rows(12), key=lambda r: pd.Timestamp(r["t0"]).value)
+    L = pd.DataFrame([dict(coin=r["coin"], rule=r["rule"], t0=pd.Timestamp(r["t0"]), R=r["R"],
+                           sf=r["sf"]) for r in pit if r["side"] == "long"])
+    print("PIT12 largest long trades (R, stop as % of price):")
+    print(L.sort_values("R", ascending=False).head(12).to_string(index=False))
+    print(f"  longs with stop < 0.5% of price: {(L.sf < 0.005).sum()} of {len(L)}; "
+          f"their total R {L.R[L.sf < 0.005].sum():+.0f} vs all longs {L.R.sum():+.0f}")
+    print(f"  top 10 coins by total long R: " + ", ".join(
+        f"{c} {v:+.0f}" for c, v in L.groupby('coin').R.sum().sort_values(ascending=False).head(10).items()))
+    book = sorted(book_rows(tight=True, time_stop=TS), key=lambda r: pd.Timestamp(r["t0"]).value)
+    starts = pd.date_range("2024-09-01", "2025-09-01", freq="MS")
+    print(f"\nHOLDOUT-ONLY STARTS ({len(starts)} months, 12-month horizon, 3 orderings), $221:")
+    print(f"  {'universe':<8}{'risk':>6}{'median x':>10}{'P(>=2x)':>9}{'P(>=5x)':>9}{'RUINED':>8}{'P(loss)':>9}")
+    for lab, rows_ in (("BOOK12", book), ("PIT12", pit)):
+        for risk in (0.003, 0.006, 0.01):
+            res = np.array([run(rows_, bear, 221.0, risk, s, 12, sd) for s in starts for sd in SEEDS])
+            e = res[:, 0]
+            print(f"  {lab:<8}{risk*100:>5.1f}%{np.median(e):>9.2f}x{(e >= 2).mean()*100:>8.0f}%"
+                  f"{(e >= 5).mean()*100:>8.0f}%{res[:, 2].mean()*100:>7.0f}%{(e < 1).mean()*100:>8.0f}%")
+
+
+if __name__ == "__main__" and "--check" in sys.argv:
+    check()
+
+
+def check_concentration():
+    """--check found MYXUSDT (Sep 2025, ~100x) = 27% of all PIT12 long R and inside every
+    holdout window. Same odds with MYX removed, and with each universe's top-3 coins by
+    total long R removed: how much of 'crazy' is one or three monsters."""
+    bear = regimes()[1000]
+    pit = sorted(pit_rows(12), key=lambda r: pd.Timestamp(r["t0"]).value)
+    book = sorted(book_rows(tight=True, time_stop=TS), key=lambda r: pd.Timestamp(r["t0"]).value)
+
+    def top3(rows_):
+        s = pd.Series([r["R"] for r in rows_ if r["side"] == "long"],
+                      index=[r["coin"] for r in rows_ if r["side"] == "long"]).groupby(level=0).sum()
+        return set(s.sort_values(ascending=False).index[:3])
+
+    variants = [("PIT12", pit), ("PIT12 without MYX", [r for r in pit if r["coin"] != "MYXUSDT"]),
+                (f"PIT12 without top-3 {sorted(top3(pit))}", [r for r in pit if r["coin"] not in top3(pit)]),
+                ("BOOK12", book),
+                (f"BOOK12 without top-3 {sorted(top3(book))}", [r for r in book if r["coin"] not in top3(book)])]
+    for lab_s, starts in (("ALL starts 2020-07..2025-09", pd.date_range("2020-07-01", "2025-09-01", freq="MS")),
+                          ("HOLDOUT starts 2024-09..2025-09", pd.date_range("2024-09-01", "2025-09-01", freq="MS"))):
+        print(f"\n{lab_s}, 12-month horizon, $221, 3 orderings")
+        print(f"  {'universe':<46}{'risk':>6}{'median x':>10}{'P(>=2x)':>9}{'P(>=5x)':>9}{'RUINED':>8}{'P(loss)':>9}")
+        for lab, rows_ in variants:
+            _T0.pop(id(rows_), None)
+            for risk in (0.003, 0.006):
+                res = np.array([run(rows_, bear, 221.0, risk, s, 12, sd) for s in starts for sd in SEEDS])
+                e = res[:, 0]
+                print(f"  {lab:<46}{risk*100:>5.1f}%{np.median(e):>9.2f}x{(e >= 2).mean()*100:>8.0f}%"
+                      f"{(e >= 5).mean()*100:>8.0f}%{res[:, 2].mean()*100:>7.0f}%{(e < 1).mean()*100:>8.0f}%")
+
+
+if __name__ == "__main__" and "--concentration" in sys.argv:
+    check_concentration()

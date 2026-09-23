@@ -1,0 +1,25 @@
+PIT12 largest long trades (R, stop as % of price):
+    coin rule                  t0           R       sf
+ MYXUSDT   1h 2025-09-05 06:00:00 2205.467264 0.036880
+ MYXUSDT   4h 2025-09-05 13:00:00 1030.877241 0.090726
+ BNBUSDT   1h 2021-01-28 04:00:00  993.243943 0.028736
+ SOLUSDT   1h 2021-07-29 10:00:00  775.398973 0.031979
+ BTCUSDT   1h 2023-01-01 20:00:00  483.862634 0.003590
+ XRPUSDT   1h 2020-11-13 09:00:00  409.407806 0.015470
+ MYXUSDT  12h 2025-09-07 01:00:00  395.375257 0.179706
+ BNBUSDT   4h 2021-01-28 21:00:00  389.944138 0.049677
+ BTCUSDT   1h 2020-10-08 14:00:00  345.082308 0.008383
+LINKUSDT   1h 2023-10-20 03:00:00  295.313295 0.013833
+ ETHUSDT   1h 2020-07-21 08:00:00  268.007038 0.011232
+ ETHUSDT   1h 2023-01-02 04:00:00  254.623094 0.006487
+  longs with stop < 0.5% of price: 62 of 7589; their total R +416 vs all longs +13432
+  top 10 coins by total long R: MYXUSDT +3600, BTCUSDT +2770, BNBUSDT +1940, ETHUSDT +1893, SOLUSDT +1118, XRPUSDT +1062, ADAUSDT +824, LINKUSDT +688, DOGEUSDT +532, SUIUSDT +436
+
+HOLDOUT-ONLY STARTS (13 months, 12-month horizon, 3 orderings), $221:
+  universe  risk  median x  P(>=2x)  P(>=5x)  RUINED  P(loss)
+  BOOK12    0.3%     4.36x      92%      38%      0%       0%
+  BOOK12    0.6%     5.51x      90%      51%      3%       3%
+  BOOK12    1.0%     2.90x      59%      38%     28%      28%
+  PIT12     0.3%     4.85x      85%      49%      0%      15%
+  PIT12     0.6%     7.64x      82%      64%      0%       5%
+  PIT12     1.0%     5.75x      77%      51%      8%      18%
