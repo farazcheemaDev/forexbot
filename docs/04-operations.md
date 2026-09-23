@@ -420,14 +420,54 @@ Paste the contents into Azure portal > VM > Run command > RunShellScript. It bac
 `15c8d624027e7018383edb3eb6b7ff32be5e813773d5c95c0e22728a4a32a363`, syntax-checks, writes a
 marker line into `blend_paper.log`, restarts and prints `--status`.
 
-### What it does NOT do
+### Rebuilding the pre-fix equity, correctly
+
+`rebuild_equity.py` replays a book's whole history under the entry-sized convention from its
+trade log. It works because **R is invariant to the accounting** - the log records R and the
+`risk_pct` each trade was sized at, so the curve can be recomputed under either convention.
+
+```bash
+python rebuild_equity.py                    # every book it finds
+python rebuild_equity.py --csv corrected.csv
+```
+
+On the VM, `deploy/rebuild_equity.sh` installs and runs it. **It is read-only with respect to
+the books** - no state written, no equity touched, nothing restarted - so it is safe before or
+after `patch_entry_sized.sh`.
+
+**It checks itself before printing anything.** It first replays the OLD convention and
+confirms that reproduces the log's own `equity` column per timestamp. If that fails it says so
+and the corrected numbers must not be trusted.
+
+Validated on a 1,500-trade synthetic log built from the backtest engine, where the answer was
+known independently: the bug had turned **$10,022 into $315,437** over 2.3 years - a 31x
+overstatement, because the error compounds rather than being a fixed multiple.
+
+Two things that validation exposed, both worth knowing:
+
+- **`sort_values` defaults to quicksort, which is NOT stable.** The trade log is append-only
+  and its `equity` column is only meaningful in written order; a non-stable sort reordered
+  simultaneous closes and misaligned the column against its own rows, reading as a $4,534
+  self-check failure on a log that was correct. 217 of 1,500 closes shared a timestamp.
+  `kind="stable"` is load-bearing there.
+- **The corrected curve is order-sensitive in a way the old one is not.** The old convention
+  multiplies, so its final value is independent of how simultaneous closes are ordered. The
+  entry-sized one is not, because an open reads the equity standing at that instant: ~0.15% of
+  total return on the test log. Same slot-order noise the backtests average over 5 seeds.
+
+One approximation: equity at OPEN needs the entry time, and the log records only the close, so
+entry is recovered as `ts - bars x sleeve_hours`. `--show-ambiguity` counts the opens that land
+within an hour of a close, where that estimate could put an open on the wrong side of a banked
+profit.
+
+### What the patch itself does NOT do
 
 - **It does not rewrite past equity.** Equity recorded before the marker line was credited
   the old way and is overstated. The book was below its $221 start when the fix landed, so
   the accumulated error is small, but it is not zero.
 - **It does not touch R.** `logs/trades_blend*.csv` records R and `risk_pct` per trade, so the
-  record stays comparable across the fix and a correct curve can be rebuilt from it at any
-  time. **Compare the books by R.**
+  record stays comparable across the fix - and `rebuild_equity.py` above turns that into a
+  corrected curve whenever it is wanted.
 - **Positions already open** carry no `risk_usd` and fall back to the old behaviour for their
   one closing trade, logging `pre-fix position, no risk_usd`. Expect a few of those lines
   once, then none.

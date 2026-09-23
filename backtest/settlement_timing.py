@@ -65,10 +65,12 @@ def coin_events(sym):
     fu = pd.read_csv(ff)
     if len(h) < 500 or len(fu) < 20:
         return None
-    t = pd.to_datetime(h["time"]).dt.floor("h").astype("int64").to_numpy()
+    # force ns: pandas 3 parses these strings at SECOND resolution, and an int64 of that
+    # against a nanosecond HOUR matches the wrong bars (first run of this file: dates in 1970)
+    t = pd.to_datetime(h["time"]).dt.floor("h").astype("datetime64[ns]").astype("int64").to_numpy()
     o = h["open"].to_numpy(float)
     vol24 = pd.Series(h["qvol"].to_numpy(float)).rolling(24).sum().shift(1).to_numpy()
-    s = pd.to_datetime(fu["time"]).dt.floor("h").astype("int64").to_numpy()
+    s = pd.to_datetime(fu["time"]).dt.floor("h").astype("datetime64[ns]").astype("int64").to_numpy()
     r = fu["rate"].to_numpy(float)
     keep = np.r_[True, np.diff(s) > 0]
     s, r = s[keep], r[keep]
@@ -98,13 +100,13 @@ def coin_events(sym):
 
 
 def load_all():
-    cache = PERPS.parent / "settlement_events.parquet"
+    cache = PERPS.parent / "settlement_events.pkl.gz"
     if cache.exists():
-        return pd.read_parquet(cache)
+        return pd.read_pickle(cache)
     syms = sorted(Path(f).name[:-len("_1h.csv.gz")] for f in glob.glob(str(PERPS / "*_1h.csv.gz")))
     parts = [x for x in (coin_events(s) for s in syms) if x is not None]
     E = pd.concat(parts, ignore_index=True)
-    E.to_parquet(cache)
+    E.to_pickle(cache)
     return E
 
 
@@ -125,7 +127,7 @@ def month_boot_t(x, months, reps=2000, seed=3):
 def main():
     E = load_all()
     E = E[(E.vol24 >= VOL_FLOOR) & np.isfinite(E.p0)].copy()
-    E["dt"] = pd.to_datetime(E.t)
+    E["dt"] = pd.to_datetime(E.t, unit="ns")
     E["month"] = E.dt.dt.to_period("M").astype(str)
     cut = E.dt.quantile(0.6)
     print(f"{len(E):,} settlements with >= ${VOL_FLOOR/1e6:.0f}M 24h volume on "
