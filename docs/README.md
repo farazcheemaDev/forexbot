@@ -18,6 +18,7 @@ of the rules and the traps, and it is the only file you must not skip.
 | 08 | [Polymarket](08-polymarket.md) | A +25% apparent edge, **four** artifacts found inside the same test, and why $5 buys worse evidence than the free collector already running. |
 | 10 | [The second book](10-market-neutral.md) | Market-neutral cross-sectional momentum: **correlation +0.09** with the live book, and why its bear-market performance is carry, not prediction. |
 | 11 | [The money-machine search](11-money-machine-search.md) | Seven mechanism-based ideas (funding settlements down to tick data, delistings, grid bots, HLP, CME gaps, first-perp shorts, the kimchi premium). **None is a machine**, and each result shows where edges go to die. |
+| 12 | [BTC signals](12-btc-signals.md) | Fourteen market-timing signals (Coinbase premium, exchange flows, MVRV, positioning, Nasdaq, dollar, VIX, momentum). Two weakly predict BTC; **none improves the bot**; the bot's own 1000h gate is the best BTC timing rule tested. Live readout: `python btc_regime_now.py`. |
 
 ## Also in the repo
 

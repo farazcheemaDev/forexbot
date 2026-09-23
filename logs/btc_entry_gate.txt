@@ -1,0 +1,5 @@
+tight + time stop, corrected engine, entry-sized, 10 paired orderings
+
+  base                                   longs  7434 | tune +7.38% DD 44% worst -21.3% | hold +9.22% DD 45% worst -18.2% | d +0.00+-0.00 / +0.00+-0.00
+  SKIP longs during BTC break            longs  7402 | tune +7.58% DD 42% worst -20.9% | hold +9.91% DD 44% worst -18.2% | d +0.20+-0.40 / +0.69+-0.47
+  TIGHT trail from entry during break    longs  7438 | tune +7.86% DD 42% worst -22.0% | hold +9.46% DD 43% worst -19.2% | d +0.48+-0.27 / +0.24+-0.50

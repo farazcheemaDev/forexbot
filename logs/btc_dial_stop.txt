@@ -1,0 +1,4 @@
+  tight + time stop (base)           tune +7.38% DD 44% worst -21.3% | hold +9.22% DD 45% worst -18.2%
+    + tighten on BEAR regime         tune +6.43% DD 46% worst -25.4% | hold +9.14% DD 48% worst -20.7%
+  paired tune: -0.95 +- 0.35 %/mo
+  paired hold: -0.07 +- 0.40 %/mo

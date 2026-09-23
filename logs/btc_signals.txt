@@ -1,0 +1,35 @@
+  j = pd.concat([cb.rename("cb"), bn.rename("bn"), ut.rename("ut")], axis=1)
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+TARGET (a): BTC next-7-day return, 342 non-overlapping weeks 2020-02 .. 2026-08 | tune < 2024-08-29 <= holdout
+  feature      pred    n   top-bot tercile, %/wk      t    TUNE    HOLD
+  cb_prem        +1  341                  +2.11%  +1.86  +1.84%  +2.34%
+  cb_prem_chg    +1  337                  +1.28%  +1.13  +1.31%  +0.74%
+  oi_vs_px       -1  312                  -1.61%  -1.40  -2.51%  -0.17%
+  toptrader      +1  265                  -2.42%  -2.01  -3.37%  -0.01%
+  taker          +1  292                  +0.61%  +0.53  +2.16%  +0.09%
+  alt_vs_btc     +1  337                  -0.76%  -0.70  -1.00%  -0.63%
+  mvrv           -1  341                  +0.65%  +0.52  +0.77%  +0.14%
+  netflow        -1  341                  -1.77%  -1.48  -1.83%  -1.11%
+  qqq_trend      +1  341                  +1.09%  +0.98  +1.55%  -0.03%
+  dxy_trend      -1  341                  -0.81%  -0.66  -1.43%  +0.29%
+  vix            -1  341                  +1.20%  +1.07  +1.47%  +1.98%
+  tsmom          +1  329                  +1.80%  +1.97  +1.83%  +1.69%
+  btc_vol        +1  320                  +1.08%  +0.98  +1.28%  +0.33%
+  adr_growth     +1  341                  -0.28%  -0.26  -1.27%  +0.45%
+
+TARGET (b): the bot's LONG positions (tight + time stop, corrected engine), 7,434; R capped (-25.0, 100.0)
+  feature      pred     n    TUNE    HOLD     ALL      t      p   Holm  verdict
+  cb_prem        +1  7423   +2.01   +1.47   +2.01  +1.94  0.052  0.571  sign holds, not sig
+  cb_prem_chg    +1  7396   +2.68   -0.67   +1.55  +1.63  0.104  0.844  fails
+  oi_vs_px       -1  7191   +0.94   -1.71   -0.40  -0.31  0.759  1.000  fails
+  toptrader      +1  6290   +0.79   +0.86   +0.86  +0.76  0.445  1.000  sign holds, not sig
+  taker          +1  6854   +1.64   +2.86   +2.86  +2.02  0.043  0.554  sign holds, not sig
+  alt_vs_btc     +1  7396   -2.22   -1.88   -2.45  -1.87  0.062  0.620  fails
+  mvrv           -1  7434   +0.60   +1.14   +1.00  +0.79  0.431  1.000  fails
+  netflow        -1  7434   -0.27   +0.71   +0.60  +0.48  0.635  1.000  fails
+  qqq_trend      +1  7434   -0.58   +0.64   +0.38  +0.32  0.748  1.000  fails
+  dxy_trend      -1  7434   -2.20   -1.47   -1.98  -2.54  0.011  0.156  sign holds, not sig
+  vix            -1  7434   +1.57   -0.60   +1.69  +1.68  0.094  0.844  fails
+  tsmom          +1  7327   +1.73   +2.32   +1.99  +2.03  0.043  0.554  sign holds, not sig
+  btc_vol        +1  7259   -1.53   -3.44   -2.16  -1.65  0.099  0.844  fails
+  adr_growth     +1  7434   -1.47   +0.96   -0.09  -0.06  0.949  1.000  fails

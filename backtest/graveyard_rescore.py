@@ -75,14 +75,18 @@ SEEDS = tuple(range(10))
 _C: dict = {}
 
 
-def walk(df, rule, coin, trail=None, tb=None, time_stop=None, hi_thresh=None, hi_mult=1.0):
+def walk(df, rule, coin, trail=None, tb=None, time_stop=None, hi_thresh=None,
+         hi_mult=1.0, atr_n=14):
     """engine_variants.long_walk (deployed pyramid; records every unit's add time) plus
     optional time stop (bars, min R at the close) and high-threshold trail tightening
     (once the best gain reaches hi_thresh R, the trail multiplier x hi_mult)."""
     s = signals(df, "long", "all").to_numpy()
     o = df["open"].to_numpy(float); h = df["high"].to_numpy(float)
     lo = df["low"].to_numpy(float); c = df["close"].to_numpy(float)
-    a = atr_ind(df, 14).to_numpy(float)
+    # atr_n is the ATR lookback. 14 is Wilder's convention with no crypto justification,
+    # and it sets the stop, the trail AND the add spacing, so it is swept in
+    # backtest/bar_phase.atr_across_periods as a noise source, not as a parameter.
+    a = atr_ind(df, atr_n).to_numpy(float)
     t = df["time"].to_numpy()
     fee = FEE_BP / 1e4
     wide = blend.LONG_TRAIL if trail is None else trail

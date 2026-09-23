@@ -366,6 +366,55 @@ def variant_across_phases(bear, cut, label, base_kw, var_kw):
     return both
 
 
+ATR_PERIODS = (7, 10, 14, 21, 28)
+
+
+def atr_across_periods(bear, cut):
+    """HOW MUCH OF THE RESULT IS ATR-PERIOD LUCK?
+
+    ATR(14) is Wilder's convention from 1978 commodity charts. Nothing about crypto justifies it,
+    and in this book it sets THREE things at once: the stop (2xATR = 1R), the long trail (20xATR)
+    and therefore the 2R spacing between pyramid adds. It has never been swept.
+
+    REGISTERED BEFORE RUNNING: this is a noise measurement, not a parameter search. Whatever the
+    table says, the deployed 14 is NOT changed on the strength of it - a sweep against a holdout
+    this repo has already admitted is mined out cannot justify a change. The question is only how
+    wide the distribution is that 14 was drawn from, and whether averaging across periods buys
+    anything the way it failed to for bar phase.
+
+    Long side only: shorts carry their own ATR through sleeve_sided and are identical in every
+    column, same limitation as the phase test."""
+    print()
+    print("ATR PERIOD, paired against the deployed 14 within each ordering (phase 0)")
+    print(f"  {'period':<9}{'TUNE/mo':>10}{'diff':>8}{'t':>7}{'w':>6}"
+          f"{'HOLD/mo':>10}{'diff':>8}{'t':>7}{'w':>6}")
+    H = {}
+    for n in ATR_PERIODS:
+        r = rows_for_phase(0, atr_n=n)
+        H[n] = {}
+        for win, kw in (("tune", dict(t_to=cut)), ("hold", dict(t_from=cut))):
+            H[n][win] = [stats(daily(r, bear, sd, **kw)) for sd in SEEDS]
+    for n in ATR_PERIODS:
+        cells = ""
+        for win in ("tune", "hold"):
+            arr = np.array([x["hpm"] for x in H[n][win] if x])
+            base = np.array([x["hpm"] for x in H[14][win] if x])
+            if n == 14:
+                cells += f"{arr.mean():>+9.2f}%{'-':>8}{'-':>7}{'-':>6}"
+            else:
+                d = arr - base
+                se = d.std(ddof=1) / len(d) ** 0.5
+                cells += (f"{arr.mean():>+9.2f}%{d.mean():>+7.2f}%{d.mean()/se:>+7.2f}"
+                          f"{(d > 0).sum():>4}/{len(d)}")
+        print(f"  {n:<9}{cells}" + ("  <- DEPLOYED" if n == 14 else ""))
+    for win in ("tune", "hold"):
+        sp = [max(np.array([x["hpm"] for x in H[n][win]])[i] for n in ATR_PERIODS)
+              - min(np.array([x["hpm"] for x in H[n][win]])[i] for n in ATR_PERIODS)
+              for i in range(len(SEEDS))]
+        print(f"  within-ordering ATR spread on {win:<5} {np.mean(sp):.2f} %/mo")
+    print("  compare: the bar-phase spread was 1.31 (tune) and 2.37 (holdout) %/mo")
+
+
 def main():
     bear = regimes()[1000]
     ts = pd.DatetimeIndex(sorted(x[0] for x in sleeve_sided("1h")[0]))
@@ -422,6 +471,7 @@ def main():
 
     paired(rows, bear, cut)
     tight_across_phases(bear, cut)
+    atr_across_periods(bear, cut)
     floor_check(rows, bear, cut)
 
     print()

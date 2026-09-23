@@ -1,0 +1,47 @@
+regime share of days since 2020-02: BULL 50%  NEUTRAL 37%  BEAR 13%
+bot's long R by regime at entry: BULL: n 3046 mean +2.22R (capped)  NEUTRAL: n 3022 mean +0.60R (capped)  BEAR: n 1366 mean +0.05R (capped)
+
+entry-sized, 1000h gate kept, 10 paired orderings | %/mo = CAGR/3, DD/worst raw
+  variant                                    TUNE   DD   HOLD   DD  worst       d TUNE       d HOLD
+  tight + time stop (base)                 +7.38%  44% +9.22%  45% -18.2%  +0.00+-0.00  +0.00+-0.00
+  DIAL long x1.5 bull / x0.5 bear          +8.02%  58%+11.65%  55% -24.5%  +0.64+-0.04  +2.43+-0.18
+  DIAL long x2.0 bull / x1.0 bear          +8.84%  67%+11.99%  65% -31.6%  +1.46+-0.08  +2.77+-0.24
+  DIAL long x2.0 bull / x0.5 bear          +8.48%  69%+12.64%  65% -31.6%  +1.11+-0.08  +3.42+-0.29
+
+  drawdown-matched uniform controls (every long x m):
+  UNIFORM long x0.8                        +6.46%  37% +8.30%  37% -14.3%  -0.91+-0.03  -0.92+-0.05
+  UNIFORM long x1.0                        +7.38%  44% +9.22%  45% -18.2%  +0.00+-0.00  +0.00+-0.00
+  UNIFORM long x1.2                        +8.11%  51% +9.87%  52% -22.0%  +0.73+-0.02  +0.65+-0.05
+  UNIFORM long x1.4                        +8.68%  57%+10.29%  58% -25.7%  +1.31+-0.04  +1.07+-0.09
+  UNIFORM long x1.6                        +9.12%  63%+10.50%  63% -29.3%  +1.74+-0.06  +1.29+-0.14
+  UNIFORM long x1.8                        +9.43%  68%+10.55%  68% -32.8%  +2.05+-0.07  +1.33+-0.17
+
+  THE TEST - dial vs a uniform bet at the SAME drawdown:
+    x1.5 bull / x0.5 bear: tune +8.02 vs uniform +8.73 (-0.71) | hold +11.65 vs uniform +10.07 (+1.58)
+    x2.0 bull / x1.0 bear: tune +8.84 vs uniform +9.41 (-0.57) | hold +11.99 vs uniform +10.52 (+1.47)
+    x2.0 bull / x0.5 bear: tune +8.48 vs uniform +9.43 (-0.94) | hold +12.64 vs uniform +10.52 (+2.12)
+
+  STOP: tighten open longs when the regime turns BEAR (on top of the BTC 4h break):
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\forexbot\backtest\btc_dial.py", line 200, in <module>
+    main()
+  File "D:\forexbot\backtest\btc_dial.py", line 196, in main
+    show("tight + time stop + BEAR tighten", score(stop_rows(reg), bear, cut))
+                                                   ^^^^^^^^^^^^^^
+  File "D:\forexbot\backtest\btc_dial.py", line 106, in stop_rows
+    .reindex(ends.normalize()).fillna(False).to_numpy(bool)
+     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\series.py", line 5525, in reindex
+    return super().reindex(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\generic.py", line 5464, in reindex
+    return self._reindex_axes(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\generic.py", line 5486, in _reindex_axes
+    new_index, indexer = ax.reindex(
+                         ^^^^^^^^^^^
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python312\Lib\site-packages\pandas\core\indexes\base.py", line 4253, in reindex
+    raise ValueError("cannot reindex on an axis with duplicate labels")
+ValueError: cannot reindex on an axis with duplicate labels

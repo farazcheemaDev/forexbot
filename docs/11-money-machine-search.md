@@ -549,3 +549,55 @@ tight, the time stop - and **cannot say anything about the short boost** (paper 
 book still rests on a single grid, and there is no cheap way to change that without 1m data for
 all twelve coins.
 
+## 7. ATR period: the same size of spread, but it is NOT noise
+
+ATR(14) is Wilder's 1978 convention from commodity charts. Nothing about crypto justifies it, and
+in this book it sets three things at once - the stop (2xATR = 1R), the long trail (20xATR), and
+therefore the 2R spacing between pyramid adds. It had never been swept.
+
+Registered before running: **a noise measurement, not a parameter search.** Whatever the table
+said, 14 would not be changed on the strength of a sweep against a holdout this repo has already
+admitted is mined out.
+
+Paired against 14 within each ordering (deployed grid, long side only):
+
+| ATR period | TUNE/mo | diff | t | wins | HOLD/mo | diff | t | wins |
+|---|---|---|---|---|---|---|---|---|
+| 7 | +3.37% | −1.51% | −5.19 | 1/10 | +3.00% | −1.87% | −4.82 | 1/10 |
+| 10 | +4.41% | −0.47% | −1.78 | 3/10 | +4.13% | −0.74% | −2.47 | 2/10 |
+| **14 (deployed)** | **+4.88%** | — | — | — | **+4.88%** | — | — | — |
+| 21 | +4.11% | −0.77% | −2.22 | 3/10 | +4.69% | −0.19% | −0.57 | 5/10 |
+| 28 | +3.87% | −1.01% | −3.78 | 0/10 | +4.30% | −0.57% | −1.46 | 4/10 |
+
+Within-ordering spread: **2.08%/mo on tune, 2.35%/mo on the holdout** - the same magnitude as the
+bar-phase spread (1.31 / 2.37).
+
+**But it is a completely different kind of quantity, and that is the finding.** Compare the two:
+
+| | bar phase | ATR period |
+|---|---|---|
+| spread | 1.31 / 2.37 %/mo | 2.08 / 2.35 %/mo |
+| best on tune | phase 3 | **14** |
+| best on holdout | phase 0 | **14** |
+| worst on both | — (flips) | **7** |
+| ordering between halves | **reverses** (phase 3 is best on tune at t +2.56, worst on holdout at t −2.07) | **stable at the extremes** |
+
+Bar phase flips sign between halves, which is what noise does. ATR period does not: **14 is the
+best of five on both halves and 7 is the worst on both.** That is a genuine parameter with a broad
+optimum around 14-21, not a coin toss.
+
+**Two consequences:**
+
+1. **No change, and now for a reason rather than out of caution.** 14 is already the best cell on
+   both halves, so there is nothing to adopt. And unlike bar phase, averaging across periods would
+   be strictly worse - it would dilute the optimum toward 7 and 28.
+2. **The deployed value is fortunate but not fitted.** ATR(14) came from a 1978 commodity
+   convention chosen decades before this project existed, so its landing on the optimum of a
+   five-point sweep on both halves is genuinely out-of-sample in the parameter dimension. That is
+   the opposite of the usual "interior optimum" warning in doc 02, where the optimum was found by
+   searching. Here the search came after the choice.
+
+**And it sharpens the method:** a spread tells you how wide the distribution is; only whether the
+ORDERING survives the split tells you if you are looking at a parameter or at noise. Two
+quantities of identical spread can be opposite things.
+
