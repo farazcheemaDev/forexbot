@@ -65,7 +65,14 @@ def haircut(mult: float, months: int) -> float:
 
     Annualise the window, divide the annual rate by blend.HINDSIGHT, re-compound. This is
     the same operation small_capital.hpm performs, so the numbers here are comparable to
-    every other 'per month' figure in the docs."""
+    every other 'per month' figure in the docs.
+
+    NEVER APPLY THIS TO A LOSS. The haircut exists because picking 12 coins with hindsight
+    inflated the GAINS. Dividing an annualised rate by 3 shrinks a negative rate just as
+    happily: a real -30.0% month comes back as -3.3%, and a year that truly ended at $92 on
+    $200 reads $172. Quote downside RAW and upside haircut, and say which is which.
+    Found 2026-09-23 while answering "at worst, what happens to $200" - the first version of
+    that table showed a worst-ever month of -3.5% against a measured worst month of -30%."""
     if mult <= 0:
         return 0.0
     yrs = months / 12.0
