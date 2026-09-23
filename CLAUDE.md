@@ -249,7 +249,8 @@ even less room. More return comes from 7 units or from capital, not from risk.
 
 - **`MAX_LEVERAGE = 10.0` in `blend_paper.py` is not a tuning parameter.** It costs the
   triple book 0.35%/mo and it is the only thing standing between that book and liquidation:
-  at its 13.2x peak, a **7.6% adverse move closes the whole account**, and the alts it holds
+  at its 12.2x peak (a single ordering reached 13.2x), an **8.2% adverse move closes the
+  whole account**, and the alts it holds
   fall 27-34% in a day at their worst. The backtest cannot model forced closure, so the
   unguarded return is computed in a world without the risk removing it creates. Asked and
   answered 2026-09-24, doc 11 part 10b.
@@ -337,7 +338,7 @@ all of them in bulls - which only `blend_paper.py`'s existing margin guard preve
 - **bar-phase blending** (`bar_phase.py`): retracted, see the trap table.
 
 **"Should we remove the 10× guard, since it costs return?"** Asked and answered with a
-measurement (doc 11 part 10b): **no.** At the triple book's 13.2× peak a **7.6% adverse move closes
+measurement (doc 11 part 10b): **no.** At the triple book's 12.2× peak an **8.2% adverse move closes
 the whole account**. It never happened during the 929 exposed hours (worst BTC 24h there: −4.85%) -
 but BTC falls ≥8% in 24h in **1.24% of all hours** and the book holds alts that fall 27–34% at their
 worst. The exposure is 1.6% of hours and it sits entirely in bull regimes, which is when reversals

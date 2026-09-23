@@ -854,8 +854,9 @@ exposure.
 *Asked 2026-09-24. The guard costs the triple book −0.35 ± 0.02 %/mo on the holdout
 (`triple_capped.py`). Measured answer: **no**, and the reason is not caution.*
 
-**At the triple book's peak leverage of 13.2×, the adverse move that liquidates the whole book is
-7.6%.** Not a drawdown of 7.6% - a forced close by the exchange at its price, on every position at
+**At the triple book's peak leverage of 12.2× - the mean of the per-ordering maxima, with a
+single ordering reaching 13.2× - the adverse move that liquidates the whole book is 8.2%.**
+Not a drawdown of 8.2% - a forced close by the exchange at its price, on every position at
 once, regardless of where your stops sit.
 
 **Did that ever happen during the high-leverage hours?** No. Across the 929 hours above 10×, BTC's
