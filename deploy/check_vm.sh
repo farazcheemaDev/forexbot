@@ -2,8 +2,10 @@
 # READ-ONLY. Runs no patch, restarts nothing, writes nothing.
 # Answers one question: is blend_paper.py intact after the failed
 # paste, and which version is on the box.
-# No single quotes, no long lines, no backslashes - the previous
-# script lost its single quotes and was wrapped mid-token.
+# Every line is short. The previous script failed because long
+# lines get wrapped near 50 chars and the tail runs as a command.
+# Quotes were never the problem - the shell prints a not-found
+# command AFTER quote removal, which only made it look that way.
 cd /opt/forexbot
 echo ==1-IS-THE-BOOK-RUNNING==
 systemctl is-active blend-paper || true
