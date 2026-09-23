@@ -20,6 +20,24 @@ WHAT IT DOES
        The haircut is monotonic, so P(losing month) is IDENTICAL in both - which makes it
        the one figure in here that no modelling choice can flatter.
 
+THREE NUMBERS ALL CALLED "PER MONTH" - do not quote them interchangeably
+    On the SAME curves with the SAME 3x haircut, the holdout reads:
+
+        one compounded path, CAGR/3      +10.68%/mo   <- what regime_gate.py / doc 00 report
+        MEDIAN 12-month window            +4.28%/mo   <- the planning number
+        MEAN   12-month window           +16.21%/mo   <- the skew, not a forecast
+
+    They are not in conflict, they answer different questions. CAGR over the whole holdout
+    is ONE path and gets the big burst wherever it fell. The median window is the middle of
+    every overlapping year, so half of them miss that burst - and a real account starts at
+    an arbitrary point, which is why the median window is the one to plan on. The mean
+    window is far above the median because a handful of months do everything: the same
+    skew that makes 2026 SUM to +42% while COMPOUNDING to -2.41%/month.
+
+    The original "+10.7%/month" headline was never wrong arithmetic. It was full history,
+    one path. Splitting off the holdout and switching from whole-period CAGR to the typical
+    year inside it is what took it to +4.3%.
+
     python -m backtest.expectations
 """
 from __future__ import annotations

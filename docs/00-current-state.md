@@ -55,6 +55,27 @@ On full history the same windows read +0% (1 month) and +494% (12 months) - far 
 not a planning number, because **2021 alone made 40% of this strategy's lifetime profit**
 and 2026 compounds negative.
 
+### "So is it +10%/month or +4%/month?" - both, for different questions
+
+Same curves, same 3x haircut, `backtest/expectations.py`:
+
+| what is being measured | per month |
+|---|---|
+| full history, one compounded path | +17.2% |
+| full history, typical year inside it | +15.4% |
+| **holdout only, one compounded path** | **+10.7%** |
+| **holdout, typical year inside it** | **+4.3%** |
+
+**Quote the last row.** Whole-period CAGR is a single path that collects the big burst
+wherever it happened to fall; the median 12-month window is the middle of every overlapping
+year, and half of them miss that burst. A real account starts at an arbitrary point, so the
+typical year is its number.
+
+The **mean** 12-month window is +16.2%/mo against a +4.3% median. That gap is the skew, and
+it is the same effect that makes 2026 SUM to +42% while COMPOUNDING to -2.41%/month.
+
+The old "+10.7%/month" headline was never wrong arithmetic - it was full history, one path.
+
 ### The one figure that cannot be flattered
 
 The 3x hindsight haircut is monotonic, so it cannot turn a losing month into a winning one.
