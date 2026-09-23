@@ -1,0 +1,48 @@
+guard: no-trigger run reproduces the deployed long sleeve exactly
+
+HOW OFTEN EACH BTC SIGNAL IS ON, and whether BTC actually falls after it switches on
+  signal        % of time on switch-ons  BTC next 7d after  (all hours)
+  regime_flip            45%        319             -0.30%       +0.96%
+  dd5                    34%        807             -0.09%       +0.96%
+  dd8                    17%        448             +1.56%       +0.96%
+  dd12                    8%        296             +2.01%       +0.96%
+  trail3                  3%        360             -0.01%       +0.96%
+  trail5                  1%        162             -0.18%       +0.96%
+  divergence             69%        181             +0.93%       +0.96%
+  ema_cross              47%        144             +0.07%       +0.96%
+
+                                  longs    long R |  TUNE/mo    DD |  HOLD/mo    DD worst mo
+  DEPLOYED (no BTC exit)           5628    +19113 |  +21.47%   54% |  +12.05%   59%   -42.9%
+  regime_flip + close              7535    +15474 |  +17.24%   50% |  +12.16%   71%   -32.9%
+  regime_flip + close+block        4611    +17166 |  +21.12%   50% |  +10.14%   77%   -32.3%
+  regime_flip + tighten            6781    +19436 |  +19.44%   59% |  +16.10%   64%   -34.6%
+
+  dd5 + close                      9363     +7256 |   +4.64%   57% |   +3.57%   58%   -22.2%
+  dd5 + close+block                7917     +7511 |   +4.41%   60% |   +5.09%   52%   -21.9%
+  dd5 + tighten                    7764    +14515 |  +10.54%   36% |  +18.27%   44%   -27.0%
+
+  dd8 + close                      7451    +11462 |  +11.38%   60% |   +7.59%   61%   -42.9%
+  dd8 + close+block                6830    +11361 |  +12.42%   62% |   +7.78%   62%   -42.9%
+  dd8 + tighten                    6888    +16249 |  +20.10%   43% |  +11.45%   63%   -42.9%
+
+  dd12 + close                     6565    +14110 |  +12.37%   53% |  +11.45%   62%   -43.4%
+  dd12 + close+block               6323    +14202 |  +12.99%   55% |  +12.15%   58%   -43.4%
+  dd12 + tighten                   6245    +17863 |  +19.15%   43% |  +13.13%   63%   -43.4%
+
+  trail3 + close                   8084    +13240 |   +9.29%   54% |  +11.63%   55%   -31.0%
+  trail3 + close+block             8063    +13155 |   +9.28%   54% |  +11.29%   55%   -30.7%
+  trail3 + tighten                 7532    +19452 |  +14.47%   32% |  +22.05%   39%   -23.8%
+
+  trail5 + close                   6824    +18342 |  +14.18%   56% |   +8.75%   75%   -34.9%
+  trail5 + close+block             6810    +18365 |  +14.32%   55% |   +8.93%   75%   -34.9%
+  trail5 + tighten                 6597    +23742 |  +21.41%   40% |  +15.32%   61%   -21.1%
+
+  divergence + close               9367    +10934 |   +6.58%   59% |   +7.28%   47%   -29.1%
+  divergence + close+block         3778      -663 |   -0.49%   80% |   +0.19%   43%   -23.7%
+  divergence + tighten             8007    +13116 |  +12.51%   50% |  +14.24%   42%   -26.9%
+
+  ema_cross + close                7229    +16013 |   +9.43%   60% |  +10.72%   44%   -25.8%
+  ema_cross + close+block          4702    +15711 |   +8.36%   60% |  +10.80%   38%   -18.5%
+  ema_cross + tighten              6859    +22086 |  +19.25%   39% |  +19.99%   43%   -23.0%
+
+variants that beat the deployed book on BOTH halves: none

@@ -1,0 +1,32 @@
+deployed book | 15736 trades | 5 orderings | haircut 3x | holdout from 2024-08-29
+
+1. BY STARTING CAPITAL. Holdout columns are the ones to plan on.
+   capital rejected    DD  |  ALL med.mo  HOLD med.mo   HOLD loses   HOLD 1mo $   HOLD 12mo $
+  $     10       2%   58%  |      +0.25%       -0.83%          57%           10            16
+  $     25       0%   58%  |      +0.39%       -0.83%          57%           25            39
+  $     50       0%   58%  |      +0.39%       -0.83%          57%           50            79
+  $    100       0%   58%  |      +0.39%       -0.83%          57%           99           158
+  $    200       0%   58%  |      +0.39%       -0.83%          57%          198           316
+  $    500       0%   58%  |      +0.39%       -0.83%          57%          496           789
+  $  1,000       0%   58%  |      +0.39%       -0.83%          57%          992         1,579
+  $  5,000       0%   58%  |      +0.39%       -0.83%          57%        4,958         7,894
+  'rejected' = signals skipped because one unit was below the venue minimum.
+  'loses' is measured on the RAW curve; the haircut cannot change a sign.
+  The percentage columns are FLAT above $25: capital buys dollars, not rate.
+
+2. HOW LONG YOU LEAVE IT RUNNING ($200 account, haircut)
+    held for  loses money     25th   median     75th     95th    median $ from $200
+        1mo          46%      -2%      +0%     +32%    +327%                  201
+        3mo          38%      -3%     +15%    +141%   +1583%                  230
+        6mo          23%      +3%     +76%    +674%  +11169%                  353
+       12mo           9%     +19%    +494%   +8268%  +61722%                1,187
+
+3. THE SAME QUESTION ON THE HOLDOUT ONLY (from 2024-08, never tuned on)
+   capital  held for  loses money   median    median $ out
+  $    200      1mo          57%      -1%            198
+  $    200     12mo           7%     +58%            316
+  $  1,000      1mo          57%      -1%            992
+  $  1,000     12mo           7%     +58%          1,579
+
+  Two sentences to carry away: the median MONTH is near zero at every
+  capital, and the 12-month median is large only because a few months are.

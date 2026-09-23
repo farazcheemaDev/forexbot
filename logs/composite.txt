@@ -1,0 +1,15 @@
+deployed: tune +15.67%/mo @57%DD | holdout +8.86%/mo @59%DD, worst -38.2%
+
+  book                                        TUNE   DD    HOLD   DD   worst |     x    TUNE    HOLD
+  deployed                                 +15.67%  57%  +8.86%  59%  -38.2% |  1.00 +15.67%  +8.86%
+  tight exit                               +16.54%  38% +11.24%  52%  -17.5% |  1.20 +19.80% +13.03%
+  short boost x8                           +16.20%  54% +12.03%  47%  -34.1% |  1.05 +16.98% +12.57%
+  runner sizing                            +24.03%  52% +10.84%  60%  -30.6% |  1.00 +24.03% +10.84%
+
+  tight + short boost x8                   +17.05%  38% +13.65%  38%  -18.0% |  1.65 +27.37% +20.46%
+  tight + runner sizing                    +19.00%  40% +12.60%  55%  -20.4% |  1.10 +20.77% +13.50%
+  short boost x8 + runner sizing           +24.64%  50% +14.22%  47%  -30.8% |  1.15 +27.87% +16.00%
+  ALL THREE                                +19.52%  41% +15.09%  43%  -20.5% |  1.45 +27.32% +19.80%
+
+  'x' is the largest risk multiple keeping BOTH halves at or under the deployed
+  book's drawdown. Stacking works only if ALL THREE beats each single change.

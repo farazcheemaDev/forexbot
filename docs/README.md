@@ -1,6 +1,8 @@
 # Documentation
 
 Everything we know about this project, in the order you'd want to read it.
+**New session? [`CLAUDE.md`](../CLAUDE.md) first** - it is the short version
+of the rules and the traps, and it is the only file you must not skip.
 
 | # | Document | What's in it |
 |---|---|---|
@@ -14,9 +16,13 @@ Everything we know about this project, in the order you'd want to read it.
 | 06 | [Deploying $221](06-deploy-221.md) | **Start here to put the validated config on a VPS.** Steps, and the two things that would invalidate the test. |
 | 07 | [The $5–10 account](07-micro-account.md) | The go-for-broke bet: 29.7% chance of 5×, 70% chance of zero. The odds, and why two of my predictions about it were wrong. |
 | 08 | [Polymarket](08-polymarket.md) | A +25% apparent edge, **four** artifacts found inside the same test, and why $5 buys worse evidence than the free collector already running. |
+| 10 | [The second book](10-market-neutral.md) | Market-neutral cross-sectional momentum: **correlation +0.09** with the live book, and why its bear-market performance is carry, not prediction. |
 
 ## Also in the repo
 
+- [`CLAUDE.md`](../CLAUDE.md) — **the orientation file. Read it before this folder.**
+  The goal, the nine validation rules, the eight traps that have produced wrong
+  answers here, and the hard safety gates.
 - [`strategy_analysis/validation_protocol.md`](../strategy_analysis/validation_protocol.md) —
   the full testing gates, in technical detail. This is the authority; docs 02 and
   03 here are the readable summary of it.

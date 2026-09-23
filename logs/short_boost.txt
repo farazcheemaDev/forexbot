@@ -1,0 +1,16 @@
+deployed: tune +19.29% @55%DD | hold +8.44% @57%DD, worst -33.9%, gross 8.7x
+
+EXTENDED GRID - shorts x M while BTC's 4h trail is broken
+  book                M    TUNE   DD    HOLD   DD   worst   gross
+  deployed longs      1 +19.29%  55%  +8.44%  57%  -33.9%    8.7x
+  deployed longs      3 +19.46%  55%  +9.12%  52%  -32.8%    8.7x
+  deployed longs      5 +19.61%  54%  +9.78%  49%  -31.7%    8.7x
+  deployed longs      8 +19.83%  54% +10.76%  47%  -30.5%    8.7x
+  deployed longs     12 +20.11%  53% +12.01%  44%  -29.8%    8.7x
+  deployed longs     20 +20.58%  53% +14.38%  43%  -29.8%    8.7x
+  + tight exit        1 +16.08%  37% +12.73%  54%  -20.9%    9.1x
+  + tight exit        3 +16.29%  38% +13.63%  51%  -21.0%    9.1x
+  + tight exit        5 +16.49%  39% +14.49%  48%  -21.0%    9.1x
+  + tight exit        8 +16.78%  39% +15.72%  42%  -21.0%    9.1x
+  + tight exit       12 +17.14%  41% +17.26%  40%  -21.0%    9.1x
+  + tight exit       20 +17.76%  44% +19.98%  42%  -21.0%    9.1x

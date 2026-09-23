@@ -1,0 +1,25 @@
+477 perps with a Binance spot hedge; 2,068,799 settlements
+settlement rate on an 8h basis - how fat is the tail?
+   50.0th percentile  +0.0100%
+   90.0th percentile  +0.0100%
+   99.0th percentile  +0.0985%
+   99.9th percentile  +0.2839%
+  share of settlements >= +0.10%: 0.97%   >= +0.50%: 0.012%
+
+ enter >=  leave <  events  /month  mean carry   median  net>0  mean net hold (settl.) top 5% share
+    0.10%    0.03%    4417    54.7      +0.81%   +0.28%    49%    +0.51%             5          34%
+    0.20%    0.03%    1298    16.3      +1.51%   +0.77%    68%    +1.21%             7          22%
+    0.20%    0.10%    1676    21.0      +0.94%   +0.40%    56%    +0.64%             3          34%
+    0.50%    0.03%     109     1.4      +2.47%   +1.80%    69%    +2.17%             7          19%
+    0.50%    0.10%     122     1.6      +1.84%   +0.95%    66%    +1.54%             5          26%
+    1.00%    0.03%      12     0.3      +3.05%   +0.12%    42%    +2.75%             2          43%
+    1.00%    0.10%      12     0.3      +3.05%   +0.12%    42%    +2.75%             2          43%
+
+by year, enter >= 0.20%/8h, leave < 0.03%/8h:
+  2020:  195 events  mean net +0.45%  median net +0.12%  sum of net +88%
+  2021:  788 events  mean net +1.82%  median net +1.69%  sum of net +1433%
+  2022:    3 events  mean net -0.33%  median net -0.32%  sum of net -1%
+  2023:    4 events  mean net -0.76%  median net -0.29%  sum of net -3%
+  2024:  126 events  mean net +0.08%  median net -0.13%  sum of net +11%
+  2025:  118 events  mean net +0.26%  median net -0.19%  sum of net +31%
+  2026:   64 events  mean net +0.10%  median net -0.27%  sum of net +6%

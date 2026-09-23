@@ -1,0 +1,19 @@
+deployed: tune +19.29%/mo @55% DD | holdout +8.44%/mo @57% DD, worst -33.9%
+
+  variant                               TUNE   DD    HOLD   DD |     x    TUNE    HOLD  worst
+  BASE (deployed)                    +19.29%  55%  +8.44%  57% |  1.00 +19.29%  +8.44%  -33.9%
+
+  A. VOLATILITY TARGETING (risk x target/realised, capped 0.5-2.0)
+  vol target, 14-day lookback        +11.43%  68%  +2.69%  69% |  1.00 +11.43%  +2.69%  -27.8%
+  vol target, 30-day lookback        +10.65%  73%  +3.46%  75% |  1.00 +10.65%  +3.46%  -33.1%
+  vol target, 60-day lookback        +16.88%  77%  +9.24%  78% |  1.00 +16.88%  +9.24%  -39.7%
+
+  B. SHORTS SIZED UP WHILE BTC's 4h TRAIL IS BROKEN
+  shorts x2 on BTC break             +19.38%  55%  +8.78%  54% |  1.00 +19.38%  +8.78%  -33.3%
+  shorts x3 on BTC break             +19.46%  55%  +9.12%  52% |  1.00 +19.46%  +9.12%  -32.8%
+  shorts x5 on BTC break             +19.61%  54%  +9.78%  49% |  1.00 +19.61%  +9.78%  -31.7%
+
+  C. STACKED with the winner so far (pullback 0.5 adds + tight exit)
+  pullback 0.5 + tight                +5.68%  24%  +4.71%  40% |  1.60  +9.50%  +7.47%  -22.3%
+    + vol target 30d                  +4.92%  29%  +4.58%  52% |  1.10  +5.47%  +5.03%  -26.6%
+    + shorts x3 on BTC break          +5.82%  24%  +5.33%  35% |  1.80 +11.09%  +9.56%  -25.1%

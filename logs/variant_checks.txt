@@ -1,0 +1,20 @@
+deployed: tune +19.29% @55%DD | hold +8.44% @57%DD
+
+A. IS 0.5xATR A PLATEAU OR A LUCKY SPIKE? (pullback adds + tight exit, levered to deployed DD)
+  pull_atr    1x TUNE   DD  1x HOLD   DD |     x    TUNE    HOLD  worst
+  0.25        +16.68%  29%  +15.39%  43% |  1.40 +23.77% +20.56%  -24.0%
+  0.50        +14.41%  26%  +10.78%  37% |  1.70 +25.05% +17.44%  -27.5%
+  0.75        +13.15%  24%   +8.15%  36% |  1.70 +22.82% +13.25%  -27.2%
+  1.00        +10.38%  23%   +6.21%  38% |  1.70 +18.39% +10.22%  -25.5%
+  1.50         +8.16%  21%   +5.60%  41% |  1.50 +12.75%  +8.33%  -21.3%
+
+B. GROSS LEVERAGE (sum of open units' notional / equity). >10x is not executable -
+   lev_test.py: liquidation is free to 10x and destructive above.
+  config                             risk x  gross p99     max
+  deployed                             1.00       8.7x    9.6x
+  pullback 0.5 + tight                 1.00       8.0x    8.5x
+  pullback 0.5 + tight, levered        1.70      13.6x   14.4x  OVER 10x
+
+  units per position (fewer adds = less exposure):
+    deployed                 mean 1.75 units, 5-unit positions 10%
+    pullback 0.5 + tight     mean 1.51 units, 5-unit positions 4%

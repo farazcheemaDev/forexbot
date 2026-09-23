@@ -1,17 +1,65 @@
 # Where we stand
 
-*Last updated 2026-09-13.*
+*Last updated 2026-09-23.*
 
 ## The short version
 
-We have **one strategy that survived every honest test**, and it makes roughly
-**+10% a month** in simulation. That is the target, hit — but only just, and with
-a drawdown that makes small accounts dangerous.
+We have **one strategy that survived every honest test**, and a **second, uncorrelated
+candidate** found on 2026-09-23 (doc 10). The first makes roughly **+10% a month** averaged
+over six years — but the median month is **negative**, 57% of months lose money, and the
+drawdown is 58%. Read the capital table below before forming any expectation; the average
+is not something anyone experiences.
 
 Everything else we tried is dead. That is not a failure of effort; it is what
 honest testing looks like. Most trading ideas do not work, and the ones that
 "work" in a sloppy test stop working the moment you charge real fees and stop
 cherry-picking which coins to trade.
+
+## "If I put in $X and leave it running a month" (added 2026-09-23)
+
+*Source: `backtest/expectations.py`. Deployed book, the venue minimum order actually
+enforced at every entry, compounded by close date, 5 orderings averaged, 3x haircut.*
+
+**The first answer is the surprising one: capital does not change the percentage.**
+
+| starting capital | signals rejected | drawdown | median month (holdout) | median after 12mo |
+|---|---|---|---|---|
+| $10 | 2% | 58% | -0.83% | $16 |
+| $25 | 0% | 58% | -0.83% | $39 |
+| $100 | 0% | 58% | -0.83% | $158 |
+| **$200** | **0%** | **58%** | **-0.83%** | **$316** |
+| $1,000 | 0% | 58% | -0.83% | $1,579 |
+| $5,000 | 0% | 58% | -0.83% | $7,894 |
+
+Above about **$25** the venue minimum rejects nothing and every percentage is identical.
+Capital buys dollars, not rate. **This supersedes the "minimum capital ~$1,140" line in the
+table below**, which came from a book whose rejections were assumed rather than simulated;
+`small_capital.py` then settled it directly.
+
+$10 is the only level that behaves differently, and only slightly - it skips 2% of signals.
+
+### How long you leave it running matters far more than how much you put in
+
+$200, holdout figures, haircut:
+
+| held for | loses money | median outcome |
+|---|---|---|
+| **1 month** | **57%** | **-1%** |
+| 12 months | 7% | +58% |
+
+**More than half of all single months lose money.** That is the honest answer to "what will
+a month do": slightly down, more likely than not. The strategy is not a monthly income; it
+is a bet that a trend arrives while you are positioned, and the waiting is most of the time.
+
+On full history the same windows read +0% (1 month) and +494% (12 months) - far rosier, and
+not a planning number, because **2021 alone made 40% of this strategy's lifetime profit**
+and 2026 compounds negative.
+
+### The one figure that cannot be flattered
+
+The 3x hindsight haircut is monotonic, so it cannot turn a losing month into a winning one.
+**57% of holdout months lose money** is true at any haircut, under any convention. Every
+other number on this page depends on a modelling choice; that one does not.
 
 ## The expected return, stated honestly (added 2026-09-20)
 
@@ -62,7 +110,7 @@ than a 2025-2026-like stretch would. In the current regime, expect much less.
 | Return | **+240% per year** (≈ +10.7% per month, compounding) |
 | Worst drawdown | **74.8%** |
 | Won months | ~85% of 30-day blocks positive |
-| Minimum capital | **~$1,140** for the 9-coin book. A 4-coin book runs on **$49** but returns ~+3%/mo, not +10.7% |
+| Minimum capital | **superseded - see the capital table above; ~$25 is enough.** The old claim: ~$1,140 for the 9-coin book. A 4-coin book runs on **$49** but returns ~+3%/mo, not +10.7% |
 | Tested on | 2020–2026, hourly bars, 9 coins picked *without hindsight* |
 
 Source: `backtest/pit_universe.py`. Cross-checked against `backtest/twoside.py`.

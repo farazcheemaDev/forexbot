@@ -1,0 +1,28 @@
+tune < 2024-08-29 <= holdout | 5 orderings averaged
+
+BASELINE (2xATR stop, no time stop, market entry)
+  variant                           taken    TUNE   DD    HOLD   DD   worst
+  deployed                           1935 +19.29%  55%  +8.44%  57%  -33.9%
+
+1. STOP WIDTH (1R = this many ATR)
+  variant                           taken    TUNE   DD    HOLD   DD   worst
+  stop 1xATR                         3032 +24.02%  79%  +9.67%  91%  -57.9%
+  stop 1.5xATR                       2363 +19.22%  78%  +7.61%  81%  -48.1%
+  stop 3xATR                         1432 +11.16%  28%  +2.60%  45%  -26.2%
+  stop 4xATR                         1151  +5.00%  24%  +1.49%  21%  -14.5%
+
+2. TIME STOP (close if below r R after n bars)
+  variant                           taken    TUNE   DD    HOLD   DD   worst
+  cut below 0R after 20 bars         2417 +17.57%  66%  +6.31%  66%  -35.6%
+  cut below 0R after 50 bars         2066 +17.49%  59%  +8.37%  60%  -39.1%
+  cut below 0R after 100 bars        1973 +20.15%  57%  +9.30%  54%  -29.4%
+  cut below 1R after 50 bars         2494 +16.99%  59% +10.40%  51%  -27.1%
+  cut below 2R after 100 bars        2309 +17.38%  55% +12.90%  49%  -22.4%
+
+3. ENTRY ON A PULLBACK, CAUSAL (limit below the signal close, fills later)
+  variant                           taken    TUNE   DD    HOLD   DD   worst
+  entry limit 0.25xATR below         2110 +13.97%  69%  +5.16%  61%  -29.8%
+  entry limit 0.5xATR below          2070 +16.70%  62%  +4.85%  65%  -34.6%
+  entry limit 1xATR below            2093 +18.61%  73%  +2.03%  67%  -32.1%
+
+  bar to clear: better than deployed on BOTH halves by >2%/mo

@@ -1,0 +1,50 @@
+5,628 long positions | runner = peak >= 50R
+  tune 3,377 (6.5% runners)  holdout 2,251 (5.2% runners)
+  runner rate by year: 2020 11.0%(n326)  2021 10.9%(n470)  2022 3.0%(n802)  2023 7.5%(n917)  2024 6.2%(n1024)  2025 3.9%(n1206)  2026 5.2%(n883)
+
+1. PER-FEATURE AUC on the HOLDOUT (0.5 = useless; >0.5 => higher value picks runners)
+  feature      holdout AUC  tune AUC
+  atr_expand         0.596     0.551
+  ext_ma             0.607     0.529
+  coin_30            0.520     0.491
+  coin_90            0.559     0.497
+  brk                0.490     0.514
+  vsurge             0.515     0.514
+  btc_bear           0.361     0.426
+  btc_30             0.546     0.561
+
+2. LOGISTIC MODEL fit on TUNE ONLY, scored on the HOLDOUT
+  holdout AUC of the model: 0.675
+  coefficients (standardized): atr_expand +0.14  ext_ma +0.13  coin_30 -0.06  coin_90 -0.19  brk +0.00  vsurge -0.02  btc_bear -0.27  btc_30 +0.17
+  holdout top decile by model: runner rate 10.7%, mean R +10.77   bottom decile: 1.8%, mean R -2.09   (base 5.2%, +1.03)
+
+3. ECONOMIC TEST on the HOLDOUT: pick contested slots by the model vs at random
+   (uncapped R this time - the runners are the point). 8 seeds each.
+                        HOLDOUT /mo (mean, range)     DD
+   random pick                +8.66% (+5.9..+10.8)     60%
+   model pick                 +7.97% (+6.4..+9.1)     66%
+
+   model minus random: -0.69%/mo on the holdout - slot priority does NOT work, because the pick is between signals sharing one regime.
+
+4. IS THE POWER CROSS-TIME (regime) OR WITHIN-MOMENT?  within contested groups:
+   within-moment AUC (groups with a runner and a non-runner, n=39): 0.383  -> ~0.5 means it cannot rank simultaneous signals
+
+5. POSITION-ONLY model (drop btc_bear, btc_30): is there edge BEYOND regime timing?
+   position-only holdout AUC: 0.591  coefs: atr_expand +0.10  ext_ma +0.17  coin_30 -0.04  coin_90 -0.19  brk +0.01  vsurge -0.00
+
+6. SIZING by runner-probability (holdout), MEAN RISK HELD CONSTANT so this is
+   NOT just betting more. Each position's risk x a factor from its rank, mean 1.
+   scheme                      HOLDOUT/mo     DD  worst mo
+   deployed (flat)                +10.51%    64%    -42.9%
+   size by p, +-50%               +14.29%    70%    -61.0%
+   size by p, +-90%               +16.64%    75%    -75.4%
+
+7. THE CONTROL THAT DECIDES IT: sizing-by-p vs a UNIFORM bet at the SAME drawdown.
+   If uniform matches it, the gain was just leverage (bull_boost.py). Also shown:
+   sizing by the POSITION-ONLY model, which cannot be regime-timing.
+   scheme                          HOLDOUT/mo    DD  uniform @ same DD   edge
+   full model +-50%                   +14.29%   70%            +11.72%  +2.56%
+   full model +-90%                   +16.64%   75%            +12.59%  +4.04%
+   position-only +-50%                +12.30%   65%            +10.75%  +1.55%
+   position-only +-90%                +12.98%   67%            +11.07%  +1.91%
+   edge > 0 means sizing-by-runner-probability beats plain leverage at equal risk.

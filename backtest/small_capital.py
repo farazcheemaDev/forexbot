@@ -120,7 +120,7 @@ def simulate(rows, bear, px, step, capital, risk_pct, slots, seed, t_from=None, 
     hpm = ((1 + (cagr / blend.HINDSIGHT) / 100) ** (1 / 12) - 1) * 100 if cagr > -100 else -100.0
     # an account down 90% is destroyed for this strategy whatever the arithmetic says
     return dict(hpm=hpm, dd=dd, taken=taken, skipped=skipped, final=float(eq),
-                ruined=bool(dd >= 90.0))
+                ruined=bool(dd >= 90.0), curve=cur)
 
 
 def avg(rows, bear, px, step, capital, risk_pct, slots, **kw):

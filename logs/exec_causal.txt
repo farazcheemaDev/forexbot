@@ -1,0 +1,8 @@
+STRICTLY CAUSAL pullback fill (arm on one bar, fill no earlier than the next)
+  pull     1x TUNE   DD  1x HOLD   DD   gross  max x    TUNE    HOLD   DD  worst
+  0.15      +4.55%  19%   +3.88%  33%    3.3x   2.50 +12.55%  +9.41%  65%  -27.4%
+  0.25      +5.12%  21%   +4.15%  35%    4.3x   2.30 +12.61%  +9.32%  64%  -25.7%
+  0.35      +5.47%  24%   +4.83%  37%    5.1x   1.95 +11.29%  +9.21%  61%  -23.3%
+  0.50      +5.68%  24%   +4.71%  40%    5.3x   1.85 +11.09%  +8.51%  62%  -25.8%
+
+deployed: tune +19.29% @55%DD | hold +8.44% @57%DD, worst -33.9%, gross 8.7x

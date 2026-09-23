@@ -1,5 +1,15 @@
 # The graveyard
 
+
+> **One category was REOPENED on 2026-09-23 and is no longer in this graveyard.**
+> Market-neutral cross-sectional momentum was filed here as "genuine and too small"
+> (Sharpe 0.62) on a narrow universe. Re-tested on the point-in-time, survivorship-free
+> universe with real funding and measured turnover it reads Sharpe 1.16 and correlates
+> **+0.09** with the deployed book — see [doc 10](10-market-neutral.md). The kill was
+> legitimate for what was tested; the universe was what changed. Its bear-market
+> performance turns out to be **funding carry, not prediction** — the momentum spread's
+> gross return is negative in bears in every variant.
+
 Every approach tested and killed. **Read this before proposing anything** — most
 new ideas are already in here.
 

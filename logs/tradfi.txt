@@ -1,0 +1,87 @@
+DEPLOYED RULES ON TRADFI UNDERLYINGS, DAILY BARS, gap-aware fills, 12bp + 1bp/8h funding on longs
+
+  GROUP A - commodities and index ETFs (chosen before looking)
+                          from   pos   meanR    PF | first 60%  last 40% |  long R short R  verdict
+  GLD   gold              2005   109  +1.132  1.63 |    -0.282    +4.000 |  +6.123  -0.593  one regime
+  SLV   silver            2006   121  +0.605  1.35 |    -0.787    +3.320 |  +1.951  -0.250  one regime
+  PPLT  platinum          2010   112  -1.008  0.54 |    -2.113    +0.835 |  -2.197  +0.060  one regime
+  PALL  palladium         2010   102  -0.388  0.73 |    +0.044    -1.006 |  -0.494  -0.315  dies OOS
+  CPER  copper            2011   111  -0.704  0.49 |    -0.956    -0.132 |  -1.245  -0.465  dead
+  USO   WTI crude         2006   109  +0.053  1.03 |    -1.151    +1.527 |  -0.457  +0.315  one regime
+  BNO   Brent             2010    86  +0.967  1.68 |    -0.422    +3.197 |  +2.464  +0.318  one regime
+  UNG   natural gas       2007   127  -1.506  0.23 |    -1.403    -1.665 |  -3.525  +0.302  dead
+  SPY   S&P 500           2005   106  -0.046  0.96 |    +0.111    -0.242 |  +2.654  -0.561  dies OOS
+  QQQ   Nasdaq 100        2005   106  +0.167  1.12 |    +0.211    +0.097 |  +4.536  -0.610  HOLDS
+  EWY   Korea             2005   126  +1.146  1.70 |    -0.610    +3.489 |  +6.081  -0.329  one regime
+  EWJ   Japan             2005   116  +0.168  1.12 |    -1.136    +1.950 |  +2.774  -0.477  one regime
+  -> 1 of 12 hold in both halves; 7 positive overall
+
+  GROUP B - single stocks Binance lists (HINDSIGHT: listed because famous)
+                          from   pos   meanR    PF | first 60%  last 40% |  long R short R  verdict
+  NVDA                    2005    93 +22.618 24.15 |   +21.240   +24.903 | +92.735  -0.420  HOLDS
+  TSLA                    2010    80 +11.703  7.42 |   +19.765    -1.735 | +38.095  -0.294  dies OOS
+  AAPL                    2005    93  +4.607  6.48 |    +6.077    +2.479 | +33.803  -0.567  HOLDS
+  MSFT                    2005    99 +12.747  9.98 |   +21.469    -0.119 | +59.400  -0.583  dies OOS
+  META                    2012    60  +8.366  8.33 |    +5.943   +11.534 | +58.850  -0.543  HOLDS
+  GOOGL                   2005    93  +4.911  5.45 |    +4.253    +6.227 | +24.302  -0.401  HOLDS
+  AMZN                    2005    89  +9.095  7.97 |   +16.104    +1.251 | +41.896  -0.413  HOLDS
+  AMD                     2005   100 +17.149 15.29 |   +22.464    +6.833 | +61.427  -0.070  HOLDS
+  AVGO                    2009    68 +26.265 32.70 |   +21.167   +34.499 |+916.138  -0.701  HOLDS
+  TSM                     2005    81  +8.718  7.46 |    +6.831   +11.925 | +74.143  -0.497  HOLDS
+  MU                      2005   107  +6.121  5.83 |    +3.210    +9.566 | +17.589  -0.195  HOLDS
+  INTC                    2005   115  +0.731  1.43 |    -0.928    +2.887 |  +2.558  -0.281  one regime
+  ORCL                    2005   101  -1.475  0.17 |    -2.057    -0.624 |  -6.648  -0.711  dead
+  PLTR                    2020    28 +44.286 35.85 |   +65.655    -0.827 |+156.182  -0.473  dies OOS
+  COIN                    2021    31  +1.835  2.89 |    +3.212    -0.346 |  +4.443  -0.048  dies OOS
+  MSTR                    2005   109  +4.087  4.13 |    +0.259    +7.986 | +11.526  -0.057  HOLDS
+  HOOD                    2021    24  +8.177  7.92 |   +10.832    +0.210 | +19.299  +0.232  HOLDS
+  QCOM                    2005   112  -0.782  0.48 |    -0.788    -0.773 |  -1.916  -0.368  dead
+  CSCO                    2005    98  +0.918  1.52 |    +0.416    +1.954 |  +5.304  -0.427  HOLDS
+  DIS                     2005   107  -0.307  0.81 |    +0.629    -1.503 |  -0.378  -0.284  dies OOS
+  UBER                    2019    38  +0.810  1.47 |    +1.169    -0.196 |  +4.428  -0.313  dies OOS
+  WMT                     2005   106  +0.369  1.28 |    -0.587    +2.012 |  +3.179  -0.591  one regime
+  JPM                     2005   103  +0.828  1.68 |    -0.296    +2.335 |  +6.000  -0.497  one regime
+  V                       2008    79 +11.068 11.38 |   +17.676    +1.363 |+154.276  -0.702  HOLDS
+  HD                      2005    91  +1.631  1.84 |    +4.388    -2.392 |  +9.405  -0.286  dies OOS
+  BABA                    2014    73  +0.463  1.45 |    +2.059    -0.928 |  +2.192  -0.235  dies OOS
+  IBM                     2005    97  -0.491  0.71 |    -1.139    +0.258 |  -1.502  -0.194  one regime
+$LLY: possibly delisted; no price data found  (1d 1927-10-16 -> 2026-09-21)
+
+1 Failed download:
+['LLY']: possibly delisted; no price data found  (1d 1927-10-16 -> 2026-09-21)
+  LLY                    no data
+  NVO                     2005    99  +7.476  7.98 |    +5.475   +10.191 | +49.663  -0.656  HOLDS
+  AMAT                    2005   101  +1.021  1.66 |    +0.079    +2.518 |  +5.160  -0.414  HOLDS
+  CRM                     2005    94  +3.021  3.45 |    +5.945    -0.029 | +19.767  -0.414  dies OOS
+  CRWD                    2019    27 +15.786 25.01 |   +20.356    -0.206 | +85.944  -0.158  dies OOS
+  DELL                    2016    45  +6.981  5.85 |    -1.165   +27.031 | +30.257  -0.550  one regime
+  ARM                     2023    10 +19.095 44.64 |   +27.236      +nan |+191.355  -0.045  dies OOS
+  MRVL                    2005   105  +0.770  1.53 |    -1.022    +4.512 |  +3.464  -0.210  one regime
+  RKLB                    2020    31 +22.355  9.45 |   +27.810    -0.376 | +63.604  -0.332  dies OOS
+  ASTS                    2019    43 +15.437  3.99 |    -6.809   +66.773 | +45.015  -0.409  one regime
+  NOK                     2005   140  +0.828  1.59 |    -0.145    +2.287 |  +2.582  -0.273  one regime
+  PYPL                    2015    62  +0.958  1.75 |    +3.238    -1.322 |  +3.031  -0.183  dies OOS
+  BRK-B                   2005    93  +1.686  2.77 |    -0.240    +5.189 | +17.379  -0.639  one regime
+  -> 15 of 39 hold in both halves; 35 positive overall
+
+====================================================================================================
+DOES IT ADD INDEPENDENT BETS?  monthly correlation with the crypto blend, and within group A
+====================================================================================================
+guard: 5628 long positions, per-unit sums == run_pyramid exactly
+  overlap 80 months (2020-02 .. 2026-09)
+  corr with crypto blend: GLD +0.03  SLV -0.04  PPLT -0.03  PALL -0.03  CPER -0.06  USO +0.06  BNO +0.05  UNG +0.04  SPY +0.08  QQQ +0.08  EWY +0.02  EWJ +0.09
+  group A: mean pairwise corr +0.18 -> ~4.0 effective bets of 12   (crypto: 0.63 -> 1.5 of 12)
+
+  group A as its own book, 8 shared slots, 0.30%/unit (full history):
+    -0.03%/mo compounded, max DD 83%, 16% of months up
+      2008:   -6.2%      2009:   +4.5%      2010:   -2.5%      2011:   +7.8%
+      2012:   -0.6%      2013:  -20.5%      2014:  -17.4%      2015:  +28.4%
+      2016:  -26.6%      2017:  -12.6%      2018:   +6.9%      2019:  -10.6%
+      2020:  -30.1%      2021:   -5.4%      2022:  -18.6%      2023:  -22.4%
+      2024:  -21.5%      2025:   -8.6%      2026: +226.6%
+
+  COMBINED with the crypto blend over the overlap (monthly sums, no rebalancing subtleties):
+    crypto only                  +24.26%/mo  max DD  76.4%  months up 48%
+    crypto + group A             +24.93%/mo  max DD  76.8%  months up 50%
+    crypto + group A x2 risk     +24.72%/mo  max DD  83.0%  months up 49%
+  (crypto figures here are raw - no 3x hindsight haircut - so compare the rows with each other, not with doc 00)

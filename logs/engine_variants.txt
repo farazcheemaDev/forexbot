@@ -1,0 +1,23 @@
+tune < 2024-08-29 <= holdout | 5 orderings averaged
+
+  variant                                   longs  TUNE/mo    DD  HOLD/mo    DD   worst
+  BASE 1h+4h+12h, breakout adds              5628  +19.29%   55%   +8.44%   57%  -33.9%
+
+  1. PYRAMID ADDS ON PULLBACKS (same eligibility, lower fill)
+  pullback adds 0.5xATR                      5628  +15.25%   30%   +6.45%   41%  -23.1%
+  pullback adds 1xATR                        5628  +11.48%   28%   +4.10%   34%  -12.8%
+  pullback adds 2xATR                        5628  +10.29%   25%   +4.02%   33%  -12.2%
+
+  2. SLEEVE SETS (slots still 12)
+  1h+4h+12h+1d                               5841  +17.15%   52%   +4.91%   55%  -21.5%
+  4h+12h+1d                                  1743   +8.59%   56%   +2.42%   44%  -19.1%
+  1h+4h+12h+8h                               6211  +16.12%   55%  +10.33%   55%  -38.9%
+  1h+2h+4h+12h                               7768  +20.64%   72%   +9.00%   57%  -35.4%
+  12h+1d                                      622   +2.34%   49%   -1.15%   65%  -36.5%
+  1h+4h+12h+2h+1d                            7981  +18.71%   66%   +6.09%   58%  -23.9%
+
+  3. MULTI-TIMEFRAME ALIGNMENT (1h/4h entries need 12h above its band)
+  aligned to 12h                             2006   +8.91%   52%   +4.41%   57%  -28.0%
+
+  base holdout +8.44%/mo at 57% DD - a variant only
+  counts if it beats that on BOTH halves by more than ~2%/mo.

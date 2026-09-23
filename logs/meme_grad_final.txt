@@ -1,0 +1,35 @@
+pump.fun lists 1050 graduated coins, 09-20 20:56 .. 09-21 20:25 UTC (created)
+  100/1050 pools fetched
+  200/1050 pools fetched
+  300/1050 pools fetched
+  400/1050 pools fetched
+  500/1050 pools fetched
+  600/1050 pools fetched
+  700/1050 pools fetched
+  800/1050 pools fetched
+  900/1050 pools fetched
+  1000/1050 pools fetched
+
+1032 pools with candles; 692 REAL graduations (opening market value $20k-$300k); 340 filtered; 61 data glitches excluded (price >50x its opening inside the first hour)
+  opening market value, median $48,178
+  best price ever reached vs opening: median 2.72x, 60% ever doubled, 27.3% ever 10x
+
+BUY EVERY REAL GRADUATION, equal money each. Net of 2% [5% stress]
+  entry    exit      n     mean  stress      95% CI of mean   median   win lost>90% top1% share
+  + 1 min  15m     631   -27.9%  -30.9%   [ -37.1%,  -17.9%]   -74.2%   26%      37%         25%
+  + 1 min  1h      631   -55.1%  -58.1%   [ -66.5%,  -42.3%]   -96.9%   10%      62%         43%
+  + 1 min  6h      528   -80.0%  -83.0%   [ -88.2%,  -70.1%]  -102.0%    3%      76%         72%
+  + 1 min  12h     370   -80.5%  -83.5%   [ -90.9%,  -65.7%]  -102.0%    2%      76%         82%
+  + 5 min  15m     631   -37.6%  -40.6%   [ -44.5%,  -30.0%]   -72.9%   25%      35%         24%
+  + 5 min  1h      631   -55.5%  -58.5%   [ -64.6%,  -45.6%]   -96.1%   10%      55%         42%
+  + 5 min  6h      528   -78.2%  -81.2%   [ -84.8%,  -70.4%]  -102.0%    3%      67%         77%
+  + 5 min  12h     368   -79.2%  -82.2%   [ -87.4%,  -68.6%]  -102.0%    3%      69%         88%
+  +15 min  15m     631    -6.8%   -9.8%   [ -17.1%,   +8.3%]    -3.1%   20%      13%         57%
+  +15 min  1h      631   -27.6%  -30.6%   [ -34.7%,  -19.1%]   -14.1%   10%      25%         54%
+  +15 min  6h      528   -43.5%  -46.5%   [ -48.3%,  -38.5%]   -37.0%    8%      32%         60%
+  +15 min  12h     367   -43.2%  -46.2%   [ -49.3%,  -36.5%]   -34.9%   12%      32%         70%
+
+WAIT FOR PROOF: buy only coins still above their graduation price, then hold
+  wait 1h, hold 6h: 56 of 631 coins qualified (9%); mean -62.8% [-79.2%, -44.4%], median -102.0%, win 16%, lost>90% 55%
+  wait 1h, hold 12h: 36 of 631 coins qualified (6%); mean -71.8% [-86.5%, -55.1%], median -95.5%, win 14%, lost>90% 56%
+  wait 6h: only 7 survivors with a full hold - too few

@@ -1,0 +1,77 @@
+
+  TOP-40 US COMPANIES BY SIZE AT END-2005 (no outcome selection; the dead ones Yahoo lacks are missing)
+                          from   pos   meanR    PF | first 60%  last 40% |  long R short R  verdict
+  XOM                     2005   103  +1.316  1.85 |    -1.645    +5.447 |  +6.173  -0.324  one regime
+  GE                      2005   106  +3.175  2.92 |    -1.413    +9.896 | +11.916  -0.117  one regime
+  MSFT                    2005    99 +12.747  9.98 |   +21.469    -0.119 | +59.400  -0.583  dies OOS
+  C                       2005   109  +0.852  1.45 |    -1.545    +4.530 |  +3.059  +0.013  one regime
+  WMT                     2005   106  +0.369  1.28 |    -0.587    +2.012 |  +3.179  -0.591  one regime
+  PFE                     2005    98  +0.282  1.22 |    +1.059    -0.561 |  +2.181  -0.300  dies OOS
+  JNJ                     2005    90  -0.670  0.64 |    -1.684    +1.000 |  -1.853  -0.522  one regime
+  BAC                     2005   107  +0.608  1.45 |    +0.116    +1.312 |  +2.685  -0.164  HOLDS
+  AIG                     2005   107  +0.546  1.44 |    -0.162    +1.450 |  +2.759  -0.129  one regime
+  IBM                     2005    97  -0.491  0.71 |    -1.139    +0.258 |  -1.502  -0.194  one regime
+  INTC                    2005   115  +0.731  1.43 |    -0.928    +2.887 |  +2.558  -0.281  one regime
+  PG                      2005    98  -1.092  0.35 |    -2.040    +0.343 |  -4.890  -0.405  one regime
+  MO                      2005    95  +6.354  5.21 |   +10.097    +1.828 | +35.651  -0.495  HOLDS
+  JPM                     2005   103  +0.828  1.68 |    -0.296    +2.335 |  +6.000  -0.497  one regime
+  CVX                     2005    96  +0.665  1.61 |    -0.686    +3.369 |  +4.631  -0.378  one regime
+  CSCO                    2005    98  +0.918  1.52 |    +0.416    +1.954 |  +5.304  -0.427  HOLDS
+  WFC                     2005   111  +0.060  1.04 |    -1.519    +2.465 |  +1.338  -0.331  one regime
+  KO                      2005    97  -0.092  0.94 |    -0.759    +0.819 |  +3.181  -0.691  one regime
+  VZ                      2005   128  -0.440  0.69 |    -0.466    -0.405 |  -0.244  -0.520  dead
+  T                       2005    88  -0.447  0.67 |    -0.182    -0.795 |  -1.097  -0.230  dead
+  PEP                     2005    90  -1.815  0.20 |    -1.660    -2.028 |  -8.811  -0.527  dead
+  HD                      2005    91  +1.631  1.84 |    +4.388    -2.392 |  +9.405  -0.286  dies OOS
+  AMGN                    2005   103  +1.781  2.37 |    +1.784    +1.777 | +15.206  -0.507  HOLDS
+  COP                     2005    94  +0.601  1.50 |    +0.062    +1.189 |  +4.839  -0.268  HOLDS
+  ABT                     2005    87  +0.162  1.12 |    +1.474    -1.788 |  +2.511  -0.328  dies OOS
+  MRK                     2005   112  -0.192  0.84 |    -0.613    +0.312 |  +0.660  -0.462  one regime
+  UPS                     2005   107  -0.966  0.32 |    -1.023    -0.885 |  -2.676  -0.445  dead
+  QCOM                    2005   112  -0.782  0.48 |    -0.788    -0.773 |  -1.916  -0.368  dead
+  ORCL                    2005   101  -1.475  0.17 |    -2.057    -0.624 |  -6.648  -0.711  dead
+  UNH                     2005    97  +1.955  2.25 |    +4.969    -1.252 | +13.341  -0.465  dies OOS
+  MMM                     2005   105  +1.033  1.61 |    +0.433    +1.622 |  +4.442  -0.267  HOLDS
+  HPQ                     2005   102  +0.279  1.23 |    +0.827    -0.504 |  +1.729  -0.192  dies OOS
+  CMCSA                   2005    94  +0.100  1.07 |    +1.369    -1.541 |  +1.610  -0.283  dies OOS
+  GOOGL                   2005    93  +4.911  5.45 |    +4.253    +6.227 | +24.302  -0.401  HOLDS
+  BA                      2005   108  +1.157  1.90 |    +3.583    -1.269 |  +6.381  -0.336  dies OOS
+  TXN                     2005    90  +1.456  1.89 |    +3.602    -0.690 | +14.179  -0.501  dies OOS
+  MDT                     2005   104  -1.293  0.37 |    -1.241    -1.372 |  -4.100  -0.259  dead
+  MS                      2005    96  +1.980  2.69 |    -0.024    +5.988 |  +9.593  -0.283  one regime
+  GS                      2005   113  +2.686  3.49 |    +0.061    +6.959 | +12.387  -0.359  HOLDS
+  LLY                     2005    98 +11.153 11.10 |   +17.408    -0.107 | +67.164  -0.603  dies OOS
+  -> 8 of 40 hold in both halves; 28 positive overall
+  longs: 894 positions, mean +6.942R, PF 2.72
+  shorts: 3154 positions, mean -0.380R, PF 0.49
+
+  by year, pooled long R (sum) and short R (sum):
+    2006: long   -242.1R  short   -44.5R
+    2007: long   -202.5R  short  -104.9R
+    2008: long   -580.1R  short   +45.2R
+    2009: long   -127.4R  short    -4.1R
+    2010: long   -149.4R  short   -49.1R
+    2011: long   -201.3R  short   -29.3R
+    2012: long    -56.4R  short   -87.0R
+    2013: long     -2.5R  short  -124.5R
+    2014: long    +79.8R  short  -109.4R
+    2015: long   +334.9R  short   -61.7R
+    2016: long   +208.9R  short   -46.2R
+    2017: long   +534.7R  short   -68.5R
+    2018: long   +358.3R  short   -74.3R
+    2019: long   +386.3R  short   -55.7R
+    2020: long   +717.1R  short   +46.6R
+    2021: long    -65.4R  short  -111.3R
+    2022: long  +1134.4R  short   -21.9R
+    2023: long   -126.2R  short   -47.4R
+    2024: long    -96.3R  short  -101.7R
+    2025: long   +958.6R  short   -87.6R
+    2026: long  +3466.8R  short   -21.5R
+
+  as a book, 12 shared slots, 0.30%/unit: +0.21%/mo, max DD 81%
+guard: 5628 long positions, per-unit sums == run_pyramid exactly
+  monthly corr with crypto blend: +0.05 over 80 months
+  LONG-ONLY book, 12 slots: +0.16%/mo, max DD 82%
+    crypto only                      +24.26%/mo  max DD  76.4%
+    crypto + long-only stocks        +26.73%/mo  max DD  75.9%
+    crypto + long-only stocks x2     +27.69%/mo  max DD  79.3%

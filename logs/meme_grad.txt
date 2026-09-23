@@ -1,0 +1,30 @@
+pump.fun lists 1050 graduated coins, 09-20 20:56 .. 09-21 20:25 UTC (created)
+  100/1050 pools fetched
+  200/1050 pools fetched
+  300/1050 pools fetched
+  400/1050 pools fetched
+  500/1050 pools fetched
+  600/1050 pools fetched
+  700/1050 pools fetched
+  800/1050 pools fetched
+  900/1050 pools fetched
+  1000/1050 pools fetched
+
+1032 pools with candles; 692 REAL graduations (opening market value $20k-$300k); 340 filtered
+  opening market value, median $48,101
+  best price ever reached vs opening: median 3.30x, 63% ever doubled, 33.7% ever 10x
+
+BUY EVERY REAL GRADUATION, equal money each. Net of 2% [5% stress]
+  entry    exit      n     mean  stress      95% CI of mean   median   win lost>90% top1% share
+  + 1 min  15m     691   -25.3%  -28.3%   [ -33.9%,  -16.4%]   -69.0%   31%      35%         24%
+  + 1 min  1h      687   +10.8%   +7.8%   [ -55.8%, +132.3%]   -96.5%   15%      60%         78%
+  + 1 min  6h      548   -75.2%  -78.2%   [ -83.7%,  -65.4%]  -102.0%    7%      73%         63%
+  + 1 min  12h     375   -77.0%  -80.0%   [ -87.6%,  -63.0%]  -102.0%    5%      74%         75%
+  + 5 min  15m     691   -34.5%  -37.5%   [ -41.1%,  -27.2%]   -66.5%   27%      33%         23%
+  + 5 min  1h      687    -4.6%   -7.6%   [ -55.5%,  +89.0%]   -95.4%   13%      53%         77%
+  + 5 min  6h      548   -74.3%  -77.3%   [ -81.2%,  -66.4%]  -102.0%    7%      66%         66%
+  + 5 min  12h     374   -76.3%  -79.3%   [ -84.2%,  -65.8%]  -102.0%    6%      68%         78%
+  +15 min  15m     690    -5.3%   -8.3%   [ -15.2%,   +8.0%]    -2.6%   21%      13%         53%
+  +15 min  1h      685   +18.2%  +15.2%   [ -28.3%, +101.3%]   -11.8%   13%      25%         86%
+  +15 min  6h      543   -41.8%  -44.8%   [ -46.9%,  -36.2%]   -32.5%   11%      34%         53%
+  +15 min  12h     370   -42.6%  -45.6%   [ -48.8%,  -36.1%]   -37.9%   15%      33%         58%

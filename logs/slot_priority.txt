@@ -1,0 +1,26 @@
+15,736 candidate positions; 9,239 distinct entry times; 1,093 of them CONTESTED (more signals than free slots, 3,865 signals involved)
+
+  priority                  |                TUNE/mo    DD |                HOLD/mo    DD   worst
+  RANDOM (deployed)         | +19.53% (+14.9..+25.7)   61% |  +8.86% ( +5.1..+10.4)   60%  -38.3%
+  timeframe HIGH first      | +17.29% (+15.0..+20.7)   59% |  +9.40% ( +6.1..+11.5)   56%  -35.5%
+  timeframe LOW first       | +19.54% (+16.0..+25.8)   58% |  +9.68% ( +7.2..+12.1)   59%  -40.5%
+
+  30d momentum HIGH first   | +22.56% (+22.5..+22.6)   59% | +11.08% (+11.1..+11.1)   57%  -49.5%
+  30d momentum LOW first    | +18.24% (+18.2..+18.3)   56% |  +8.10% ( +8.1.. +8.1)   57%  -30.2%
+
+  volatility (ATR%) HIGH first| +19.85% (+19.8..+19.8)   62% |  +8.48% ( +8.5.. +8.5)   54%  -30.8%
+  volatility (ATR%) LOW first| +21.18% (+21.2..+21.2)   48% | +11.45% (+11.4..+11.4)   62%  -46.8%
+
+  breakout strength HIGH first| +17.46% (+17.5..+17.5)   68% |  +7.45% ( +7.4.. +7.4)   65%  -34.3%
+  breakout strength LOW first| +23.73% (+23.7..+23.7)   54% |  +9.04% ( +9.0.. +9.0)   58%  -40.8%
+
+  volume surge HIGH first   | +17.90% (+17.9..+17.9)   60% |  +9.14% ( +9.1.. +9.1)   66%  -33.1%
+  volume surge LOW first    | +16.10% (+16.1..+16.1)   56% | +10.13% (+10.1..+10.1)   59%  -29.8%
+
+A feature is only real if one direction beats RANDOM on BOTH halves and the other
+direction loses to it on both:
+  tf       no consistent effect
+  mom      HIGH-first helps, LOW-first hurts
+  vol      no consistent effect
+  brk      LOW-first helps, HIGH-first hurts
+  vsurge   no consistent effect

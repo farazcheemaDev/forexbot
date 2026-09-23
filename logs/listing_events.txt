@@ -1,0 +1,49 @@
+announcements parsed: BN_SPOT 235, UPBIT_KRW 178, BN_PERP 118
+  100/531 events checked, 1 usable
+  200/531 events checked, 15 usable
+  300/531 events checked, 65 usable
+  400/531 events checked, 113 usable
+  500/531 events checked, 161 usable
+175 events had the coin trading on Binance before the announcement
+
+  UPBIT_KRW: 122 usable events (2019-05 .. 2026-08)
+    60 min BEFORE the notice: mean +0.88%  median +0.00%   (leak check)
+    peak within 60 min of the notice, vs last price before it: median +29.2%, mean +47.5%
+    entry     already gone |            15m             1h             4h            24h            72h      (net of 10bp; [50bp stress])
+    + 0 min        +17.0% |  +0.24[-0.2]   +0.21[-0.2]   -1.30[-1.7]   -4.75[-5.2]   -8.34[-8.7]*
+    + 1 min        +17.7% |  -0.70[-1.1]   -0.52[-0.9]   -2.06[-2.5]   -5.39[-5.8]*  -9.02[-9.4]*
+    + 2 min        +17.9% |  -1.17[-1.6]   -1.15[-1.6]   -2.50[-2.9]   -5.75[-6.1]*  -9.41[-9.8]*
+    + 5 min        +17.7% |  -0.27[-0.7]   -0.32[-0.7]   -1.71[-2.1]   -4.97[-5.4]*  -8.61[-9.0]*
+    +15 min        +18.7% |  +0.09[-0.3]   -1.06[-1.5]   -2.03[-2.4]   -4.99[-5.4]*  -8.75[-9.2]*
+    * |t| > 2 over events.  By year, entry +1 min, exit +1h and +24h (mean, net 10bp):
+      2023: n=  7  1h  -6.39% (win  14%)   24h  -8.13% (win  29%)   peak60 med +14.8%
+      2024: n= 19  1h  +0.70% (win  42%)   24h  -6.96% (win  16%)   peak60 med +18.8%
+      2025: n= 57  1h  -1.40% (win  39%)   24h  -8.85% (win  19%)   peak60 med +43.8%
+      2026: n= 36  1h  +1.50% (win  53%)   24h  +1.29% (win  28%)   peak60 med +27.0%
+
+  BN_SPOT: 33 usable events (2023-11 .. 2026-09)
+    60 min BEFORE the notice: mean +0.74%  median +0.15%   (leak check)
+    peak within 60 min of the notice, vs last price before it: median +18.9%, mean +34.3%
+    entry     already gone |            15m             1h             4h            24h            72h      (net of 10bp; [50bp stress])
+    + 0 min         +9.3% |  +3.97[+3.6]   +6.72[+6.3]   +6.56[+6.2]   +3.98[+3.6]   -1.10[-1.5] 
+    + 1 min         +9.1% |  +1.69[+1.3]   +3.36[+3.0]   +3.58[+3.2]   +1.72[+1.3]   -3.25[-3.7] 
+    + 2 min         +8.9% |  +1.30[+0.9]   +3.15[+2.7]   +3.15[+2.8]   +1.45[+1.1]   -3.55[-4.0] 
+    + 5 min        +10.5% |  +1.29[+0.9]   +2.87[+2.5]   +2.21[+1.8]   +0.99[+0.6]   -3.84[-4.2] 
+    +15 min         +8.0% |  +0.68[+0.3]   +1.59[+1.2]   +1.09[+0.7]   +0.35[-0.1]   -4.76[-5.2] 
+    * |t| > 2 over events.  By year, entry +1 min, exit +1h and +24h (mean, net 10bp):
+      2024: n=  4  1h  +3.94% (win  75%)   24h  +8.17% (win  75%)   peak60 med +14.0%
+      2025: n= 13  1h  +5.79% (win  54%)   24h  -6.37% (win  46%)   peak60 med +36.2%
+      2026: n= 14  1h  +1.49% (win  50%)   24h  +8.06% (win  50%)   peak60 med +15.5%
+
+  BN_PERP: 20 usable events (2024-09 .. 2025-05)
+    60 min BEFORE the notice: mean +0.09%  median +0.07%   (leak check)
+    peak within 60 min of the notice, vs last price before it: median +22.8%, mean +29.4%
+    entry     already gone |            15m             1h             4h            24h            72h      (net of 10bp; [50bp stress])
+    + 0 min        +14.1% |  +0.68[+0.3]   +1.45[+1.0]   +0.54[+0.1]   -5.51[-5.9]  -11.96[-12.4]*
+    + 1 min        +13.0% |  +0.16[-0.2]   +0.25[-0.1]   +0.05[-0.4]   -5.83[-6.2]  -12.15[-12.5]*
+    + 2 min        +13.5% |  +0.83[+0.4]   +1.39[+1.0]   +0.57[+0.2]   -5.22[-5.6]  -11.49[-11.9]*
+    + 5 min        +15.4% |  +0.92[+0.5]   +2.01[+1.6]   +0.45[+0.0]   -5.26[-5.7]  -11.28[-11.7]*
+    +15 min        +14.7% |  -0.40[-0.8]   -0.80[-1.2]   -1.46[-1.9]   -6.39[-6.8]* -12.68[-13.1]*
+    * |t| > 2 over events.  By year, entry +1 min, exit +1h and +24h (mean, net 10bp):
+      2024: n= 13  1h  +0.06% (win  15%)   24h  -6.55% (win  23%)   peak60 med +31.2%
+      2025: n=  7  1h  +0.61% (win  57%)   24h  -4.51% (win  29%)   peak60 med +12.6%

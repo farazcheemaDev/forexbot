@@ -1,0 +1,38 @@
+guard: long sleeve reproduces run_pyramid exactly; 15,736 positions
+regime: share of hours in 'bull' (BTC above its 1000h average): 55%   tune < 2024-08-29 <= holdout
+
+1000h GATE (deployed). Bear: x0.25 both sides. Bull multiplier on LONGS:
+                                    |  TUNE/mo    DD |  HOLD/mo    DD worst mo |lev p99    max
+  bull longs x1  (DEPLOYED)         |  +22.87%   54% |  +11.63%   64%   -42.9% |   8.7x   9.6x
+  bull longs x1.25                  |  +27.06%   66% |  +13.74%   70%   -54.3% |  10.9x  12.0x  OVER 10x
+  bull longs x1.5                   |  +30.77%   75% |  +15.51%   76%   -65.8% |  13.0x  14.4x  OVER 10x
+  bull longs x2                     |  +36.97%   87% |  +18.09%   84%   -88.7% |  17.2x  19.1x  OVER 10x
+  bull longs x2.5                   |  +41.76%   94% |  +19.51%   90%  -111.6% |  21.4x  23.8x  OVER 10x
+  bull longs x3                     |  +45.36%   97% |  +19.92%   94%  -134.5% |  25.7x  28.6x  OVER 10x
+
+  CONTROL - the same extra risk everywhere (uniform multiplier, gate kept):
+  uniform x1.25                     |  +28.14%   64% |  +13.62%   72%   -53.6% |  10.9x  12.0x  OVER 10x
+  uniform x1.5                      |  +32.93%   72% |  +15.21%   79%   -64.3% |  13.1x  14.4x  OVER 10x
+  uniform x2                        |  +41.22%   84% |  +17.32%   88%   -85.8% |  17.5x  19.2x  OVER 10x
+
+  VARIANTS - flat in bears, and boosting bull shorts too:
+  bull x2, bear x0 (flat in bears)  |  +31.96%   93% |  +20.79%   78%   -87.6% |  17.1x  19.0x  OVER 10x
+  bull x2 longs AND shorts          |  +37.98%   85% |  +20.12%   82%   -84.7% |  17.3x  19.1x  OVER 10x
+
+200h GATE (what backtest/blend.py has used), same grid, for continuity:
+                                    |  TUNE/mo    DD |  HOLD/mo    DD worst mo |lev p99    max
+  bull longs x1                     |  +27.03%   73% |   +9.07%   77%   -32.8% |
+  bull longs x1.5                   |  +37.17%   86% |  +11.64%   88%   -47.9% |
+  bull longs x2                     |  +45.19%   93% |  +12.91%   94%   -63.3% |
+
+RISK OF A DEEP DRAWDOWN over 3 years (block bootstrap of daily P&L, 30-day blocks):
+  deployed       P(drawdown > 80%)   0.9%   P(> 90%)   0.1%   median 3-year multiple x6012.5 (raw, no haircut)
+  bull x1.5      P(drawdown > 80%)  11.1%   P(> 90%)   1.6%   median 3-year multiple x35804.6 (raw, no haircut)
+  bull x2        P(drawdown > 80%)  35.0%   P(> 90%)   9.3%   median 3-year multiple x131512.7 (raw, no haircut)
+  uniform x1.5   P(drawdown > 80%)  12.6%   P(> 90%)   1.7%   median 3-year multiple x55833.3 (raw, no haircut)
+
+BY YEAR, compounded, raw (no haircut):
+                 2020     2021     2022     2023     2024     2025     2026
+  deployed      +829%  +85958%     -28%   +1846% +117872%    +344%     +38%
+  bull x1.5    +1706% +350765%     -45%   +3527% +620202%    +578%     +40%
+  bull x2      +2984%+1029386%     -58%   +5352%+2102978%    +806%     +31%

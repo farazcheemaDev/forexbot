@@ -1,0 +1,29 @@
+deployed book 5,628 longs | tight book 6,597 longs | 10,108 shorts | runner peak>= 50R
+tune 3,377 (6.5%)  holdout 2,251 (5.2%)
+
+1+2. OOS AUC on the deployed book (fit on tune, scored on holdout)
+  model                                holdout AUC
+  logistic, position-only (baseline)         0.591
+  logistic, + breadth + BTC vol              0.561
+  grad boosting, + breadth + BTC vol         0.614
+
+  best model: grad boosting, + breadth + BTC vol (AUC 0.614)
+
+3. HARDER SIZING on the deployed book, each vs a uniform bet at the SAME drawdown
+  scheme                                          /mo    DD worst mo uniform@DD   edge
+  flat (deployed today)                         +8.86%    59%    -38.2%      +8.86%  +0.00%
+  linear +-90%                                 +12.43%    63%    -39.5%      +9.54%  +2.89%
+  convex +-90%                                 +12.27%    62%    -37.6%      +9.38%  +2.89%
+  drop bottom 20% + linear 90%                 +12.59%    62%    -38.5%      +9.33%  +3.26%
+  drop bottom 30% + linear 90%                 +11.17%    61%    -37.9%      +9.18%  +1.99%
+
+4. STACK: tight exit + sizing, each vs uniform at the SAME drawdown
+  scheme                                          /mo    DD worst mo uniform@DD   edge
+  tight exit, flat                             +11.24%    52%    -17.5%     +11.24%  +0.00%
+  tight exit, linear +-90%                     +13.33%    55%    -22.0%     +12.08%  +1.26%
+  tight exit, drop bottom 20% + lin90          +13.15%    54%    -21.4%     +11.61%  +1.54%
+
+  THE LEVERAGE HEADLINE (holdout, 5 orderings averaged)
+  today's book (deployed exit, flat): +8.86%/mo at 59% DD
+  tight exit, flat levered to 59% DD (x1.20): +13.03%/mo, worst mo -21.0%  -> +4.17%/mo vs today
+  tight exit + convex-90 sizing levered to 59% DD (x1.15): +15.14%/mo, worst mo -22.4%  -> +6.28%/mo vs today

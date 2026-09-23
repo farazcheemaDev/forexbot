@@ -1,142 +1,99 @@
 # Pick up here
 
-*Written 2026-09-14, end of a long day. Read this first when you come back.*
+*Rewritten 2026-09-23. State below verified the same day with `python health.py`.*
+
+**If you are a new Claude session, read [`CLAUDE.md`](../CLAUDE.md) first.** It has the
+validation rules and the traps. This file is just "what is running and what is next."
 
 ## Nothing is broken. Nothing is urgent.
 
-The thing that matters is already running.
-
-*State below verified 2026-09-14 with `python health.py` and on the VM directly.*
-
-**The VM runs the 1000h gate and 12 slots as of 2026-09-14.** Verified on the box:
-`REGIME_MA = 1000`, `klines_deep` returns 2000 bars against the 1002 needed, and
-`btc_bear()` returns a real decision rather than its cached default. That last check is
-the one that matters — with the old 300-bar fetch a 1000h average silently disables the
-gate while every log line still reports it armed.
-
-**It was patched in place, not pulled.** `git pull` on the VM fails with
-`could not read Username for 'https://github.com'` — no cached credentials and no
-interactive prompt through Azure Run command. Fix that before the next change: either a
-fresh read-only PAT in the remote URL, or make the repo public (checked 2026-09-14:
-312 tracked files, no `.env`, no `.pem`, no hardcoded keys). Also note Azure Run command
-JSON-decodes the script, so a backslash-n inside a pasted heredoc becomes a REAL
-NEWLINE and breaks Python mid-string. **Write patch scripts with no backslashes at all** —
-use `chr(10)` and line-based edits. This very paragraph was mangled by that bug on the
-first attempt at writing it.
+`health.py` ends with *"Nothing needs attention."*
 
 | What | Where | Status |
 |---|---|---|
-| **$221 blend — the validated strategy** | **Azure VM, `blend-paper`** | **running 24/7 on the 2026-09-14 config** ✅ |
+| **$221 blend — the validated strategy** | Azure VM, `blend-paper` | **running 24/7** ✅ |
+| **Three forked paper books** (tight / sized / short-boost) | same process on the VM | **running, all four books live** ✅ |
+| Bitget demo order-path test | your PC, pid 7612 | **running, 3 longs open, heartbeat 11s** ✅ |
+| Polymarket forward collector | your PC, Startup launcher | running, 2,065 rows ✅ |
 | Status page | Azure VM, `status-server` | running ✅ |
-| Polymarket forward collector | your PC, Startup launcher | running, **1,814 markets, 0 resolved** ✅ |
-| Bitget demo order-path test | your PC | **DEAD since the ~05:00 reboot, 3 positions open** ⚠️ |
-| $10 micro bot | built, `ALLOW_REAL = False` | yours to flip, or not |
+| $10 micro bot | built, `ALLOW_REAL = False` | off, by design |
 
-**Your PC only restores one bot after a reboot.** The Polymarket collector has a Startup
-launcher; nothing else does, which is why the demo bot sat down for ten hours unnoticed.
-Restart it with `python longtrend_bot.py --mode demo`, or leave it — the thing that
-matters is on the VM.
+## The four paper books, and why there are four
 
-### First live read on the blend (24h, 2026-09-14)
+One process, four independent books, all on the same live price feed. They exist because
+2026-09-22 produced six variants that all "helped the holdout and cost the tune half" —
+which is exactly what an exhausted holdout looks like. Rather than pick one on a backtest,
+all of them run forward and the market decides.
 
-`equity 219.76 (−0.56%)`, 11 entries, 7 closed, **0% win, −7.48R**. All of that is on
-spec, and one line proves the machinery:
+| book | what is different | forked |
+|---|---|---|
+| **main** | the validated config, unchanged | original |
+| **tight** | long trail drops to 5×ATR once BTC breaks its 4h trend | 2026-09-21 23:30 |
+| **sized** | entry size tilted ±90% by a frozen at-entry runner model | 2026-09-22 19:37 |
+| **short-boost** | short risk ×5 | 2026-09-22 21:05 |
 
-> 7.48R × 0.30%/unit × **0.25** = 0.561% → exactly the −0.56% reported.
+**All four are still identical**, and will stay that way until BTC breaks. The tight and
+short-boost books only diverge on a **4h close below roughly $81,752** (−5.2% from here),
+which historically fires about every 15 days. Don't read "no divergence" as "no effect."
 
-**That was the OLD 200h gate**, quarter-sizing every trade, so a −7.48R run cost
-0.56% instead of 2.24%. Also confirmed: all 7 closed were *shorts* and all 4 open are
-*longs* (5×ATR trail vs 20×ATR — shorts churn, longs sit), and losses clustered at
-−1.05R to −1.09R, meaning live fills are paying the **0.07R/trade the pessimistic
-backtest convention assumed**. 0% of 7 is a 1-in-5 event at the designed 20% win rate.
-
-**Shorts are supposed to lose** — −0.036R/trade under honest fill. They are a drawdown
-hedge (78.6% → 68.9%), not a profit source. See [doc 01](01-strategy.md).
-
-## Check on it whenever
-
-**On your PC — is anything wedged or dead:**
-
-```bash
-python health.py
-```
-
-Three signals per bot (process / heartbeat / progress), reported separately so a
-silent-but-healthy bot is never mistaken for a dead one. Full explanation of the
-verdicts in [doc 04](04-operations.md).
-
-**On the VM — is the strategy actually making money:**
+Check them:
 
 ```bash
 cd /opt/forexbot && ./.venv/bin/python blend_paper.py --status
 ```
 
-Per-sleeve and per-side breakdown, which is how you tell "the strategy is losing"
-from "half of it isn't running." Run it through Azure portal → your VM → **Run command**
-→ `RunShellScript` if you don't want to set up SSH.
+## The Bitget demo bot now runs all three validated rules
 
-*The reading above predates the 1000h/12-slot change, so treat it as evidence the
-machinery is wired correctly rather than as a performance baseline.*
+As of 2026-09-22 `longtrend_bot.py` imports the tight exit, the short boost and the runner
+sizing straight from `blend_paper.py`, so the demo account and the paper books cannot drift
+apart. Dry runs write to `logs/longtrend.dryrun.log` and their **own** state file — that
+separation exists because sharing a log once made the live book look flat when it was not.
 
-**Don't read anything into the first ~30 closed trades.** The book filled every slot on its
-first cycle, which is a cold-start artifact — a bot that had been running would have
-entered those over time. And you lose 4 trades in 5 by design.
-
-## Three optional jobs, in the order I'd do them
-
-### 1. Revoke the GitHub token (2 min)
-
-GitHub → Settings → Developer settings → Personal access tokens → Fine-grained →
-delete `forexbot-vm`. It's read-only and expires on its own, but it was pasted into a
-chat transcript. The code is already on the VM; you don't need it until the next pull.
-
-### 2. Move the Bitget demo bot to the VM (~15 min)
-
-Full steps in [doc 06](06-deploy-221.md). The order matters:
-
-1. **Stop the local bot first** — one account, one bot, or every order doubles
-2. IP-whitelist your Bitget API key to the VM's public IP (and drop Withdraw
-   permission while you're in there)
-3. Write `/etc/forexbot.env`, chmod 600
-4. Install `deploy/longtrend-demo.service`
-
-Why bother: the demo bot exists to prove the order path works *unattended*, which it
-can't do on a machine that gets switched off.
-
-Expect the orphan guard to fire on XRP — there's an open position on the exchange with
-no state on the VM. That's correct behaviour. Close it in the Bitget UI or let the bot
-skip that symbol.
-
-### 3. Nothing, on Polymarket — it already runs itself
-
-The Startup launcher brings it back after a reboot, so there is no job here. Check it with
-`python health.py`, or read the numbers with `python poly_forward.py --report`. Korea
-Central returns 451 for Polymarket, so it can't live on the VM; it snapshots once a day
-and markets stay open for weeks, so a day with the PC off costs very little.
-
-**Do not deposit money into Polymarket yet.** 0 resolutions so far, the time to an answer
-is **unknown** (the old "1–3 weeks" was computed from a field since caught lying by ten
-months), and a fourth artifact turned up on 2026-09-14. $5 would buy one-180th of the
-information the free collector is already gathering — full arithmetic in
-[doc 08](08-polymarket.md).
+`ALLOW_REAL = False` is still in place. A human flips that or nobody does.
 
 ## What to expect, so it isn't a surprise
 
-**Probably a losing month, and that is not failure.** ~20% win rate, median month
-flat-to-down, and 2021 alone made 40% of this strategy's lifetime profit while
-2025–2026 made 2.5%. A month tests the machinery, not the returns.
+**Read the capital table in [doc 00](00-current-state.md).** The two numbers that matter:
 
-The numbers start meaning something around 30 closed trades.
+- **57% of single months lose money** (holdout, and the haircut cannot change that sign)
+- **capital does not change the percentage** — above ~$25 every level returns the same rate
 
-## If you want to go further, in order of value
+A month tests the machinery, not the returns. Numbers start meaning something around 30
+closed trades, and you lose 4 trades in 5 **by design**.
 
-1. **Earn the capital.** $221 runs the validated strategy; $1,122 runs the safer
-   major-coin version. One freelance automation job covers either, and it's a far
-   better bet than turning $10 into $200 — see [doc 07](07-micro-account.md).
-2. **Wait for the Polymarket answer.** 4–8 weeks. Either the first genuinely new edge
-   in this project, or a dead end closed properly — see [doc 08](08-polymarket.md).
-3. **Stop searching for a better signal.** ~75 configurations were tested in one day
-   across indicators, chart types, bar construction, timeframes, exits, stop widths,
-   universe size and venue. The two things that survived a holdout were the breakeven
-   stop and the timeframe blend, and both are already deployed. Further sweeps on the
-   same six years of data are mining, not research.
+## The one new thing worth your attention
+
+[**Doc 10 — the second book.**](10-market-neutral.md) Market-neutral cross-sectional
+momentum on the survivorship-free universe: Sharpe 1.16, and **correlation +0.09** with the
+book you are already running. Mixing 25% of it in raises Sharpe 1.65 → 1.80, *lowers*
+drawdown, and takes the weekly win rate from **32% to 53%** for 11% less return.
+
+It is **not deployed and should not be** until it runs forward as a fifth paper book. Two of
+its six years are flat-to-negative, 2026 is carrying a third of the result, and the minimum
+order has never been simulated against a 120-name book on $200 — which is where it will
+probably break.
+
+## Open jobs, in the order I'd do them
+
+1. **Run the market-neutral book as a fifth paper book** (~1 hour). It is the only
+   unexplored direction left that isn't more mining. Everything needed is in
+   `backtest/market_neutral.py`.
+2. **Move the Bitget demo bot to the VM** (~15 min, [doc 06](06-deploy-221.md)). Stop the
+   local bot first — one account, one bot, or every order doubles. IP-whitelist the key to
+   the VM and drop Withdraw permission while you are in there.
+3. **Reconcile the 1000h / 200h gate discrepancy.** The live bots gate on a 1000-hour BTC
+   average; the backtests were run on 200. Don't "fix" it silently — re-run the backtests on
+   1000h and see what changes.
+4. **Binance testnet keys, created by you**, if you want a real slippage measurement.
+   `blend_testnet.py` reads them from the environment only.
+5. **Nothing on Polymarket.** 229 resolutions in and the +0.25 edge claim is effectively
+   refuted (8/14 inside the band). Do not deposit. [Doc 08](08-polymarket.md).
+
+## What NOT to do
+
+**Stop sweeping the holdout.** ~75 configurations in one day, then dozens more on
+2026-09-22, against the same six years and the same single split. Further sweeps are mining,
+not research — and doc 02 records four separate cases where a "plateau with an interior
+optimum" was a look-ahead bug rather than an edge.
+
+The next real information comes from the paper books running forward, not from this machine.

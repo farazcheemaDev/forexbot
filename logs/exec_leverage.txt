@@ -1,0 +1,10 @@
+Is 0.25 an interior optimum? (pullback + tight, levered to deployed DD)
+  pull     1x HOLD   DD  gross@1x  max x under 10x gross    TUNE    HOLD   DD  worst
+  0.10     +13.81%  42%      8.8x                  1.10 +18.91% +15.03%  46%  -19.4%
+  0.15     +14.80%  44%      8.8x                  1.10 +19.09% +16.09%  48%  -19.6%
+  0.25     +15.39%  43%      8.5x                  1.15 +19.38% +17.43%  47%  -19.7%
+  0.35     +14.65%  40%      8.6x                  1.15 +18.86% +16.62%  45%  -19.1%
+  0.50     +10.78%  37%      8.0x                  1.25 +18.32% +13.33%  44%  -20.2%
+
+deployed for comparison: tune +19.29% @55%DD | hold +8.44% @57%DD, worst -33.9%
+deployed gross p99: 8.7x

@@ -1,0 +1,16 @@
+  top-300: 11 coins ever eligible
+  top-30: 298 coins ever eligible
+  top-60: 478 coins ever eligible
+  top-100: 599 coins ever eligible
+
+tune < 2024-09-06 <= holdout | 5 orderings averaged | 12 slots unless noted
+  universe                trades coins  TUNE/mo    DD  HOLD/mo    DD   worst
+  12 deployed coins        10601    11  +13.08%   66%   +6.56%   63%  -46.9%
+  PIT top-30               40939   283   +5.32%   78%   -0.09%   68%  -30.7%
+  PIT top-60               79598   469   +6.26%   79%   -0.13%   76%  -33.5%
+  PIT top-100             128146   588   +5.28%   77%   +0.75%   64%  -33.9%
+
+  more slots on the widest book (breadth is useless if the slots still bind):
+  top-100, 12 slots                      +5.28%   77%   +0.75%   64%  -33.9%
+  top-100, 20 slots                      +9.08%   85%   +0.28%   80%  -43.9%
+  top-100, 30 slots                     +16.38%   93%   +0.24%   90%  -62.4%

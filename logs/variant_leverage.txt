@@ -1,0 +1,14 @@
+deployed: tune +19.29%/mo at 55% DD | holdout +8.44%/mo at 57% DD, worst mo -33.9%
+
+  variant                     |  at 1x risk: TUNE   DD    HOLD   DD |  levered to deployed DD
+                              |                                     |     x    TUNE    HOLD  worst
+  BASE (deployed)             |           +19.29%  55%  +8.44%  57% |  1.00 +19.29%  +8.44%  -33.9%
+  pullback adds 0.5xATR       |           +15.25%  30%  +6.45%  41% |  1.50 +23.07%  +9.48%  -34.6%
+  pullback adds 1xATR         |           +11.48%  28%  +4.10%  34% |  1.90 +22.44%  +7.52%  -24.4%
+  tight exit only             |           +16.08%  37% +12.73%  54% |  1.00 +16.08% +12.73%  -20.9%
+  pullback 0.5 + tight exit   |           +14.41%  26% +10.78%  37% |  1.70 +25.05% +17.44%  -27.5%
+  pullback 1 + tight exit     |           +10.38%  23%  +6.21%  38% |  1.70 +18.39% +10.22%  -25.5%
+
+  'levered' uses the SMALLER of the two multipliers that keep each half at or
+  under the deployed book's drawdown, so neither half is flattered. A variant
+  wins only if BOTH levered columns beat the deployed row by more than ~2%/mo.

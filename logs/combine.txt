@@ -1,0 +1,20 @@
+overlap: 337 weeks, 2020-04 .. 2026-09
+
+CORRELATION, trend blend vs market-neutral: +0.092
+  (below ~0.3 is the whole point: the two books are effectively independent)
+
+  correlation by regime: bull +0.16  bear +0.21  chop -0.16
+
+  book                            /mo      /yr    DD*  Sharpe  wks up
+  trend blend alone           +10.93%    +247%    23%    1.65     32%
+  market-neutral alone         +3.93%     +59%    37%    1.16     54%
+  blend 75% / MN 25%           +9.70%    +204%    20%    1.80     53%
+  blend 50% / MN 50%           +8.16%    +156%    22%    1.93     57%
+  blend 25% / MN 75%           +6.26%    +107%    28%    1.78     57%
+  *see the docstring: these drawdowns compare to each other, not to doc 00.
+
+  BY REGIME, net weekly, to show WHERE the second book earns its place
+  regime      weeks     blend        MN     50/50
+  bull          127   +5.518%   +1.515%   +3.517%
+  bear           90   +0.841%   +0.633%   +0.737%
+  chop          120   +2.015%   +1.095%   +1.555%
