@@ -70,10 +70,16 @@ phases. It also passes a matched-risk control: reaching the same return by raisi
 more points of drawdown. The mechanism is that units 6–7 are added at +10R/+12R, above the
 breakeven stop, so they carry upside with almost no downside. **It stacks with the time stop**
 (`backtest/units_on_tstop.py`): +1.51 ± 0.06 / +1.54 ± 0.08 over tight + time stop, 10/10.
-The "triple" (tight + time stop + 7 units) is the best book measured: +8.89% tune / **+10.76%
-holdout** %/mo against main's +4.88 / +4.88, at 48% / 51% drawdown. **Paper book #7, not
+The "triple" (tight + time stop + 7 units) is the best book measured: +8.89% tune / +10.76%
+holdout %/mo against main's +4.88 / +4.88, at 48% / 51% drawdown - **but those two figures ignore
+the bot's leverage cap; the numbers to quote are +8.72% / +10.43%, below.** **Paper book #7, not
 deployed.** The same control rejected 16 slots (`slots_sweep.py`), which is what makes the pass
 believable.
+
+**The units change is worth ~+1.19%/mo LIVE, not +1.54%.** +1.54 is its gain over tight + time
+stop with no leverage cap; the bot's guard takes 0.35 of it back. An earlier bound of "+1.44%" was
+mine and was too generous - it counted units attempted while already over 10×, which is not what a
+guard refuses, because a guard also stops the book reaching 10×.
 
 **Quote the triple WITH the 10× margin guard** (`backtest/triple_capped.py`). The triple
 reaches 12.2× gross leverage in the backtest (`regime_and_liq.py`), and `blend_paper.py` refuses
@@ -140,7 +146,9 @@ btc_regime_now.py  LIVE read-only readout: 1000h gate, 4h break level, momentum,
 blend_paper.py     THE LIVE PAPER BOOKS — seven in one process. main / tight / sized /
                      sboost / tstop / units / triple. The last four are a 2x2 factorial over
                      {time stop, 7 units} on the tight base: both main effects and the
-                     interaction, read forward. Best backtest: triple, +10.76%/mo holdout.
+                     interaction, read forward. Best backtest: triple, **+10.43%/mo**
+                     holdout WITH the 10x guard the bot enforces (+10.76% without it -
+                     quote the guarded one, see section 6).
 mn_paper.py        the 5th book: market-neutral, pre-registered, verdict at 26 rebalances
 xs_paper.py        an EARLIER pre-registered XS test (21 coins, daily). Frozen — do not edit
 longtrend_bot.py   the Bitget demo bot. ALLOW_REAL = False
@@ -298,7 +306,8 @@ the detail lives in the numbered docs.*
 
 **The best book changed.** MAX_UNITS 5 → 7 (see §2) is the first genuine RETURN improvement
 the whole search found. It stacks with the time stop, and the triple (tight + time stop + 7
-units) measures +10.76%/mo holdout against main's +4.88% (haircut, entry-sized), with a
+units) measures +10.43%/mo holdout WITH the bot's 10x guard (+10.76% without it) against
+main's +4.88% (haircut, entry-sized), with a
 typical year for $221 of **$568–619** against main's $270–406 (§6). It is a backtest on a
 mined holdout; the paper books decide.
 
@@ -326,6 +335,15 @@ all of them in bulls - which only `blend_paper.py`'s existing margin guard preve
   fails the same matched-risk control that MAX_UNITS passed - 12 slots at 0.40% earns more at the
   same drawdown. The 563 declined signals are the design working.
 - **bar-phase blending** (`bar_phase.py`): retracted, see the trap table.
+
+**"Should we remove the 10× guard, since it costs return?"** Asked and answered with a
+measurement (doc 11 part 10b): **no.** At the triple book's 13.2× peak a **7.6% adverse move closes
+the whole account**. It never happened during the 929 exposed hours (worst BTC 24h there: −4.85%) -
+but BTC falls ≥8% in 24h in **1.24% of all hours** and the book holds alts that fall 27–34% at their
+worst. The exposure is 1.6% of hours and it sits entirely in bull regimes, which is when reversals
+arrive. Decisively: **the backtest cannot model liquidation at all**, so the unguarded return is
+computed in a world without the risk that removing the guard creates. Also: the guard is what makes
+MAX_UNITS=7 a *better deployment of risk* rather than leverage the model scores as free.
 
 **What moves BTC (doc 12, `backtest/btc_signals.py`).** Fourteen market-timing signals were
 tested: Coinbase premium, exchange flows, MVRV, positioning, taker flow, Nasdaq, DXY, VIX,
@@ -367,6 +385,28 @@ not just the ones that were killed.
   `logs/blend_state*.json`.
 - The 2026-09-23 advice that 0.6% per unit was fine for "crazy returns" was wrong for a book
   meant to keep running: it holds only on a ~3-month horizon (`kelly_corrected.py`).
+
+**WHERE THE DAY LEFT THE GOAL** ("crazy returns, or small capital, or something out of the box").
+
+One of the three was achieved. **MAX_UNITS 5 → 7 is worth ~+1.19%/mo live** and works at $100
+capital - that is the small-capital half. The crazy-returns half was tested four ways and refused
+every time: capacity tiers, the risk dial, more slots, bar-phase blending. Eleven new test files,
+four theses refuted with predictions registered first, and **two of my own claims retracted plus a
+third corrected**, all for the same error - comparing medians across random draws instead of pairing
+within them.
+
+**Two caveats that belong beside the headline, not below it.** The book is a **bull-market
+amplifier**: 63% of days are chop or bear and earn approximately nothing, before and after today's
+work. And the 7-unit change is what takes the book toward the liquidation line, so its safety rests
+on the margin guard, not on the rule itself.
+
+**What NOT to do next.** Nothing is left to tune. Six years has now been swept across indicators,
+timeframes, exits, stops, universe size, capacity, leverage, bar phase, ATR period, pyramid spacing
+and slot count. The one result that survived did so because the test confirming it is a test that was
+watched to FAIL on something else the same day - that is the standard, and another sweep on this
+split cannot meet it. **The seven books have to earn their own evidence forward.** First meaningful
+read: ~30 closed trades per book, or whenever BTC closes a 4h bar below the break level and books
+#2/#5/#6/#7 finally diverge.
 
 ### 2026-09-23 - three flattering bugs, the numbers halved, two books added
 
