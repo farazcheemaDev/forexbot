@@ -443,6 +443,19 @@ Validated on a 1,500-trade synthetic log built from the backtest engine, where t
 known independently: the bug had turned **$10,022 into $315,437** over 2.3 years - a 31x
 overstatement, because the error compounds rather than being a fixed multiple.
 
+**The bug only bites when positions OVERLAP.** With one position open at a time the two
+conventions are arithmetically identical - equity at open equals equity at close when nothing
+else closed in between. The blend runs 12 slots with multi-day holds, so overlap is high, which
+is why the effect reached ~2x. A first attempt at testing this used non-overlapping trades and
+therefore tested nothing.
+
+**A log that SPANS the fix fails the self-check by design.** Trades closed before the fix carry
+old-convention equity, trades closed after carry corrected equity, so an old-convention replay
+cannot reproduce the whole column. The tool reports the FIRST divergence and its timestamp: if
+that is when the fix landed (the `ENTRY-SIZED FIX APPLIED` marker in `blend_paper.log`), the
+mismatch is expected and the corrected curve is still right. Any other timestamp is a real
+failure.
+
 Two things that validation exposed, both worth knowing:
 
 - **`sort_values` defaults to quicksort, which is NOT stable.** The trade log is append-only

@@ -17,6 +17,14 @@ THE TWO CONVENTIONS
         risk_usd fixed at OPEN = equity_at_open * risk_pct / 100
         equity += R * risk_usd
 
+A LOG THAT SPANS THE FIX WILL FAIL THE SELF-CHECK, BY DESIGN
+    Trades closed BEFORE the entry-sized fix landed carry old-convention equity; trades closed
+    after carry corrected equity. So the old-convention replay cannot reproduce the whole
+    column once the log straddles that moment. The check reports the FIRST divergence and its
+    timestamp: if that is when the fix was applied (see the marker line in blend_paper.log),
+    the mismatch is expected and the corrected curve is still right. If it is some other
+    moment, it is a real failure.
+
 HOW IT VALIDATES ITSELF - the part that makes this trustworthy
     Replaying the OLD convention must reproduce the `equity` column already in the CSV, to
     the cent. If it does, the trade order, the risk_pct handling and the arithmetic are all
@@ -54,6 +62,7 @@ BOOKS = {
     "tight": "trades_blend_tight.csv",
     "sized": "trades_blend_sized.csv",
     "short-boost": "trades_blend_sboost.csv",
+    "tstop": "trades_blend_tstop.csv",
 }
 
 
@@ -148,9 +157,19 @@ def report(name: str, path: Path, args):
         print(f"    final value    diff     ${d_fin:.4f}")
         print(f"    -> {'MATCH - order, risk_pct and arithmetic all confirmed' if ok else 'MISMATCH'}")
         if not ok:
-            print("  *** The replay does not reproduce the recorded column. Either the log was")
-            print("  *** written by a different convention, or the entry-time estimate is")
-            print("  *** wrong. DO NOT trust the corrected curve below - it is not verified.")
+            # A log that SPANS the entry-sized fix will mismatch BY DESIGN: rows closed after
+            # the fix were already recorded correctly, so the old-convention replay cannot
+            # reproduce them. Locate the first divergence and say so, rather than crying wolf.
+            dev = (last.mine - last.rec).abs()
+            first = dev[dev > tol].index[0]
+            after = int((c.ts >= first).sum())
+            print(f"    first divergence at {first}  ({after} of {len(c)} trades from there)")
+            print("  *** If that timestamp is when the ENTRY-SIZED FIX landed on this box, the")
+            print("  *** mismatch is EXPECTED and the corrected curve below is still right: the")
+            print("  *** rows after it were already being recorded the corrected way. Check")
+            print("  *** logs/blend_paper.log for the ENTRY-SIZED FIX APPLIED marker line.")
+            print("  *** If the timestamp is NOT that moment, something else is wrong and the")
+            print("  *** corrected curve is not verified - do not trust it.")
     else:
         print("  SELF-CHECK  skipped: this log has no `equity` column to check against")
 
