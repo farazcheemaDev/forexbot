@@ -1,6 +1,6 @@
 # CLAUDE.md — read this first, every session
 
-*Last updated 2026-09-24. Dated history in §10.*
+*Last updated 2026-09-25. Dated history in §10.*
 
 This file is the orientation for a new session. It is deliberately short. It tells you the
 goal, the rules that keep the numbers honest, where everything is, and the traps that have
@@ -131,6 +131,7 @@ candidate on paper. The rule above still stands for everything else.
 | **Bar label read as entry time** | `asof(t0)` on a 4h/12h row reads a bar that closed hours after the entry. The short boost's "+0.481R" was 118 look-ahead trades; causal, it is +0.305R and worth ~+0.5%/mo | `causal_t0.real_t0(rows)` |
 | **Fees charged, funding not** | Every figure for the deployed book was fees-only. Funding takes the tune half +16.5% → +12.2%/mo | `funding_cost.charged(...)` |
 | **Scaling a trade by equity it was never sized on** | Daily-sum / sequential compounding credit open runners with profit other trades banked: ~2× the achievable return. `blend_paper.py`'s paper equity does it too | entry-sized curve, `mtm_sizing.simulate(..., "realised")` |
+| **Booking P&L at the bar close hides what happened inside the bar** | Doc 15's crash bids made money in the 2025-10-10 21:00 hour *at its close*. Five-minute bars show every bid filled and kept falling, and together with the trend book the account had **10% left** inside that hour (2026-09-25, `joint_worst_hour.py`) | For any book that buys INTO a move, measure the worst price after the fill inside the holding bar, summed across the book and added to what else is open |
 
 ## 4. Where things are
 
@@ -172,8 +173,12 @@ longtrend_bot.py   the OLD Bitget demo bot, STOPPED 2026-09-24 (combo_bot replac
                      validated 12-coin book - never take it live as it stands
 micro_bot.py       the $10 go-for-broke bet. ALLOW_REAL = False
 health.py          "is anything wedged or dead" — three signals per bot
-docs/              00-12 + README. Doc 02 is the graveyard; read it before proposing.
-                     11 = money-machine search, graveyard re-check, lottery odds. 12 = BTC signals
+backtest/wick_better.py, wick_5m.py, joint_worst_hour.py, worst_month.py   the crash bids (docs 15/16):
+                     which rule, what happens inside the hour, the account's worst hour, the worst
+                     month and recovery. Candidate only - no paper book, nothing in combo_bot.py
+docs/              00-16 + README. Doc 02 is the graveyard; read it before proposing.
+                     11 = money-machine search, graveyard re-check, lottery odds. 12 = BTC signals.
+                     13 bear breadth, 14 drawdown + the final mix, 15/16 crash bids
 deploy/            systemd units and the no-backslash VM patch scripts
 logs/              state, trades, and the saved stdout of every experiment
 ```
@@ -293,6 +298,30 @@ fall as 63%, against 53% raw.
   and `combo_paper.py` count funding correctly.
 - The sleeve's 2018 out-of-sample fall was 42% at 1x (doc 13 §7).
 
+**A candidate fourth book: crash bids** ([doc 16](docs/16-crash-buys-safe.md), which supersedes doc
+15's rule). The rule:
+- resting buys 10% under the last close on the PIT top-40;
+- 1/40 of equity each;
+- **none on BEAR days**;
+- **cancel the rest after 10 fills in an hour**;
+- sold at the hour's close.
+
+Its numbers:
+- alone, +16%/yr (tune +18.5%, holdout +11.4%);
+- on $300 with the final version, typical year $1,812 / $1,625 (6 years / last 2 years) against
+  $1,642 / $1,527;
+- the worst month is about unchanged.
+
+**Never run it uncapped.** Doc 15's version left 10% of the account in the 2025-10-10 hour (§3).
+
+**The worst month cannot be braked away.** 16 monthly brakes all lose to betting smaller
+(`worst_month.py`). Size is the only dial: everything ×0.7 gives −25.5% / $1,510, and ×0.5 gives
+−18.5% / $1,106.
+
+**Withdrawals through a loss are what kill recovery.** After a −50% month, $20/month taken out
+regardless leaves a typical $16 after two years. Paused while under the starting balance, it
+recovers like no withdrawals.
+
 **Risk per unit stays 0.30%** (`backtest/kelly_corrected.py`). 0.45% buys +0.34%/mo on main's
 holdout and multiplies P(80% drawdown within 3 years) by nine (2.7% → 24.7%), with max gross
 leverage past 10×. 0.6%+ has a LOWER holdout return. 7 units adds notional, so the triple has
@@ -372,6 +401,42 @@ the box was patched before the repo was public.
 
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
+
+### 2026-09-25 - crash bids made safe, the worst month, and coming back (doc 16)
+
+**Better crash bids** (`wick_better.py`, ~25 variants):
+- Skipping BEAR days and using the top-40 pass against "just bet smaller" on both halves. Bear-day
+  wicks earn +0.12% a fill (holdout −0.88%) and hold every LUNA fill.
+- Closer bids, volatility-scaled bids, ladders, a 3-hour reference, the next-hour exit and top-60
+  do not pass.
+- I predicted skipping bears would cost growth. It did not.
+
+**The hidden risk** (`wick_5m.py`: 5-minute bars on 4,345 fill hours):
+- The hourly model's fills are exact.
+- After a fill the price keeps falling: median −3.9%, 1 in 20 −22.5%.
+- On 2025-10-10 21:00 the bids' paper loss was −52% of the account. With the trend book the same
+  hour, **10% left** (`joint_worst_hour.py`, prediction right).
+- Cancelling after 10 fills per hour leaves 47% and keeps +16%/yr. That is better than uniform
+  sizing to the same in-hour loss, but it costs ~46% of the uncapped growth; I predicted 10–15%.
+
+**The worst month** (`worst_month.py`):
+- With doc 15's bids it was May 2022 (−35.5%: bids −22.4%, sleeve −13.1%). With the new bids the
+  worst months are trend + MN months again.
+- 16 brakes (trend or whole account, −10/−15/−20% this month, rolling) all fail against betting
+  smaller. They sit out the recovery.
+
+**Recovery:**
+- All 172 falls of 20%+ (10 orderings) recovered: median 14 days from the low, longest 232.
+- A made-up −50% month comes back within 24 months in 100% of starts at backtest growth, 62% at
+  +50%/yr and 52% at +25%/yr.
+- **$20/month withdrawn straight through it leaves a typical $16.**
+- A first stress (halve every up-day) was the wrong question: it removes the edge, not half the
+  return. Kept as a record.
+
+**Status:** candidate, no paper book, nothing in `combo_bot.py`. The next step, if the user wants
+it, is a separate pre-registered paper book on 5-minute candles. It would record the hour-close and
+the +120-minute exits side by side; the latter looked better on both halves, but was found after
+the fact.
 
 ### 2026-09-24 - the first real return improvement, seven paper books, and what moves BTC
 

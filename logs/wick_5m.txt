@@ -1,0 +1,81 @@
+top-20, 10%: 2192 hourly fills; fetching 5-minute bars for 2192 fill hours
+    fetched 300 / 1192
+    fetched 600 / 1192
+    fetched 900 / 1192
+    fetched 1192 / 1192
+
+1. AGREEMENT (top-20): 5-minute bars served for 2101 of 2192 fills; a 5-minute bar goes 0.1% through the bid in 2101 (100%). Fill price vs the hourly model: median +0.00%, mean -0.00%
+   when in the hour the bid fills: minute 0-9 17%, 10-29 32%, 30-59 51%
+
+2. AFTER THE FILL: further fall before the hour ends - median -3.8%, 1 in 4 -8.5%, 1 in 20 -23.4%, worst -99.8%
+   the whole book's paper loss inside an hour (every fill at its lowest point at once, x1 size): worst -50.3% of the account (2025-10-10 21:00), 1 hour in 100 -9.4%
+   back above the fill price (5-minute close): within 5 min 59%, 15 min 83%, 60 min 92%, not within 3 hours 6%
+
+3. EXITS (top-20, the 2101 confirmed fills, after costs): per fill all / tune / hold, share losing, and as a book (1/20 each) CAGR / tune / hold / worst month
+   hour close        +1.80% /  +2.34% /  +0.67%  losing  32%  | book  +30.2%/yr   +39.8 /  +10.9  worst month -22.4%
+   fill bar close    +0.11% /  -0.00% /  +0.34%  losing  48%  | book   +1.4%/yr    -0.4 /   +5.6  worst month  -7.1%
+   +15 min           +1.05% /  +1.53% /  +0.03%  losing  33%  | book  +16.1%/yr   +24.8 /   -1.2  worst month -23.1%
+   +30 min           +1.58% /  +2.35% /  -0.04%  losing  31%  | book  +25.5%/yr   +40.0 /   -2.0  worst month -20.2%
+   +60 min           +2.03% /  +2.95% /  +0.09%  losing  31%  | book  +34.7%/yr   +53.5 /   +0.4  worst month -18.9%
+   +120 min          +2.29% /  +3.37% /  -0.00%  losing  30%  | book  +38.8%/yr   +61.5 /   -1.3  worst month -34.3%
+   sell order +2%    +0.48% /  +0.64% /  +0.17%  losing  19%  | book   +7.5%/yr    +9.7 /   +2.6  worst month  -9.9%
+   sell order +3%    +0.87% /  +1.05% /  +0.48%  losing  23%  | book  +14.0%/yr   +16.8 /   +8.0  worst month -12.3%
+   sell order +5%    +1.32% /  +1.61% /  +0.69%  losing  28%  | book  +22.0%/yr   +26.8 /  +11.7  worst month -14.5%
+   sell order +8%    +1.49% /  +1.82% /  +0.80%  losing  30%  | book  +25.1%/yr   +30.6 /  +13.6  worst month -19.9%
+   stop -5%          +0.65% /  +0.81% /  +0.32%  losing  44%  | book   +9.9%/yr   +12.2 /   +5.0  worst month -12.0%
+   stop -10%         +0.94% /  +1.20% /  +0.38%  losing  36%  | book  +14.4%/yr   +18.4 /   +5.8  worst month -18.4%
+
+top-40, 10%: 4345 hourly fills; fetching 5-minute bars for 4345 fill hours
+    fetched 300 / 2153
+    fetched 600 / 2153
+    fetched 900 / 2153
+    fetched 1200 / 2153
+    fetched 1500 / 2153
+    fetched 1800 / 2153
+    fetched 2100 / 2153
+    fetched 2153 / 2153
+
+1. AGREEMENT (top-40): 5-minute bars served for 4212 of 4345 fills; a 5-minute bar goes 0.1% through the bid in 4212 (100%). Fill price vs the hourly model: median +0.00%, mean -0.00%
+   when in the hour the bid fills: minute 0-9 17%, 10-29 33%, 30-59 50%
+
+2. AFTER THE FILL: further fall before the hour ends - median -3.9%, 1 in 4 -8.4%, 1 in 20 -22.5%, worst -99.8%
+   the whole book's paper loss inside an hour (every fill at its lowest point at once, x1 size): worst -51.7% of the account (2025-10-10 21:00), 1 hour in 100 -6.6%
+   back above the fill price (5-minute close): within 5 min 58%, 15 min 82%, 60 min 91%, not within 3 hours 6%
+
+3. EXITS (top-40, the 4212 confirmed fills, after costs): per fill all / tune / hold, share losing, and as a book (1/40 each) CAGR / tune / hold / worst month
+   hour close        +1.89% /  +2.42% /  +0.91%  losing  32%  | book  +32.3%/yr   +39.8 /  +16.8  worst month -13.9%
+   fill bar close    -0.05% /  -0.22% /  +0.29%  losing  48%  | book   -1.0%/yr    -3.6 /   +5.0  worst month  -7.3%
+   +15 min           +1.00% /  +1.42% /  +0.21%  losing  34%  | book  +15.0%/yr   +21.6 /   +1.6  worst month -24.3%
+   +30 min           +1.58% /  +2.23% /  +0.36%  losing  31%  | book  +25.3%/yr   +35.6 /   +4.9  worst month -21.4%
+   +60 min           +2.24% /  +3.07% /  +0.69%  losing  31%  | book  +39.6%/yr   +54.1 /  +11.8  worst month  -8.0%
+   +120 min          +2.72% /  +3.68% /  +0.93%  losing  29%  | book  +48.6%/yr   +65.3 /  +16.7  worst month -13.2%
+   sell order +2%    +0.40% /  +0.59% /  +0.04%  losing  21%  | book   +6.0%/yr    +8.5 /   +0.6  worst month  -8.2%
+   sell order +3%    +0.77% /  +1.01% /  +0.32%  losing  24%  | book  +12.2%/yr   +15.1 /   +5.7  worst month -10.0%
+   sell order +5%    +1.24% /  +1.57% /  +0.63%  losing  28%  | book  +20.5%/yr   +24.7 /  +11.5  worst month -11.1%
+   sell order +8%    +1.49% /  +1.82% /  +0.88%  losing  31%  | book  +25.0%/yr   +29.1 /  +16.3  worst month -13.7%
+   stop -5%          +0.55% /  +0.62% /  +0.43%  losing  44%  | book   +8.3%/yr    +8.7 /   +7.4  worst month  -6.9%
+   stop -10%         +0.92% /  +1.08% /  +0.61%  losing  36%  | book  +14.2%/yr   +15.8 /  +10.6  worst month -12.0%
+
+top-40, skip BEAR, 10%: 3211 hourly fills; fetching 5-minute bars for 3211 fill hours
+
+1. AGREEMENT (top-40, skip BEAR): 5-minute bars served for 3114 of 3211 fills; a 5-minute bar goes 0.1% through the bid in 3114 (100%). Fill price vs the hourly model: median +0.00%, mean -0.00%
+   when in the hour the bid fills: minute 0-9 17%, 10-29 33%, 30-59 49%
+
+2. AFTER THE FILL: further fall before the hour ends - median -3.8%, 1 in 4 -8.1%, 1 in 20 -18.9%, worst -85.7%
+   the whole book's paper loss inside an hour (every fill at its lowest point at once, x1 size): worst -51.7% of the account (2025-10-10 21:00), 1 hour in 100 -6.7%
+   back above the fill price (5-minute close): within 5 min 59%, 15 min 84%, 60 min 92%, not within 3 hours 5%
+
+3. EXITS (top-40, the 3114 confirmed fills, after costs): per fill all / tune / hold, share losing, and as a book (1/40 each) CAGR / tune / hold / worst month
+   hour close        +2.33% /  +2.83% /  +1.32%  losing  29%  | book  +30.0%/yr   +36.1 /  +17.3  worst month  -3.3%
+   fill bar close    +0.05% /  -0.15% /  +0.45%  losing  47%  | book   +0.4%/yr    -1.9 /   +5.7  worst month  -7.3%
+   +15 min           +1.38% /  +1.96% /  +0.19%  losing  31%  | book  +16.0%/yr   +23.6 /   +0.4  worst month -24.3%
+   +30 min           +2.00% /  +2.73% /  +0.52%  losing  29%  | book  +24.7%/yr   +34.5 /   +5.2  worst month -21.4%
+   +60 min           +2.71% /  +3.56% /  +0.97%  losing  27%  | book  +35.5%/yr   +47.6 /  +11.9  worst month  -8.0%
+   +120 min          +3.41% /  +4.29% /  +1.65%  losing  25%  | book  +46.7%/yr   +59.5 /  +21.7  worst month  -3.6%
+   sell order +2%    +0.73% /  +1.01% /  +0.17%  losing  19%  | book   +8.7%/yr   +11.8 /   +2.1  worst month  -2.6%
+   sell order +3%    +1.18% /  +1.52% /  +0.51%  losing  22%  | book  +14.5%/yr   +18.3 /   +6.4  worst month  -2.1%
+   sell order +5%    +1.73% /  +2.17% /  +0.85%  losing  25%  | book  +21.8%/yr   +27.0 /  +11.0  worst month  -2.0%
+   sell order +8%    +2.02% /  +2.44% /  +1.18%  losing  28%  | book  +25.8%/yr   +30.7 /  +15.4  worst month  -2.2%
+   stop -5%          +0.85% /  +0.98% /  +0.57%  losing  41%  | book   +9.8%/yr   +11.1 /   +6.9  worst month  -6.8%
+   stop -10%         +1.32% /  +1.59% /  +0.76%  losing  33%  | book  +15.5%/yr   +18.4 /   +9.2  worst month  -7.1%
+

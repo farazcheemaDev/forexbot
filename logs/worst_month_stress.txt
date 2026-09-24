@@ -1,0 +1,57 @@
+  base built
+
+  growing at 0.5 x the backtest's rate: ordering 0 goes +487%/yr -> +244%/yr (every positive day x0.873)
+
+C2. STRESS - cap-10 plan growing at 0.5 x the backtest's rate (gains shrunk, losses whole): A SHOCK THAT NEVER HAPPENED - $300 loses S at the start of a month, then lives the real days that followed (small-balance penalties on). Starts 2020-01..2024-09 x 10 orderings.
+
+  no withdrawals
+    shock   left  back to $300 in 6 mo   12 mo   24 mo  median months  balance after 24 mo: typical  bad (1 in 4)   2022+ starts: 24 mo
+     -30%$  210                   68%     84%     97%           3.3 $                       1,807$         654      95%
+     -40%$  180                   59%     77%     94%           4.3 $                       1,534$         550      92%
+     -50%$  150                   48%     70%     90%           6.2 $                       1,248$         436      90%
+     -60%$  120                   37%     65%     88%           8.3 $                         942$         329      86%
+     -70%$   90                   27%     57%     80%          10.6 $                         635$         215      75%
+
+  $20/month
+    shock   left  back to $300 in 6 mo   12 mo   24 mo  median months  balance after 24 mo: typical  bad (1 in 4)   2022+ starts: 24 mo
+     -30%$  210                   45%     53%     54%           9.0 $                          18$           6      35%
+     -40%$  180                   37%     46%     47%           inf $                          15$           5      26%
+     -50%$  150                   26%     36%     37%           inf $                          12$           3      16%
+     -60%$  120                   16%     21%     24%           inf $                           8$           4       8%
+     -70%$   90                    5%      8%      8%           inf $                           5$           2       4%
+
+  $20/month, paused under $300
+    shock   left  back to $300 in 6 mo   12 mo   24 mo  median months  balance after 24 mo: typical  bad (1 in 4)   2022+ starts: 24 mo
+     -30%$  210                   66%     82%     96%           3.6 $                       1,131$         418      94%
+     -40%$  180                   59%     77%     93%           4.4 $                         986$         360      92%
+     -50%$  150                   48%     70%     90%           6.2 $                         823$         291      90%
+     -60%$  120                   37%     64%     88%           8.3 $                         606$         243      86%
+     -70%$   90                   26%     56%     80%          10.6 $                         396$         180      75%
+
+  growing at 0.25 x the backtest's rate: ordering 0 goes +487%/yr -> +122%/yr (every positive day x0.772)
+
+C2. STRESS - cap-10 plan growing at 0.25 x the backtest's rate (gains shrunk, losses whole): A SHOCK THAT NEVER HAPPENED - $300 loses S at the start of a month, then lives the real days that followed (small-balance penalties on). Starts 2020-01..2024-09 x 10 orderings.
+
+  no withdrawals
+    shock   left  back to $300 in 6 mo   12 mo   24 mo  median months  balance after 24 mo: typical  bad (1 in 4)   2022+ starts: 24 mo
+     -30%$  210                   57%     73%     89%           4.4 $                         692$         273      85%
+     -40%$  180                   49%     68%     85%           6.3 $                         580$         222      80%
+     -50%$  150                   38%     63%     81%           8.3 $                         468$         177      75%
+     -60%$  120                   29%     56%     74%          10.7 $                         355$         132      64%
+     -70%$   90                   17%     46%     62%          13.2 $                         230$         100      48%
+
+  $20/month
+    shock   left  back to $300 in 6 mo   12 mo   24 mo  median months  balance after 24 mo: typical  bad (1 in 4)   2022+ starts: 24 mo
+     -30%$  210                   38%     44%     45%           inf $                          12$           5      27%
+     -40%$  180                   27%     34%     36%           inf $                          10$           4      18%
+     -50%$  150                   19%     22%     25%           inf $                           8$           3      11%
+     -60%$  120                    8%     11%     11%           inf $                           6$           2       6%
+     -70%$   90                    3%      4%      4%           inf $                           5$           2       3%
+
+  $20/month, paused under $300
+    shock   left  back to $300 in 6 mo   12 mo   24 mo  median months  balance after 24 mo: typical  bad (1 in 4)   2022+ starts: 24 mo
+     -30%$  210                   57%     73%     88%           4.5 $                         417$         203      85%
+     -40%$  180                   49%     68%     84%           6.3 $                         334$         176      80%
+     -50%$  150                   38%     63%     80%           8.3 $                         287$         148      74%
+     -60%$  120                   29%     56%     73%          10.7 $                         246$         119      63%
+     -70%$   90                   16%     46%     61%          13.3 $                         187$          94      47%

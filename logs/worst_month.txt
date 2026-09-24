@@ -1,0 +1,226 @@
+  base built
+  frontier built
+  variants built
+
+A. THE SIX WORST MONTHS of final + doc 15 wicks (mean over 10 orderings) and each book's own return in them
+  month      account    trend      MN  sleeve    wick   worst ordering
+  2022-05     -35.5%    -0.4%   -2.6%  -13.1%  -22.4%   -36.2%
+  2023-10     -27.5%   -21.0%   -9.1%   +0.3%   +0.6%   -29.7%
+  2026-04     -25.1%   -11.2%  -11.4%   -0.7%   -4.4%   -32.7%
+  2023-03     -22.3%   -10.3%  -13.8%   +0.0%   +0.6%   -23.7%
+  2026-07     -21.5%   -19.6%   +2.8%   -1.8%   -3.2%   -26.7%
+  2024-07     -19.6%   -10.3%   -9.0%   -2.6%   +1.1%   -22.6%
+
+A. THE SIX WORST MONTHS of final + NEW wicks, cap 10 (mean over 10 orderings) and each book's own return in them
+  month      account    trend      MN  sleeve    wick   worst ordering
+  2023-10     -27.7%   -21.0%   -9.1%   +0.3%   +0.4%   -29.8%
+  2026-04     -24.4%   -11.2%  -11.4%   -0.7%   -3.3%   -32.1%
+  2023-03     -22.8%   -10.3%  -13.8%   +0.0%   -0.0%   -24.2%
+  2024-07     -19.9%   -10.3%   -9.0%   -2.6%   +0.7%   -22.9%
+  2025-06     -18.4%   -16.7%   -2.3%   +0.0%   +0.2%   -22.3%
+  2022-05     -16.7%    -0.4%   -2.6%  -13.1%   -1.1%   -17.6%
+
+B. WHAT SHRINKS THE WORST MONTH ($300; typical / bad 12 months, worst month (mean of 10 orderings), months up; 'vs smaller' = typical year minus what just betting smaller gives at the same worst month)
+
+  all 6 years
+                                                      typical     bad  worst mo    up  vs smaller
+  FINAL + doc 15 wicks (the plan so far)            $  1,937$   744    -35.5%   60%            
+  FINAL, no wicks                                   $  1,642$   666    -29.0%   56%         +5$
+  frontier: everything x0.5                         $  1,106$   646    -18.5%   63%            
+  frontier: everything x0.6                         $  1,316$   684    -22.0%   62%            
+  frontier: everything x0.7                         $  1,510$   712    -25.5%   62%            
+  frontier: everything x0.8                         $  1,629$   714    -28.9%   62%            
+  frontier: everything x0.9                         $  1,802$   738    -32.2%   61%            
+  FINAL + wick bids, no 2nd fill <24h               $  1,899$   741    -28.3%   59%       +292$
+  FINAL + wick bids, skip coins -25%/24h            $  1,918$   758    -28.6%   60%       +299$
+  FINAL + NEW wicks: top-40, skip BEAR x1           $  2,013$   756    -29.1%   61%       +372$
+  FINAL + NEW wicks: top-40, skip BEAR x1.5         $  2,182$   818    -29.4%   62%       +530$
+  FINAL + NEW wicks: top-40, skip BEAR x2           $  2,374$   888    -29.7%   64%       +703$
+  FINAL + NEW wicks, cancel after 10 fills/hour     $  1,812$   725    -29.3%   57%       +164$
+  FINAL + NEW wicks, cancel after 20 fills/hour     $  1,930$   750    -29.2%   60%       +285$
+  FINAL + doc 15 wicks at half size                 $  1,777$   703    -29.0%   58%       +141$
+  account brake: -10% this month -> x0.0            $    683$   301    -26.4%   41%       -860$
+  account brake: -10% this month -> x0.5            $  1,278$   521    -30.5%   53%       -434$
+  account brake: -15% this month -> x0.0            $    947$   325    -26.4%   49%       -596$
+  account brake: -15% this month -> x0.5            $  1,420$   541    -30.5%   58%       -291$
+  account brake: -20% this month -> x0.0            $  1,480$   613    -26.6%   54%        -70$
+  account brake: -20% this month -> x0.5            $  1,812$   686    -30.5%   58%       +101$
+  trend brake: -10% this month -> x0.0              $  1,068$   432    -35.5%   59%       -869$
+  trend brake: -10% this month -> x0.25             $  1,344$   531    -35.5%   62%       -593$
+  trend brake: -15% this month -> x0.0              $  1,105$   424    -35.5%   59%       -831$
+  trend brake: -15% this month -> x0.25             $  1,402$   546    -35.5%   61%       -534$
+  trend brake: -20% this month -> x0.0              $  1,706$   652    -35.5%   60%       -231$
+  trend brake: -20% this month -> x0.25             $  1,780$   686    -35.5%   60%       -157$
+  trend brake: -15% over 30 days -> x0.25           $  1,126$   488    -35.5%   60%       -810$
+  trend brake: -25% over 30 days -> x0.25           $  1,368$   518    -35.5%   60%       -569$
+  cap-10 wicks + account brake -10% -> x0.5         $  1,207$   525    -21.5%   51%        -76$
+  cap-10 wicks + account brake -15% -> x0.5         $  1,307$   566    -23.6%   53%        -95$
+
+  TUNE (to 2024-08-29)
+                                                      typical     bad  worst mo    up  vs smaller
+  FINAL + doc 15 wicks (the plan so far)            $  2,415$   407    -35.5%   58%            
+  FINAL, no wicks                                   $  2,081$   402    -28.7%   53%       +154$
+  frontier: everything x0.5                         $  1,209$   383    -18.5%   60%            
+  frontier: everything x0.6                         $  1,476$   391    -22.0%   60%            
+  frontier: everything x0.7                         $  1,688$   397    -25.5%   60%            
+  frontier: everything x0.8                         $  1,940$   397    -28.9%   59%            
+  frontier: everything x0.9                         $  2,211$   401    -32.2%   58%            
+  FINAL + wick bids, no 2nd fill <24h               $  2,508$   451    -28.1%   58%       +632$
+  FINAL + wick bids, skip coins -25%/24h            $  2,665$   458    -28.0%   58%       +795$
+  FINAL + NEW wicks: top-40, skip BEAR x1           $  2,780$   463    -28.1%   58%       +901$
+  FINAL + NEW wicks: top-40, skip BEAR x1.5         $  3,231$   485    -27.8%   60%      +1376$
+  FINAL + NEW wicks: top-40, skip BEAR x2           $  3,668$   511    -27.4%   61%      +1837$
+  FINAL + NEW wicks, cancel after 10 fills/hour     $  2,395$   426    -28.2%   54%       +507$
+  FINAL + NEW wicks, cancel after 20 fills/hour     $  2,584$   438    -28.1%   57%       +700$
+  FINAL + doc 15 wicks at half size                 $  2,311$   401    -28.3%   55%       +415$
+  account brake: -10% this month -> x0.0            $    710$   275    -26.4%   38%      -1048$
+  account brake: -10% this month -> x0.5            $  1,372$   337    -30.5%   52%       -697$
+  account brake: -15% this month -> x0.0            $  1,044$   330    -26.4%   47%       -714$
+  account brake: -15% this month -> x0.5            $  1,714$   340    -30.5%   56%       -356$
+  account brake: -20% this month -> x0.0            $  1,513$   400    -26.6%   51%       -257$
+  account brake: -20% this month -> x0.5            $  2,233$   403    -30.5%   55%       +163$
+  trend brake: -10% this month -> x0.0              $  1,226$   343    -35.5%   57%      -1189$
+  trend brake: -10% this month -> x0.25             $  1,632$   375    -35.5%   59%       -782$
+  trend brake: -15% this month -> x0.0              $  1,097$   335    -35.5%   57%      -1318$
+  trend brake: -15% this month -> x0.25             $  1,716$   377    -35.5%   59%       -699$
+  trend brake: -20% this month -> x0.0              $  2,034$   377    -35.5%   58%       -381$
+  trend brake: -20% this month -> x0.25             $  2,070$   386    -35.5%   58%       -344$
+  trend brake: -15% over 30 days -> x0.25           $  1,785$   381    -35.5%   57%       -630$
+  trend brake: -25% over 30 days -> x0.25           $  2,339$   407    -35.5%   57%        -76$
+  cap-10 wicks + account brake -10% -> x0.5         $  1,322$   350    -20.5%   49%        -41$
+  cap-10 wicks + account brake -15% -> x0.5         $  1,540$   331    -23.1%   51%         +1$
+
+  HOLDOUT (after)
+                                                      typical     bad  worst mo    up  vs smaller
+  FINAL + doc 15 wicks (the plan so far)            $  1,629$ 1,059    -25.4%   65%            
+  FINAL, no wicks                                   $  1,527$ 1,004    -23.1%   63%        +13$
+  frontier: everything x0.5                         $    958$   783    -13.5%   68%            
+  frontier: everything x0.6                         $  1,114$   875    -16.0%   66%            
+  frontier: everything x0.7                         $  1,267$   957    -18.5%   66%            
+  frontier: everything x0.8                         $  1,411$ 1,008    -20.9%   66%            
+  frontier: everything x0.9                         $  1,519$ 1,054    -23.2%   66%            
+  FINAL + wick bids, no 2nd fill <24h               $  1,656$ 1,097    -23.0%   64%       +145$
+  FINAL + wick bids, skip coins -25%/24h            $  1,637$ 1,084    -23.8%   63%        +88$
+  FINAL + NEW wicks: top-40, skip BEAR x1           $  1,652$ 1,078    -25.0%   68%        +41$
+  FINAL + NEW wicks: top-40, skip BEAR x1.5         $  1,721$ 1,109    -26.0%   68%        +92$
+  FINAL + NEW wicks: top-40, skip BEAR x2           $  1,783$ 1,130    -27.0%   69%       +153$
+  FINAL + NEW wicks, cancel after 10 fills/hour     $  1,625$ 1,060    -25.0%   64%        +14$
+  FINAL + NEW wicks, cancel after 20 fills/hour     $  1,666$ 1,087    -25.0%   65%        +56$
+  FINAL + doc 15 wicks at half size                 $  1,589$ 1,035    -24.2%   64%        +21$
+  account brake: -10% this month -> x0.0            $    352$   271    -18.8%   48%       -934$
+  account brake: -10% this month -> x0.5            $    807$   572    -19.6%   56%       -530$
+  account brake: -15% this month -> x0.0            $    350$   281    -19.4%   54%       -972$
+  account brake: -15% this month -> x0.5            $    827$   551    -21.4%   62%       -611$
+  account brake: -20% this month -> x0.0            $  1,344$   764    -21.5%   62%        -96$
+  account brake: -20% this month -> x0.5            $  1,472$   958    -23.0%   62%        -39$
+  trend brake: -10% this month -> x0.0              $    646$   503    -23.8%   63%       -906$
+  trend brake: -10% this month -> x0.25             $    918$   671    -23.7%   67%       -628$
+  trend brake: -15% this month -> x0.0              $    815$   529    -25.7%   62%       -815$
+  trend brake: -15% this month -> x0.25             $  1,100$   684    -25.3%   65%       -523$
+  trend brake: -20% this month -> x0.0              $  1,523$   888    -26.2%   64%       -106$
+  trend brake: -20% this month -> x0.25             $  1,551$   996    -25.4%   65%        -78$
+  trend brake: -15% over 30 days -> x0.25           $    976$   704    -25.1%   68%       -641$
+  trend brake: -25% over 30 days -> x0.25           $  1,209$   731    -25.4%   67%       -418$
+  cap-10 wicks + account brake -10% -> x0.5         $    781$   566    -19.4%   54%       -542$
+  cap-10 wicks + account brake -15% -> x0.5         $    855$   617    -20.9%   58%       -560$
+
+  VERDICT (passes = better than just betting smaller on BOTH halves):
+    FINAL, no wicks                                    tune   +154$  holdout    +13$  -> PASS
+    FINAL + wick bids, no 2nd fill <24h                tune   +632$  holdout   +145$  -> PASS
+    FINAL + wick bids, skip coins -25%/24h             tune   +795$  holdout    +88$  -> PASS
+    FINAL + NEW wicks: top-40, skip BEAR x1            tune   +901$  holdout    +41$  -> PASS
+    FINAL + NEW wicks: top-40, skip BEAR x1.5          tune  +1376$  holdout    +92$  -> PASS
+    FINAL + NEW wicks: top-40, skip BEAR x2            tune  +1837$  holdout   +153$  -> PASS
+    FINAL + NEW wicks, cancel after 10 fills/hour      tune   +507$  holdout    +14$  -> PASS
+    FINAL + NEW wicks, cancel after 20 fills/hour      tune   +700$  holdout    +56$  -> PASS
+    FINAL + doc 15 wicks at half size                  tune   +415$  holdout    +21$  -> PASS
+    account brake: -10% this month -> x0.0             tune  -1048$  holdout   -934$  -> fail
+    account brake: -10% this month -> x0.5             tune   -697$  holdout   -530$  -> fail
+    account brake: -15% this month -> x0.0             tune   -714$  holdout   -972$  -> fail
+    account brake: -15% this month -> x0.5             tune   -356$  holdout   -611$  -> fail
+    account brake: -20% this month -> x0.0             tune   -257$  holdout    -96$  -> fail
+    account brake: -20% this month -> x0.5             tune   +163$  holdout    -39$  -> fail
+    trend brake: -10% this month -> x0.0               tune  -1189$  holdout   -906$  -> fail
+    trend brake: -10% this month -> x0.25              tune   -782$  holdout   -628$  -> fail
+    trend brake: -15% this month -> x0.0               tune  -1318$  holdout   -815$  -> fail
+    trend brake: -15% this month -> x0.25              tune   -699$  holdout   -523$  -> fail
+    trend brake: -20% this month -> x0.0               tune   -381$  holdout   -106$  -> fail
+    trend brake: -20% this month -> x0.25              tune   -344$  holdout    -78$  -> fail
+    trend brake: -15% over 30 days -> x0.25            tune   -630$  holdout   -641$  -> fail
+    trend brake: -25% over 30 days -> x0.25            tune    -76$  holdout   -418$  -> fail
+    cap-10 wicks + account brake -10% -> x0.5          tune    -41$  holdout   -542$  -> fail
+    cap-10 wicks + account brake -15% -> x0.5          tune     +1$  holdout   -560$  -> fail
+
+C1. HISTORY, FINAL + doc 15 wicks: every fall of 20%+ (10 orderings pooled): depth, days down, days back to the old high
+  151 falls of 20%+ across 10 orderings; recovered 151, still under water at the end 0
+  days from the low back to the old high: median 11, 3 in 4 within 29, longest 538
+  by depth: 20-30%: 77 falls, median 9 days back | 30-40%: 37 falls, median 11 days back | 40-60%: 37 falls, median 30 days back
+  the deepest ones (ordering 0):
+    peak 2025-04-19  low 2025-07-12 (-52%, 84 days down)  back 2025-07-21 (9 days)
+    peak 2024-04-15  low 2024-11-09 (-51%, 208 days down)  back 2024-12-09 (30 days)
+    peak 2022-03-01  low 2022-06-06 (-50%, 97 days down)  back 2023-02-09 (248 days)
+    peak 2026-02-06  low 2026-05-08 (-45%, 91 days down)  back 2026-09-05 (120 days)
+    peak 2023-02-10  low 2023-05-25 (-42%, 104 days down)  back 2023-11-26 (185 days)
+
+C2. FINAL + doc 15 wicks: A SHOCK THAT NEVER HAPPENED - $300 loses S at the start of a month, then lives the real days that followed (small-balance penalties on). Starts 2020-01..2024-09 x 10 orderings.
+
+  no withdrawals
+    shock   left  back to $300 in 6 mo   12 mo   24 mo  median months  balance after 24 mo: typical  bad (1 in 4)   2022+ starts: 24 mo
+     -30%$  210                   75%     92%    100%           2.8 $                       6,869$       2,139     100%
+     -40%$  180                   68%     87%    100%           3.3 $                       5,820$       1,835     100%
+     -50%$  150                   62%     81%    100%           4.1 $                       4,796$       1,511     100%
+     -60%$  120                   51%     76%     98%           5.7 $                       3,729$       1,194      98%
+     -70%$   90                   39%     69%     95%           8.1 $                       2,602$         816      94%
+
+  $20/month
+    shock   left  back to $300 in 6 mo   12 mo   24 mo  median months  balance after 24 mo: typical  bad (1 in 4)   2022+ starts: 24 mo
+     -30%$  210                   61%     69%     71%           3.3 $                       1,945$           9      50%
+     -40%$  180                   50%     59%     60%           6.1 $                         743$           7      39%
+     -50%$  150                   40%     49%     49%           inf $                          17$           5      28%
+     -60%$  120                   31%     39%     39%           inf $                          10$           2      14%
+     -70%$   90                   16%     27%     27%           inf $                           8$           3       5%
+
+  $20/month, paused under $300
+    shock   left  back to $300 in 6 mo   12 mo   24 mo  median months  balance after 24 mo: typical  bad (1 in 4)   2022+ starts: 24 mo
+     -30%$  210                   75%     92%    100%           2.8 $                       5,113$       1,581     100%
+     -40%$  180                   66%     86%    100%           3.5 $                       4,083$       1,322     100%
+     -50%$  150                   62%     81%    100%           4.1 $                       3,225$       1,066     100%
+     -60%$  120                   51%     76%     98%           5.9 $                       2,592$         862      98%
+     -70%$   90                   39%     68%     95%           8.1 $                       1,821$         563      94%
+
+C1. HISTORY, FINAL + NEW wicks, cancel after 10 fills/hour: every fall of 20%+ (10 orderings pooled): depth, days down, days back to the old high
+  172 falls of 20%+ across 10 orderings; recovered 172, still under water at the end 0
+  days from the low back to the old high: median 14, 3 in 4 within 28, longest 232
+  by depth: 20-30%: 73 falls, median 12 days back | 30-40%: 64 falls, median 13 days back | 40-60%: 33 falls, median 29 days back | 60-100%: 2 falls, median 29 days back
+  the deepest ones (ordering 0):
+    peak 2024-04-04  low 2024-11-09 (-55%, 219 days down)  back 2024-12-09 (30 days)
+    peak 2025-04-19  low 2025-07-13 (-52%, 85 days down)  back 2025-07-21 (8 days)
+    peak 2026-02-06  low 2026-05-08 (-44%, 91 days down)  back 2026-08-29 (113 days)
+    peak 2023-02-10  low 2023-05-25 (-43%, 104 days down)  back 2023-11-26 (185 days)
+    peak 2023-12-23  low 2024-03-07 (-41%, 75 days down)  back 2024-03-19 (12 days)
+
+C2. FINAL + NEW wicks, cancel after 10 fills/hour: A SHOCK THAT NEVER HAPPENED - $300 loses S at the start of a month, then lives the real days that followed (small-balance penalties on). Starts 2020-01..2024-09 x 10 orderings.
+
+  no withdrawals
+    shock   left  back to $300 in 6 mo   12 mo   24 mo  median months  balance after 24 mo: typical  bad (1 in 4)   2022+ starts: 24 mo
+     -30%$  210                   73%     91%    100%           2.9 $                       5,370$       1,868     100%
+     -40%$  180                   67%     87%    100%           3.6 $                       4,577$       1,584     100%
+     -50%$  150                   60%     80%    100%           4.4 $                       3,740$       1,313     100%
+     -60%$  120                   48%     73%     99%           6.3 $                       2,870$         981      98%
+     -70%$   90                   35%     66%     96%           8.3 $                       1,979$         685      96%
+
+  $20/month
+    shock   left  back to $300 in 6 mo   12 mo   24 mo  median months  balance after 24 mo: typical  bad (1 in 4)   2022+ starts: 24 mo
+     -30%$  210                   59%     67%     69%           3.9 $                       1,433$           9      48%
+     -40%$  180                   46%     56%     57%           7.3 $                         364$           7      37%
+     -50%$  150                   36%     46%     48%           inf $                          16$           5      26%
+     -60%$  120                   24%     34%     36%           inf $                          11$           4      13%
+     -70%$   90                   12%     19%     21%           inf $                           7$           2       5%
+
+  $20/month, paused under $300
+    shock   left  back to $300 in 6 mo   12 mo   24 mo  median months  balance after 24 mo: typical  bad (1 in 4)   2022+ starts: 24 mo
+     -30%$  210                   73%     91%    100%           2.9 $                       3,757$       1,326     100%
+     -40%$  180                   66%     87%    100%           3.7 $                       3,187$       1,095     100%
+     -50%$  150                   60%     80%    100%           4.4 $                       2,543$         896     100%
+     -60%$  120                   47%     73%     99%           6.3 $                       1,994$         701      98%
+     -70%$   90                   35%     66%     96%           8.3 $                       1,413$         469      96%

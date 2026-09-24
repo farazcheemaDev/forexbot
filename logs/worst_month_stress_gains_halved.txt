@@ -1,0 +1,27 @@
+  base built
+
+C2. STRESS - cap-10 plan with EVERY GAIN HALVED, losses whole: A SHOCK THAT NEVER HAPPENED - $300 loses S at the start of a month, then lives the real days that followed (small-balance penalties on). Starts 2020-01..2024-09 x 10 orderings.
+
+  no withdrawals
+    shock   left  back to $300 in 6 mo   12 mo   24 mo  median months  balance after 24 mo: typical  bad (1 in 4)   2022+ starts: 24 mo
+     -30%$  210                   28%     39%     42%           inf $                          64$          43      27%
+     -40%$  180                   18%     25%     29%           inf $                          57$          40      18%
+     -50%$  150                    9%     11%     12%           inf $                          50$          37      11%
+     -60%$  120                    2%      2%      2%           inf $                          43$          33       3%
+     -70%$   90                    0%      0%      0%           inf $                          38$          30       0%
+
+  $20/month
+    shock   left  back to $300 in 6 mo   12 mo   24 mo  median months  balance after 24 mo: typical  bad (1 in 4)   2022+ starts: 24 mo
+     -30%$  210                   13%     13%     13%           inf $                           7$           3       9%
+     -40%$  180                    8%      8%      8%           inf $                           7$           3       8%
+     -50%$  150                    2%      2%      2%           inf $                           7$           3       2%
+     -60%$  120                    1%      1%      1%           inf $                           7$           3       2%
+     -70%$   90                    0%      0%      0%           inf $                           7$           2       0%
+
+  $20/month, paused under $300
+    shock   left  back to $300 in 6 mo   12 mo   24 mo  median months  balance after 24 mo: typical  bad (1 in 4)   2022+ starts: 24 mo
+     -30%$  210                   28%     39%     42%           inf $                          59$          43      27%
+     -40%$  180                   18%     25%     29%           inf $                          54$          40      18%
+     -50%$  150                    9%     11%     12%           inf $                          49$          37      11%
+     -60%$  120                    2%      2%      2%           inf $                          43$          33       3%
+     -70%$   90                    0%      0%      0%           inf $                          38$          30       0%

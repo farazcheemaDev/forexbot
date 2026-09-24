@@ -1,0 +1,91 @@
+467 coins ever in the PIT top-60 (dead included); 244069 candidate hours
+
+$300, 8bp fees + 30bp exit slippage, $5 minimum. TUNE < 2024-08-29 <= HOLD. worst mo = worst calendar month.
+
+A. UNIVERSE (10% under the last close, sold at the fill hour's close)
+  rule                                        fills/yr     CAGR     TUNE     HOLD  worst mo   (hold)  worst d     DD    <$5
+  top-20, 1/20 each                               326   +29.9%   +40.2%    +9.4%    -22.4%    -5.2%   -17.9%    23%     0%
+  top-30, 1/30 each                               496   +31.4%   +43.4%    +7.9%    -16.4%    -6.5%   -14.3%    20%     0%
+  top-40, 1/40 each                               646   +32.7%   +40.8%   +16.1%    -13.9%    -4.6%   -12.5%    15%     0%
+  top-60, 1/60 each                               938    -0.3%    -0.4%    +0.0%     -1.9%    +0.0%    -1.9%     2%   100%
+
+B. DISTANCE (top-20)
+  rule                                        fills/yr     CAGR     TUNE     HOLD  worst mo   (hold)  worst d     DD    <$5
+  fixed 6%                                       1120   +18.3%   +29.9%    -4.3%    -23.3%   -11.0%   -22.3%    26%     0%
+  fixed 8%                                        545   +28.0%   +39.4%    +5.7%    -21.9%    -7.8%   -20.6%    23%     0%
+  fixed 10%                                       326   +29.9%   +40.2%    +9.4%    -22.4%    -5.2%   -17.9%    23%     0%
+  fixed 12%                                       210   +28.7%   +37.7%   +10.3%    -18.3%    -3.8%   -15.8%    18%     0%
+  fixed 15%                                       123   +25.1%   +32.7%    +9.5%    -14.5%    -2.4%   -11.7%    15%     0%
+  6 x the coin's hourly volatility (4-30%)        441   +22.1%   +23.4%   +19.3%    -19.5%    -1.4%   -13.4%    20%     0%
+  8 x the coin's hourly volatility (4-30%)        235   +24.3%   +25.8%   +21.1%    -16.6%    -0.8%    -8.5%    17%     0%
+  10 x the coin's hourly volatility (4-30%)       140   +20.1%   +23.9%   +12.0%    -13.5%    -1.2%    -7.1%    14%     0%
+  12 x the coin's hourly volatility (4-30%)        91   +17.6%   +21.5%    +9.1%    -12.1%    -1.4%    -7.1%    12%     0%
+
+C. LADDER (top-20, two bids per coin at half size each)
+  rule                                        fills/yr     CAGR     TUNE     HOLD  worst mo   (hold)  worst d     DD    <$5
+  8% x0.5 + 14% x0.5                              690   +27.0%   +36.8%    +7.6%    -18.4%    -5.3%   -16.8%    19%     0%
+  6% x0.5 + 12% x0.5                             1331   +23.8%   +34.3%    +2.9%    -20.7%    -6.9%   -19.0%    21%     0%
+  10% x0.5 + 20% x1.0                             381   +33.5%   +44.5%   +11.6%    -17.3%    -5.4%   -15.8%    17%     0%
+
+D. REFERENCE (top-20, 10%)
+  rule                                        fills/yr     CAGR     TUNE     HOLD  worst mo   (hold)  worst d     DD    <$5
+  under the last close (baseline)                 326   +29.9%   +40.2%    +9.4%    -22.4%    -5.2%   -17.9%    23%     0%
+  under the highest of the last 3 closes          828   +26.3%   +42.1%    -3.2%    -31.5%    -9.8%   -23.3%    32%     0%
+
+E. FILTERS (top-20, 10%)
+  rule                                        fills/yr     CAGR     TUNE     HOLD  worst mo   (hold)  worst d     DD    <$5
+  none (baseline)                                 326   +29.9%   +40.2%    +9.4%    -22.4%    -5.2%   -17.9%    23%     0%
+  no second fill on a coin within 24h             209   +22.2%   +28.8%    +8.6%     -5.8%    -2.7%    -7.4%     7%     0%
+  skip a coin already down >15% over 24h          232   +21.7%   +29.3%    +6.0%     -4.7%    -2.6%    -6.3%     9%     0%
+  skip a coin already down >25% over 24h          275   +25.9%   +33.6%   +10.0%     -5.8%    -2.1%    -6.2%     8%     0%
+  skip BEAR days                                  238   +30.5%   +37.8%   +15.5%     -2.2%    -4.2%    -7.5%     8%     0%
+  top-40 + no second fill within 24h              423   +21.8%   +27.0%   +10.9%     -6.6%    -2.1%    -8.7%     9%     0%
+
+F. EXIT (top-20, 10%)
+  rule                                        fills/yr     CAGR     TUNE     HOLD  worst mo   (hold)  worst d     DD    <$5
+  the fill hour's close (baseline)                326   +29.9%   +40.2%    +9.4%    -22.4%    -5.2%   -17.9%    23%     0%
+  the NEXT hour's close                           326   +32.8%   +53.5%    -4.2%    -31.9%   -15.0%   -22.3%    33%     0%
+
+G. SIZE (top-20, 10%)
+  rule                                        fills/yr     CAGR     TUNE     HOLD  worst mo   (hold)  worst d     DD    <$5
+  1.0 x 1/20 per bid                              326   +29.9%   +40.2%    +9.4%    -22.4%    -5.2%   -17.9%    23%     0%
+  1.5 x 1/20 per bid                              326   +46.1%   +63.1%   +14.0%    -32.5%    -7.7%   -26.0%    33%     0%
+  2.0 x 1/20 per bid                              326   +62.8%   +87.6%   +18.4%    -41.7%   -10.2%   -33.5%    42%     0%
+  top-40, 1.0 x 1/40 per bid                      646   +32.7%   +40.8%   +16.1%    -13.9%    -4.6%   -12.5%    15%     0%
+  top-40, 1.5 x 1/40 per bid                      646   +50.8%   +64.2%   +24.5%    -20.5%    -6.8%   -18.5%    22%     0%
+  top-40, 2.0 x 1/40 per bid                      646   +69.8%   +89.2%   +33.2%    -27.0%    -9.0%   -24.3%    29%     0%
+
+H. DIAGNOSTICS: top-20, 10%, per fill after 8bp + 30bp (mean / share losing / worst / fills)
+  by regime:
+    bear          +0.12%  losing  41%  worst   -70%  n  589  | tune +0.82% (345)  hold -0.88% (244)
+    bull          +2.98%  losing  22%  worst   -58%  n  809  | tune +3.09% (702)  hold +2.22% (107)
+    chop          +1.62%  losing  35%  worst   -80%  n  794  | tune +2.21% (414)  hold +0.98% (380)
+  by wave:
+    alone         +0.32%  losing  42%  worst   -80%  n  783  | tune +1.18% (249)  hold -0.08% (534)
+    2-4 coins     +1.26%  losing  28%  worst   -70%  n  217  | tune +1.89% (166)  hold -0.76% (51)
+    5+ coins      +2.72%  losing  26%  worst   -59%  n 1192  | tune +2.64% (1046)  hold +3.28% (146)
+  by prior24:
+    <-25%         +1.67%  losing  47%  worst   -67%  n  341  | tune +2.82% (207)  hold -0.09% (134)
+    -25..-10%     +1.92%  losing  30%  worst   -33%  n  580  | tune +2.04% (404)  hold +1.65% (176)
+    -10..0%       +1.78%  losing  26%  worst   -42%  n  680  | tune +2.12% (500)  hold +0.84% (180)
+    >0%           +1.47%  losing  32%  worst   -80%  n  591  | tune +2.57% (350)  hold -0.13% (241)
+  by repeat:
+    first         +2.02%  losing  27%  worst   -34%  n 1327  | tune +2.36% (986)  hold +1.07% (341)
+    repeat <24h   +1.25%  losing  40%  worst   -80%  n  865  | tune +2.20% (475)  hold +0.09% (390)
+  the 10 worst fills:
+    2026-04-17 08:00 SIRENUSDT      net -79.6%  prior 24h  +112%  chop  alone repeat <24h
+    2026-01-01 12:00 LIGHTUSDT      net -69.8%  prior 24h  +104%  bear  2-4 coins repeat <24h
+    2022-05-12 09:00 LUNAUSDT       net -66.7%  prior 24h   -99%  bear  alone repeat <24h
+    2022-05-11 12:00 LUNAUSDT       net -59.4%  prior 24h   -96%  bear  5+ coins repeat <24h
+    2023-12-31 22:00 TRBUSDT        net -58.4%  prior 24h   +80%  bull  alone repeat <24h
+    2026-06-02 22:00 LABUSDT        net -57.5%  prior 24h   +35%  chop  alone repeat <24h
+    2022-05-12 11:00 LUNAUSDT       net -48.1%  prior 24h   -97%  bear  alone repeat <24h
+    2022-05-12 08:00 LUNAUSDT       net -45.5%  prior 24h   -97%  bear  alone repeat <24h
+    2022-05-12 06:00 LUNAUSDT       net -45.4%  prior 24h   -97%  bear  alone repeat <24h
+    2021-05-19 12:00 XLMUSDT        net -43.5%  prior 24h   -25%  bear  5+ coins repeat <24h
+  the worst months of the baseline book, and what filled in them:
+    2022-05: -22.4%  fills 91, of them losing 63; worst coins LUNA, LUNA, LUNA
+    2026-03: -5.2%  fills 46, of them losing 29; worst coins POWER, POWER, POWER
+    2026-04: -4.4%  fills 62, of them losing 30; worst coins SIREN, SIREN, PIPPIN
+    2026-07: -3.2%  fills 91, of them losing 48; worst coins VELVET, LAB, LAB
+    2025-12: -1.5%  fills 6, of them losing 3; worst coins AIA, GIGGLE, AIA

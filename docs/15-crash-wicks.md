@@ -3,6 +3,12 @@
 *Asked for: "how can we benefit from crashes then, there must be something". Every number names its
 file. Status: **a candidate, NOT deployed, no paper book yet.***
 
+> **Superseded in part by [doc 16](16-crash-buys-safe.md) (2026-09-25).** The book below, as written,
+> hides a near-wipe-out. On 2025-10-10 21:00 its bids and the trend book together left **10% of the
+> account** in one hour, a loss that the fill hour's close does not show. Doc 16's rule changes three
+> things: it skips BEAR days, uses the top-40, and cancels the remaining bids after 10 fills per hour.
+> Its $300 figures replace the ones below: typical year $1,812, not $1,937.
+
 **Short version.**
 - **You cannot short a crash; you can buy one.** Short a crash and you had to be short before it:
   every short-entry rule tested here was no better than random (doc 14 §14).

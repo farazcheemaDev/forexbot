@@ -1,0 +1,12 @@
+Account left in the worst hour, trend book + wick bids together (each at its worst price of the hour)
+
+                                   trend alone           + wicks, no cap           + wicks, cap 20           + wicks, cap 10            + wicks, cap 5
+  ordering 0                  62% 2025-10-10 21:00      10% 2025-10-10 21:00      30% 2025-10-10 21:00      47% 2025-10-10 21:00      54% 2025-10-10 21:00
+    2021-05-19: trend alone 109%, no cap 109%, cap 20 109%, cap 10 109%, cap 5 109%
+    2025-10-10: trend alone 62%, no cap 10%, cap 20 30%, cap 10 47%, cap 5 54%
+  ordering 1                  88% 2023-07-14 18:00      49% 2025-10-10 21:00      69% 2025-10-10 21:00      86% 2025-10-10 21:00      88% 2023-07-14 18:00
+    2021-05-19: trend alone 110%, no cap 110%, cap 20 110%, cap 10 110%, cap 5 110%
+    2025-10-10: trend alone 99%, no cap 49%, cap 20 69%, cap 10 86%, cap 5 93%
+  ordering 2                  89% 2023-06-28 19:00      43% 2025-10-10 21:00      63% 2025-10-10 21:00      80% 2025-10-10 21:00      86% 2025-10-10 21:00
+    2021-05-19: trend alone 105%, no cap 105%, cap 20 105%, cap 10 105%, cap 5 105%
+    2025-10-10: trend alone 95%, no cap 43%, cap 20 63%, cap 10 80%, cap 5 86%
