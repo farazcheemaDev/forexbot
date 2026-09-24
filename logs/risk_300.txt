@@ -1,0 +1,30 @@
+A. A MONTH ON $300 (10 orderings; trend gains shrunk for hindsight, losses whole)
+
+  all 6 years
+  book                            best     1 in 10     1 in 4    typical  1 in 4 bad  1 in 10 bad        worst    up
+  today: triple alone     +559% $+1678   +82% $ +246   +10% $  +31    -3% $  -10   -10% $  -30   -14% $  -43   -30% $  -91   39%
+  FINAL version           +660% $+1979   +95% $ +284   +26% $  +77    +4% $  +12    -7% $  -21   -16% $  -48   -35% $ -105   56%
+
+  last 2 years
+  book                            best     1 in 10     1 in 4    typical  1 in 4 bad  1 in 10 bad        worst    up
+  today: triple alone     +559% $+1678  +126% $ +378   +12% $  +35    -4% $  -11   -10% $  -31   -14% $  -43   -25% $  -75   39%
+  FINAL version           +660% $+1979  +154% $ +463   +24% $  +73    +5% $  +14    -8% $  -25   -17% $  -52   -30% $  -89   63%
+
+B. WITHDRAWING A FIXED AMOUNT AT EVERY MONTH END, starting from $300 (FINAL version, every
+   12-month window, 6 years). If the balance cannot cover it, the withdrawal is skipped that month.
+   per month  taken out/yr  balance left: typical  bad (1 in 4)  below $300  below $150  skipped
+  $        0            0$                 1,642$          666          9%          0%      0.0
+  $       10          120$                 1,341$          483         17%          3%      0.4
+  $       20          240$                 1,061$          324         24%          8%      1.1
+  $       30          360$                   842$          245         27%         12%      1.9
+  $       50          500$                   513$          171         40%         17%      3.1
+  $       75          600$                   311$          169         49%         17%      4.5
+
+C. LIQUIDATION - trend book (triple + 21d anchor, 9x guard), hour by hour, every open unit at its
+   coin's worst price of that hour at the same time (pessimistic). 'left' = account value / account.
+   ordering 0: leverage (open notional / account incl. open profit) p99 4.5x, max 6.7x (2025-07-10); above 5x 0.5% of hours, above 8x 0.00%, above 10x 0.00% | WORST HOUR 2025-10-10 21:00: 62% of the account left (at 1.1x)
+      crash days - worst hour left / peak leverage: 2021-05-19: 109% / 0.4x | 2024-08-05: 105% / 0.4x | 2025-10-10: 62% / 1.7x
+   ordering 1: leverage (open notional / account incl. open profit) p99 4.1x, max 6.5x (2025-07-10); above 5x 0.1% of hours, above 8x 0.00%, above 10x 0.00% | WORST HOUR 2023-07-14 18:00: 88% of the account left (at 5.5x)
+      crash days - worst hour left / peak leverage: 2021-05-19: 110% / 0.4x | 2024-08-05: 105% / 0.4x | 2025-10-10: 99% / 1.4x
+   ordering 2: leverage (open notional / account incl. open profit) p99 4.1x, max 6.6x (2025-07-10); above 5x 0.1% of hours, above 8x 0.00%, above 10x 0.00% | WORST HOUR 2023-06-28 19:00: 89% of the account left (at 3.7x)
+      crash days - worst hour left / peak leverage: 2021-05-19: 105% / 0.2x | 2024-08-05: 106% / 0.4x | 2025-10-10: 95% / 1.1x

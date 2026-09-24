@@ -487,3 +487,65 @@ below $100."* Outcomes:
   adjustments that cost ≤ 2.2 %/yr;
 - the combination's range: roughly right;
 - **the trend book: wrong in size.** It loses 14% of its R at $100 and 43% at $50.
+
+## 13. $300: months, monthly withdrawals, liquidation — `backtest/risk_300.py` (log `logs/risk_300.txt`)
+
+The book is the final version, measured by the fair method, over 10 orderings.
+
+**A month on $300:**
+
+| | best | 1 in 10 | 1 in 4 | typical | 1 in 4 bad | 1 in 10 bad | worst | months up |
+|---|---|---|---|---|---|---|---|---|
+| final, 6 yrs | +660% (+$1,979) | +95% | +26% (+$77) | **+4% (+$12)** | −7% (−$21) | −16% (−$48) | **−35% (−$105)** | 56% |
+| final, last 2 yrs | +660% | +154% | +24% (+$73) | **+5% (+$14)** | −8% (−$25) | −17% (−$52) | **−30% (−$89)** | 63% |
+| triple alone, 6 yrs | +559% | +82% | +10% | −3% (−$10) | −10% | −14% | −30% (−$91) | 39% |
+
+The best month is one exceptional month (December 2024). Do not plan on it.
+
+**A fixed withdrawal at every month end from $300** (skipped when it would take the balance
+under $150):
+
+| per month | out per year | balance left after 12 months, typical / bad (1 in 4) | ends below $300 | ends below $150 |
+|---|---|---|---|---|
+| $0 | $0 | $1,642 / $666 | 9% | 0% |
+| $10 | $120 | $1,341 / $483 | 17% | 3% |
+| **$20** | **$240** | **$1,061 / $324** | 24% | 8% |
+| $30 | $360 | $842 / $245 | 27% | 12% |
+| $50 | $500 | $513 / $171 | 40% | 17% |
+| $75 | $600 | $311 / $169 | 49% | 17% |
+
+**Liquidation.** Each hour, every open trend unit was marked at its coin's LOW (longs) or HIGH
+(shorts) at the same time, against the account including its open profit.
+
+| | ordering 0 | ordering 1 | ordering 2 |
+|---|---|---|---|
+| leverage p99 / max | 4.5× / 6.7× | 4.1× / 6.5× | 4.1× / 6.6× |
+| hours above 5× / 8× | 0.5% / 0 | 0.1% / 0 | 0.1% / 0 |
+| worst hour: account left | **62%** (2025-10-10 21:00, at 1.1×) | 88% | 89% |
+| 2021-05-19 / 2024-08-05 / 2025-10-10 | 109% / 105% / 62% | 110% / 105% / 99% | 105% / 106% / 95% |
+
+**No liquidation in six years, the three worst crash days included.** The book was nearly flat on
+two of them and at ~1–2× on the third.
+
+**The residual risk:** a crash as sharp as 2025-10-10 arriving at the book's rare 6–7× peak. A ~15%
+simultaneous drop across the held coins would then take the whole account. It is not in the
+history, and the backtest cannot rule it out.
+
+**A measurement error, corrected before use.** The first run divided open notional by REALISED
+equity, and read a p99 of 12.6× and a max of 21.2× against a 9× guard. The exchange divides by
+equity including open profit. Deep-in-profit runners made the realised denominator far too small.
+
+**Capital changes.** In live mode the bot reads the account balance every poll:
+- **trend** sizes from min(balance, its 21-day average), so a withdrawal shrinks the bets at once
+  and a deposit grows them over ~3 weeks;
+- **market-neutral** resizes at its weekly rebalance;
+- **the sleeve** resizes daily;
+- open positions keep the size they were opened at, as in every backtest here.
+
+Registered: *"worst month about −30%; best several hundred percent; $20/month keeps the account
+above $300 in most years and $50/month drains it in most years; no liquidation, the worst hour
+leaving 40–60%, with 2025-10-10 the closest."* Outcomes:
+- worst month −35% / −30%: right;
+- best month +660%: right;
+- **$50/month: wrong.** It ends below $300 in 40% of years, not most;
+- the worst hour: right at 62%, and it was 2025-10-10.
