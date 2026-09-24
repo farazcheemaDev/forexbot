@@ -58,3 +58,11 @@ strategy_analysis/mt5_history.csv
 # official broker statement - contains a real name and account number
 strategy_analysis/statement_raw.txt
 strategy_analysis/statement_trades.csv
+
+# The combination paper book's live record (combo_paper.py) is machine-local, like the state
+# files. A committed copy would be restored over a live book by the VM's `git reset --hard`.
+logs/combo_*.csv
+logs/trades_combo_trend.csv
+# blend_paper's extra books name their state blend_state_<book>.json, which *_state.json
+# does not match (CLAUDE.md section 10 housekeeping note).
+logs/blend_state*.json

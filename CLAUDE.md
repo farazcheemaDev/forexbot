@@ -67,8 +67,13 @@ it has to meet.
 **The second one (2026-09-24): pyramid to 7 units, not 5** (`backtest/pyramid_params.py`). +1.30
 tune / +1.07 holdout %/mo over tight, t +33 / +19, 10/10 orderings, both halves on all four bar
 phases. It also passes a matched-risk control: reaching the same return by raising risk costs 8
-more points of drawdown. The mechanism is that units 6–7 are added at +10R/+12R, above the
-breakeven stop, so they carry upside with almost no downside. **It stacks with the time stop**
+more points of drawdown. The mechanism *was stated here* as "units 6–7 are added at +10R/+12R, above the breakeven stop,
+so they carry upside with almost no downside". **That is wrong** (`backtest/why_drawdown.py`,
+2026-09-24). Units 6 and 7 **lose money on 49% / 47% of the positions that reach them**, worst
+−11.8R / −12.5R each. The reason is the wide trail: 20×ATR sits ~10R below the best price, so a
+unit bought at +12R can exit near +2R. They pay on average, +7.4R / +8.1R per unit, because the
+winners are enormous, not because the losers are small. Their losses are part of why the
+account still halves (doc 13 §10). **It stacks with the time stop**
 (`backtest/units_on_tstop.py`): +1.51 ± 0.06 / +1.54 ± 0.08 over tight + time stop, 10/10.
 The "triple" (tight + time stop + 7 units) is the best book measured: +8.89% tune / +10.76%
 holdout %/mo against main's +4.88 / +4.88, at 48% / 51% drawdown - **but those two figures ignore
@@ -150,6 +155,8 @@ blend_paper.py     THE LIVE PAPER BOOKS — seven in one process. main / tight /
                      holdout WITH the 10x guard the bot enforces (+10.76% without it -
                      quote the guarded one, see section 6).
 mn_paper.py        the 5th book: market-neutral, pre-registered, verdict at 26 rebalances
+combo_paper.py     THE COMBINATION (doc 14 s8/s9): triple + 21d anchor + MN 1x + bear sleeve 1x on one
+                     $221 paper account, pre-registered, verdict at 6 months. Local; health.py sees it
 xs_paper.py        an EARLIER pre-registered XS test (21 coins, daily). Frozen — do not edit
 longtrend_bot.py   the Bitget demo bot. ALLOW_REAL = False
 micro_bot.py       the $10 go-for-broke bet. ALLOW_REAL = False
@@ -304,6 +311,65 @@ the box was patched before the repo was public.
 the detail lives in the numbered docs.*
 
 ### 2026-09-24 - the first real return improvement, seven paper books, and what moves BTC
+
+**Later still: why the account halves, and the mix that fixes it** ([doc 14](docs/14-drawdown.md)).
+
+*The cause.* The falls come AFTER booms, in sideways or rising markets (16% of their days are
+bear). 94% of 1h alt breakouts fail, and stacked 5–7 unit positions give back profit.
+
+*The fixes tested.* 56 fixes against the "just bet smaller" frontier. Smaller-after-boom,
+pause-after-failures, tighter trails, per-unit stops and a lower guard all fail. One survives the
+four-phase check: the **equity anchor**, which sizes the trend book from min(equity, 21-day
+average) and adds +0.2–0.8 %/mo.
+
+*What works.* Adding the two independent books:
+- the market-neutral book made +22 / +55 / +52% during the three worst falls;
+- the bear sleeve (doc 13).
+
+*The best mix.* **Trend at 70% + anchor + sleeve + 0.5× MN.** For $221 the typical year is
+**$736 against the triple's $584**, the biggest fall **35% against 53%**, no losing year in six,
+and the worst year $241 (`final_anchor.py`). It passes on all four bar phases, both halves.
+
+*Those figures were understated.* They haircut the whole mix. `max_mix.py` haircuts only the
+trend book, by shrinking its gains and keeping its losses. On that basis:
+- the 70% mix is worth $961;
+- **trend 100% + anchor + sleeve 1× + MN 1×** is worth **$1,210 a year against the triple's $592
+  at the same risk** (6 years), and **$1,125 against $530 over the last 2 years** (0% losing
+  years, fall 45% against 58%);
+- taking half of each month's profit gives ~$31–39 a month on $221.
+
+Also measured:
+- the user's regime-sized MN idea ties the fixed sizing;
+- the sleeve at 2× tops the grid, but its 2018 out-of-sample fall (42% at 1×) rules it out.
+
+See doc 14 §8.
+
+*Status:* candidate, not deployed. The whole mix runs forward as **`combo_paper.py`** (started
+2026-09-24, local, pre-registered, verdict at 6 months, doc 14 section 9).
+
+**Late: the first bear-market signal that replicates out of sample** ([doc 13](docs/13-bear-breadth.md)).
+
+*The search.* Six bear/chop strategies died first (doc 02: reversal, pairs, daily shorts, gated
+mean reversion, shorting BTC under the gate). The seventh, funding carry, averaged +0.78%/wk and
+lost 107% in one week to a short squeeze (MYX +1,137%). Then 21 signals were scanned *inside*
+regimes (84 cells, Holm). One passed, the one predicted: **breadth20 in BEAR regimes**. Low
+breadth (≤ 10% of the top-60 above their 20-day average) is followed by a bounce; high breadth
+(≥ 28.8%) by a fade. Long low / short high, only in bears:
+- **+25–27%/yr at 1×**, on both halves;
+- permutation p = 0.001;
+- 221 of 240 grid settings positive on both halves;
+- 16 of 22 capitulation episodes won;
+- survives 5× costs;
+- zero correlation with the trend book;
+- **replicated on the 2018–19 bear with frozen parameters** (+21.7%/yr against −5.0% for
+  always-long, `breadth_oos.py`).
+
+*Candidate, not deployed:*
+- DD is 20–42% at 1×;
+- at $221 the $5 minimum skips a third of orders (holdout +8%/yr);
+- a BULL regime runs today, so a paper book would sit flat until the next bear.
+
+Nothing was found for chop.
 
 **The best book changed.** MAX_UNITS 5 → 7 (see §2) is the first genuine RETURN improvement
 the whole search found. It stacks with the time stop, and the triple (tight + time stop + 7

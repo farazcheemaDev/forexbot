@@ -105,6 +105,13 @@ BOTS = [
          rows=LOGS / "mnp_rebalances.csv",
          note="paper. Marks once a DAY and rebalances weekly - a quiet log is normal."),
 
+    dict(key="combo", label="COMBINATION paper book (trend + MN + bear sleeve)", match="combo_paper.py",
+         pidfile=LOGS / "combo_paper.pid", where="local",
+         beat=LOGS / "combo_state.json", beat_max=6 * 60,
+         log=LOGS / "combo_paper.log", state=LOGS / "combo_state.json",
+         rows=LOGS / "combo_marks.csv",
+         note="paper, pre-registered (doc 14 s8), verdict at 6 months. Trend polls every 2 min."),
+
     dict(key="xsp", label="cross-sectional paper (older)", match="xs_paper.py",
          pidfile=LOGS / "xs_paper.pid", where="off",
          beat=LOGS / "xsp_state.json", beat_max=12 * 60,
