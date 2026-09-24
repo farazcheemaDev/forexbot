@@ -275,3 +275,50 @@ one file only.
 
 All three made results look better. That fits the meta-lesson above: errors that flatter a
 result survive longest, because nobody investigates good news.
+
+---
+
+## 15. A funding window that counts the same settlement several times — `mn_paper.py`
+
+*Found 2026-09-24 by another session, verified and re-sized here. **Still open at the time of
+writing**, in a LIVE pre-registered paper book.*
+
+`mn_paper.cycle()` accrues funding with:
+
+```python
+since = st.get("last_fund_ms") or ...
+fnd = {s: funding_since(s, since) for s in w}
+...
+st["last_fund_ms"] = int(bar.timestamp() * 1000)
+```
+
+and `funding_since` calls `/fapi/v1/fundingRate?symbol=...&startTime=since_ms&limit=100`.
+
+**Two faults compound:**
+
+1. **Binance's `startTime` is INCLUSIVE.** Verified against the live endpoint: a query whose
+   `startTime` equals a settlement's own timestamp returns that settlement. So the boundary
+   settlement is counted in two consecutive windows.
+2. **There is no `endTime`.** The window therefore runs from the last bar to **now**, while
+   `last_fund_ms` only advances to the **bar**. Everything between the bar and now is counted
+   this cycle and again next cycle.
+
+**Measured on the live state (2026-09-24):** the book summed **8 settlements for one daily mark**,
+spanning 2026-09-23 00:00 to 2026-09-24 04:00. A day has **three**. So funding is roughly
+**doubled**, not over by a third as first reported.
+
+It matters because funding is about a third of that book's edge (+0.252%/wk of its +1.130%/wk in
+`market_neutral.py`), and doc 14's recommended mix leans on the book.
+
+**The fix:** `startTime = last_fund_ms + 1`, and an explicit `endTime` at the bar being marked, so
+the window is exactly the day being booked.
+
+**Why it should be fixed even though the book is pre-registered:** house rule 9 makes kills
+permanent *"unless the measurement itself was broken."* A double-counted settlement is a broken
+measurement, not a parameter choice. And the book had **one mark** when this was found, so fixing
+it costs essentially nothing while leaving it means months of inflated record.
+
+**Rule:** any accrual window over an external event feed must be **half-open and explicitly
+bounded at both ends** — `(last, this_bar]` — and the cursor must advance to the same edge the
+window ended at. Never leave the end open and the cursor behind it.
+

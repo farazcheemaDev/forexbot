@@ -123,6 +123,8 @@ candidate on paper. The rule above still stands for everything else.
 | **`VAR=cmd arg` is not an assignment** | `U=sudo -u $OWNER` makes the shell treat `U=sudo` as a prefix and run a command called `-u`. Aborted a live patch at line 34 | No spaces in an assignment value |
 | **Testing only the part you changed** | Both of the two bugs above survived a test that exercised only the payload block, because both were outside it | Run the WHOLE script against a fake target with stubbed `systemctl`/`sudo`/`sleep` |
 | **Comparing medians across orderings** | Per-ordering noise here is 0.25-0.48 %/mo, so two medians drawn from different seed outcomes differ by several tenths for nothing. It produced TWO confident claims in one hour that both died under a paired test: a blend "beating the average phase with 4-6 points less drawdown" (paired: +0.04%/mo, t=0.19) and "the venue minimum costs $221 0.29%/mo" (paired: -0.02%/mo, t=-0.37) | Pair on the SAME ordering, take the difference, report mean +- se and a win count - as `graveyard_rescore.py` already did |
+| **`os.kill(pid, 0)` as a liveness check** | On Windows this is not a no-op - any signal other than CTRL_C/CTRL_BREAK calls `TerminateProcess`, so the “check” **kills the process it is checking**. Caught in a draft of `combo_paper.py` before it ran | Read-only check: PowerShell `Get-Process -Id`, as `mn_paper.single_instance` does |
+| **An accrual window left open at one end** | `mn_paper` sums funding from `last_fund_ms` with no `endTime`, so the window runs to NOW while the cursor advances only to the BAR - and Binance's `startTime` is inclusive as well. Measured: **8 settlements summed for a one-day mark**, where a day has 3. Funding roughly doubled (mistake #15, still open) | Half-open and bounded at BOTH ends, `(last, this_bar]`, with the cursor advancing to the same edge |
 | **Mixed datetime64 units in the row set** | t0 comes back as `[us]` and t1 as `[ms]`, so `date_range` inherits `[us]` from its bounds while `Timestamp.value` returns ns. `searchsorted` then puts every span past the end of the grid and a whole leverage series came back silently ZERO (2026-09-24, cost a run) | Force BOTH sides with `.as_unit("ns")`, and assert the result is non-zero rather than trusting it |
 | **A test that cannot exhibit the bug** | With one position open at a time the two compounding conventions are arithmetically IDENTICAL, so a non-overlapping test showed $0.00 difference and passed while proving nothing. The bug only bites when positions OVERLAP | Construct the case so the bug MUST appear if it is present |
 | **Timestamp unit mismatch** | `.asof()` raises "Cannot losslessly convert units" (ms index vs ns clock) | `blend_paper._ns()` |
@@ -273,6 +275,17 @@ even less room. More return comes from 7 units or from capital, not from risk.
   order. Stop the local one before deploying to the VM.
 - Dry runs get their **own** state and log files. Sharing a log with the live bot once made
   it look like the live book had gone flat when it had not.
+
+## 7b. OPEN BUGS — read before trusting a live book's numbers
+
+- **`mn_paper.py` over-counts funding, roughly double** (mistake #15, found and verified
+  2026-09-24, **not yet fixed**). Its `startTime` is inclusive and its window has no `endTime`, so
+  it summed **8 settlements for one daily mark** where a day has 3. Funding is ~a third of that
+  book's edge, so **its live record is inflated**, and `combo_paper.py`'s market-neutral leg is a
+  separate, correct implementation - the bug is confined to `mn_paper.py`. It had ONE mark when
+  found, so the cheap fix is to correct the window and reset that book's state; the expensive
+  option is to leave it and discount the record later. Doc 14's mix recommendation leans on this
+  book, which is why it is listed here rather than buried.
 
 ## 8. How to check what is running
 
@@ -460,6 +473,23 @@ not just the ones that were killed.
   `logs/blend_state*.json`.
 - The 2026-09-23 advice that 0.6% per unit was fine for "crazy returns" was wrong for a book
   meant to keep running: it holds only on a ~3-month horizon (`kelly_corrected.py`).
+
+**The combination book was verified, not taken on trust** (2026-09-24). `combo_paper.py` built by
+another session: 432 lines, parses, **7 tests pass** (at `tests/test_combo_paper.py`, not the repo
+root), running at $220.87, committed and pushed. Checked specifically that it cannot damage the
+seven VM books: its only reference to them is a **read** of `blend_state_triple.json` in
+`triple_ref()`, for its pre-registered H1 comparison. It writes only its own files. Day 0: 6 trend
+positions, 12 market-neutral names, and the bear sleeve **correctly idle** (bull regime, 85% of
+coins above their 20-day average).
+
+Two bugs came out of that build, one caught before it ran and one still open - both now in the trap
+table, and the second as mistake #15 and §7b:
+- `os.kill(pid, 0)` **kills the process on Windows**. Caught in a draft.
+- `mn_paper.py` over-counts funding roughly **twofold** (8 settlements for a one-day mark). The
+  first report called it a daily double-count; measuring it showed the window also has no
+  `endTime`, so it is larger than that. **Not fixed** - it is a live pre-registered book, and the
+  call to fix it belongs to the user. The recommendation stands: fix now, while that book has one
+  mark, rather than discount three months of record later.
 
 **WHERE THE DAY LEFT THE GOAL** ("crazy returns, or small capital, or something out of the box").
 

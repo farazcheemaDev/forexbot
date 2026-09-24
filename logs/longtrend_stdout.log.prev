@@ -1,0 +1,101 @@
+2026-09-22 22:54:30 | clearing stale lock from dead pid 13008
+2026-09-22 22:54:30 | ==============================================================================
+2026-09-22 22:54:30 | LEVERAGED LONG TREND on Bitget DEMO (simulated)
+2026-09-22 22:54:30 |   bb_break(30,1.5) 1h | NO take-profit
+2026-09-22 22:54:30 |   LONG:  trail 20.0xATR, up to 5 units (+1 every 2.0R)
+2026-09-22 22:54:30 |   SHORT: trail 5.0xATR, 1 unit, no regime filter - shorts share the same slots
+2026-09-22 22:54:30 |          asymmetric by measurement: shorts are NEGATIVE at 20.0xATR
+2026-09-22 22:54:30 |   PYRAMID: up to 5 units, +1 every 2.0R of advance
+2026-09-22 22:54:30 |   risk 0.3%/UNIT -> 1.50% total exposure | leverage 10x | taker entries
+2026-09-22 22:54:30 |   *** SIZING AS IF EQUITY WERE $221 *** the demo's real balance is used to PAY for orders but not to size them, so every
+2026-09-22 22:54:30 |       minimum-order and margin refusal is the one a $221 account would actually hit
+2026-09-22 22:54:30 |   breakeven stop at +3R (validated: 12/12 swept cells cut drawdown; NOT a profit target - it raises the floor, not the ceiling)
+2026-09-22 22:54:31 |   regime gate: risk x0.25 while BTC < its 1000h average (currently bull - full risk)
+2026-09-22 22:54:31 |   book: SBTC/SUSDT:SUSDT, SETH/SUSDT:SUSDT, SXRP/SUSDT:SUSDT
+2026-09-22 22:54:31 |   NOTE: 3 contracts is a DEMO limit. The validated config needs 12 coins x
+2026-09-22 22:54:31 |         3 timeframes, so this tests the ORDER PATH, not the strategy -
+2026-09-22 22:54:31 |         blend_paper.py on the VPS tests the strategy.
+2026-09-22 22:54:31 |   signals from Binance 1h (tracks demo within 8bp), execution on Bitget
+2026-09-22 22:54:31 |   exchange stop at -2.0xATR as backstop; 20.0xATR trail managed in-process
+2026-09-22 22:54:36 |   connected. equity 2842.48 SUSDT, 3 open positions
+2026-09-22 23:00:52 | [BTCUSDT] HOLD 41b  entry 81550.0000  stop 81550.0000  px 86124.0100  open +4.87R
+2026-09-22 23:00:54 | [ETHUSDT] HOLD 46b  entry 2689.1900  stop 2642.3771  px 2753.0800  open +1.36R
+2026-09-22 23:00:56 | [XRPUSDT] HOLD 46b  entry 1.4257  stop 1.4257  px 1.5721  open +5.35R
+2026-09-23 00:00:11 | [BTCUSDT] HOLD 42b  entry 81550.0000  stop 81550.0000  px 86208.5600  open +4.96R
+2026-09-23 00:00:13 | [ETHUSDT] HOLD 47b  entry 2689.1900  stop 2642.3771  px 2753.6300  open +1.38R
+2026-09-23 00:00:16 | [XRPUSDT] HOLD 47b  entry 1.4257  stop 1.4257  px 1.5727  open +5.37R
+2026-09-23 01:00:34 | [BTCUSDT] HOLD 43b  entry 81550.0000  stop 81550.0000  px 86457.3000  open +5.22R
+2026-09-23 01:00:36 | [ETHUSDT] HOLD 48b  entry 2689.1900  stop 2642.3771  px 2760.0000  open +1.51R
+2026-09-23 01:00:38 | [XRPUSDT] HOLD 48b  entry 1.4257  stop 1.4257  px 1.5859  open +5.86R
+2026-09-23 02:00:55 | [BTCUSDT] HOLD 44b  entry 81550.0000  stop 81550.0000  px 86370.0000  open +5.13R
+2026-09-23 02:00:57 | [ETHUSDT] HOLD 49b  entry 2689.1900  stop 2642.3771  px 2754.1900  open +1.39R
+2026-09-23 02:00:59 | [XRPUSDT] HOLD 49b  entry 1.4257  stop 1.4257  px 1.5865  open +5.88R
+2026-09-23 03:00:15 | [BTCUSDT] HOLD 45b  entry 81550.0000  stop 81550.0000  px 86552.2600  open +5.32R
+2026-09-23 03:00:19 | [ETHUSDT] HOLD 50b  entry 2689.1900  stop 2642.3771  px 2762.2000  open +1.56R
+2026-09-23 03:00:21 | [XRPUSDT] HOLD 50b  entry 1.4257  stop 1.4257  px 1.5990  open +6.33R
+2026-09-23 04:00:39 | [BTCUSDT] HOLD 46b  entry 81550.0000  stop 81550.0000  px 86704.2700  open +5.49R
+2026-09-23 04:00:41 | [ETHUSDT] HOLD 51b  entry 2689.1900  stop 2642.3771  px 2774.0100  open +1.81R
+2026-09-23 04:00:43 | [XRPUSDT] HOLD 51b  entry 1.4257  stop 1.4257  px 1.6182  open +7.04R
+2026-09-23 05:00:09 | [BTCUSDT] HOLD 47b  entry 81550.0000  stop 81550.0000  px 87166.9500  open +5.98R
+2026-09-23 05:00:11 | [ETHUSDT] HOLD 52b  entry 2689.1900  stop 2642.3771  px 2779.6500  open +1.93R
+2026-09-23 05:00:12 | [XRPUSDT] PYRAMID add unit 5/5 at +8.5R (size 24.0)
+2026-09-23 05:00:14 | [XRPUSDT] HOLD 52b  entry 1.4257  stop 1.4257  px 1.6381  open +7.76R
+2026-09-23 06:00:43 | [BTCUSDT] HOLD 48b  entry 81550.0000  stop 81550.0000  px 86496.0100  open +5.26R
+2026-09-23 06:00:45 | [ETHUSDT] HOLD 53b  entry 2689.1900  stop 2642.3771  px 2757.8000  open +1.47R
+2026-09-23 06:00:47 | [XRPUSDT] HOLD 53b  entry 1.4257  stop 1.4257  px 1.6088  open +6.69R
+2026-09-23 07:00:22 | [BTCUSDT] HOLD 49b  entry 81550.0000  stop 81550.0000  px 86469.6600  open +5.24R
+2026-09-23 07:00:24 | [ETHUSDT] HOLD 54b  entry 2689.1900  stop 2642.3771  px 2754.2900  open +1.39R
+2026-09-23 07:00:26 | [XRPUSDT] HOLD 54b  entry 1.4257  stop 1.4257  px 1.6266  open +7.34R
+2026-09-23 08:00:46 | [BTCUSDT] HOLD 50b  entry 81550.0000  stop 81550.0000  px 86124.7700  open +4.87R
+2026-09-23 08:00:48 | [ETHUSDT] HOLD 55b  entry 2689.1900  stop 2642.3771  px 2742.9200  open +1.15R
+2026-09-23 08:00:50 | [XRPUSDT] HOLD 55b  entry 1.4257  stop 1.4257  px 1.6168  open +6.99R
+2026-09-23 08:41:29 | [BTCUSDT] deep klines failed: URLError: <urlopen error [Errno 11001] getaddrinfo failed>
+2026-09-23 09:00:22 | [BTCUSDT] HOLD 51b  entry 81550.0000  stop 81550.0000  px 85899.9900  open +4.63R
+2026-09-23 09:00:25 | [ETHUSDT] HOLD 56b  entry 2689.1900  stop 2642.3771  px 2734.9900  open +0.98R
+2026-09-23 09:00:28 | [XRPUSDT] HOLD 56b  entry 1.4257  stop 1.4257  px 1.5972  open +6.27R
+2026-09-23 10:00:50 | [BTCUSDT] HOLD 52b  entry 81550.0000  stop 81550.0000  px 85854.3300  open +4.58R
+2026-09-23 10:00:53 | [ETHUSDT] HOLD 57b  entry 2689.1900  stop 2642.3771  px 2733.6100  open +0.95R
+2026-09-23 10:00:55 | [XRPUSDT] HOLD 57b  entry 1.4257  stop 1.4257  px 1.5939  open +6.15R
+2026-09-23 10:20:48 | cycle error: RequestTimeout: bitget GET https://api.bitget.com/api/v2/mix/position/all-position?marginCoin=SUSDT&productType=SUSDT-FUTURES
+2026-09-23 11:00:37 | [BTCUSDT] HOLD 53b  entry 81550.0000  stop 81550.0000  px 85923.0700  open +4.65R
+2026-09-23 11:00:39 | [ETHUSDT] HOLD 58b  entry 2689.1900  stop 2642.3771  px 2738.3300  open +1.05R
+2026-09-23 11:00:42 | [XRPUSDT] HOLD 58b  entry 1.4257  stop 1.4257  px 1.5946  open +6.17R
+2026-09-23 12:00:13 | [BTCUSDT] HOLD 54b  entry 81550.0000  stop 81550.0000  px 85649.9500  open +4.36R
+2026-09-23 12:00:16 | [ETHUSDT] HOLD 59b  entry 2689.1900  stop 2642.3771  px 2727.9600  open +0.83R
+2026-09-23 12:00:19 | [XRPUSDT] HOLD 59b  entry 1.4257  stop 1.4257  px 1.5733  open +5.40R
+2026-09-23 13:00:38 | [BTCUSDT] HOLD 55b  entry 81550.0000  stop 81550.0000  px 85510.9100  open +4.22R
+2026-09-23 13:00:40 | [ETHUSDT] HOLD 60b  entry 2689.1900  stop 2642.3771  px 2722.2000  open +0.71R
+2026-09-23 13:00:43 | [XRPUSDT] HOLD 60b  entry 1.4257  stop 1.4257  px 1.5671  open +5.17R
+2026-09-23 14:01:13 | [BTCUSDT] HOLD 56b  entry 81550.0000  stop 81550.0000  px 85792.0100  open +4.51R
+2026-09-23 14:01:15 | [ETHUSDT] HOLD 61b  entry 2689.1900  stop 2642.3771  px 2716.1000  open +0.57R
+2026-09-23 14:01:19 | [XRPUSDT] HOLD 61b  entry 1.4257  stop 1.4257  px 1.5755  open +5.48R
+2026-09-23 14:08:44 | cycle error: NetworkError: bitget GET https://api.bitget.com/api/v2/mix/position/all-position?marginCoin=SUSDT&productType=SUSDT-FUTURES
+2026-09-23 14:35:46 | cycle error: NetworkError: bitget GET https://api.bitget.com/api/v2/mix/position/all-position?marginCoin=SUSDT&productType=SUSDT-FUTURES
+2026-09-23 14:40:55 | cycle error: NetworkError: bitget GET https://api.bitget.com/api/v2/mix/position/all-position?marginCoin=SUSDT&productType=SUSDT-FUTURES
+2026-09-23 15:00:41 | [BTCUSDT] HOLD 57b  entry 81550.0000  stop 81550.0000  px 84533.9900  open +3.18R
+2026-09-23 15:00:44 | [ETHUSDT] HOLD 62b  entry 2689.1900  stop 2642.3771  px 2676.3600  open -0.27R
+2026-09-23 15:00:46 | [XRPUSDT] HOLD 62b  entry 1.4257  stop 1.4257  px 1.5284  open +3.75R
+2026-09-23 16:01:06 | [BTCUSDT] HOLD 58b  entry 81550.0000  stop 81550.0000  px 83996.0100  open +2.60R
+2026-09-23 16:01:08 | [ETHUSDT] HOLD 63b  entry 2689.1900  stop 2642.3771  px 2656.2100  open -0.70R
+2026-09-23 16:01:10 | [XRPUSDT] HOLD 63b  entry 1.4257  stop 1.4257  px 1.5062  open +2.94R
+2026-09-23 17:00:21 | [BTCUSDT] HOLD 59b  entry 81550.0000  stop 81550.0000  px 84038.0000  open +2.65R
+2026-09-23 17:00:23 | [ETHUSDT] TRAIL HIT (long) -> exiting at market. entry 2689.1900 stop 2642.3771 R=-1.00 after 64 bars
+2026-09-23 17:00:24 | [ETHUSDT] EXIT ORDER FAILED: bitget {"code":"40804","msg":"The number of closed positions cannot exceed the number of positions held","requestTime":1790182822290,"data":null} - position left open, exchange stop still in place
+2026-09-23 17:00:26 | [XRPUSDT] HOLD 64b  entry 1.4257  stop 1.4257  px 1.5004  open +2.73R
+2026-09-23 18:00:42 | [BTCUSDT] HOLD 60b  entry 81550.0000  stop 81550.0000  px 84326.5600  open +2.96R
+2026-09-23 18:00:44 | [ETHUSDT] HOLD 65b  entry 2689.1900  stop 2642.3771  px 2668.0300  open -0.45R
+2026-09-23 18:00:47 | [XRPUSDT] HOLD 65b  entry 1.4257  stop 1.4257  px 1.5033  open +2.84R
+2026-09-23 19:01:01 | [BTCUSDT] HOLD 61b  entry 81550.0000  stop 81550.0000  px 84330.0000  open +2.96R
+2026-09-23 19:01:04 | [ETHUSDT] HOLD 66b  entry 2689.1900  stop 2642.3771  px 2669.0500  open -0.43R
+2026-09-23 19:01:06 | [XRPUSDT] HOLD 66b  entry 1.4257  stop 1.4257  px 1.4962  open +2.58R
+2026-09-23 20:00:18 | [BTCUSDT] HOLD 62b  entry 81550.0000  stop 81550.0000  px 84518.0000  open +3.16R
+2026-09-23 20:00:21 | [ETHUSDT] HOLD 67b  entry 2689.1900  stop 2642.3771  px 2678.9700  open -0.22R
+2026-09-23 20:00:23 | [XRPUSDT] HOLD 67b  entry 1.4257  stop 1.4257  px 1.4938  open +2.49R
+2026-09-23 20:47:10 | cycle error: NetworkError: bitget GET https://api.bitget.com/api/v2/mix/position/all-position?marginCoin=SUSDT&productType=SUSDT-FUTURES
+2026-09-23 20:53:21 | cycle error: NetworkError: bitget GET https://api.bitget.com/api/v2/mix/position/all-position?marginCoin=SUSDT&productType=SUSDT-FUTURES
+2026-09-23 21:00:39 | [BTCUSDT] HOLD 63b  entry 81550.0000  stop 81550.0000  px 84232.8600  open +2.86R
+2026-09-23 21:00:41 | [ETHUSDT] HOLD 68b  entry 2689.1900  stop 2642.3771  px 2671.3600  open -0.38R
+2026-09-23 21:00:44 | [XRPUSDT] HOLD 68b  entry 1.4257  stop 1.4257  px 1.4835  open +2.11R
+2026-09-23 22:01:04 | [BTCUSDT] HOLD 64b  entry 81550.0000  stop 81550.0000  px 84419.4800  open +3.05R
+2026-09-23 22:01:06 | [ETHUSDT] HOLD 69b  entry 2689.1900  stop 2642.3771  px 2677.4200  open -0.25R
+2026-09-23 22:01:08 | [XRPUSDT] HOLD 69b  entry 1.4257  stop 1.4257  px 1.4993  open +2.69R
