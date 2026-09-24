@@ -161,7 +161,15 @@ combo_paper.py     THE COMBINATION (doc 14 s8/s9): triple + 21d anchor + MN 1x +
                      $221 paper account, pre-registered. ON THE VM since 2026-09-24 12:40 UTC
                      (combo-paper.service, deploy/install_combo.sh); verdict ~2027-03-24
 xs_paper.py        an EARLIER pre-registered XS test (21 coins, daily). Frozen — do not edit
-longtrend_bot.py   the Bitget demo bot. ALLOW_REAL = False
+combo_bot.py       THE LIVE COMBINATION BOT (2026-09-24): combo_paper's three books executed on ONE Bitget
+                     account, netted per coin, cross margin, 30% disaster stops, intrabar trend stops.
+                     --mode demo (running locally; the demo lists only SBTC/SETH/SXRP, so every coin is
+                     routed onto those by dollar value: an ORDER-PATH test, P&L meaningless), --mode dry
+                     (all coins, no orders), --mode live (refused: ALLOW_REAL = False). --report = the
+                     2-week check. tests/test_combo_bot.py: 14 offline tests on a fake exchange
+longtrend_bot.py   the OLD Bitget demo bot, STOPPED 2026-09-24 (combo_bot replaced it on the demo
+                     account). ALLOW_REAL = False. Its live mode trades a 9-coin list that is NOT the
+                     validated 12-coin book - never take it live as it stands
 micro_bot.py       the $10 go-for-broke bet. ALLOW_REAL = False
 health.py          "is anything wedged or dead" — three signals per bot
 docs/              00-12 + README. Doc 02 is the graveyard; read it before proposing.
@@ -299,8 +307,10 @@ even less room. More return comes from 7 units or from capital, not from risk.
   fall 27-34% in a day at their worst. The backtest cannot model forced closure, so the
   unguarded return is computed in a world without the risk removing it creates. Asked and
   answered 2026-09-24, doc 11 part 10b.
-- **`ALLOW_REAL = False`** in `longtrend_bot.py` and `micro_bot.py` is a gate a **human**
-  must edit. Never flip it, never work around it.
+- **`ALLOW_REAL = False`** in `longtrend_bot.py`, `micro_bot.py` and **`combo_bot.py`** is a gate
+  a **human** must edit. Never flip it, never work around it.
+- **`combo_bot.py` needs a DEDICATED account.** It nets the whole account to its books, so any
+  position it did not open is closed on its first poll.
 - **Never handle the user's credentials.** Not in chat, not in a file, not in an argument,
   not in a log. Keys come from the environment only (`BINANCE_TESTNET_KEY`,
   `BITGET_API_KEY`, …) and are used read-only unless the user has asked for an action.

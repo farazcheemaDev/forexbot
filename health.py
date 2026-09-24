@@ -80,11 +80,26 @@ BOTS = [
          log=LOGS / "blend_paper.log", state=LOGS / "blend_state.json",
          note="paper. Lives on the Azure VM; absent here is correct."),
 
-    dict(key="demo", label="Bitget DEMO order-path test", match="longtrend_bot.py",
-         pidfile=LOGS / "longtrend_demo.pid", where="local",
+    dict(key="demo", label="Bitget DEMO order-path test (OLD bot, retired)", match="longtrend_bot.py",
+         pidfile=LOGS / "longtrend_demo.pid", where="off",
          beat=LOGS / "longtrend_state.json", beat_max=5 * 60,
          log=LOGS / "longtrend.log", state=LOGS / "longtrend_state.json",
-         note="places REAL orders on the DEMO account. One instance only, ever."),
+         note="stopped 2026-09-24: the demo account now runs combo_bot.py --mode demo. "
+              "NEVER restart it beside that bot - one account, one bot."),
+
+    dict(key="cdemo", label="COMBO BOT on the Bitget DEMO (order-path test)", match="combo_bot.py --mode demo",
+         pidfile=LOGS / "combo_bot_demo" / "combo_bot.pid", where="local",
+         beat=LOGS / "combo_bot_demo" / "combo_state.json", beat_max=6 * 60,
+         log=LOGS / "combo_bot_demo" / "combo_paper.log", state=LOGS / "combo_bot_demo" / "combo_state.json",
+         rows=LOGS / "combo_bot_demo" / "combo_exec.csv",
+         note="places demo orders; 2-week check from 2026-09-24: python combo_bot.py --mode demo --report"),
+
+    dict(key="cdry", label="COMBO BOT dry run, all coins, no orders", match="combo_bot.py --mode dry",
+         pidfile=LOGS / "combo_bot_dry" / "combo_bot.pid", where="local",
+         beat=LOGS / "combo_bot_dry" / "combo_state.json", beat_max=6 * 60,
+         log=LOGS / "combo_bot_dry" / "combo_paper.log", state=LOGS / "combo_bot_dry" / "combo_state.json",
+         rows=LOGS / "combo_bot_dry" / "combo_exec.csv",
+         note="no keys, no orders: proves decisions and Bitget symbol mapping for every coin"),
 
     dict(key="micro", label="$10 micro bot", match="micro_bot.py",
          pidfile=LOGS / "micro_bot.pid", where="off",

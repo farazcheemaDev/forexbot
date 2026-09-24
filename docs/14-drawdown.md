@@ -386,3 +386,72 @@ backslashes. It was run whole against a fake target with stubbed `systemctl`, `s
 The local run (07:12–12:45 UTC) was stopped and its files archived in
 `logs/combo_local_stopped_20260924/` (gitignored), so **the VM holds the only record**. The
 verdict is due ~2027-03-24.
+
+## 11. The live bot — `combo_bot.py` (demo from 2026-09-24, local), `tests/test_combo_bot.py`
+
+**Why it was built.** The user did not want to wait until March, and chose: *build the live
+version, test it 2 weeks on demo, then decide on real money*.
+
+**Two findings changed the plan:**
+- **Bitget's demo lists only 3 coins** (SBTC/SETH/SXRP). A demo cannot run the combination.
+- **`longtrend_bot.py`'s live mode trades a 9-coin list that is not the validated 12-coin book.**
+
+**How it is built.**
+- **Decisions** are `combo_paper.py`'s own three books.
+- **Execution nets them per coin.** One account in one-way mode holds one net position per coin,
+  so the bot sends one order per coin for the difference.
+- **The two-week proof has two parts:**
+  - **demo** routes every coin onto the 3 demo contracts by dollar value, which stress-tests the
+    order path;
+  - **dry** runs every coin against Bitget's REAL market list with no orders.
+
+**Safety:**
+- `ALLOW_REAL = False`;
+- it refuses to start beside `longtrend_bot.py` or another combo bot (checked by pid);
+- **cross margin**: isolated 10× liquidates alts inside their own 4h/12h stops;
+- a 30% disaster stop per net position;
+- a price-sanity refusal when the venue and Binance differ by more than 3%;
+- the $5 minimum, except that a full close always goes.
+
+**Found by running it, not by the tests:**
+1. **Intrabar trend stops.** The paper engine judges a stop at the bar close, which live would
+   mean up to 12h late. The live price is now checked against every trend stop each poll, and the
+   breach is sticky.
+2. **Warm start.** The first dry run "entered" LTC 12h at a close from hours earlier: 62.04
+   against a live 66.90, 8% away. Signals now come only from bars that close after the process
+   starts.
+3. **A fresh-state crash** (`KeyError: 'exec'`).
+4. **Fills logged as 'assumed'.** Bitget's order response carries no fill price, so fills are
+   now read back by order id.
+
+**Tests.** 14 offline tests on a fake one-way exchange that rejects a reduce-only order growing a
+position. Three mutations (no close-then-open split, price sanity off, non-sticky breach) are
+each caught.
+
+**First demo poll** (2026-09-24 13:02 UTC):
+- it reduced and closed the old bot's 3 leftovers and flipped SETH as close + open;
+- it placed 3 disaster stops, all accepted by Bitget;
+- real fills read back from Bitget sit within ~1bp of the reference.
+
+A restart sent no duplicate orders.
+
+**The check, around 2026-10-08:**
+
+```bash
+python combo_bot.py --mode demo --report
+```
+
+```bash
+python combo_bot.py --mode dry --report
+```
+
+**PASS** needs:
+- no order failures;
+- no stop-placement failures;
+- no poll errors;
+- every fill priced;
+- slippage within a few bp;
+- at least one open, add, reduce, close and flip.
+
+After that, going live is the user's decision: they set `ALLOW_REAL = True` in `combo_bot.py`,
+use a DEDICATED account of about $221 or more, and run `--mode live`.
