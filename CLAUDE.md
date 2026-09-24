@@ -158,7 +158,8 @@ blend_paper.py     THE LIVE PAPER BOOKS — seven in one process. main / tight /
                      quote the guarded one, see section 6).
 mn_paper.py        the 5th book: market-neutral, pre-registered, verdict at 26 rebalances
 combo_paper.py     THE COMBINATION (doc 14 s8/s9): triple + 21d anchor + MN 1x + bear sleeve 1x on one
-                     $221 paper account, pre-registered, verdict at 6 months. Local; health.py sees it
+                     $221 paper account, pre-registered. ON THE VM since 2026-09-24 12:40 UTC
+                     (combo-paper.service, deploy/install_combo.sh); verdict ~2027-03-24
 xs_paper.py        an EARLIER pre-registered XS test (21 coins, daily). Frozen — do not edit
 longtrend_bot.py   the Bitget demo bot. ALLOW_REAL = False
 micro_bot.py       the $10 go-for-broke bet. ALLOW_REAL = False
@@ -334,6 +335,10 @@ On the VM (Azure portal → VM → Run command → RunShellScript):
 cd /opt/forexbot && ./.venv/bin/python blend_paper.py --status
 ```
 
+```bash
+cd /opt/forexbot && ./.venv/bin/python combo_paper.py --status
+```
+
 **Deploy to the VM by `git pull`** (the repo was made public 2026-09-23):
 `deploy/pull_and_rebuild.sh` pulls, verifies `blend_paper.py` by sha256, restarts and prints
 the books. `deploy/check_vm.sh` is a read-only "what is on that box" check.
@@ -392,8 +397,10 @@ Also measured:
 
 See doc 14 §8.
 
-*Status:* candidate, not deployed. The whole mix runs forward as **`combo_paper.py`** (started
-2026-09-24, local, pre-registered, verdict at 6 months, doc 14 section 9).
+*Status:* candidate, not deployed with money. The whole mix runs forward as **`combo_paper.py`**
+**on the VM** (`combo-paper.service`, started 2026-09-24 12:40:12 UTC, pre-registered, verdict at
+6 months ~2027-03-24, doc 14 section 9). A local run from 07:12 that morning was stopped and
+archived when the VM copy came up, so there is one record.
 
 **Late: the first bear-market signal that replicates out of sample** ([doc 13](docs/13-bear-breadth.md)).
 

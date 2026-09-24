@@ -106,11 +106,12 @@ BOTS = [
          note="paper. Marks once a DAY and rebalances weekly - a quiet log is normal."),
 
     dict(key="combo", label="COMBINATION paper book (trend + MN + bear sleeve)", match="combo_paper.py",
-         pidfile=LOGS / "combo_paper.pid", where="local",
+         pidfile=None, where="vm",
          beat=LOGS / "combo_state.json", beat_max=6 * 60,
          log=LOGS / "combo_paper.log", state=LOGS / "combo_state.json",
          rows=LOGS / "combo_marks.csv",
-         note="paper, pre-registered (doc 14 s8), verdict at 6 months. Trend polls every 2 min."),
+         note="paper, pre-registered (doc 14 s8/s9). Lives on the Azure VM since 2026-09-24 "
+              "12:40 UTC (combo-paper.service); absent here is correct. Verdict ~2027-03-24."),
 
     dict(key="xsp", label="cross-sectional paper (older)", match="xs_paper.py",
          pidfile=LOGS / "xs_paper.pid", where="off",

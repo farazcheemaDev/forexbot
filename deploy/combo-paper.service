@@ -8,9 +8,9 @@ Type=simple
 User=__USER__
 WorkingDirectory=__APP_DIR__
 ExecStart=__APP_DIR__/.venv/bin/python -u combo_paper.py
-# ONE INSTANCE ONLY. It started on the local PC on 2026-09-24. Enable this on the VM only after
-# stopping the local copy, and copy logs/combo_state.json + logs/combo_*.csv across first, or
-# the VM starts a fresh record and the test's clock restarts.
+# ONE INSTANCE ONLY. Runs on the VM since 2026-09-24 12:40 UTC (installed by
+# deploy/install_combo.sh). Never start a second copy anywhere else: two copies are two
+# records, and the pre-registered verdict needs exactly one.
 Restart=always
 RestartSec=30
 StandardOutput=journal

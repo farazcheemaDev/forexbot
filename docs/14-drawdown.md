@@ -300,7 +300,7 @@ on capital above ~$25 (CLAUDE.md §6), so dollars scale with capital. At the sam
 - ~$2,000 would give ~$350–460 a month.
 This is arithmetic on these backtest rates, not a separate measurement.
 
-## 9. The paper book — `combo_paper.py` (started 2026-09-24 on the local PC, pid in `logs/combo_paper.pid`)
+## 9. The paper book — `combo_paper.py` (ON THE VM since 2026-09-24 12:40:12 UTC, `combo-paper.service`)
 
 The mix from §8 runs forward as ONE $221 paper account. It places no orders anywhere.
 
@@ -375,3 +375,14 @@ combo_paper.py's sha256, compiles it, runs its tests, installs `combo-paper.serv
 and prints the status and free memory. It has 51 lines, all under 44 characters, with no
 backslashes. It was run whole against a fake target with stubbed `systemctl`, `sudo`, `chown`,
 `journalctl` and `sleep`; the first run caught a 46-character line.
+
+**Deployed 2026-09-24.** `pull_and_rebuild.sh` then `install_combo.sh` on the VM printed:
+- HASH_OK, SYNTAX_OK, 7 passed, `active`, `clean`;
+- memory 421 MB available of 896 MB;
+- the first poll opened the MN basket (12 names at $18.42) and took 3 trend trades (LTC 4h and
+  12h long, WLD 4h short);
+- it read the triple paper book for H1 (x0.999 against x1.000 on day 0).
+
+The local run (07:12–12:45 UTC) was stopped and its files archived in
+`logs/combo_local_stopped_20260924/` (gitignored), so **the VM holds the only record**. The
+verdict is due ~2027-03-24.

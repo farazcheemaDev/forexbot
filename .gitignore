@@ -66,3 +66,6 @@ logs/trades_combo_trend.csv
 # blend_paper's extra books name their state blend_state_<book>.json, which *_state.json
 # does not match (CLAUDE.md section 10 housekeeping note).
 logs/blend_state*.json
+
+# The local combo_paper run that preceded the VM (2026-09-24 07:12-12:45 UTC), archived.
+logs/combo_local_stopped_*/
