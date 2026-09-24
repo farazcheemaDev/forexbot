@@ -1,0 +1,29 @@
+spot panel: 197 assets priced in USD, 2017-07-14 .. 2020-03-31
+  PIT top-60 size by month (first/median/last): 9 / 60 / 60
+  regime days in 2017-07..2019-12: chop 365  bear 277  bull 224
+
+1. RAW EFFECT, 2017-07..2019-12: next-7-day return by breadth20, FROZEN thresholds
+   bear  low  +2.79% (n 112)   mid  +0.07% (n  78)   high  -1.86% (n  87)   low - high  +4.65%/wk   | BTC low - high  +2.75%
+   chop  low  -3.41% (n  79)   mid  -9.58% (n  60)   high  -3.33% (n 157)   low - high  -0.07%/wk   | BTC low - high  +0.85%
+   bull  low -10.79% (n  23)   mid  -0.78% (n  42)   high  +9.64% (n 152)   low - high -20.43%/wk   | BTC low - high -12.51%
+
+2-4. FROZEN TRADE, lag 1, 7-day ladder, 12bp + 1bp/day. Window 2017-07..2019-12; %/yr on the whole account
+   rule                              instrument              CAGR    DD worst wk in mkt   2018    2019   | 2020Q1 (seen)
+   BEAR long+short                   alt index (top-40)    +21.7%   42%   -20.9%    35%   +31.9%  +23.4%  |   +4.9%
+   BEAR long+short                   top-10 basket         +20.9%   40%   -20.2%    35%   +18.2%  +35.3%  |   +2.8%
+   BEAR long+short                   BTC                   +14.9%   32%   -14.8%    35%   +18.0%  +19.5%  |   +5.7%
+   BEAR long only                    alt index (top-40)    +13.9%   34%   -20.9%    23%   +26.2%   +9.3%  |   +8.1%
+   BEAR long only                    top-10 basket         +14.1%   33%   -20.2%    23%   +19.8%  +15.6%  |   +6.2%
+   BEAR long only                    BTC                   +16.2%   25%   -14.8%    23%   +27.5%  +13.8%  |  +10.9%
+   BEAR short only                   alt index (top-40)     +6.2%   25%   -15.0%    20%    +3.3%  +12.4%  |   -3.1%
+   BEAR short only                   top-10 basket          +5.3%   26%   -13.8%    20%    -2.5%  +16.5%  |   -3.2%
+   BEAR short only                   BTC                    -1.6%   21%    -9.2%    20%    -8.1%   +4.6%  |   -4.8%
+   placebo: CHOP                     alt index (top-40)     +7.2%   42%   -23.5%    40%   +12.5%   +5.4%  |   -9.9%
+   placebo: CHOP                     top-10 basket         +10.3%   43%   -20.8%    40%   +22.6%   +3.8%  |   -3.9%
+   placebo: CHOP                     BTC                   +16.2%   28%   -18.8%    40%    +6.9%  +35.7%  |   -1.9%
+   placebo: BULL                     alt index (top-40)    -64.5%   93%   -44.9%    27%   -45.5%  -32.2%  |  -18.4%
+   placebo: BULL                     top-10 basket         -58.0%   89%   -41.3%    27%   -39.1%  -30.2%  |  -12.0%
+   placebo: BULL                     BTC                   -53.0%   87%   -31.3%    27%    -6.7%  -56.4%  |   -8.2%
+   control: long every bear day      alt index (top-40)     -5.0%   48%   -26.9%    37%    +0.1%  -11.9%  |  +18.5%
+   control: long every bear day      top-10 basket          -1.7%   49%   -28.8%    37%    +1.2%   -5.4%  |  +15.4%
+   control: long every bear day      BTC                   +15.7%   31%   -19.6%    37%   +39.4%   +3.0%  |  +25.4%

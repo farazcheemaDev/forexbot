@@ -1,0 +1,49 @@
+gain-shrink factor on the trend book (so its growth = raw CAGR / 3, losses kept whole): 0.733 (range 0.726-0.739)
+
+$221 over 12 months, 10 orderings, 2020-2026. Trend book's GAINS shrunk (hindsight), its losses whole;
+the two point-in-time books raw. typ/bad yr = median / 25th pct of every 12-month window; fall = biggest
+drop; typ mo = median month ($); B = take half of each month's profit ($/month taken, balance left after
+12 months); A = take everything above $221 each month ($/month).
+
+  book                                                  typ yr bad yr <$221 worst  fall  wst mo   up typ mo   B/mo  B left   A/mo
+  TODAY: triple alone                                 $    592$   269   21%$  121   63%  -24.5%   39%    -7$    22$    301$    32
+  doc 14 pick: trend 70% + anchor + sleeve + 0.5 MN   $    961$   470    4%$  181   43%  -19.6%   57%    +7$    29$    444$    39
+  user's idea, plain: trend 100% + sleeve + 0.5 MN    $    901$   403   10%$  143   55%  -25.6%   52%    +3$    32$    411$    42
+  (raw, no haircut at all: today's triple)            $  1,311$   512    8%$  164   53%  -23.6%   49%    -1$    44$    549$    58
+
+THE GRID - every mix; marked * if its fall is no worse than today's (63%)
+  book                                                  typ yr bad yr <$221 worst  fall  wst mo   up typ mo   B/mo  B left   A/mo
+    trend 115%+anc | sleeve 2x | MN 1 bull / 1 else   $  1,326$   546    6%$  146   65%  -31.9%   56%   +10$    46$    482$    57
+    trend 115%+anc | sleeve 2x | MN 0.5 bull / 1.5 else$  1,320$   527    9%$  135   66%  -34.7%   57%   +15$    47$    463$    54
+    trend 100%+anc | sleeve 2x | MN 0.5 bull / 1.5 else$  1,309$   560    7%$  144   64%  -32.2%   57%   +14$    46$    466$    53
+  * trend 100%+anc | sleeve 2x | MN 1 bull / 1 else   $  1,304$   568    5%$  156   62%  -30.0%   57%   +12$    45$    492$    57
+  * trend 85%+anc | sleeve 2x | MN 0.5 bull / 1.5 else$  1,299$   580    6%$  153   61%  -30.6%   58%   +13$    45$    470$    52
+    trend 115%+anc | sleeve 1.5x | MN 0.5 bull / 1.5 else$  1,298$   489   10%$  134   65%  -34.7%   56%   +14$    44$    462$    51
+    trend 130%+anc | sleeve 2x | MN 0.5 bull / 1.5 else$  1,298$   503   10%$  127   69%  -37.2%   55%   +16$    46$    446$    53
+  * trend 85%+anc | sleeve 2x | MN 1 bull / 1 else    $  1,296$   583    3%$  165   59%  -29.3%   59%   +13$    43$    491$    54
+    trend 130%+anc | sleeve 2x | MN 1 bull / 1 else   $  1,290$   518    8%$  137   67%  -34.4%   56%   +10$    47$    464$    57
+    trend 130%+anc | sleeve 2x | MN 0.25 bull / 1.5 else$  1,266$   493   10%$  127   68%  -37.0%   56%   +16$    46$    438$    52
+  * trend 100%+anc | sleeve 2x | MN 0.5 bull / 1 else $  1,266$   567    5%$  156   59%  -29.8%   57%   +12$    42$    465$    52
+  * trend 100%+anc | sleeve 1.5x | MN 0.5 bull / 1.5 else$  1,262$   515    9%$  143   62%  -32.1%   56%   +13$    44$    468$    51
+  * trend 100%+anc | sleeve 1.5x | MN 1 bull / 1 else $  1,261$   516    7%$  155   61%  -29.0%   57%   +12$    43$    487$    53
+  * trend 100%+anc | sleeve 2x | MN 0.25 bull / 1.5 else$  1,259$   548    7%$  144   63%  -32.1%   57%   +14$    46$    458$    52
+  * trend 85%+anc | sleeve 1.5x | MN 0.5 bull / 1.5 else$  1,255$   540    8%$  152   60%  -29.6%   58%   +12$    41$    470$    49
+  * trend 85%+anc | sleeve 2x | MN 0.25 bull / 1.5 else$  1,252$   569    6%$  153   60%  -30.6%   58%   +13$    44$    457$    50
+    trend 115%+anc | sleeve 1.5x | MN 1 bull / 1 else $  1,251$   497    8%$  145   63%  -31.7%   56%   +10$    44$    473$    55
+  * trend 115%+anc | sleeve 2x | MN 0.5 bull / 1 else $  1,251$   541    6%$  147   62%  -31.6%   56%   +11$    43$    467$    53
+    trend 130%+anc | sleeve 1.5x | MN 0.5 bull / 1.5 else$  1,251$   460   11%$  126   68%  -37.2%   55%   +14$    44$    445$    51
+  * trend 85%+anc | sleeve 2x | MN 0.5 bull / 1 else  $  1,246$   579    3%$  166   56%  -29.1%   58%   +13$    41$    470$    50
+    trend 115%+anc | sleeve 2x | MN 0.25 bull / 1.5 else$  1,245$   523    9%$  135   65%  -34.5%   57%   +16$    46$    450$    53
+  * trend 100%+anc | sleeve 2x | MN 0.75 bull / 0.75 else$  1,240$   567    3%$  162   58%  -29.2%   56%    +8$    43$    482$    54
+  * trend 70%+anc | sleeve 2x | MN 1 bull / 1 else    $  1,233$   594    2%$  175   56%  -29.0%   60%   +11$    39$    486$    49
+    trend 130%+anc | sleeve 1.5x | MN 1 bull / 1 else $  1,233$   480   10%$  132   66%  -34.5%   55%    +9$    44$    455$    54
+  * trend 85%+anc | sleeve 1.5x | MN 1 bull / 1 else  $  1,228$   534    5%$  164   58%  -26.3%   57%   +12$    40$    488$    51
+
+79 of 105 mixes have a fall no worse than today's triple.
+  best with a FIXED-size MN book:   $1,304 typical, fall 62%  (trend 100%+anc | sleeve 2x | MN 1 bull / 1 else)
+  best with a REGIME-sized MN book: $1,299 typical, fall 61%  (trend 85%+anc | sleeve 2x | MN 0.5 bull / 1.5 else)
+
+THE BEST MIX AT TODAY'S RISK, LAST 2 YEARS ONLY (from 2024-08-29), against today's triple:
+  book                                                  typ yr bad yr <$221 worst  fall  wst mo   up typ mo   B/mo  B left   A/mo
+  trend 100%+anc | sleeve 2x | MN 1 bull / 1 else     $  1,238$   758    0%$  325   46%  -23.6%   63%   +15$    33$    473$    44
+  TODAY: triple alone                                 $    530$   368   11%$  134   58%  -20.5%   37%   -10$    19$    284$    28

@@ -1,0 +1,30 @@
+weekly market-neutral funding carry, PIT top-60, short the highest 7-day funding decile, long the lowest
+  variant                                      net   gross   carry    TUNE    HOLD    bull    bear    chop  Shrp    DD   worst   (%/week)
+  as printed by bear_chop test 6           +0.641% -0.112% +0.816% +0.457% +1.035% +1.928% +1.033% -0.943%  0.41  128% -107.3%
+  A. exact settlement window               +0.780% +0.030% +0.814% +0.613% +1.141% +2.083% +1.243% -0.868%  0.50  133% -107.4%
+  B. A + ranked a day earlier              +0.495% -0.204% +0.763% +0.385% +0.732% +1.900% +0.317% -0.808%  0.33  109% -104.0%
+  C. A + funding clipped at +-0.5%/settle  +0.322% -0.331% +0.716% +0.577% -0.227% +1.015% +1.003% -0.859%  0.28  108% -105.0%
+  C'. rank on clipped, earn the real rate  +0.395% -0.331% +0.790% +0.628% -0.104% +1.043% +1.192% -0.822%  0.33  114% -107.4%
+  D. A + costs x3 (36bp round trip)        +0.654% +0.030% +0.814% +0.481% +1.026% +1.958% +1.116% -0.995%  0.42  128% -107.5%
+  F. A + min age 180 days                  +0.205% -0.447% +0.719% +0.505% -0.385% +0.806% +1.143% -1.105%  0.20   83%  -40.8%
+     A with a 3-day funding rank           -0.230% -0.936% +0.776% +0.795% -2.435% +0.263% -0.537% -0.516% -0.15  117% -130.0%
+     A with a 30-day funding rank          +0.555% -0.178% +0.770% +0.619% +0.416% +0.898% -0.439% +0.903%  0.52   73%  -34.9%
+
+  E. each leg of A, as a return on the WHOLE account (each leg is half of it), %/week
+                     all    bull    bear    chop
+  long leg px    +0.264% +1.988% -0.379% -1.037%
+  short leg px   -0.234% -0.478% +0.392% -0.425%
+  
+  reference: 30d MOMENTUM, exact window +1.211% +0.991% +0.281% +0.752% +2.198% +1.731% +0.192% +1.394%  1.21   37%  -24.2%
+
+  G. weekly correlation, carry vs momentum: +0.01 over 337 weeks
+     50/50 of the two: +0.996%/wk, Sharpe 1.07, DD 59%, worst week -56.9%
+     by year, carry (A) %/wk: 2020: +1.79  2021: +1.63  2022: +0.23  2023: +0.55  2024: -0.87  2025: +0.87  2026: +1.78
+
+  the five worst weeks of A (%):
+         t     net   gross  carry regime biggest mover that week
+2025-09-05 -107.37 -103.48  -3.83   chop          MYXUSDT +1137%
+2026-06-05  -34.70  -32.85  -1.74   chop       ESPORTSUSDT +603%
+2024-02-23  -25.06  -25.69  +0.67   bull           WIFUSDT +316%
+2026-08-07  -14.89  -17.88  +3.11   chop           AKEUSDT +166%
+2025-02-07  -13.47  -14.13  +0.74   chop           BNXUSDT +512%

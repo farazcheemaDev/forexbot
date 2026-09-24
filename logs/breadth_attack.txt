@@ -1,0 +1,48 @@
+long bottom third / short top third of breadth over prior gated days; ladder of 7-day tranches; entered ONE DAY after the signal (lag 1); 12bp, funding, 1bp/day rebalancing
+
+1. PLACEBO REGIMES - the same rule, gated to each regime (breadth20)
+                                                    CAGR  TUNE/yr  HOLD/yr    DD worst wk Sharpe in mkt boot t
+  alt index, BEAR only                            +27.0%   +31.0%   +18.7%   20%    -9.5%   1.24    25%  +2.49
+  alt index, CHOP only                            -14.3%   -17.8%    -6.4%   74%   -32.3%  -0.29    40%  -0.80
+  alt index, BULL only                             -8.6%   -18.8%   +18.2%   68%   -26.6%  -0.10    36%  -0.28
+  top-10, BEAR only                               +25.4%   +31.3%   +13.4%   21%    -9.1%   1.20    25%  +2.23
+  top-10, CHOP only                               -14.7%   -20.5%    -0.3%   77%   -42.8%  -0.28    40%  -0.65
+  top-10, BULL only                                -7.3%   -13.5%    +7.8%   64%   -20.3%  -0.08    36%  -0.24
+
+2. THE BOT'S OWN GATE: 'bear' = BTC below its 42-day (~1000h) average
+                                                    CAGR  TUNE/yr  HOLD/yr    DD worst wk Sharpe in mkt boot t
+  alt index, BTC < 1000h average                  +34.3%   +42.6%   +17.9%   45%   -19.5%   1.00    49%  +2.58
+  top-10, BTC < 1000h average                     +22.9%   +32.3%    +4.6%   54%   -34.0%   0.77    49%  +1.66
+  BTC, BTC < 1000h average                        +20.2%   +28.3%    +4.2%   26%   -14.8%   0.88    49%  +2.12
+
+3. PLATEAU - top-10 basket, BEAR gate: breadth average x hold
+                                                    CAGR  TUNE/yr  HOLD/yr    DD worst wk Sharpe in mkt boot t
+  breadth10, hold 3d                               +3.5%    +2.6%    +5.4%   23%   -13.2%   0.26    20%  +1.60
+  breadth10, hold 7d                              +11.0%   +11.9%    +9.3%   18%    -9.8%   0.62    25%  +2.11
+  breadth10, hold 14d                             +12.1%   +12.4%   +11.5%   15%    -7.9%   0.85    30%  +2.10
+  breadth20, hold 3d                              +13.9%   +16.7%    +8.1%   27%   -11.6%   0.63    19%  +1.57
+  breadth20, hold 7d                              +25.4%   +31.3%   +13.4%   21%    -9.1%   1.20    25%  +2.23
+  breadth20, hold 14d                             +17.1%   +20.1%   +10.9%   22%    -9.4%   1.01    30%  +2.14
+  breadth50, hold 3d                               +3.1%   +12.9%   -15.5%   51%   -25.8%   0.25    20%  +0.56
+  breadth50, hold 7d                               +3.0%    +9.4%    -9.7%   44%   -12.7%   0.24    25%  +0.53
+  breadth50, hold 14d                              -2.1%    +1.6%    -9.6%   50%   -12.4%   0.02    31%  +0.05
+
+4/5. SIGNIFICANCE AND 2022 - breadth20, hold 7, BEAR gate (boot t is column 'boot t')
+                                                    CAGR  TUNE/yr  HOLD/yr    DD worst wk Sharpe in mkt boot t
+  alt index                                       +27.0%   +31.0%   +18.7%   20%    -9.5%   1.24    25%  +2.49
+  alt index, 2022 removed                         +16.7%   +15.6%   +18.7%   20%    -9.5%   1.11    18%  +2.29
+  top-10                                          +25.4%   +31.3%   +13.4%   21%    -9.1%   1.20    25%  +2.23
+  top-10, 2022 removed                            +13.9%   +14.2%   +13.4%   21%    -7.3%   0.95    18%  +2.24
+  BTC                                             +15.1%   +20.1%    +4.9%   15%    -7.5%   0.95    25%  +2.11
+  BTC, 2022 removed                                +8.6%   +10.8%    +4.9%   15%    -7.5%   0.79    18%  +1.74
+
+6. AGAINST THE TREND BOOK (triple, 10x guard, entry-sized, seed 0; RAW - no haircut)
+  daily correlation, trend vs breadth sleeve: -0.00 over 2388 days
+  weekly correlation: -0.03
+  mean monthly return by the month's dominant regime (%, RAW):
+    bull  n  31   trend +101.18   breadth sleeve  +0.13   trend + 1x sleeve +101.32
+    chop  n  25   trend   -1.89   breadth sleeve  -0.53   trend + 1x sleeve   -2.42
+    bear  n  23   trend   -1.64   breadth sleeve  +8.06   trend + 1x sleeve   +6.42
+  trend + 0.0 x sleeve: CAGR +679%/yr RAW, DD 50%, months up 49%, worst month -21.9%
+  trend + 0.5 x sleeve: CAGR +777%/yr RAW, DD 46%, months up 54%, worst month -21.9%
+  trend + 1.0 x sleeve: CAGR +878%/yr RAW, DD 42%, months up 57%, worst month -21.9%

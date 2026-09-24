@@ -2832,3 +2832,70 @@ improves the worst month on both halves (+8 / +13 pts) and is a paper candidate.
 bb(30,1.25) and 10/20/40-trail near-misses turn negative on both halves: their old holdout
 gains were the unfunded engine. The liquidation-cascade bounce, which never had a verdict, is
 dead on 4 years of data (`backtest/cascade_redux.py`).
+
+---
+
+## Dead: six strategies for BEAR and CHOP markets (2026-09-24) — `backtest/bear_chop.py`, `backtest/carry_check.py`
+
+**Why these were run.** The trend book earns in bull months (+23%/mo main, +47%/mo triple) and
+about zero in bear and chop (`logs/regime_and_liq.txt`), which is 63% of days. The ask was a
+strategy for those days. Everything below uses the point-in-time universe with dead coins
+(no 3x haircut applies, because nothing here was picked with hindsight), 12bp, actual funding,
+the holdout from 2024-08-29, and `market_neutral.btc_regime` for bull/bear/chop, so the rows
+line up with `regime_and_liq.py`. Predictions were written into the docstrings before anything ran.
+
+| # | strategy | result | verdict | log |
+|---|---|---|---|---|
+| 1 | cross-sectional short-term reversal, market-neutral (1/3/7-day look × 1/3/7-day hold × ranked same close or a day earlier) | **all 18 cells net-negative**, −1.08 to −7.59 %/mo. The only positive gross (+1.74%/mo, 1-day look) turns to −2.79% once ranked a day earlier, so it came from the close print itself | dead | `logs/bear_chop_1.txt` |
+| 2 | crypto pairs stat-arb (Engle-Granger, 180-day formation, 10 pairs, z 2 → 0, stop 4) | **−0.38%/mo**, tune −0.42, holdout −0.30. **72% of trades exit at the \|z\|>4 stop**, i.e. the "cointegrated" pairs broke apart within the month. Chop +0.40%/mo, bull −1.26 | dead | `logs/bear_chop_2.txt` |
+| 3 | daily trend shorts with pyramids (BB(30,1.5) break, trail 3/5/10×ATR, 1/3/5 units), bear-gated, top-40 incl. dead coins | **worse than RANDOM short entries in every cell**, by −0.17 to −0.27R per trade (**t −3.8 to −4.6** across months). Random bear shorts also lose (−0.08 to −0.25R) | dead | `logs/bear_chop_34.txt` |
+| 4 | mean reversion gated to one regime (fade BB(20,2), exit at the mean) | chop −0.064R/trade (vs random: +0.048R, t +1.06); bear −0.000R (t −0.47); bull −0.115R (t −0.06). **No gate beats random** | dead | `logs/bear_chop_34.txt` |
+| 5 | short BTC / ETH whenever below their own 1000h (42-day) average | BTC **−3%/yr, DD 66%** (2022, when BTC fell ~65%: only +17%); ETH **−14%/yr, DD 90%**. Long-above/flat-below remains the best rule (BTC +45%/yr, DD 51%) | dead | `logs/bear_chop_1.txt` |
+| 6 | market-neutral funding carry (short the highest 7-day funding decile, long the lowest, weekly) | +0.78%/wk on average, and **−107% of the account in ONE week**: short MYX while it rose **+1,137%** (2025-09). Maximum drawdown 133% (the account is gone) | dead: a squeeze-tail harvest | `logs/carry_check.txt` |
+
+### What surprised me
+
+- **Test 3's sign.** I predicted daily bear shorts would earn raw R and merely fail to beat
+  random. They lose, and the *signal is significantly worse than random*: a breakdown
+  below the band in a bear market is followed by a bounce. That is the same fact as
+  `bear_shorts.py` ("by the time BTC is below its average the fall has already happened")
+  measured from the other side, at the single-trade level with a control.
+- **Test 6 looked like the first real bear strategy for a few minutes:** +1.24%/wk in bear
+  regimes, positive in 6 of 7 years, both halves positive. The repo's rule ("every large
+  improvement was a bug until proven otherwise") is why `carry_check.py` exists, and it found no
+  bug. What it found was worse, because the result is real and the book still cannot be traded:
+  - the coins with the highest funding are the ones that get short-squeezed;
+  - the five worst weeks are MYX +1,137%, ESPORTS +603%, WIF +316%, AKE +166% and BNX +512%;
+  - the edge is fragile everywhere else it was checked:
+
+  | carry variant (`logs/carry_check.txt`) | holdout %/wk | bear %/wk | worst week |
+  |---|---|---|---|
+  | 7-day rank, exact settlement window | +1.14 | +1.24 | −107% |
+  | funding clipped at ±0.5% per settlement | −0.23 | +1.00 | −105% |
+  | coins listed ≥ 180 days only | −0.39 | +1.14 | −41% |
+  | 30-day rank instead of 7 | +0.42 | **−0.44** | −35% |
+  | 3-day rank instead of 7 | −2.44 | −0.54 | −130% |
+
+  A bear-regime return that changes sign with the look-back window is not a property of the
+  market.
+
+### A small correction found on the way
+
+`market_neutral.run` credits funding over days *i..i+hold−1*, but the book is held from close
+*i* (00:00 of day *i+1*) to close *i+hold*, so the window is one day early. For the carry test
+that was look-ahead: the coins picked for paying on day *i* were credited day *i*. For doc 10's
+momentum book it is negligible: **+1.222 → +1.212 %/wk** (`logs/bear_chop_6.txt`). Doc 10's numbers
+stand. `bear_chop.fast_run(fshift=1)` and `carry_check.exact_funding` carry the right window.
+
+### The answer to "what do we run in bear and chop"
+
+- **Chop already has an answer, and it is on paper.** Doc 10's market-neutral momentum book
+  earns **+1.39%/wk in chop** on the exact funding window (`logs/carry_check.txt`), against the
+  trend book's ~0. Nothing tested today beats it there.
+- **Bear had no answer beyond what the bot already does** when this section was written.
+  Shorting coins, shorting BTC, shorting breakdowns, fading, pairs and carry all lose or blow
+  up. The trend book reads −0.74 to +0.26 %/mo there (`logs/regime_and_liq.txt`), and the
+  momentum book is roughly flat (+0.19%/wk). **Later the same day, a candidate:**
+  [doc 13](13-bear-breadth.md). Market breadth predicts the next week *inside* bears (the one
+  Holm pass in 84 cells). Traded both ways only in bears, it made +25–27%/yr at 1× with zero
+  correlation to the trend book. It is not deployed, and it needs a forward test.

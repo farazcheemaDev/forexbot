@@ -1,0 +1,22 @@
+
+ALL 6 YEARS - same method as logs/max_mix.txt
+  book                                            typ yr bad yr <$221 worst  fall  wst mo   up typ mo   B/mo  B left   A/mo
+  TODAY: triple alone                           $    592$   269   21%$  121   63%  -24.5%   39%    -7$    22$    301$    32
+  trend 85%+anchor | sleeve 1x | MN 1x          $  1,183$   506    8%$  161   56%  -26.3%   56%   +10$    37$    481$    48
+  trend 85%+anchor | sleeve 1.5x | MN 1x        $  1,228$   534    5%$  164   58%  -26.3%   57%   +12$    40$    488$    51
+  trend 100%+anchor | sleeve 1x | MN 1x         $  1,210$   491    9%$  151   59%  -29.0%   56%    +9$    39$    475$    51
+  trend 100%+anchor | sleeve 1.5x | MN 1x       $  1,261$   516    7%$  155   61%  -29.0%   57%   +12$    43$    487$    53
+  trend 115%+anchor | sleeve 1x | MN 1x         $  1,199$   472   11%$  137   62%  -31.8%   56%    +8$    39$    467$    51
+  trend 115%+anchor | sleeve 1.5x | MN 1x       $  1,251$   497    8%$  145   63%  -31.7%   56%   +10$    44$    473$    55
+  trend 100%+anchor | sleeve 2x | MN 1x (grid best)$  1,304$   568    5%$  156   62%  -30.0%   57%   +12$    45$    492$    57
+
+LAST 2 YEARS (from 2024-08-29) - same method as logs/max_mix.txt
+  book                                            typ yr bad yr <$221 worst  fall  wst mo   up typ mo   B/mo  B left   A/mo
+  TODAY: triple alone                           $    530$   368   11%$  134   58%  -20.5%   37%   -10$    19$    284$    28
+  trend 85%+anchor | sleeve 1x | MN 1x          $  1,130$   756    0%$  328   41%  -21.4%   63%   +13$    32$    459$    42
+  trend 85%+anchor | sleeve 1.5x | MN 1x        $  1,179$   756    0%$  336   41%  -21.6%   63%   +14$    33$    472$    43
+  trend 100%+anchor | sleeve 1x | MN 1x         $  1,125$   740    0%$  312   45%  -23.1%   63%   +13$    31$    452$    41
+  trend 100%+anchor | sleeve 1.5x | MN 1x       $  1,168$   747    0%$  320   45%  -23.3%   63%   +14$    33$    465$    42
+  trend 115%+anchor | sleeve 1x | MN 1x         $  1,069$   689    0%$  296   49%  -24.9%   62%   +12$    31$    437$    40
+  trend 115%+anchor | sleeve 1.5x | MN 1x       $  1,141$   691    0%$  303   49%  -25.3%   62%   +13$    32$    453$    41
+  trend 100%+anchor | sleeve 2x | MN 1x (grid best)$  1,238$   758    0%$  325   46%  -23.6%   63%   +15$    33$    473$    44

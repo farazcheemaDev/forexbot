@@ -1,0 +1,22 @@
+TRIPLE (tight + time stop + 7 units, 10x guard, entry-sized, 10 orderings) + k x BREADTH SLEEVE
+upside: 12-month results HAIRCUT on the whole book (understates the sleeve). downside: RAW.
+
+=== HOLDOUT (from 2024-08-29)  - $221 after 12 months
+  book                               typical yr  bad yr  good yr yrs<$221 worst yr    DD worst mo  mo up  bull mo  chop mo  bear mo
+  triple alone                      $      536$    407$   1,259       1%$     207   50%   -19.2%    47%  +121.5%    -0.4%    -4.7%
+  + 0.5x sleeve, frictionless       $      559$    423$   1,330       0%$     224   47%   -18.1%    48%  +121.5%    -0.4%    -2.9%
+  + 0.5x sleeve, REAL $221 ($5 min) $      544$    416$   1,312       1%$     214   47%   -19.5%    48%  +121.5%    -1.0%    -2.9%
+  + 1x sleeve, frictionless         $      584$    450$   1,401       0%$     241   44%   -17.3%    51%  +121.5%    -0.4%    -1.2%
+  + 1x sleeve, REAL $221 ($5 min)   $      564$    435$   1,392       1%$     220   44%   -20.1%    51%  +121.5%    -1.6%    -0.7%
+
+=== FULL HISTORY  - $221 after 12 months
+  book                               typical yr  bad yr  good yr yrs<$221 worst yr    DD worst mo  mo up  bull mo  chop mo  bear mo
+  triple alone                      $      584$    318$   1,761       8%$     164   53%   -23.6%    49%   +93.8%    -2.0%    -1.5%
+  + 0.5x sleeve, frictionless       $      645$    346$   1,833       1%$     205   50%   -23.5%    53%   +93.8%    -2.3%    +2.3%
+  + 0.5x sleeve, REAL $221 ($5 min) $      636$    344$   1,798       1%$     193   50%   -23.7%    52%   +93.8%    -2.3%    +1.9%
+  + 1x sleeve, frictionless         $      707$    381$   1,858       0%$     232   49%   -23.7%    56%   +93.9%    -2.5%    +6.4%
+  + 1x sleeve, REAL $221 ($5 min)   $      697$    368$   1,845       1%$     206   49%   -23.8%    55%   +93.8%    -2.7%    +6.1%
+
+  REAL sleeve at 0.5x: orders skipped for the $5 minimum - full 43%, holdout 72%
+  REAL sleeve at 1x: orders skipped for the $5 minimum - full 33%, holdout 42%
+  months by dominant BTC regime; 'bull/chop/bear mo' = mean RAW monthly return in those months

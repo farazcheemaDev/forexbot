@@ -1,0 +1,105 @@
+C:\Users\HP\AppData\Local\Programs\Python\Python312\Lib\site-packages\numpy\lib\_nanfunctions_impl.py:1215: RuntimeWarning: All-NaN slice encountered
+  return fnb._ureduce(a, func=_nanmedian, keepdims=keepdims,
+days 2020-01-01 .. 2026-09-11 | regime days: chop 959  bull 872  bear 614
+for each regime, the target's mean next-7-day return (the baseline a signal has to beat):
+  bull  BTC +1.90%  alt index +2.47%  (n 872)
+  chop  BTC +0.22%  alt index -1.10%  (n 959)
+  bear  BTC +1.02%  alt index +0.28%  (n 614)
+
+84 cells, Holm over all of them. Spread = top-third minus bottom-third of the signal, next-7-day return, %
+
+  CHOP -> BTC
+  signal       pred     n   spread      t    TUNE    HOLD  Holm p  verdict
+  cb_prem        +1   908   +3.28%  +2.38  +2.93%  +2.52%   1.000  sign holds both halves
+  cb_prem_chg    +1   885   +3.12%  +1.91  +4.20%  +1.22%   1.000  sign holds both halves
+  oi_vs_px       -1   819   -0.93%  -0.89  -1.18%  -0.30%   1.000  sign holds both halves
+  toptrader      -1   692   -1.73%  -1.24  -1.73%  -2.27%   1.000  sign holds both halves
+  taker          +1   768   +1.78%  +0.93  +3.65%  +1.80%   1.000  sign holds both halves
+  alt_vs_btc     +1   885   +0.80%  +0.47  +1.03%  +1.06%   1.000  sign holds both halves
+  mvrv           -1   914   -1.68%  -0.94  -2.05%  +0.32%   1.000  
+  netflow        -1   914   -1.75%  -1.04  -1.82%  -2.11%   1.000  sign holds both halves
+  qqq_trend      +1   914   +2.34%  +1.33  +3.99%  +0.23%   1.000  sign holds both halves
+  dxy_trend      -1   914   -0.42%  -0.24  +0.09%  -0.47%   1.000  
+  vix            +1   914   +1.14%  +0.64  +0.41%  +1.61%   1.000  sign holds both halves
+  tsmom          +1   866   +0.93%  +1.13  +0.98%  +0.85%   1.000  sign holds both halves
+  btc_vol        +1   844   -0.64%  -0.34  -0.86%  +0.23%   1.000  
+  adr_growth     +1   914   -0.44%  -0.31  -0.54%  -1.41%   1.000  OPPOSITE sign both halves
+  breadth20      -1   928   +2.06%  +1.27  +2.68%  +1.27%   1.000  OPPOSITE sign both halves
+  breadth50      -1   910   +1.91%  +1.12  +1.25%  +2.79%   1.000  OPPOSITE sign both halves
+  fear_greed     -1   959   +0.23%  +0.15  +0.41%  +1.00%   1.000  OPPOSITE sign both halves
+  dvol           +1   776   -1.36%  -0.69  -2.35%  +0.34%   1.000  
+  dvol_chg7      -1   776   +1.08%  +0.79  +1.28%  +0.53%   1.000  OPPOSITE sign both halves
+  mkt_funding    -1   928   +0.64%  +0.31  -0.05%  -0.24%   1.000  sign holds both halves
+  btc_dd90       -1   930   -0.73%  -0.46  -0.17%  -2.13%   1.000  sign holds both halves
+
+  CHOP -> ALT INDEX
+  signal       pred     n   spread      t    TUNE    HOLD  Holm p  verdict
+  cb_prem        +1   899   +3.01%  +1.33  +3.14%  +1.48%   1.000  sign holds both halves
+  cb_prem_chg    +1   885   +2.81%  +1.14  +5.45%  -2.07%   1.000  
+  oi_vs_px       -1   819   -3.26%  -2.10  -3.86%  -2.29%   1.000  sign holds both halves
+  toptrader      -1   692   -0.46%  -0.27  -1.46%  -0.66%   1.000  sign holds both halves
+  taker          +1   768   +0.16%  +0.07  -0.60%  +3.88%   1.000  
+  alt_vs_btc     +1   885   +3.02%  +1.35  +2.83%  +5.13%   1.000  sign holds both halves
+  mvrv           -1   899   -1.41%  -0.58  -1.18%  -1.48%   1.000  sign holds both halves
+  netflow        -1   899   -1.92%  -0.87  -2.47%  -1.06%   1.000  sign holds both halves
+  qqq_trend      +1   899   +4.23%  +1.73  +7.33%  -1.38%   1.000  
+  dxy_trend      -1   899   +0.07%  +0.03  +0.66%  +1.48%   1.000  OPPOSITE sign both halves
+  vix            +1   899   +0.80%  +0.32  -1.63%  +0.75%   1.000  
+  tsmom          +1   866   -0.03%  -0.02  +0.33%  -0.66%   1.000  
+  btc_vol        +1   844   +1.13%  +0.51  +0.64%  +1.93%   1.000  sign holds both halves
+  adr_growth     +1   899   -3.33%  -1.61  -2.83%  -5.52%   1.000  OPPOSITE sign both halves
+  breadth20      -1   899   +1.86%  +0.89  +3.55%  -0.63%   1.000  
+  breadth50      -1   899   +2.15%  +1.04  +2.20%  +3.26%   1.000  OPPOSITE sign both halves
+  fear_greed     -1   899   -0.32%  -0.14  +0.78%  +0.11%   1.000  OPPOSITE sign both halves
+  dvol           +1   776   -0.39%  -0.14  +1.09%  -1.62%   1.000  
+  dvol_chg7      -1   776   +0.71%  +0.38  +1.13%  -0.10%   1.000  
+  mkt_funding    -1   899   +0.63%  +0.24  +0.53%  -1.65%   1.000  
+  btc_dd90       -1   899   -2.45%  -1.06  -2.34%  -4.47%   1.000  sign holds both halves
+
+  BEAR -> BTC
+  signal       pred     n   spread      t    TUNE    HOLD  Holm p  verdict
+  cb_prem        +1   614   -0.51%  -0.33  -0.68%  +1.53%   1.000  
+  cb_prem_chg    +1   614   -0.21%  -0.15  +0.40%  -2.50%   1.000  
+  oi_vs_px       -1   581   +0.54%  +0.57  +0.90%  +0.47%   1.000  OPPOSITE sign both halves
+  toptrader      -1   394   -1.13%  -1.07  -0.65%  -0.95%   1.000  sign holds both halves
+  taker          +1   514   +1.63%  +1.69  +2.19%  +0.92%   1.000  sign holds both halves
+  alt_vs_btc     +1   613   -0.93%  -0.63  -0.84%  -0.94%   1.000  OPPOSITE sign both halves
+  mvrv           -1   614   -1.96%  -1.25  -2.40%  -2.11%   1.000  sign holds both halves
+  netflow        -1   614   +0.80%  +0.46  +0.61%  +0.81%   1.000  OPPOSITE sign both halves
+  qqq_trend      +1   614   -0.51%  -0.37  +0.34%  -1.86%   1.000  
+  dxy_trend      -1   614   -0.26%  -0.21  +0.64%  -1.43%   1.000  
+  vix            +1   614   +1.07%  +0.72  +1.14%  +1.76%   1.000  sign holds both halves
+  tsmom          +1   581   -0.49%  -0.58  -0.97%  +0.51%   1.000  
+  btc_vol        +1   581   -0.87%  -0.72  -1.32%  -0.75%   1.000  OPPOSITE sign both halves
+  adr_growth     +1   614   +0.65%  +0.42  +1.58%  +1.07%   1.000  sign holds both halves
+  breadth20      -1   614   -3.50%  -2.96  -3.65%  -1.49%   0.252  sign holds both halves
+  breadth50      -1   614   -3.13%  -2.07  -3.21%  -1.48%   1.000  sign holds both halves
+  fear_greed     -1   614   -0.35%  -0.19  -0.33%  -0.69%   1.000  sign holds both halves
+  dvol           +1   575   +0.17%  +0.11  -1.88%  +3.09%   1.000  
+  dvol_chg7      -1   575   +2.35%  +1.90  +3.91%  +0.01%   1.000  OPPOSITE sign both halves
+  mkt_funding    -1   614   -0.83%  -0.47  -1.97%  -0.30%   1.000  sign holds both halves
+  btc_dd90       -1   614   +0.29%  +0.14  -0.34%  -3.63%   1.000  sign holds both halves
+
+  BEAR -> ALT INDEX
+  signal       pred     n   spread      t    TUNE    HOLD  Holm p  verdict
+  cb_prem        +1   614   -2.75%  -1.02  -3.59%  +0.75%   1.000  
+  cb_prem_chg    +1   614   -3.82%  -1.70  -3.93%  -5.25%   1.000  OPPOSITE sign both halves
+  oi_vs_px       -1   581   +1.32%  +0.83  +2.24%  +0.31%   1.000  OPPOSITE sign both halves
+  toptrader      -1   394   -0.65%  -0.44  +0.02%  -0.77%   1.000  
+  taker          +1   514   +0.63%  +0.27  +1.02%  +0.58%   1.000  sign holds both halves
+  alt_vs_btc     +1   613   -2.58%  -1.14  -1.90%  -3.98%   1.000  OPPOSITE sign both halves
+  mvrv           -1   614   -3.11%  -1.33  -4.26%  -1.10%   1.000  sign holds both halves
+  netflow        -1   614   +2.05%  +0.93  +1.51%  +4.40%   1.000  OPPOSITE sign both halves
+  qqq_trend      +1   614   -1.66%  -1.18  -1.67%  -1.80%   1.000  OPPOSITE sign both halves
+  dxy_trend      -1   614   +0.19%  +0.09  +2.64%  -5.19%   1.000  
+  vix            +1   614   +2.54%  +1.76  +2.75%  +2.98%   1.000  sign holds both halves
+  tsmom          +1   581   -2.21%  -1.48  -3.30%  +0.07%   1.000  
+  btc_vol        +1   581   -0.19%  -0.10  +0.09%  -0.75%   1.000  
+  adr_growth     +1   614   -0.74%  -0.41  +0.47%  -0.48%   1.000  
+  breadth20      -1   614   -5.90%  -3.48  -5.80%  -3.87%   0.043  PASS
+  breadth50      -1   614   -5.15%  -2.36  -5.29%  -3.47%   1.000  sign holds both halves
+  fear_greed     -1   614   -1.51%  -0.91  -1.58%  -1.09%   1.000  sign holds both halves
+  dvol           +1   575   +1.66%  +0.85  -0.50%  +5.20%   1.000  
+  dvol_chg7      -1   575   +4.65%  +2.23  +7.21%  -0.11%   1.000  
+  mkt_funding    -1   614   -3.62%  -1.65  -5.36%  -2.45%   1.000  sign holds both halves
+  btc_dd90       -1   614   -0.32%  -0.15  -1.57%  -5.49%   1.000  sign holds both halves

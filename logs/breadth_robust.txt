@@ -1,0 +1,96 @@
+reference (breadth20, top-60, hold 7, tails 1/3, alt index, lag 1): +27.0%/yr
+
+1. PERMUTATION (alt index, %/yr)
+   circular shift of breadth, 1000x: fakes median -3.8, 95th pct +12.0, best +27.1 | real +27.0 | p = 0.001
+   same days reshuffled in 7-day blocks, 1000x: fakes median -4.6, 95th pct +7.1, best +15.5 | real +27.0 | p = 0.000
+
+2. GRID (top-10 basket): cells positive on BOTH halves
+   all 240 cells: 221 positive on both halves (92%), median +13.1%/yr, worst +3.5
+   by n: 10: 95% both, med +10 (t +11 / h +8) | 15: 100% both, med +13 (t +16 / h +9) | 20: 100% both, med +16 (t +20 / h +7) | 30: 73% both, med +16 (t +22 / h +3)
+   by N: 40: 99% both, med +14 (t +16 / h +8) | 60: 91% both, med +14 (t +17 / h +6) | 100: 86% both, med +13 (t +16 / h +7)
+   by h: 3: 83% both, med +13 (t +16 / h +5) | 5: 96% both, med +16 (t +20 / h +6) | 7: 94% both, med +15 (t +18 / h +7) | 10: 96% both, med +11 (t +14 / h +7) | 14: 92% both, med +12 (t +13 / h +8)
+   by q: 0.2: 100% both, med +11 (t +14 / h +5) | 0.25: 98% both, med +12 (t +14 / h +7) | 0.33: 87% both, med +15 (t +19 / h +8) | 0.4: 83% both, med +17 (t +20 / h +7)
+
+3. BEAR LABEL (alt index / top-10, %/yr: all | tune | holdout)
+   BTC <  30d avg, slope < -0%  ( 30% of days): alt  +25.1 |  +29.7 |  +15.7    top-10  +17.1 |  +19.3 |  +12.4
+   BTC <  30d avg, slope < -2%  ( 25% of days): alt  +18.7 |  +22.0 |  +11.8    top-10  +10.9 |  +14.2 |   +4.2
+   BTC <  30d avg, slope < -5%  ( 18% of days): alt  +14.7 |  +13.6 |  +17.1    top-10  +11.2 |  +11.8 |  +10.0
+   BTC <  50d avg, slope < -0%  ( 31% of days): alt  +19.8 |  +19.7 |  +20.2    top-10  +14.1 |  +13.7 |  +14.8
+   BTC <  50d avg, slope < -2%  ( 25% of days): alt  +27.0 |  +31.0 |  +18.7    top-10  +25.4 |  +31.3 |  +13.4
+   BTC <  50d avg, slope < -5%  ( 18% of days): alt  +21.4 |  +23.9 |  +16.0    top-10  +21.1 |  +25.0 |  +12.8
+   BTC < 100d avg, slope < -0%  ( 33% of days): alt   +2.8 |   -0.8 |  +11.0    top-10   -0.2 |   -2.8 |   +5.8
+   BTC < 100d avg, slope < -2%  ( 24% of days): alt   +2.1 |   +4.0 |   -2.1    top-10   +3.9 |   +6.7 |   -2.0
+   BTC < 100d avg, slope < -5%  ( 12% of days): alt   +4.6 |   +4.7 |   +4.4    top-10   +5.2 |   +6.9 |   +1.5
+
+4. EPISODES (alt index): consecutive same-direction signal days, gaps <= 3 days
+   LONG : 22 episodes, 16 made money (73%), mean +3.81%, median +2.80%, best +14.1%, worst -2.5%
+   SHORT: 31 episodes, 18 made money (58%), mean +2.70%, median +1.39%, best +21.4%, worst -8.3%
+   every episode (account %, the book's slice of it):
+     LONG  2021-06-13    1 signal days   -0.93%
+     LONG  2021-06-19    9 signal days   +8.48%
+     SHORT 2021-07-01   10 signal days  +14.44%
+     LONG  2021-07-17    6 signal days  +14.08%
+     SHORT 2021-07-25    1 signal days   -1.92%
+     LONG  2021-12-14    2 signal days   +1.43%
+     SHORT 2021-12-23   14 signal days  +13.37%
+     SHORT 2022-01-16    2 signal days   +9.55%
+     LONG  2022-01-20   13 signal days   +9.88%
+     SHORT 2022-02-05    3 signal days   +3.66%
+     SHORT 2022-02-12    3 signal days   +4.58%
+     LONG  2022-02-20    9 signal days   +3.01%
+     LONG  2022-03-05    4 signal days   -1.35%
+     LONG  2022-03-14    1 signal days   +1.50%
+     LONG  2022-05-10    9 signal days   -1.04%
+     SHORT 2022-05-31    9 signal days  +21.43%
+     LONG  2022-06-13    7 signal days  +13.27%
+     SHORT 2022-06-24   22 signal days   -5.18%
+     SHORT 2022-07-24    3 signal days   -5.11%
+     SHORT 2022-09-15    1 signal days   +0.04%
+     LONG  2022-09-22    1 signal days   -0.13%
+     SHORT 2022-09-30    8 signal days   +4.16%
+     SHORT 2022-10-24    1 signal days   -1.70%
+     LONG  2022-11-18    6 signal days   +3.15%
+     SHORT 2022-11-27   18 signal days  +13.01%
+     LONG  2022-12-17   15 signal days   +3.01%
+     SHORT 2023-01-03    2 signal days   -4.18%
+     SHORT 2023-06-04    3 signal days   +7.09%
+     LONG  2023-06-11   10 signal days  +13.04%
+     LONG  2023-08-25    5 signal days   -2.55%
+     SHORT 2023-09-05    6 signal days   -1.59%
+     SHORT 2023-09-15   13 signal days   -6.50%
+     SHORT 2024-05-08    2 signal days   -1.28%
+     SHORT 2024-07-14    2 signal days   -2.43%
+     LONG  2024-08-05    7 signal days   +1.08%
+     SHORT 2024-08-20    4 signal days   +3.26%
+     SHORT 2024-09-13    3 signal days   -5.73%
+     LONG  2025-03-10    6 signal days   +6.61%
+     SHORT 2025-03-20    9 signal days   +8.22%
+     LONG  2025-04-07    3 signal days   +4.21%
+     SHORT 2025-04-14    1 signal days   -0.11%
+     SHORT 2025-11-11    1 signal days   +1.39%
+     LONG  2025-11-21    4 signal days   -0.15%
+     SHORT 2025-12-03    8 signal days   +6.99%
+     LONG  2025-12-18    2 signal days   +0.84%
+     SHORT 2025-12-28    6 signal days   -8.29%
+     LONG  2026-02-06    3 signal days   +3.87%
+     SHORT 2026-02-15   21 signal days   +1.95%
+     SHORT 2026-03-20    1 signal days   +0.61%
+     LONG  2026-03-28    3 signal days   +2.59%
+     SHORT 2026-04-02    1 signal days   -1.78%
+     SHORT 2026-06-15    9 signal days   +8.97%
+     SHORT 2026-07-03   12 signal days   +6.93%
+
+5. COSTS (alt index, %/yr all | tune | holdout)
+   12bp round trip, 1bp/day rebalancing:  +27.0 |  +31.0 |  +18.7
+   12bp round trip, 3bp/day rebalancing:  +25.9 |  +29.8 |  +17.7
+   30bp round trip, 1bp/day rebalancing:  +26.0 |  +29.9 |  +17.7
+   30bp round trip, 3bp/day rebalancing:  +24.8 |  +28.7 |  +16.7
+   60bp round trip, 1bp/day rebalancing:  +24.2 |  +28.1 |  +16.1
+   60bp round trip, 3bp/day rebalancing:  +23.0 |  +26.9 |  +15.1
+
+6. $221 WITH A $5 MINIMUM ORDER (lag 1, 7-day ladder netted into one daily target)
+   top-5 basket  full     $221 -> $834  (+22.4%/yr, DD 20%), orders skipped for size 33.2%
+   top-5 basket  holdout  $221 -> $259  (+8.1%/yr, DD 14%), orders skipped for size 41.8%
+   BTC + ETH     full     $221 -> $650  (+17.9%/yr, DD 21%), orders skipped for size 29.6%
+   BTC + ETH     holdout  $221 -> $243  (+4.7%/yr, DD 16%), orders skipped for size 36.5%
+   (frictionless ladder on the alt index, same windows: full +27.0%/yr, holdout +18.7%/yr)

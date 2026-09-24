@@ -1,0 +1,49 @@
+panel: 796 perps, 2020-01 .. 2026-09 | holdout from 2024-08-29
+regime days: chop 959  bull 882  bear 614
+reference, trend book by regime (%/mo, 3x haircut, logs/regime_and_liq.txt): main bull +23.05 bear +0.26 chop -0.16 | triple bull +47.19 bear -0.74 chop +0.20
+
+daily OHLC loaded for 361 coins that were ever PIT top-40
+
+=== 3. DAILY TREND SHORTS, bear-gated, PIT top-40 incl. dead coins, vs RANDOM entries
+    R per trade net of 12bp and funding. %/mo = total R x 0.30% / 36 months with a bear day (screening only: no slots, no compounding)
+
+  config                               n   meanR    TUNE    HOLD    win     %/mo     sig-rand/mo (t, months)
+  trail 3x, 1 unit                   744  -0.165  -0.144  -0.216    38%   -1.03%      -0.188R  (t -4.62, 32)
+     random (10 seeds pooled)      11342  -0.075  -0.078  -0.069    43%   -0.71%
+  trail 3x, 3 units                  744  -0.210  -0.204  -0.224    36%   -1.30%      -0.175R  (t -4.40, 32)
+     random (10 seeds pooled)      11342  -0.129  -0.145  -0.093    42%   -1.22%
+  trail 3x, 5 units                  744  -0.210  -0.204  -0.224    36%   -1.30%      -0.174R  (t -4.38, 32)
+     random (10 seeds pooled)      11342  -0.130  -0.147  -0.093    42%   -1.23%
+  trail 5x, 1 unit                   618  -0.220  -0.200  -0.266    34%   -1.13%      -0.243R  (t -4.09, 32)
+     random (10 seeds pooled)       8993  -0.137  -0.151  -0.107    39%   -1.03%
+  trail 5x, 3 units                  618  -0.330  -0.350  -0.283    31%   -1.70%      -0.235R  (t -3.84, 32)
+     random (10 seeds pooled)       8993  -0.239  -0.278  -0.155    35%   -1.79%
+  trail 5x, 5 units                  618  -0.330  -0.350  -0.283    31%   -1.70%      -0.234R  (t -3.83, 32)
+     random (10 seeds pooled)       8993  -0.241  -0.281  -0.155    35%   -1.80%
+  trail 10x, 1 unit                  516  -0.204  -0.235  -0.137    29%   -0.88%      -0.253R  (t -4.26, 32)
+     random (10 seeds pooled)       7391  -0.161  -0.210  -0.058    31%   -0.99%
+  trail 10x, 3 units                 516  -0.323  -0.411  -0.129    25%   -1.39%      -0.273R  (t -4.27, 32)
+     random (10 seeds pooled)       7391  -0.242  -0.314  -0.090    27%   -1.49%
+  trail 10x, 5 units                 516  -0.323  -0.411  -0.129    25%   -1.39%      -0.270R  (t -4.26, 32)
+     random (10 seeds pooled)       7391  -0.247  -0.321  -0.090    27%   -1.52%
+
+  by year, trail 5x 1 units - signal R total / random R total per seed:
+   2020: -17 / -44  2021: +4 / +32  2022: -13 / +11  2023: -24 / -42  2024: -37 / -58  2025: -2 / -1  2026: -48 / -21
+
+  by year, trail 5x 5 units - signal R total / random R total per seed:
+   2020: -17 / -49  2021: -1 / +20  2022: -26 / -4  2023: -61 / -79  2024: -46 / -70  2025: -5 / -5  2026: -48 / -30
+
+=== 4. MEAN REVERSION GATED TO ONE REGIME, PIT top-40, fade BB(20, 2), exit at the mean
+  config                               n   meanR    TUNE    HOLD    win     %/mo     sig-rand/mo (t, months)
+  chop-gated fade                   2303  -0.064  -0.097  +0.001    49%   -0.68%      +0.048R  (t +1.06, 62)
+     random (10 seeds pooled)      34403  -0.033  -0.051  -0.003    53%   -0.53%
+      shorts: n 1224, mean -0.087R
+      longs: n 1079, mean -0.038R
+  bear-gated fade                   1072  -0.000  -0.034  +0.089    54%   -0.00%      -0.028R  (t -0.47, 34)
+     random (10 seeds pooled)      17230  -0.009  -0.007  -0.015    56%   -0.13%
+      shorts: n 289, mean +0.013R
+      longs: n 783, mean -0.005R
+  bull-gated fade                   2218  -0.115  -0.136  -0.053    46%   -1.70%      -0.002R  (t -0.06, 45)
+     random (10 seeds pooled)      33086  -0.036  -0.045  -0.016    55%   -0.80%
+      shorts: n 1779, mean -0.173R
+      longs: n 439, mean +0.121R

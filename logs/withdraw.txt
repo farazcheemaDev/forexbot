@@ -1,0 +1,36 @@
+
+=== BOT ALONE - last 2 years (from 2024-09)
+  a month, % (safer: up-months haircut, down-months raw):
+    typical (median) -0.2%   average +35.4%   bad month (1 in 4) -9.6%   good month (1 in 4) +12.4%   months up 50%   worst -24%
+    on $221: typical month $-0, bad month $-21, good month $+27
+  PLAN A (take out everything above $221 each month), over 12 months:
+    taken out: typical $497 (= $41/month), bad year (1 in 4) $326, good year $1,105; nothing at all in 0% of years; account ends below $221 in 58%
+  PLAN B (take out half of each month's profit), over 12 months:
+    taken out: typical $326 (= $27/month), bad year $222; balance left: typical $389, below $221 in 13%
+
+=== BOT ALONE - all 6 years
+  a month, % (safer: up-months haircut, down-months raw):
+    typical (median) -0.3%   average +29.4%   bad month (1 in 4) -8.2%   good month (1 in 4) +11.3%   months up 49%   worst -30%
+    on $221: typical month $-1, bad month $-18, good month $+25
+  PLAN A (take out everything above $221 each month), over 12 months:
+    taken out: typical $553 (= $46/month), bad year (1 in 4) $207, good year $1,233; nothing at all in 4% of years; account ends below $221 in 73%
+  PLAN B (take out half of each month's profit), over 12 months:
+    taken out: typical $376 (= $31/month), bad year $144; balance left: typical $434, below $221 in 23%
+
+=== FINAL MIX - last 2 years (from 2024-09)
+  a month, % (safer: up-months haircut, down-months raw):
+    typical (median) +3.2%   average +31.7%   bad month (1 in 4) -3.2%   good month (1 in 4) +10.0%   months up 67%   worst -20%
+    on $221: typical month $+7, bad month $-7, good month $+22
+  PLAN A (take out everything above $221 each month), over 12 months:
+    taken out: typical $490 (= $41/month), bad year (1 in 4) $414, good year $1,094; nothing at all in 0% of years; account ends below $221 in 37%
+  PLAN B (take out half of each month's profit), over 12 months:
+    taken out: typical $321 (= $27/month), bad year $256; balance left: typical $478, below $221 in 8%
+
+=== FINAL MIX - all 6 years
+  a month, % (safer: up-months haircut, down-months raw):
+    typical (median) +2.4%   average +25.1%   bad month (1 in 4) -3.8%   good month (1 in 4) +13.6%   months up 63%   worst -24%
+    on $221: typical month $+5, bad month $-8, good month $+30
+  PLAN A (take out everything above $221 each month), over 12 months:
+    taken out: typical $552 (= $46/month), bad year (1 in 4) $287, good year $950; nothing at all in 0% of years; account ends below $221 in 55%
+  PLAN B (take out half of each month's profit), over 12 months:
+    taken out: typical $407 (= $34/month), bad year $196; balance left: typical $503, below $221 in 15%
