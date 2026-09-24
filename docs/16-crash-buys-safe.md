@@ -2,7 +2,8 @@
 
 *Asked for: "go deeper… make this better, reduce the worst month, and hypothetically if there is a
 worse month can the capital go back up again on its own". Follows [doc 15](15-crash-wicks.md). Every
-number names its file. Status: **a candidate, NOT deployed, no paper book yet.***
+number names its file. Status: **a candidate, NOT deployed; the paper book `wick_paper.py` is
+built and pre-registered (section 7).***
 
 **Short version.**
 - **Two changes make the crash buys better**, and they pass the "just bet smaller" test on both
@@ -249,8 +250,8 @@ it was registered with ("~65%") is recorded as wrong because the question was wr
 - the worst month is about unchanged.
 
 **Not settled:**
-- **The venue.** Bitget has only 11 months of history. Its wicks are shallower (doc 15), and it has
-  no data for 2025-10-10.
+- **The venue.** Bitget's wicks are shallower (doc 15). Its 1-minute history does reach 2025-10-10
+  (section 7): that night 35 of the 40 bids filled on Bitget, against 38 on Binance.
 - **Execution.**
   - 40 resting bids have to be re-placed every hour, and the bot must count fills in real time to
     cancel after 10.
@@ -259,5 +260,50 @@ it was registered with ("~65%") is recorded as wrong because the question was wr
   - None of this exists in `combo_bot.py`.
 - **Decay.** The holdout is about half of tune.
 - **The mined split.** The holdout has been used heavily (CLAUDE.md §2). Skipping BEAR days and top-40
-  were chosen on it among ~25 variants, so **the forward paper book decides**. It can compute the
-  hour-close and the +120-minute exits side by side, from 5-minute candles after each hour closes.
+  were chosen on it among ~25 variants, so **the forward paper book decides** (section 7).
+- **Recent weakness.** On Binance, per kept fill after costs: Jan–Jun 2026 **−0.37%**, Jul–Sep 2026
+  +2.77%. The last 12 months average +0.79% (standard error 0.38). This is not a steady edge.
+
+## 7. The paper book — `wick_paper.py` (pre-registered, 2026-09-25)
+
+**The rule, run forward:** section 6's rule, computed after each hour closes from 1-minute candles,
+on **two venues** with the same 40 coins:
+- **Binance:** does the edge persist on the venue it was found on?
+- **Bitget:** does it exist where the money would be?
+
+Each venue has a $300 hour-close ledger. A second $300 ledger sells the same fills 120 minutes after
+the fill, and is recorded, not adopted. The book places no orders and uses public data only.
+
+**Registered in the file:**
+- **H1 (Bitget)** and **H2 (Binance):** mean net return per kept fill above zero.
+- **H3:** Bitget has fewer fills before the cap, and a mean per fill no more than 0.5 points below
+  Binance's.
+- **H4:** the in-hour paper loss never goes below −20%.
+- **H5:** the +120-minute ledger beats the hour close.
+
+**When it decides:**
+- the verdict comes at 6 months if Bitget has 60+ kept fills, otherwise at 12;
+- **H1 false at 12 months drops the crash bids;**
+- H4 false at any time means stop and report.
+
+**Expected, from the backtest on Binance:**
+- +0.8% to +1.0% per kept fill, 35–52 kept fills a month;
+- a 6-month read (~200–300 fills, standard error ~0.6%) can only fail a dead edge. It cannot prove
+  a live one.
+
+**Checked before it runs:**
+- **13 offline tests** (`tests/test_wick_paper.py`). Six deliberate breaks each fail at least one:
+  no cap, no slippage, a touch counts as a fill, bids on BEAR days, a fill at the bid through a gap,
+  and a cap by name instead of time.
+- **A replay on six past crash hours with both venues' real 1-minute data**
+  (`backtest/wick_replay.py`, `logs/wick_replay.txt`):
+  - Binance keeps the same 10 fills per hour as the backtest.
+  - The hour's P&L has the same sign every time. It is within a fifth on 3 of 6 hours, because
+    *which* ten the cap keeps depends on the fill order.
+  - **2025-10-10 21:00:** Bitget 35 fills, Binance 38. The capped book lost $8.01 / $7.93 on $300.
+    Its in-hour paper loss was −16.0% / −16.3%, deeper on 1-minute bars than the 5-minute
+    backtest's −15.8%. That is why H4's limit is −20%, set before the start.
+  - The next hour, 22:00, made +$6.55 / +$5.39.
+- **The installer** (`deploy/install_wick.sh`, service `deploy/wick-paper.service`) was run whole
+  against a fake VM with stubbed system commands. It aborts on a changed file (hash) and on a
+  failing test.

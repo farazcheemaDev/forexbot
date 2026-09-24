@@ -73,3 +73,7 @@ logs/combo_local_stopped_*/
 # combo_bot.py runs (demo / dry / live) keep their state, logs and execution records here.
 # Machine-local: a committed copy would be restored over a live bot by `git reset --hard`.
 logs/combo_bot_*/
+
+# The crash-bid paper book's live record (wick_paper.py) is machine-local, like the state
+# files: a committed copy would be restored over the VM's record by git reset --hard.
+logs/wickp_*.csv

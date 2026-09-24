@@ -1,0 +1,25 @@
+[Unit]
+Description=Crash-bid paper book - top-40 resting bids 10% under, no bids on BEAR days, first 10 fills per hour (doc 16)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__USER__
+WorkingDirectory=__APP_DIR__
+ExecStart=__APP_DIR__/.venv/bin/python -u wick_paper.py
+# ONE INSTANCE ONLY (installed by deploy/install_wick.sh). Never start a second copy anywhere
+# else: two copies are two records, and the pre-registered verdict needs exactly one.
+Restart=always
+RestartSec=30
+StandardOutput=journal
+StandardError=journal
+# It places NO orders anywhere; it reads Binance and Bitget public endpoints only and needs no keys.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+ReadWritePaths=__APP_DIR__/logs
+
+[Install]
+WantedBy=multi-user.target

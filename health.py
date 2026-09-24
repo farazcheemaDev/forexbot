@@ -128,6 +128,14 @@ BOTS = [
          note="paper, pre-registered (doc 14 s8/s9). Lives on the Azure VM since 2026-09-24 "
               "12:40 UTC (combo-paper.service); absent here is correct. Verdict ~2027-03-24."),
 
+    dict(key="wick", label="CRASH-BID paper book (doc 16, Bitget + Binance)", match="wick_paper.py",
+         pidfile=None, where="vm",
+         beat=LOGS / "wickp_state.json", beat_max=3 * 60,
+         log=LOGS / "wick_paper.log", state=LOGS / "wickp_state.json",
+         rows=LOGS / "wickp_hours.csv",
+         note="paper, pre-registered (doc 16). Lives on the Azure VM (wick-paper.service, "
+              "deploy/install_wick.sh); absent here is correct. Verdict at 6 months, 60+ Bitget fills."),
+
     dict(key="xsp", label="cross-sectional paper (older)", match="xs_paper.py",
          pidfile=LOGS / "xs_paper.pid", where="off",
          beat=LOGS / "xsp_state.json", beat_max=12 * 60,

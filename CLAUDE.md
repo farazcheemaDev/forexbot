@@ -161,6 +161,11 @@ mn_paper.py        the 5th book: market-neutral, pre-registered, verdict at 26 r
 combo_paper.py     THE COMBINATION (doc 14 s8/s9): triple + 21d anchor + MN 1x + bear sleeve 1x on one
                      $221 paper account, pre-registered. ON THE VM since 2026-09-24 12:40 UTC
                      (combo-paper.service, deploy/install_combo.sh); verdict ~2027-03-24
+wick_paper.py      THE CRASH BIDS (doc 16 s7), pre-registered: top-40 bids 10% under, none on BEAR days,
+                     first 10 fills an hour, sold at the hour's close; from 1-minute candles after
+                     each hour, on BITGET and BINANCE ($300 ledger each, +120-min exit recorded beside).
+                     No orders, no keys. For the VM: deploy/install_wick.sh (pulls, verifies, installs
+                     wick-paper.service). Verdict at 6 months with 60+ Bitget fills, else 12
 xs_paper.py        an EARLIER pre-registered XS test (21 coins, daily). Frozen — do not edit
 combo_bot.py       THE LIVE COMBINATION BOT (2026-09-24): combo_paper's three books executed on ONE Bitget
                      account, netted per coin, cross margin, 30% disaster stops, intrabar trend stops.
@@ -175,7 +180,8 @@ micro_bot.py       the $10 go-for-broke bet. ALLOW_REAL = False
 health.py          "is anything wedged or dead" — three signals per bot
 backtest/wick_better.py, wick_5m.py, joint_worst_hour.py, worst_month.py   the crash bids (docs 15/16):
                      which rule, what happens inside the hour, the account's worst hour, the worst
-                     month and recovery. Candidate only - no paper book, nothing in combo_bot.py
+                     month and recovery. wick_replay.py replays wick_paper.py on past crash hours.
+                     Candidate only - nothing in combo_bot.py
 docs/              00-16 + README. Doc 02 is the graveyard; read it before proposing.
                      11 = money-machine search, graveyard re-check, lottery odds. 12 = BTC signals.
                      13 bear breadth, 14 drawdown + the final mix, 15/16 crash bids
@@ -299,7 +305,8 @@ fall as 63%, against 53% raw.
 - The sleeve's 2018 out-of-sample fall was 42% at 1x (doc 13 §7).
 
 **A candidate fourth book: crash bids** ([doc 16](docs/16-crash-buys-safe.md), which supersedes doc
-15's rule). The rule:
+15's rule; forward test `wick_paper.py`). It was weak recently: Binance Jan–Jun 2026 −0.37% a fill,
+Jul–Sep +2.77%. The rule:
 - resting buys 10% under the last close on the PIT top-40;
 - 1/40 of equity each;
 - **none on BEAR days**;
@@ -433,10 +440,21 @@ the detail lives in the numbered docs.*
 - A first stress (halve every up-day) was the wrong question: it removes the edge, not half the
   return. Kept as a record.
 
-**Status:** candidate, no paper book, nothing in `combo_bot.py`. The next step, if the user wants
-it, is a separate pre-registered paper book on 5-minute candles. It would record the hour-close and
-the +120-minute exits side by side; the latter looked better on both halves, but was found after
-the fact.
+**Status:** candidate, nothing in `combo_bot.py`.
+
+**The paper book `wick_paper.py` (doc 16 §7), asked for by the user.**
+- **What it runs:** Bitget and Binance, on 1-minute candles. It records the hour-close exit and the
+  +120-minute exit side by side.
+- **Tests:** 13 offline tests; 6 mutations are each caught.
+- **Replay on past crash hours** (`wick_replay.py`):
+  - on 2025-10-10 Bitget filled 35 of 40 bids against Binance's 38, so its wicks were nearly as deep;
+  - on 1-minute bars the in-hour paper loss is −16.3%, so H4's limit was set at −20% before the
+    start.
+- **Installer:** `deploy/install_wick.sh`, tested on a fake VM, with the hash of the committed file.
+  **Running once the user pastes it.** Check with
+  `./.venv/bin/python wick_paper.py --status` on the VM.
+- **Found while registering it:** the rule lost money on Binance in Jan–Jun 2026 (−0.37% a fill). It
+  is written into the file's expectations.
 
 ### 2026-09-24 - the first real return improvement, seven paper books, and what moves BTC
 
