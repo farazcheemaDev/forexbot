@@ -455,3 +455,35 @@ python combo_bot.py --mode dry --report
 
 After that, going live is the user's decision: they set `ALLOW_REAL = True` in `combo_bot.py`,
 use a DEDICATED account of about $221 or more, and run `--mode live`.
+
+## 12. Minimum capital on Bitget — `backtest/min_capital.py` (log `logs/min_capital.txt`)
+
+CLAUDE.md's "capital does not change the percentage above ~$25" was measured against MEXC's
+per-coin minimums ($0.005–$2.28). Bitget's minimum is **$5 an order**, and the combination adds two
+books with small orders of their own.
+
+| capital | trend units under $5 | trend R lost to them | MN (C/12 per position) | bear sleeve vs no minimum |
+|---|---|---|---|---|
+| $50 | 73% | **42.5%** | $4.17: cannot trade | −2.8 %/yr |
+| $100 | 50% | **13.7%** | $8.33 | −2.2 %/yr |
+| $150 | 36% | 9.6% | $12.50 | −0.5 %/yr |
+| **$221** | 21% | **2.8%** | $18.42 | 0.0 |
+| **$300** | 13% | **−0.1%** (none) | $25.00 | 0.0 |
+| $500 | 4.5% | −0.6% | $41.67 | 0.0 |
+
+**What binds is the trend book's quarter-size units while BTC is below its 1000h average.** They
+are 93–99% of the skipped units at $150 and above, and they carry little R. The median unit is
+4.9% of capital at full size and 2.5% in a bear.
+
+**Floors:**
+- **$150 is the floor** at which everything can trade.
+- **$221 works** and costs ~3% of the trend book's profit.
+- **About $300 removes the minimum as a factor.** It also still sits above $150 after a 50% fall,
+  whereas $221 after a 45% fall trades like $120, where ~12% of trend R is lost.
+
+Registered: *"the sleeve binds first; the combination needs ~$175–225; trend alone loses a few %
+below $100."* Outcomes:
+- **the sleeve binds first: wrong.** It skips 33–44% of its orders, but they are small
+  adjustments that cost ≤ 2.2 %/yr;
+- the combination's range: roughly right;
+- **the trend book: wrong in size.** It loses 14% of its R at $100 and 43% at $50.

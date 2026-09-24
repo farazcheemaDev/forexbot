@@ -1,0 +1,29 @@
+TREND (triple book, every unit 2020-2026): units whose order would be under $5
+   capital  units under $5  of which bear-sized   share of total R lost
+  $     50           73.2%                  65%                  +42.5%
+  $    100           50.4%                  85%                  +13.7%
+  $    150           35.5%                  93%                   +9.6%
+  $    221           21.0%                  96%                   +2.8%
+  $    300           12.8%                  98%                   -0.1%
+  $    500            4.5%                  99%                   -0.6%
+  $  1,000            0.7%                 100%                   -0.1%
+  median unit: 4.9% of capital (full size), 2.5% while BTC is below its 1000h average
+
+MARKET-NEUTRAL at 1x: 12 positions, capital / 12 each
+  $     50: $  4.17 per position UNDER $5 - cannot trade
+  $    100: $  8.33 per position OK
+  $    150: $ 12.50 per position OK
+  $    221: $ 18.42 per position OK
+  $    300: $ 25.00 per position OK
+  $    500: $ 41.67 per position OK
+  $  1,000: $ 83.33 per position OK
+
+BEAR SLEEVE at 1x on the 5-coin basket (breadth_robust.small_account), 2020-2026:
+  no minimum binding ($100,000): +22.4%/yr - the reference
+  $     50:  +19.7%/yr (-2.8 vs no minimum), orders skipped for size   70%
+  $    100:  +20.3%/yr (-2.2 vs no minimum), orders skipped for size   44%
+  $    150:  +22.0%/yr (-0.5 vs no minimum), orders skipped for size   38%
+  $    221:  +22.4%/yr (-0.0 vs no minimum), orders skipped for size   33%
+  $    300:  +22.5%/yr (+0.0 vs no minimum), orders skipped for size   31%
+  $    500:  +22.5%/yr (+0.0 vs no minimum), orders skipped for size   26%
+  $  1,000:  +22.4%/yr (+0.0 vs no minimum), orders skipped for size   20%
