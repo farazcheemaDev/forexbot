@@ -1,0 +1,16 @@
+3196 fills with funding history (top-40, skip BEAR, 10%, fill-hour close, after 38bp)
+
+BY f_last (tune terciles: <= 1.00bp / <= 5.01bp / above)
+  low   tune +2.31% (n 1018, losing 26%)   holdout +1.24% (n 802, losing 38%)
+  mid   tune +3.42% (n 405, losing 19%)   holdout +1.94% (n 180, losing 40%)
+  high  tune +3.21% (n 712, losing 23%)   holdout -0.14% (n 79, losing 52%)
+  funding below zero: tune +1.62% (n 222)  holdout +0.60% (n 327)
+
+BY f_24h (tune terciles: <= 3.00bp / <= 16.40bp / above)
+  low   tune +2.22% (n 795, losing 26%)   holdout +1.08% (n 632, losing 40%)
+  mid   tune +2.91% (n 628, losing 23%)   holdout +1.84% (n 280, losing 36%)
+  high  tune +3.41% (n 712, losing 21%)   holdout +0.89% (n 149, losing 44%)
+  funding below zero: tune +2.02% (n 265)  holdout +0.41% (n 340)
+
+  top-40 skip-BEAR, all fills                tune +36.9%/yr  worst mo -1.2%  |  holdout +16.9%/yr  worst mo -3.3%  | fall 9%
+  ... skipping the bottom funding tercile    tune +21.0%/yr  worst mo -0.7%  |  holdout +4.2%/yr  worst mo -0.9%  | fall 2%

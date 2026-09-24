@@ -2899,3 +2899,43 @@ stand. `bear_chop.fast_run(fshift=1)` and `carry_check.exact_funding` carry the 
   [doc 13](13-bear-breadth.md). Market breadth predicts the next week *inside* bears (the one
   Holm pass in 84 cells). Traded both ways only in bears, it made +25–27%/yr at 1× with zero
   correlation to the trend book. It is not deployed, and it needs a forward test.
+
+---
+
+## Dead: three crash-bid refinements, and one bear idea (2026-09-25) — `backtest/wick_funding.py`, `backtest/squeeze_bear.py`, `backtest/wick_exit.py`
+
+Each had a mechanism and a registered prediction. None of them survives.
+
+**1. Crash bids only on crowded-long coins** (`wick_funding.py`, `logs/wick_funding.txt`). The idea:
+a wick on a coin whose longs were paying high funding is pure forced selling, so it should bounce
+more. On the tune half it looks right: +3.21% a fill in the top funding tercile, against +2.31% in
+the bottom. On the holdout it reverses: **−0.14%** in the top tercile, against +1.24% in the bottom.
+Skipping the bottom tercile cuts the holdout from +16.9% to +4.2%/yr. Prediction wrong. Dead.
+
+**2. Selling squeeze spikes in BEAR markets** (`squeeze_bear.py`, `logs/squeeze_bear.txt`). This is
+the crash bids' mirror, tried only where it has a reason to work: a 10% hourly spike in a bear
+market as forced short-covering, which should fade. It does not.
+- At 10% on BEAR days: **−0.43% a fill** (tune −0.90%, holdout +0.08%).
+- The worst single fill is **−339%**: LUNA's dead-cat bounce on 2022-05-11.
+- At 15–20% the halves disagree in sign.
+
+Prediction wrong. Dead.
+
+**3. Holding the crash-bid fills longer** (`wick_exit.py`, `logs/wick_exit.txt`, 1-minute bars
+2022–2026, both venues).
+- Selling 120 minutes after the fill beats the hour close by **+0.21 a fill (se 0.16)**: not
+  significant, and negative in 2022.
+- It barely deepens the worst paper loss while held: −16.8% against −16.0%.
+- "Hold longer only after a capped wave" is worse than either.
+
+**Not adopted.** The paper book `wick_paper.py` records the +120 exit beside the rule.
+
+**Settled on the way: the venue** (`wick_bitget.py`, `logs/wick_bitget.txt`). Doc 16's crash bids
+were replayed on Bitget's own 1-minute bars, 2022–2026, with the paper book's code. Coins Bitget no
+longer serves used Binance's bars as a stand-in, so dead coins still count.
+- On Bitget's own bars: **+1.01% a kept fill** (949 fills, se 0.23); tune +1.60%, holdout +0.74%.
+- **The same coin-hour on both venues: Bitget +0.86%, Binance +0.87%**, a difference of −0.01
+  (se 0.01).
+- Fills before the cap: 97% of Binance's count.
+
+The venue question doc 16 left open is answered: Bitget is as good as Binance for this.

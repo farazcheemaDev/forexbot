@@ -62,6 +62,7 @@ ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
 
 import combo_paper as cp  # noqa: E402
+import wick_live as wl  # noqa: E402
 
 # ---------------------------------------------------------------- the hard gate
 ALLOW_REAL = False
@@ -103,6 +104,8 @@ def book_targets(st: dict) -> dict:
         px = sl["mark_px"].get(sym)
         if px:
             add(sym, n / px)
+    for sym, q in st.get("wick", {}).get("hold", {}).items():   # crash-bid fills (wick_live.py)
+        add(sym, q)
     return {s: q for s, q in out.items() if abs(q) > 0}
 
 
@@ -246,6 +249,38 @@ class Venue:
 
     def cancel(self, s: str, oid: str):
         self.ex.cancel_order(oid, s, {"trigger": True})
+
+    # ---- the crash-bid desk (wick_live.py): limit buys only
+    def coin_size(self, s: str) -> float:
+        return float(self.ex.market(s).get("contractSize") or 1.0)
+
+    def prev_close(self, s: str, H: int) -> "float | None":
+        """The close of the venue's own 1-hour candle that ended at H (seconds)."""
+        for c in self.ex.fetch_ohlcv(s, "1h", since=(H - 3600) * 1000, limit=3):
+            if int(c[0]) == (H - 3600) * 1000:
+                return float(c[4])
+        return None
+
+    def limit_buy(self, s: str, contracts: float, price: float):
+        return self.ex.create_order(s, "limit", "buy", contracts,
+                                    float(self.ex.price_to_precision(s, price)), {"postOnly": True})
+
+    def cancel_limit(self, s: str, oid: str):
+        self.ex.cancel_order(oid, s)
+
+    def pending(self) -> dict:
+        """{order id: filled contracts} for every resting (non-trigger) order on the account."""
+        r = self.ex.privateMixGetV2MixOrderOrdersPending({"productType": self.v["product"]})
+        by_id = {m["id"]: k for k, m in self.ex.markets.items()}
+        out = {}
+        for x in ((r.get("data") or {}).get("entrustedList") or []):
+            s = by_id.get(x.get("symbol"))
+            cs = self.coin_size(s) if s else 1.0
+            out[str(x["orderId"])] = float(x.get("baseVolume") or 0) / cs
+        return out
+
+    def filled(self, s: str, oid: str) -> float:
+        return float(self.ex.fetch_order(oid, s).get("filled") or 0)
 
 
 def fill_price(ex, o, fallback: float, sym: "str | None" = None):
@@ -470,6 +505,27 @@ def report(d: Path):
           "  slippage within a few bp, and at least one of each: open, add, reduce, close, a flip.\n")
 
 
+# ---------------------------------------------------------------- the crash-bid desk
+
+def make_desk(st: dict, venue, args):
+    """wick_live.WickDesk wired to this bot: the demo bids only on its three coins; live and dry use
+    the top-40 (wick_paper.universe) and the BTC label (wick_paper.label)."""
+    import wick_paper as wp
+    mode = args.mode
+    coins = (lambda m: list(DEMO_COINS)) if mode == "demo" else wp.universe
+
+    def equity():
+        return venue.equity() if VIRTUAL_EQUITY[mode] is None else float(st["equity"])
+    desk = wl.WickDesk(venue, coins, wp.label, equity, log,
+                       dist=args.wick_dist if args.wick_dist is not None else wl.BID_K,
+                       cap=args.wick_cap if args.wick_cap is not None else wl.CAP, dry=(mode == "dry"),
+                       record=lambda row: cp.append(cp.P["state"].parent / "combo_wick.csv", row),
+                       size_usd=args.wick_usd)
+    log(f"  CRASH DESK on: bids {desk.dist:.1%} under the last close, cap {desk.cap} fills an hour, "
+        f"checked every {wl.TICK_S}s; sold at the hour's close through the netting")
+    return desk
+
+
 # ---------------------------------------------------------------- main
 
 def warm_start(st: dict) -> int:
@@ -500,7 +556,7 @@ def warm_start(st: dict) -> int:
     return n
 
 
-def poll(st: dict, venue, mode: str, caches: tuple):
+def poll(st: dict, venue, mode: str, caches: tuple, desk=None):
     ve = VIRTUAL_EQUITY[mode]
     if ve is None and venue is not None:
         st["equity"] = venue.equity()            # live: the books size off the real account
@@ -513,6 +569,8 @@ def poll(st: dict, venue, mode: str, caches: tuple):
             st["exec"]["mn_qty"] = mn_quantities(st)
         st["exec"]["mn_qty"] = {s: q for s, q in st["exec"]["mn_qty"].items() if s in st["mn"]["weights"]}
     cp.trend_poll(st, *caches)
+    if desk is not None:
+        desk.watch(st)                   # a fill not yet in `hold` would be netted away
     execute(st, venue, mode, binance_prices(), dry=(mode == "dry"))
 
 
@@ -522,6 +580,10 @@ def main():
     ap.add_argument("--status", action="store_true")
     ap.add_argument("--report", action="store_true", help="the two-week check: orders, fills, failures")
     ap.add_argument("--once", action="store_true")
+    ap.add_argument("--wick", action="store_true", help="run the crash-bid desk (wick_live.py, doc 16)")
+    ap.add_argument("--wick-dist", type=float, default=None, help="bid distance (default 0.10); tests only")
+    ap.add_argument("--wick-cap", type=int, default=None, help="fills per hour before cancelling (default 10)")
+    ap.add_argument("--wick-usd", type=float, default=None, help="fixed $ per bid; tests only")
     args = ap.parse_args()
     cp.set_dir(ROOT / "logs" / f"combo_bot_{args.mode}")
     st = cp.load()
@@ -536,6 +598,10 @@ def main():
         print(f"  EXECUTION ({args.mode}): targets {book_targets(st)}")
         print(f"  unmapped coins: {e.get('unmapped', [])}")
         print(f"  disaster stops: {len(e.get('stops', {}))}   virtual ledger: {e.get('virtual_pos', {})}")
+        wk = st.get("wick")
+        if wk:
+            print(f"  crash desk: hour {wk['hour']}, {len(wk['orders'])} bids, {wk['fills']} fills this hour, "
+                  f"holding {wk['hold']} | {wk['hours']} hours, {wk['total_fills']} fills, cap hit {wk['caps_hit']}x")
         return
     resolve(args.mode)
     guard_one_bot(args.mode)
@@ -557,10 +623,11 @@ def main():
             f"{len(venue.positions())} open positions")
     caches = ({}, {})
     warm_start(st)
+    desk = make_desk(st, venue, args) if args.wick else None
     cp.save(st)
     while True:
         try:
-            poll(st, venue, args.mode, caches)
+            poll(st, venue, args.mode, caches, desk)
             cp.save(st)
         except KeyboardInterrupt:
             cp.save(st); log("stopped"); return
@@ -568,7 +635,18 @@ def main():
             log(f"poll error: {type(e).__name__}: {str(e)[:200]}")
         if args.once:
             return
-        time.sleep(POLL_S)
+        end = time.time() + POLL_S
+        while time.time() < end:
+            if desk is not None:
+                try:
+                    if desk.tick(st):            # an hour closed: sell its fills NOW, not at the next poll
+                        execute(st, venue, args.mode, binance_prices(), dry=(args.mode == "dry"))
+                    cp.save(st)
+                except KeyboardInterrupt:
+                    cp.save(st); log("stopped"); return
+                except Exception as e:
+                    log(f"wick error: {type(e).__name__}: {str(e)[:200]}")
+            time.sleep(wl.TICK_S if desk is not None else max(end - time.time(), 0))
 
 
 if __name__ == "__main__":

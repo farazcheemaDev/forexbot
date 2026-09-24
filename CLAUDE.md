@@ -172,7 +172,11 @@ combo_bot.py       THE LIVE COMBINATION BOT (2026-09-24): combo_paper's three bo
                      --mode demo (running locally; the demo lists only SBTC/SETH/SXRP, so every coin is
                      routed onto those by dollar value: an ORDER-PATH test, P&L meaningless), --mode dry
                      (all coins, no orders), --mode live (refused: ALLOW_REAL = False). --report = the
-                     2-week check. tests/test_combo_bot.py: 14 offline tests on a fake exchange
+                     2-week check. tests/test_combo_bot.py: 14 offline tests on a fake exchange.
+                     --wick adds the CRASH DESK (wick_live.py, doc 17 s5): post-only buys 10% under,
+                     cap 10 fills an hour watched every 3 s, sold at the hour's close via the netting.
+                     tests/test_wick_live.py: 10 tests, 7 mutations caught. The demo was restarted
+                     with it on 2026-09-24 22:52 UTC (test settings first, see s10)
 longtrend_bot.py   the OLD Bitget demo bot, STOPPED 2026-09-24 (combo_bot replaced it on the demo
                      account). ALLOW_REAL = False. Its live mode trades a 9-coin list that is NOT the
                      validated 12-coin book - never take it live as it stands
@@ -182,7 +186,8 @@ backtest/wick_better.py, wick_5m.py, joint_worst_hour.py, worst_month.py   the c
                      which rule, what happens inside the hour, the account's worst hour, the worst
                      month and recovery. wick_replay.py replays wick_paper.py on past crash hours.
                      Candidate only - nothing in combo_bot.py
-docs/              00-16 + README. Doc 02 is the graveyard; read it before proposing.
+docs/              00-17 + README. Doc 02 is the graveyard; read it before proposing.
+                     DOC 17 = THE MACHINE v2: all four books, the evidence, every risk in one table.
                      11 = money-machine search, graveyard re-check, lottery odds. 12 = BTC signals.
                      13 bear breadth, 14 drawdown + the final mix, 15/16 crash bids
 deploy/            systemd units and the no-backslash VM patch scripts
@@ -304,6 +309,17 @@ fall as 63%, against 53% raw.
   and `combo_paper.py` count funding correctly.
 - The sleeve's 2018 out-of-sample fall was 42% at 1x (doc 13 §7).
 
+**THE MACHINE v2 = the final version + the capped crash bids** ([doc 17](docs/17-the-machine.md),
+`backtest/machine.py`). On $300, the typical 12 months:
+- $1,812 (6 years) and $1,625 (last 2 years), against $1,642 / $1,527 without the crash bids;
+- the worst month is the same (−29% / −25%);
+- sideways months average +0.2%, against −1.4%.
+
+**Size:** ×1.0. ×1.2 buys only 8% more and deepens the worst month to −34%, with 35% of the account
+left in the worst hour.
+
+**Venue:** on Bitget's own prices the crash bids earn the same as on Binance (`wick_bitget.py`).
+
 **A candidate fourth book: crash bids** ([doc 16](docs/16-crash-buys-safe.md), which supersedes doc
 15's rule; forward test `wick_paper.py`). It was weak recently: Binance Jan–Jun 2026 −0.37% a fill,
 Jul–Sep +2.77%. The rule:
@@ -408,6 +424,47 @@ the box was patched before the repo was public.
 
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
+
+### 2026-09-25 (night) - the machine v2, the crash bids on Bitget, and the crash desk (doc 17)
+
+**The venue question, answered without waiting 6 months** (`wick_bitget.py`). The user could not
+wait for `wick_paper.py`'s verdict. Bitget serves 1-minute history back to 2022, so the paper
+book's own code was replayed over 2022–2026 on both venues. Dead coins used Binance's bars as a
+stand-in.
+- Bitget's own bars: **+1.01% a kept fill** (949 fills);
+- the same coin-hour on both venues: +0.86% against +0.87%.
+
+Two bugs were caught in the replay's own bookkeeping before it was believed:
+- a Bash heredoc silently skipped an edit (the trap in §3);
+- hour keys came back in seconds, not ms, so no stand-in was tagged. Now unit-proof, with an
+  assertion.
+
+**Four more ideas dead** (doc 02, 2026-09-25 entry). Each had a mechanism and a registered
+prediction:
+- crash bids filtered by funding: the holdout reverses;
+- selling bear-market squeezes: −0.43% a fill, worst −339%;
+- holding fills 2 hours: +0.21, se 0.16, not adopted;
+- holding longer only after a capped wave.
+
+**The machine v2** (`machine.py`): see §6 and doc 17. The size dial settles ×1.0.
+
+**The crash desk** (`wick_live.py`, `combo_bot.py --wick`):
+- limit buys only;
+- a 3-second fill watcher enforces the cap (the 2-minute poll cannot);
+- fills sit in the targets until the hour's close, then leave through the netting.
+- **Tests:** 10 offline tests, 7 mutations caught.
+- **Read-only check against Bitget's markets:** at $7.50 a bid, 8 of 40 coins are under the
+  minimum size, and 1000PEPE / 1000SHIB are unmapped.
+
+**The demo bot was restarted with the desk** (pid 8524 stopped and verified; the new process writes
+to `logs/combo_bot_demo/stdout_wick.log`):
+- it runs with TEST settings (`--wick-dist 0.001 --wick-cap 2 --wick-usd 30`) so the order path
+  runs within hours;
+- **seen working:** placing, filling, a disaster stop on the fill, release at the hour's close,
+  and a netting sale 2 s after the close.
+
+**Before the 2-week report**, restart it with plain `--wick` (10%, cap 10) or without it. The main
+books' state carried over the restart.
 
 ### 2026-09-25 - crash bids made safe, the worst month, and coming back (doc 16)
 
