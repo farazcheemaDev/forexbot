@@ -549,3 +549,36 @@ leaving 40–60%, with 2025-10-10 the closest."* Outcomes:
 - best month +660%: right;
 - **$50/month: wrong.** It ends below $300 in 40% of years, not most;
 - the worst hour: right at 62%, and it was 2025-10-10.
+
+## 14. What each part does ON a crash day — `backtest/crash_days.py` (log `logs/crash_days.txt`)
+
+The user asked: *"in a crash shouldn't the short-market stuff work the best?"* Measured on the
+three worst crash days: the day itself and the following 7 days. The trend book is ordering 0,
+marked at daily closes including open profit.
+
+| day | BTC | regime / breadth20 | trend book: day / 7 days | market-neutral: day (its longs / shorts) | bear sleeve: day / 7 days |
+|---|---|---|---|---|---|
+| 2021-05-19 | −14.4% | BEAR / 27% | **−11.9%** / −14.5% | **+2.3%** (−32.7% / −37.2%) | 0 / 0 (breadth in the middle band) |
+| 2024-08-05 | −7.1% | BEAR / 2% | +3.6% / +1.5% | **+3.8%** (−3.5% / −11.1%) | 0 / **+3.1%** (went LONG from that day) |
+| 2025-10-10 | −7.3% | CHOP / 27% | −2.3% / **+18.8%** | **+2.5%** (−24.9% / −29.9%) | 0 / 0 (not a bear regime) |
+
+**The answer is no, by design, and the data says why.**
+- **The bear sleeve is not a crash short.** It acts on the DAY AFTER a daily close, only in a
+  BEAR regime, and it is contrarian. After a crash it BUYS the capitulation (2024-08-05: long from
+  the next day, +3.1% that week). It earns in the grind and the bounces of a bear market, not in
+  the hour of a crash.
+- **The market-neutral book is the crash cushion.** It made money on all three days (+2.3%, +3.8%,
+  +2.5%), because its shorts (last month's losers) fell even harder than its longs.
+- **No tested signal shorts a crash before it happens.**
+  - Every short entry rule tested so far was no better than random (`short_families.py`, doc 02).
+  - Staying short to be ready loses in normal times: BTC short below its 1000h average made −3%/yr
+    (`bear_chop.py` test 5).
+  - Funding carry, the one short-heavy book with a positive average, blew up in a squeeze.
+
+Registered: *"the regime was not bear on any of the three days; MN roughly flat; the trend book
+took the hit; the sleeve, if it acted, went long."* Outcomes:
+- **the regime: wrong.** 2021-05-19 and 2024-08-05 were BEAR-labelled; the sleeve was still flat,
+  because breadth was mid-band and the one-day lag applied;
+- MN: right, and better than flat, since it was positive every time;
+- the trend book: right on 2021 (−11.9%);
+- the sleeve went long after the crash: right (2024).

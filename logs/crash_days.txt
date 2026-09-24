@@ -1,0 +1,15 @@
+
+2021-05-19: BTC -14.4% that day | regime label BEAR | breadth20 27%
+  trend book      day  -11.9%   next 7 days  -14.5%   (account incl. open profit)
+  market-neutral  day   +2.3%   next 7 days   -2.2%   (its longs -32.7%, its shorts -37.2% that day)
+  bear sleeve     day   +0.0%   next 7 days   +0.0%   position that day +0.00, decisions next 7 days +0, +0, +0, +0, +0, +0, +0
+
+2024-08-05: BTC -7.1% that day | regime label BEAR | breadth20 2%
+  trend book      day   +3.6%   next 7 days   +1.5%   (account incl. open profit)
+  market-neutral  day   +3.8%   next 7 days   +0.0%   (its longs -3.5%, its shorts -11.1% that day)
+  bear sleeve     day   +0.8%   next 7 days   +3.1%   position that day +0.00, decisions next 7 days +1, +1, +1, +1, +1, +1, +0
+
+2025-10-10: BTC -7.3% that day | regime label CHOP | breadth20 27%
+  trend book      day   -2.3%   next 7 days  +18.8%   (account incl. open profit)
+  market-neutral  day   +2.5%   next 7 days   -1.6%   (its longs -24.9%, its shorts -29.9% that day)
+  bear sleeve     day   +0.0%   next 7 days   +0.0%   position that day +0.00, decisions next 7 days +0, +0, +0, +0, +0, +0, +0
