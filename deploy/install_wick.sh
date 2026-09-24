@@ -11,8 +11,8 @@
 # Every line is under 44 chars and there
 # are no backslashes: Run command wraps
 # long lines and decodes backslashes.
-cd /opt/forexbot
 set -e
+cd /opt/forexbot
 export SYSTEMD_PAGER=cat
 P=./.venv/bin/python
 N=wick-paper
