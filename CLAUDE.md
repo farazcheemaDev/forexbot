@@ -249,6 +249,41 @@ will run.
 > amplifier, not an all-weather book.** Six flat months is the expected experience of a chop
 > regime, not a malfunction, and no configuration tested changes it. Doc 11 part 10.
 
+### THE FINAL VERSION (2026-09-24) — the book to judge forward: `combo_paper.py`
+
+**What it is.** One account running three books:
+- the triple trend book at 100% (tight + time stop + 7 units), sized by the **21-day equity
+  anchor**, with a 9x gross guard;
+- the **bear breadth sleeve** at 1x (doc 13);
+- the **market-neutral book** at 1x (doc 10).
+
+**How it was measured** (doc 14 §8–§10). The trend book's gains are shrunk for hindsight and its
+losses kept whole; the two point-in-time books are raw. This method reads the triple's biggest
+fall as 63%, against 53% raw.
+
+| $221, 12 months (`max_mix.py`, `logs/max_mix_pick.txt`) | typical | bad (1 in 4) | worst | years < $221 | biggest fall | months up |
+|---|---|---|---|---|---|---|
+| triple alone, 6 yrs / last 2 yrs | $592 / $530 | $269 / $368 | $121 / $134 | 21% / 11% | 63% / 58% | 39% / 37% |
+| **FINAL, 6 yrs / last 2 yrs** | **$1,210 / $1,125** | **$491 / $740** | $151 / **$312** | 9% / **0%** | 59% / **45%** | **56% / 63%** |
+
+**By market type** (`final_regimes.py`, `logs/final_regimes.txt`; average / typical month):
+
+| | RISING (31 months) | SIDEWAYS (25) | FALLING (23) |
+|---|---|---|---|
+| triple alone | +58% / +15% | −5.4% / −8.1% | −3.5% / −3.5% |
+| **FINAL** | **+67% / +19%** | **−1.3% / −6.4%** | **+7.6% / +4.7%** (64% of months up) |
+| made by | trend +56, MN +4.6 | trend −5.2, **MN +4.3**, sleeve −0.7 | trend −3.4, MN +4.5, **sleeve +7.2** |
+
+**Read it as:**
+- a bull-market amplifier that now **earns in bears** and **loses less in chop**;
+- **chop is still negative**, and that is the one weakness no test fixed;
+- at $221, taking half of each month's profit gives ~$31–39 a month.
+
+**Caveats:**
+- The MN book's live record in `mn_paper.py` is inflated by the funding bug (§7b). The backtest
+  and `combo_paper.py` count funding correctly.
+- The sleeve's 2018 out-of-sample fall was 42% at 1x (doc 13 §7).
+
 **Risk per unit stays 0.30%** (`backtest/kelly_corrected.py`). 0.45% buys +0.34%/mo on main's
 holdout and multiplies P(80% drawdown within 3 years) by nine (2.7% → 24.7%), with max gross
 leverage past 10×. 0.6%+ has a LOWER holdout return. 7 units adds notional, so the triple has

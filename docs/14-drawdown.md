@@ -340,3 +340,38 @@ edited here).
 **Where it runs.** Locally, next to `mn_paper.py`, and `python health.py` reports it.
 `deploy/combo-paper.service` is ready for the VM. Stop the local copy first, and carry
 `logs/combo_state.json` + `logs/combo_*.csv` across, or the record restarts.
+
+## 10. The final version by market type — `backtest/final_regimes.py` (log `logs/final_regimes.txt`)
+
+The book is the trend book at 100% + anchor + sleeve 1× + MN 1×. Method as §8. Months are labelled
+by the BTC regime most of their days carried, over 10 orderings.
+
+| | rising: avg / typical / months up | sideways | falling |
+|---|---|---|---|
+| triple alone | +58.2% / +14.6% / 64% | −5.4% / −8.1% / 22% | −3.5% / −3.5% / 25% |
+| **final** | **+67.4% / +19.1% / 69%** | **−1.3% / −6.4% / 33%** | **+7.6% / +4.7% / 64%** |
+| typical month on $221 | +$32 → **+$42** | −$18 → **−$14** | −$8 → **+$10** |
+| worst month | −30% → −35% | −25% → −30% | −16% → −18% |
+
+What each part adds in an average month:
+
+| | trend | market-neutral | bear sleeve |
+|---|---|---|---|
+| rising | +56.1% | +4.6% | 0 |
+| sideways | −5.2% | **+4.3%** | −0.7% |
+| falling | −3.4% | +4.5% | **+7.2%** |
+
+Registered: *"the trend book earns in bull and is ~flat in chop and slightly negative in bear;
+the MN book lifts chop to positive; the sleeve + MN turn bear positive; bull is almost
+unchanged."* Outcomes:
+- bear turns positive: right;
+- **chop does NOT turn positive: wrong.** Under the fair method the trend book loses 5.2% a month
+  in chop, and the MN book's +4.3% does not quite cover it;
+- **bull is not unchanged: wrong.** The MN book adds ~4.6% a month there too;
+- the worst month in each regime is a few points worse, because the extra books add exposure.
+
+**VM install.** `deploy/install_combo.sh` does one paste after `pull_and_rebuild.sh`. It checks
+combo_paper.py's sha256, compiles it, runs its tests, installs `combo-paper.service`, starts it
+and prints the status and free memory. It has 51 lines, all under 44 characters, with no
+backslashes. It was run whole against a fake target with stubbed `systemctl`, `sudo`, `chown`,
+`journalctl` and `sleep`; the first run caught a 46-character line.
