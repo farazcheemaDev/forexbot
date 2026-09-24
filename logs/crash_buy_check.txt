@@ -1,0 +1,27 @@
+1. CAPACITY: bids on the top-N coins, each 1/N of equity, every fill taken, sold at the fill hour's close
+      N    k  fills/yr     CAGR     TUNE     HOLD  worst day  max DD
+     10  10%       167   +37.5%   +43.0%   +25.8%     -27.1%     36%
+     10  15%        62   +27.8%   +31.7%   +18.9%     -19.3%     25%
+     10  20%        29   +19.5%   +21.7%   +14.2%     -13.2%     15%
+     20  10%       335   +37.5%   +48.4%   +15.8%     -17.3%     22%
+     20  15%       126   +29.2%   +37.9%   +12.0%     -11.3%     14%
+     20  20%        57   +18.9%   +24.2%    +7.9%      -6.8%      8%
+     40  10%       659   +40.1%   +48.8%   +22.7%     -12.1%     13%
+     40  15%       249   +32.4%   +41.6%   +14.4%      -7.5%      9%
+     40  20%       109   +20.0%   +26.5%    +7.2%      -3.4%      4%
+
+2. EXIT SLIPPAGE in the crash hour (N 20, on top of 8bp fees): CAGR, TUNE / HOLD
+   k 10%  +  0bp:  +37.5% (+48.4 / +15.8) | + 30bp:  +30.8% (+41.5 / +9.7) | + 60bp:  +24.4% (+34.9 / +3.9) | +100bp:  +16.4% (+26.5 / -3.4)
+   k 15%  +  0bp:  +29.2% (+37.9 / +12.0) | + 30bp:  +26.9% (+35.5 / +9.8) | + 60bp:  +24.6% (+33.1 / +7.6) | +100bp:  +21.6% (+30.1 / +4.7)
+   k 20%  +  0bp:  +18.9% (+24.2 / +7.9) | + 30bp:  +17.9% (+23.3 / +6.9) | + 60bp:  +17.0% (+22.3 / +5.9) | +100bp:  +15.8% (+21.1 / +4.7)
+
+3. WITHOUT THE BIG DAYS (N 20)
+   k 10%: all +37.5%/yr | without top-3 days (2021-05-19, 2021-02-22, 2020-03-13) +30.3%/yr | without every 2021 fill +16.2%/yr
+   k 15%: all +29.2%/yr | without top-3 days (2021-05-19, 2021-02-22, 2021-09-07) +21.7%/yr | without every 2021 fill +14.3%/yr
+   k 20%: all +18.9%/yr | without top-3 days (2021-05-19, 2024-01-03, 2021-12-04) +12.3%/yr | without every 2021 fill +11.0%/yr
+
+4. THE VENUE: Bitget's own 1h candles vs Binance's, same coins, same dates, sold at the fill hour's close
+   20 coins requested; Bitget history served 2025-10-24 .. 2026-09-21
+   k 10%: Bitget   34 fills, mean +5.42% per fill | Binance   46 fills, mean +4.79%
+   k 15%: Bitget    0 fills, mean +nan% per fill | Binance   11 fills, mean +8.61%
+   k 20%: Bitget    0 fills, mean +nan% per fill | Binance    2 fills, mean +14.22%

@@ -1,0 +1,13 @@
+wick book alone (top-20, 10% below, 1/20 each, +30bp exit slippage): +30.8%/yr; daily correlation with the final version +0.09
+
+$300 over 12 months (10 orderings; trend gains shrunk for hindsight, the other books raw)
+
+  all 6 years
+  book                   typical yr   bad yr  <$300  worst yr  fall  typ month  worst month  months up
+  FINAL version         $    1,642$    666     9%$     204   59%      +12$       -29%        56%
+  FINAL + wick bids     $    1,937$    744     9%$     197   54%      +17$       -36%        60%
+
+  last 2 years
+  book                   typical yr   bad yr  <$300  worst yr  fall  typ month  worst month  months up
+  FINAL version         $    1,527$  1,004     0%$     424   45%      +18$       -23%        63%
+  FINAL + wick bids     $    1,629$  1,059     0%$     422   45%      +19$       -25%        65%
