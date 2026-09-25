@@ -141,7 +141,16 @@ holdout** (CLAUDE.md §2).
   - an ETH fill got a disaster stop;
   - at 23:00:01 the hour closed, and at 23:00:03 the netting sold the ETH, +1.1bp from the
     reference;
-  - new bids were placed for the next hour.
+  - new bids were placed for the next hour;
+  - the second cycle sold an XRP fill at 00:00:06, +4.6bp from the reference.
+
+  **Not yet seen on the exchange:** the cancel-at-cap, which needs 2 fills in one hour. It uses the
+  same cancel call that cleared the leftover bids at both hour closes, and its trigger is tested
+  offline.
+
+  At 00:01 UTC the demo went back to the **real settings** (`--mode demo --wick`: 10%, cap 10,
+  $5.5 a bid on the virtual $221). At that size only SXRP clears the demo's minimum, so it will
+  rarely fill.
 
 ## 6. What to do, in order
 

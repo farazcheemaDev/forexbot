@@ -463,8 +463,12 @@ to `logs/combo_bot_demo/stdout_wick.log`):
 - **seen working:** placing, filling, a disaster stop on the fill, release at the hour's close,
   and a netting sale 2 s after the close.
 
-**Before the 2-week report**, restart it with plain `--wick` (10%, cap 10) or without it. The main
-books' state carried over the restart.
+**Done 2026-09-25 00:01 UTC:** after two clean cycles, the demo was restarted with the REAL settings
+(`combo_bot.py --mode demo --wick`, pid 10512, `logs/combo_bot_demo/stdout_wick_real.log`). The main
+books' state carried over both restarts.
+
+**Not yet seen on the exchange:** the cancel-at-cap. It needs 2 fills in one hour, but it uses the
+same cancel call the hour closes used successfully, and its trigger is tested offline.
 
 ### 2026-09-25 - crash bids made safe, the worst month, and coming back (doc 16)
 
