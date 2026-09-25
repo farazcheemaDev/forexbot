@@ -126,6 +126,7 @@ candidate on paper. The rule above still stands for everything else.
 | **`os.kill(pid, 0)` as a liveness check** | On Windows this is not a no-op - any signal other than CTRL_C/CTRL_BREAK calls `TerminateProcess`, so the “check” **kills the process it is checking**. Caught in a draft of `combo_paper.py` before it ran | Read-only check: PowerShell `Get-Process -Id`, as `mn_paper.single_instance` does |
 | **An accrual window left open at one end** | `mn_paper` sums funding from `last_fund_ms` with no `endTime`, so the window runs to NOW while the cursor advances only to the BAR - and Binance's `startTime` is inclusive as well. Measured: **8 settlements summed for a one-day mark**, where a day has 3. Funding roughly doubled (mistake #15, still open) | Half-open and bounded at BOTH ends, `(last, this_bar]`, with the cursor advancing to the same edge |
 | **Mixed datetime64 units in the row set** | t0 comes back as `[us]` and t1 as `[ms]`, so `date_range` inherits `[us]` from its bounds while `Timestamp.value` returns ns. `searchsorted` then puts every span past the end of the grid and a whole leverage series came back silently ZERO (2026-09-24, cost a run) | Force BOTH sides with `.as_unit("ns")`, and assert the result is non-zero rather than trusting it |
+| **A cancel set defined by bookkeeping, not by the exchange** | `wick_live`'s cap cancelled orders that were `open and not counted`. A PARTLY filled bid is counted but still open, so it survived the cap - and in a sweep deep enough to touch every level, ALL 40 bids are partly filled, so the cap cancelled **0 of 40** (mistake #16, fixed 2026-09-25) | The cancel set is **whatever is still live on the exchange**. Test a safety limit IN the disaster, not in the tidy case |
 | **A test that cannot exhibit the bug** | With one position open at a time the two compounding conventions are arithmetically IDENTICAL, so a non-overlapping test showed $0.00 difference and passed while proving nothing. The bug only bites when positions OVERLAP | Construct the case so the bug MUST appear if it is present |
 | **Timestamp unit mismatch** | `.asof()` raises "Cannot losslessly convert units" (ms index vs ns clock) | `blend_paper._ns()` |
 | **Bar label read as entry time** | `asof(t0)` on a 4h/12h row reads a bar that closed hours after the entry. The short boost's "+0.481R" was 118 look-ahead trades; causal, it is +0.305R and worth ~+0.5%/mo | `causal_t0.real_t0(rows)` |
@@ -375,6 +376,12 @@ even less room. More return comes from 7 units or from capital, not from risk.
   it look like the live book had gone flat when it had not.
 
 ## 7b. OPEN BUGS — read before trusting a live book's numbers
+
+- **FIXED 2026-09-25: `wick_live.py`'s cap cancelled nothing in a full sweep** (mistake #16). The
+  live crash desk did not implement the cap its own backtest models — doc 16's "capped leaves 47%
+  of the account" was a property of `wick_5m.py`, not of the code. Fixed, with two regression tests
+  that the old filter fails. **`combo_bot.py` must be restarted to pick it up**; until then the
+  running demo carries the old desk.
 
 - **`mn_paper.py` over-counts funding, roughly double** (mistake #15, found and verified
   2026-09-24, **not yet fixed**). Its `startTime` is inclusive and its window has no `endTime`, so

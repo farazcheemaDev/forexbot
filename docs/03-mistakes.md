@@ -322,3 +322,48 @@ it costs essentially nothing while leaving it means months of inflated record.
 bounded at both ends** — `(last, this_bar]` — and the cursor must advance to the same edge the
 window ended at. Never leave the end open and the cursor behind it.
 
+---
+
+## 16. A safety cap that cancelled nothing in the case it was built for — `wick_live.py`
+
+*Found and fixed 2026-09-25 while auditing the other session's crash desk.*
+
+The crash desk rests 40 bids 10% under the last close and **cancels the rest once 10 have
+filled**. That cap is the whole reason crash bids are in the machine: uncapped, the 2025-10-10
+21:00 hour left **10% of the account**; capped, **47%** (doc 16 §3, `joint_worst_hour.py`).
+
+The cancel filter read:
+
+```python
+left = [... if o["status"] == "open" and not o["counted"]]
+```
+
+A **partly filled** bid is `counted` (it raised `fills`, so it helped trip the cap) but stays
+`open` — so it was excluded from cancellation and kept resting.
+
+**Measured on the project's own fake exchange:**
+
+| case | bids resting | cap | cancelled | still live |
+|---|---|---|---|---|
+| one bid partly filled | 4 | 2 | 3 | **1** |
+| **a sweep touching every level** | **40** | **10** | **0** | **40** |
+
+The second row is the disaster case itself. On 2025-10-10, 38 of 40 bids filled within minutes; a
+sweep that deep partly fills *every* bid between two 3-second watches, so all 40 are counted, the
+cap trips, and **not one order is cancelled**.
+
+**What made it invisible:** `wick_paper.py` and `wick_5m.py` both cap correctly — they take the
+first 10 from a list of completed fills, where no partial can exist. So **the backtest and the
+paper book modelled a cap the live desk did not implement**, and every figure justifying the crash
+bids came from the model.
+
+The suite had `test_partial_fill_counts_once_and_holds_the_delta` and cap tests, but never the two
+together — the trap CLAUDE.md already records as *"a test that cannot exhibit the bug"*.
+
+**Fix:** cancel every still-open bid regardless of `counted`. The filled part is already in `hold`;
+the cancel removes only the remainder. Two regression tests added, and the old filter fails both.
+
+**Rule:** when a safety limit is enforced by cancelling, the cancel set must be defined by
+**what is still live on the exchange**, never by how the bookkeeping classified it. And a limit
+whose job is to fire in a disaster must be tested **in the disaster**, not in the tidy case.
+

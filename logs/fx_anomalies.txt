@@ -1,0 +1,22 @@
+NINE-EFFECT FAMILY, net of Exness costs. Per trade in bp; 'per yr' = sum of net returns a year (not compounded).
+                                             n  net bp      t  Holm p    TUNE    HOLD  win%  per yr  PASS?
+NDX overnight (close->open)               6972   -0.32  -0.31   1.000   -0.86   +0.49    50   -0.8%  fail
+                                          gross +3.41bp/night  (split 2015-08-20)
+NDX intraday (open->close)                6973   +1.33  +0.74   1.000   +0.32   +2.84    53   +3.3%  fail
+                                          gross +2.10bp/day  (split 2015-08-19)
+NDX turn of month (days -1..+3)            332  +25.56  +1.43   0.763  +26.01  +24.88    54   +3.1%  fail
+                                          gross +26.3bp vs any 4-day hold +20.9bp  (split 2015-08-31)
+SPX overnight (close->open)               6972   -1.84  -4.44   1.000   -3.19   +0.20    31   -4.6%  fail
+                                          gross +1.20bp/night  (split 2015-08-20)
+SPX intraday (open->close)                6973   +1.72  +1.30   0.866   +1.80   +1.58    53   +4.3%  fail
+                                          gross +2.10bp/day  (split 2015-08-19)
+SPX turn of month (days -1..+3)            332  +13.33  +1.15   0.999  +12.50  +14.57    55   +1.6%  fail
+                                          gross +13.7bp vs any 4-day hold +12.9bp  (split 2015-08-31)
+XAU long 22-13 UTC (outside NY)           1149   -0.37  -0.16   1.000   -2.13   +2.25    52   -0.7%  fail
+                                          gross +2.10bp; NY hours gross -0.14bp  (split 2024-03-27)
+XAG long 22-13 UTC (outside NY)           1147   -8.61  -1.76   1.000  -11.95   -3.60    49  -15.2%  fail
+                                          gross +2.24bp; NY hours gross +1.96bp  (split 2024-03-26)
+FX home-hours (3 pairs, 2 legs a day)     5108   -2.09  -3.36   1.000   -1.66   -2.74    47  -16.3%  fail
+                                          EURUSD long-leg -0.60bp short-leg -0.80bp; GBPUSD long-leg +0.33bp short-leg -0.58bp; USDJPY long-leg +0.08bp short-leg -0.86bp  (split 2024-01-24)
+Month-end USD rebalancing (EURUSD)         234   +4.13  +1.15   0.999   +6.67   +0.33    54   +0.5%  fail
+                                          right sign 128/234 months  (split 2018-12-28)

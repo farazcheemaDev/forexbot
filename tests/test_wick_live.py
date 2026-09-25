@@ -186,6 +186,45 @@ def test_partial_fill_counts_once_and_holds_the_delta():
     assert st["wick"]["fills"] == 1 and abs(st["wick"]["hold"][sym] - amt / 2) < 1e-9
 
 
+def test_the_cap_cancels_bids_that_are_only_PARTLY_filled():
+    """The suite tested partial fills and the cap separately, never together - the trap CLAUDE.md
+    calls "a test that cannot exhibit the bug".
+
+    A partly filled bid is counted (it raises `fills`) but stays open. When the cancel filter also
+    required `not counted`, such an order survived the cap and kept absorbing. In a sweep deep
+    enough to touch every level - 2025-10-10, 38 of 40 bids filling in minutes - ALL the bids are
+    partly filled between two watches, so the cap cancelled nothing at all."""
+    ex = FakeEx()
+    d, _, _ = desk(ex, cap=2)
+    st = state()
+    d.tick(st, H + 5)
+    b = bids(ex)
+    ex.fill(b[0]["id"])                                   # one filled outright
+    ex.fill(b[1]["id"], ex.resting[b[1]["id"]]["amount"] / 2)   # one only PARTLY filled
+    d.tick(st, H + 20)
+    w = st["wick"]
+    assert w["fills"] == 2 and w["cap_hit"] is True
+    resting = [o["sym"] for oid, o in w["orders"].items() if oid in ex.resting]
+    assert not resting, f"the cap left these bids live: {resting}"
+
+
+def test_the_cap_cancels_everything_when_a_sweep_touches_every_level():
+    """The disaster case the cap exists for, at the deployed cap of 10."""
+    n = 12
+    coins = tuple(f"C{i}" for i in range(n))
+    ex = FakeEx(coins=coins)
+    d, _, _ = desk(ex, cap=10, coins=tuple(f"C{i}USDT" for i in range(n)))
+    st = state()
+    d.tick(st, H + 5)
+    for o in bids(ex):
+        ex.fill(o["id"], ex.resting[o["id"]]["amount"] * 0.5)   # every bid partly filled at once
+    d.tick(st, H + 8)
+    w = st["wick"]
+    assert w["cap_hit"] is True
+    live = [o["sym"] for oid, o in w["orders"].items() if oid in ex.resting]
+    assert not live, f"the cap left {len(live)} of {n} bids live in a full sweep: {live}"
+
+
 def test_the_hour_close_sells_the_fills_and_places_new_bids():
     ex = FakeEx()
     d, v, _ = desk(ex)

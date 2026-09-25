@@ -193,7 +193,14 @@ class WickDesk:
         if w["fills"] >= self.cap and not w["cap_hit"] and not final:
             w["cap_hit"] = True
             w["caps_hit"] += 1
-            left = [(oid, o) for oid, o in w["orders"].items() if o["status"] == "open" and not o["counted"]]
+            # EVERY still-open bid, including ones that are already PARTLY filled. Excluding
+            # `counted` orders here defeated the cap in the exact case it exists for: a sweep deep
+            # enough to touch every level partly fills all 40 bids between two 3-second watches, so
+            # all 40 are counted, the cap trips, and NONE of them get cancelled. Measured on the
+            # fake exchange: 40 resting, cap 10, cancelled 0 (2026-09-25).
+            # Cancelling a partly filled order is correct - the filled part is already in `hold`,
+            # and the cancel removes only the remainder.
+            left = [(oid, o) for oid, o in w["orders"].items() if o["status"] == "open"]
             for oid, o in left:
                 try:
                     self.venue.cancel_limit(o["s"], oid)
