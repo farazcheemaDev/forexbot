@@ -1,0 +1,37 @@
+  fetched 25/119
+  fetched 50/119
+  fetched 75/119
+  fetched 100/119
+STAGE A - his 25 clean entries ranked vs the same clock second on 20 other days (0.50 ordinary)
+  f_move     mean rank 0.56  top third  36%  bottom third  20%   p 0.332  Holm 1.000
+  f_eff      mean rank 0.54  top third  28%  bottom third  20%   p 0.533  Holm 1.000
+  f_dip      mean rank 0.40  top third  20%  bottom third  52%   p 0.072  Holm 0.573
+  f_retr     mean rank 0.53  top third  42%  bottom third  21%   p 0.630  Holm 1.000
+  f_last5    mean rank 0.39  top third  20%  bottom third  52%   p 0.046  Holm 0.417
+  f_quiet    mean rank 0.52  top third  36%  bottom third  32%   p 0.678  Holm 1.000
+  f_step     mean rank 0.55  top third  36%  bottom third  28%   p 0.406  Holm 1.000
+  f_upstep   mean rank 0.53  top third  28%  bottom third  16%   p 0.556  Holm 1.000
+  f_fresh    mean rank 0.51  top third  28%  bottom third  32%   p 0.808  Holm 1.000
+
+STAGE B - 2454 random moment x direction pairs; share reaching +7 before -7 (of those resolved), by feature third. Base rate 32.9%.
+  feature     low third  high third    diff  1st half  2nd half
+  f_move          32.5%       33.3%    +0.8      +0.9      +0.7
+  f_eff           30.0%       34.0%    +4.0      +4.3      +3.6
+  f_dip           33.0%       33.3%    +0.3      -2.4      +3.0
+  f_retr          32.4%       34.0%    +1.6      -4.4      +6.9
+  f_last5         31.5%       33.3%    +1.9      -1.0      +4.4
+  f_quiet         32.4%       31.7%    -0.7      -1.8      +0.4
+  f_step          30.3%       32.0%    +1.7      +0.6      +3.5
+  f_upstep        31.6%       33.2%    +1.6      +4.1      -1.5
+  f_fresh         34.4%       32.8%    -1.6      -2.9      -0.3
+
+VERDICT (Holm-significant in A, and a same-sign >= 3-point split on both halves in B):
+  f_move     A fail | B fail -> no
+  f_eff      A fail | B PASS -> no
+  f_dip      A fail | B fail -> no
+  f_retr     A fail | B fail -> no
+  f_last5    A fail | B fail -> no
+  f_quiet    A fail | B fail -> no
+  f_step     A fail | B fail -> no
+  f_upstep   A fail | B fail -> no
+  f_fresh    A fail | B fail -> no

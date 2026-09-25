@@ -2974,3 +2974,14 @@ a rule on every second of April–September with real bid/ask:
 Random entries in the same hours make −2.9. **No better than random.** His selection among those
 pauses is not in the tick price, the tape speed, the other indices, news before or after, or the
 day's trend.
+
+**2026-09-26, the trader's pause markers as rules** (his_strategy.md §26), every trading day April–September
+with real USTECm bid/ask:
+- limit orders at 25/50/100 futures levels vs offset and random levels (`his_levels.py`): all −2.8 to
+  −3.5 points a trade;
+- a quiet hammer in a trend, with and without a round level (`his_setup.py`): −2.3 to −2.7 vs random
+  −2.6;
+- rejection wick + not extended (`his_predictors.py`): 34.4% vs 33.9% net race win.
+
+**Dead as rules.** The rejection wick alone is a real but small 3-minute predictor (+3.1 points of win
+rate, both halves).

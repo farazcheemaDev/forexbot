@@ -1,0 +1,14 @@
+1. ALL 114 DAYS: 8606 random moment x direction pairs; 3-min MID race win rate by feature third (base 50.0%)
+  feature    low 1/3  high 1/3   diff  1st half  2nd half
+  c_wick       48.6%     51.7%   +3.1      +3.8      +2.5
+  f_move       50.1%     49.9%   -0.3      +0.8      -1.4
+  f_eff        50.1%     49.9%   -0.1      +1.1      -1.9
+  c_body       50.3%     49.7%   -0.5      +1.5      -2.5
+  f_fresh      50.9%     50.1%   -0.8      -2.6      +1.0
+  f_last5      51.2%     48.8%   -2.4      -1.6      -3.3
+  f_dip        51.3%     48.7%   -2.6      +0.2      -5.5
+
+2. THE RULE (wick against s >= 50% of the last candle, 5-min move in s <= 0), entry 15 s into the next
+   minute at the quote; +7 / -7 on the exit side within 180 s; vs random minutes, same timing and exit
+   rule    n  4157  net win  34.4%  (1st half  33.3% / 2nd half  35.4%)   -> points a trade -2.19
+   random  n  3035  net win  33.9%  (1st half  33.5% / 2nd half  34.4%)   -> points a trade -2.25

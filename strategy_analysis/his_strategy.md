@@ -1037,3 +1037,78 @@ book / depth window, or simply asking him what he watches in that half-minute.
 **What the statement itself says about him:**
 - the **April–September** record is real skill on real prices;
 - the January–March record leaned on his broker's quotes.
+
+## 26. Looking for WHICH pause: every lead from his ticks, tested to the end (2026-09-26)
+
+The user: "if we have identified the pause we can identify other things too". Everything below uses his
+26 clean trades (April on) and USTECm ticks; logs are named per script.
+
+### The feed has no order book
+Exness USTECm's spread is fixed (1.12 points for an hour on 2026-09-14), and bid and ask move together on
+100% of ticks: one price plus a markup. Real order flow exists only on Binance's QQQUSDT perp (from
+2026-04-06; aggressor-tagged trades), whose API serves only recent days by time or by id (400 for older).
+History is in the data.binance.vision archives, which is **a file download, not done without the
+user's say-so**.
+
+### What marks his moments
+
+**Against the same clock second on other days:**
+- `his_microstructure.py`: at the fill, the last 5 s still go against him (rank 0.39, p 0.046).
+- `his_candles.py`: the 1-minute candle that just closed has a long wick AGAINST the move (0.61,
+  p 0.048). Hammers make up 32% of his entries vs 16% of other days, on a quiet candle (0.71× usual).
+- His entries sit near 25-point futures levels: 35% within 2.5 points vs 20% (p 0.039); exits show
+  nothing.
+
+**Against the other moments of the SAME 20 minutes, same direction** (`his_local.py`):
+- the 30-s dip against him: 0.37 (p 0.029);
+- the last 5 s against him: 0.37 (p 0.022);
+- the rejection wick: 0.62 (p 0.036).
+
+None of these survives Holm on 25 trades.
+
+### What his moments are worth, measured properly
+On mid prices, a 3-minute race to +7 / −7:
+
+| entries | win rate |
+|---|---|
+| **his entries** | **87% (20/23)** |
+| random, his direction, within 20 min | 54% |
+| random, his direction, any time that day | 50.5% |
+| random time, random direction | 50.5% |
+
+- **The day, the hour and the direction add ~4 points. His exact moment adds ~33 (p = 0.001).**
+- Net of the real spread, a symmetric −7 race puts his entries level with random (42% vs 42%), because
+  they dip before they rise; he holds through that.
+- This corrects §25's "88% vs 50%": the 50% was assumed there, not measured.
+
+### Rules built from the markers, every trading day, real bid/ask
+
+| rule | points a trade | random |
+|---|---|---|
+| resting limits at 25/50/100 futures levels vs half-step offsets vs random levels (`his_levels.py`) | −2.95 / −3.05 / −3.54 round, −2.91 / −3.26 / −3.24 offset | −2.83 |
+| trend + quiet hammer, entry 15 s into the next minute (`his_setup.py`) | −2.67 | −2.56 |
+| … + near a round 25 level / near an offset level | −2.41 / −2.34 | |
+| rejection wick + not extended, net race (`his_predictors.py`) | 34.4% win, −2.19 | 33.9%, −2.25 |
+
+### Do the local predictors hold on ALL days? (`his_predictors.py`, 8,606 moments)
+- **The rejection wick is real but small:** +3.1 points of 3-minute win rate (+3.8 / +2.5 by half).
+- Joining an extended move looked −11.5 near his trades, but is ~0 on all days. It was specific to
+  his days.
+
+### Where this leaves "which pause"
+**The pause is described precisely:**
+- a small NASDAQ-led move;
+- a quiet 1-minute candle whose wick rejects the move against it, often near a round number;
+- he buys while the next half-minute is still dipping.
+
+**One ingredient, the rejection wick, is a genuine predictor on every day, worth ~3 of his ~33
+points.** The remaining ~30 are not in:
+- the price, the tick pace, or the step structure;
+- the S&P, the Dow, gold or USDJPY;
+- news before or after;
+- the day's trend or VWAP;
+- round numbers or candle patterns.
+
+Every rule assembled from those loses the spread like random entries. The data that could still hold
+the rest is order flow: Binance QQQ perp trade archives (needs the user's OK to download), or better, a
+recording of his screen.

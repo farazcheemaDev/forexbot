@@ -1,0 +1,6 @@
+114 days, 10:00-16:00 ET, real bid/ask; entry 15 s after the signal candle closes; +7 / -20 / 300 s.
+rule                                               n  /day  pts/trade  1st half  2nd half  win%
+A trend + quiet hammer                          2251  19.7      -2.67     -2.88     -2.46    58
+B A + near a ROUND 25 level                      636   5.6      -2.41     -2.73     -2.09    58
+C A + near an OFFSET level (control)             633   5.6      -2.34     -1.87     -2.83    60
+R random minute (baseline)                      1829  16.0      -2.56     -3.07     -2.06    60

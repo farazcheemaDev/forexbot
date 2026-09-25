@@ -27,6 +27,22 @@ decipher that". Every number names its file.*
   - At 20% volatility: +10.9%/yr with a 42% fall.
   - A $300 account can hold it only on a Cent account, and gold and silver are still too big there.
 
+## 000. Update, 2026-09-26: which pause (his_strategy.md §26)
+
+- **His exact moment is where the value is.** His entries win the 3-minute race to +7 before −7 87% of
+  the time; random entries in his direction within 20 minutes of his trade win 54% (p = 0.001). The
+  day, the hour and the direction are worth only ~4 points of that.
+- **His markers:**
+  - he buys while the dip is still going (the last 30 s and 5 s against him);
+  - the previous 1-minute candle has a rejection wick (a hammer);
+  - often near a 25-point futures level.
+- **One marker is a real predictor on every day:** the rejection wick, +3.1 points (both halves).
+  That is about a tenth of his edge.
+- **Every rule built from the markers loses like random entries after the spread:** resting limits
+  at round levels, a hammer in a trend, hammer + round level, wick + not extended.
+- **The Exness feed has no order book** (fixed spread, bid and ask move together). Real order flow
+  exists only in Binance's QQQ perp archives, which are a file download that needs the user's OK.
+
 ## 00. Update, later: tick data — the pause found, the broker's prices, and what is left
 
 `strategy_analysis/his_strategy.md` §25. The Exness MT5 terminal has USTECm **tick** data back to
