@@ -463,7 +463,7 @@ the box was patched before the repo was public.
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
 
-### 2026-09-26 - the trader's pick: every free source read, none holds it (his_strategy.md §26-30)
+### 2026-09-26 - the trader's pick: every free source read, none holds it (his_strategy.md §26-31)
 
 - **His moment is real on mid prices:** 87% (20/23) of 3-minute +7/-7 races won, against 54% for
   other moments of the same 20 minutes, same direction (`his_local.py`, p 0.001). **Net of the
@@ -486,6 +486,8 @@ the detail lives in the numbered docs.*
   trades, leaves green (29 of 30 sittings), and one sitting makes the month from May on. Smart-money
   concepts and EMA/RSI/Stochastic/MACD/Bollinger rank ordinary at his moments vs the same 20
   minutes; nothing near Holm.
+- **Every 1-minute candle pattern** (§31, `his_1m.py`): 13 patterns incl. the forming candle, at
+  the same second of the minute; best inside bar 2.09x (p 0.044), nothing survives Holm.
 
 ### 2026-09-25 (day) - back to forex: 33 tests dead, one that holds swap-free (doc 18)
 

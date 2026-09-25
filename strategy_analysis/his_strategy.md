@@ -1419,3 +1419,49 @@ around them (§26). **What picks that moment is not in:**
 - order flow;
 - the news calendar or the posts;
 - any smart-money or indicator reading.
+
+## 31. Every 1-minute candle pattern at his moments (2026-09-26)
+
+The user: "he does [it] on 1 minute I guess". Most of §17–30 was already on 1-minute candles:
+- the last closed candle vs other days (`his_candles.py`);
+- the rejection wick vs the same 20 minutes (`his_local.py`);
+- trend-pause-resume as a rule (`his_micro.py`);
+- smart-money concepts and indicators (`his_ta.py`);
+- all 46 trades drawn on 1-minute charts (§24).
+
+**What was not yet tested:** the full candlestick set, and the candle that is **forming** when he clicks.
+
+**The test** (`backtest/his_1m.py`, `logs/his_1m.txt`): 13 patterns, sign-aligned to his direction. His 24
+clean entries were compared with ~80 moments of the same day within 20 minutes, same direction, **at the same
+second of the minute**, so the forming candle is equally old.
+
+| pattern | his | nearby | ratio | p |
+|---|---|---|---|---|
+| inside bar (last candle inside the one before) | 6 / 24 | 12.0% | 2.09× | 0.044 |
+| pin bar (≥ 60% wick against him, small body, close his half) | 4 / 24 | 7.6% | 2.21× | 0.086 |
+| three candles his way | 4 / 24 | 8.3% | 2.01× | 0.13 |
+| forming candle against him at his click | 14 / 24 | 47.0% | 1.24× | 0.26 |
+| first pullback candle / two-candle pullback | 4 / 2 of 24 | 14.2% / 7.3% | 1.18× / 1.13× | ≥ 0.72 |
+| engulfing / outside bar / tweezer / break of the previous candle | 2 / 0 / 1 / 5 | | 0.00–0.74× | ≥ 0.22 |
+| doji / morning-evening star / sweep inside the forming candle | 4 / 1 / 3 | | 0.92–3.33× | ≥ 0.19 |
+
+**Nothing survives Holm over 13** (the best is 0.58).
+
+The small signs agree with §26:
+- a quiet, indecisive last candle (inside bar, pin bar);
+- the forming candle dipping against him.
+
+**On all 118 days** (8,672 random minutes, entered 18 s past the minute as he does):
+- The forming candle being against you is a real small edge: +4.2 points of 3-minute win rate (+4.5 /
+  +3.9). This is the seconds-scale reversal §26 found.
+- Outside bars and stars go the other way (−7 to −9).
+- **No pattern gets the net race above 37%** (base 35.2%, 50% needed).
+- Inside bars and dojis have no direction of their own, so they cannot be scored this way.
+
+**Predictions:**
+- Right: pin bar at ~2× with p ~0.05–0.09; nothing survives Holm; no net race above 40%.
+- Wrong: the first pullback candle came out ordinary (1.18×), where I expected ~1.5×.
+
+**Reading the 1-minute chart the way a 1-minute trader does does not find his pick either.** His moments
+look like a quiet candle and a dip inside the next one. So do half the moments around them, and those win
+the first 7 points 54% of the time, not 87%.

@@ -1,0 +1,57 @@
+STAGE A - his 24 clean entries vs ~80 moments of the same day within 20 min, same direction, same second of the minute
+  flag             his   nearby  ratio      p   Holm
+  pinbar        4 / 24     7.6%   2.21  0.086  1.000
+  engulf        2 / 24    15.4%   0.54  0.331  1.000
+  inside        6 / 24    12.0%   2.09  0.044  0.577
+  doji          4 / 24    11.5%   1.45  0.416  1.000
+  outside       0 / 24     5.8%   0.00  0.216  1.000
+  three         4 / 24     8.3%   2.01  0.129  1.000
+  pull1         4 / 24    14.2%   1.18  0.722  1.000
+  pull2         2 / 24     7.3%   1.13  0.850  1.000
+  star          1 / 24     1.2%   3.33  0.188  1.000
+  tweezer       1 / 24    11.3%   0.37  0.242  1.000
+  brk_prev      5 / 24    28.2%   0.74  0.421  1.000
+  cur_sweep     3 / 24    13.5%   0.92  0.879  1.000
+  cur_against  14 / 24    47.0%   1.24  0.257  1.000
+
+STAGE B - 8672 random minutes x direction on 118 days, entered 18 s past the minute; mid race base 50.0%, NET race base 35.2% (break-even 50%)
+  flag             off      on   diff 1st half 2nd half   net on   n on
+  pinbar         50.1%   49.2%   -0.9     +0.2     -1.8    34.0%    665
+  engulf         50.1%   49.1%   -1.0     -1.9     -0.2    37.0%   1128
+  inside         50.0%   50.0%   +0.0     +0.0     +0.0    35.2%   1082
+  doji           50.0%   50.0%   +0.0     +0.0     +0.0    34.5%    866
+  outside        50.4%   43.2%   -7.2     -8.3     -6.3    31.5%    475
+  three          50.3%   47.9%   -2.3     -2.3     -2.4    33.8%   1022
+  pull1          49.8%   51.0%   +1.2     +2.8     -0.5    34.2%   1127
+  pull2          50.1%   48.2%   -1.9     -3.9     +0.2    32.8%    529
+  star           50.2%   41.4%   -8.8     -2.4    -15.7    30.6%    162
+  tweezer        50.0%   49.7%   -0.4     +0.6     -1.2    36.4%    592
+  brk_prev       50.3%   49.2%   -1.1     -0.8     -1.4    35.2%   2141
+  cur_sweep      49.9%   50.6%   +0.6     +1.3     +0.0    34.4%   1270
+  cur_against    47.9%   52.1%   +4.2     +4.5     +3.9    36.3%   4305
+
+HIS ENTRIES (1 = present)
+  2026-04-02 11:10:35 BUY  $  112.00  pinbar 0 engulf 0 inside 0 doji 0 outside 0 three 0 pull1 0 pull2 0 star 0 tweezer 0 brk_prev 1 cur_sweep 0 cur_against 1
+  2026-04-02 11:11:16 BUY  $   28.75  pinbar 0 engulf 0 inside 0 doji 0 outside 0 three 1 pull1 0 pull2 0 star 0 tweezer 0 brk_prev 1 cur_sweep 0 cur_against 0
+  2026-04-06 11:38:36 BUY  $   96.00  pinbar 0 engulf 0 inside 0 doji 0 outside 0 three 0 pull1 0 pull2 0 star 0 tweezer 0 brk_prev 0 cur_sweep 0 cur_against 0
+  2026-04-06 11:44:39 SELL $    6.50  pinbar 0 engulf 0 inside 1 doji 0 outside 0 three 0 pull1 0 pull2 0 star 0 tweezer 0 brk_prev 0 cur_sweep 1 cur_against 1
+  2026-04-28 12:16:15 BUY  $   86.25  pinbar 0 engulf 0 inside 0 doji 0 outside 0 three 0 pull1 1 pull2 0 star 0 tweezer 0 brk_prev 0 cur_sweep 0 cur_against 1
+  2026-05-05 11:03:41 BUY  $  240.00  pinbar 1 engulf 0 inside 0 doji 1 outside 0 three 0 pull1 0 pull2 0 star 0 tweezer 0 brk_prev 0 cur_sweep 0 cur_against 0
+  2026-05-07 11:07:11 SELL $    3.00  pinbar 0 engulf 0 inside 0 doji 0 outside 0 three 1 pull1 0 pull2 0 star 0 tweezer 0 brk_prev 1 cur_sweep 0 cur_against 1
+  2026-05-07 11:13:06 SELL $   28.00  pinbar 0 engulf 0 inside 0 doji 0 outside 0 three 1 pull1 0 pull2 0 star 0 tweezer 0 brk_prev 1 cur_sweep 0 cur_against 0
+  2026-06-05 11:02:16 BUY  $  150.00  pinbar 0 engulf 0 inside 0 doji 0 outside 0 three 0 pull1 0 pull2 0 star 0 tweezer 0 brk_prev 0 cur_sweep 0 cur_against 1
+  2026-06-05 11:04:39 SELL $   70.00  pinbar 0 engulf 0 inside 1 doji 0 outside 0 three 0 pull1 1 pull2 0 star 0 tweezer 0 brk_prev 0 cur_sweep 0 cur_against 1
+  2026-07-01 11:39:33 SELL $   60.00  pinbar 0 engulf 0 inside 1 doji 0 outside 0 three 0 pull1 1 pull2 0 star 0 tweezer 0 brk_prev 0 cur_sweep 1 cur_against 1
+  2026-07-01 11:40:20 SELL $  147.50  pinbar 0 engulf 0 inside 0 doji 0 outside 0 three 0 pull1 0 pull2 0 star 0 tweezer 0 brk_prev 0 cur_sweep 0 cur_against 1
+  2026-07-10 12:18:29 BUY  $   65.00  pinbar 0 engulf 0 inside 1 doji 0 outside 0 three 1 pull1 0 pull2 0 star 0 tweezer 0 brk_prev 0 cur_sweep 0 cur_against 1
+  2026-07-24 14:57:02 SELL $  115.00  pinbar 0 engulf 0 inside 0 doji 0 outside 0 three 0 pull1 0 pull2 1 star 0 tweezer 0 brk_prev 0 cur_sweep 0 cur_against 1
+  2026-08-07 12:59:59 BUY  $  123.75  pinbar 0 engulf 0 inside 0 doji 1 outside 0 three 0 pull1 0 pull2 0 star 0 tweezer 0 brk_prev 0 cur_sweep 0 cur_against 1
+  2026-08-07 13:03:15 SELL $   97.50  pinbar 0 engulf 0 inside 0 doji 0 outside 0 three 0 pull1 0 pull2 1 star 0 tweezer 0 brk_prev 0 cur_sweep 1 cur_against 1
+  2026-08-10 18:30:21 SELL $  273.75  pinbar 0 engulf 1 inside 1 doji 0 outside 0 three 0 pull1 0 pull2 0 star 0 tweezer 1 brk_prev 0 cur_sweep 0 cur_against 0
+  2026-09-14 14:30:13 BUY  $   95.00  pinbar 0 engulf 1 inside 0 doji 0 outside 0 three 0 pull1 0 pull2 0 star 1 tweezer 0 brk_prev 1 cur_sweep 0 cur_against 0
+  2026-09-14 14:38:07 SELL $   40.00  pinbar 0 engulf 0 inside 0 doji 0 outside 0 three 0 pull1 0 pull2 0 star 0 tweezer 0 brk_prev 0 cur_sweep 0 cur_against 0
+  2026-09-14 14:46:11 SELL $  165.00  pinbar 1 engulf 0 inside 0 doji 1 outside 0 three 0 pull1 0 pull2 0 star 0 tweezer 0 brk_prev 0 cur_sweep 0 cur_against 1
+  2026-09-14 14:49:02 SELL $  156.25  pinbar 0 engulf 0 inside 0 doji 0 outside 0 three 0 pull1 0 pull2 0 star 0 tweezer 0 brk_prev 0 cur_sweep 0 cur_against 1
+  2026-09-14 15:00:16 SELL $  206.25  pinbar 1 engulf 0 inside 1 doji 1 outside 0 three 0 pull1 1 pull2 0 star 0 tweezer 0 brk_prev 0 cur_sweep 0 cur_against 0
+  2026-09-14 14:14:37 BUY  $ -483.75  pinbar 1 engulf 0 inside 0 doji 0 outside 0 three 0 pull1 0 pull2 0 star 0 tweezer 0 brk_prev 0 cur_sweep 0 cur_against 0
+  2026-09-14 15:02:30 SELL $  418.75  pinbar 0 engulf 0 inside 0 doji 0 outside 0 three 0 pull1 0 pull2 0 star 0 tweezer 0 brk_prev 0 cur_sweep 0 cur_against 0

@@ -3022,3 +3022,11 @@ MACD and Bollinger, on 1- and 5-minute candles rebuilt from ticks.
 - Against the other moments of the same 20 minutes, his 25 clean entries rank ordinary on every one: ranks
   0.40–0.54, flags 0.95–1.33×, nothing near Holm.
 - On all days no feature gets the net race near break-even (best 37.6% against 35.8%, 50% needed).
+
+**Same day, every 1-minute candle pattern at the trader's moments** (his_strategy.md §31, `his_1m.py`).
+There were 13 patterns: pin bar, inside bar, engulfing, doji, outside bar, stars, tweezers, pullback candles,
+and the forming candle at his click. Each was measured against the same 20 minutes at the same second of
+the minute:
+- the best are the inside bar (2.09×, p 0.044) and the pin bar (2.21×, p 0.086);
+- nothing survives Holm (best 0.58);
+- no pattern gets the net race above 37% (50% needed).
