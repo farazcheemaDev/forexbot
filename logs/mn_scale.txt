@@ -1,0 +1,39 @@
+loading the point-in-time panel...
+PIT top-60 | 30d momentum | weekly | long top frac / short bottom frac
+
+1. BASKET WIDTH, full history
+    frac  names/side    %/wk    bull    bear    CHOP  Sharpe     DD  worst wk
+    0.10           6 +1.222% +1.742% +0.205% +1.403%    1.22    37%    -24.2%  <- TODAY
+    0.15           8 +1.083% +2.096% +0.023% +0.811%    1.13    32%    -17.2%
+    0.20          11 +0.758% +1.791% -0.315% +0.475%    0.95    26%    -20.8%
+    0.25          14 +0.573% +1.415% -0.240% +0.302%    0.80    31%    -30.8%
+    0.33          18 +0.391% +1.094% -0.231% +0.126%    0.66    31%    -24.2%
+    0.50          28 +0.333% +0.847% -0.015% +0.067%    0.80    21%    -14.0%
+
+2. BOTH HALVES - tune < 2024-08-29 <= holdout
+    frac   TUNE/wk    DD    worst   HOLD/wk    DD    worst  HOLD chop
+    0.10   +0.760%   37%   -24.2%   +2.214%   25%   -16.0%    +2.369%
+    0.15   +0.629%   28%   -17.2%   +2.059%   21%   -13.2%    +1.332%
+    0.20   +0.434%   26%   -17.1%   +1.454%   25%   -20.8%    +0.944%
+    0.25   +0.393%   22%   -15.5%   +0.961%   31%   -30.8%    +0.389%
+    0.33   +0.323%   20%   -15.1%   +0.538%   31%   -24.2%    -0.110%
+    0.50   +0.298%   20%   -11.4%   +0.408%   21%   -14.0%    -0.151%
+
+3. THE TEST THAT DECIDES IT - each width scaled to the SAME worst week as frac 0.10
+   (that is the constraint that holds the book at 1x; equalise it and compare)
+  target worst week = -24.2% (frac 0.10 at 1x)
+    frac    mult     %/wk   CHOP/wk   CHOP/mo     DD   vs today
+    0.10    1.00x  +1.222%   +1.403%    +6.24%    37%     +0.00%
+    0.15    1.41x  +1.531%   +1.146%    +5.08%    46%     -1.16%
+    0.20    1.16x  +0.881%   +0.552%    +2.42%    31%     -3.82%
+    0.25    0.79x  +0.451%   +0.238%    +1.04%    24%     -5.21%
+    0.33    1.00x  +0.392%   +0.126%    +0.55%    31%     -5.69%
+    0.50    1.73x  +0.577%   +0.116%    +0.51%    37%     -5.74%
+
+  BEST AT EQUAL TAIL RISK: frac 0.10 at 1.00x -> +6.24%/mo in chop
+  against frac 0.10 at 1.00x -> +6.24%/mo.
+
+  Feed that into the sideways cell: trend -5.2, sleeve -0.7, bids +1.4, MN as above.
+    today   -5.2 - 0.7 + 1.4 + 6.2 = +1.7%/mo
+    this    -5.2 - 0.7 + 1.4 + 6.2 = +1.7%/mo
+  (a first-order sum, not a simulation - the mix has to confirm it)

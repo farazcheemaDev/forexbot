@@ -1,0 +1,29 @@
+building the four books...
+
+1. THE CONTROL - machine v2 scaled up until its fall matches the all-weather mix
+  mix                                    BULL    CHOP    BEAR chop med    up  typ yr    DD wst mo
+  machine v2 (today)                   +71.0%    +0.3%    +7.6%     -5.4%   33%    1469$   57%    -29%  <- today
+  all-weather (trend .7 | MN 2x)       +55.2%    +7.0%   +12.3%     -4.7%   37%    1474$   68%    -34%  <- candidate
+  machine v2 x1.1 (just bet more)      +79.0%    +0.3%    +8.3%     -6.0%   33%    1640$   61%    -32%
+  machine v2 x1.2 (just bet more)      +87.2%    +0.4%    +9.0%     -6.6%   33%    1814$   65%    -34%
+  machine v2 x1.3 (just bet more)      +95.5%    +0.5%    +9.7%     -7.2%   33%    1989$   68%    -36%  <- matched fall
+  machine v2 x1.4 (just bet more)     +103.9%    +0.6%   +10.3%     -7.8%   33%    2161$   71%    -39%
+  machine v2 x1.5 (just bet more)     +112.6%    +0.6%   +10.9%     -8.4%   33%    2330$   74%    -41%
+  machine v2 x1.6 (just bet more)     +121.3%    +0.7%   +11.5%     -9.0%   33%    2492$   77%    -43%
+
+  If a scaled machine v2 reaches the candidate's CHOP cell at the same fall, the
+  candidate is leverage in disguise. If it does not, MN 2x is buying something.
+
+2. BOTH HALVES - tune < 2024-08-29 <= holdout
+  mix                                    BULL    CHOP    BEAR chop med    up  typ yr    DD wst mo
+  machine v2 - tune                    +59.2%    -1.1%    +7.0%     -6.1%   27%    1268$   48%    -28%
+  machine v2 - hold                   +100.1%    +2.8%    +9.1%     -1.7%   44%    1973$   45%    -25%
+  all-weather - tune                   +45.1%    +4.4%    +7.8%     -4.9%   38%    1127$   55%    -32%
+  all-weather - hold                   +79.9%   +11.7%   +22.7%     -4.3%   36%    2609$   52%    -34%
+
+3. ALL FOUR BAR PHASES - does the sideways gain depend on the trend grid?
+  phase      v2 CHOP   AW CHOP    gain  AW chop med  AW up  AW DD
+  0            +0.3%     +7.0%   +6.7%        -4.7%    37%    68%  <- deployed grid
+  1            +0.3%     +7.0%   +6.7%        -4.4%    41%    67%
+  2            +0.8%     +7.3%   +6.5%        -1.8%    43%    68%
+  3            +0.6%     +7.2%   +6.6%        -3.2%    45%    68%

@@ -3057,3 +3057,54 @@ the open, the first-15-minute range and the day's high and low.
 - **The eye's level impression came from 4–5 memorable trades.**
 - **Not dead:** his record is real-time (exits identical to a mechanical target, `his_extremes.py`), and a copy
   within ~10 s keeps his edge on these 25 trades (`his_copy_delay.py`, §34).
+
+---
+
+## Dead: two ways to make the market-neutral book bigger (2026-09-26) — `backtest/mn_stop.py`, `backtest/mn_scale.py`
+
+**Why it was worth trying.** The product earns +71%/mo in rising markets and +7.6% in falling
+ones, and about nothing in SIDEWAYS (+0.2% average, −4.5% typical, 32% of months up,
+`logs/machine.txt`). Sideways is 25 of 79 months. Of the four books only the market-neutral one
+earns in every regime, and it is held at 1× for a single reason: its worst week is **−24.2% of the
+whole account**. Make that tail smaller and the book can be run bigger, which is the one thing the
+sideways cell needs. Both attempts failed, and the first failed for an instructive reason.
+
+**1. A stop on the short leg** (`mn_stop.py`, `logs/mn_stop.txt`). The book shorts the bottom
+momentum decile — beaten-down coins, which are exactly the ones that squeeze — with no stop of any
+kind. Per-name stops at +50% to +300%, checked on daily closes, exiting at the close that breached
+the level so a gap is paid in full:
+
+| short stop | %/wk | CHOP | Sharpe | DD | worst week | stopped |
+|---|---|---|---|---|---|---|
+| +50% | +1.098% | +1.058% | 1.10 | 35% | −23.2% | 2.3% |
+| +100% | +1.162% | +1.326% | 1.15 | 39% | **−26.3%** | 0.3% |
+| none | **+1.222%** | **+1.403%** | **1.22** | 37% | **−24.2%** | — |
+
+The stop makes the worst week **worse** and fires on 0.3% of positions at +100%. It books the
+bottom of a squeeze that reverts inside the week. Four of six registered predictions wrong.
+
+**The premise was itself wrong, and that is the lesson.** The single-name blow-ups quoted to
+motivate this (MYX +1137%, 2025-09-05) are the five worst weeks of the **funding carry** variant in
+`logs/carry_check.txt` — a different book, with a −107% worst week. The momentum book that is
+actually deployed has never had its worst weeks decomposed, and its −24.2% is not one name running
+away. *Check which book a number belongs to before building on it.*
+
+**2. A wider basket** (`mn_scale.py`, `logs/mn_scale.txt`). `frac=0.1` is hard-coded in
+`market_neutral.run`, `bear_chop.fast_run`, `crash_days.mn_basket` and `bear_shorts.weakest`, and
+is swept nowhere. On the PIT top-60 a decile is **six names a side**, so one name is a sixth of a
+leg. If the tail were concentration, width would cut it:
+
+| frac | names/side | %/wk | CHOP | Sharpe | worst week |
+|---|---|---|---|---|---|
+| **0.10** | 6 | **+1.222%** | **+1.403%** | **1.22** | −24.2% |
+| 0.15 | 8 | +1.083% | +0.811% | 1.13 | −17.2% |
+| 0.25 | 14 | +0.573% | +0.302% | 0.80 | −30.8% |
+| 0.50 | 28 | +0.333% | +0.067% | 0.80 | −14.0% |
+
+The signal dilutes faster than the tail shrinks, and the worst week is not even monotonic. Scaled
+to a common worst week, frac 0.10 beats every wider basket on chop return. **frac 0.10 is already
+the right number.** The decisive prediction was wrong.
+
+**What survived instead.** Not a change to the book — a change to its WEIGHT. See
+[doc 19](19-all-weather.md): the book is simply run at 2×, which the mix can carry, and that is
+what lifts the sideways cell.

@@ -384,6 +384,21 @@ even less room. More return comes from 7 units or from capital, not from risk.
   that the old filter fails. **`combo_bot.py` must be restarted to pick it up**; until then the
   running demo carries the old desk.
 
+- **THE SIDEWAYS CELL HAS AN ANSWER, and it is a WEIGHT, not a new book** (2026-09-26,
+  [doc 19](docs/19-all-weather.md), `backtest/all_weather*.py`). `max_mix.py` maximised the typical
+  YEAR, which is indifferent to where return comes from - hence a product with a dead chop cell.
+  Ranked by the WORST regime cell instead, the same 54 mixes pick a heavier market-neutral book.
+  It beats the matched-risk control decisively (chop +7.0% against +0.5% for machine v2 scaled to
+  the same 68% fall - betting more scales the trend book's chop LOSS too), holds on BOTH halves
+  (tune −1.1% → +4.4%) and on all four bar phases. **Recommended: MN 1.5x, trend 85%, sleeve 1.5x,
+  bids 1x** - chop +3.1%, typical year $1,673 against $1,469, fall 64% against 57%.
+  **NOT MN 2x**, though the search ranks it first: the MN book settles weekly, so its whole week
+  lands on one day, and at 2x the worst day is **−48.4%** - half the account in one settlement.
+  **What is NOT fixed: the sideways MEDIAN.** MN's own monthly median in chop is +0.2%, so no
+  weight moves it; the median stays ≈−3.8% and ~37% of sideways months are up. Quote this as
+  "positive on average in all three markets", never as "gains in every market".
+  Candidate only - `combo_paper.py` is pre-registered at the old weights and must not be edited.
+
 - **The book sizes orders from MEXC's minimums, but trades BITGET** (found 2026-09-26,
   `backtest/bitget_minimums.py`, **not fixed**). `combo_bot.py:75` uses a flat `MIN_ORDER = 5.0`
   and `blend_paper.py:239` uses a MEXC table where LINK is $1.13. Bitget also enforces a minimum

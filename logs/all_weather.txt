@@ -1,0 +1,34 @@
+building the four books (this takes a few minutes)...
+10 orderings | $221 | trend gains shrunk for hindsight, losses whole
+months labelled by the BTC regime most of their days carried
+
+1. TODAY'S PRODUCT, and the mixes that beat it on the WORST regime cell
+  mix                                              BULL    CHOP    BEARchop med    up  typ yr    DD wst mo
+  trend 1.00 | MN 1x | sleeve 1x | bids 1x       +71.0%    +0.3%    +7.6%    -5.4%   33%    1469$   57%    -29%  <- MACHINE v2 (on the VM, without bids)
+
+2. RANKED BY THE WORST REGIME CELL (the goal's objective)
+  mix                                              BULL    CHOP    BEARchop med    up  typ yr    DD wst mo
+  trend 0.70 | MN 2x | sleeve 1x | bids 1x       +55.2%    +7.0%   +12.3%    -4.7%   37%    1474$   68%    -34%  *
+  trend 0.70 | MN 2x | sleeve 1.5x | bids 1x     +55.3%    +6.5%   +16.1%    -4.9%   36%    1600$   69%    -34%  *
+  trend 0.85 | MN 2x | sleeve 1x | bids 1x       +65.3%    +6.2%   +11.6%    -5.6%   37%    1633$   70%    -35%  *
+  trend 0.70 | MN 2x | sleeve 2x | bids 1x       +55.3%    +6.0%   +20.2%    -5.1%   37%    1717$   71%    -34%  *
+  trend 0.85 | MN 2x | sleeve 1.5x | bids 1x     +65.4%    +5.7%   +15.4%    -6.3%   37%    1773$   71%    -35%  *
+  trend 1.00 | MN 2x | sleeve 1x | bids 1x       +75.6%    +5.4%   +10.9%    -6.2%   36%    1775$   72%    -37%  *
+  trend 0.85 | MN 2x | sleeve 2x | bids 1x       +65.4%    +5.2%   +19.4%    -6.8%   36%    1903$   73%    -35%  *
+  trend 0.70 | MN 2x | sleeve 1x | bids 0x       +52.0%    +5.2%   +12.3%    -5.7%   36%    1271$   69%    -34%  *
+  trend 1.00 | MN 2x | sleeve 1.5x | bids 1x     +75.6%    +4.9%   +14.7%    -7.8%   36%    1927$   73%    -37%  *
+  trend 0.70 | MN 2x | sleeve 1.5x | bids 0x     +52.0%    +4.7%   +16.1%    -5.4%   36%    1379$   70%    -34%  *
+
+3. THE COST OF ALL-WEATHER - return given up to lift the worst cell
+  mix                                           worst cell   typ yr  vs today
+  trend 0.70 | MN 2x | sleeve 1x | bids 1x           +7.0%    1474$       +4$
+  trend 0.70 | MN 2x | sleeve 1.5x | bids 1x         +6.5%    1600$     +130$
+  trend 0.85 | MN 2x | sleeve 1x | bids 1x           +6.2%    1633$     +164$
+  trend 0.70 | MN 2x | sleeve 2x | bids 1x           +6.0%    1717$     +248$
+  trend 0.85 | MN 2x | sleeve 1.5x | bids 1x         +5.7%    1773$     +303$
+  trend 1.00 | MN 2x | sleeve 1x | bids 1x           +5.4%    1775$     +306$
+  TODAY (machine v2)                                 +0.3%    1469$       +0$
+
+  BEST WORST-CELL: (0.7, 2.0, 1.0, 1.0) -> every market at least +7.0%/mo on average
+  sideways MEDIAN month there: -4.7%, 37% of sideways months up
+  worst month -34%, fall 68%, typical year $1474 against today's $1469
