@@ -1112,3 +1112,92 @@ points.** The remaining ~30 are not in:
 Every rule assembled from those loses the spread like random entries. The data that could still hold
 the rest is order flow: Binance QQQ perp trade archives (needs the user's OK to download), or better, a
 recording of his screen.
+
+## 27. Order flow: the last free data source, and it is an echo (2026-09-26)
+
+The user approved downloading Binance's QQQUSDT trade archives (data.binance.vision, 24 days, 19 MB, not
+committed): his 10 clean trading days since the perp listed on 2026-04-06, plus 14 comparison days.
+**22 of his entries** fall in that window. Every Binance trade is tagged buyer-aggressor or
+seller-aggressor. It is Binance traders' flow, not the CME's. The perp is thin: 20–75 trades a
+minute in US hours, and $5k–$135k traded a minute.
+
+### Binance follows, it does not lead (`his_orderflow_check.py` part 1)
+Correlation of 1-second returns, Binance QQQ vs Exness USTECm, 24 days:
+
+| Binance vs Exness | 2 s earlier | 1 s earlier | same second | 1 s later |
+|---|---|---|---|---|
+| correlation | 0.095 | 0.255 | **0.567** | 0.015 |
+
+Here "1 s earlier" means Binance's move a second before Exness's.
+
+Read in plain words: Exness's NASDAQ price moves first, or in the same second. Binance's traders catch
+up within a second. Nothing on Binance happens before the price the trader already sees. So its flow can
+confirm a move, but it cannot hold anything the price did not already show. This also rules out look-ahead
+in the tests below.
+
+### What marks his moments (`his_orderflow_archive.py`, `logs/his_orderflow_archive.txt`)
+Each of his entries is ranked against same-day moments within 20 minutes, same direction (0.50 = ordinary):
+
+| feature | his rank | p |
+|---|---|---|
+| aggressive flow over the last 30 s, his way | **0.38** | 0.057 |
+| largest single trade in the last 60 s | **0.38** | 0.044 |
+| "absorption" (sellers hit, price barely moves) | 0.48 | 0.75 |
+| flow in the 60 s AFTER his entry, his way | 0.59 | 0.13 |
+| 10 s, 60 s and 5-minute flow, activity, move | 0.41–0.47 | ≥ 0.17 |
+
+- Against the same clock second on the 14 other days, everything sits at 0.40–0.60, with p ≥ 0.09.
+- Nothing survives Holm. The best result is 0.39.
+- The two marks are §26's markers seen again through another window. **Takers were selling into his
+  buys**, which is the 30-s dip against him. **Big trades were absent**, which is the quiet candle
+  (0.71× usual).
+
+**Prediction wrong in direction.** I registered absorption and his-way flow ≥ 0.6: that the dip would be
+buyers pausing. In fact the dip is sellers pushing, and there is no absorption.
+
+### Does the flow predict the next 3 minutes? No (`his_orderflow_check.py`)
+- **The first run said yes, by a lot:** the 10-s imbalance split the 3-minute race by **+11.7 points**
+  (+14.6 / +8.8 by half), 3–4× my registered +2 to +4.
+- **The bug hunt says it was luck.**
+  - 40 fresh random samples of the same 24 days give **+0.8** (sd 3.8, max +7.3). The first run was the
+    most extreme of 41.
+  - 150 moments a day give **+0.5**.
+  - Inside terciles of the Exness price's own 10-s move, the flow adds −0.5 / −3.4 / −0.5.
+- **Net of the spread**, no imbalance decile comes near break-even: 30.7–36.5% wins, against 34.0% for all
+  moments and 50% needed.
+- **"Sellers hit, then stopped"** (the flow turning, or the last 5 s going quiet): his ranks are 0.59
+  (p 0.13) and 0.51 (p 0.89). As predictors: +2.2 and 0.0 points.
+
+**The lesson for this repo:** a moment-sample has its own sampling noise, here ±3.8 points. One draw is
+not a result. Draw it again before believing it.
+
+Registered predictions:
+- 1 right: no Binance lead.
+- 2 wrong: I expected the flow to keep +3 to +6 points beyond the price. It keeps ~0.
+- 3 right: no decile beats the spread.
+- 4 wrong: no "sellers stopped" mark.
+
+### Where "which pause" stands now
+**Every free source has now been read:**
+- his price;
+- the tick pace and step structure;
+- the S&P, the Dow, gold and USDJPY;
+- the news calendar;
+- round numbers and candle shapes;
+- and now real order flow.
+
+The order flow restates the dip and the quiet that the price already showed. The ~30 points his exact
+moment adds (§26) are in none of them.
+
+**Three things are left, and none is in this repo's reach:**
+1. **CME's own NQ order flow**, the market that actually leads. It is paid data, and the user would have
+   to open the vendor account. Expected value is low: book imbalance is known to predict the next few
+   ticks, not a +7 point race over 3 minutes.
+2. **His screen, or asking him.**
+3. **That it is partly luck.** 20 of 23 on the mid race is p ≈ 0.001 against nearby moments. But this
+   statement was picked because it looked good, and 23 trades cannot separate skill from a
+   well-chosen record. Net of the spread his entries equal random (42% vs 42%, §26). The money came from
+   the structure (a small target and holding through dips, §25) at least as much as from the pick.
+
+Recommendation: stop the reverse-engineering here unless a recording of his screen exists. Nothing more
+in the data can move it.

@@ -1,5 +1,9 @@
 """REAL ORDER FLOW AROUND HIS PAUSES: aggressive buying vs selling on Binance's QQQ perp.
 
+SUPERSEDED - this API version never ran: Binance's aggTrades API answers 400 for history. The test was run
+from the downloaded daily archives instead: his_orderflow_archive.py and his_orderflow_check.py
+(his_strategy.md s27).
+
 The Exness NASDAQ feed has no book (his_microstructure.py: fixed 1.12-point spread, bid and ask move
 together). Binance lists QQQUSDT (a Nasdaq-100 ETF perp) from 2026-04-06, and its public aggTrades
 mark every trade's AGGRESSOR (isBuyerMaker true = a seller hit the bid). That is real buying/selling

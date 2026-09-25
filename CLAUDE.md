@@ -463,6 +463,21 @@ the box was patched before the repo was public.
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
 
+### 2026-09-26 - the trader's pick: every free source read, none holds it (his_strategy.md §26-27)
+
+- **His moment is real on mid prices:** 87% (20/23) of 3-minute +7/-7 races won, against 54% for
+  other moments of the same 20 minutes, same direction (`his_local.py`, p 0.001). **Net of the
+  spread it is 42% vs 42%.**
+- **The markers:** a 30-s dip against him, a quiet candle with a rejection wick, and a round 25
+  level. None survives Holm. Only the wick predicts on every day, and only +3 points
+  (`his_predictors.py`). Every rule built from them loses like random.
+- **Order flow** (Binance QQQ archives, downloaded with the user's OK, not committed): the perp
+  follows the NASDAQ price by up to 1 s. Its flow restates the dip and adds ~0. A first-run
+  +11.7 was one lucky sample (40 re-draws: +0.8, sd 3.8). **Re-draw a moment-sample before
+  believing it.**
+- **Left:** CME's own order flow (paid; the user would open the account), his screen, or luck in
+  a statement picked for looking good. Recommended: stop unless a screen recording exists.
+
 ### 2026-09-25 (day) - back to forex: 33 tests dead, one that holds swap-free (doc 18)
 
 **The trader's material has nothing left to read.**

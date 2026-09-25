@@ -1,0 +1,46 @@
+D:\forexbot\backtest\his_orderflow_check.py:115: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  a1 = w(g[(g.imb_10 >= hi) & h1]) - w(g[(g.imb_10 <= lo) & h1])
+D:\forexbot\backtest\his_orderflow_check.py:115: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  a1 = w(g[(g.imb_10 >= hi) & h1]) - w(g[(g.imb_10 <= lo) & h1])
+D:\forexbot\backtest\his_orderflow_check.py:116: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  a2 = w(g[(g.imb_10 >= hi) & h2]) - w(g[(g.imb_10 <= lo) & h2])
+D:\forexbot\backtest\his_orderflow_check.py:116: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  a2 = w(g[(g.imb_10 >= hi) & h2]) - w(g[(g.imb_10 <= lo) & h2])
+D:\forexbot\backtest\his_orderflow_check.py:115: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  a1 = w(g[(g.imb_10 >= hi) & h1]) - w(g[(g.imb_10 <= lo) & h1])
+D:\forexbot\backtest\his_orderflow_check.py:115: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  a1 = w(g[(g.imb_10 >= hi) & h1]) - w(g[(g.imb_10 <= lo) & h1])
+D:\forexbot\backtest\his_orderflow_check.py:116: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  a2 = w(g[(g.imb_10 >= hi) & h2]) - w(g[(g.imb_10 <= lo) & h2])
+D:\forexbot\backtest\his_orderflow_check.py:116: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  a2 = w(g[(g.imb_10 >= hi) & h2]) - w(g[(g.imb_10 <= lo) & h2])
+D:\forexbot\backtest\his_orderflow_check.py:115: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  a1 = w(g[(g.imb_10 >= hi) & h1]) - w(g[(g.imb_10 <= lo) & h1])
+D:\forexbot\backtest\his_orderflow_check.py:115: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  a1 = w(g[(g.imb_10 >= hi) & h1]) - w(g[(g.imb_10 <= lo) & h1])
+D:\forexbot\backtest\his_orderflow_check.py:116: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  a2 = w(g[(g.imb_10 >= hi) & h2]) - w(g[(g.imb_10 <= lo) & h2])
+D:\forexbot\backtest\his_orderflow_check.py:116: UserWarning: Boolean Series key will be reindexed to match DataFrame index.
+  a2 = w(g[(g.imb_10 >= hi) & h2]) - w(g[(g.imb_10 <= lo) & h2])
+1. LEAD/LAG - corr(Binance QQQ 1-s return at t, USTECm 1-s return at t+k), mean over 24 days
+   -5:0.027  -4:0.034  -3:0.056  -2:0.095  -1:0.255  +0:0.567  +1:0.015  +2:-0.004  +3:-0.002  +4:0.001  +5:-0.001  +6:-0.003  +7:-0.002
+   peak at k = +0 s (0.567);  k > 0 means Binance moves FIRST
+
+2. PRICE CONTROL - 6642 pairs; mid race, imb_10 top vs bottom third INSIDE terciles of USTECm's own 10-s move
+   overall: imb_10 +0.5;  USTECm's own 10-s move top vs bottom third +2.4
+   USTECm 10-s move against  n  2002: imb_10 high  47.3%  low  47.8%  diff  -0.5  (halves -2.3 / +3.5)
+   USTECm 10-s move flat     n  2001: imb_10 high  48.3%  low  51.7%  diff  -3.4  (halves +3.7 / -9.8)
+   USTECm 10-s move his way  n  2001: imb_10 high  52.2%  low  52.7%  diff  -0.5  (halves -2.4 / +3.5)
+
+3. THE SPREAD - net race win % (enter at the quote, +7/-7 on the exit side, 180 s) by imb_10 decile; break-even 50%
+   all moments 34.0%  (5859)
+   decile        0      1      2      3      4      5      6      7      8      9
+   all        34.8   36.2   30.7   32.4   31.2   34.0   34.6   35.3   36.5   34.0
+   1st half   35.2   29.3   32.0   26.1   32.8   35.3   42.7   34.6   36.1   31.5
+   2nd half    0.0   36.9   29.7   37.2   30.2   33.1   28.5   35.9   38.4   34.8
+   decile imb_10 lower edge: -1.00 -1.00 -0.99 -0.80 -0.42 +0.00 +0.43 +0.80 +0.99 +1.00
+
+4. THE PAUSE - his 22 clean entries ranked among same-day moments +-20 min (0.50 = ordinary)
+   turn   his rank 0.59  p 0.133   |  B: mid race high third 51.1%  low third 48.9%  diff +2.2
+   stop5  his rank 0.51  p 0.889   |  B: mid race high third 50.0%  low third 50.0%  diff +0.0
+   his stop5 raw median 0.03 (share of the last 30 s's notional traded in the last 5 s)

@@ -2985,3 +2985,14 @@ with real USTECm bid/ask:
 
 **Dead as rules.** The rejection wick alone is a real but small 3-minute predictor (+3.1 points of win
 rate, both halves).
+
+**2026-09-26, order flow at the trader's moments** (his_strategy.md §27). Binance QQQUSDT's buyer/seller-tagged
+trades on 24 days (`his_orderflow_archive.py`, `his_orderflow_check.py`):
+- Binance follows the Exness NASDAQ price by up to a second and never leads it (correlation 0.567 in the
+  same second, 0.015 with Binance a second ahead).
+- At his entries the flow only restates the dip and the quiet candle (ranks 0.38, p 0.04–0.06; nothing
+  survives Holm).
+- As a 3-minute predictor it is ~0 (+0.8 over 40 samples). A first-draw +11.7 was sampling luck.
+- Net of the spread, no decile comes near break-even (31–37% against 50%).
+
+**Dead.** This was the last free data source for his pick.
