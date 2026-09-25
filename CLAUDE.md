@@ -463,7 +463,7 @@ the box was patched before the repo was public.
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
 
-### 2026-09-26 - the trader's pick: every free source read, none holds it (his_strategy.md §26-27)
+### 2026-09-26 - the trader's pick: every free source read, none holds it (his_strategy.md §26-28)
 
 - **His moment is real on mid prices:** 87% (20/23) of 3-minute +7/-7 races won, against 54% for
   other moments of the same 20 minutes, same direction (`his_local.py`, p 0.001). **Net of the
@@ -477,6 +477,10 @@ the detail lives in the numbered docs.*
   believing it.**
 - **Left:** CME's own order flow (paid; the user would open the account), his screen, or luck in
   a statement picked for looking good. Recommended: stop unless a screen recording exists.
+- **The real news calendar** (ForexFactory, `ff_calendar.py` / `his_calendar.py`, §28): releases,
+  Fed speakers, the Chair, Trump's speeches, surprises - his entries and his days match the
+  same clock time on other days; nothing survives Holm. His best days had no scheduled news.
+  Trump's unscheduled posts are untested: CNN's archive (14 MB) needs the user's OK.
 
 ### 2026-09-25 (day) - back to forex: 33 tests dead, one that holds swap-free (doc 18)
 

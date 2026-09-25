@@ -1201,3 +1201,83 @@ moment adds (§26) are in none of them.
 
 Recommendation: stop the reverse-engineering here unless a recording of his screen exists. Nothing more
 in the data can move it.
+
+## 28. His trades against the real news calendar (2026-09-26)
+
+The user: "he also does rely on news... some person who comes to speech and whatever the word he says
+affects the market, and other economic stuff... cross check the dates". §24 read news only from its
+footprint on the price (unusual bars), plus Fed decision days. It never used a calendar. This does.
+
+**The calendar:** ForexFactory, the one retail news traders keep open (`backtest/ff_calendar.py`,
+cached, not committed). It has 4,240 events from December 2025 to September 2026, each with its release
+time to the second, its impact rating, actual vs forecast, and FF's notes on unscheduled events.
+For the dollar it holds:
+- 216 high-impact releases and decisions;
+- 333 speeches, 74 of them by the President, the Fed Chair (Powell, then Warsh from May), Treasury
+  Secretary Bessent, or FOMC press conferences;
+- 15 events flagged as surprises.
+
+**The test** (`backtest/his_calendar.py`, `logs/his_calendar.txt`): each entry against the SAME New York
+clock time on the other 175 US trading days of his period, because releases and speeches sit at fixed
+clock times. Predictions were registered first.
+
+| NASDAQ | every entry (46) | | first entry of each day (30) | |
+|---|---|---|---|---|
+| | his / expected | p | his / expected | p |
+| a high-impact release in the prior 60 min | 3 / 2.6 | 0.77 | 2 / 2.0 | 0.98 |
+| … in the prior 3 hours | **13 / 8.2** | **0.044** (Holm 0.31) | 7 / 5.3 | 0.39 |
+| a high-impact release due in the next 60 min | 3 / 1.7 | 0.27 | 2 / 1.5 | 0.65 |
+| a speech started in the prior 60 min | 7 / 4.9 | 0.31 | 5 / 3.1 | 0.25 |
+| President / Fed Chair / Treasury / press conference, prior 2 h | 2 / 2.0 | 0.98 | 2 / 1.0 | 0.32 |
+| any medium/high event within 30 min | 2 / 3.3 | 0.40 | 2 / 2.7 | 0.62 |
+| an unscheduled (surprise) event, prior 2 h | 0 / 0.7 | 0.40 | 0 / 0.4 | 0.50 |
+
+**The days he chose:**
+
+| the day has | his 29 NASDAQ days | the other 147 days |
+|---|---|---|
+| a high-impact release | 44.8% | 45.6% |
+| a President / Chair / Treasury speech | 31.0% | 29.3% |
+| CPI, payrolls or a Fed decision | 20.7% | 17.0% |
+| a surprise-flagged event | 13.8% (4 days) | 4.8% |
+
+On the 4 surprise-flagged days, none of his entries came within 2 hours after the event.
+
+**What it says:**
+- **The calendar does not pick his moments or his days.** Nothing survives Holm, and his days carry
+  releases and big speeches at the base rate.
+- **The only hint:** on mornings with a release he sometimes takes a second or third trade. 13 of 46
+  entries fell within 3 hours after a release against 8.2 expected, but counted once per day it is 7
+  against 5.3. Those 13 all won, averaging $92.69 against $58.33 for the rest. That is 13 trades, and
+  the rest include his one −$483.75 loss.
+- **His biggest days had no scheduled news at all:**
+  - 2026-09-14 14:14–15:02 ET: 7 trades, a −$483.75 loss first, then 6 winners;
+  - 2026-08-10 18:30 ET, after the close: +$273.75;
+  - 2026-08-07 and 2026-07-24.
+
+  Nothing was on the calendar in the 3 hours before or the hour after any of them.
+- **Where news did come just before, it was a speech or a release 20–50 minutes earlier:**
+
+  | date | news before his entry | his trade |
+  |---|---|---|
+  | 01-21 | Trump spoke 23 min before | BUY, +$41 |
+  | 03-16 | Trump spoke 34 min before | BUY, +$63 |
+  | 02-11 | payrolls 44 min before | BUY, +$40.50 |
+  | 02-20 | PCE 32 min before | two trades |
+  | 01-26 | durable goods 50 min before | +$10 |
+
+  That matches §24's reading of the charts: he trades the aftermath, not the release.
+- **Gold and silver** (9 entries, with the 2026-02-02 burst of 37 counted once): 3 came within 3 hours
+  after a release against 1.1 expected (p 0.035, Holm 0.24). That is too few trades to separate from
+  chance. The burst itself (23:51–00:39 ET) had no dollar event near it.
+
+**Predictions:**
+- Right: no feature survives Holm; his days carry releases at the base rate; speeches are not at 2×.
+- Slightly outside the registered 0.7–1.5× band: releases in the prior 3 h (1.59×) and "a release due in the
+  next 60 min" (1.76×, 3 against 1.7), which I had put at or below control.
+
+**Still untested: unscheduled headlines**, meaning Trump's Truth Social posts, which move markets without
+appearing on any calendar. CNN keeps a public archive (`truth_archive.csv`, 14 MB), which needs the user's
+OK to download. One thing limits what posts could explain: §24 found the bars before his entries
+ordinary against the same clock time (the largest 5-minute range in the prior hour). A post that moved
+NASDAQ before he entered would have shown there.

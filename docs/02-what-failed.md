@@ -2996,3 +2996,15 @@ trades on 24 days (`his_orderflow_archive.py`, `his_orderflow_check.py`):
 - Net of the spread, no decile comes near break-even (31–37% against 50%).
 
 **Dead.** This was the last free data source for his pick.
+
+**2026-09-26, the trader's entries against the real news calendar** (his_strategy.md §28,
+`his_calendar.py`). ForexFactory's calendar: 216 high-impact dollar releases and 333 speeches (the
+President, the Fed Chair, Fed members, the Treasury Secretary), each entry against the same New York clock
+time on 175 other days:
+- **Nothing survives Holm.**
+- His trading days carry releases at the base rate (44.8% vs 45.6%) and big speeches too (31% vs 29%).
+- The only hint is more trades on release mornings (13 vs 8.2 within 3 h, p 0.044), gone when each day
+  counts once (7 vs 5.3).
+- His biggest days had nothing on the calendar.
+
+**Scheduled news does not pick his moments.** Unscheduled posts are untested (they need the archive).
