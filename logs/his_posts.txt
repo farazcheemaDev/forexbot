@@ -1,0 +1,72 @@
+Truth Social, 2026-01-01..09-16: 5709 posts (22.1 a day), 1299 on a market topic, 761 followed by a NASDAQ bar >= 2x its clock slot's median range (207 of them on a market topic).
+
+NASDAQ, every entry: 46 entries against the same ET clock time on 176 trading days
+  feature      his  expected  ratio      z      p   Holm
+  post_15        8       5.9   1.36  +0.94  0.347  1.000
+  post_60       22      16.1   1.37  +1.84  0.066  0.329
+  mkt_30         2       3.9   0.51  -1.02  0.306  1.000
+  mkt_60         7       7.2   0.98  -0.07  0.946  1.000
+  move_60        5       3.7   1.33  +0.68  0.498  1.000
+
+NASDAQ, first entry of each day: 30 entries against the same ET clock time on 176 trading days
+  feature      his  expected  ratio      z      p   Holm
+  post_15        6       3.8   1.56  +1.18  0.237  0.947
+  post_60       15      10.3   1.45  +1.82  0.069  0.346
+  mkt_30         2       2.5   0.80  -0.34  0.736  1.000
+  mkt_60         4       4.5   0.89  -0.26  0.796  1.000
+  move_60        3       2.4   1.24  +0.38  0.701  1.000
+
+NASDAQ $ per trade (net), with vs without
+  post_15    with: n  8  $  56.00   without: n 38  $  70.58
+  post_60    with: n 22  $  33.58   without: n 24  $  99.64
+  mkt_30     with: n  2  $ 109.00   without: n 44  $  66.18
+  mkt_60     with: n  7  $   9.18   without: n 39  $  78.61
+  move_60    with: n  5  $  46.40   without: n 41  $  70.68
+
+EVERY NASDAQ ENTRY and the last market-topic post before it
+  2026-01-02 08:51 ET SELL $  38.25 | 353m before: If Iran shots and violently kills peaceful protesters, which is their custom, the United S
+  2026-01-06 09:33 ET SELL $   4.75 | 80m before: The USA markets just hit another ALL TIME HIGH - ALL OF THEM!!! THANK YOU YOU MISTER TARIF
+  2026-01-16 09:45 ET SELL $  14.00 | 838m before: As Steve Witkoff announced, we have OFFICIALLY entered the next phase of Gaza's 20-Point P
+  2026-01-19 08:54 ET BUY  $  48.00 | 584m before: NATO has been telling Denmark, for 20 years, that "you have to get the Russian threat away
+  2026-01-21 08:52 ET BUY  $  41.25 | 1874m before: Shockingly, our "brilliant" NATO Ally, the United Kingdom, is currently planning to give a
+  2026-01-26 09:19 ET BUY  $  10.00 | 48m before: I am sending Tom Homan to Minnesota tonight. He has not been involved in that area, but kn
+  2026-02-04 07:54 ET BUY  $ -24.00 | 969m before: This beautiful building will be, when complete, the much anticipated White House Ballroom 
+  2026-02-11 09:14 ET BUY  $  40.50 | 859m before: Congressman Carlos Gimenez is doing a fantastic job representing Florida's 28th Congressio
+  2026-02-17 12:58 ET SELL $  33.75 | 175m before: RT @realDonaldTrumpIt is my Great Honor to endorse America First Patriot, Clay Fuller, who
+  2026-02-17 12:59 ET SELL $  20.00 | 175m before: RT @realDonaldTrumpIt is my Great Honor to endorse America First Patriot, Clay Fuller, who
+  2026-02-20 09:01 ET BUY  $   3.75 | 71m before: The Democrat Shutdown cost the U.S.A. at least two points in GDP. That's why they are doin
+  2026-02-20 09:02 ET SELL $  95.00 | 72m before: The Democrat Shutdown cost the U.S.A. at least two points in GDP. That's why they are doin
+  2026-02-24 07:32 ET SELL $  45.50 | 921m before: Numerous stories from the Fake News Media have been circulating stating that General Danie
+  2026-02-25 12:51 ET BUY  $  12.50 | 2680m before: Numerous stories from the Fake News Media have been circulating stating that General Danie
+  2026-02-27 13:15 ET BUY  $   9.00 | 65m before [NASDAQ moved]: This beautiful building will be, when complete, the much anticipated White House Ballroom 
+  2026-03-02 13:02 ET BUY  $  23.75 | 1627m before: Trump's bold move to rid the world of Iran's evil regime once and for all: https://nypost.
+  2026-03-03 15:02 ET SELL $  37.50 | 352m before: RT @realDonaldTrumpThe United States Munitions Stockpiles have, at the medium and upper me
+  2026-03-06 05:54 ET SELL $  15.00 | 1075m before [NASDAQ moved]: Mortgage rates fall to lowest level since 2022: https://www.foxbusiness.com/economy/mortga
+  2026-03-16 12:04 ET BUY  $  63.00 | 168m before: The crazed Democrats are not allowing TSA Agents to get paid. The deal was made a long tim
+  2026-03-31 15:58 ET BUY  $  68.00 | 29m before: The National Trust for Historic Preservation sues me for a Ballroom that is under budget, 
+  2026-04-02 11:10 ET BUY  $ 112.00 | 215m before: Victor Davis Hanson Reveals He Was Approached by Chinese Operative Fang Fang But Didn't Fa
+  2026-04-02 11:11 ET BUY  $  28.75 | 216m before: Victor Davis Hanson Reveals He Was Approached by Chinese Operative Fang Fang But Didn't Fa
+  2026-04-06 11:38 ET BUY  $  96.00 | 642m before: It's too bad that the Supreme Court can't watch and study the Mark Levin Show tonight on t
+  2026-04-06 11:44 ET SELL $   6.50 | 648m before: It's too bad that the Supreme Court can't watch and study the Mark Levin Show tonight on t
+  2026-04-28 12:16 ET BUY  $  86.25 | 167m before: Iran has just informed us that they are in a "State of Collapse." They want us to "Open th
+  2026-05-05 11:03 ET BUY  $ 240.00 | 1211m before: "Too Late" is a DISASTER for America! Interest Rates too high!
+  2026-05-07 11:07 ET SELL $   3.00 | 173m before: The Real Deal - GOLD - At Doral in Miami. Put there by great American Patriots!!! Presiden
+  2026-05-07 11:13 ET SELL $  28.00 | 179m before: The Real Deal - GOLD - At Doral in Miami. Put there by great American Patriots!!! Presiden
+  2026-06-05 11:02 ET BUY  $ 150.00 | 29m before: With a great Jobs Report, like just announced, stocks should go up, not down. That's the w
+  2026-06-05 11:04 ET BUY  $ 155.00 | 31m before: With a great Jobs Report, like just announced, stocks should go up, not down. That's the w
+  2026-06-05 11:04 ET SELL $  70.00 | 31m before: With a great Jobs Report, like just announced, stocks should go up, not down. That's the w
+  2026-07-01 11:39 ET SELL $  60.00 | 1081m before: BIG NEWS! For the first time ever, the Republican Party will hold a MIDTERM CONVENTION. It
+  2026-07-01 11:40 ET SELL $ 147.50 | 1081m before: BIG NEWS! For the first time ever, the Republican Party will hold a MIDTERM CONVENTION. It
+  2026-07-10 05:11 ET BUY  $  75.00 | 2136m before: This is in retribution for yesterday's bombing of ships by Iran. If it happens again, it w
+  2026-07-10 12:18 ET BUY  $  65.00 | 106m before [NASDAQ moved]: The Islamic Republic of Iran has asked us to continue "talks." We have agreed to do so, bu
+  2026-07-24 14:57 ET SELL $ 115.00 | 111m before [NASDAQ moved]: The European Union is at it again and, as usual, taking direct aim at GREAT American Compa
+  2026-08-07 12:59 ET BUY  $ 123.75 | 203m before: A must read! Thank you to James Jay Carafano!Donald Trump Won The Iran War: https://www.19
+  2026-08-07 13:03 ET SELL $  97.50 | 207m before: A must read! Thank you to James Jay Carafano!Donald Trump Won The Iran War: https://www.19
+  2026-08-10 18:30 ET SELL $ 273.75 | 293m before: RT: https://truthsocial.com/users/realDonaldTrump/statuses/117072168149236615Also, with re
+  2026-09-14 14:14 ET BUY  $-483.75 | 41m before: Concerning AI, when, in the History of Business, did anyone see the Leaders of an Industry
+  2026-09-14 14:30 ET BUY  $  95.00 | 57m before: Concerning AI, when, in the History of Business, did anyone see the Leaders of an Industry
+  2026-09-14 14:38 ET SELL $  40.00 | 64m before: Concerning AI, when, in the History of Business, did anyone see the Leaders of an Industry
+  2026-09-14 14:46 ET SELL $ 165.00 | 73m before: Concerning AI, when, in the History of Business, did anyone see the Leaders of an Industry
+  2026-09-14 14:49 ET SELL $ 156.25 | 75m before: Concerning AI, when, in the History of Business, did anyone see the Leaders of an Industry
+  2026-09-14 15:00 ET SELL $ 206.25 | 87m before: Concerning AI, when, in the History of Business, did anyone see the Leaders of an Industry
+  2026-09-14 15:02 ET SELL $ 418.75 | 89m before: Concerning AI, when, in the History of Business, did anyone see the Leaders of an Industry

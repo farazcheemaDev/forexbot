@@ -3008,3 +3008,10 @@ time on 175 other days:
 - His biggest days had nothing on the calendar.
 
 **Scheduled news does not pick his moments.** Unscheduled posts are untested (they need the archive).
+
+**Same day, the trader's entries against Trump's posts** (his_strategy.md §29, `his_posts.py`, CNN's
+Truth Social archive). 5,709 posts in his period:
+- Posts that NASDAQ jumped on came before his entries at chance (5 vs 3.7, p 0.50).
+- So did market-topic posts (7 vs 7.2).
+- **Nothing survives Holm.** Two striking cases (a "stocks should go up" post before his jobs-day buys, an
+  AI post before his biggest session) are what 46 trades throw up. The news angle is closed.

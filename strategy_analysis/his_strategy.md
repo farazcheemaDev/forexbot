@@ -1281,3 +1281,58 @@ appearing on any calendar. CNN keeps a public archive (`truth_archive.csv`, 14 M
 OK to download. One thing limits what posts could explain: §24 found the bars before his entries
 ordinary against the same clock time (the largest 5-minute range in the prior hour). A post that moved
 NASDAQ before he entered would have shown there.
+
+## 29. His trades against Trump's posts (2026-09-26)
+
+These are the unscheduled headlines §28 could not see. They come from CNN's public Truth Social archive,
+downloaded with the user's OK (`truth_archive.csv`, 14 MB, not committed). His period has 5,709 posts,
+22 a day at all hours.
+
+**`backtest/his_posts.py`** (`logs/his_posts.txt`) sorts the posts three ways:
+- **every post**;
+- **market-topic posts**: tariffs, China, the Fed, rates, stocks, the economy, oil, Iran and so on, 1,299
+  posts. The word list is crude: "deal" also catches "The Real Deal" and ballroom posts.
+- **posts NASDAQ jumped on**: the 5-minute bar holding the post, or the next one, at 2× its clock slot's
+  usual range. There are 761, defined from the price alone, so they catch any post that "affected the
+  market" whatever its words.
+
+As in §28, each entry was compared with the same New York clock time on the other trading days.
+
+| NASDAQ | every entry (46) | | first entry of each day (30) | |
+|---|---|---|---|---|
+| | his / expected | p | his / expected | p |
+| any post in the prior 15 min | 8 / 5.9 | 0.35 | 6 / 3.8 | 0.24 |
+| any post in the prior 60 min | 22 / 16.1 | 0.066 | 15 / 10.3 | 0.069 |
+| a market-topic post in the prior 30 min | 2 / 3.9 | 0.31 | 2 / 2.5 | 0.74 |
+| a market-topic post in the prior 60 min | 7 / 7.2 | 0.95 | 4 / 4.5 | 0.80 |
+| **a post NASDAQ jumped on, prior 60 min** | **5 / 3.7** | **0.50** | 3 / 2.4 | 0.70 |
+
+**Nothing survives Holm. Posts that moved NASDAQ came before his entries at the chance rate.** His trades
+with any post in the prior hour earned less ($33.58 against $99.64), mostly because the −$483.75 loss is
+among them.
+
+**Two posts are worth reading all the same:**
+- **2026-06-05, 10:33 ET**, just after a strong jobs report: "With a great Jobs Report... stocks should go
+  up, not down." Twenty-nine minutes later he bought twice and sold once, +$375 in all.
+- **2026-09-14, 13:33 ET**: a post on AI regulation. Forty-one minutes later his biggest session began:
+  a −$483.75 buy, then six sells that made it back and more.
+
+Neither post made NASDAQ jump. Over all 46 entries, market-topic posts came before them exactly as often
+as chance (7 against 7.2), so two striking cases are what 46 trades throw up. They are not a pattern.
+
+**His biggest days in posts:**
+- **2026-08-10 18:30 ET:** no post in the 2 hours before.
+- **2026-08-07:** two posts, about endorsements and the courts.
+- **2026-07-24:** one post, about the Senate.
+
+**Predictions:**
+- Right: nothing survives Holm, and posts that moved the market sit at chance.
+- Outside the 0.7–1.5× band: "a market-topic post in the prior 30 min" (0.51×, 2 against 3.9) and, for
+  first entries, "any post in the prior 15 min" (1.56×).
+
+### Where the news question stands
+Scheduled news (§28) and unscheduled posts (§29) were both checked minute by minute against the same clock
+time on other days. **Neither picks his moments or his days.** What the news record does show is his
+style: he sometimes trades 20–50 minutes after a release or a post, in the aftermath. The same entries
+come just as often on days with nothing on the calendar and nothing posted, and those include his biggest
+days.
