@@ -1,0 +1,39 @@
+BASE (12-month, 16 markets, swap-free, ~10% vol): +5.5%/yr, Sharpe 0.56, fall 23%
+
+1. WHERE IT COMES FROM (each class alone, scaled to 10% on its own tune half)
+   FX            7 markets:  +0.3%/yr  Sharpe +0.03 (tune +0.02 / holdout +0.05)  fall 30%
+   commodities   3 markets:  +5.8%/yr  Sharpe +0.60 (tune +0.58 / holdout +0.63)  fall 27%
+   indices       5 markets:  +5.5%/yr  Sharpe +0.55 (tune +0.60 / holdout +0.48)  fall 29%
+   bond          1 markets:  +1.8%/yr  Sharpe +0.18 (tune -0.10 / holdout +0.58)  fall 33%
+
+2. DROP ONE MARKET AT A TIME (same scale as the base)
+   lowest  +5.0%/yr (Sharpe 0.50) without gold
+   highest +6.1%/yr (Sharpe 0.61) without USDCHF
+
+3. WITHOUT ITS BEST YEAR
+   best year 2013 (+26%); without it +4.7%/yr, Sharpe 0.47
+
+4. SIZE (swap-free)
+   10% volatility: +5.5%/yr, fall 23%
+   15% volatility: +8.2%/yr, fall 33%
+   20% volatility: +10.9%/yr, fall 42%
+   30% volatility: +16.4%/yr, fall 58%
+
+5. SMALL CAPITAL: notional per market on $300 at 10% volatility (median month), vs Exness minimums
+   market         needs on $300  Standard min  Cent min
+   EURUSD                   63$       1,139$    11.39
+   GBPUSD                   56$       1,323$    13.23
+   USDJPY                   47$       1,000$    10.00
+   AUDUSD                   44$         703$     7.03
+   USDCAD                   69$       1,000$    10.00
+   USDCHF                   60$       1,000$    10.00
+   NZDUSD                   43$         567$     5.67
+   gold                     27$       4,319$    43.19
+   silver                   14$       3,229$    32.29
+   WTI                      12$          93$     0.93
+   S&P 500                  30$          77$     0.77
+   Nasdaq-100               22$         305$     3.05
+   Dow                      32$         513$     5.13
+   DAX                      28$         254$     2.54
+   Nikkei                   23$           4$     0.04
+   US 10y note              82$           1$     0.01

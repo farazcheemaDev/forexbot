@@ -432,6 +432,30 @@ the box was patched before the repo was public.
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
 
+### 2026-09-25 (day) - back to forex: 33 tests dead, one that holds swap-free (doc 18)
+
+**The trader's material has nothing left to read.**
+- The video and all 55 screenshots are his trade-history list; **none shows his chart**
+  (his_strategy.md §23).
+- The broker statement adds nothing beyond §16–22: every trade row has the same type code "L",
+  and there are no pending orders.
+- His entry choice (+10.4 points a trade) cannot be traced further without asking him, or without
+  a recording of his chart.
+
+**33 new forex tests, all dead after Exness costs** (doc 02 entry, doc 18):
+- nine published calendar and session effects (`fx_anomalies.py`);
+- the Asian-range breakout, 24 cells (`fx_breakout.py`).
+
+**One holds: 12-month trend on 16 markets** (`fx_tsmom.py`, `fx_tsmom_check.py`).
+- +5.5%/yr at 10% volatility, 2004–2026, both halves (Sharpe 0.52 / 0.62).
+- **It needs a swap-free account**: with swap it is −1.6%/yr.
+- It comes from commodities and indices. FX earns nothing (Sharpe 0.03).
+- At $300 it fits only on a Cent account, and even there gold and silver are too big.
+- **Next:** ask the user whether their Exness account is swap-free.
+
+**The crash desk's cap bug** was found and fixed by the other session (commit 9e6365e: a partly
+filled bid escaped the cancel). The demo was restarted on the fix (pid 4600).
+
 ### 2026-09-25 (night) - the machine v2, the crash bids on Bitget, and the crash desk (doc 17)
 
 **The venue question, answered without waiting 6 months** (`wick_bitget.py`). The user could not

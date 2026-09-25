@@ -863,3 +863,20 @@ encoding of him returned PF 0.80 against his real 4.71.
 **This is a complete answer, not a failed search.** It tells you exactly where the value
 sits — in him, not in a method — which is worth knowing before spending another month
 trying to copy it.
+
+## 23. Nothing in the material shows his chart (2026-09-25)
+
+Re-checked for anything unread, because the question left by §22 is "what does he see before he
+enters":
+- **The video:** 94 s, 576×1248, sampled every 4 s. It is the History → Trades list scrolling:
+  NASDAQ and GOLD rows with open/close times, prices and P&L.
+- **The 55 screenshots:** all the same list. Every image has identical darkness (0.08 of pixels
+  under 128), so none of them is a chart screen.
+
+**No chart, indicator, order book or tick screen exists in the material.** The edge measured in
+§22 (+10.4 points a trade from entry choice) cannot be traced further from these files. The only
+two routes left are asking him what he watches, or a recording of his chart while he trades.
+
+Forex strategies tested instead, the same day: doc 18. Nine calendar/session effects and the
+Asian-range breakout are all dead after costs; 12-month trend on commodities + indices holds, but
+only swap-free.

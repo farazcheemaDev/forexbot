@@ -1,0 +1,17 @@
+DIVERSIFIED TREND, 16 markets, monthly rebalance, scaled to ~10% volatility (scale set on the tune half)
+lookback  series          all: %/yr  Sharpe  max DD  TUNE %/yr  Sharpe  HOLD %/yr  Sharpe
+12 months gross               +5.6%   +0.57     23%      +5.4%   +0.54      +5.9%   +0.63
+12 months net_swapfree        +5.5%   +0.56     23%      +5.2%   +0.52      +5.8%   +0.62
+12 months net                 -1.6%   -0.16     54%      -1.5%   -0.15      -1.7%   -0.18
+          (tune to 2017-09-01, holdout after)
+6 months  gross               +2.8%   +0.28     30%      +5.7%   +0.57      -1.6%   -0.17
+6 months  net_swapfree        +2.6%   +0.26     31%      +5.5%   +0.55      -1.9%   -0.20
+6 months  net                 -4.5%   -0.46     72%      -1.3%   -0.13      -9.3%   -0.99
+          (tune to 2017-09-01, holdout after)
+3 months  gross               +3.3%   +0.33     21%      +3.9%   +0.39      +2.4%   +0.25
+3 months  net_swapfree        +3.0%   +0.31     22%      +3.6%   +0.36      +2.1%   +0.22
+3 months  net                 -4.1%   -0.42     67%      -3.2%   -0.32      -5.4%   -0.56
+          (tune to 2017-09-01, holdout after)
+
+12-month lookback, swap-free net, by year: 2004: +5%  2005: +5%  2006: +6%  2007: +12%  2008: +12%  2009: -9%  2010: +7%  2011: -1%  2012: -5%  2013: +26%  2014: +6%  2015: +12%  2016: -10%  2017: +16%  2018: +0%  2019: -4%  2020: +5%  2021: +3%  2022: +8%  2023: -4%  2024: +8%  2025: +17%  2026: +10%
+12-month lookback, WITH swap, by year:    2004: -0%  2005: -3%  2006: -2%  2007: +3%  2008: +7%  2009: -13%  2010: +1%  2011: -7%  2012: -11%  2013: +16%  2014: -3%  2015: +5%  2016: -16%  2017: +5%  2018: -9%  2019: -12%  2020: -2%  2021: -5%  2022: +2%  2023: -10%  2024: -0%  2025: +9%  2026: +5%

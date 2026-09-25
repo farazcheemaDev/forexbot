@@ -2939,3 +2939,22 @@ longer serves used Binance's bars as a stand-in, so dead coins still count.
 - Fills before the cap: 97% of Binance's count.
 
 The venue question doc 16 left open is answered: Bitget is as good as Binance for this.
+
+---
+
+## Dead: 33 forex tests — nine documented effects and the Asian-range breakout (2026-09-25) — `backtest/fx_anomalies.py`, `backtest/fx_breakout.py`
+
+Doc 18 has the detail. In short:
+- **Nine published calendar and session effects:** overnight drift (NDX, SPX), turn of month
+  (NDX, SPX), gold and silver outside New York hours, FX home-hours depreciation, month-end USD
+  rebalancing, and the NDX intraday control.
+- **The retail Asian-range breakout at the London open:** EURUSD, GBPUSD, USDJPY and gold, 2 stops
+  × 3 exits.
+
+**All 33 fail after Exness costs**, on both halves, with Holm. The effects are real but a few
+basis points. For example, NDX overnight is +3.4bp a night gross against 2.8bp of spread + swap,
+and turn-of-month is +5bp over any 4-day hold.
+
+**What survives, and only swap-free:** 12-month trend on commodities + indices (`fx_tsmom.py`,
+doc 18 §4), +5.5%/yr at 10% volatility, 2004–2026, both halves. The FX legs of that book earn
+nothing (Sharpe 0.03).
