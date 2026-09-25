@@ -1,0 +1,14 @@
+39 of his NASDAQ entries have 5-minute bars around them; each ranked against the same ET minute on ~251 other days.
+
+Percentile rank of his entry among the same clock time on other days (0.50 = ordinary).
+  feature     n  mean rank  in top 20%  expected  p (mean>0.5)
+  shock60    39       0.55         23%       20%         0.120   largest bar, prior 60 min
+  vol30      39       0.49         13%       20%         0.576   volume, prior 30 min
+  move60     39       0.49         21%       20%         0.580   move, prior 60 min
+  day0830    35       0.55         34%       20%         0.173   today's 08:30 bar
+  since      39       0.56         28%       20%         0.083   recency of a shock
+  Holm-corrected: since 0.416, shock60 0.481, day0830 0.519, vol30 1.000, move60 1.000
+
+FOMC decision days: 0 of 39 entries (0%) against a base rate of 2.3% of trading days (16 decision dates found for 2025-26)
+
+His results on 'news-footprint' entries (shock60 or day0830 in the top 20%): 19 trades, $1339.00, $70.47 each | the rest: 20 trades, $59.67 each

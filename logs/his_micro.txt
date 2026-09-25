@@ -1,0 +1,20 @@
+1-MINUTE TREND + PAUSE + RESUME on USTECm, 10:30-15:30 ET, 2026-06-04 .. 2026-09-15; points per trade, cost 2.2 pts. His own record: +9.17 gross, +7.17 net of 2 pts, 95.7% wins.
+cell                                     n   gross     net      t  Holm p  1st half  2nd half   win%  PASS?
+pause 1, no filter, target 5          2383   -2.63   -4.83 -21.60   1.000     -5.65     -4.00     64  fail
+pause 1, no filter, target 7          2383   -2.12   -4.32 -17.77   1.000     -5.01     -3.63     60  fail
+pause 1, no filter, target 10         2383   -1.47   -3.67 -13.55   1.000     -4.00     -3.34     55  fail
+pause 1, day filter, target 5         1481   -2.73   -4.93 -17.34   1.000     -5.77     -4.09     64  fail
+pause 1, day filter, target 7         1481   -2.24   -4.44 -14.30   1.000     -5.05     -3.82     59  fail
+pause 1, day filter, target 10        1481   -1.54   -3.74 -10.86   1.000     -3.92     -3.56     54  fail
+pause 2, no filter, target 5          1450   -2.82   -5.02 -17.30   1.000     -6.31     -3.73     64  fail
+pause 2, no filter, target 7          1450   -2.30   -4.50 -14.27   1.000     -5.88     -3.11     59  fail
+pause 2, no filter, target 10         1450   -1.57   -3.77 -10.79   1.000     -4.69     -2.85     55  fail
+pause 2, day filter, target 5          891   -2.86   -5.06 -13.59   1.000     -6.55     -3.58     64  fail
+pause 2, day filter, target 7          891   -2.27   -4.47 -11.07   1.000     -5.92     -3.02     60  fail
+pause 2, day filter, target 10         891   -1.69   -3.89  -8.70   1.000     -4.81     -2.98     54  fail
+pause 3, no filter, target 5           601   -2.36   -4.56 -10.28   1.000     -6.05     -3.09     66  fail
+pause 3, no filter, target 7           601   -1.96   -4.16  -8.54   1.000     -5.75     -2.57     61  fail
+pause 3, no filter, target 10          601   -1.34   -3.54  -6.54   1.000     -4.89     -2.19     56  fail
+pause 3, day filter, target 5          369   -3.17   -5.37  -9.12   1.000     -6.76     -3.98     63  fail
+pause 3, day filter, target 7          369   -2.70   -4.90  -7.68   1.000     -6.12     -3.69     59  fail
+pause 3, day filter, target 10         369   -2.21   -4.41  -6.26   1.000     -5.49     -3.34     53  fail

@@ -880,3 +880,63 @@ two routes left are asking him what he watches, or a recording of his chart whil
 Forex strategies tested instead, the same day: doc 18. Nine calendar/session effects and the
 Asian-range breakout are all dead after costs; 12-month trend on commodities + indices holds, but
 only swap-free.
+
+## 24. Reading his charts, testing news, and encoding what the charts show (2026-09-25)
+
+The user: "don't you see the charts yourself by cross-checking dates and prices? Also, other than charts,
+he relies on news." §15–22 aligned his trades to the bars and MEASURED them. This time they were
+**drawn and read**.
+
+**The charts** (`backtest/his_charts.py` → `logs/his_charts_01..08.png`). All 46 NASDAQ trades are drawn
+on USTECm bars (1-minute from June, 5-minute before), with his fills pinned per trade. A per-contract
+basis put the marks 100–200 points off, because a futures basis decays to expiry; per trade it lines
+up. His exits then match what the chart did, which also confirms GMT+5 again. What they show:
+- **He reads the 1-minute trend and joins it right after a small pause.**
+  - 2026-09-14 is the clearest day: once the day made lower highs after its 13:57 top, he sold
+    every small bounce. Four shorts in 16 minutes (#43–#46), 7–17 points each, size raised from
+    0.20 to 0.25.
+  - The same day's only disaster (#40, −$483.75) was a buy on a dip that he held **48 minutes**
+    while the structure turned.
+  - 2026-08-07 (#37–#38): he bought the first pullback of a V-bounce, then sold into the congestion.
+- **Some entries follow news.**
+  - 2026-02-11 and 2026-02-20 each have a huge 5-minute bar at exactly 08:30 ET, the US
+    data-release time.
+  - He trades 30–45 minutes later, in the aftermath: buying a pause near the high (#8, +14 points),
+    and selling the retest of the level the news broke (#12, +19.5 points).
+- **The 11:00–13:00 ET cluster holds** with a DST-aware conversion: 19 trades, every one a winner.
+  11:00 ET is 16:00 London, the London close and the 4pm fix.
+
+**News, tested** (`backtest/his_news.py`, `logs/his_news.txt`). Each entry was ranked against the SAME
+ET minute on ~251 other days, so clock-time seasonality (08:30, 09:30) cancels:
+
+| feature | mean rank (0.50 = ordinary) | in top 20% | p |
+|---|---|---|---|
+| largest bar, prior 60 min | 0.55 | 23% | 0.120 |
+| volume, prior 30 min | 0.49 | 13% | 0.576 |
+| move, prior 60 min | 0.49 | 21% | 0.580 |
+| today's 08:30 bar | 0.55 | **34%** | 0.173 |
+| recency of a shock bar | 0.56 | 28% | 0.083 |
+
+- None survives Holm.
+- **Fed decision days: 0 of his 39 entries**, against a 2.3% base rate.
+- Entries with a news footprint earned $70 each against $60 for the rest.
+
+Registered: "a moderate effect, significant on at least one". **Wrong.** News is at most a minor
+part of how he picks moments.
+
+**The chart pattern, encoded** (`backtest/his_micro.py`, `logs/his_micro.txt`). The rule: a 1-minute
+trend (EMA20 slope and position), a pause of 1–3 bars against it, then entry on the resuming bar. It
+exits at a 5/7/10-point target, a 20-point stop or 5 minutes, and runs 10:30–15:30 ET on June–September
+1-minute data. 18 cells: **all lose.**
+- Gross: −1.3 to −3.2 points a trade. Net of 2.2 points: −3.5 to −5.4.
+- Wins: 53–66%, where a 7-point target against a 20-point stop needs ~74%. His record is 95.7%.
+
+Registered: "within ±0.5 gross, 0 of 18". The count was right; the gross was worse than predicted.
+
+**Where this leaves him.** The pattern he trades is now visible on his own charts, not only inferred.
+- But *every* pause loses, and *his* pauses win 96% of the time.
+- **What he adds is the choice of which pause**, most likely read from the order flow and the tape's
+  speed at that moment. No 1-, 5- or 60-minute bar feature, and no news footprint, captures it.
+
+This is the fourth independent angle to land on the same answer (§20 features, §22 random entries
+with his exit, the news ranks, the 1-minute encoding).

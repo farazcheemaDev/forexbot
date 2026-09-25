@@ -27,6 +27,20 @@ decipher that". Every number names its file.*
   - At 20% volatility: +10.9%/yr with a 42% fall.
   - A $300 account can hold it only on a Cent account, and gold and silver are still too big there.
 
+## 0. Update, same day: his charts read, news tested, the chart pattern encoded
+
+Prompted by the user ("cross-check dates and prices... he also relies on news"), in
+his_strategy.md §24:
+- **The charts:** all 46 NASDAQ trades are drawn on real bars (`logs/his_charts_*.png`). **He reads
+  the 1-minute trend and joins it after a small pause.** On 2026-09-14 that was four shorts in 16
+  minutes, each on a bounce inside a downtrend. Some entries follow 08:30 ET data releases.
+- **News, tested** against the same clock time on 251 other days: only slightly unusual, none of it
+  significant; **0 trades on Fed decision days**.
+- **The pattern, encoded as a rule:** 18 variants, **all lose** (−3.5 to −5.4 points a trade net;
+  53–66% wins against the ~74% needed).
+
+His skill is choosing WHICH pauses to join, which lives in the tape, not in the bars.
+
 ## 1. The trader's material — checked for anything unread
 
 | source | what it contains | used? |

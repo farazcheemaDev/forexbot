@@ -453,6 +453,13 @@ the detail lives in the numbered docs.*
 - At $300 it fits only on a Cent account, and even there gold and silver are too big.
 - **Next:** ask the user whether their Exness account is swap-free.
 
+**His charts, read at the user's prompt** (his_strategy.md §24):
+- `his_charts.py` draws all 46 NASDAQ trades on real bars: he joins the 1-minute trend after a
+  small pause, and some trades follow 08:30 ET releases.
+- `his_news.py`: news footprints are ordinary against the same clock time; 0 trades on Fed days.
+- `his_micro.py`: the pattern as a rule, 18 of 18 cells lose.
+- His edge is which pause he picks: tape, not bars.
+
 **The crash desk's cap bug** was found and fixed by the other session (commit 9e6365e: a partly
 filled bid escaped the cancel). The demo was restarted on the fix (pid 4600).
 

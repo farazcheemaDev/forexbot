@@ -2958,3 +2958,9 @@ and turn-of-month is +5bp over any 4-day hold.
 **What survives, and only swap-free:** 12-month trend on commodities + indices (`fx_tsmom.py`,
 doc 18 §4), +5.5%/yr at 10% volatility, 2004–2026, both halves. The FX legs of that book earn
 nothing (Sharpe 0.03).
+
+**Same day, the trader's own pattern as a rule** (`backtest/his_micro.py`, his_strategy.md §24). What
+his 1-minute charts show, encoded: join the 1-minute trend after a 1–3 bar pause, 5/7/10-point target,
+20-point stop, 5-minute time stop, 10:30–15:30 ET. **18 of 18 cells lose**: −3.5 to −5.4 points a
+trade net, 53–66% wins against ~74% needed. News-footprint ranks of his entries are also ordinary
+(`his_news.py`). His edge is choosing which pause, and that is not in the bars.
