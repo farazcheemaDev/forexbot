@@ -16,10 +16,20 @@ do
 printf "%s " $S
 systemctl is-active $S || true
 done
-echo ==BOOK-FILE-HASHES-first16==
-sha256sum blend_paper.py | cut -c1-16
-sha256sum combo_paper.py | cut -c1-16
-sha256sum wick_paper.py | cut -c1-16
+echo ==BOOK-BLOB-IDS==
+# NOT sha256sum of the file: this repo
+# stores wick_paper.py with LF and the
+# other two with CRLF, so a Windows disk
+# hash never matches a Linux checkout.
+# A blob id is the same on every OS.
+git rev-parse --short HEAD:blend_paper.py
+git rev-parse --short HEAD:combo_paper.py
+git rev-parse --short HEAD:wick_paper.py
+echo ==FILES-MATCH-THEIR-COMMIT==
+git diff --stat HEAD -- blend_paper.py
+git diff --stat HEAD -- combo_paper.py
+git diff --stat HEAD -- wick_paper.py
+echo nothing-above-means-they-match
 echo ==UNCOMMITTED-ON-THE-BOX==
 git status --porcelain | head -20
 echo ==DONE==
