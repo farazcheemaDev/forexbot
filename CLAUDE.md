@@ -128,6 +128,7 @@ candidate on paper. The rule above still stands for everything else.
 | **Mixed datetime64 units in the row set** | t0 comes back as `[us]` and t1 as `[ms]`, so `date_range` inherits `[us]` from its bounds while `Timestamp.value` returns ns. `searchsorted` then puts every span past the end of the grid and a whole leverage series came back silently ZERO (2026-09-24, cost a run) | Force BOTH sides with `.as_unit("ns")`, and assert the result is non-zero rather than trusting it |
 | **A cancel set defined by bookkeeping, not by the exchange** | `wick_live`'s cap cancelled orders that were `open and not counted`. A PARTLY filled bid is counted but still open, so it survived the cap - and in a sweep deep enough to touch every level, ALL 40 bids are partly filled, so the cap cancelled **0 of 40** (mistake #16, fixed 2026-09-25) | The cancel set is **whatever is still live on the exchange**. Test a safety limit IN the disaster, not in the tidy case |
 | **A test that cannot exhibit the bug** | With one position open at a time the two compounding conventions are arithmetically IDENTICAL, so a non-overlapping test showed $0.00 difference and passed while proving nothing. The bug only bites when positions OVERLAP | Construct the case so the bug MUST appear if it is present |
+| **Trusting `ls` / `date` in Git Bash for "is it stale?"** | They print the Windows local clock (PKT here) but label it PST, so a log written 20 minutes ago read as 13 hours dead and sent a session hunting a wedge that did not exist (2026-09-26) | Get the time from the PROCESS: `datetime.now(timezone.utc)` in Python, and compare it to the log's own UTC prefix |
 | **Timestamp unit mismatch** | `.asof()` raises "Cannot losslessly convert units" (ms index vs ns clock) | `blend_paper._ns()` |
 | **Bar label read as entry time** | `asof(t0)` on a 4h/12h row reads a bar that closed hours after the entry. The short boost's "+0.481R" was 118 look-ahead trades; causal, it is +0.305R and worth ~+0.5%/mo | `causal_t0.real_t0(rows)` |
 | **Fees charged, funding not** | Every figure for the deployed book was fees-only. Funding takes the tune half +16.5% → +12.2%/mo | `funding_cost.charged(...)` |
@@ -382,6 +383,36 @@ even less room. More return comes from 7 units or from capital, not from risk.
   of the account" was a property of `wick_5m.py`, not of the code. Fixed, with two regression tests
   that the old filter fails. **`combo_bot.py` must be restarted to pick it up**; until then the
   running demo carries the old desk.
+
+- **The book sizes orders from MEXC's minimums, but trades BITGET** (found 2026-09-26,
+  `backtest/bitget_minimums.py`, **not fixed**). `combo_bot.py:75` uses a flat `MIN_ORDER = 5.0`
+  and `blend_paper.py:239` uses a MEXC table where LINK is $1.13. Bitget also enforces a minimum
+  AMOUNT in coins - 1 whole LINK, 1 DOT, 0.1 LTC - which neither file knows about. Measured on the
+  triple book with the price at each trade: at $221 Bitget refuses **26.2% of LINK units, 15.1% of
+  DOT, 8.4% of LTC, 6.4% of the book**; at $100, 24.2% of the book. Consequences, in order of
+  importance:
+    1. **It is not a P&L bug.** The netting design means a refused order creates no phantom
+       position - the next poll sees the shortfall and retries. And the floor HELPS return
+       (+0.48 tune / +0.38 holdout %/mo at $221, paired, 10 orderings), because the units it
+       refuses are the ones with the widest stops.
+    2. **It is a retry loop.** The bot re-sends an order the venue can never accept, once per
+       2-minute poll, until the position closes. 188 of the demo's 230 order failures are this,
+       one every 2:10 on the same symbol.
+    3. **It breaks the bot's own PASS test**, which requires zero order failures - so the
+       two-week order-path check cannot currently distinguish a venue artifact from a real fault.
+    4. **Rounding is the part nobody counted**: the amount minimum is also the STEP, so every
+       accepted LINK order is rounded to a whole coin - median size error 9.4% at $221, LTC 6.7%,
+       DOT 4.3%. That applies to every order, not just the small ones.
+  The fix is a per-coin table read from the venue's own `limits` at startup, replacing both the
+  flat $5 and the MEXC table. `small_capital.py`'s headline ("the venue minimum is not the binding
+  constraint") survives - but it was measured on the wrong venue, so say Bitget when quoting it.
+
+- **The crash desk places ZERO bids on the demo** (found 2026-09-26, not a code fault). At $221 a
+  bid is $5.19, and the demo lists only SBTC/SETH/SXRP - all three under Bitget's minimum size at
+  that value, so `wick` logs `0 bids placed` every hour. The desk's state confirms it: 3 coins, 3
+  lifetime fills, all from the earlier `--wick-usd 30` test settings. **So the cancel-at-cap path
+  fixed on 2026-09-25 still cannot be exercised on this demo** - doc 17's "not yet seen on the
+  exchange" is stronger than it reads. Seeing it needs `--wick-usd` above the demo's minimums.
 
 - **`mn_paper.py` over-counts funding, roughly double** (mistake #15, found and verified
   2026-09-24, **not yet fixed**). Its `startTime` is inclusive and its window has no `endTime`, so
