@@ -28,7 +28,8 @@ built into the same bot behind `--wick` and has its order path tested on the dem
   - the crash bids work on **Bitget's own prices**, 2022–2026: +1.01% a fill, identical to
     Binance's on the same hours;
   - four more ideas were tested and are dead;
-  - the crash desk now exists in the live bot and has placed, filled, capped and sold on the demo.
+  - the crash desk now exists in the live bot and has placed, filled and sold on the demo (the cap
+    is tested offline, not yet seen on the exchange).
 - **More size does not buy much.** ×1.2 raises the typical year 8% and deepens the worst month to
   −34%, the fall to 65%, and the worst hour to 35% of the account left. **×1.0 is the setting;
   ×0.85 is the cautious one** (same typical year as the old final version, worst month −25%).
@@ -107,7 +108,7 @@ holdout** (CLAUDE.md §2).
 |---|---|---|---|
 | **The backtest is not the future** | The trend coins were picked with hindsight; the holdout is mined | Gains shrunk 3× for hindsight; losses whole; forward paper books | CLAUDE.md §2, §6 |
 | **Liquidation inside one hour** | Worst hour in 6 years (2025-10-10 21:00): 46% of the account left at ×1.0; 10% if the crash bids were uncapped | 10-fill cap per hour, enforced by a 3-second watcher; 9× trend guard; 30% disaster stops | `joint_worst_hour.py` |
-| **A bad month** | −29% (6 yrs), −25% (2 yrs); one month in ten below about −16% | Only size shrinks it; 16 "brakes" lose to betting smaller | `worst_month.py` |
+| **A bad month** | −29% (6 yrs), −25% (2 yrs); one month in ten below about −16% (final version, `risk_300.py`) | Only size shrinks it; 16 "brakes" lose to betting smaller | `worst_month.py` |
 | **A long fall** | 57% biggest fall; longest from the low back to a new high 232 days | Every one of 172 falls of 20%+ recovered in the backtest | `worst_month.py` C1 |
 | **A worse-than-ever month** | After a made-up −50%: back to $300 within 24 months in 100% of starts at backtest growth, 62% at +50%/yr, 52% at +25%/yr | Keep trading through it; **pause withdrawals under water** ($20/month through it leaves a typical $16) | `worst_month.py` C2, `--stress` |
 | **Edge decay** | Crash bids lost 0.4% a fill in Jan–Jun 2026, then made +2.7% since July | Forward paper book on both venues; H1 false at 12 months drops it | `wick_paper.py` |
