@@ -1,0 +1,12 @@
+24 of his clean entries, 890 same-day comparison moments (same second of the minute), 12 days, 75 features
+
+logistic: his moment's out-of-fold percentile among its group: mean 0.505 (median 0.49; top 10% in 4% of groups)
+  null (a random other moment labelled his, 100x): mean 0.497, 95th pct 0.673; p = 0.360
+
+forest: his moment's out-of-fold percentile among its group: mean 0.486 (median 0.49; top 10% in 8% of groups)
+  null (a random other moment labelled his, 40x): mean 0.490, 95th pct 0.642; p = 0.550
+
+OTHER DAYS: 7438 random moment x direction pairs on 106 days he did not trade; 7-point race base 50.0%, net base 34.7% (break-even 50%)
+  logistic  top 10%: race 50.4% (halves 48.3 / 52.6), net 35.5%  |  top third 50.5%  bottom third 50.4%
+  forest    top 10%: race 49.1% (halves 48.1 / 49.9), net 34.5%  |  top third 49.9%  bottom third 50.6%
+  forest's most-used features: r30_1 0.052, f_dip 0.046, r30_10 0.045, c_wick 0.042, r5_3 0.035, emax 0.031, r5_10 0.028, nvda_lead_120 0.027, r5_11 0.026, f_quiet 0.025, r30_6 0.023, discount 0.023

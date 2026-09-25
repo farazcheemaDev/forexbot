@@ -1,0 +1,8 @@
+POWER CHECK - a hidden rule picks one 'his' moment per group (rule + noise); what does the pipeline recover?
+  rule                         noise  plant rank on rule  logistic  forest
+  wick + dip + low in candle     0.5                0.98     0.961   0.875
+  wick + dip + low in candle     1.5                0.89     0.778   0.730
+  wick + dip + low in candle     3.0                0.79     0.736   0.746
+  30-s move + NVDA lead          0.5                0.98     0.931   0.917
+  30-s move + NVDA lead          1.5                0.87     0.719   0.779
+  30-s move + NVDA lead          3.0                0.75     0.749   0.743

@@ -1548,3 +1548,62 @@ the second: the correlation of 5-second returns peaks at 0 s (0.67). The stocks 
 - his own read of something on his screen.
 
 **One question to him settles it:** what is on his screen in the half-minute before he clicks?
+
+## 33. Every feature at once: can a model see what he sees? (2026-09-26)
+
+The user: "that's on us to figure out". Sections 17–32 tested features one at a time. What that cannot see is a
+**combination**, several things each ordinary alone.
+
+**The model** (`backtest/his_model.py`, `logs/his_model.txt`) takes 75 features at once:
+- NASDAQ's tick path;
+- the candles;
+- the smart-money readings and indicators;
+- the 1-minute patterns;
+- the eight biggest NASDAQ stocks, the dollar and bitcoin;
+- new: the raw path of the last 60 s (5-s slices) and last 5 min (30-s slices), where the price sits in the last
+  candle, the Fibonacci depth of the pullback, and the dip in points.
+
+**The task:** tell his moment from the 40 moments of the same sitting at whole-minute offsets within 20 minutes.
+They have the same second of the minute and the same direction, and none is within 60 s of another of his
+entries. Two models (logistic and random forest) were scored **only on days they never saw**, with a
+shuffle test for what luck gives.
+
+| | his moment's percentile in its group | luck (shuffle), mean / 95th pct | p |
+|---|---|---|---|
+| logistic | **0.505** | 0.497 / 0.673 | 0.36 |
+| random forest | **0.486** | 0.490 / 0.642 | 0.55 |
+
+**On the 106 days he did not trade,** the moments the models rate most like his win the 7-point race 50.4% /
+49.1% of the time (base 50.0%) and net 35.5% / 34.5% (50% needed).
+
+**Could the test have found anything?** (`--power`, `logs/his_model_power.txt`). A hidden 2–3 feature rule plus
+noise picked one moment per group as "his", and the same pipeline had to recover it:
+
+| hidden rule | plant's rank on its rule | recovered: logistic / forest |
+|---|---|---|
+| wick + dip + low in the candle | 0.98 / 0.89 / 0.79 | 0.96 / 0.78 / 0.74 · 0.88 / 0.73 / 0.75 |
+| 30-s move + NVIDIA ahead | 0.98 / 0.87 / 0.75 | 0.93 / 0.72 / 0.75 · 0.92 / 0.78 / 0.74 |
+
+**It could.** A combination that made his moment stand out even at rank ~0.75 would have come back at ~0.74,
+far above luck's 95th percentile. His real moments come back at 0.49–0.51.
+
+**Prediction:** registered "no model finds him" — right.
+
+### What this settles
+Two facts now stand side by side, each tested hard:
+1. **His moment carries real information** about NASDAQ's next one to five minutes: 10 of 12 days at ±7, t 5.8
+   (§32).
+2. **That information is not in anything we can record.** Here "anything" means:
+   - NASDAQ's ticks and candles, and every pattern, indicator and smart-money reading of them;
+   - the S&P, the Dow, the eight biggest NASDAQ stocks, the dollar, bitcoin, gold and USDJPY;
+   - Binance's order flow, the news calendar and Trump's posts;
+   - and, now, any combination of them strong enough to see.
+
+Whatever he looks at, it is not the price history. The candidates left are ones no archive holds:
+- CME's live order book;
+- a paid news or audio feed;
+- a person or group sending him calls;
+- something shown only by his own platform.
+
+**The one way to settle it from our side is going forward, not backward:** record what we can live, and
+compare it with his next trades as they happen.

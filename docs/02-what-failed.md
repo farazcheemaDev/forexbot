@@ -3039,3 +3039,11 @@ the minute:
 - on 114 days none moves the 7-point race by more than +3.1 points.
 
 **Dead.** His edge itself was re-tested and is real: 10 of 12 days at ±7, t 5.8 (`his_race_curve.py`).
+
+**Same day, every feature at once** (his_strategy.md §33, `his_model.py`). 75 features in logistic and random-forest
+models, trained to tell the trader's moment from the 40 other moments of the same sitting at the same second of
+the minute. Scored only on unseen days, his moment ranks 0.505 / 0.486, against luck's 0.497 / 0.490 (p 0.36 /
+0.55). The top-scored moments on 106 other days win the 7-point race 50.4% / 49.1%.
+
+The power check (`--power`) recovers planted 2–3 feature patterns at 0.72–0.96, so a combination that strong
+would have been found. **Dead: his information is not in the recorded data.**
