@@ -27,6 +27,34 @@ decipher that". Every number names its file.*
   - At 20% volatility: +10.9%/yr with a 42% fall.
   - A $300 account can hold it only on a Cent account, and gold and silver are still too big there.
 
+## 00. Update, later: tick data — the pause found, the broker's prices, and what is left
+
+`strategy_analysis/his_strategy.md` §25. The Exness MT5 terminal has USTECm **tick** data back to
+January.
+
+**His broker's prices.** The statement's clock is exact to ±10 s. But in **January–March his fills
+often sat where the real market never traded**: in ~10 of 20 trades he banked more than the market
+ever offered during the trade. **April–September (26 trades, the big lots) is 100% consistent with
+the real market.**
+
+**The pause he joins** (the 26 real trades):
+- a ~5-point NASDAQ-led move over 5 minutes;
+- then all US indices dip ~2 points in 30 s;
+- he enters during that dip, ~18 s into the minute;
+- next: +6 points in 60 s median, and **+7 before −7 in ~85–88% (random: 50%)**.
+
+**What does not pick his pauses out of the others:**
+- the profile as a rule, on every second with real bid/ask: −3.0 a trade, **the same as random**;
+- adding NASDAQ's lead over the S&P;
+- news before or after entry (the 5 minutes after his entries are *calmer* than usual);
+- the day's trend, VWAP, the opening range.
+
+**His 96% win rate is partly the style.** Random entries taking 7 points with no stop win 83%, and
+lose on average. The real skill is the first-7-points call.
+
+**The rest is off the chart** (most likely the order book). Asking him, or a screen recording that
+includes his order-book window, is the only way to crack it.
+
 ## 0. Update, same day: his charts read, news tested, the chart pattern encoded
 
 Prompted by the user ("cross-check dates and prices... he also relies on news"), in

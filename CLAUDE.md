@@ -453,6 +453,17 @@ the detail lives in the numbered docs.*
 - At $300 it fits only on a Cent account, and even there gold and silver are too big.
 - **Next:** ask the user whether their Exness account is swap-free.
 
+**Tick level** (his_strategy.md §25). MT5 has USTECm TICKS from 2026-01 (UTC-aware datetimes are
+required: a naive one is read as local time).
+- **His broker's prices.** January–March fills often sat outside the real market, earning more
+  than the market ever offered in ~10 of 20 trades. April–September is clean (100% inside, basis
+  ±0.5).
+- **The pause he joins:** a NASDAQ-led 5-min move, then a market-wide 30-s dip, entered
+  mid-candle; +7 before −7 in ~85–88% against 50% at random.
+- **As a rule it equals random** (−3.0 points a trade). His pick is not in ticks, pace, other
+  indices, news or the day's trend: most likely the order book.
+- **His 96% is partly structure:** a 7-point target with no stop wins 83% even at random.
+
 **His charts, read at the user's prompt** (his_strategy.md §24):
 - `his_charts.py` draws all 46 NASDAQ trades on real bars: he joins the 1-minute trend after a
   small pause, and some trades follow 08:30 ET releases.

@@ -1,0 +1,8 @@
+118 days with both NASDAQ and S&P ticks; real bid/ask; +7 / -20 / 300s.
+
+lead >=        n  /day  pts/trade      t  1st half  2nd half  win%  +7 hit
+   0.01%    9598  81.3      -2.99 -22.81     -3.11     -2.88    60     58%
+   0.02%    8491  72.0      -3.04 -21.56     -3.15     -2.93    61     59%
+   0.04%    5330  45.2      -3.52 -19.14     -3.62     -3.43    61     60%
+
+Random entries, same hours and exit (his_pullback_ticks.py): -2.88 points a trade, +7 hit 54%.

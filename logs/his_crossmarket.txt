@@ -1,0 +1,13 @@
+26 clean NASDAQ entries (April on); each feature ranked against the same clock second on ~20 other days (0.50 = ordinary; above 0.50 = more in HIS direction).
+
+  feature                  10s       30s       60s      300s
+  USTECm                 0.47      0.38*     0.51      0.57 
+  US500m                 0.45      0.35*     0.47      0.52 
+  US30m                  0.44      0.39*     0.46      0.46 
+  XAUUSDm                0.46      0.41      0.46      0.48 
+  USDJPYm                0.50      0.47      0.52      0.57 
+  US500m-NDX             0.56      0.53      0.45      0.37*
+  US30m-NDX              0.57      0.52      0.46      0.36*
+
+  * = two-sided p < 0.05 before correction; there are 28 cells, so a Holm-corrected pass needs p < 0.0018.
+  strongest: US500m_30 p = 0.0098

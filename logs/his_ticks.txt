@@ -1,0 +1,25 @@
+46 of 46 NASDAQ entries have USTECm ticks (history starts ~2026-02). Points, SIGN-ALIGNED (+ = his way), relative to his entry second.
+
+PATH (median / mean across entries) at seconds from his entry:
+  -600s  -300s  -120s  -60s  -30s  -20s  -15s  -10s  -5s  -2s  +0s  +5s  +10s  +30s  +60s  +120s  +300s  +600s
+  median -1.3  -2.9  -1.0  -1.4  +0.7  -0.5  -0.3  +0.1  +0.3  +0.1  +0.0  -0.4  +0.0  -0.1  +1.7  +1.9  +0.3  +9.6
+  mean   -4.7  -1.3  +1.1  -1.7  +0.9  +0.4  +0.2  +0.3  +0.6  -0.0  +0.0  -0.4  +0.0  +1.2  +2.8  +5.5  +2.8  +8.0
+  share moving his way before entry (price at entry above the price N s earlier):
+    last  10s: 48% his way, 50% against, median -0.1 pts
+    last  30s: 46% his way, 54% against, median -0.7 pts
+    last  60s: 54% his way, 46% against, median +1.4 pts
+    last 300s: 59% his way, 41% against, median +2.9 pts
+
+THE 1-MINUTE CANDLE he entered in, at his entry second:
+  seconds into the minute: median 17
+  CURRENT candle open -> entry: median +0.11 pts, his way in 50%, against in 48%
+  PREVIOUS candle: his way in 59%, against in 41% (median +1.14)
+  previous AGAINST him and current WITH him (pause -> resume inside the candle): 15%
+
+THE TAPE: quote updates in the 60 s before entry vs the same clock minute on ~15 other days
+  median ratio 1.00, mean 1.17, above 1 in 50%, above 1.5 in 20%
+  spread at entry: median 2.16 pts
+
+AFTER his entry (the part he captures): median +60s 1.7, +300s 0.3 pts
+
+per-entry detail: logs/his_ticks.csv

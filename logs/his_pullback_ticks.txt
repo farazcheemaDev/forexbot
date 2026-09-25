@@ -1,0 +1,20 @@
+  fetched 20/119 days
+  fetched 40/119 days
+  fetched 60/119 days
+  fetched 80/119 days
+  fetched 100/119 days
+118 trading days with ticks, 2026-04-01..2026-09-14; 10:30-15:30 ET; real bid/ask; target +7, stop -20, 300s max.
+
+cell                   n  /day  pts/trade      t  Holm p  1st half  2nd half  win%  +7 hit  stop  PASS?
+trend 3 / dip 1    10945  92.8      -3.00 -23.90   1.000     -2.98     -3.01    60     57%   30%  fail
+trend 3 / dip 2    10645  90.2      -2.97 -23.33   1.000     -2.91     -3.03    60     57%   29%  fail
+trend 3 / dip 3    10290  87.2      -2.94 -22.63   1.000     -2.95     -2.93    60     58%   30%  fail
+trend 5 / dip 1    10685  90.6      -2.93 -23.14   1.000     -2.89     -2.97    60     57%   29%  fail
+trend 5 / dip 2    10360  87.8      -2.91 -22.63   1.000     -2.90     -2.93    60     58%   29%  fail
+trend 5 / dip 3     9956  84.4      -3.02 -22.82   1.000     -3.05     -2.98    60     58%   30%  fail
+trend 8 / dip 1    10117  85.7      -2.96 -22.62   1.000     -2.91     -3.00    60     58%   30%  fail
+trend 8 / dip 2     9762  82.7      -2.99 -22.37   1.000     -3.05     -2.93    60     58%   30%  fail
+trend 8 / dip 3     9350  79.2      -3.08 -22.47   1.000     -3.09     -3.07    60     58%   31%  fail
+RANDOM entries      3536  30.0      -2.88                    -3.35     -2.38    58     54%   27%
+
+All points are AFTER the real spread (bought at the ask, sold at the bid); median spread 2.40 pts. His 26 clean trades: +7 reached first in ~81%.

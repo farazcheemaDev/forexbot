@@ -940,3 +940,100 @@ Registered: "within ±0.5 gross, 0 of 18". The count was right; the gross was wo
 
 This is the fourth independent angle to land on the same answer (§20 features, §22 random entries
 with his exit, the news ranks, the 1-minute encoding).
+
+## 25. Tick by tick: the pause he joins, his broker's prices, and what is left (2026-09-25)
+
+Goal set by the user: "find which pause he joins... check the news too... something you are missing".
+The missing piece was **tick data**. The Exness MT5 terminal serves USTECm bid/ask to the millisecond
+back to 2026-01-02; until now only 1-minute bars had been used. Scripts: `his_ticks.py`,
+`his_crossmarket.py`, `his_pullback_ticks.py`, `his_leadership_ticks.py`; the ad-hoc checks are
+recorded in `logs/his_vs_market.csv` and `logs/his_after_activity.csv`.
+
+### 1. His entry SECOND
+- **17 of 46 NASDAQ entries fall 10–19 seconds into a minute**, against 7.7 expected (p ≈ 1e-4,
+  ~6e-4 after six buckets).
+- His gold entries and all his exits are uniform.
+- The effect is stronger in January–March (45%) than April–September (31%).
+
+### 2. The statement's clock is exact, but his January–March PRICES are not the market's
+- **The clock.** Shifting the statement by −600…+600 s, the move between his entry and exit
+  seconds matches his points best at a shift of **0 s**, and the error jumps at ±10 s.
+- **The prices.** Holding the basis at that week's median:
+
+  | | entries inside the real market's range (±2 min) | exits inside | basis scatter |
+  |---|---|---|---|
+  | **April–September, 26 trades** | **100%** | **100%** | 0.5 points |
+  | January–March, 20 trades | 65% | 50% | 9.7 points |
+
+- **The basis-free proof.** In ~10 of the 20 January–March trades he banked more points than the
+  real market ever moved his way while the trade was open:
+  - 2026-01-02: +38.25 against a best of +5.7;
+  - 2026-02-11: +14 when the market never moved his way at all;
+  - 2026-02-24: +7 against −5.
+- **So much of his early small-lot record was earned on his broker's quotes, not the market's.**
+  The April–September record, with bigger lots and most of the money, is fully consistent with the
+  real market.
+
+### 3. The pause he joins (the 26 clean trades, second by second, sign-aligned)
+
+| window | what the market did |
+|---|---|
+| 5 min before | NASDAQ ~+5 points **his way** (62%), and **ahead of the S&P and the Dow** (S&P-minus-NASDAQ rank 0.37) |
+| last 30 s | NASDAQ, the S&P and the Dow **all dipped against him together** (ranks 0.35–0.39), ~2 points |
+| his entry | ~18 s into the minute, **during the dip**, inside the current candle |
+| tape speed | ordinary (tick rate vs the same clock minute: 1.09) |
+| next 60 s | **+6 points** median |
+| first ±7 | **+7 before −7 in ~85–88%** (random: 50%) |
+| next 5 min | **calmer than usual** (range rank 0.41) |
+
+In words: **in a small NASDAQ-led move, he joins on a brief market-wide half-minute pullback,
+mid-candle.**
+
+### 4. Everything else that would pick THAT pause, tested
+
+| what | result |
+|---|---|
+| that profile as a rule, every second of Apr–Sep, real bid/ask (9 cells) | −2.9 to −3.1 points a trade; **random entries −2.9** |
+| plus NASDAQ leading the S&P (3 cells) | −3.0 to −3.5; no better than random |
+| news before entry (§24, same clock time) | ordinary; 0 trades on Fed days |
+| news AFTER entry (a burst he got ahead of) | **ordinary, and calmer than usual** over 5 min |
+| the day's direction, VWAP, range position, opening range | ordinary (with the day's move 50%) |
+| which days he trades (`his_day_choice.py`, earlier) | no feature separates them |
+
+Registered predictions:
+- "a price burst in the last 10–20 s, tape faster": **wrong**, he enters on a dip, at normal speed;
+- "the S&P/Dow lead": **wrong in the way expected**. NASDAQ leads, then everything dips;
+- "the rules lose after the spread": right.
+
+### 5. How much of the 96% is skill
+
+Random entries in his hours, taking +7, with his way of holding:
+- no stop, up to 50 min: **83% win**, but −52 points on an average loser, −2.97 a trade;
+- stop −35: 76%, −2.49 a trade.
+
+**His clean record is 25 of 26** (96%), a win rate that is only borderline better than that
+structure (p ≈ 0.05). **What is clearly skill is the first 7 points: +7 before −7 in ~85–88% of his
+entries against 50% at random.**
+
+### The answer to "which pause"
+
+**The pause is now described exactly** (§3): a half-minute, market-wide dip inside a young
+NASDAQ-led move, entered mid-candle. **He does not take every one.** A rule that takes every one is
+no better than random, and no available data picks his out of the rest:
+- NASDAQ's tick path;
+- tape speed;
+- the S&P, the Dow, gold, USDJPY;
+- news before or after;
+- the day's direction;
+- VWAP;
+- the opening range.
+
+What he uses is outside all of these: most likely **the order book** (depth and the size behind
+the quotes), which no free history records.
+
+**Two things would crack it:** a recording of his screen while he trades, including any order
+book / depth window, or simply asking him what he watches in that half-minute.
+
+**What the statement itself says about him:**
+- the **April–September** record is real skill on real prices;
+- the January–March record leaned on his broker's quotes.

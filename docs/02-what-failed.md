@@ -2964,3 +2964,13 @@ his 1-minute charts show, encoded: join the 1-minute trend after a 1–3 bar pau
 20-point stop, 5-minute time stop, 10:30–15:30 ET. **18 of 18 cells lose**: −3.5 to −5.4 points a
 trade net, 53–66% wins against ~74% needed. News-footprint ranks of his entries are also ordinary
 (`his_news.py`). His edge is choosing which pause, and that is not in the bars.
+
+**Same day, at tick level** (his_strategy.md §25). The pause the trader joins, now exactly measured:
+a NASDAQ-led 5-minute move, then a market-wide 30-second dip, entered mid-candle. It was tested as
+a rule on every second of April–September with real bid/ask:
+- `his_pullback_ticks.py`, 9 cells: −2.9 to −3.1 points a trade;
+- `his_leadership_ticks.py`, 3 cells with NASDAQ leading the S&P: −3.0 to −3.5.
+
+Random entries in the same hours make −2.9. **No better than random.** His selection among those
+pauses is not in the tick price, the tape speed, the other indices, news before or after, or the
+day's trend.
