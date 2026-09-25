@@ -1,0 +1,9 @@
+25 of his clean trades; control: 720 random same-day entries in his direction, exited at the FIRST touch of his points (a mechanical target exit)
+
+                his mean  his median  control mean   diff       p  his >= 0.95  control
+  entry_60          0.65        0.68          0.52  +0.13   0.003           0%       4%
+  entry_300         0.58        0.58          0.51  +0.07   0.123           4%       4%
+  exit_60           0.77        0.74          0.75  +0.02   0.555          16%      21%
+  exit_300          0.71        0.72          0.69  +0.02   0.565          16%      14%
+
+  the price 60 s after the exit, his way: his median -2.31 (share higher 36%), control median -0.50 (share higher 47%)

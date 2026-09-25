@@ -463,7 +463,7 @@ the box was patched before the repo was public.
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
 
-### 2026-09-26 - the trader's pick: every free source read, none holds it (his_strategy.md §26-33)
+### 2026-09-26 - the trader's pick: every free source read, none holds it (his_strategy.md §26-34)
 
 - **His moment is real on mid prices:** 87% (20/23) of 3-minute +7/-7 races won, against 54% for
   other moments of the same 20 minutes, same direction (`his_local.py`, p 0.001). **Net of the
@@ -494,6 +494,10 @@ the detail lives in the numbered docs.*
 - **Every feature at once** (§33, `his_model.py`): 75 features, logistic + forest, unseen days: his
   moment ranks 0.505 / 0.486 vs luck 0.50 (p 0.36 / 0.55); a planted 2-3 feature pattern is
   recovered at 0.72-0.96 (`--power`). His information is real and is not in any recorded data.
+- **Charts read by eye; real-time; copyable** (§34): ordinary setups with look-alikes on every chart;
+  key levels ordinary (median 37 pts away). Exits identical to a mechanical target, so the record
+  is real-time (`his_extremes.py`). A copy 5-10 s late at Exness keeps the edge on his 25 trades
+  (net +-7 race 64-72%, +6.3 to +7.0 pts a trade); gone by 20 s (`his_copy_delay.py`).
 
 ### 2026-09-25 (day) - back to forex: 33 tests dead, one that holds swap-free (doc 18)
 

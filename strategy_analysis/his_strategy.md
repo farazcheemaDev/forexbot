@@ -1607,3 +1607,76 @@ Whatever he looks at, it is not the price history. The candidates left are ones 
 
 **The one way to settle it from our side is going forward, not backward:** record what we can live, and
 compare it with his next trades as they happen.
+
+## 34. Looking at his charts the way he does, and copying instead of decoding (2026-09-26)
+
+The user: "you are not looking correctly". §25–33 measured. This time his trades were **looked at**.
+
+**The charts** (`backtest/his_look.py` → `logs/his_look/01..25.png`). Each clean trade is drawn on **his broker's
+price scale**: his own fills give the exact offset from USTECm that day. There are two views:
+- the 5-minute session up to his entry;
+- 1-minute candles from 45 minutes before to 12 minutes after.
+
+The levels are drawn in: yesterday's high, low and close, today's open, the first-15-minute range, the day's high
+and low, and round 25/50/100s. 17 of the 25 were read by eye.
+
+**What they show:** a discretionary scalper using ordinary setups.
+- **Pullbacks in the last 30–60 minutes' direction:** 07-24 sold the top of a small range in a downtrend; 08-07
+  bought a dip in a range.
+- **Level bounces, even against the trend:** 06-05 bought 29,800 twice in a falling market, then sold the top of
+  the bounce; 04-06 bought the open and yesterday's high as support (+12.5), then sold into 24,300.
+- **A breakout:** 07-10 bought the break above 30,000 at the day's high.
+- **Every chart shows two to four look-alike setups** around his click, and he takes the one that works.
+
+**The eye's impression, tested** (`backtest/his_keylevels.py`, `logs/his_keylevels.txt`). Against the rest of his
+sitting at the same second of the minute:
+- **Distance to key levels:** his entries sit a median 37 points from the nearest one (rank 0.54, ordinary).
+- **Trading off support:** only 1 of 25 was within 10 points of a supporting level, against 6% of the other moments.
+- **Round 50s on his scale:** rank 0.38 (p 0.040, Holm 0.20).
+- **On 106 other days** none moves the 7-point race.
+
+**Prediction wrong:** I registered that his entries would sit closer to key levels (rank ≤ 0.40). **The level
+trades that catch the eye are 4 or 5 of 25.** That is the trap of reading charts by eye.
+
+### Is the record real-time? (`backtest/his_extremes.py`, `logs/his_extremes.txt`)
+His entries carry information no recorded data holds. So the other explanation had to be tested: trades not
+decided in real time. §25 had already found his broker's January–March fills earning moves the market never
+offered. **The exit tells them apart:** with a fixed target, a real-time exit is the first touch, and the price
+after it is luck.
+
+| rank among the prices around it (1 = best) | his | random entries exiting at the first touch of his points | p |
+|---|---|---|---|
+| exit, ±60 s / ±300 s | 0.77 / 0.71 | 0.75 / 0.69 | 0.56 / 0.57 |
+| entry, ±60 s / ±300 s | **0.65** / 0.58 | 0.52 / 0.51 | **0.003** / 0.12 |
+
+- **His exits look exactly like a mechanical target. His record is real-time.**
+- His entries fall in the better part of the minute: a dip buyer, never the exact low (0% at ≥ 0.95).
+- Prediction right.
+
+### If he cannot be decoded, can he be copied? (`backtest/his_copy_delay.py`, `logs/his_copy_delay.txt`)
+Each of his 25 clean entries was entered d seconds late at Exness's quotes, against the same-sitting moments:
+
+| delay | mid race ±7 | net race ±7 (50% = break-even) | +7 target, no stop, net points a trade (win %) |
+|---|---|---|---|
+| 0 s | 88% (nearby 56%) | 44% (42%) | +6.28 (96%) |
+| **5 s** | 84% | **72%** (41%) | +6.26 (96%) |
+| **10 s** | 76% | **64%** (41%) | **+7.00 (100%)** |
+| 20 s | 72% | 48% | +0.98 (92%) |
+| 30 s | 68% | 52% | +1.64 (96%) |
+| 60 s / 120 s | 72% / 38% | 48% / 29% | +0.11 / +0.75 |
+
+The nearby moments make +3.6 a trade with his exit, because they borrow his direction for the ±20 minutes around
+his entry. They are not a tradable baseline.
+
+**Why a 5–10 s copy beats his own second:** in 24% of his entries the price flushes 3–11 points against him in the
+first 5 s, then turns (`median worst −1.46`). He clicks inside the dip and holds through it. A copier 5–10 s behind
+often enters after the flush. **Exness's USTECm spread is fixed through the day** (1.12–3.60 by day), so no spread
+spike explains it.
+
+**The edge survives a copy delay of up to ~10 seconds and is gone by ~20.** At Exness, USTECm is $1 a point per
+lot (0.05 lot minimum). His sizing (~$20–25 a point on ~$4,500) scales to ~1.5 lots on $300: about +$10 a winning
+trade and −$48 on a −31.75-point day like 2026-09-14.
+
+**This is 25 trades on 12 days, and the ±7 net race is sensitive to a point or two, so these are not planning
+numbers.** Prediction: registered "≥ 75% mid race to 10 s, net ≥ 60%, ≥ +3 points a trade at 5–10 s". Right, except
+that I expected a 0-s copy to be the best.

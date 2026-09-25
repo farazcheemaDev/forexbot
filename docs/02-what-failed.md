@@ -3047,3 +3047,13 @@ the minute. Scored only on unseen days, his moment ranks 0.505 / 0.486, against 
 
 The power check (`--power`) recovers planted 2–3 feature patterns at 0.72–0.96, so a combination that strong
 would have been found. **Dead: his information is not in the recorded data.**
+
+**Same day, the trader's charts read by eye, and his key levels** (his_strategy.md §34, `his_look.py`,
+`his_keylevels.py`). His 25 clean trades were drawn on his broker's scale with yesterday's high, low and close,
+the open, the first-15-minute range and the day's high and low.
+- By eye: ordinary setups (pullbacks, level bounces, a breakout), with look-alikes on every chart.
+- Tested: his entries sit a median 37 points from the nearest key level, ordinary against his sitting (rank
+  0.54).
+- **The eye's level impression came from 4–5 memorable trades.**
+- **Not dead:** his record is real-time (exits identical to a mechanical target, `his_extremes.py`), and a copy
+  within ~10 s keeps his edge on these 25 trades (`his_copy_delay.py`, §34).

@@ -1,0 +1,11 @@
+STAGE A - his 25 clean entries (after 09:46 ET) vs the same-sitting moments at the same second (rank: share of those moments with a SMALLER value; low = his are closer)
+  dist_key  rank 0.54   his median   37.2 pts   p 0.541  Holm 1.000
+  room      rank 0.56   his median   55.0 pts   p 0.328  Holm 0.985
+  d100      rank 0.43   his median   25.0 pts   p 0.209  Holm 0.836
+  d50       rank 0.38   his median    9.2 pts   p 0.040  Holm 0.202
+  support   his 1 / 25  vs the sitting's rate 6%  ratio 0.64   p 0.629  Holm 1.000
+
+STAGE B - 8300 random moment x direction pairs on 106 other days; 7-point race base 50.0%
+  support within 10 pts: on 49.6% (n 1187) vs off 50.1%;  halves -0.8 / -0.1
+  dist_key  near third 50.0%  far third 50.0%
+  room      near third 49.0%  far third 51.5%
