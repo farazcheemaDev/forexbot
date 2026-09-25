@@ -1336,3 +1336,86 @@ time on other days. **Neither picks his moments or his days.** What the news rec
 style: he sometimes trades 20–50 minutes after a release or a post, in the aftermath. The same entries
 come just as often on days with nothing on the calendar and nothing posted, and those include his biggest
 days.
+
+## 30. His sessions, and the retail toolkit at his moments (2026-09-26)
+
+The user: "day is not a restriction for him. Sometimes he is so busy, then when free he makes the whole
+10 percent that day. There must be something you are missing, cross check his everything."
+
+### The sessions (from the statement, NASDAQ)
+| | |
+|---|---|
+| sittings (days with a NASDAQ trade) | 30 |
+| sittings with a single trade | **20** |
+| sittings that ended on a win / net positive | **29 of 30** / 29 of 30 |
+| first entry of the sitting, New York time | anywhere from 05:00 to 18:00 |
+
+| month | sittings | NASDAQ profit | best sitting's share |
+|---|---|---|---|
+| Jan / Feb / Mar | 6 / 7 / 5 | $156 / $236 / $207 | 31% / 42% / 33% |
+| Apr / May / Jun | 3 / 2 / 1 | $330 / $271 / $375 | 43% / **89%** / **100%** |
+| Jul / Aug / Sep | 3 / 2 / 1 | $463 / $495 / $598 | 45% / 55% / **100%** |
+
+**The user's reading is right.**
+- He sits down whenever he is free and takes one to three trades.
+- He leaves on a win. On 2026-09-14 that meant trading on after the −$483.75 until he was back in profit.
+- From May on, one sitting makes most or all of the month's ~10%. At 0.20–0.25 lots, 7 points is $140–175,
+  about 3% of the account, so two or three wins are the month.
+- **The comparison that fits this is his moment against the other moments while he is at the screen.** That
+  is §26's same-day ±20-minute design, used again below, not "his days against other days". The calendar and
+  post tests (§28–29) compared the same clock time on other days; they still show that news does not mark
+  his moments. Their day-level rows mean less, for the user's reason.
+
+### The retail toolkit (`backtest/his_ta.py`, `logs/his_ta.txt`)
+This is the chart method most retail traders in Pakistan learn. It was never tested here:
+- **smart-money concepts:** liquidity sweep, fair value gap, break of structure, premium/discount, on 1-
+  and 5-minute candles;
+- **the standard indicators:** price vs EMA 9/21 and EMA 20 on 5 minutes, RSI, Stochastic, MACD, Bollinger %B,
+  the 1-hour trend.
+
+All are rebuilt from ticks, sign-aligned to his direction, and use closed candles only.
+
+**Stage A: his 25 clean entries against ~80 moments of the same day within 20 minutes, same direction.**
+| | his entries | p |
+|---|---|---|
+| EMA, RSI, Stochastic, MACD, Bollinger (1 and 5 min), trend, discount | ranks 0.40–0.54 | ≥ 0.09 |
+| fair value gap (1 min / 5 min) | 1.31× / 1.18× the nearby rate | 0.49 / 0.67 |
+| liquidity sweep (1 min / 5 min) | 1.10× / 1.33× | 0.83 / 0.52 |
+| break of structure | 0.95× | 0.78 |
+
+**Nothing survives Holm. Nothing is even near it.**
+
+*A first run required 60 one-minute candles of warm-up. The tick cache starts at 09:30, so that silently
+dropped the whole 11:00–11:15 cluster (17 of 26 kept). On those 17, his entries leaned against the 1-hour
+trend (rank 0.35, p 0.029), but that faded to 0.40 (p 0.09) with all 25.*
+
+**Stage B: 7,788 random moments on 118 days.**
+- These features describe NASDAQ's ordinary short-term reversal. Price above its EMAs, or high
+  oscillators, win the 3-minute race 3–5 points LESS, on both halves.
+- A fair value gap adds +3.1 points (+2.4 / +3.8).
+- **Nothing gets near break-even after the spread:** the best net win rate is 37.6% (fair value gap)
+  against 35.8% for all moments, with 50% needed.
+
+**Predictions:**
+- Wrong: the sweep came out ordinary (1.10×), where I expected ~1.5×.
+- Right: the rest are ordinary, nothing survives Holm, and in Stage B nothing moves the net race more than
+  3 points.
+
+### What his "10% day" is made of, in plain terms
+**The structure:**
+- a ~7-point target;
+- no stop;
+- one to three trades a sitting;
+- leave when green;
+- about 3% of the account per win.
+
+This makes the ~10% month from one good sitting, and a green sitting almost every time. **The hidden cost
+is the day a position does not come back.** His one such day cost 10% of the account ($483.75), and he
+traded back from it.
+
+**The skill:** the first 7 points go his way in 87% of his entries, against 54% for the other moments
+around them (§26). **What picks that moment is not in:**
+- the price, ticks or other markets;
+- order flow;
+- the news calendar or the posts;
+- any smart-money or indicator reading.

@@ -3015,3 +3015,10 @@ Truth Social archive). 5,709 posts in his period:
 - So did market-topic posts (7 vs 7.2).
 - **Nothing survives Holm.** Two striking cases (a "stocks should go up" post before his jobs-day buys, an
   AI post before his biggest session) are what 46 trades throw up. The news angle is closed.
+
+**Same day, smart-money concepts and the standard indicators at the trader's moments** (his_strategy.md §30,
+`his_ta.py`). Liquidity sweeps, fair value gaps, break of structure, premium/discount, EMA, RSI, Stochastic,
+MACD and Bollinger, on 1- and 5-minute candles rebuilt from ticks.
+- Against the other moments of the same 20 minutes, his 25 clean entries rank ordinary on every one: ranks
+  0.40–0.54, flags 0.95–1.33×, nothing near Holm.
+- On all days no feature gets the net race near break-even (best 37.6% against 35.8%, 50% needed).

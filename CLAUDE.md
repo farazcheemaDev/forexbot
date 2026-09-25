@@ -463,7 +463,7 @@ the box was patched before the repo was public.
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
 
-### 2026-09-26 - the trader's pick: every free source read, none holds it (his_strategy.md §26-29)
+### 2026-09-26 - the trader's pick: every free source read, none holds it (his_strategy.md §26-30)
 
 - **His moment is real on mid prices:** 87% (20/23) of 3-minute +7/-7 races won, against 54% for
   other moments of the same 20 minutes, same direction (`his_local.py`, p 0.001). **Net of the
@@ -482,6 +482,10 @@ the detail lives in the numbered docs.*
   same clock time on other days; nothing survives Holm. His best days had no scheduled news.
 - **Trump's posts** (CNN archive, downloaded with the user's OK, `his_posts.py`, §29): posts that
   moved NASDAQ came before his entries at chance (5 vs 3.7). The news angle is closed.
+- **His sessions and the retail toolkit** (§30, `his_ta.py`): he trades whenever he is free, 1-3
+  trades, leaves green (29 of 30 sittings), and one sitting makes the month from May on. Smart-money
+  concepts and EMA/RSI/Stochastic/MACD/Bollinger rank ordinary at his moments vs the same 20
+  minutes; nothing near Holm.
 
 ### 2026-09-25 (day) - back to forex: 33 tests dead, one that holds swap-free (doc 18)
 
