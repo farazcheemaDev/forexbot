@@ -3030,3 +3030,12 @@ the minute:
 - the best are the inside bar (2.09×, p 0.044) and the pin bar (2.21×, p 0.086);
 - nothing survives Holm (best 0.58);
 - no pattern gets the net race above 37% (50% needed).
+
+**Same day, the eight biggest NASDAQ stocks, the dollar and bitcoin before the trader's entries**
+(his_strategy.md §32, `his_generals.py`). NVDA, MSFT, AAPL, AMZN, GOOGL, META, AVGO and TSLA from MT5 ticks at
+1 second, aligned to the second:
+- they lead Exness's NASDAQ by at most 5 seconds;
+- at his entries they rank ordinary (0.43–0.58), and so do the dollar and bitcoin;
+- on 114 days none moves the 7-point race by more than +3.1 points.
+
+**Dead.** His edge itself was re-tested and is real: 10 of 12 days at ±7, t 5.8 (`his_race_curve.py`).

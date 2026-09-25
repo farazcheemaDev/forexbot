@@ -463,7 +463,7 @@ the box was patched before the repo was public.
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
 
-### 2026-09-26 - the trader's pick: every free source read, none holds it (his_strategy.md §26-31)
+### 2026-09-26 - the trader's pick: every free source read, none holds it (his_strategy.md §26-32)
 
 - **His moment is real on mid prices:** 87% (20/23) of 3-minute +7/-7 races won, against 54% for
   other moments of the same 20 minutes, same direction (`his_local.py`, p 0.001). **Net of the
@@ -488,6 +488,9 @@ the detail lives in the numbered docs.*
   minutes; nothing near Holm.
 - **Every 1-minute candle pattern** (§31, `his_1m.py`): 13 patterns incl. the forming candle, at
   the same second of the minute; best inside bar 2.09x (p 0.044), nothing survives Holm.
+- **His edge re-tested, and the big stocks** (§32): the 87% is real - 10 of 12 days at +-7 (t 5.8),
+  8 of 12 at +-10, not at +-4: it is direction over 1-5 minutes. The 8 biggest NASDAQ stocks,
+  the dollar and bitcoin (MT5 ticks) rank ordinary before his entries. His broker has no lag.
 
 ### 2026-09-25 (day) - back to forex: 33 tests dead, one that holds swap-free (doc 18)
 

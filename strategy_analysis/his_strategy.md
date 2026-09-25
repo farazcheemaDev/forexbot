@@ -1465,3 +1465,86 @@ The small signs agree with §26:
 **Reading the 1-minute chart the way a 1-minute trader does does not find his pick either.** His moments
 look like a quiet candle and a dip inside the next one. So do half the moments around them, and those win
 the first 7 points 54% of the time, not 87%.
+
+## 32. The 87% attacked, not assumed, and the big stocks checked (2026-09-26)
+
+The user: "there must be something that tells them apart - he sees what we don't". Every search since §26
+rests on one number (+7 before −7: 87% against 54%), so it was attacked first. The crack to test: net of the
+spread his entries equal random (42% against 42%, §26).
+
+### It holds, and it is about direction over minutes (`backtest/his_race_curve.py`, `logs/his_race_curve.txt`)
+Symmetric race, his 25 clean entries against ~80 same-day moments within 20 minutes, same direction:
+
+| race to ±T (600 s) | 2 | 3 | 4 | 5 | 6 | **7** | 8 | 10 | 12 | 15 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| his entries | 52% | 68% | 68% | 64% | 68% | **88%** | 80% | 80% | 80% | 82% |
+| nearby | 53% | 54% | 54% | 55% | 56% | 57% | 58% | 59% | 60% | 61% |
+
+- **With a +7 target and any stop from 3 to 20 points**, his entries lead by +12 to +31.
+- **Counted by day** (his 25 entries fall on 12 days, and same-day trades are not independent):
+
+  | race | days above nearby | mean edge | t |
+  |---|---|---|---|
+  | ±7 | 10 of 12 | +32.5 | 5.8 |
+  | ±10 | 8 of 12 | +23.6 | 3.7 |
+  | ±4 | 7 of 12 | +8.9 | 0.7 |
+
+- **The path.** One minute after his entry NASDAQ is a median +6.6 points his way, against 0.0 for the
+  moments around him. His worst point in that minute is a median −1.9.
+
+**So the user is right that something separates his moments.** It is real directional information about the
+next one to five minutes. It is not about the next few ticks: at ±2–4 points he is ordinary.
+
+**Predictions:**
+- Registered: that the edge would prove fragile (≤ +10 at small races, gone with tight stops, a dip first).
+  **All three were wrong.** The edge is broader than I expected.
+- Right: no broker lag (next part).
+
+### His broker's prices, second by second (parts D and F)
+- **No lag.** The real market's move over his exact entry and exit seconds matches his points best at a shift
+  of 0 to +1 second. His broker quotes the real market in real time.
+- **His costs.** The real mid moved a median 3.24 points more than he banked, so his broker's prices cost him
+  about 3–4 points a round trip. Exness USTECm's spread is 1.1–3.6.
+- **Entries** come after a small drop against him in the previous 1–6 seconds (~0.7 points), with no
+  immediate bounce.
+- **Exits** land on a tiny peak: 1–6 seconds later the price is back below it about 70% of the time. That is
+  hitting a target on an up-tick, not a signal.
+- The statement's type code "L" marks every trade row, with "WD" for withdrawals. It is the row type, not
+  the order type.
+
+### The big stocks, the dollar and bitcoin (`backtest/his_generals.py`, `logs/his_generals.txt`)
+**The idea:** something leads NASDAQ by minutes, so the most obvious untested candidate is the stocks that
+make up the index.
+
+**The data:** on 114 days, the eight largest (NVDA, MSFT, AAPL, AMZN, GOOGL, META, AVGO, TSLA; about half of
+NASDAQ's weight) as MT5 tick CFDs, plus the dollar index and bitcoin, on 1-second prices. They are aligned to
+the second: the correlation of 5-second returns peaks at 0 s (0.67). The stocks lead Exness's NASDAQ by up to
+5 seconds (0.12), not minutes.
+
+| his entries vs the same 20 minutes | rank | p |
+|---|---|---|
+| the eight stocks ahead of NASDAQ, 30 s / 2 min / 5 min | 0.43 / 0.57 / 0.58 | ≥ 0.19 |
+| the eight stocks' move; how many moved his way | 0.47 / 0.48 | ≥ 0.63 |
+| NVIDIA ahead of NASDAQ, 2 min | 0.58 | 0.16 |
+| the dollar (inverted) / bitcoin, 2 min | 0.40 / 0.48 | 0.08 / 0.70 |
+
+- **Nothing survives Holm.**
+- On all 114 days, none moves the 7-point race by more than +3.1 points (the stocks' 30-second lead). None
+  gets the net race above 35.3%, with 50% needed.
+- Prediction right.
+
+### Where "what he sees" now stands
+**What we now know about it:**
+- It is real, about ten days out of twelve, and it predicts NASDAQ's direction over the next one to five
+  minutes.
+- It is not in NASDAQ's price, ticks, candles, patterns, smart-money readings or indicators.
+- It is not in the S&P, the Dow, the eight biggest NASDAQ stocks, the dollar, bitcoin, gold or USDJPY.
+- It is not in Binance's order flow, the news calendar or Trump's posts.
+
+**What is left is only what no archive holds:**
+- CME's live order book;
+- a paid news terminal or squawk;
+- a person or group sending him calls;
+- his own read of something on his screen.
+
+**One question to him settles it:** what is on his screen in the half-minute before he clicks?

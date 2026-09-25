@@ -1,0 +1,23 @@
+stock ticks for 114 of 118 NASDAQ tick days; DXY on 118, BTC on 118
+
+STAGE A - his 24 clean entries (09:30-16:00 ET) vs ~80 same-day moments within 20 min, same direction
+  feature         rank  his median      p   Holm
+  lead_30         0.43       -0.14  0.247  1.000
+  lead_120        0.57        0.32  0.229  1.000
+  lead_300        0.58        0.41  0.185  1.000
+  gmove_120       0.47        0.97  0.627  1.000
+  breadth_60      0.48        4.00  0.774  1.000
+  nvda_lead_120   0.58        2.96  0.157  1.000
+  dxy_120         0.40       -0.25  0.079  0.635
+  btc_120         0.48        1.54  0.704  1.000
+
+STAGE B - 9110 random moment x direction pairs on 114 days: 7-point NASDAQ race (mid, 600 s), base 50.0%; net race base 34.3% (break-even 50%)
+  feature         low 1/3  high 1/3   diff 1st half 2nd half  net high
+  lead_30           48.5%     51.5%   +3.1     +2.9     +3.2     35.3%
+  lead_120          49.8%     50.2%   +0.4     +1.7     -0.8     34.7%
+  lead_300          51.3%     48.7%   -2.5     -2.1     -3.0     33.9%
+  gmove_120         51.5%     48.5%   -3.1     -2.2     -4.0     33.2%
+  breadth_60        51.4%     48.8%   -2.6     -2.9     -2.3     33.7%
+  nvda_lead_120     50.6%     49.4%   -1.2     -1.4     -0.9     34.0%
+  dxy_120           52.9%     47.1%   -5.8     -2.5     -9.7     32.6%
+  btc_120           52.4%     47.6%   -4.8     -2.5     -7.1     33.1%
