@@ -171,7 +171,7 @@ wick_paper.py      THE CRASH BIDS (doc 16 s7), pre-registered: top-40 bids 10% u
 xs_paper.py        an EARLIER pre-registered XS test (21 coins, daily). Frozen — do not edit
 combo_bot.py       THE LIVE COMBINATION BOT (2026-09-24): combo_paper's three books executed on ONE Bitget
                      account, netted per coin, cross margin, 30% disaster stops, intrabar trend stops.
-                     --mode demo (running locally; the demo lists only SBTC/SETH/SXRP, so every coin is
+                     --mode demo (ON THE VM since 2026-09-29, combo-bot-demo.service; the demo lists only SBTC/SETH/SXRP, so every coin is
                      routed onto those by dollar value: an ORDER-PATH test, P&L meaningless), --mode dry
                      (all coins, no orders), --mode live (refused: ALLOW_REAL = False). --report = the
                      2-week check. tests/test_combo_bot.py: 14 offline tests on a fake exchange.
@@ -539,6 +539,14 @@ the detail lives in the numbered docs.*
   It starts fresh, so its first poll closes what the PC bot left open. Tested on a fake VM and
   with the real PowerShell script. **If the Bitget key is IP-whitelisted to the PC, add the VM's
   IP on Bitget, or every private call fails.**
+- **DONE: the demo bot runs on the VM since 2026-09-29 19:58 UTC** (`combo-bot-demo.service`,
+  `--mode demo --wick`, fresh state in `logs/combo_bot_demo/`). The PC demo (pid 4600) was told
+  to stop. First poll: MN rebalance #1 (12 names, $18.42 each), then it netted the PC bot's
+  leftovers - SBTC reduced, SETH and SXRP closed - every fill priced by `fetch_order`, slippage
+  +4.3 / -1.1 / +4.7bp, and a disaster stop placed. **The crash desk placed its first real-settings
+  bid** (XRP, $5.52 = equity/40; BTC and ETH are still under Bitget's minimum). One bid an hour
+  still cannot exercise the cap-at-10 path. The two-week `--report` check restarts from here, on
+  the fixed code. Check: `./.venv/bin/python combo_bot.py --mode demo --report` on the VM.
 
 ### 2026-09-26 - the trader's pick: every free source read, none holds it (his_strategy.md §26-34)
 
