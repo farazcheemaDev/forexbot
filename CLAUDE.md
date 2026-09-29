@@ -530,6 +530,15 @@ the detail lives in the numbered docs.*
   read from its own record in six months without a new test.
 - **Bitget minimums fixed in `combo_bot.py`** (§7b) - the step between the bot and a readable
   two-week PASS check.
+- **The demo bot can move to the VM** (`combo-bot-demo.service`). It MOVES, it does not copy:
+  one account, one bot, and the guard cannot see across machines. Steps: stop the PC bot; on the
+  PC run `deploy/make_key_paste.ps1`, which copies a Run command paste to the clipboard that
+  writes the PC's BITGET_* variables to `/etc/forexbot.env` (600, root; base64 in 30-char pieces,
+  and it refuses values systemd would misread); paste it; then paste
+  `deploy/install_demo_bot.sh`. The installer refuses with no keys file or another bot on the VM.
+  It starts fresh, so its first poll closes what the PC bot left open. Tested on a fake VM and
+  with the real PowerShell script. **If the Bitget key is IP-whitelisted to the PC, add the VM's
+  IP on Bitget, or every private call fails.**
 
 ### 2026-09-26 - the trader's pick: every free source read, none holds it (his_strategy.md §26-34)
 
