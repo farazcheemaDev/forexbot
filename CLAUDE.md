@@ -382,9 +382,11 @@ even less room. More return comes from 7 units or from capital, not from risk.
   2026-09-29, `rebuild_equity.py`, **not fixable in place, measured instead**). Positions opened
   before the entry-sized fix carry no `risk_usd`, so blend_paper still sizes them at CLOSE, each
   on the one before. On 2026-09-28 eight such runners closed in two polls and the triple went
-  $209.68 -> $883.52 recorded; entry-sized, the same 548R is ~$555. It cannot recur (every
-  pre-fix position has now closed or will close the same way once), but the inflated level
-  stays in every book's state. **Compare the books with `python rebuild_equity.py`** (one line
+  $209.68 -> $883.52 recorded; entry-sized, the same 548R is ~$555. **It WILL recur on main,
+  sized and short-boost**: without the tight exit they did not sell on 09-28, so they still hold
+  their pre-fix runners (VM 2026-09-29: all 36 / 1 / 1 of their closes legacy, $207 banked), and
+  their recorded equity will jump the same way when those close. The four tight books have
+  banked theirs. The inflated level stays in every book's state. **Compare the books with `python rebuild_equity.py`** (one line
   per book: recorded, CORRECTED, and a self-check that replays the log to the cent) **or by R -
   never by `blend_paper.py --status` equity.**
 
@@ -501,6 +503,15 @@ the detail lives in the numbered docs.*
   shows only the tail; ask for one command, or a filtered one, at a time.
 - To deploy: `deploy/update_combo.sh` (pull, blob-id check that blend_paper.py is unchanged,
   tests, restart combo-paper only, status, corrected equity).
+- **Deployed on the VM 2026-09-29, first readings** (update_combo.sh output):
+  - H1 fair: **combo x0.945 | triple x0.966** on 12 trades. Inside the predicted x0.90-x1.05.
+  - `rebuild_equity.py`: **all seven books MATCH to the cent** (fix marker 2026-09-23 06:09:05).
+    Corrected, recorded: main $207.15 / $207.25, tight $492.75 / $727.43, tstop $489.53 / $715.04,
+    units $544.77 / $878.14, triple $541.55 / $863.09.
+  - The factorial on corrected equity: **7 units +$52** (units - tight, triple - tstop),
+    **time stop -$3** (tstop - tight, triple - units). ONE event - the same runners banked on the
+    09-28 break, units 6-7 added to them after the fork. The backtest's direction, once; not a
+    verdict. Main's $207 is not comparable here: its runners are still open.
 
 ### 2026-09-26 - the trader's pick: every free source read, none holds it (his_strategy.md §26-34)
 
