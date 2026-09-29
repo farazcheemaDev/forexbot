@@ -302,6 +302,27 @@ def fetch_all(syms: list[str]) -> dict[str, pd.DataFrame]:
     return out
 
 
+def held_closes(held: list[str], syms: list[str], bar_time) -> dict[str, float]:
+    """The close of `bar_time` for coins the book HOLDS but the candidate pool left out.
+
+    FIXED 2026-09-29. The pool is the top CAND_N by the LAST 24h's volume, so a held coin whose
+    volume fades drops out of it while still listed and still held. Both books then read "no
+    fresh bar" as a delisting and exited it at the previous mark, booking zero for its day and
+    leaving the slot empty until the next rebalance: combo_paper lost CAP, CYS and TUT that way
+    in its first three days (12 names -> 9). Fetched here for MARKING ONLY - they never enter
+    `bars`, so eligibility and the targets are unchanged. A coin no longer listed, or whose last
+    closed bar is not `bar_time` (halted), is left out and the caller exits it as before."""
+    listed, out = set(syms), {}
+    for s in held:
+        if s not in listed:
+            continue
+        d = daily(s, limit=5)
+        if d is not None and len(d) and d.time.iloc[-1] == bar_time:
+            out[s] = float(d.close.iloc[-1])
+        time.sleep(0.05)
+    return out
+
+
 def cycle(st: dict):
     syms, floors = perp_universe()
     cand = candidates(syms)
@@ -319,15 +340,17 @@ def cycle(st: dict):
 
     # ---- 1. mark the book on the new daily close ----------------------------
     w = st["weights"]
+    extra = held_closes([s for s in w if s not in bars], syms, bar) if w else {}
     if w and st["mark_px"]:
         rets, missing = {}, []
         for s, x in w.items():
             d = bars.get(s)
+            p1 = float(d.close.iloc[-1]) if d is not None else extra.get(s)
             p0 = st["mark_px"].get(s)
-            if d is None or not p0:
+            if p1 is None or not p0:
                 missing.append(s)
                 continue
-            rets[s] = float(d.close.iloc[-1]) / float(p0) - 1.0
+            rets[s] = p1 / float(p0) - 1.0
         gross = sum(w[s] * rets[s] for s in rets)
         since = st.get("last_fund_ms") or int(bar.timestamp() * 1000) - 86400_000
         fnd = {s: funding_since(s, since) for s in w}
@@ -343,7 +366,8 @@ def cycle(st: dict):
         st["cum_fund"] += carry
         st["n_marks"] += 1
         if missing:
-            # A held coin with no fresh bar has been DELISTED or halted. Its last mark is
+            # A held coin with no fresh bar has been DELISTED or halted (held coins outside
+            # the candidate pool are fetched by held_closes, so it is not that). Its last mark is
             # the fair exit (Binance settles a delisted perp near mark) - the same
             # convention the backtest uses. Drop it and log it; never silently ignore.
             log(f"    no fresh bar for {', '.join(missing)} - exiting at last mark")
@@ -360,6 +384,7 @@ def cycle(st: dict):
     st["last_bar"] = key
     st["last_fund_ms"] = int(bar.timestamp() * 1000)
     st["mark_px"] = {s: float(d.close.iloc[-1]) for s, d in bars.items()}
+    st["mark_px"].update(extra)
     if st["dead"]:
         return
 

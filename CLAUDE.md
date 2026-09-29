@@ -1,6 +1,6 @@
 # CLAUDE.md — read this first, every session
 
-*Last updated 2026-09-25. Dated history in §10.*
+*Last updated 2026-09-29. Dated history in §10.*
 
 This file is the orientation for a new session. It is deliberately short. It tells you the
 goal, the rules that keep the numbers honest, where everything is, and the traps that have
@@ -378,6 +378,24 @@ even less room. More return comes from 7 units or from capital, not from risk.
 
 ## 7b. OPEN BUGS — read before trusting a live book's numbers
 
+- **The seven blend books' RECORDED equity is overstated - the triple's by ~$325** (found
+  2026-09-29, `rebuild_equity.py`, **not fixable in place, measured instead**). Positions opened
+  before the entry-sized fix carry no `risk_usd`, so blend_paper still sizes them at CLOSE, each
+  on the one before. On 2026-09-28 eight such runners closed in two polls and the triple went
+  $209.68 -> $883.52 recorded; entry-sized, the same 548R is ~$555. It cannot recur (every
+  pre-fix position has now closed or will close the same way once), but the inflated level
+  stays in every book's state. **Compare the books with `python rebuild_equity.py`** (one line
+  per book: recorded, CORRECTED, and a self-check that replays the log to the cent) **or by R -
+  never by `blend_paper.py --status` equity.**
+
+- **FIXED 2026-09-29: both market-neutral books dropped held coins that left the top-120 pool.**
+  `combo_paper.py` and `mn_paper.py` priced only today's top 120 by 24h volume, and read a held
+  coin outside it as delisted: exited at the previous mark, zero for its day, slot empty until
+  the next rebalance. The combo lost CAP, CYS and TUT that way in three days (12 names -> 9).
+  `mn_paper.held_closes` now prices them; `tests/test_mn_held.py` fails on the old code. Takes
+  effect on restart (`deploy/update_combo.sh` on the VM; `mn_paper.py` wherever it runs). The
+  three names stay out until the 2026-10-01 rebalance.
+
 - **FIXED 2026-09-25: `wick_live.py`'s cap cancelled nothing in a full sweep** (mistake #16). The
   live crash desk did not implement the cap its own backtest models — doc 16's "capped leaves 47%
   of the account" was a property of `wick_5m.py`, not of the code. Fixed, with two regression tests
@@ -462,6 +480,27 @@ the box was patched before the repo was public.
 
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
+
+### 2026-09-29 - "triple x4.142" was accounting; the combo's H1 yardstick fixed at day 5
+
+- **The combo's day-5 status** read combo x0.951 against triple x4.142. The triple number is
+  two artifacts stacked (§7b): its reference was REALISED equity while it held runners opened
+  ~09-17 that the combo never held, and eight of them closed on 09-28 through the legacy
+  sized-at-close path ($209.68 -> $883.52; entry-sized ~$555). Confirmed to the cent on the
+  VM's own rows: each legacy close is `prev x (1 + 0.003 x R)`, LTC's post-fix long is not.
+- **H1 now reads a fair line** (`combo_paper.triple_fair`): the triple's trades OPENED since
+  the combo started, replayed from $221, sized at entry. The registered line is still printed,
+  labelled. Prediction recorded before the VM's first reading: x0.90-x1.05.
+- **`rebuild_equity.py` rewritten**: all seven books, forked books replayed from main at the
+  fork, and a self-check that reproduces the recorded column row by row by modelling the bot's
+  IN-POLL order (BOOK coin order, then sleeve). Without that order the real 09-28 rows cannot
+  be reproduced - SHIB, WLD and ARB were opened between closes of the same poll. The old
+  check only modelled the legacy convention, so it could never pass on a log spanning the fix.
+- **MN held-coin bug fixed** in both market-neutral books (§7b).
+- **Azure Run command keeps only the last ~4KB of output.** A paste that runs several commands
+  shows only the tail; ask for one command, or a filtered one, at a time.
+- To deploy: `deploy/update_combo.sh` (pull, blob-id check that blend_paper.py is unchanged,
+  tests, restart combo-paper only, status, corrected equity).
 
 ### 2026-09-26 - the trader's pick: every free source read, none holds it (his_strategy.md §26-34)
 
