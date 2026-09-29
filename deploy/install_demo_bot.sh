@@ -53,7 +53,8 @@ echo BLOBS_OK
 chown -R $OWNER:$OWNER /opt/forexbot
 echo ==4-CCXT==
 sudo -u $OWNER $P -m pip install -q ccxt
-sudo -u $OWNER $P -m pip show ccxt|head -2
+sudo -u $OWNER $P -m pip show ccxt >/tmp/p
+head -2 /tmp/p
 echo ==5-TESTS-stop-here-if-any-fail==
 for X in combo_bot wick_live combo_paper
 do
@@ -81,4 +82,4 @@ grep -e rror -e raceback /tmp/c|head -8
 grep REFUS /tmp/c|head -3
 echo errors-above-if-any
 L=logs/combo_bot_demo/combo_paper.log
-tail -n 12 $L
+tail -n 12 $L||tail -n 15 /tmp/c
