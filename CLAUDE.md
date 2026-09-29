@@ -404,8 +404,17 @@ even less room. More return comes from 7 units or from capital, not from risk.
   that the old filter fails. **`combo_bot.py` must be restarted to pick it up**; until then the
   running demo carries the old desk.
 
+- **FIXED IN THE BOT 2026-09-29, paper books unchanged:** `combo_bot.py` now reads each coin's
+  step, amount minimum and value floor from Bitget's own market record (`Venue.rules`), rounds
+  to the NEAREST step, and does not send an order the venue cannot accept - logged once as
+  `BELOW VENUE MINIMUM`, counted in `--report`, never an ORDER FAILED. A full close always goes.
+  5 new tests in `tests/test_combo_bot.py` (19 total), all 5 fail on the old code. **Takes effect
+  when the demo bot on your PC is restarted.** `blend_paper.py`'s MEXC table is untouched - it
+  decides the PAPER books' entries, which are pre-registered and hash-checked. Not verified
+  against Bitget's live list from the cloud container (network blocks it); `--mode dry` on your
+  PC does that. The original finding:
 - **The book sizes orders from MEXC's minimums, but trades BITGET** (found 2026-09-26,
-  `backtest/bitget_minimums.py`, **not fixed**). `combo_bot.py:75` uses a flat `MIN_ORDER = 5.0`
+  `backtest/bitget_minimums.py`). `combo_bot.py:75` uses a flat `MIN_ORDER = 5.0`
   and `blend_paper.py:239` uses a MEXC table where LINK is $1.13. Bitget also enforces a minimum
   AMOUNT in coins - 1 whole LINK, 1 DOT, 0.1 LTC - which neither file knows about. Measured on the
   triple book with the price at each trade: at $221 Bitget refuses **26.2% of LINK units, 15.1% of
@@ -512,6 +521,15 @@ the detail lives in the numbered docs.*
     **time stop -$3** (tstop - tight, triple - units). ONE event - the same runners banked on the
     09-28 break, units 6-7 added to them after the fork. The backtest's direction, once; not a
     verdict. Main's $207 is not comparable here: its runners are still open.
+- **The other session's "all-weather" weights (MN 1.5x, sleeve 1.5x) are NOT adopted.** Its commit
+  `e5d4c70` / doc 19 never reached GitHub. Its own honest finding stands (a typical sideways month
+  still loses ~4% at every weight), but two of its passes are weaker than stated: the bar-phase
+  check cannot test an MN change (MN is identical in every phase), and its matched-risk control
+  used the weekly-booked fall that `max_mix.py` says is too shallow for large MN shares. The
+  running `combo_paper.py` logs each book separately (`combo_marks.csv`), so those weights can be
+  read from its own record in six months without a new test.
+- **Bitget minimums fixed in `combo_bot.py`** (§7b) - the step between the bot and a readable
+  two-week PASS check.
 
 ### 2026-09-26 - the trader's pick: every free source read, none holds it (his_strategy.md §26-34)
 

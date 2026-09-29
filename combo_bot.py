@@ -195,9 +195,44 @@ class Venue:
         s = f"{self.v['prefix']}{base}/{self.v['quote']}:{self.v['quote']}"
         return s if s in self.ex.markets else None
 
-    def contracts(self, s: str, qty: float) -> float:
+    def rules(self, s: str) -> tuple:
+        """(amount step, minimum amount, minimum order value) for s, from the venue's OWN market
+        record (load_markets), not a table. Bitget's amount minimum is also its step - 1 whole
+        LINK, 0.1 LTC, 10,000 SHIB - and its value floor is $5 (backtest/bitget_minimums.py).
+        ccxt reports bitget's precision as a TICK SIZE; a decimal-places exchange is converted."""
+        m = self.ex.market(s)
+        p = (m.get("precision") or {}).get("amount")
+        step = float(p or 0.0)
+        if p and getattr(self.ex, "precisionMode", 4) == 2:      # ccxt DECIMAL_PLACES
+            step = 10.0 ** -float(p)
+        lim = m.get("limits") or {}
+        amin = float((lim.get("amount") or {}).get("min") or 0.0)
+        cmin = float((lim.get("cost") or {}).get("min") or MIN_ORDER)
+        return step, amin, cmin
+
+    def contracts(self, s: str, qty: float, nearest: bool = False) -> float:
+        """qty coins as venue contracts. nearest=True rounds to the NEAREST step: ccxt's
+        amount_to_precision truncates, which at a 1-LINK step turned 1.9 LINK into 1 - every
+        accepted order biased small (median 9.4% on LINK at $221, CLAUDE.md 7b)."""
         cs = float(self.ex.market(s).get("contractSize") or 1.0)
-        return float(self.ex.amount_to_precision(s, abs(qty) / cs))
+        n = abs(qty) / cs
+        step = self.rules(s)[0]
+        if nearest and step > 0:
+            n = round(n / step) * step + step * 1e-9      # the nudge survives the truncation
+        return float(self.ex.amount_to_precision(s, n))
+
+    def refusal(self, s: str, n: float, px: float, reduce: bool) -> "str | None":
+        """Why the venue would refuse n contracts at px - or None. The reason is a fixed phrase
+        (no sizes in it) so a refusal is logged once, not once per poll."""
+        step, amin, cmin = self.rules(s)
+        cs = float(self.ex.market(s).get("contractSize") or 1.0)
+        if n <= 0:
+            return "rounds to zero at the venue's step"
+        if n < amin - 1e-12:
+            return f"under the {amin:g}-contract minimum amount"
+        if not reduce and n * cs * px < cmin:
+            return f"under the ${cmin:g} minimum order value"
+        return None
 
     def positions(self) -> dict:
         """{venue symbol: signed coin quantity}."""
@@ -342,10 +377,28 @@ def execute(st: dict, venue: "Venue | None", mode: str, prices: dict, dry: bool)
             if s not in vp and s in by_venue:
                 vp[s] = prices.get(by_venue[s])
     sent = []
+    refused = ex_state.setdefault("refused", {})
     for s, side, qty, reduce, why in plan_orders(vt, actual, vp):
         px = vp.get(s)
         if not px:
             continue
+        if venue is not None:
+            # THE VENUE'S OWN MINIMUMS (fixed 2026-09-29). Before this, anything over a flat $5
+            # was sent and Bitget refused what was under its per-coin amount minimum - and the
+            # bot re-sent it every poll: 188 of the demo's 230 order failures, one every 2:10,
+            # which also made the two-week PASS check unreadable. Now: round to the nearest
+            # step, and an order the venue cannot accept is NOT SENT, logged once. A full close
+            # always goes - the position was accepted when it was opened.
+            n = venue.contracts(s, qty, nearest=(why != "close"))
+            no = None if why == "close" else venue.refusal(s, n, px, reduce)
+            if no:
+                if refused.get(s) != no:
+                    refused[s] = no
+                    log(f"EXEC {s}: {side} {qty:.6g} ({why}) BELOW VENUE MINIMUM, not sent - {no}. "
+                        f"Held as is until the target moves.")
+                continue
+            refused.pop(s, None)
+            qty = n * float(venue.ex.market(s).get("contractSize") or 1.0)   # what is traded
         if venue is not None and not dry:
             try:
                 vlast = venue.last(s)
@@ -355,7 +408,6 @@ def execute(st: dict, venue: "Venue | None", mode: str, prices: dict, dry: bool)
                 log(f"EXEC {s}: venue {vlast:.6g} vs Binance {px:.6g} differ > {PRICE_TOL:.0%} "
                     f"- REFUSED (symbol mismatch?)"); continue
             try:
-                n = venue.contracts(s, qty)
                 if n <= 0:
                     continue
                 if not reduce:
@@ -499,7 +551,8 @@ def report(d: Path):
     print(f"  fills with no recorded price ('assumed'): {int((x.src == 'assumed').sum())}")
     for key, lab in (("ORDER FAILED", "order failures"), ("STOP", "stop events"), ("FAILED to place", "stop placement failures"),
                      ("REFUSED", "price-sanity refusals"), ("crossed the stop", "intrabar trend exits"),
-                     ("poll error", "poll errors"), ("not listed on this venue", "unmapped coins")):
+                     ("poll error", "poll errors"), ("not listed on this venue", "unmapped coins"),
+                     ("BELOW VENUE MINIMUM", "held under the venue min")):
         print(f"  {lab:<26}{lg.count(key):>5}")
     print("  PASS when: no order failures, no stop placement failures, no poll errors, every fill priced,\n"
           "  slippage within a few bp, and at least one of each: open, add, reduce, close, a flip.\n")
