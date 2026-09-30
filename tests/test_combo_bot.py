@@ -293,6 +293,41 @@ def test_rules_read_from_the_market_record():
     assert abs(cb.Venue(ex, "live").rules("XRP/USDT:USDT")[0] - 0.01) < 1e-15
 
 
+# ------------------------------------------------------------------ the two-week check
+
+def exec_log(rows):
+    import pandas as pd
+    x = pd.DataFrame(rows, columns=["ts", "symbol", "side", "why", "src", "slip_bp"])
+    x["ts"] = pd.to_datetime(x["ts"])
+    return x
+
+
+ALL_KINDS = [("2026-10-01 10:00:05", "SXRP", "buy", "open", "fetch_order.average", 2.0),
+             ("2026-10-01 11:00:05", "SXRP", "buy", "add", "fetch_order.average", 3.0),
+             ("2026-10-01 12:00:05", "SXRP", "sell", "reduce", "fetch_order.average", 1.0),
+             ("2026-10-02 09:00:05", "SXRP", "sell", "close", "fetch_order.average", 2.5),
+             ("2026-10-02 09:00:06", "SXRP", "sell", "open", "fetch_order.average", 2.0)]   # the flip
+
+
+def test_flip_is_a_close_and_an_open_same_side_same_poll():
+    assert cb.flips(exec_log(ALL_KINDS)) == 1
+    late = list(ALL_KINDS[:-1]) + [("2026-10-02 09:10:00", "SXRP", "sell", "open", "fetch_order.average", 2.0)]
+    assert cb.flips(exec_log(late)) == 0                                  # 10 min later: a new trade
+    other = list(ALL_KINDS[:-1]) + [("2026-10-02 09:00:06", "SETH", "sell", "open", "fetch_order.average", 2.0)]
+    assert cb.flips(exec_log(other)) == 0                                 # another coin
+
+
+def test_verdict_names_what_is_missing_and_passes_when_nothing_is():
+    x = exec_log(ALL_KINDS)
+    assert cb.verdict(x, "", 14.2) == []
+    miss = cb.verdict(x, "EXEC X: ORDER FAILED ...\n", 0.8)
+    assert miss == ["0.8 of 14 days", "1 order failures"], miss
+    no_flip = exec_log(ALL_KINDS[:-1])
+    assert cb.verdict(no_flip, "", 20) == ["no flip yet"]
+    slow = exec_log([r[:5] + (9.0,) for r in ALL_KINDS])
+    assert cb.verdict(slow, "", 20) == ["median slippage +9.0bp > 5bp"]
+
+
 # ------------------------------------------------------------------ gates
 
 def test_live_is_refused_without_allow_real():

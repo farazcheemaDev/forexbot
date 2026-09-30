@@ -174,7 +174,7 @@ combo_bot.py       THE LIVE COMBINATION BOT (2026-09-24): combo_paper's three bo
                      --mode demo (ON THE VM since 2026-09-29, combo-bot-demo.service; the demo lists only SBTC/SETH/SXRP, so every coin is
                      routed onto those by dollar value: an ORDER-PATH test, P&L meaningless), --mode dry
                      (all coins, no orders), --mode live (refused: ALLOW_REAL = False). --report = the
-                     2-week check. tests/test_combo_bot.py: 14 offline tests on a fake exchange.
+                     2-week check, now with a flip count and a VERDICT line. tests/test_combo_bot.py: 21 offline tests on a fake exchange.
                      --wick adds the CRASH DESK (wick_live.py, doc 17 s5): post-only buys 10% under,
                      cap 10 fills an hour watched every 3 s, sold at the hour's close via the netting.
                      tests/test_wick_live.py: 10 tests, 7 mutations caught. The demo was restarted
@@ -547,6 +547,11 @@ the detail lives in the numbered docs.*
   bid** (XRP, $5.52 = equity/40; BTC and ETH are still under Bitget's minimum). One bid an hour
   still cannot exercise the cap-at-10 path. The two-week `--report` check restarts from here, on
   the fixed code. Check: `./.venv/bin/python combo_bot.py --mode demo --report` on the VM.
+- **First `--report` on the VM, 0.8 days in: clean.** 25 orders, 25 real fills, 0 order failures (the PC
+  had 230), 0 stop-placement failures, 0 poll errors, slippage median +2.6bp / worst +9.3bp, 3 intrabar
+  trend exits, open/add/reduce/close all seen. The report never counted FLIPS although its PASS rule
+  requires one; it now does (`flips()`), and prints `VERDICT: PASS` or `NOT YET - <what is missing>`
+  (`verdict()`, 14 days, median slippage <= 5bp). PASS is due ~2026-10-13.
 
 ### 2026-09-26 - the trader's pick: every free source read, none holds it (his_strategy.md §26-34)
 

@@ -531,6 +531,38 @@ def connect(mode: str):
 
 # ---------------------------------------------------------------- the two-week check
 
+PASS_DAYS, PASS_SLIP_BP, FLIP_S = 14, 5.0, 90
+
+
+def flips(x) -> int:
+    """Positions that changed side in one go. plan_orders sends a reduce-only CLOSE and then an
+    OPEN on the same symbol, on the same side (closing a long and opening a short are both
+    sells), in the same poll - so they sit next to each other in combo_exec.csv, seconds apart."""
+    r = x.sort_values("ts", kind="stable").reset_index(drop=True)
+    return sum(1 for i in range(1, len(r))
+               if r.why[i - 1] == "close" and r.why[i] == "open" and r.symbol[i - 1] == r.symbol[i]
+               and r.side[i - 1] == r.side[i] and (r.ts[i] - r.ts[i - 1]).total_seconds() <= FLIP_S)
+
+
+def verdict(x, lg: str, days: float) -> list:
+    """What the two-week check still lacks; an empty list is a PASS. 'A few bp' is read as a
+    median slippage of at most PASS_SLIP_BP against us."""
+    miss = [] if days >= PASS_DAYS else [f"{days:.1f} of {PASS_DAYS} days"]
+    for key, lab in (("ORDER FAILED", "order failures"), ("FAILED to place", "stop placement failures"),
+                     ("poll error", "poll errors")):
+        if lg.count(key):
+            miss.append(f"{lg.count(key)} {lab}")
+    if (x.src == "assumed").any():
+        miss.append(f"{int((x.src == 'assumed').sum())} unpriced fills")
+    real = x[x.src.astype(str).str.startswith(("fetch_order", "average", "price"))]
+    if len(real) and real.slip_bp.median() > PASS_SLIP_BP:
+        miss.append(f"median slippage {real.slip_bp.median():+.1f}bp > {PASS_SLIP_BP:g}bp")
+    miss += [f"no {k} yet" for k in ("open", "add", "reduce", "close") if not (x.why == k).any()]
+    if not flips(x):
+        miss.append("no flip yet")
+    return miss
+
+
 def report(d: Path):
     """What the demo (or dry) run has proved so far, in one screen."""
     import pandas as pd
@@ -554,8 +586,13 @@ def report(d: Path):
                      ("poll error", "poll errors"), ("not listed on this venue", "unmapped coins"),
                      ("BELOW VENUE MINIMUM", "held under the venue min")):
         print(f"  {lab:<26}{lg.count(key):>5}")
-    print("  PASS when: no order failures, no stop placement failures, no poll errors, every fill priced,\n"
-          "  slippage within a few bp, and at least one of each: open, add, reduce, close, a flip.\n")
+    print(f"  {'flips (long <-> short)':<26}{flips(x):>5}")
+    print(f"  PASS when: {PASS_DAYS} days, no order failures, no stop placement failures, no poll errors,\n"
+          f"  every fill priced, median slippage <= {PASS_SLIP_BP:g}bp, and at least one of each: open, add,\n"
+          "  reduce, close, a flip.")
+    miss = verdict(x, lg, days)
+    print("  VERDICT: PASS - the order path works. Going live is a human decision (ALLOW_REAL).\n"
+          if not miss else "  VERDICT: NOT YET - " + "; ".join(miss) + "\n")
 
 
 # ---------------------------------------------------------------- the crash-bid desk
