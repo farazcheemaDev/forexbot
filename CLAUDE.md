@@ -492,6 +492,17 @@ the box was patched before the repo was public.
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
 
+### 2026-10-01 - his January-March clock may be one hour off (his_strategy.md s35)
+
+- **Found in our own table, no new data** (`logs/his_vs_market.csv`): split at the EU clock change (03-29) his
+  record is two traders. Before: the real market moved his way in 37% of trades (-1.3 pts) and his broker's basis
+  jumps -192..+351 between days. After: 96% (+10.2 pts) and a smooth futures roll-down. s25 called the January-March
+  prices "not the market's"; a one-hour winter clock error gives the same picture. Every script uses one `GMT = 5.0`;
+  s14 split +4/+5, s15 tested +0/+3/+5/+7 pooled, s25 searched only +-600 s pooled.
+- **`backtest/his_clock_check.py`** tests it per period on the PC (MT5 ticks). Synthetic test plants the error and
+  finds it, and finds none when none is planted. **Registered: winter best = UTC+4, summer = UTC+5 (the control).**
+  If right: ~19 more clean trades (25 -> ~44) for the copy-delay test, and s25's doubt about his broker goes away.
+
 ### 2026-09-29 - "triple x4.142" was accounting; the combo's H1 yardstick fixed at day 5
 
 - **The combo's day-5 status** read combo x0.951 against triple x4.142. The triple number is
