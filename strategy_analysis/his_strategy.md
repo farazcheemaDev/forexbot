@@ -1910,3 +1910,10 @@ declared offset over a server clock that changed in March is exactly the mechani
 *Privacy check before this commit:* every staged file was searched for the statement header's name and account
 tokens (read from the gitignored raw file, never printed). Two generic header words matched, both already in the
 pushed doc; no name and no account number.
+
+### 35f. His January–March charts at the corrected hour — PREDICTION, registered before drawing (2026-10-02)
+
+The winter charts show the same ordinary setups as summer (§34): pullbacks in a 1-minute trend, level bounces, with
+2–4 look-alikes per chart he did not take; nothing on the chart recurs at his clicks and not at the look-alikes.
+Reason: the decoder found nothing on 33 entries including winter (§35e), and §34's eye impression of key levels
+already failed its test.
