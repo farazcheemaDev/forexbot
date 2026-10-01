@@ -1,0 +1,16 @@
+MT5 USTECm 5-minute bars, weekdays 2026-01-02 .. 2026-06-30, label = bar OPEN
+a 09:30 New York open is labelled 14:30 (EST, before 08 Mar) or 13:30 (EDT) if MT5 is UTC
+
+  period            days  open bar (biggest step-up)  x vs prior hour   14:30 x   13:30 x
+  before 08 Mar       46        14:30                           4.37x     4.37x     1.89x
+  08-29 Mar           15        13:30                           3.04x     0.76x     3.04x
+  after 29 Mar        66        13:30                           3.77x     0.87x     3.77x
+
+  the three runner-up step-ups per period (a second spike would show a mixed clock):
+    before 08 Mar   14:30 4.37x   14:40 3.71x   14:35 3.61x   14:45 3.25x
+    08-29 Mar       13:30 3.04x   13:40 2.50x   13:35 2.20x   13:45 2.06x
+    after 29 Mar    13:30 3.77x   13:40 2.91x   13:50 2.74x   13:45 2.65x
+
+  READING (a): MT5's labels are UTC in all three periods - the open follows the US change on
+  08 Mar and ignores the EU one. If his_clock_check.py finds UTC+4 in winter, the seasonal
+  hour is in HIS STATEMENT, and s27-s29 (order flow, news, posts) must be re-run at it.

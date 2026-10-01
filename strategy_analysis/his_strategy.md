@@ -1736,3 +1736,43 @@ winter trade at the corrected hour, and the old clock pushes it before the open 
 
 **If it is not confirmed** (best winter offset stays UTC+5), §25's reading stands and the January–March prices really
 were not the market's.
+
+### 35b. Which clock moved? MT5's own labels, checked against the US cash open (2026-10-01, local review)
+
+`his_clock_check.py` measures the offset **between** his statement and MT5's USTECm data. It cannot tell which of the
+two clocks carries the seasonal hour, and the two readings point at different re-runs:
+
+- **(a)** his statement is UTC+4 in winter, MT5 is UTC → every result that compared his **winter** trades with an
+  **outside** clock is suspect;
+- **(b)** his statement is UTC+5 throughout, MT5 shifts in winter → those results stand, and the winter MT5 reads move.
+
+**The anchor** (`backtest/mt5_clock_anchor.py`, `logs/mt5_clock_anchor.txt`): the US cash open at 09:30 New York time
+is a jump no feed can hide, at 14:30 UTC under EST and 13:30 UTC under EDT; the EU change does not move it. MT5's
+5-minute USTECm bars (the only cache reaching January) were scanned for the biggest step-up in range per period.
+**Prediction registered first:** 14:30 / 13:30 / 13:30, i.e. MT5 is UTC.
+
+| period | days | open bar | step-up vs prior hour | at 14:30 | at 13:30 |
+|---|---|---|---|---|---|
+| before 08 Mar | 46 | **14:30** | 4.37× | 4.37× | 1.89× |
+| 08–29 Mar | 15 | **13:30** | 3.04× | 0.76× | 3.04× |
+| after 29 Mar | 66 | **13:30** | 3.77× | 0.87× | 3.77× |
+
+**Prediction right. MT5's labels are true UTC in all three periods** — they follow the US change on 08 Mar, ignore the
+EU one on 29 Mar, and show one clean spike each. So **if the clock check confirms UTC+4 in winter, the hour is in his
+statement**, which is reading (a).
+
+**What that adds to the handoff (`docs/LOCAL_MT5_TASKS.md` step 4).** Its list is scripts that *excluded* winter and
+would gain trades. Three scripts *included* his winter trades and compared them with outside UTC clocks, so under (a)
+their winter results sat at the wrong hour — not under-powered, contaminated:
+
+| script | section | winter trades in? | compared with |
+|---|---|---|---|
+| `his_calendar.py` | §28 | yes, from 2026-01-02 | ForexFactory release times |
+| `his_posts.py` | §29 | yes, from 2026-01-02 | Trump's post times |
+| `his_news.py` | §24 | yes, no date filter | news footprints at the same clock time |
+| `his_orderflow.py` | §27 | no, from 2026-04-07 | unaffected |
+
+If the clock check confirms, re-run these three at `--winter-gmt 4` alongside step 4's list, and report winter and
+summer separately. **Not yet run: the clock check itself** — it needs the MT5 terminal open for January–March ticks,
+and the terminal was closed when this was written. The 5-minute bars cannot stand in for it: his holds are 1–5
+minutes, so they cannot measure his points against the market's move.
