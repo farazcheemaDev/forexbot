@@ -1,3 +1,9 @@
+> **STATUS 2026-10-02: steps 1-5 DONE** by a local session - see `strategy_analysis/his_strategy.md` §35c-f and
+> CLAUDE.md §10. Clock CONFIRMED (winter UTC+4); edge replicates out of sample; copyable at 5-10 s; still not
+> decodable. Step 4 was extended to `his_calendar.py`, `his_posts.py` and `his_news.py` (§35b), which had used winter
+> trades at the wrong hour - conclusions unchanged. The two optional items at the end are NOT done (awaiting the
+> user): restarting `mn_paper.py` and re-checking the dry-run bot.
+
 # Tasks for a LOCAL session on the PC (MT5 open) — written 2026-10-01
 
 *For a Claude session running on the user's PC in `D:\forexbot`, where the Exness MT5 terminal and

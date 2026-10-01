@@ -1,0 +1,8 @@
+his 42 clean entries (corrected clock, after 09:46 ET) vs the same-sitting moments, same second, same direction; rank = share of those moments CLOSER than his (low = his are closer)
+  d_ext   rank 0.47   his median   38.6 pts   within 10 pts: 7%   p 0.480   Holm 0.480   (to the nearer day extreme)
+  d_with  rank 0.42   his median   90.3 pts   within 10 pts: 0%   p 0.017   Holm 0.048   (to the extreme behind him)
+  d_into  rank 0.58   his median  137.3 pts   within 10 pts: 7%   p 0.016   Holm 0.048   (to the extreme ahead of him)
+
+STAGE B - 14244 random moment x direction pairs on 181 days; 7-point mid race base 50.0%
+  d_into  near third 49.2%  far third 50.7%  (far - near: 1st half -0.8, 2nd half +3.6)
+  d_with  near third 50.8%  far third 49.3%  (far - near: 1st half +0.8, 2nd half -3.6)

@@ -522,8 +522,17 @@ the detail lives in the numbered docs.*
 - **Consequences:** s25's "off-market winter prices" was the clock; his winter trades are as good as his summer ones;
   the clean sample grows 25 -> ~44. `his_calendar.py` (s28), `his_posts.py` (s29) and `his_news.py` (s24) put winter
   trades an hour early against outside clocks and must be re-run - the handoff's step 4 did not list them.
-- Next: `docs/LOCAL_MT5_TASKS.md` steps 2-4 (tick cache for Jan-Mar, winter charts, the deciding tests on ~44 trades,
-  `his_copy_delay.py` first).
+- **Steps 2-4 done the same day** (s35d-f; every script first reproduced its committed log byte for byte):
+  - **his edge replicates out of sample**: winter 14/15 at the +-7 race vs 55% nearby (p 0.002), all 36/41 (p 7e-6);
+  - **a copy within 5-10 s keeps it** (+6.6 to +7.0 pts a trade vs +2.5 to +2.9 for the same exit at random moments);
+    gone by 20 s. USTECm pays $1/point per lot, min 0.05; he trades NASDAQ ~5.5 times a month;
+  - **still not decodable**: 13 markers rank 0.44-0.56 on 41 entries; the 75-feature decoder scores 0.445 / 0.469
+    against a 0.495 null on 33 entries; news, calendar and posts re-run at the corrected clock - nothing survives Holm;
+  - the winter charts show the same ordinary setups as summer. One eye impression ("at the day's high/low") was
+    measured (`his_day_extreme.py`) and was wrong; a mild preference for room ahead reached Holm 0.048 but wins no
+    races at random moments.
+  - **Where reverse-engineering stands: what his trades do is solved and replicated; how he picks them is in no data
+    recorded here. The only route to his edge is copying him live, not decoding him.**
 
 ### 2026-09-29 - "triple x4.142" was accounting; the combo's H1 yardstick fixed at day 5
 

@@ -1917,3 +1917,32 @@ The winter charts show the same ordinary setups as summer (§34): pullbacks in a
 2–4 look-alikes per chart he did not take; nothing on the chart recurs at his clicks and not at the look-alikes.
 Reason: the decoder found nothing on 33 entries including winter (§35e), and §34's eye impression of key levels
 already failed its test.
+
+**Result (2026-10-02).** `his_look.py --winter-gmt 4 --since 2026-01-01` drew 42 of 46 trades (`logs/his_look_all/`;
+4 fall before 09:30 ET or on a day without ticks). The 15 winter charts read by eye, for the first time at their real
+hour:
+- **buys on a strong 1-minute push through the day's high or the opening-range high** (#4, #5, #6, #10);
+- **fades of an exhausted spike at or just under the day's high** (#1, #2, #8, #9, #11 — #11 sold the same spike #10
+  had bought a minute earlier, +19.5 against +1.25);
+- **a sell into the day's low in a downtrend, and a buy bouncing off it** (#3, #7);
+- **mid-range entries on a small pullback or V-turn** (#12–#15).
+Every chart has look-alike candles within minutes that he did not take. **The prediction held: the same ordinary
+setups as summer, nothing new.**
+
+**One eye impression, tested before it was believed** (`backtest/his_day_extreme.py`, `logs/his_day_extreme.txt`).
+By eye, 11 of 15 winter entries sat "at the day's high or low". Isolated against the same-sitting moments on 42
+entries:
+
+| distance to … | rank (low = his are closer) | his median | Holm |
+|---|---|---|---|
+| the nearer day extreme | 0.47 | 38.6 pts | 0.48 |
+| the extreme behind his trade | 0.42 | 90.3 pts | 0.048 |
+| the extreme ahead of his trade | 0.58 | 137.3 pts | 0.048 |
+
+**The eye was wrong**: his median distance to the nearer extreme is 39 points and only 7% are within 10 — a 400-point
+day chart makes 39 points look like "at the high". The two Holm-0.048 rows are one finding, not two (within a sitting
+the day's range is fixed): he enters with somewhat more room ahead than the sitting's other moments, as
+`his_keylevels.py`'s "room" also shows (0.59 on 42 entries, `logs/his_keylevels_all.txt`). **Stage B closes it: room
+ahead does not win races at random moments** (far third 50.7% vs near third 49.2%; halves −0.8 / +3.6). A mild
+preference of his with no edge in it. The registered prediction said "nothing near Holm"; two rows reached 0.048, so
+it was partly wrong — and the finding is still empty.
