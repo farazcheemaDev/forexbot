@@ -1,0 +1,18 @@
+filling the stocks/DXY/BTC cache for 63 January-March days
+  fetched 0/630
+  fetched 100/630
+  fetched 200/630
+  fetched 300/630
+  fetched 400/630
+  fetched 500/630
+  fetched 600/630
+  NVDAm    61/63 winter days
+  MSFTm    61/63 winter days
+  AAPLm    61/63 winter days
+  AMZNm    61/63 winter days
+  GOOGLm   61/63 winter days
+  METAm    61/63 winter days
+  AVGOm    61/63 winter days
+  TSLAm    61/63 winter days
+  DXYm     63/63 winter days
+  BTCUSDm  63/63 winter days

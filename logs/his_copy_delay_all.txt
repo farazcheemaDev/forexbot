@@ -1,0 +1,9 @@
+his 46 clean entries entered d seconds late, vs the same-sitting moments; Exness quotes
+   delay |  mid race  nearby |  net race  nearby |  his exit, pts  nearby his win%
+      0s |       88%     56% |       56%     42% |          +6.57   +2.85      98%
+      5s |       80%     56% |       66%     42% |          +6.56   +2.68      98%
+     10s |       73%     56% |       56%     41% |          +7.00   +2.51     100%
+     20s |       66%     54% |       46%     41% |          +0.68   +2.42      90%
+     30s |       76%     53% |       54%     40% |          +1.06   +2.22      93%
+     60s |       67%     57% |       44%     43% |          +1.64   +2.85      86%
+    120s |       49%     57% |       39%     43% |          +3.07   +2.89      90%

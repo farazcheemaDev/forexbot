@@ -1841,3 +1841,72 @@ all). `his_copy_delay.py` takes `--winter-gmt / --since / --until / --out`; its 
 4. **The decoder (`his_model.py`) on ~44 trades:** STILL at chance (rank 0.45–0.55). More trades add power, but §33's
    planted-pattern test found 2–3-feature patterns at 0.72–0.96 on 25 trades, so if his pick were in these features
    it would already have shown. If it rises above 0.60 on both models, that is the first sign of a decodable rule.
+
+### 35e. The ~44-trade re-runs: his edge replicates out of sample, and still cannot be decoded (2026-10-02)
+
+Every script below took `--winter-gmt / --since / --until / --out`, and **each was first checked to reproduce its
+committed log byte for byte with the defaults** (`his_copy_delay`, `his_local`, `his_race_curve`, `his_model`,
+`his_calendar`, `his_posts`, `his_news`). Two fixes were needed along the way: `his_race_curve.py` reuses the name `a`
+for its own results, which overwrote the options; and `his_model.py`'s OTHER DAYS check now uses the same window as
+his trades, because the tick cache now reaches January. The cross-market cache was filled for January–March too
+(`his_generals.load`: stocks 61/63 winter days — the two gaps are US stock holidays — dollar index and BTC 63/63).
+
+**1. His edge replicates on trades never analysed at the right hour** (`logs/his_race_curve_{winter,all}.txt`):
+
+| ±7-point race, mid, 600 s | his entries | same-day nearby moments | edge | binomial p |
+|---|---|---|---|---|
+| summer (the original sample) | 22/25 = 88% | 57% | +31 | 0.0009 |
+| **winter alone** (out of sample) | **14/15 = 93%** | 55% | **+38** | **0.002** |
+| **all** | **36/41 = 88%** | 55% | **+33** | **7e-6** |
+
+At ±10 points his winter entries won 15 of 15. Prediction 3 (p < 0.01) right.
+
+**2. Copying him** (`logs/his_copy_delay_{winter,all}.txt`, Exness quotes, his +7 target and no stop):
+
+| all 46 entries | 0 s | 5 s | 10 s | 20 s | 30 s |
+|---|---|---|---|---|---|
+| net race (break-even 50%) | 56% | **66%** | 56% | 46% | 54% |
+| his exit, points a trade | +6.57 | **+6.56** | **+7.00** | +0.68 | +1.06 |
+| same exit at nearby moments | +2.85 | +2.68 | +2.51 | +2.42 | +2.22 |
+
+A copy within 5–10 s keeps his edge (+4 points a trade over the same exit at random moments); by 20 s it is gone.
+Prediction 1 (winter, ≥ 60% net races and ≥ +3 points at 5–10 s): half right — 60% at 5 s but 47% at 10 s, while his
+exit made +7.00 at both. Prediction 2 (all within 10 points of the 25-trade result): 12 of 14 rows.
+**Caution: the +7 target with no stop is profitable at RANDOM moments in this sample (+2.5 to +2.9)** — a 2026 NASDAQ
+that mostly rose. Its losers are large and rare; 46 trades do not sample that tail.
+
+**3. The markers, on 41 entries** (`logs/his_local_all.txt`): all 13 rank 0.44–0.56 against 0.50; nothing near Holm.
+The three §26 markers (the 30-s dip, the rejection wick, the round-25 level) are 0.44, 0.53 and 0.44.
+
+**4. The decoder** (`logs/his_model_all.txt`, 75 features, logistic and forest, scored on days the model never saw):
+
+| | summer only (24 entries, 12 days) | all (33 entries, 20 days) | null |
+|---|---|---|---|
+| logistic | 0.505 (p 0.36) | **0.445 (p 0.78)** | 0.495 |
+| forest | 0.486 (p 0.55) | **0.469 (p 0.68)** | 0.495 |
+
+Still at chance with a third more entries and two thirds more days. Prediction 4 right. On days he did not trade, the
+models' top 10% of moments win the race 50.4% / 49.0% against a 50.0% base.
+
+**5. The three contaminated news tests, re-run at the corrected clock** (`logs/his_{calendar,posts}_fixed.txt`,
+`logs/his_news_fixed.txt`): the numbers moved, the conclusions did not. Strongest features after Holm: a release within
+3 h 0.27 (was 0.31), a market-topic post within 60 min 0.35, recency of a price shock 0.19. **News does not pick his
+moments, at either clock.**
+
+**WHERE THE REVERSE-ENGINEERING STANDS.**
+- **What his trades DO — solved, and replicated out of sample.** He picks direction over the next 1–5 minutes on
+  NASDAQ, right ~88% of the time at a ±7 race against ~55% for the same day's other moments, as strong in January–March
+  as in April–September. His record is genuine (statement from VertexPro, §35b) and real-time (§34).
+- **HOW he picks them — not recovered at all.** 13 named markers, 75 features in two models, 8 mega-cap stocks, the
+  dollar, bitcoin, Binance order flow, the news calendar, Fed speakers and Trump's posts all rank his moments at chance.
+  §33's power test showed a planted 2–3-feature rule would be found at 0.72–0.96 on fewer entries than this. Whatever
+  he reads is not in any data recorded here: most likely the live order book / tape, or something off-screen.
+- **The only route to his edge is to COPY him, not to decode him** — and the data say a copy within 5–10 s works.
+
+**A footnote that supports §35b's mechanism.** The statement's own first line declares ONE offset for the whole file
+(`GMT … : 5.0`, quoted in §16), and every script took it at its word. Its winter rows are UTC+4 (§35c). A single
+declared offset over a server clock that changed in March is exactly the mechanism §35b proposed.
+
+*Privacy check before this commit:* every staged file was searched for the statement header's name and account
+tokens (read from the gitignored raw file, never printed). Two generic header words matched, both already in the
+pushed doc; no name and no account number.

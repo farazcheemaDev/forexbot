@@ -1,0 +1,71 @@
+19 clean entries in the tick cache; nearby = 80 moments each, same day, 30 s - 20 min away, same direction
+
+A. SYMMETRIC RACE +T before -T (mid)
+     T |  180 s: his  nearby   edge |  600 s: his  nearby   edge
+     2 |       75% (16)    52%    +23 |       75% (16)    52%    +23
+     3 |       75% (16)    54%    +21 |       75% (16)    54%    +21
+     4 |       81% (16)    53%    +28 |       81% (16)    54%    +28
+     5 |       88% (16)    54%    +34 |       88% (16)    55%    +33
+     6 |       87% (15)    55%    +32 |       87% (15)    56%    +31
+     7 |       93% (15)    54%    +39 |       93% (15)    55%    +38
+     8 |       93% (15)    55%    +39 |       93% (15)    55%    +38
+    10 |      100% (14)    55%    +45 |      100% (15)    56%    +44
+    12 |      100% (14)    56%    +44 |      100% (15)    56%    +44
+    15 |      100% (11)    56%    +44 |       86% (14)    56%    +30
+
+B. TARGET +7, STOP -S (mid, 600 s)
+  stop   3: his   67% (15)   nearby   35%   edge  +32
+  stop   4: his   73% (15)   nearby   42%   edge  +32
+  stop   5: his   80% (15)   nearby   47%   edge  +33
+  stop   6: his   87% (15)   nearby   52%   edge  +34
+  stop   7: his   93% (15)   nearby   55%   edge  +38
+  stop   8: his   93% (15)   nearby   58%   edge  +35
+  stop  10: his  100% (15)   nearby   64%   edge  +36
+  stop  15: his  100% (15)   nearby   73%   edge  +27
+  stop  20: his  100% (15)   nearby   79%   edge  +21
+
+C. MEDIAN PATH, points his way (mid), after his entry vs nearby moments
+  seconds       0     2     5    10    15    20    30    45    60    90   120   180   240   300
+  his        +0.0  +0.6  +0.8  +2.6  +4.7  +5.5  +3.0  +7.2  +5.4  +6.9  +7.5 +10.5  +5.8  +3.2
+  nearby     +0.0  +0.0  +0.0  +0.0  +0.0  +0.0  +0.0  +0.0  +0.0  +0.0  +0.0  +0.0  +0.0  +0.0
+  his share his way     0%   58%   63%   68%   74%   79%   68%   68%   79%   74%   79%   79%   68%   63%
+  his worst point in the first 60 s: median +0.0, quartiles -1.2 / +0.0
+
+D. HIS BROKER vs THE REAL MARKET: points he banked vs the real mid move over [open+d, close+d]
+  d -20 s: offset -1.24 pts  rmse 14.28  median abs  6.67
+  d -18 s: offset -0.14 pts  rmse 12.89  median abs  7.10
+  d -16 s: offset -0.42 pts  rmse 10.02  median abs  4.41
+  d -14 s: offset +0.15 pts  rmse  9.19  median abs  3.87
+  d -12 s: offset +0.67 pts  rmse  9.38  median abs  5.37
+  d -10 s: offset +0.73 pts  rmse 13.06  median abs  6.77
+  d  -8 s: offset +4.35 pts  rmse 10.52  median abs  3.66
+  d  -6 s: offset +3.14 pts  rmse  8.16  median abs  4.36
+  d  -4 s: offset +2.41 pts  rmse  6.32  median abs  3.40   <- best
+  d  -3 s: offset +1.19 pts  rmse  6.48  median abs  4.38
+  d  -2 s: offset +3.55 pts  rmse  6.54  median abs  3.56
+  d  -1 s: offset +2.38 pts  rmse  7.20  median abs  4.84
+  d  +0 s: offset +4.22 pts  rmse  6.68  median abs  3.28
+  d  +1 s: offset +0.53 pts  rmse  6.34  median abs  3.81
+  d  +2 s: offset +1.88 pts  rmse  6.88  median abs  4.28
+  d  +3 s: offset +2.49 pts  rmse  6.84  median abs  3.05
+  d  +4 s: offset +2.34 pts  rmse  8.29  median abs  5.16
+  d  +6 s: offset +3.21 pts  rmse  8.23  median abs  4.23
+  d  +8 s: offset +1.15 pts  rmse  7.57  median abs  5.28
+  d +10 s: offset +0.95 pts  rmse  8.62  median abs  6.06
+  d +12 s: offset -2.04 pts  rmse  7.10  median abs  5.80
+  d +14 s: offset -0.07 pts  rmse 12.40  median abs  6.93
+  d +16 s: offset -0.26 pts  rmse 10.16  median abs  6.74
+  d +18 s: offset -2.28 pts  rmse  9.42  median abs  7.50
+  d +20 s: offset -3.68 pts  rmse  8.91  median abs  4.68
+
+E. BY DAY (same-day entries are not independent): symmetric race, 600 s, his day rate minus nearby
+  T  4: 14 days, his day above nearby on 11, mean day edge +27.9 points, se 9.9, t 2.83
+  T  7: 13 days, his day above nearby on 12, mean day edge +42.0 points, se 4.0, t 10.46
+  T 10: 13 days, his day above nearby on 13, mean day edge +44.6 points, se 2.4, t 18.46
+
+F. THE REAL PRICE AROUND HIS ENTRY AND EXIT SECONDS (mid, his way, relative to that second)
+  seconds              -6    -5    -4    -3    -2    -1    +0    +1    +2    +3    +4    +5    +6
+  entry, median      -0.8  -0.5  -0.1  +0.0  +0.2  +0.0  +0.0  +0.4  +0.6  +1.2  +0.0  +0.8  +0.5
+  entry, share > 0    21%   21%   32%   47%   58%   37%    0%   63%   58%   63%   47%   63%   58%
+  exit, median       -1.0  -0.4  -0.2  +0.0  +0.0  +0.0  +0.0  +0.2  +0.0  +0.0  +0.8  +0.8  +0.5
+  exit, share > 0     26%   26%   26%   42%   37%   42%    0%   53%   53%   47%   63%   58%   68%

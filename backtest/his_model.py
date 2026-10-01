@@ -139,7 +139,9 @@ def cv_percentile(X, y, grp, day, make):
     return np.array(pct)
 
 
-def build():
+def build(winter_gmt=GMT, since="2026-04-01", until=None):
+    # s35c (2026-10-02): winter statement times are UTC+4. Defaults reproduce the original run.
+    from backtest.his_clock_check import to_utc
     cache = pickle.loads(TICKS.read_bytes())
     basis = daily_basis()
     gc = pickle.loads(GCACHE.read_bytes()) if GCACHE.exists() else None
@@ -150,8 +152,9 @@ def build():
         return DAYS[d]
     x = pd.read_csv(ROOT / "strategy_analysis" / "statement_trades.csv", parse_dates=["open_time"])
     x = x[x.symbol.str.startswith("NASDAQ")].copy()
-    x["et"] = (x.open_time - pd.Timedelta(hours=GMT)).dt.tz_localize("UTC").dt.tz_convert("America/New_York").dt.tz_localize(None)
-    x = x[x.open_time - pd.Timedelta(hours=GMT) >= "2026-04-01"]
+    u = to_utc(x.open_time, winter_gmt, GMT)
+    x["et"] = u.dt.tz_localize("UTC").dt.tz_convert("America/New_York").dt.tz_localize(None)
+    x = x[(u >= since) & ((u < until) if until else True)]
     x["d"] = x.et.dt.normalize()
     x["t"] = (x.et - x.d - pd.Timedelta(hours=9, minutes=30)).dt.total_seconds()
     rows = []
@@ -176,8 +179,15 @@ def build():
     return T, cache, day
 
 
-def main():
-    T, cache, day = build()
+def main(argv=None):
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--winter-gmt", type=float, default=GMT)
+    ap.add_argument("--since", default="2026-04-01")
+    ap.add_argument("--until", default=None)
+    ap.add_argument("--out", default=str(ROOT / "logs" / "his_model.txt"))
+    args = ap.parse_args(argv)
+    T, cache, day = build(args.winter_gmt, args.since, args.until)
     feat_cols = [c for c in T.columns if c not in ("y", "g", "day")]
     X, y, grp, dd = T[feat_cols].to_numpy(float), T.y.to_numpy(), T.g.to_numpy(), T.day.to_numpy()
     out = [f"{int(y.sum())} of his clean entries, {int((y == 0).sum())} same-day comparison moments (same second of the minute), "
@@ -204,7 +214,11 @@ def main():
 
     # the model trained on all his days, scoring random moments on the OTHER days
     his_days = set(np.unique(dd))
-    other = [d for d in sorted(cache) if cache[d] is not None and d not in his_days]
+    # the same window as his trades: --since/--until bound the comparison days too (the cache now reaches January)
+    lo = pd.Timestamp(args.since).normalize()
+    hi = pd.Timestamp(args.until).normalize() if args.until else None
+    other = [d for d in sorted(cache) if cache[d] is not None and d not in his_days
+             and d >= lo and (hi is None or d < hi)]
     B = []
     for d in other:
         D = day(d)
@@ -232,7 +246,7 @@ def main():
             out.append("  forest's most-used features: " + ", ".join(f"{k} {v:.3f}" for k, v in imp.items()))
     txt = "\n".join(out)
     print(txt)
-    (ROOT / "logs" / "his_model.txt").write_text(txt, encoding="utf-8")
+    Path(args.out).write_text(txt, encoding="utf-8")
 
 
 def power():
@@ -271,4 +285,4 @@ if __name__ == "__main__":
     if "--power" in sys.argv:
         power()
     else:
-        main()
+        main([a for a in sys.argv[1:] if a != "--power"])

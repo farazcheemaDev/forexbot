@@ -75,7 +75,13 @@ def fomc_days():
     return {d for d in out if d.weekday() == 2}
 
 
-def main():
+def main(argv=None):
+    import argparse
+    from backtest.his_clock_check import to_utc
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--winter-gmt", type=float, default=GMT, help="offset before 2026-03-29 (s35c)")
+    ap.add_argument("--out", default=None)
+    args = ap.parse_args(argv)
     d = bars()
     med_rng = d.groupby("slot").rng.median()
     med_v = d.groupby("slot").v.median()
@@ -84,7 +90,7 @@ def main():
     d["shock"] = d.rr >= 3
     x = pd.read_csv(ROOT / "strategy_analysis" / "statement_trades.csv", parse_dates=["open_time"])
     x = x[x.symbol.str.startswith("NASDAQ")].copy()
-    x["utc"] = x.open_time - pd.Timedelta(hours=GMT)
+    x["utc"] = to_utc(x.open_time, args.winter_gmt, GMT)   # s35c: winter statement times are UTC+4
     x = x[(x.utc > d.index[0] + pd.Timedelta(days=2)) & (x.utc < d.index[-1])]
     days = sorted(d.day.unique())
     by_day = {k: g for k, g in d.groupby("day")}
@@ -156,7 +162,7 @@ def main():
     lo = R.drop(hi.index)
     print(f"\nHis results on 'news-footprint' entries (shock60 or day0830 in the top 20%): {len(hi)} trades, "
           f"${hi.net.sum():.2f}, ${hi.net.mean():.2f} each | the rest: {len(lo)} trades, ${lo.net.mean():.2f} each")
-    R.to_csv(ROOT / "logs" / "his_news_ranks.csv", index=False)
+    R.to_csv(args.out or ROOT / "logs" / "his_news_ranks.csv", index=False)
 
 
 if __name__ == "__main__":

@@ -85,13 +85,25 @@ def allfeats(ts, mid, t, s, basis):
     return a | b
 
 
-def main():
+def main(argv=None):
+    # s35c (2026-10-02): winter statement times are UTC+4. Defaults reproduce the original run (one GMT = 5.0,
+    # April on); --winter-gmt 4 --since 2026-01-01 adds January-March at the corrected hour.
+    import argparse
+    from backtest.his_clock_check import to_utc
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--winter-gmt", type=float, default=GMT)
+    ap.add_argument("--since", default="2026-04-01")
+    ap.add_argument("--until", default=None)
+    ap.add_argument("--ranks-out", default=str(ROOT / "logs" / "his_local_ranks.csv"))
+    a = ap.parse_args(argv)
     cache = pickle.loads(TICKS.read_bytes())
     basis = daily_basis()
     x = pd.read_csv(ROOT / "strategy_analysis" / "statement_trades.csv", parse_dates=["open_time"])
     x = x[x.symbol.str.startswith("NASDAQ")].copy()
-    x["utc"] = x.open_time - pd.Timedelta(hours=GMT)
-    x = x[x.utc >= "2026-04-01"]
+    x["utc"] = to_utc(x.open_time, a.winter_gmt, GMT)
+    x = x[x.utc >= a.since]
+    if a.until:
+        x = x[x.utc < a.until]
     rng = np.random.default_rng(12)
     ranks, pool = [], []
     for r in x.itertuples():
@@ -142,7 +154,7 @@ def main():
         d2 = w(q[(q[k] >= hi) & (q.day >= mid_day)]) - w(q[(q[k] <= lo) & (q.day >= mid_day)])
         print(f"  {k:<9}{v.mean():>6.2f}{np.mean(v > 2/3)*100:>8.0f}%{pA[k]:>7.3f}{holm[k]:>7.3f}   |"
               f"{w(q[q[k] <= lo]):>8.1f}%{w(q[q[k] >= hi]):>8.1f}%{w(q[q[k] >= hi]) - w(q[q[k] <= lo]):>+7.1f}{d1:>+9.1f}{d2:>+9.1f}")
-    RA.to_csv(ROOT / "logs" / "his_local_ranks.csv", index=False)
+    RA.to_csv(a.ranks_out, index=False)
 
 
 if __name__ == "__main__":

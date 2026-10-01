@@ -116,11 +116,17 @@ def test(entries, E, days, title, out):
         out.append(f"  {k:<14}{obs[k]:>6}{e:>10.1f}{obs[k] / e if e else np.nan:>7.2f}{z:>+7.2f}{p:>7.3f}{h[k]:>7.3f}")
 
 
-def main():
+def main(argv=None):
+    import argparse
+    from backtest.his_clock_check import to_utc
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--winter-gmt", type=float, default=GMT, help="offset before 2026-03-29 (s35c)")
+    ap.add_argument("--out", default=None)
+    args = ap.parse_args(argv)
     cal = load()
     E, U = classes(cal)
     x = pd.read_csv(ROOT / "strategy_analysis" / "statement_trades.csv", parse_dates=["open_time"])
-    x["utc"] = x.open_time - pd.Timedelta(hours=GMT)
+    x["utc"] = to_utc(x.open_time, args.winter_gmt, GMT)   # s35c: winter statement times are UTC+4
     x["et"] = x.utc.dt.tz_localize("UTC").dt.tz_convert("America/New_York").dt.tz_localize(None)
     x = x.sort_values("utc", kind="stable")
     days = [d for d in pd.bdate_range("2026-01-02", "2026-09-15") if f"{d:%Y-%m-%d}" not in HOLIDAYS]
@@ -172,7 +178,7 @@ def main():
                    f" | after: {r.after or '-'}")
     txt = "\n".join(out)
     print(txt)
-    (ROOT / "logs" / "his_calendar.txt").write_text(txt, encoding="utf-8")
+    Path(args.out or ROOT / "logs" / "his_calendar.txt").write_text(txt, encoding="utf-8")
 
 
 if __name__ == "__main__":

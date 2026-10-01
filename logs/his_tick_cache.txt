@@ -1,0 +1,4 @@
+  fetched 25/63
+  fetched 50/63
+63 days fetched, 0 with no ticks (holidays, or before MT5's history starts)
+cache now 181 days with ticks: D:\forexbot\strategy_analysis\data\ustec_tick_days.pkl

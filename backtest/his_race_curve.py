@@ -55,13 +55,23 @@ def at(ts, mid, t):
     return mid[max(np.searchsorted(ts, t, side="right") - 1, 0)]
 
 
-def main():
+def main(argv=None):
+    # s35c (2026-10-02): winter statement times are UTC+4. Defaults reproduce the original run.
+    import argparse
+    from backtest.his_clock_check import to_utc
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--winter-gmt", type=float, default=GMT)
+    ap.add_argument("--since", default="2026-04-01")
+    ap.add_argument("--until", default=None)
+    ap.add_argument("--out", default=str(ROOT / "logs" / "his_race_curve.txt"))
+    args = ap.parse_args(argv)
     cache = pickle.loads(TICKS.read_bytes())
     x = pd.read_csv(ROOT / "strategy_analysis" / "statement_trades.csv", parse_dates=["open_time", "close_time"])
     x = x[x.symbol.str.startswith("NASDAQ")].copy()
     for c in ("open_time", "close_time"):
-        x[c + "_et"] = (x[c] - pd.Timedelta(hours=GMT)).dt.tz_localize("UTC").dt.tz_convert("America/New_York").dt.tz_localize(None)
-    x = x[x.open_time - pd.Timedelta(hours=GMT) >= "2026-04-01"]
+        x[c + "_et"] = to_utc(x[c], args.winter_gmt, GMT).dt.tz_localize("UTC").dt.tz_convert("America/New_York").dt.tz_localize(None)
+    u = to_utc(x.open_time, args.winter_gmt, GMT)
+    x = x[(u >= args.since) & ((u < args.until) if args.until else True)]
     rng = np.random.default_rng(19)
     E = []
     for r in x.itertuples():
@@ -147,7 +157,7 @@ def main():
     out.append("  exit, share > 0  " + "".join(f"{v:>5.0f}%" for v in (EX > 0).mean(0) * 100))
     txt = "\n".join(out)
     print(txt)
-    (ROOT / "logs" / "his_race_curve.txt").write_text(txt, encoding="utf-8")
+    Path(args.out).write_text(txt, encoding="utf-8")
 
 
 if __name__ == "__main__":
