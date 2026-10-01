@@ -51,6 +51,19 @@ and the verdict must say so.
 DECIDE AT  6 months from `started`. No verdict earlier.
 ==============================================================================
 
+MEASUREMENT FIX, 2026-09-29 (CLAUDE.md rule 9 - the measurement was broken, the rules are not
+touched). Day 5 read "triple x4.142". H1's yardstick as coded was the triple book's REALISED
+equity, and that book forked from main holding runners opened ~09-17 - profit this book never
+held. Eight of them closed on 09-28 through blend_paper's legacy path (positions opened before
+the entry-sized fix are sized at CLOSE, each on the one before), $209.68 -> $883.52 recorded
+where entry-sized gives ~$555 (rebuild_equity.py, tests/test_rebuild_equity.py on those rows).
+H1 is therefore read from `triple_fair`: the triple's trades OPENED since `started`, replayed
+from $221, sized at entry. The old line is still printed, labelled. Fixed at day 5, before
+either book's result is known. PREDICTION, recorded before the fair line was first read on the
+VM: it reads between x0.90 and x1.05 (the only post-start closes seen are ~-1R shorts).
+Same day: held MN/sleeve coins outside the top-120 pool are now priced (mn_paper.held_closes)
+instead of exited as if delisted - 3 of 12 MN names had been dropped that way by day 3.
+
     python combo_paper.py            run it (one process only)
     python combo_paper.py --status   read the book
     python combo_paper.py --once     one poll, then exit (use --dir for a scratch copy)
@@ -246,6 +259,10 @@ def daily(st: dict):
     now_ms = int((btc.time.iloc[-1] + pd.Timedelta(days=1)).timestamp() * 1000)
     since = st["last_fund_ms"]
     closes = {s: float(d.close.iloc[-1]) for s, d in bars.items()}
+    # held coins outside today's top-120 pool are still held: price them (mn_paper.held_closes,
+    # fixed 2026-09-29 - CAP, CYS and TUT were exited early for this). Marking only.
+    held = sorted((set(st["mn"]["weights"]) | set(st["sleeve"]["hold"])) - set(closes))
+    closes.update(mp.held_closes(held, syms, btc.time.iloc[-1]))
 
     def fund(s):
         return mp.funding_since(s, since + 1) if since else 0.0
@@ -342,6 +359,22 @@ def triple_ref() -> float | None:
         return None
 
 
+def triple_fair(started: str) -> tuple[float, int] | None:
+    """H1's yardstick, measured fairly (see MEASUREMENT FIX above): the triple paper book's
+    trades OPENED since this book started, replayed from START_EQ, sized at entry
+    (rebuild_equity.growth_since). Closed trades only - as this book's own trend leg."""
+    f = P["state"].parent / "trades_blend_triple.csv"
+    if not f.exists():
+        f = ROOT / "logs" / "trades_blend_triple.csv"
+    if not f.exists():
+        return None
+    try:
+        import rebuild_equity as rb
+        return rb.growth_since(f, started, START_EQ)
+    except Exception:
+        return None
+
+
 def status(st: dict):
     eq = st["equity"]
     days = (datetime.now(timezone.utc) - pd.Timestamp(st["started"]).tz_localize("UTC")).days
@@ -363,7 +396,11 @@ def status(st: dict):
     ref = triple_ref()
     if st.get("triple_ref") and ref:
         print(f"  vs triple paper book over the same days: combo x{eq / START_EQ:.3f} | triple "
-              f"x{ref / st['triple_ref']:.3f}")
+              f"x{ref / st['triple_ref']:.3f}   [as registered - NOT comparable, see below]")
+    fair = triple_fair(st["started"])
+    if fair:
+        print(f"  H1, fair: combo x{eq / START_EQ:.3f} | triple x{fair[0]:.3f} on the {fair[1]} "
+              f"trades it opened since {st['started'][:10]} (from ${START_EQ:g}, sized at entry)")
     print()
 
 

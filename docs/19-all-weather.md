@@ -3,6 +3,19 @@
 *2026-09-26. Files: `backtest/all_weather.py`, `all_weather_check.py`, `all_weather_pick.py`,
 `mn_stop.py`, `mn_scale.py`. Logs of the same names.*
 
+> **Status, corrected 2026-10-01: NOT adopted** (CLAUDE.md §10, 2026-09-29). Two of the passes in
+> §3 are weaker than this doc first stated, and the review that said so is right:
+> - **The bar-phase check cannot test this change.** Bar phase moves only the trend book's grid.
+>   The gain comes from the market-neutral weight, and the MN book is identical in every phase -
+>   so "+6.5 to +6.7 on all four phases" restates one number four times. It is not a robustness pass.
+> - **The matched-risk control compared falls on a series where MN is booked weekly**, which
+>   `max_mix.py` itself says is too shallow for large MN shares. §4's worst-DAY table measures the
+>   lump at its settlement day, but the path inside the week is still invisible.
+>
+> What stands: the decomposition in §1, the two dead ends, and §5 - **a typical sideways month still
+> loses ~4% at every weight tested.** The running `combo_paper.py` logs each book separately, so the
+> MN weight can be judged from its own forward record without another backtest.
+
 **The goal, in the user's words:** *"an end result bot basically our product ... i just need an end
 product that can give crazy gains in every time of market not just [bull]."*
 

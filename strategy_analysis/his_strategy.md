@@ -1680,3 +1680,59 @@ trade and −$48 on a −31.75-point day like 2026-09-14.
 **This is 25 trades on 12 days, and the ±7 net race is sensitive to a point or two, so these are not planning
 numbers.** Prediction: registered "≥ 75% mid race to 10 s, net ≥ 60%, ≥ +3 points a trade at 5–10 s". Right, except
 that I expected a 0-s copy to be the best.
+
+## 35. Was his January–March clock one hour off? A missed clue in our own table (2026-10-01)
+
+Found by re-reading `logs/his_vs_market.csv` (46 NASDAQ trades with the real market's move during each hold) with no
+new data. Split at the European clock change, **2026-03-29**, the record looks like two different traders:
+
+| | before 29 Mar (19 trades) | after 29 Mar (27 trades) |
+|---|---|---|
+| real market moved his way | **37%**, −1.3 points | **96%**, +10.2 points |
+| \|his points − market move\| (= his broker's basis jump inside the trade), median | 11.0 | 3.2 |
+| his broker's basis at entry, across days | erratic, **−192 … +351** | smooth futures roll-down: 163 → 9 into the June expiry, 217 → −18 into September |
+| his sitting time, Pakistan clock (no DST there) | 19:14 | 20:38 |
+
+**§25 read the left column as "his January–March prices are not the market's".** A clock error produces the same
+picture: compare his fill with the market at the wrong hour and the basis becomes the market's one-hour move (hundreds of
+points, random sign), while "the market's move during his hold" becomes the move of some other few minutes (≈ 0 on
+average). The break falls between his 03-16 trade (still erratic) and his 03-31 trade (clean) - after the US change
+(03-08), at the European one (03-29), which is when many broker servers move their clocks.
+
+**Why it was never caught.** Every script converts with one constant, `GMT = 5.0`. §14's three alignment methods split
+between UTC+4 and UTC+5 on 26 entries, 11 of them from winter. §15 then tested only +0 / +3 / +5 / +7, pooled across all
+months. §25's clock check searched only ±600 s, pooled. None could see a one-hour error confined to winter.
+
+**The test** (`backtest/his_clock_check.py`, run on the PC with the MT5 terminal): for each offset and separately per
+period, place his entry and exit at statement time − offset and read the real USTECm mid at both. With the right clock
+his points equal the market's move minus his costs. `tests/test_his_clock_check.py` plants a one-hour winter error in a
+synthetic market and the check finds it (UTC+4, error = the planted 2-point cost), and on a market with no error it finds
++5 everywhere.
+
+**REGISTERED PREDICTION, before any run on his real data:**
+- after 29 Mar: best offset UTC+5 - the control; if not, the method is broken;
+- before 08 Mar: best offset **UTC+4**, median |pts − mv| ≤ 5 and the market his way in ≥ 80% of trades (against 11.0
+  and 37% at UTC+5).
+
+**If it is confirmed:**
+- the "off-market prices" finding of §25 was the clock, not his broker - the strongest remaining doubt about the record
+  goes away;
+- ~19 January–March NASDAQ trades rejoin the clean sample (**25 → ~44**), nearly doubling the power of the copy-delay
+  test in §34, which is the one that decides whether he can be copied;
+- every §17–§34 result that used January–March times (the second-of-the-minute effect, which §25 found "stronger in
+  January–March", news timing, the model in §33) has to be re-run at the corrected offset.
+
+**A third sign, from the same table.** Under the one-offset clock, **10 of his 19 winter trades fall before the New York
+cash open** (median 09:19 ET) against 1 of 27 in summer - odd for a NASDAQ scalper. With the winter hour corrected, 3 of 19
+(median 10:19 ET), and his winter sitting moves to 20:01 Pakistan time against 20:38 in summer.
+
+**Cross-checking his charts, as the user suggested (2026-10-01).** It was done for April on only: `his_look.py` (§34)
+skipped January–March because its prices did not match, and `his_charts.py` (§24) drew those trades at UTC+5. So the
+19 winter trades have never been seen at what may be their real hour. `his_look.py` now takes `--winter-gmt`, `--since`
+and `--out` (defaults unchanged); after the clock check, on the PC:
+`python -m backtest.his_look --winter-gmt 4 --since 2026-01-01 --out logs/his_look_all`.
+`tests/test_his_look.py` runs it end to end on a fake cache: defaults reproduce the old output, the option draws a
+winter trade at the corrected hour, and the old clock pushes it before the open where it cannot be drawn.
+
+**If it is not confirmed** (best winter offset stays UTC+5), §25's reading stands and the January–March prices really
+were not the market's.

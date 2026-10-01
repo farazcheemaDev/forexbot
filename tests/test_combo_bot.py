@@ -21,18 +21,29 @@ cp.set_dir(Path(tempfile.mkdtemp()))
 
 
 class FakeEx:
-    def __init__(self, prefix="S", quote="SUSDT", coins=("BTC", "ETH", "XRP"), px=None, cs=None):
+    def __init__(self, prefix="S", quote="SUSDT", coins=("BTC", "ETH", "XRP"), px=None, cs=None,
+                 lim=None):
+        """lim = {coin: (step, min amount, min value)} makes the fake behave like Bitget for that
+        coin: amounts truncate to the step, and an order under either minimum RAISES."""
         self.markets = {}
         for c in coins:
             s = f"{prefix}{c}/{quote}:{quote}"
             self.markets[s] = dict(id=f"{prefix}{c}{quote}", symbol=s, contractSize=(cs or {}).get(c, 1.0))
+            if lim and c in lim:
+                st, am, cm = lim[c]
+                self.markets[s].update(precision={"amount": st},
+                                       limits={"amount": {"min": am}, "cost": {"min": cm}})
         self.px = px or {}
         self.pos, self.orders, self.cancelled, self.n = {}, [], [], 0
+        self.precisionMode = 4                                            # ccxt TICK_SIZE
 
     def market(self, s):
         return self.markets[s]
 
     def amount_to_precision(self, s, a):
+        st = (self.markets[s].get("precision") or {}).get("amount")
+        if st:                                                            # ccxt truncates
+            return f"{int(a / st + 1e-12) * st:.10g}"
         return f"{a:.4f}"
 
     def price_to_precision(self, s, p):
@@ -48,6 +59,12 @@ class FakeEx:
         pass
 
     def create_order(self, s, typ, side, amount, price, params):
+        lim = self.markets[s].get("limits")
+        if lim and "triggerPrice" not in params:
+            if float(amount) < lim["amount"]["min"] - 1e-12:
+                raise Exception("bitget {\"code\":\"45110\",\"msg\":\"less than the minimum order quantity\"}")
+            if not params.get("reduceOnly") and float(amount) * self.px[s] < lim["cost"]["min"]:
+                raise Exception("bitget {\"code\":\"45111\",\"msg\":\"less than the minimum order amount\"}")
         self.n += 1
         self.orders.append(dict(s=s, side=side, amount=float(amount), params=dict(params)))
         if "triggerPrice" not in params:
@@ -202,6 +219,113 @@ def test_dry_places_nothing_and_keeps_a_ledger():
     assert ex.orders == []
     assert st["exec"]["virtual_pos"] == {"XRP/USDT:USDT": 20.0, "SOL/USDT:USDT": 0.5}
     assert st["exec"]["unmapped"] == ["NOTLISTEDUSDT"]
+
+
+# ------------------------------------------------------------------ the venue's own minimums
+
+def link_venue(px=14.0):
+    """LINK as Bitget lists it: 1-coin step, 1-coin minimum, $5 value floor."""
+    return FakeEx(prefix="", quote="USDT", coins=("LINK",), px={"LINK/USDT:USDT": px},
+                  lim={"LINK": (1.0, 1.0, 5.0)})
+
+
+def log_text() -> str:
+    return cp.P["log"].read_text(encoding="utf-8") if cp.P["log"].exists() else ""
+
+
+def test_rounds_to_the_nearest_step_not_down():
+    ex = link_venue()
+    cb.execute(state(mn_qty={"LINKUSDT": 1.6}), cb.Venue(ex, "live"), "live", {"LINKUSDT": 14.0}, dry=False)
+    assert ex.pos["LINK/USDT:USDT"] == 2.0            # truncation would have bought 1 (-37%)
+    ex2 = link_venue()
+    cb.execute(state(mn_qty={"LINKUSDT": 1.4}), cb.Venue(ex2, "live"), "live", {"LINKUSDT": 14.0}, dry=False)
+    assert ex2.pos["LINK/USDT:USDT"] == 1.0
+
+
+def test_under_the_minimum_is_not_sent_and_logged_once():
+    """The retry loop: 0.4 LINK is under Bitget's 1-LINK minimum. Before the fix it was sent,
+    refused, and re-sent every poll (188 of the demo's 230 failures). Mutation check: on the
+    old execute() this test fails on the ORDER FAILED lines."""
+    ex = link_venue()
+    v = cb.Venue(ex, "live")
+    before = log_text()
+    st = state(mn_qty={"LINKUSDT": 0.4})
+    for _ in range(3):
+        assert cb.execute(st, v, "live", {"LINKUSDT": 14.0}, dry=False) == []
+    new = log_text()[len(before):]
+    assert ex.orders == [] and "ORDER FAILED" not in new
+    assert new.count("BELOW VENUE MINIMUM") == 1, new
+    st["exec"]["mn_qty"] = {"LINKUSDT": 3.0}                               # target moves: it trades
+    cb.execute(st, v, "live", {"LINKUSDT": 14.0}, dry=False)
+    assert ex.pos["LINK/USDT:USDT"] == 3.0 and "LINK/USDT:USDT" not in st["exec"]["refused"]
+
+
+def test_reduce_under_a_step_waits_and_a_close_always_goes():
+    ex = link_venue()                                                      # $14 a LINK
+    ex.pos["LINK/USDT:USDT"] = 2.0
+    v = cb.Venue(ex, "live")
+    st = state(mn_qty={"LINKUSDT": 1.6})                                   # -0.4 ($5.60) rounds to 0
+    cb.execute(st, v, "live", {"LINKUSDT": 14.0}, dry=False)
+    assert ex.pos["LINK/USDT:USDT"] == 2.0 and not [o for o in ex.orders if "triggerPrice" not in o["params"]]
+    st["exec"]["mn_qty"] = {"LINKUSDT": 1.4}                               # -0.6 rounds to -1
+    cb.execute(st, v, "live", {"LINKUSDT": 14.0}, dry=False)
+    assert ex.pos["LINK/USDT:USDT"] == 1.0
+    cheap = link_venue(px=3.0)                                             # 1 LINK = $3, under $5
+    cheap.pos["LINK/USDT:USDT"] = 1.0
+    cb.execute(state(), cb.Venue(cheap, "live"), "live", {"LINKUSDT": 3.0}, dry=False)
+    assert "LINK/USDT:USDT" not in cheap.pos                               # the close still went
+
+
+def test_dry_ledger_books_what_the_venue_would_accept():
+    ex = link_venue()
+    st = state(mn_qty={"LINKUSDT": 1.6, })
+    cb.execute(st, cb.Venue(ex, "dry"), "dry", {"LINKUSDT": 14.0}, dry=True)
+    assert ex.orders == [] and st["exec"]["virtual_pos"] == {"LINK/USDT:USDT": 2.0}
+
+
+def test_rules_read_from_the_market_record():
+    v = cb.Venue(link_venue(), "live")
+    assert v.rules("LINK/USDT:USDT") == (1.0, 1.0, 5.0)
+    ex = FakeEx(prefix="", quote="USDT", coins=("XRP",), px={"XRP/USDT:USDT": 2.0})
+    assert cb.Venue(ex, "live").rules("XRP/USDT:USDT") == (0.0, 0.0, cb.MIN_ORDER)   # no record: $5
+    ex.markets["XRP/USDT:USDT"]["precision"] = {"amount": 2}
+    ex.precisionMode = 2                                                   # decimal places
+    assert abs(cb.Venue(ex, "live").rules("XRP/USDT:USDT")[0] - 0.01) < 1e-15
+
+
+# ------------------------------------------------------------------ the two-week check
+
+def exec_log(rows):
+    import pandas as pd
+    x = pd.DataFrame(rows, columns=["ts", "symbol", "side", "why", "src", "slip_bp"])
+    x["ts"] = pd.to_datetime(x["ts"])
+    return x
+
+
+ALL_KINDS = [("2026-10-01 10:00:05", "SXRP", "buy", "open", "fetch_order.average", 2.0),
+             ("2026-10-01 11:00:05", "SXRP", "buy", "add", "fetch_order.average", 3.0),
+             ("2026-10-01 12:00:05", "SXRP", "sell", "reduce", "fetch_order.average", 1.0),
+             ("2026-10-02 09:00:05", "SXRP", "sell", "close", "fetch_order.average", 2.5),
+             ("2026-10-02 09:00:06", "SXRP", "sell", "open", "fetch_order.average", 2.0)]   # the flip
+
+
+def test_flip_is_a_close_and_an_open_same_side_same_poll():
+    assert cb.flips(exec_log(ALL_KINDS)) == 1
+    late = list(ALL_KINDS[:-1]) + [("2026-10-02 09:10:00", "SXRP", "sell", "open", "fetch_order.average", 2.0)]
+    assert cb.flips(exec_log(late)) == 0                                  # 10 min later: a new trade
+    other = list(ALL_KINDS[:-1]) + [("2026-10-02 09:00:06", "SETH", "sell", "open", "fetch_order.average", 2.0)]
+    assert cb.flips(exec_log(other)) == 0                                 # another coin
+
+
+def test_verdict_names_what_is_missing_and_passes_when_nothing_is():
+    x = exec_log(ALL_KINDS)
+    assert cb.verdict(x, "", 14.2) == []
+    miss = cb.verdict(x, "EXEC X: ORDER FAILED ...\n", 0.8)
+    assert miss == ["0.8 of 14 days", "1 order failures"], miss
+    no_flip = exec_log(ALL_KINDS[:-1])
+    assert cb.verdict(no_flip, "", 20) == ["no flip yet"]
+    slow = exec_log([r[:5] + (9.0,) for r in ALL_KINDS])
+    assert cb.verdict(slow, "", 20) == ["median slippage +9.0bp > 5bp"]
 
 
 # ------------------------------------------------------------------ gates

@@ -1,10 +1,12 @@
 # CLAUDE.md — read this first, every session
 
-*Last updated 2026-09-25. Dated history in §10.*
+*Last updated 2026-09-29. Dated history in §10.*
 
 This file is the orientation for a new session. It is deliberately short. It tells you the
 goal, the rules that keep the numbers honest, where everything is, and the traps that have
 already produced wrong answers in this project more than once.
+
+**A LOCAL session on the PC (MT5 open)? There is a task list waiting: [`docs/LOCAL_MT5_TASKS.md`](docs/LOCAL_MT5_TASKS.md).**
 
 **Read this file, then [`docs/09-pick-up-here.md`](docs/09-pick-up-here.md) for live state,
 then [`docs/02-what-failed.md`](docs/02-what-failed.md) before proposing any strategy.**
@@ -171,10 +173,10 @@ wick_paper.py      THE CRASH BIDS (doc 16 s7), pre-registered: top-40 bids 10% u
 xs_paper.py        an EARLIER pre-registered XS test (21 coins, daily). Frozen — do not edit
 combo_bot.py       THE LIVE COMBINATION BOT (2026-09-24): combo_paper's three books executed on ONE Bitget
                      account, netted per coin, cross margin, 30% disaster stops, intrabar trend stops.
-                     --mode demo (running locally; the demo lists only SBTC/SETH/SXRP, so every coin is
+                     --mode demo (ON THE VM since 2026-09-29, combo-bot-demo.service; the demo lists only SBTC/SETH/SXRP, so every coin is
                      routed onto those by dollar value: an ORDER-PATH test, P&L meaningless), --mode dry
                      (all coins, no orders), --mode live (refused: ALLOW_REAL = False). --report = the
-                     2-week check. tests/test_combo_bot.py: 14 offline tests on a fake exchange.
+                     2-week check, now with a flip count and a VERDICT line. tests/test_combo_bot.py: 21 offline tests on a fake exchange.
                      --wick adds the CRASH DESK (wick_live.py, doc 17 s5): post-only buys 10% under,
                      cap 10 fills an hour watched every 3 s, sold at the hour's close via the netting.
                      tests/test_wick_live.py: 10 tests, 7 mutations caught. The demo was restarted
@@ -378,29 +380,43 @@ even less room. More return comes from 7 units or from capital, not from risk.
 
 ## 7b. OPEN BUGS — read before trusting a live book's numbers
 
+- **The seven blend books' RECORDED equity is overstated - the triple's by ~$325** (found
+  2026-09-29, `rebuild_equity.py`, **not fixable in place, measured instead**). Positions opened
+  before the entry-sized fix carry no `risk_usd`, so blend_paper still sizes them at CLOSE, each
+  on the one before. On 2026-09-28 eight such runners closed in two polls and the triple went
+  $209.68 -> $883.52 recorded; entry-sized, the same 548R is ~$555. **It WILL recur on main,
+  sized and short-boost**: without the tight exit they did not sell on 09-28, so they still hold
+  their pre-fix runners (VM 2026-09-29: all 36 / 1 / 1 of their closes legacy, $207 banked), and
+  their recorded equity will jump the same way when those close. The four tight books have
+  banked theirs. The inflated level stays in every book's state. **Compare the books with `python rebuild_equity.py`** (one line
+  per book: recorded, CORRECTED, and a self-check that replays the log to the cent) **or by R -
+  never by `blend_paper.py --status` equity.**
+
+- **FIXED 2026-09-29: both market-neutral books dropped held coins that left the top-120 pool.**
+  `combo_paper.py` and `mn_paper.py` priced only today's top 120 by 24h volume, and read a held
+  coin outside it as delisted: exited at the previous mark, zero for its day, slot empty until
+  the next rebalance. The combo lost CAP, CYS and TUT that way in three days (12 names -> 9).
+  `mn_paper.held_closes` now prices them; `tests/test_mn_held.py` fails on the old code. Takes
+  effect on restart (`deploy/update_combo.sh` on the VM; `mn_paper.py` wherever it runs). The
+  three names stay out until the 2026-10-01 rebalance.
+
 - **FIXED 2026-09-25: `wick_live.py`'s cap cancelled nothing in a full sweep** (mistake #16). The
   live crash desk did not implement the cap its own backtest models — doc 16's "capped leaves 47%
   of the account" was a property of `wick_5m.py`, not of the code. Fixed, with two regression tests
   that the old filter fails. **`combo_bot.py` must be restarted to pick it up**; until then the
   running demo carries the old desk.
 
-- **THE SIDEWAYS CELL HAS AN ANSWER, and it is a WEIGHT, not a new book** (2026-09-26,
-  [doc 19](docs/19-all-weather.md), `backtest/all_weather*.py`). `max_mix.py` maximised the typical
-  YEAR, which is indifferent to where return comes from - hence a product with a dead chop cell.
-  Ranked by the WORST regime cell instead, the same 54 mixes pick a heavier market-neutral book.
-  It beats the matched-risk control decisively (chop +7.0% against +0.5% for machine v2 scaled to
-  the same 68% fall - betting more scales the trend book's chop LOSS too), holds on BOTH halves
-  (tune −1.1% → +4.4%) and on all four bar phases. **Recommended: MN 1.5x, trend 85%, sleeve 1.5x,
-  bids 1x** - chop +3.1%, typical year $1,673 against $1,469, fall 64% against 57%.
-  **NOT MN 2x**, though the search ranks it first: the MN book settles weekly, so its whole week
-  lands on one day, and at 2x the worst day is **−48.4%** - half the account in one settlement.
-  **What is NOT fixed: the sideways MEDIAN.** MN's own monthly median in chop is +0.2%, so no
-  weight moves it; the median stays ≈−3.8% and ~37% of sideways months are up. Quote this as
-  "positive on average in all three markets", never as "gains in every market".
-  Candidate only - `combo_paper.py` is pre-registered at the old weights and must not be edited.
-
+- **FIXED IN THE BOT 2026-09-29, paper books unchanged:** `combo_bot.py` now reads each coin's
+  step, amount minimum and value floor from Bitget's own market record (`Venue.rules`), rounds
+  to the NEAREST step, and does not send an order the venue cannot accept - logged once as
+  `BELOW VENUE MINIMUM`, counted in `--report`, never an ORDER FAILED. A full close always goes.
+  5 new tests in `tests/test_combo_bot.py` (19 total), all 5 fail on the old code. **Takes effect
+  when the demo bot on your PC is restarted.** `blend_paper.py`'s MEXC table is untouched - it
+  decides the PAPER books' entries, which are pre-registered and hash-checked. Not verified
+  against Bitget's live list from the cloud container (network blocks it); `--mode dry` on your
+  PC does that. The original finding:
 - **The book sizes orders from MEXC's minimums, but trades BITGET** (found 2026-09-26,
-  `backtest/bitget_minimums.py`, **not fixed**). `combo_bot.py:75` uses a flat `MIN_ORDER = 5.0`
+  `backtest/bitget_minimums.py`). `combo_bot.py:75` uses a flat `MIN_ORDER = 5.0`
   and `blend_paper.py:239` uses a MEXC table where LINK is $1.13. Bitget also enforces a minimum
   AMOUNT in coins - 1 whole LINK, 1 DOT, 0.1 LTC - which neither file knows about. Measured on the
   triple book with the price at each trade: at $221 Bitget refuses **26.2% of LINK units, 15.1% of
@@ -477,6 +493,81 @@ the box was patched before the repo was public.
 
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
+
+### 2026-10-01 - his January-March clock may be one hour off (his_strategy.md s35)
+
+- **Found in our own table, no new data** (`logs/his_vs_market.csv`): split at the EU clock change (03-29) his
+  record is two traders. Before: the real market moved his way in 37% of trades (-1.3 pts) and his broker's basis
+  jumps -192..+351 between days. After: 96% (+10.2 pts) and a smooth futures roll-down. s25 called the January-March
+  prices "not the market's"; a one-hour winter clock error gives the same picture. Every script uses one `GMT = 5.0`;
+  s14 split +4/+5, s15 tested +0/+3/+5/+7 pooled, s25 searched only +-600 s pooled.
+- **`backtest/his_clock_check.py`** tests it per period on the PC (MT5 ticks). Synthetic test plants the error and
+  finds it, and finds none when none is planted. **Registered: winter best = UTC+4, summer = UTC+5 (the control).**
+  If right: ~19 more clean trades (25 -> ~44) for the copy-delay test, and s25's doubt about his broker goes away.
+- **Handed to a local session:** `docs/LOCAL_MT5_TASKS.md` (clock check, tick cache for Jan-Mar via
+  `backtest/his_tick_cache.py`, the winter charts via `his_look.py --winter-gmt`, re-running the copy test on ~44
+  trades). The cloud container cannot reach MT5.
+
+### 2026-09-29 - "triple x4.142" was accounting; the combo's H1 yardstick fixed at day 5
+
+- **The combo's day-5 status** read combo x0.951 against triple x4.142. The triple number is
+  two artifacts stacked (§7b): its reference was REALISED equity while it held runners opened
+  ~09-17 that the combo never held, and eight of them closed on 09-28 through the legacy
+  sized-at-close path ($209.68 -> $883.52; entry-sized ~$555). Confirmed to the cent on the
+  VM's own rows: each legacy close is `prev x (1 + 0.003 x R)`, LTC's post-fix long is not.
+- **H1 now reads a fair line** (`combo_paper.triple_fair`): the triple's trades OPENED since
+  the combo started, replayed from $221, sized at entry. The registered line is still printed,
+  labelled. Prediction recorded before the VM's first reading: x0.90-x1.05.
+- **`rebuild_equity.py` rewritten**: all seven books, forked books replayed from main at the
+  fork, and a self-check that reproduces the recorded column row by row by modelling the bot's
+  IN-POLL order (BOOK coin order, then sleeve). Without that order the real 09-28 rows cannot
+  be reproduced - SHIB, WLD and ARB were opened between closes of the same poll. The old
+  check only modelled the legacy convention, so it could never pass on a log spanning the fix.
+- **MN held-coin bug fixed** in both market-neutral books (§7b).
+- **Azure Run command keeps only the last ~4KB of output.** A paste that runs several commands
+  shows only the tail; ask for one command, or a filtered one, at a time.
+- To deploy: `deploy/update_combo.sh` (pull, blob-id check that blend_paper.py is unchanged,
+  tests, restart combo-paper only, status, corrected equity).
+- **Deployed on the VM 2026-09-29, first readings** (update_combo.sh output):
+  - H1 fair: **combo x0.945 | triple x0.966** on 12 trades. Inside the predicted x0.90-x1.05.
+  - `rebuild_equity.py`: **all seven books MATCH to the cent** (fix marker 2026-09-23 06:09:05).
+    Corrected, recorded: main $207.15 / $207.25, tight $492.75 / $727.43, tstop $489.53 / $715.04,
+    units $544.77 / $878.14, triple $541.55 / $863.09.
+  - The factorial on corrected equity: **7 units +$52** (units - tight, triple - tstop),
+    **time stop -$3** (tstop - tight, triple - units). ONE event - the same runners banked on the
+    09-28 break, units 6-7 added to them after the fork. The backtest's direction, once; not a
+    verdict. Main's $207 is not comparable here: its runners are still open.
+- **The other session's "all-weather" weights (MN 1.5x, sleeve 1.5x) are NOT adopted.** Its commit
+  `e5d4c70` / doc 19 never reached GitHub. Its own honest finding stands (a typical sideways month
+  still loses ~4% at every weight), but two of its passes are weaker than stated: the bar-phase
+  check cannot test an MN change (MN is identical in every phase), and its matched-risk control
+  used the weekly-booked fall that `max_mix.py` says is too shallow for large MN shares. The
+  running `combo_paper.py` logs each book separately (`combo_marks.csv`), so those weights can be
+  read from its own record in six months without a new test.
+- **Bitget minimums fixed in `combo_bot.py`** (§7b) - the step between the bot and a readable
+  two-week PASS check.
+- **The demo bot can move to the VM** (`combo-bot-demo.service`). It MOVES, it does not copy:
+  one account, one bot, and the guard cannot see across machines. Steps: stop the PC bot; on the
+  PC run `deploy/make_key_paste.ps1`, which copies a Run command paste to the clipboard that
+  writes the PC's BITGET_* variables to `/etc/forexbot.env` (600, root; base64 in 30-char pieces,
+  and it refuses values systemd would misread); paste it; then paste
+  `deploy/install_demo_bot.sh`. The installer refuses with no keys file or another bot on the VM.
+  It starts fresh, so its first poll closes what the PC bot left open. Tested on a fake VM and
+  with the real PowerShell script. **If the Bitget key is IP-whitelisted to the PC, add the VM's
+  IP on Bitget, or every private call fails.**
+- **DONE: the demo bot runs on the VM since 2026-09-29 19:58 UTC** (`combo-bot-demo.service`,
+  `--mode demo --wick`, fresh state in `logs/combo_bot_demo/`). The PC demo (pid 4600) was told
+  to stop. First poll: MN rebalance #1 (12 names, $18.42 each), then it netted the PC bot's
+  leftovers - SBTC reduced, SETH and SXRP closed - every fill priced by `fetch_order`, slippage
+  +4.3 / -1.1 / +4.7bp, and a disaster stop placed. **The crash desk placed its first real-settings
+  bid** (XRP, $5.52 = equity/40; BTC and ETH are still under Bitget's minimum). One bid an hour
+  still cannot exercise the cap-at-10 path. The two-week `--report` check restarts from here, on
+  the fixed code. Check: `./.venv/bin/python combo_bot.py --mode demo --report` on the VM.
+- **First `--report` on the VM, 0.8 days in: clean.** 25 orders, 25 real fills, 0 order failures (the PC
+  had 230), 0 stop-placement failures, 0 poll errors, slippage median +2.6bp / worst +9.3bp, 3 intrabar
+  trend exits, open/add/reduce/close all seen. The report never counted FLIPS although its PASS rule
+  requires one; it now does (`flips()`), and prints `VERDICT: PASS` or `NOT YET - <what is missing>`
+  (`verdict()`, 14 days, median slippage <= 5bp). PASS is due ~2026-10-13.
 
 ### 2026-09-26 - the trader's pick: every free source read, none holds it (his_strategy.md §26-34)
 
