@@ -56,12 +56,27 @@ def his_exit(ts, mid, spr, t, s, T=7, W=1800):
     return float(T) if len(hit) else float(p[-1]) if len(p) else None
 
 
-def main():
+def main(argv=None):
+    # s35c (2026-10-02): the statement's times are UTC+4 before the EU clock change, UTC+5 after. The defaults
+    # reproduce the original run exactly (one GMT = 5.0, April on); --winter-gmt 4 --since 2026-01-01 adds the
+    # January-March trades at their corrected hour, and --until isolates them.
+    import argparse
+    from backtest.his_clock_check import to_utc
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--winter-gmt", type=float, default=GMT, help="offset before 2026-03-29 (s35c)")
+    ap.add_argument("--since", default="2026-04-01", help="first trade date (UTC)")
+    ap.add_argument("--until", default=None, help="last trade date, exclusive (UTC)")
+    ap.add_argument("--out", default=str(ROOT / "logs" / "his_copy_delay.txt"))
+    a = ap.parse_args(argv)
     cache = pickle.loads(TICKS.read_bytes())
     x = pd.read_csv(ROOT / "strategy_analysis" / "statement_trades.csv", parse_dates=["open_time"])
     x = x[x.symbol.str.startswith("NASDAQ")].copy()
-    x["et"] = (x.open_time - pd.Timedelta(hours=GMT)).dt.tz_localize("UTC").dt.tz_convert("America/New_York").dt.tz_localize(None)
-    x = x[x.open_time - pd.Timedelta(hours=GMT) >= "2026-04-01"]
+    utc = to_utc(x.open_time, a.winter_gmt, GMT)
+    x["et"] = utc.dt.tz_localize("UTC").dt.tz_convert("America/New_York").dt.tz_localize(None)
+    keep = utc >= a.since
+    if a.until:
+        keep &= utc < a.until
+    x = x[keep]
     x["d"] = x.et.dt.normalize()
     x["t"] = (x.et - x.d - pd.Timedelta(hours=9, minutes=30)).dt.total_seconds()
     res = {("his", d): [] for d in DELAYS} | {("near", d): [] for d in DELAYS}
@@ -87,7 +102,7 @@ def main():
                    f"{np.mean(hx):>+14.2f}{f(N, 2):>+8.2f}{np.mean(np.array(hx) >= 7)*100:>8.0f}%")
     txt = "\n".join(out)
     print(txt)
-    (ROOT / "logs" / "his_copy_delay.txt").write_text(txt, encoding="utf-8")
+    Path(a.out).write_text(txt, encoding="utf-8")
 
 
 if __name__ == "__main__":

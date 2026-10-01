@@ -1826,3 +1826,18 @@ One trade cannot separate +3 from +4.
 
 **Next (docs/LOCAL_MT5_TASKS.md steps 2–4):** add January–March to the tick cache, read the winter charts at the
 corrected hour (prediction first), and re-run the deciding tests on ~44 trades, `his_copy_delay.py` first.
+
+### 35d. The deciding tests on ~44 trades — PREDICTIONS, registered before any run (2026-10-02)
+
+The January–March days are now in the tick cache (`his_tick_cache.py`: 63 days fetched, none missing; 181 days in
+all). `his_copy_delay.py` takes `--winter-gmt / --since / --until / --out`; its defaults reproduce the committed
+`logs/his_copy_delay.txt` byte for byte (checked before any new run).
+
+1. **Copy test, winter trades alone** (`--winter-gmt 4 --since 2026-01-01 --until 2026-03-29`): the summer thresholds
+   from §34 hold — a 5–10 s copy wins ≥ 60% of net ±7 races and makes ≥ +3 points a trade with his exit, while the
+   same-sitting moments lose. Reason: §35c shows his winter entries as close to the market as his summer ones.
+2. **Copy test, all ~44 trades:** within 10 points of the 25-trade result on every row.
+3. **The 87% race (`his_local.py`) on ~44 trades:** his moment still beats the same-sitting moments, p < 0.01.
+4. **The decoder (`his_model.py`) on ~44 trades:** STILL at chance (rank 0.45–0.55). More trades add power, but §33's
+   planted-pattern test found 2–3-feature patterns at 0.72–0.96 on 25 trades, so if his pick were in these features
+   it would already have shown. If it rises above 0.60 on both models, that is the first sign of a decodable rule.
