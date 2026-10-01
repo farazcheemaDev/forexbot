@@ -57,6 +57,13 @@ def period(t: pd.Timestamp) -> str:
     return PERIODS[0] if t < US_DST else PERIODS[1] if t < EU_DST else PERIODS[2]
 
 
+def to_utc(t: pd.Series, winter: float = 5.0, summer: float = 5.0) -> pd.Series:
+    """Statement time -> UTC, with one offset before the EU clock change and another after. The
+    defaults reproduce every earlier script (one GMT = 5.0); run this check first to choose them."""
+    off = np.where(t - pd.Timedelta(hours=summer) < EU_DST, winter, summer)
+    return t - pd.to_timedelta(off, unit="h")
+
+
 class MT5Mid:
     """The USTECm mid at a UTC instant: the last tick at or before it."""
 

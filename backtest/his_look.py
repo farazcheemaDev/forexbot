@@ -12,7 +12,12 @@ them with features and models. This draws each clean trade (April on) as a chart
   - his entry (triangle, at his fill price and second) and exit (x).
 Output: logs/his_look/NN.png. Nothing is computed or claimed here.
 
-    python -m backtest.his_look
+2026-10-01: January-March was left out because its prices did not match the market (s25). If
+backtest/his_clock_check.py shows that was a one-hour winter clock error (s35), the same charts can
+be drawn for those trades at the corrected hour, into their own folder:
+
+    python -m backtest.his_look                                    as before: April on, UTC+5
+    python -m backtest.his_look --winter-gmt 4 --since 2026-01-01 --out logs/his_look_all
 """
 from __future__ import annotations
 
@@ -63,23 +68,37 @@ def levels(ax, lv, x0, x1, ylo, yhi):
             ax.text(x0, y, f"{y:.0f} ", va="center", ha="right", fontsize=6, color="grey")
 
 
-def main():
-    cache = pickle.loads(TICKS.read_bytes())
+def main(argv=None):
+    import argparse
+    from backtest.his_clock_check import to_utc
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--winter-gmt", type=float, default=GMT, help="offset before 2026-03-29 (s35)")
+    ap.add_argument("--since", default="2026-04-01", help="first trade date drawn (UTC)")
+    ap.add_argument("--out", default=str(OUT))
+    ap.add_argument("--trades", default=str(ROOT / "strategy_analysis" / "statement_trades.csv"))
+    ap.add_argument("--ticks", default=str(TICKS))
+    a = ap.parse_args(argv)
+    out = Path(a.out)
+    cache = pickle.loads(Path(a.ticks).read_bytes())
     tdays = sorted(d for d in cache if cache[d] is not None)
-    x = pd.read_csv(ROOT / "strategy_analysis" / "statement_trades.csv", parse_dates=["open_time", "close_time"])
+    x = pd.read_csv(a.trades, parse_dates=["open_time", "close_time"])
     x = x[x.symbol.str.startswith("NASDAQ")].copy()
     for c in ("open_time", "close_time"):
-        x[c[:-5]] = (x[c] - pd.Timedelta(hours=GMT)).dt.tz_localize("UTC").dt.tz_convert("America/New_York").dt.tz_localize(None)
-    x = x[x.open_time - pd.Timedelta(hours=GMT) >= "2026-04-01"].sort_values("open", kind="stable")
+        x[c[:-5]] = to_utc(x[c], a.winter_gmt, GMT).dt.tz_localize("UTC").dt.tz_convert("America/New_York").dt.tz_localize(None)
+    x = x[to_utc(x.open_time, a.winter_gmt, GMT) >= a.since].sort_values("open", kind="stable")
     x["d"] = x.open.dt.normalize()
     x["t"] = (x.open - x.d - pd.Timedelta(hours=9, minutes=30)).dt.total_seconds()
     x["tc"] = (x.close - x.d - pd.Timedelta(hours=9, minutes=30)).dt.total_seconds()
+    n0 = len(x)
     x = x[x.d.isin(tdays) & (x.t > 0)]
+    if len(x) < n0:
+        print(f"{n0 - len(x)} of {n0} trades not drawn: no ticks cached for that day, or before 09:30 ET")
     b = {}
     for d, g in x.groupby("d"):
         ts, mid, _ = cache[d]
         b[d] = np.median([((r.open_price - at(ts, mid, r.t)) + (r.close_price - at(ts, mid, r.tc))) / 2 for r in g.itertuples()])
-    OUT.mkdir(parents=True, exist_ok=True)
+    out.mkdir(parents=True, exist_ok=True)
+    n = 0
     for n, r in enumerate(x.itertuples(), 1):
         ts, mid, _ = cache[r.d]
         bb = b[r.d]
@@ -123,9 +142,10 @@ def main():
         a2.set_xlabel("minutes from his entry candle (0 = the candle he clicked in)", fontsize=8)
         a2.grid(axis="x", alpha=0.2)
         fig.tight_layout()
-        fig.savefig(OUT / f"{n:02d}.png", dpi=80)
+        fig.savefig(out / f"{n:02d}.png", dpi=80)
         plt.close(fig)
-    print(f"{n} charts in {OUT}")
+    print(f"{n} charts in {out}")
+    return x
 
 
 if __name__ == "__main__":

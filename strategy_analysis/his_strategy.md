@@ -1722,5 +1722,17 @@ synthetic market and the check finds it (UTC+4, error = the planted 2-point cost
 - every §17–§34 result that used January–March times (the second-of-the-minute effect, which §25 found "stronger in
   January–March", news timing, the model in §33) has to be re-run at the corrected offset.
 
+**A third sign, from the same table.** Under the one-offset clock, **10 of his 19 winter trades fall before the New York
+cash open** (median 09:19 ET) against 1 of 27 in summer - odd for a NASDAQ scalper. With the winter hour corrected, 3 of 19
+(median 10:19 ET), and his winter sitting moves to 20:01 Pakistan time against 20:38 in summer.
+
+**Cross-checking his charts, as the user suggested (2026-10-01).** It was done for April on only: `his_look.py` (§34)
+skipped January–March because its prices did not match, and `his_charts.py` (§24) drew those trades at UTC+5. So the
+19 winter trades have never been seen at what may be their real hour. `his_look.py` now takes `--winter-gmt`, `--since`
+and `--out` (defaults unchanged); after the clock check, on the PC:
+`python -m backtest.his_look --winter-gmt 4 --since 2026-01-01 --out logs/his_look_all`.
+`tests/test_his_look.py` runs it end to end on a fake cache: defaults reproduce the old output, the option draws a
+winter trade at the corrected hour, and the old clock pushes it before the open where it cannot be drawn.
+
 **If it is not confirmed** (best winter offset stays UTC+5), §25's reading stands and the January–March prices really
 were not the market's.
