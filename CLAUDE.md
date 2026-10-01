@@ -6,6 +6,8 @@ This file is the orientation for a new session. It is deliberately short. It tel
 goal, the rules that keep the numbers honest, where everything is, and the traps that have
 already produced wrong answers in this project more than once.
 
+**A LOCAL session on the PC (MT5 open)? There is a task list waiting: [`docs/LOCAL_MT5_TASKS.md`](docs/LOCAL_MT5_TASKS.md).**
+
 **Read this file, then [`docs/09-pick-up-here.md`](docs/09-pick-up-here.md) for live state,
 then [`docs/02-what-failed.md`](docs/02-what-failed.md) before proposing any strategy.**
 
@@ -502,6 +504,9 @@ the detail lives in the numbered docs.*
 - **`backtest/his_clock_check.py`** tests it per period on the PC (MT5 ticks). Synthetic test plants the error and
   finds it, and finds none when none is planted. **Registered: winter best = UTC+4, summer = UTC+5 (the control).**
   If right: ~19 more clean trades (25 -> ~44) for the copy-delay test, and s25's doubt about his broker goes away.
+- **Handed to a local session:** `docs/LOCAL_MT5_TASKS.md` (clock check, tick cache for Jan-Mar via
+  `backtest/his_tick_cache.py`, the winter charts via `his_look.py --winter-gmt`, re-running the copy test on ~44
+  trades). The cloud container cannot reach MT5.
 
 ### 2026-09-29 - "triple x4.142" was accounting; the combo's H1 yardstick fixed at day 5
 
