@@ -66,6 +66,7 @@ retail has now been tested here, with predictions registered first:
 | 21 signals scanned inside each regime | doc 13 | one passed Holm — in BEARS (now the sleeve). None in chop |
 | selling option premium | doc 11 | ~0 in 2026 |
 | crash bids sized up only in chop | below | the tail lives in chop |
+| a different asset class: the forex/commodity 12-month trend book | `fx_tsmom.py`, doc 18 | dead by arithmetic: +5.5%/yr (~0.45%/mo) swap-free only; even if ALL of it fell in crypto's 26 sideways months it is +1.4%/mo, +4.2% at 3× with ~70% falls - still short of the −4.5% it would have to cover |
 
 **The last row, measured 2026-10-01** (`logs/wick_capped.pkl`, cap 10, labelled by `btc_regime`): the crash bids earn
 **+0.035%/day in chop against +0.078% in bull**, and **7 of their 8 worst days are chop days** (2020-03-12 −3.35%,
