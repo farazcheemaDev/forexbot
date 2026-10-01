@@ -1,0 +1,34 @@
+HIS CLOCK, PER PERIOD - 46 NASDAQ trades, offsets (3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0)
+With the right offset his points = the market's move minus costs: median |pts - mv| ~3.
+
+before 08 Mar
+   offset  trades  median |pts-mv|  market his way  mean move
+      3.0      17            12.60            59%      +5.21
+      3.5      18             5.13            83%      +7.25
+      4.0      18             4.29            94%     +13.64
+      4.5      18             9.17            61%      +0.53
+      5.0      18             9.99            39%      -1.26
+      5.5      18            12.72            33%      -1.71
+      6.0      18             8.48            44%      -0.37
+08-29 Mar
+   offset  trades  median |pts-mv|  market his way  mean move
+      3.0       1             2.44           100%     +18.69
+      3.5       1            28.04             0%     -11.79
+      4.0       1             5.08           100%     +21.33
+      4.5       1            29.75           100%     +46.00
+      5.0       1            17.57             0%      -1.32
+      5.5       1            29.57             0%     -13.32
+      6.0       1            22.29           100%     +38.54
+after 29 Mar
+   offset  trades  median |pts-mv|  market his way  mean move
+      3.0      22            13.06            23%      -0.71
+      3.5      26             7.99            50%      -2.24
+      4.0      27             8.31            52%      +0.44
+      4.5      27            10.42            37%      -3.00
+      5.0      27             3.19            96%     +10.17
+      5.5      27            10.25            48%      -3.06
+      6.0      26             8.27            58%      +2.25
+
+BEST OFFSET: 08-29 Mar: UTC+3 | after 29 Mar: UTC+5 | before 08 Mar: UTC+4
+CONTROL (after 29 Mar must be UTC+5): PASS
+per trade and offset: D:\forexbot\logs\his_clock_check.csv

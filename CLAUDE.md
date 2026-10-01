@@ -510,6 +510,21 @@ the detail lives in the numbered docs.*
   `backtest/his_tick_cache.py`, the winter charts via `his_look.py --winter-gmt`, re-running the copy test on ~44
   trades). The cloud container cannot reach MT5.
 
+### 2026-10-02 - the trader's winter clock: CONFIRMED one hour off (his_strategy s35b-c)
+
+- **`his_clock_check.py` run on the PC's MT5** against predictions registered in s35: control (after 29 Mar)
+  UTC+5 PASS; **before 08 Mar best UTC+4**, median |pts - mv| 4.29, market his way 94% (against 9.99 and 39% at the
+  old UTC+5). **12 of 12 decisive winter trades favour UTC+4, none UTC+5.** The 08-29 Mar trade reads at UTC+3/+4,
+  clearly not +5, so the statement's clock changed on the EU date.
+- **MT5's own labels are UTC** (`mt5_clock_anchor.py`: the US cash open sits at 14:30 / 13:30 / 13:30 UTC across the
+  three periods). So the hour is in the timezone the statement's times are written in. **The statement itself is
+  genuine** - the user downloaded it from VertexPro; a broker server clock that changes in March explains the shift.
+- **Consequences:** s25's "off-market winter prices" was the clock; his winter trades are as good as his summer ones;
+  the clean sample grows 25 -> ~44. `his_calendar.py` (s28), `his_posts.py` (s29) and `his_news.py` (s24) put winter
+  trades an hour early against outside clocks and must be re-run - the handoff's step 4 did not list them.
+- Next: `docs/LOCAL_MT5_TASKS.md` steps 2-4 (tick cache for Jan-Mar, winter charts, the deciding tests on ~44 trades,
+  `his_copy_delay.py` first).
+
 ### 2026-09-29 - "triple x4.142" was accounting; the combo's H1 yardstick fixed at day 5
 
 - **The combo's day-5 status** read combo x0.951 against triple x4.142. The triple number is

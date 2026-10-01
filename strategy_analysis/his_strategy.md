@@ -1792,3 +1792,37 @@ If the clock check confirms, re-run these three at `--winter-gmt 4` alongside st
 summer separately. **Not yet run: the clock check itself** — it needs the MT5 terminal open for January–March ticks,
 and the terminal was closed when this was written. The 5-minute bars cannot stand in for it: his holds are 1–5
 minutes, so they cannot measure his points against the market's move.
+
+### 35c. The clock check, run: CONFIRMED (2026-10-02, local session, Exness MT5 ticks)
+
+`python -m backtest.his_clock_check` (`logs/his_clock_check.txt`, per trade and offset in `logs/his_clock_check.csv`),
+against the predictions registered in §35 and §35b before the run:
+
+| period | trades | best offset | median \|pts − mv\| | market his way | at the old UTC+5 |
+|---|---|---|---|---|---|
+| before 08 Mar | 18 | **UTC+4** | **4.29** (registered: ≤ 5) | **94%** (registered: ≥ 80%) | 9.99, 39% |
+| 08–29 Mar | 1 | UTC+3 (2.44); UTC+4 5.08 | — | — | 17.57, wrong way |
+| after 29 Mar (control) | 27 | **UTC+5 — PASS** | 3.19 | 96% | — |
+
+**Trade by trade.** Of the 19 winter trades, **12 are decisive** (the two clocks differ by more than 5 points) and
+**all 12 favour UTC+4; none favour UTC+5.** The other 7 fall in quiet hours where both clocks fit within ~6 points.
+One trade keeps a large error at UTC+4: **2026-01-02** (the first session of the year), market +50.2 his way, his
+points +38.2 — right direction, he caught less of the move. Named, not averaged away.
+
+**Against the predictions.** §35's three are all right: control UTC+5, winter UTC+4, error ≤ 5 and ≥ 80% his way.
+§35b's added one was that the 08–29 Mar trade reads best at UTC+4. **Its literal form missed** — the best is UTC+3,
+with UTC+4 second — but its substance held: on one trade UTC+5 is clearly wrong (17.6, wrong way), so the statement's
+clock changed on the **EU date (29 Mar), not the US one (08 Mar)**, as the broker-server-time mechanism predicts.
+One trade cannot separate +3 from +4.
+
+**What it means.**
+- **§25's "his January–March prices were not the market's" was the clock, not his broker.** At the right hour his
+  winter trades match the market as closely as his summer ones (4.3 against 3.2 points; 94% against 96% his way).
+  With the statement confirmed genuine by the user (VertexPro, §35b), the strongest doubt about his record is gone.
+- **He was as good in winter as in summer** — 94% of winter trades had the market moving his way, not 39%.
+- **The clean sample grows from 25 to ~44 trades** for the tests that decide whether he can be copied.
+- **Three results are contaminated and must be re-run** with winter at UTC+4 (§35b): `his_calendar.py` (§28),
+  `his_posts.py` (§29), `his_news.py` (§24) — each put his winter trades an hour early against an outside clock.
+
+**Next (docs/LOCAL_MT5_TASKS.md steps 2–4):** add January–March to the tick cache, read the winter charts at the
+corrected hour (prediction first), and re-run the deciding tests on ~44 trades, `his_copy_delay.py` first.
