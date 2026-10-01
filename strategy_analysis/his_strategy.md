@@ -1758,8 +1758,24 @@ is a jump no feed can hide, at 14:30 UTC under EST and 13:30 UTC under EDT; the 
 | after 29 Mar | 66 | **13:30** | 3.77× | 0.87× | 3.77× |
 
 **Prediction right. MT5's labels are true UTC in all three periods** — they follow the US change on 08 Mar, ignore the
-EU one on 29 Mar, and show one clean spike each. So **if the clock check confirms UTC+4 in winter, the hour is in his
-statement**, which is reading (a).
+EU one on 29 Mar, and show one clean spike each. So **if the clock check confirms UTC+4 in winter, the hour is in the
+timezone the statement's times are written in** - reading (a). That is a statement about the CLOCK, not about the
+trades: a genuine statement written in a broker's server clock shifts by an hour in March even though Pakistan's
+clock does not, and every script here read it as UTC+5 for all nine months.
+
+**Provenance, from the user (2026-10-01):** the statement is genuine - the user downloaded it from **VertexPro**
+themselves. That weighs for the clock reading over §25's. §25's alternative was that his January–March fills "were
+not the market's" (about half his winter trades earning more than the market ever offered); on a statement taken
+straight from the broker that is the harder thing to believe, while a clock mismatch needs nothing faked.
+
+**How a genuine download produces exactly this (a hypothesis, not checked).** Most brokers run server time at GMT+2
+in winter and GMT+3 in summer. If VertexPro does, and its statement converts server time to the viewer's Pakistan
+time with ONE offset - the +2 h of the day it was downloaded, in summer - then summer rows land at UTC+5 and winter
+rows at UTC+4, which is §35's pattern. VertexPro's own server clock could not be found online, so this stays a
+hypothesis. **It adds one registered prediction, made before the clock check runs:** the statement's change follows
+the broker's DST date. §35 already noted his 03-16 trade is still erratic at UTC+5, which points to the EU date
+(29 Mar), not the US one (08 Mar). So: **the 08–29 Mar trades read best at UTC+4, like January–February.** If they
+read at UTC+5, the change is on the US date and the mechanism is different.
 
 **What that adds to the handoff (`docs/LOCAL_MT5_TASKS.md` step 4).** Its list is scripts that *excluded* winter and
 would gain trades. Three scripts *included* his winter trades and compared them with outside UTC clocks, so under (a)
