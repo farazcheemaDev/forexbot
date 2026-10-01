@@ -3108,3 +3108,21 @@ the right number.** The decisive prediction was wrong.
 **What survived instead.** Not a change to the book — a change to its WEIGHT. See
 [doc 19](19-all-weather.md): the book is simply run at 2×, which the mix can carry, and that is
 what lifts the sideways cell.
+
+---
+
+## Dead on inspection: crash bids sized up in sideways markets (2026-10-01) — `logs/wick_capped.pkl`
+
+**Why it was worth checking.** Of the four books, only the crash bids have the right *shape* for sideways months
+(88% of them up, `all_weather.py`), and they are held at 1× by their tail. If that tail lived in bull-to-bear turns,
+the bids could run larger only in chop. **It does not** (cap 10, days labelled by `btc_regime`):
+
+| regime | days | days with fills | mean per day | worst day |
+|---|---|---|---|---|
+| bull | 882 | 247 | +0.078% | −1.50% |
+| **chop** | 959 | 262 | **+0.035%** | **−3.35%** |
+| bear | 614 | 0 (no bids by rule) | — | — |
+
+**7 of the 8 worst days are chop days** (2020-03-12, 2026-06-02, 2026-04-17, 2026-03-24, 2022-05-09, 2025-11-07,
+2024-10-15). Sizing up in chop buys the fatter tail and the half-size edge together. Not built. The full list of what
+has been tried for sideways markets, and why it is closed at retail, is in [doc 20](20-the-product.md) §3.

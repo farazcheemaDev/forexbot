@@ -190,7 +190,9 @@ backtest/wick_better.py, wick_5m.py, joint_worst_hour.py, worst_month.py   the c
                      which rule, what happens inside the hour, the account's worst hour, the worst
                      month and recovery. wick_replay.py replays wick_paper.py on past crash hours.
                      Candidate only - nothing in combo_bot.py
-docs/              00-17 + README. Doc 02 is the graveyard; read it before proposing.
+docs/              00-20 + README. Doc 02 is the graveyard; read it before proposing.
+                     DOC 20 = THE PRODUCT: what combo_bot is, what it earns per market, and the
+                     sideways gap with every test that tried to close it.
                      DOC 17 = THE MACHINE v2: all four books, the evidence, every risk in one table.
                      11 = money-machine search, graveyard re-check, lottery odds. 12 = BTC signals.
                      13 bear breadth, 14 drawdown + the final mix, 15/16 crash bids
