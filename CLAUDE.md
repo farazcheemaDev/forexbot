@@ -533,6 +533,12 @@ the detail lives in the numbered docs.*
     races at random moments.
   - **Where reverse-engineering stands: what his trades do is solved and replicated; how he picks them is in no data
     recorded here. The only route to his edge is copying him live, not decoding him.**
+- **His DIRECTION is not in the price either** (s36, `his_direction.py`): he follows the prior move 44-59% at
+  every horizon from 15 s to 30 min (none significant), and at his own moments the best of 14 follow/fade rules wins
+  the race 57% against his 88%. His moment + his side = 88%; either alone ~50-57%. At his click he knows WHICH WAY,
+  from something not in price history: real futures order flow, the book, a live headline, or someone else.
+  **Decisive test: CME NQ trades with aggressor side (Databento, $125 free credit on a new account, user signs up,
+  key in env only).**
 
 ### 2026-09-29 - "triple x4.142" was accounting; the combo's H1 yardstick fixed at day 5
 

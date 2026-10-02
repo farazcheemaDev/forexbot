@@ -1946,3 +1946,54 @@ the day's range is fixed): he enters with somewhat more room ahead than the sitt
 ahead does not win races at random moments** (far third 50.7% vs near third 49.2%; halves −0.8 / +3.6). A mild
 preference of his with no edge in it. The registered prediction said "nothing near Holm"; two rows reached 0.048, so
 it was partly wrong — and the finding is still empty.
+
+## 36. How he chooses DIRECTION — not from the price, at any horizon (2026-10-02)
+
+The user: *"I want to copy his strategy, not his trades."* Everything since §26 asked WHEN he enters. WHICH WAY was
+flagged in §14 as "the next analysis" and never run. `backtest/his_direction.py` (`logs/his_direction.txt`, 42 entries
+with ticks at the corrected hour), predictions registered in the file before the run.
+
+**1. Fade or follow.** The market's move into each entry, signed by his side:
+
+| horizon | 15 s | 30 s | 1 m | 2 m | 5 m | 15 m | 30 m |
+|---|---|---|---|---|---|---|---|
+| he follows it | 54% | 45% | 44% | 48% | 52% | 57% | 59% |
+| binomial p | 0.76 | 0.64 | 0.53 | 0.88 | 0.88 | 0.44 | 0.34 |
+
+**Nothing.** He follows and fades the prior move about equally at every horizon from 15 seconds to 30 minutes. Winter
+and summer differ in places (30 s: 60% vs 36% followed) but neither is consistent.
+
+**2. Give a mechanical rule his timing and let it pick the side.** At his own moments, "follow the last H" and "fade
+the last H" for all seven horizons win the ±7 race **42–57%** (best: fade the last minute, 57%). **He wins 88%.**
+
+**What that means — the most important structural fact about his method found so far:**
+
+| | ±7 race won |
+|---|---|
+| his moment AND his side | **88%** |
+| nearby moments (±20 min), his side | 55% |
+| his moment, side chosen from price history (best of 14 rules) | 57% |
+
+Neither half works alone. His timing with a price-based side is a coin flip; his side at other moments is barely
+better. **At the moment he clicks, he knows which way the next 1–5 minutes will go, and that knowledge is not in the
+price before it.** Predictions: (1) no horizon above 75% — right (max 59%); (2) 30 s faded more than followed overall
+(45%) and 5 m followed slightly (52%), winter fading 5 m more — right in direction, all weak; (3) best rule under 70% —
+right (57%).
+
+**What can carry that.** Information that tells DIRECTION at a moment, and is not in price history:
+1. **order flow on the real futures** — aggressive buying or selling hitting CME NQ before the price moves (tape
+   reading). Never tested on the real futures: §27 used Binance's QQQ perp, a thin crypto proxy;
+2. **the order book** — large resting orders, absorption, pulled liquidity, on the real futures;
+3. **an unscheduled headline** — the scheduled calendar, Fed speakers and Trump's posts are tested and closed; the live
+   headline wire (squawk) is not;
+4. **someone else** — a signal service or a room.
+Everything else free has been tested: price, ticks, candles, indicators, SMC, levels, the day's range, 8 mega-caps,
+S&P, Dow, the dollar, gold, USDJPY, bitcoin, scheduled news, posts.
+
+**The one decisive test left, and it may be free.** Hypotheses 1 and 2 need the real CME NQ futures — every trade with
+its aggressor side, and the book. Databento serves both (Trades, MBP-10) and gives **$125 of free data credit to every
+new account** (databento.com/pricing, checked 2026-10-02). Only ±20 minutes around each of his 42 entries is needed,
+so the request is small; the plan is to price it with Databento's cost endpoint before downloading anything. The test
+that would decide it: **does the sign of aggressive futures flow in the seconds before his click predict HIS side** at
+his moments, and not at the nearby ones? If yes, he reads the tape and a bot can too. If no, what he sees is
+off-screen. The user would have to open the account; the key goes in an environment variable, never in a chat or file.

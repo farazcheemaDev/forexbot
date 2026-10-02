@@ -1,0 +1,30 @@
+42 NASDAQ entries with ticks (16 winter, 26 summer); his own +-7 race: 88%
+
+1. FADE OR FOLLOW - the move INTO his entry, signed by his side (> 0 = he follows it)
+   horizon |  all: follows       p median pts |   winter  summer
+       15s |          54%   0.755       +0.1 |     56%     52%
+       30s |          45%   0.636       -0.4 |     60%     36%
+        1m |          44%   0.533       -1.0 |     31%     52%
+        2m |          48%   0.878       -0.3 |     44%     50%
+        5m |          52%   0.878       +3.2 |     44%     58%
+       15m |          57%   0.441       +2.0 |     62%     54%
+       30m |          59%   0.337       +5.8 |     46%     65%
+
+2. GIVE A MECHANICAL RULE HIS TIMING - which side would it pick, and would it win the +-7 race?
+              rule |  race won    n |  agrees with his side
+   follow last 15s |      48%   40 |                  52%
+     fade last 15s |      52%   40 |                  45%
+   follow last 30s |      44%   39 |                  43%
+     fade last 30s |      56%   39 |                  52%
+    follow last 1m |      42%   40 |                  43%
+      fade last 1m |      57%   40 |                  55%
+    follow last 2m |      46%   41 |                  48%
+      fade last 2m |      54%   41 |                  52%
+    follow last 5m |      46%   41 |                  52%
+      fade last 5m |      54%   41 |                  48%
+   follow last 15m |      49%   41 |                  57%
+     fade last 15m |      51%   41 |                  43%
+   follow last 30m |      45%   38 |                  59%
+     fade last 30m |      55%   38 |                  41%
+
+  best mechanical side rule at his moments: fade last 1m -> 57%, against his 88%
