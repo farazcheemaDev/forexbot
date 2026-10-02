@@ -85,6 +85,15 @@ def windows(x):
 
 
 def client():
+    if not os.environ.get("DATABENTO_API_KEY") and sys.platform == "win32":
+        # a shell started before the user set the variable has not inherited it; read the same user-scope
+        # environment store a fresh process would inherit from. Never printed, passed or logged.
+        try:
+            import winreg
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Environment") as k:
+                os.environ["DATABENTO_API_KEY"] = winreg.QueryValueEx(k, "DATABENTO_API_KEY")[0]
+        except OSError:
+            pass
     if not os.environ.get("DATABENTO_API_KEY"):
         sys.exit("DATABENTO_API_KEY is not set in this environment. Set it as a user environment variable and "
                  "restart the app; it is never passed on the command line.")

@@ -1997,3 +1997,21 @@ so the request is small; the plan is to price it with Databento's cost endpoint 
 that would decide it: **does the sign of aggressive futures flow in the seconds before his click predict HIS side** at
 his moments, and not at the nearby ones? If yes, he reads the tape and a bot can too. If no, what he sees is
 off-screen. The user would have to open the account; the key goes in an environment variable, never in a chat or file.
+
+## 37. The tape: real CME NQ order flow at his moments — RULED OUT (2026-10-02)
+
+`backtest/his_tape.py` (`logs/his_tape.txt`), predictions registered and committed before any data was fetched.
+Databento GLBX.MDP3 `trades` with the aggressor side, front-volume NQ, 22 min before to 20 min after each entry:
+**801,045 trades in 31 windows, priced at $1.33** of the user's free credit before download. Raw CME data stays in the
+git-ignored data folder; only these aggregates are committed. 42 entries, 1,553 same-sitting moments.
+
+| test | result | registered |
+|---|---|---|
+| **A.** aggressor-flow sign agrees with HIS side at his click (5 s – 120 s) | **48–55%** all trades, 45–63% on 5+ lots, every p > 0.11 | 60–75% |
+| **B.** his moment's flow, signed his way, ranked among the sitting's moments | **0.48–0.54**, every p > 0.38 | 0.55–0.65 |
+| **C.** trade WITH top-decile flow at the sitting's moments | **46–52%** of ±7 races | 52–56% |
+
+**All three predictions wrong, all toward less signal.** Aggressive buying and selling on the real futures in the two
+minutes before his click carries neither his side nor his timing, and is not an edge at any moment either. §27's
+Binance proxy said the same; this is the real market saying it. **He is not reading the trade tape.** What remains from
+§36's list: the order book (resting size, not trades), a live unscheduled headline, or someone else.

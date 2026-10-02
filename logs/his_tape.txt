@@ -1,0 +1,25 @@
+42 of his entries with futures trades in range; 1553 same-sitting moments; 801,045 NQ trades in 31 windows (aggregates only - raw data stays local)
+
+A. DIRECTION - does the futures flow's sign agree with HIS side at his click?
+   window   all trades       p    5+ lots       p
+       5s         55%   0.636         45%   0.832
+      15s         51%   1.000         61%   0.281
+      30s         48%   0.878         46%   0.743
+      60s         52%   0.878         63%   0.117
+     120s         52%   0.878         57%   0.430
+
+B. TIMING - his moment's flow (signed his way) ranked among the sitting's other moments
+   window    rank       p
+       5s    0.50   0.955
+      15s    0.51   0.822
+      30s    0.48   0.555
+      60s    0.52   0.722
+     120s    0.54   0.385
+
+C. A RULE ANYONE COULD RUN - at the sitting's moments, trade WITH strong flow (top decile of |imb|)
+   window  race won     n   (base: the race in either direction is ~50%)
+       5s      49%   149
+      15s      47%   151
+      30s      46%   153
+      60s      46%   153
+     120s      52%   153
