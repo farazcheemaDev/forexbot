@@ -2022,3 +2022,9 @@ accounts' records are real and show the same rate, selection across accounts can
 same trades copied (one outcome, not a draw from many), or different trades that all win (independent evidence of a
 real edge). **Not yet seen:** the other statements themselves. If they can be downloaded like this one, they decide two
 things — whether the entries are the same moments across accounts, and, if not, they add trades for every test above.
+
+**Selection across accounts, closed by arithmetic (2026-10-02).** The other accounts belong to his clients and cannot be
+seen (the user). They are not needed. Counting by DAY, since trades in one sitting share the market: he won the
+majority of his ±7 races on **22 of 23 trading days** (3 ties), against a 55% day for the sitting's other moments —
+**p = 2.1e-5**. For one account this good to arise by luck and be the one shown, a manager would need **~47,000
+accounts** trading at random (~350,000 against a 50% day). **His edge is real.** The question is only what he sees.
