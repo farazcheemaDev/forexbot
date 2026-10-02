@@ -2015,3 +2015,10 @@ git-ignored data folder; only these aggregates are committed. 42 entries, 1,553 
 minutes before his click carries neither his side nor his timing, and is not an edge at any moment either. §27's
 Binance proxy said the same; this is the real market saying it. **He is not reading the trade tape.** What remains from
 §36's list: the order book (resting size, not trades), a live unscheduled headline, or someone else.
+
+**From the user (2026-10-02): he trades several accounts, with the same success rate on each.** That is the answer to
+the one explanation no data could reach — that the statement is the lucky account out of several. If the other
+accounts' records are real and show the same rate, selection across accounts cannot produce it: either they are the
+same trades copied (one outcome, not a draw from many), or different trades that all win (independent evidence of a
+real edge). **Not yet seen:** the other statements themselves. If they can be downloaded like this one, they decide two
+things — whether the entries are the same moments across accounts, and, if not, they add trades for every test above.
