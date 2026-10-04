@@ -2145,3 +2145,13 @@ points worse. **The +3.47 of test D was the 1-second mid lagging fast seconds** 
 not a pricing artifact: the real NQ futures moved +10.97 points his way between his entry and exit seconds, and his
 broker took 2 of them.** Prediction 1 wrong (his quotes are not exchange prints), prediction 2 right at entry and
 wrong at exit (worse, not neutral). **His edge is a genuine read of the next minutes.**
+
+## 43. Non-dollar news — nothing (2026-10-04)
+
+§28 tested the ForexFactory calendar for USD events only. An FX trader follows every currency, and his sittings fall in
+the European afternoon. `backtest/his_fxnews.py` (`logs/his_fxnews.txt`, predictions committed first) reruns §28's exact
+test on the **non-USD** rows of the same calendar (294 high-impact releases, 310 speeches incl. 102 by central-bank
+governors, 614 medium/high events), and again on EUR + GBP alone. **Nothing survives Holm in either** (lowest Holm 0.43).
+The only lean is AWAY: **0** entries during a live non-USD speech against 3.2 expected (p 0.06), 0 within 30 minutes of a
+non-USD medium/high event against 2.6. Prediction 1 (nothing survives) right; prediction 2 (European speeches lean
+toward his entries) wrong — they lean away, not significantly.

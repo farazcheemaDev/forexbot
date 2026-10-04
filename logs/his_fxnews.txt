@@ -1,0 +1,24 @@
+
+NON-USD, every currency: 294 high-impact releases, 310 speeches (102 governors), 614 medium/high, 5 surprises
+
+NASDAQ, every entry (corrected clock): 46 entries against the same ET clock time on 176 trading days
+  feature          his  expected  ratio      z      p   Holm
+  rel_60             0       0.7   0.00  -0.87  0.382  1.000
+  rel_180            4       4.3   0.94  -0.14  0.885  1.000
+  next_rel_60        0       0.2   0.00  -0.42  0.678  1.000
+  speech_live        0       3.2   0.00  -1.87  0.062  0.432
+  big_live           2       2.2   0.91  -0.13  0.893  1.000
+  mh_30              0       2.6   0.00  -1.69  0.090  0.543
+  surprise_120       0       0.1   0.00  -0.30  0.762  1.000
+
+EUR + GBP (the European afternoon): 94 high-impact releases, 182 speeches (70 governors), 266 medium/high, 4 surprises
+
+NASDAQ, every entry (corrected clock): 46 entries against the same ET clock time on 176 trading days
+  feature          his  expected  ratio      z      p   Holm
+  rel_60             0       0.1   0.00  -0.36  0.720  1.000
+  rel_180            0       0.9   0.00  -0.94  0.346  1.000
+  next_rel_60        0       0.0   0.00  -0.22  0.829  1.000
+  speech_live        0       2.3   0.00  -1.55  0.121  0.849
+  big_live           2       1.6   1.22  +0.29  0.774  1.000
+  mh_30              0       1.1   0.00  -1.06  0.289  1.000
+  surprise_120       0       0.1   0.00  -0.30  0.762  1.000
