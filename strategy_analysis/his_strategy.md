@@ -2180,3 +2180,17 @@ and 1,553 sitting moments; each one's move over the prior 30 / 60 / 120 / 300 s;
 trade of a sitting would differ. It does not: first trades win the race 88%, follow-ups 87%; and the 5–24 s
 after-the-minute timing is strongest in his FOLLOW-UP trades (10 of 15, p 0.011), not his first (45%, p 0.18) — a man
 watching the 1-minute chart through a session, deciding at each candle close, clicking 10–20 s later.
+
+## 45. The lens no test has used: HIS chart (2026-10-04)
+
+Every candle, wick, level and pattern test in §17–§44 read the Exness chart or the exchange's own prices. **He reads
+his broker's.** And his broker's feed is not the exchange's: §42 found **69% of his prices outside the real contract's
+traded range of their second, by a median 1.75 points**, with the offset swinging several points within one evening
+(09-14: −16.75 … −22.75 against the Exness cash mid). A broker quote that deviates from the market by a varying few
+points draws its own wicks, spikes and candle shapes — none of which exist in any data tested here. If his read is a
+chart read, it is a read of that chart.
+
+**What it would take:** the history of VertexPro's own NASDAQ quote, tick by tick, for his trading days. If VertexPro runs
+a MetaTrader server, a free demo account on it lets the MT5 terminal serve that history (`copy_ticks_range`) exactly as
+Exness's served ours. Nothing public names VertexPro's platform, and the transcribed statement carries no platform text.
+**Asked of the user: which platform VertexPro uses, and whether a demo account can be opened on it.**
