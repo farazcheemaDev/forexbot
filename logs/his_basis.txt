@@ -1,0 +1,21 @@
+42 entries, 1553 same-sitting moments; futures (Databento trades) vs Exness cash, per second
+
+D. how much the futures-cash gap moves inside a 42-minute window: median sd 0.48 pts (range 0.24 .. 1.30)
+
+A. does the gap's deviation point HIS way? (a buy when futures are cheap: -dev signed by side > 0)
+   window   agrees       p
+      60s     60%   0.280
+     300s     50%   1.000
+     900s     60%   0.280
+
+B. is |deviation| larger at his moments than at the sitting's others?
+   window    rank       p
+      60s    0.49   0.925
+     300s    0.50   0.876
+     900s    0.52   0.752
+
+C. trade the snap-back of a top-decile deviation at the sitting's moments
+   window  race won     n
+      60s      44%   154
+     300s      38%   150
+     900s      39%   132

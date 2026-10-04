@@ -2089,3 +2089,16 @@ his moment is not in the futures tape, book, news calendar, posts or related mar
 beyond doubt (25 of 26 days at ±10, §35e). Information that predicts the next minutes and leaves no trace in anything
 recorded before them comes from outside the market's record: a feed (squawk or signal) — the Benzinga part is testable
 with the user's Alpaca keys — or his own screen.
+
+## 40. The futures–cash gap at his moments — ruled out; and a lead for US, not him (2026-10-04)
+
+`backtest/his_basis.py` (`logs/his_basis.txt`), predictions committed first. Real NQ futures mid each second
+(Databento bbo-1s, **$0.14**) against the Exness USTECm cash mid, around his 42 entries and 1,553 sitting moments.
+- **The gap barely moves:** median within-window sd **0.48 pts** (0.24–1.30). Exness's cash CFD tracks the futures
+  tightly — prediction 1 right.
+- **Not his signal:** the gap's deviation points his way 50–60% (all p ≥ 0.28); ranks 0.49–0.52. Prediction 2 right
+  for A and B.
+- **C came out backwards:** betting on the gap snapping back won **38–44%** of ±7 races — so the opposite, *Exness
+  follows the futures*, won **56–62%** (300 s window, n = 150). Prediction 2 for C (48–55%) wrong. This is not about
+  him; it is a candidate lead-lag edge — the CME futures leading the Exness quote — measured on overlapping moments
+  around his entries, which is not a valid sample for it. It needs its own test (doc 21).
