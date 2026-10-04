@@ -1,0 +1,9 @@
+42 NASDAQ entries with a full session and the prior close; his own +-7 race 88%
+
+          rule   agrees       p   race if side = rule
+      gap_fade     45%   0.644                  49%
+   vwap_revert     55%   0.644                  68%
+    vwap_trend     45%   0.644                  32%
+     open_bias     48%   0.878                  34%
+
+  time of day: before noon ET he buys 52% of 21; after noon 48% of 21

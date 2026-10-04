@@ -2102,3 +2102,25 @@ with the user's Alpaca keys — or his own screen.
   follows the futures*, won **56–62%** (300 s window, n = 150). Prediction 2 for C (48–55%) wrong. This is not about
   him; it is a candidate lead-lag edge — the CME futures leading the Exness quote — measured on overlapping moments
   around his entries, which is not a valid sample for it. It needs its own test (doc 21).
+
+## 41. A veteran's session rules against his side — nothing (2026-10-04)
+
+`backtest/his_veteran.py` (`logs/his_veteran.txt`), predictions committed first; 42 entries with a full session.
+
+| rule | agrees with his side | at his moments, the rule's side wins the ±7 race |
+|---|---|---|
+| fade the opening gap | 45% (p 0.64) | 49% |
+| revert to session VWAP | 55% (p 0.64) | 68% |
+| trade with VWAP | 45% | 32% |
+| above the day's open = buy | 48% (p 0.88) | 34% |
+| time of day | buys 52% before noon ET, 48% after | — |
+
+Both predictions right: nothing outside 30–70%, best rule 68% against his 88%. **Behaviour:** within a sitting he keeps
+his side 10 of 15 times (switches 33%, p 0.30), median 2.9 minutes between trades — not a two-sided range scalper.
+
+**The lens, after §39–§41.** Every way an experienced trader reads a chart has now been put against his direction —
+1-minute to 20-day trend, EMA filters, gap, VWAP, day open, key levels, the day's range, candle patterns, SMC,
+indicators — and his timing against the real futures tape, book and futures-cash gap. Nothing recorded before his click
+explains him, while what happens after it does, on 25 of 26 days. A veteran's edge of that kind is real-time judgment of
+something we have no record of. The remaining recordable candidate is the news wire (`his_headlines.py`, waiting on the
+user's Alpaca keys); after that, only his screen or his own account of what he watches.
