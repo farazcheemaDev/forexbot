@@ -2124,3 +2124,24 @@ indicators — and his timing against the real futures tape, book and futures-ca
 explains him, while what happens after it does, on 25 of 26 days. A veteran's edge of that kind is real-time judgment of
 something we have no record of. The remaining recordable candidate is the news wire (`his_headlines.py`, waiting on the
 user's Alpaca keys); after that, only his screen or his own account of what he watches.
+
+## 42. Are his fills real? Yes — and his broker costs him, it does not favour him (2026-10-04)
+
+The CLAUDE.md §9 question: what makes his record look this good? Test D (§34) showed he banked **+3.47 points more**
+than the market moved over his holds at a zero offset — half a +7 trade, unexplained. `backtest/his_fills.py`
+(`logs/his_fills.txt`), predictions committed first: every real print on his exact contracts (NQH6 / NQM6 / NQU6,
+Databento `trades`, **$0.79**), 5 s before to 6 s after each of his entry and exit seconds; 45 of 46 trades.
+
+| | result | registered |
+|---|---|---|
+| his price inside the real traded range of its second (±1 s) | **31%** entries / 31% exits; outside by a median **1.75 pts** | ≥ 90% |
+| entries vs the real median print of that second | **+0.12** median (mean +0.37), better in 51% | −0.5 … +0.25 |
+| exits vs the real market | **−2.50** median, better in 9% | −0.5 … +0.25 |
+| banked vs the real contract's move between his two seconds | **+8.96 vs +10.97: he banked 2.0 pts LESS** | gap under +1 |
+
+**Reading.** His broker quotes its own price around the real contract (outside the exchange's prints by ~1.75 points
+— a CFD with its own spread, not the exchange book), fills his entries at a neutral price and his exits about 2.5
+points worse. **The +3.47 of test D was the 1-second mid lagging fast seconds** (prediction 3 right). **His record is
+not a pricing artifact: the real NQ futures moved +10.97 points his way between his entry and exit seconds, and his
+broker took 2 of them.** Prediction 1 wrong (his quotes are not exchange prints), prediction 2 right at entry and
+wrong at exit (worse, not neutral). **His edge is a genuine read of the next minutes.**

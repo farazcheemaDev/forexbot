@@ -1,0 +1,12 @@
+45 of 46 NASDAQ trades with real NQ prints at both entry and exit (contracts NQH6, NQM6, NQU6); raw prints stay local
+
+1. INSIDE THE REAL MARKET - his price within the real traded range of its second (+-1 s)
+   entries 31%   exits 31%   | outside: median distance entries 1.75, exits 1.75 pts
+
+2. HOW MUCH BETTER THAN THE MARKET (points; + = better than the real median print of that second)
+   entries: median +0.12, mean +0.37, better in 51%
+   exits:   median -2.50, mean -2.38, better in 9%
+
+3. BANKED vs THE REAL MOVE between his two seconds
+   banked +8.96 pts a trade | real move +10.97 | gap -2.01 (median -1.75)
+   winter gap -1.86 (19), summer -2.13 (26)
