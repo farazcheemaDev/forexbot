@@ -2194,3 +2194,40 @@ chart read, it is a read of that chart.
 a MetaTrader server, a free demo account on it lets the MT5 terminal serve that history (`copy_ticks_range`) exactly as
 Exness's served ours. Nothing public names VertexPro's platform, and the transcribed statement carries no platform text.
 **Asked of the user: which platform VertexPro uses, and whether a demo account can be opened on it.**
+
+## 46. HIS METHOD, REVERSE-ENGINEERED AS FAR AS THE EVIDENCE GOES (2026-10-04)
+
+One page for the user's question — *"how does a person with 20 years of forex experience decide entry and make these
+gains?"* Every line names the section that measured it.
+
+**The instrument.** A NASDAQ futures contract quoted by VertexPro (named months Mar / June / Sep, quarter-point grid,
+§39), ~$94 a point per lot. His broker's quote sits off the exchange's by a varying ~1.75 points (§42).
+
+**When he trades.** Whenever he is free; 31 sittings in 8.4 months, 1–3 trades each, median 2.9 minutes apart (§30, §41).
+Inside a sitting he watches the 1-minute chart and acts after a candle closes: 24 of 46 entries fall 5–24 s into a
+minute (p 0.011), most strongly on his follow-up trades (10 of 15, p 0.011) (§39, §44).
+
+**Which way.** The side the next 1–5 minutes take. ±7-point race won **88%** (36 of 41) against 55% for the same
+sitting's other moments; ±10 points won on 25 of 26 days (§35e). Out of sample in January–March: 14 of 15 (§35e).
+**Unrelated** to the move before his click at any horizon from 15 s to 20 days (§36, §39), the gap, VWAP, the day's
+open, time of day (§41), key levels and the day's range (§34, §35f), candle patterns, indicators, SMC (§30, §31), the real
+futures tape, book and futures-cash gap (§37, §38, §40), Treasury / FX / oil / gold / equity futures (§44), scheduled
+news in any currency, Fed speakers, Trump's posts (§28, §29, §43).
+
+**How he exits.** A take-profit of about +7 points (median banked +7.00, mechanical, §34), no stop. A loser is held: the
+worst, −31.75 points, for 48 minutes.
+
+**Where the money comes from.** The real NASDAQ futures moved **+10.97 points his way** between his entry and exit
+seconds; he banked +8.96 — his broker took ~2 (§42). At a median 0.07 lots that is ~$54 a win; 44 wins of 46; one
+−$484 loss cost about nine wins. **$3,130 on NASDAQ in 8.4 months, ~$374 a month**; gold added $118.
+
+**What we got wrong along the way, and fixed.** A one-hour winter clock read as "his broker's prices were not the
+market's" (§35c); ticket numbers read as opening order — they are closing-deal tickets (§39); a 1-second artifact read
+as "he banks more than the market moves" (§42); a tie-ranking bug that manufactured "bonds go quiet before his clicks"
+(§44). Each one pointed toward an explanation; each one was the measurement.
+
+**The one piece missing — and the one lens never tested.** What tells him the side at that moment. It is in no market
+data recorded here. The single input every test has missed is **his own chart**: his broker's quote is not the
+exchange's (§42, §45), so whatever he reads on it — a wick, a spike, a candle shape on VertexPro's feed — has never been
+seen. That is testable with VertexPro's tick history (a demo account on its server, if it is MetaTrader). Otherwise:
+his answer to "what is on your screen", or copying him live (a 5–10 s copy kept his edge, §34/§35e).
