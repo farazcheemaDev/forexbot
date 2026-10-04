@@ -1,0 +1,25 @@
+42 of his entries with the book in range; 1553 same-sitting moments; 81,766 one-second book snapshots in 31 windows (aggregates only - raw data stays local)
+
+A. DIRECTION - does the book lean HIS way at his click?
+   feature   agrees       p
+        q1     38%   0.265
+     q1_30     50%   1.000
+        d5     56%   0.618
+       d10     44%   0.533
+    pull30     46%   0.755
+
+B. TIMING - his moment's lean (signed his way) ranked among the sitting's moments
+   feature    rank       p
+        q1    0.39   0.019
+     q1_30    0.49   0.731
+        d5    0.51   0.795
+       d10    0.49   0.882
+    pull30    0.52   0.750
+
+C. A RULE - at the sitting's moments, trade WITH a top-decile book lean
+   feature  race won     n
+        q1      46%   105
+     q1_30      51%   154
+        d5      43%   142
+       d10      44%   148
+    pull30      49%   150

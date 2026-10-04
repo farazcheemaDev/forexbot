@@ -76,10 +76,19 @@ def reduce_window(store) -> pd.DataFrame:
 def fetch(cl, wins):
     C = pickle.loads(CACHE.read_bytes()) if CACHE.exists() else {}
     need = [w for w in wins if (str(w[0]), str(w[1])) not in C]
+    import time
     for i, (a, b) in enumerate(need, 1):
-        store = cl.timeseries.get_range(dataset=TP.DATASET, symbols=[TP.SYMBOL], schema=SCHEMA, stype_in=TP.STYPE,
-                                        start=a.isoformat() + "Z", end=b.isoformat() + "Z")
-        C[(str(a), str(b))] = reduce_window(store)
+        for attempt in range(1, 5):              # a long mbp-10 stream can drop mid-response; cached windows are kept
+            try:
+                store = cl.timeseries.get_range(dataset=TP.DATASET, symbols=[TP.SYMBOL], schema=SCHEMA,
+                                                stype_in=TP.STYPE, start=a.isoformat() + "Z", end=b.isoformat() + "Z")
+                C[(str(a), str(b))] = reduce_window(store)
+                break
+            except Exception as e:  # noqa: BLE001
+                if attempt == 4:
+                    raise
+                print(f"  window {i}: {type(e).__name__} - retry {attempt} in {20 * attempt} s", flush=True)
+                time.sleep(20 * attempt)
         print(f"  fetched {i}/{len(need)} windows ({len(C[(str(a), str(b))]):,} seconds)", flush=True)
         CACHE.write_bytes(pickle.dumps(C))
     B = pd.concat(C.values())

@@ -2028,3 +2028,27 @@ seen (the user). They are not needed. Counting by DAY, since trades in one sitti
 majority of his ±7 races on **22 of 23 trading days** (3 ties), against a 55% day for the sitting's other moments —
 **p = 2.1e-5**. For one account this good to arise by luck and be the one shown, a manager would need **~47,000
 accounts** trading at random (~350,000 against a 50% day). **His edge is real.** The question is only what he sees.
+
+## 38. The order book: real CME NQ depth at his moments — RULED OUT (2026-10-04)
+
+`backtest/his_book.py` (`logs/his_book.txt`), predictions committed before any data. Databento GLBX.MDP3 `mbp-10`
+(10 levels a side), the same 31 windows, priced at $8.30 and reduced in chunks to **81,766 one-second book
+snapshots**. 42 entries, 1,553 same-sitting moments. Features: top-of-book imbalance (q1) and its 30-s average, 5- and
+10-level imbalance, and liquidity pulled over 30 s.
+
+| test | result | registered |
+|---|---|---|
+| **A.** the book leans HIS way at his click | **38–56%**, every p > 0.26 | 50–60% |
+| **B.** leans his way more at his moment than at the sitting's others | **0.49–0.52** on four features; top-of-book **0.39** (p 0.019, Holm over 5 ≈ 0.10) | 0.45–0.55 |
+| **C.** trade WITH a top-decile lean at the sitting's moments | **43–51%** of ±7 races | 50–55% |
+
+The one outlier points the other way — at his click the best level leans slightly AGAINST him — and does not survive
+correction. **With §37, the real futures market is closed: neither its trades nor its book carry his side or his
+timing.**
+
+**Where his method stands after §36–§38.** At his click he knows which way the next 1–5 minutes go (§36), across 22 of
+23 days (selection ruled out, p 2.1e-5). That knowledge is not in price, candles, indicators, levels, related markets,
+scheduled news, posts, futures trade flow or the futures book. What remains cannot be recorded from market data: a live
+headline (the Benzinga wire is testable — `his_headlines.py`, waiting on the user's free Alpaca keys — but a squawk is
+not), a signal he follows, or something on his own VertexPro screen. **The way left to learn it is to see his screen or
+ask him what he watches.**
