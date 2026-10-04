@@ -3126,3 +3126,17 @@ the bids could run larger only in chop. **It does not** (cap 10, days labelled b
 **7 of the 8 worst days are chop days** (2020-03-12, 2026-06-02, 2026-04-17, 2026-03-24, 2022-05-09, 2025-11-07,
 2024-10-15). Sizing up in chop buys the fatter tail and the half-size edge together. Not built. The full list of what
 has been tried for sideways markets, and why it is closed at retail, is in [doc 20](20-the-product.md) §3.
+
+---
+
+## Dead: trading Exness's NASDAQ quote off the CME futures (lead-lag), 2026-10-04 — `backtest/nq_leadlag.py`
+
+Found incidentally in `his_basis.py` (his_strategy §40): around the trader's entries, "Exness follows the futures" won
+56–62% of ±7 races. Tested properly on **72,082 paired seconds** of CME NQ futures (Databento bbo-1s) and Exness USTECm
+ticks, predictions committed first (`logs/nq_leadlag.txt`):
+- **No lag to trade.** Correlation of 1-s futures returns with Exness returns: **+0.89 at the same second, +0.13 one
+  second later**, ~0 after. Exness reprices within the second.
+- **No catch-up worth the spread.** After the futures move ≥ 1–3 points over 1–5 s that Exness has matched by less than
+  half, Exness's next move in the futures' direction averages −0.35 to +0.47 points over 1–10 s (≤ +1.5 at 30 s, mixed
+  signs) against a **2.16-point median spread**. Best cell net **−1.84 points a trade**.
+- All three registered predictions right. The 56–62% was momentum on correlated moments around his entries.

@@ -1,0 +1,22 @@
+27 windows, 72,082 paired seconds of CME NQ futures (bbo-1s) and Exness USTECm; Exness spread median 2.16 pts
+
+1. LAG - corr(futures 1-s return at t, Exness 1-s return at t+k)
+  k-5:-0.00  k-4:-0.01  k-3:-0.01  k-2:+0.01  k-1:+0.01  k+0:+0.89  k+1:+0.13  k+2:-0.00  k+3:+0.00  k+4:-0.01  k+5:+0.00  k+6:-0.00  k+7:-0.01  k+8:+0.01  k+9:+0.01  k+10:+0.01
+
+2. CATCH-UP - futures moved >= M pts over the last L s, Exness moved < half of it; Exness's next move in the futures' direction (pts)
+     M   L  events     +1s     +3s     +5s    +10s    +30s
+     1   1    1444   -0.03   +0.01   -0.03   -0.05   +0.15
+     1   2    1374   +0.01   +0.03   -0.08   -0.14   -0.03
+     1   3    1312   -0.03   -0.03   -0.03   +0.20   +0.16
+     1   5    1236   -0.09   -0.08   +0.02   +0.10   +0.07
+     2   1     610   +0.04   +0.24   +0.04   -0.19   -0.02
+     2   2     617   -0.03   +0.05   +0.16   -0.26   -0.33
+     2   3     593   -0.10   -0.01   +0.01   -0.10   +0.23
+     2   5     556   -0.05   +0.20   +0.23   +0.26   +1.12
+     3   1     290   +0.02   +0.10   +0.01   -1.36   -0.77
+     3   2     283   -0.09   +0.18   +0.05   -0.82   -1.11
+     3   3     240   -0.35   -0.19   -0.18   -0.31   -0.98
+     3   5     246   +0.16   +0.32   +0.47   +0.78   +1.49
+
+3. NET - entered at the quote 1 s after the signal, out H s later at the quote: the move above minus one spread (2.16 pts).
+  best cell at +3 s: M 3, L 5 s, 246 events, +0.32 pts gross -> -1.84 pts net
