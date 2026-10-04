@@ -10,8 +10,8 @@ A. DIRECTION - does the futures flow's sign agree with HIS side at his click?
 
 B. TIMING - his moment's flow (signed his way) ranked among the sitting's other moments
    window    rank       p
-       5s    0.50   0.955
-      15s    0.51   0.822
+       5s    0.51   0.905
+      15s    0.51   0.812
       30s    0.48   0.555
       60s    0.52   0.722
      120s    0.54   0.385

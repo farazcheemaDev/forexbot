@@ -176,7 +176,8 @@ def main(argv=None):
         for e, g in D.groupby("entry"):
             h, n = g[g.who == "his"], g[g.who == "near"]
             if len(h) and len(n) >= 10 and np.isfinite(h[k].iat[0]):
-                rk.append(((n[k] * n.s).dropna() < h[k].iat[0] * h.s.iat[0]).mean())
+                nv, hv = (n[k] * n.s).dropna(), h[k].iat[0] * h.s.iat[0]
+                rk.append((nv < hv).mean() + 0.5 * (nv == hv).mean())   # mid-rank: ties count half
         p = wilcoxon(np.array(rk) - 0.5).pvalue if len(rk) > 5 else np.nan
         out.append(f"  {k:>8}{np.mean(rk):>8.2f}{p:>8.3f}")
 

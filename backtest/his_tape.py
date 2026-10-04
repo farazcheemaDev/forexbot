@@ -205,7 +205,7 @@ def main(argv=None):
             if len(h) and len(n) >= 10 and np.isfinite(h[f"imb{w}"].iat[0]):
                 hv = h[f"imb{w}"].iat[0] * h.s.iat[0]
                 nv = (n[f"imb{w}"] * n.s).dropna()
-                rk.append((nv < hv).mean())
+                rk.append((nv < hv).mean() + 0.5 * (nv == hv).mean())   # mid-rank: ties count half
         p = wilcoxon(np.array(rk) - 0.5).pvalue if len(rk) > 5 else np.nan
         out.append(f"  {w:>6}s{np.mean(rk):>8.2f}{p:>8.3f}")
 

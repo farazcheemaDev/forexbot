@@ -2155,3 +2155,28 @@ governors, 614 medium/high events), and again on EUR + GBP alone. **Nothing surv
 The only lean is AWAY: **0** entries during a live non-USD speech against 3.2 expected (p 0.06), 0 within 30 minutes of a
 non-USD medium/high event against 2.6. Prediction 1 (nothing survives) right; prediction 2 (European speeches lean
 toward his entries) wrong — they lean away, not significantly.
+
+## 44. What an FX veteran watches: rates, the yen, the euro, oil, gold, equity futures — and a bug of mine (2026-10-04)
+
+`backtest/his_crossfut.py` (`logs/his_crossfut.txt`), predictions committed first: real exchange bbo-1s (Databento,
+**$0.94**) for ZN (10-year note), ZB (bond), ES, RTY, 6E (euro), 6J (yen), GC (gold), CL (oil), around his 42 entries
+and 1,553 sitting moments; each one's move over the prior 30 / 60 / 120 / 300 s; Holm over 32 cells.
+
+- **Direction:** the top cells are the bond futures, as predicted — the 10-year note UP over the prior 5 minutes (yields
+  down) agrees with his side **71%** (n 31, p 0.029), the 30-year 68% — the textbook rates-to-tech sign. **Holm 0.94:
+  one cell of 32, chance-compatible.** And following ZN's 5-minute move at the sitting's moments wins exactly **50%** of
+  NQ races, so even a real lean on bonds is not where his 88% comes from.
+- **Timing:** first run showed bonds unusually QUIET before his clicks (ZN 30 s rank 0.33, p 0.001 — it would have
+  survived Holm). **That was my bug:** the rank counted only strictly smaller values, and coarse-ticked futures (ZN, ZB,
+  6E, 6J) often do not move at all in 30–60 s, so a zero scored 0 and the null mean fell far below 0.50. With
+  **mid-ranks** (ties count half) every cell is 0.42–0.61, nothing near Holm.
+- **The same fix applied to §37 and §38's timing ranks** (5-second flow imbalance is often exactly ±1): the tape stays
+  0.48–0.54; the book's lone outlier, top-of-book **0.39 (p 0.019) becomes 0.46 (p 0.51)** — that was the tie artifact
+  too. Both scripts now use mid-ranks.
+- Predictions: 1 (nothing survives Holm) right, though two cells fell outside 35–65%; 2 (if anything, ZN / ZB) right;
+  3 (ranks 0.40–0.60) right after the fix.
+
+**Also tested today, not worth its own section:** whether an outside alert calls him to the screen. If so, the first
+trade of a sitting would differ. It does not: first trades win the race 88%, follow-ups 87%; and the 5–24 s
+after-the-minute timing is strongest in his FOLLOW-UP trades (10 of 15, p 0.011), not his first (45%, p 0.18) — a man
+watching the 1-minute chart through a session, deciding at each candle close, clicking 10–20 s later.

@@ -121,7 +121,10 @@ def main():
             for e, g in D.groupby("entry"):
                 h, n = g[g.who == "his"], g[g.who == "near"]
                 if len(h) and len(n) >= 10 and np.isfinite(h[k].iat[0]):
-                    rk.append((n[k].abs().dropna() < abs(h[k].iat[0])).mean())
+                    nv_ = n[k].abs().dropna(); hv_ = abs(h[k].iat[0])
+                    # MID-RANK: ties count half. Coarse-ticked futures (ZN, ZB, 6E, 6J) often do not move at
+                    # all in 30-60 s; with a strict '<' a zero scores 0 and the null mean falls far below 0.50.
+                    rk.append((nv_ < hv_).mean() + 0.5 * (nv_ == hv_).mean())
             nv = N.dropna(subset=[k, "race_up"])
             nv = nv[nv[k] != 0]
             top = nv[nv[k].abs() >= nv[k].abs().quantile(0.9)]
