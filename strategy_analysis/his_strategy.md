@@ -2052,3 +2052,40 @@ scheduled news, posts, futures trade flow or the futures book. What remains cann
 headline (the Benzinga wire is testable — `his_headlines.py`, waiting on the user's free Alpaca keys — but a squawk is
 not), a signal he follows, or something on his own VertexPro screen. **The way left to learn it is to see his screen or
 ask him what he watches.**
+
+## 39. A critical re-read of the lens (2026-10-04): limit orders, tickets, his broker's feed, higher timeframes
+
+The user: *"I'm sure there is something we are missing, or not looking at through the right lens — how does a person
+with 20 years of experience decide entry?"* Every test so far assumed the statement's entry second is the moment he
+decided, and looked for what he saw then. Four ways that lens could be wrong were checked.
+
+**1. Resting limit orders (the market chooses the moment, not him).** His NASDAQ fills are on a **quarter-point grid**
+— the real NQ futures tick, confirming his instrument is futures-priced — spread evenly across .00 / .25 / .50 / .75;
+multiples of 5 points 9% against 5% expected. No clustering on round prices, and §36 shows no strong fade into his fills
+at 5–15 s, which a limit fill would force. **Mostly market orders.**
+
+**2. The tickets (a clock independent of the timestamps).** His broker is small: its counter advances ~2,570 orders a
+day across all clients. Four fills carry tickets older than earlier fills, and one evening (09-14) looked at first like a
+trade recorded 35 minutes after its stamped open. **That reading was wrong, and so was the pending-order one.** Across the
+whole record, in **all 8 overlapping pairs whose open order and close order disagree, the tickets follow the CLOSE
+order** — the statement prints each trade's **closing-deal ticket**. The tickets say nothing about when a trade opened.
+
+**3. A slow feed at his broker (latency against a B-book).** §34's test D matches the points he banked against the real
+move over [open + d, close + d]: the best fit is **d = 0 s (summer) / +1 s (all)**. A lagging feed would put it at a
+negative d. **His broker's prices do not lag the real market.**
+
+**4. Direction from the higher timeframe** (`backtest/his_direction_htf.py`, `logs/his_direction_htf.txt`, predictions
+committed first). His side against the trend over 1 h, 2 h, 4 h, 8 h, 1, 3, 5, 10 and 20 days: **43–63% agreement, none
+significant**; against price vs EMA-50 / EMA-200 on 1-hour bars: 63% / 52%. Given his timing, "trade with the trend"
+wins the ±7 race **32–66%** at every horizon. Prediction 1 (a 55–70% lean toward the 4-hour or daily trend) wrong — no
+horizon leans significantly; prediction 2 (best rule under 70%) right.
+
+**Also: decisions at higher-timeframe candle closes.** His entries do not cluster after 5-, 15- or 30-minute closes
+(7, 5, 3 entries against 9.2, 3.1, 1.5 expected); they do sit 5–24 s into a minute (24 of 46, p 0.011) — a reaction a
+few seconds after 1-minute candles, which §31 already tested pattern by pattern.
+
+**Where that leaves the lens.** His side is not in the price at any horizon from 15 seconds to 20 days (§36, §39), and
+his moment is not in the futures tape, book, news calendar, posts or related markets (§26–§38). The edge itself is
+beyond doubt (25 of 26 days at ±10, §35e). Information that predicts the next minutes and leaves no trace in anything
+recorded before them comes from outside the market's record: a feed (squawk or signal) — the Benzinga part is testable
+with the user's Alpaca keys — or his own screen.

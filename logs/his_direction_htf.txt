@@ -1,0 +1,14 @@
+46 NASDAQ entries with 20 days of 5-minute history; his own +-7 race 88%
+
+    trend  he agrees       p   race if side = trend
+       1h       50%   1.000                   46%
+       2h       43%   0.461                   32%
+       4h       52%   0.883                   46%
+       8h       54%   0.659                   44%
+       1d       61%   0.184                   46%
+       3d       54%   0.659                   49%
+       5d       59%   0.302                   51%
+      10d       59%   0.302                   56%
+      20d       54%   0.659                   66%
+    ema50       63%   0.104                   49%
+   ema200       52%   0.883                   49%
