@@ -472,6 +472,12 @@ cd /opt/forexbot && ./.venv/bin/python blend_paper.py --status
 cd /opt/forexbot && ./.venv/bin/python combo_paper.py --status
 ```
 
+**From the user's PC a session can reach the VM directly (since 2026-10-05):** `ssh forexbot-vm` (alias in
+`~/.ssh/config`, key `~/.ssh/forexbot_vm`, user root - the bots run as root). No 4KB limit:
+`ssh forexbot-vm 'bash -s' < deploy/status_digest.sh`. **Read-only unless the user agrees to a change**; the
+key has no passphrase, so remove it (root's `authorized_keys`, comment `forexbot-vm`) or add one before real
+keys go on the VM. The VM's address is in the ssh config only - never commit it (the repo is public).
+
 **Everything at once, read-only, under Run command's 4KB:** paste `deploy/status_digest.sh` - services, crash-bid
 paper, the seven books' CORRECTED equity, the combo paper book, and the demo bot's two-week verdict (last).
 
@@ -498,6 +504,19 @@ the box was patched before the repo was public.
 
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
+
+### 2026-10-05 - back on the crypto bot: SSH to the VM, first full reading
+
+- **SSH access** from the user's PC (see §8). First digest (`deploy/status_digest.sh`), all four services active.
+- **Demo bot, day 5.6 of 14:** 87 orders, 87 real fills, 0 failures, 0 poll errors, 0 stop-placement failures,
+  8 flips, slippage median +1.3bp. On track for PASS ~2026-10-13/14.
+- **Seven books, CORRECTED:** main $301.47, tight $481.86, tstop $480.09, units $529.08, triple $527.45 (all MATCH).
+- **Combo paper, day 11: $188.07 (-14.9%)** - trend -$19.62, MN -$13.03 (-$11.88 on day 1), sleeve idle; fair H1
+  combo x0.851 vs triple x0.903. BULL regime while breadth20 fell 0.97 -> 0.78. **Not outside the backtest**
+  (`combo_window.py`): an 11-day fall of 15%+ is 6.7% of all windows and 10.2% of BULL-start windows; day 11 sits
+  at the 10th percentile. Prediction 5-10% right, BULL 3-6% wrong (bull windows swing hardest).
+- **Crash-bid paper, 19 Bitget fills:** -0.06% a fill against +0.8-1.0% expected; Binance +0.24% on 20. Too few
+  to read; verdict needs 60.
 
 ### 2026-10-01 - his January-March clock may be one hour off (his_strategy.md s35)
 
