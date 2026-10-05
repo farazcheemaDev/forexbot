@@ -472,6 +472,9 @@ cd /opt/forexbot && ./.venv/bin/python blend_paper.py --status
 cd /opt/forexbot && ./.venv/bin/python combo_paper.py --status
 ```
 
+**Everything at once, read-only, under Run command's 4KB:** paste `deploy/status_digest.sh` - services, crash-bid
+paper, the seven books' CORRECTED equity, the combo paper book, and the demo bot's two-week verdict (last).
+
 **Deploy to the VM by `git pull`** (the repo was made public 2026-09-23):
 `deploy/pull_and_rebuild.sh` pulls, verifies `blend_paper.py` by sha256, restarts and prints
 the books. `deploy/check_vm.sh` is a read-only "what is on that box" check.
