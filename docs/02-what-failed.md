@@ -3140,3 +3140,20 @@ ticks, predictions committed first (`logs/nq_leadlag.txt`):
   half, Exness's next move in the futures' direction averages −0.35 to +0.47 points over 1–10 s (≤ +1.5 at 30 s, mixed
   signs) against a **2.16-point median spread**. Best cell net **−1.84 points a trade**.
 - All three registered predictions right. The 56–62% was momentum on correlated moments around his entries.
+
+**2026-10-05, crowd sentiment and retail attention** (`sentiment.py`, `sentiment_dial.py`). The user: "sentiment
+drives crypto". Never tested before: Fear & Greed as a timing signal (alternative.me, 2018–), and retail attention
+(Wikipedia views of Bitcoin, Cryptocurrency, Ethereum and Dogecoin, 2015–).
+- **On BTC itself nothing passes:** 15 cells, all fail Holm, and several flip between halves.
+- **On the combo's next 7 days, two cells pass:**
+  - Fear & Greed top third against bottom third: +8.10 points (+7.20 / +9.16 by half), Holm 0.011;
+  - attention: +7.02, Holm 0.030.
+  - Both are **momentum, not contrarian**, and both survive the book's own 30-day return, BTC's 30-day return and the
+    1000h gate as controls (t 2.26 / 2.52). Predicted the opposite, and predicted nothing would pass.
+- **As a dial it is dead.** 1.5x in the top third and 0.5x in the bottom, with thirds from an expanding window,
+  paired on 10 orderings:
+  - **Fear & Greed lowers Sharpe on both halves:** −0.145 and −0.066, 0 of 10 orderings better in either. Its
+    CAGR rises, but the worst fall rises faster: 50 → 61% and 60 → 73%.
+  - Attention: −0.034 / +0.016.
+- **The reading:** greedy weeks pay more because they are wilder. Sizing up in them is betting bigger on worse
+  terms.

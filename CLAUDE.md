@@ -517,6 +517,11 @@ the detail lives in the numbered docs.*
   at the 10th percentile. Prediction 5-10% right, BULL 3-6% wrong (bull windows swing hardest).
 - **Crash-bid paper, 19 Bitget fills:** -0.06% a fill against +0.8-1.0% expected; Binance +0.24% on 20. Too few
   to read; verdict needs 60.
+- **No new bug in the live records:** the combo MN's -$11.88 on day 1 is real market moves (its momentum longs
+  MUBARAK -16% / AKE -17% / BTW -8% that day, shorts bouncing), reversed the next day.
+- **Sentiment** (`sentiment.py`, `sentiment_dial.py`, doc 02): Fear & Greed and Wikipedia attention predict the
+  combo's NEXT WEEK (momentum, both halves, survive controls) - but as a size dial Fear & Greed LOWERS Sharpe on
+  both halves (0/10 orderings), worst fall 50->61% / 60->73%. Greedy weeks pay more because they are wilder.
 
 ### 2026-10-01 - his January-March clock may be one hour off (his_strategy.md s35)
 

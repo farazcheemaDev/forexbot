@@ -1,0 +1,14 @@
+1. PARTIAL - combo forward 7 days (log), 2363 days 2020-03-18..2026-09-06; coefficient per 1 sd of the feature, in points, Newey-West t
+  fg   alone +3.62 (t +3.44)  |  with own 30d, BTC 30d, gate: +2.27 (t +2.26);  own 30d t -2.06, BTC 30d t +2.62, gate t -2.43
+  att  alone +3.71 (t +2.97)  |  with own 30d, BTC 30d, gate: +2.83 (t +2.52);  own 30d t -2.06, BTC 30d t +3.23, gate t -2.02
+
+2. THE DIAL (1.5x top third / 1.0x / 0.5x bottom, expanding thirds, next day), 10 orderings; halves split 2024-01-27
+  dial          half   avg size     CAGR  worst fall  Sharpe     Sharpe vs static (paired)
+  static        h1         1.00    +385%         50%    1.48                              
+  static        h2         1.00    +643%         60%    1.22                              
+  Fear & Greed  h1         1.01    +440%         61%    1.34    -0.145 +- 0.007, wins 0/10
+  Fear & Greed  h2         0.99    +861%         73%    1.16    -0.066 +- 0.003, wins 0/10
+  attention     h1         0.94    +382%         60%    1.46    -0.034 +- 0.015, wins 1/10
+  attention     h2         0.96   +1324%         57%    1.24    +0.016 +- 0.004, wins 8/10
+  own momentum  h1         0.94    +319%         51%    1.65   +0.140 +- 0.017, wins 10/10
+  own momentum  h2         0.95    +562%         61%    1.22    +0.004 +- 0.021, wins 4/10
