@@ -65,8 +65,13 @@ FEE = FEE_BP / 1e4
 
 
 class Key:
-    def __init__(self, coin, rule, tight):
-        df = resample(blend.load(coin), rule)
+    def __init__(self, coin, rule, tight, offset=0):
+        """offset: hours to shift this sleeve's bar grid (bar_phase.resample_phase) - the four-phase check"""
+        if offset and rule != "1h":
+            from backtest.bar_phase import resample_phase
+            df = resample_phase(blend.load(coin), rule, offset)
+        else:
+            df = resample(blend.load(coin), rule)
         self.coin, self.rule = coin, rule
         self.t = pd.DatetimeIndex(df["time"])
         self.o, self.h = df["open"].to_numpy(float), df["high"].to_numpy(float)
@@ -77,7 +82,7 @@ class Key:
         self.tb = break_map(df, rule) if tight else None
         self.real = self.t - LATE[rule]          # a bar's REAL start: 4h/12h labels sit 3h/11h after it
         self.pos = {t: i for i, t in enumerate(self.real)}
-        self.memo = {}
+        self.memo, self.extra = {}, {}
 
     def long_from(self, i, time_stop, mu):
         """graveyard_rescore.walk for ONE position entered at the open of bar i -> (exit bar, R, risk, unit bars)"""
@@ -134,10 +139,12 @@ class Key:
                       if _real(self.t[u], self.rule) < t_exit)
             fund = (-got if side == "long" else got) / risk
             self.memo[(i, side)] = (j, R + fund, R)
+            self.extra[(i, side)] = (risk / self.o[i], [self.real[u] for u in ub])   # stop fraction, unit start times
         return self.memo[(i, side)]
 
 
-def simulate(keys, mode, time_stop, mu, lanes="key", release="close", seed=None, pause=True):
+def simulate(keys, mode, time_stop, mu, lanes="key", release="close", seed=None, pause=True,
+             slots=SLOTS, side_cap=None, coin_cap=None):
     """-> list of dicts (t0 = REAL entry time, t1 = exit bar label, R charged with funding, side, late, coin, rule).
     lanes   "key"  - ONE position per coin x sleeve, long or short (blend_paper.py: st["open"][key])
             "side" - longs and shorts in separate lanes, so a key can hold both (the engine: walk() and run_uncapped()
@@ -146,16 +153,22 @@ def simulate(keys, mode, time_stop, mu, lanes="key", release="close", seed=None,
                       check waits for its NEXT closed bar (blend_paper.py sets last_bar on the exit, then continues)
             "label" - taken(): a slot counts as free once the exit LABEL is <= the new trade's real t0, and walk()
                       may re-enter on the very next bar
-    Slots are released from one global queue, so a slot frees at its own time whatever key owns it."""
+    Slots are released from one global queue, so a slot frees at its own time whatever key owns it.
+    slots / side_cap ({"long": n, "short": m}) / coin_cap (positions per coin across its sleeves) are the slot ideas
+    (slot_ideas.py); the defaults are the deployed 12 shared slots and no other cap."""
     clock = sorted(set().union(*[set(k.real) for k in keys]))
     sides = ("long", "short")
     busy, heap, slots_used, out, waiting, cool, n = {}, [], 0, [], set(), {}, 0
+    side_used, coin_used = {"long": 0, "short": 0}, {}
     rng = None if seed is None else np.random.default_rng(seed)   # seed: a random key order at every step (ties)
     for T in clock:
         while heap and heap[0][0] <= T:
             _f, _n, lk = heapq.heappop(heap)
-            if busy.pop(lk)["real"]:
+            b = busy.pop(lk)
+            if b["real"]:
                 slots_used -= 1
+                side_used[b["side"]] -= 1
+                coin_used[b["coin"]] -= 1
             cool[lk] = _f                        # when it freed (the live bot then waits for the key's next bar)
         for k in (keys if rng is None else [keys[q] for q in rng.permutation(len(keys))]):
             i = k.pos.get(T)
@@ -177,10 +190,16 @@ def simulate(keys, mode, time_stop, mu, lanes="key", release="close", seed=None,
                     continue
                 j, Rc, _R = k.trade(i, side, time_stop, mu)
                 free_at = k.t[j] + (pd.Timedelta(hours=1) if release == "close" else pd.Timedelta(0))
-                if slots_used < SLOTS:
+                room = (slots_used < slots and (side_cap is None or side_used[side] < side_cap[side])
+                        and (coin_cap is None or coin_used.get(k.coin, 0) < coin_cap))
+                if room:
                     slots_used += 1
-                    busy[lk] = dict(real=True)
-                    out.append(dict(t0=k.real[i], t1=k.t[j], R=Rc, side=side, late=lk in waiting, coin=k.coin, rule=k.rule))
+                    side_used[side] += 1
+                    coin_used[k.coin] = coin_used.get(k.coin, 0) + 1
+                    busy[lk] = dict(real=True, side=side, coin=k.coin)
+                    sf, units = k.extra[(i, side)]
+                    out.append(dict(t0=k.real[i], t1=k.t[j], R=Rc, side=side, late=lk in waiting, coin=k.coin, rule=k.rule,
+                                    sf=sf, units=units, t_out=free_at))
                     waiting.discard(lk)
                 elif mode == "drop":
                     busy[lk] = dict(real=False)
@@ -229,11 +248,12 @@ def replay_check(keys, time_stop, mu, tight):
     return n_eng, n_mine, n_same
 
 
-def measure(tr, bear, cut):
+def measure(tr, bear, cut, risk_mult=1.0):
     res = {}
     for half, sel in (("tune", lambda x: x["t0"] < cut), ("hold", lambda x: x["t0"] >= cut)):
         lst = [(pd.Timestamp(x["t0"]), pd.Timestamp(x["t1"]),
-                x["R"] * blend.RISK / 100.0 * (blend.REGIME_MULT if bool(bear.asof(x["t0"])) else 1.0)) for x in tr if sel(x)]
+                x["R"] * risk_mult * blend.RISK / 100.0 * (blend.REGIME_MULT if bool(bear.asof(x["t0"])) else 1.0))
+               for x in tr if sel(x)]
         hpm, _raw, dd, _fin = summarize(curve(lst, "entry_sized"))
         res[half] = (hpm, dd, len(lst), sum(x["R"] for x in tr if sel(x)))
     return res

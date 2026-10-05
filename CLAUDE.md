@@ -538,7 +538,11 @@ the detail lives in the numbered docs.*
   halves, so the bot is not changed.
 - **Graveyard:** the earlier corrected-engine rescore (doc 11 part 2) already re-ran every engine kill. The only
   kills that rested on the allocator are the slot ones (16 slots, slot priority, correlation allocation, slots
-  by side) - the legitimate reopening under rule 9, not yet run.
+  by side) - the legitimate reopening under rule 9.
+- **Slot ideas re-run** (`slot_ideas.py`, `slot_split_matched.py`, doc 02): on the causal allocator with the live
+  position model, nothing passes. More slots = tune-only and past 10x; splits flip between halves. 6 long / 6
+  short beat the shared book at MATCHED drawdown on both halves on the deployed grid, then lost the tune half on
+  the other 3 bar phases - dead. The live-model triple: +9.97 / +4.97 %/mo, falls 64 / 56%, 9.5x p99 leverage.
 
 ### 2026-10-01 - his January-March clock may be one hour off (his_strategy.md s35)
 

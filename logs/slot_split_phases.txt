@@ -1,0 +1,13 @@
+6 LONG / 6 SHORT against the shared 12 scaled to the split's drawdown, per bar phase (10 orderings each)
+
+  phase   half   split %/mo  its DD  shared at that DD        split - shared, paired
+  0       tune       +7.60%     37%             +5.86%         +1.74 +- 0.57 (8/10)
+  0       hold       +6.08%     39%             +4.07%         +2.01 +- 0.46 (9/10)
+  1       tune       +6.29%     46%             +7.11%         -0.82 +- 0.70 (3/10)
+  1       hold       +6.07%     46%             +5.29%         +0.78 +- 0.56 (7/10)
+  2       tune       +6.14%     44%             +9.03%         -2.89 +- 0.71 (2/10)
+  2       hold       +5.33%     44%             +4.74%         +0.59 +- 0.56 (6/10)
+  3       tune       +6.54%     41%             +8.25%         -1.71 +- 0.67 (1/10)
+  3       hold       +5.06%     44%             +5.21%         -0.16 +- 0.38 (5/10)
+
+  both halves > 2 paired se on 1 of 4 phases -> fails the four-phase bar

@@ -3191,3 +3191,42 @@ The same rule at each of the 24 start hours:
 
 **Verdict:** the volume lift was the hour of day plus noise; currency strength carries no tradable relationship at 1–24
 hours after Exness costs. Consistent with `fx_tsmom.py`: the FX legs of the one surviving trend book earn nothing.
+
+## Dead again, on the causal allocator: the slot ideas (2026-10-06) — `backtest/slot_ideas.py`, `backtest/slot_split_matched.py`
+
+**Why reopened.** Mistake #17 (doc 03): the old allocator freed a slot at the label of the exit bar, before the
+position had closed. The ideas whose verdicts rested on how slots are handed out were re-run on the triple with:
+- causal slot release;
+- the live bot's position model (one position per coin × sleeve, retry, one-bar pause);
+- 10 orderings, each variant paired against the 12-slot book.
+
+**Not reopened:**
+- slot priority, which was killed by a head-to-head of simultaneous signals that never touched the allocator;
+- correlation clusters, which did not exist (12 coins at ~0.63 pairwise).
+
+**The 12-slot book (the bot):** +9.97% tune / +4.97% holdout per month, worst fall 64% / 56%, gross leverage 9.5×
+at p99.
+
+| variant | tune Δ %/mo | hold Δ %/mo | worst fall t/h | lev p99 | verdict |
+|---|---|---|---|---|---|
+| 8 slots | −2.20 | −1.20 | 50 / 46% | 6.2× | dead |
+| 16 slots | +2.30 (10/10) | +0.13 | 69 / 63% | **12.4×** | tune only, over the 10× line |
+| 20 slots | +3.56 | +0.48 | 77 / 66% | 15.6× | over the line |
+| split 8 long / 4 short | −1.74 | +2.21 | 49 / 45% | 9.5× | flips |
+| split 10 / 2 | −1.74 | +2.11 | 55 / 57% | 12.3× | flips |
+| split 6 / 6 | −2.37 | +1.10 | **37 / 39%** | 7.2× | flips |
+| max 1 position per coin | −2.65 | −0.04 | 63 / 55% | 12.7× | dead |
+| max 2 per coin | +0.94 | +0.35 | 62 / 56% | 11.0× | not significant |
+| control: 12 slots at 0.40% | +1.72 | +0.30 | 75 / 67% | 12.7× | |
+
+**The one near-miss: 6 long / 6 short at matched drawdown.** The shared book was scaled down to the split's own
+drawdown:
+- On the deployed bar grid the split earned more on BOTH halves: +1.74 ± 0.57 and +2.01 ± 0.46. That was a pass,
+  and a surprise; I had predicted holdout-only.
+- **On the other three bar phases it lost on the tune half:** −0.82, −2.89 and −1.71 (`logs/slot_split_phases.txt`).
+- It passed on 1 of 4 phases, so it is **dead**. The phase-0 pass was where the 4h/12h candles happen to start.
+
+This is the check that kept the tight exit and the 7-unit pyramid, and here it did its job the other way.
+
+**Predictions:** all right except two. The shared pool does NOT beat every split on the holdout. And the 6/6 split
+did not hold across phases, though I predicted it would.

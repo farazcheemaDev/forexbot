@@ -1,0 +1,12 @@
+TRIPLE, causal allocator + live position model, 10 orderings, halves split 2024-04-29: each split against the shared 12 SCALED DOWN to the split's own drawdown
+
+  split               half   split %/mo  its DD  shared 12 at that DD        split - shared, paired
+  8 long / 4 short    tune       +8.23%     49%                +7.67%         +0.57 +- 0.59 (7/10)
+  8 long / 4 short    hold       +7.18%     45%                +4.37%         +2.81 +- 0.43 (10/10)
+                      -> fails the both-halves bar
+  6 long / 6 short    tune       +7.60%     37%                +5.86%         +1.74 +- 0.57 (8/10)
+  6 long / 6 short    hold       +6.08%     39%                +4.07%         +2.01 +- 0.46 (9/10)
+                      -> PASSES: a better deployment of risk on both halves
+  10 long / 2 short   tune       +8.23%     55%                +8.51%         -0.28 +- 0.55 (4/10)
+  10 long / 2 short   hold       +7.08%     57%                +4.89%         +2.19 +- 0.62 (8/10)
+                      -> fails the both-halves bar
