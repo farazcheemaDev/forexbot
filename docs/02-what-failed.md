@@ -3157,3 +3157,37 @@ drives crypto". Never tested before: Fear & Greed as a timing signal (alternativ
   - Attention: −0.034 / +0.016.
 - **The reading:** greedy weeks pay more because they are wilder. Sizing up in them is betting bigger on worse
   terms.
+
+---
+
+## Dead: a currency-strength meter with volume confirmation, 2026-10-06 — `backtest/fx_strength.py`, `fx_strength_check.py`
+
+**The user's idea:** "check whether volume is rising in different markets, use the historical relationships between
+currencies, and predict the move." Both halves had died separately (VSA and the volume-surge filter ran backwards; the
+NASDAQ–gold and crypto pairs, DXY→BTC and the intraday cross-market leads all failed). The combination, as an FX trader
+builds it, had not been tried: an **8-currency strength meter** (USD, EUR, GBP, JPY, AUD, NZD, CAD, CHF) from the seven
+USD pairs, hourly 2020-03 → 2026-09 from the Exness MT5 cache, with MT5 tick volume as the confirmation.
+Predictions committed before each run; costs 1.5 bp a round trip with USD on one side, 3.0 bp for crosses, 0.5 bp a night.
+
+**`fx_strength.py` — 24 cells** (buy the strongest against the weakest, or the reverse; strength over 1 / 4 / 24 / 120
+hours; held 1 / 4 / 24 hours; `logs/fx_strength.txt`):
+- **0 of 24 pass** (positive after costs on both halves with Holm < 0.05).
+- **Momentum loses even before costs**: every "strongest vs weakest" cell is negative gross. Currency strength mildly
+  REVERSES at these horizons, and the reversal is smaller than the cost at every setting but one (fade the last hour's
+  extremes over 24 h: +2.70 bp net, t 1.76, Holm 0.32).
+- Predictions 1, 3, 4's direction held; 2 (momentum best gross at days) wrong; **4 wrong in the interesting way** — on
+  that one cell, volume-confirmed trades (tick volume ≥ 1.5× the hour's norm) earned +7.2 / +21.4 bp more on tune /
+  holdout (190 trades).
+
+**`fx_strength_check.py` — the bug hunt** (`logs/fx_strength_check.txt`). That cell steps 24 bars at a time, so every
+trade sat at one hour of the day (20:00 UTC, next to the daily FX rollover, when quotes widen and tick volume spikes).
+The same rule at each of the 24 start hours:
+- plain reversal is **negative at 21 of 24 hours** (−1 to −7.7 bp); the best is **21:00 UTC, the rollover** (+2.5 bp),
+  where real spreads are far wider than the cost charged;
+- volume-confirmed trades swing hour to hour (−20 then +16, −9 then +35 bp on ~130 trades each); **4 of 24 hours are
+  positive on both halves — chance gives ~6**; outside the rollover they average **−1.6 bp**.
+- Prediction 2 (volume lift only at rollover, nothing elsewhere) right in substance; prediction 1 half right (the cell
+  sat at 20:00, beside the rollover, not inside it).
+
+**Verdict:** the volume lift was the hour of day plus noise; currency strength carries no tradable relationship at 1–24
+hours after Exness costs. Consistent with `fx_tsmom.py`: the FX legs of the one surviving trend book earn nothing.
