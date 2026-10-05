@@ -1,0 +1,12 @@
+
+MAIN - 10 random orderings, halves split 2024-05-20
+  E0 the engine (slot frees at the exit LABEL)     tune  +5.77%  hold  +2.89%/mo   DD 54% / 56%
+  the engine, slot frees at the exit bar CLOSE     tune  +4.22%  hold  +3.15%/mo   DD 58% / 55%
+  causal release - engine, tune: -1.55 +- 0.13 (0/10 up)
+  causal release - engine, hold: +0.25 +- 0.34 (6/10 up)
+
+TRIPLE - 10 random orderings, halves split 2024-03-20
+  E0 the engine (slot frees at the exit LABEL)     tune +11.18%  hold  +6.71%/mo   DD 48% / 49%
+  the engine, slot frees at the exit bar CLOSE     tune  +9.84%  hold  +6.16%/mo   DD 46% / 56%
+  causal release - engine, tune: -1.33 +- 0.30 (0/10 up)
+  causal release - engine, hold: -0.55 +- 0.20 (3/10 up)

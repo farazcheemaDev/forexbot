@@ -1,0 +1,68 @@
+candles: 2020-02-15 .. 2026-10-05 13:00 UTC (disk cache to 2026-09-11 16:00, the rest appended in memory)
+
+MAIN: 42 live trades closed 2026-09-14 .. 2026-10-05 (entries from 2026-09-13); engine trades over the same span 126
+  matched BY ENTRY 20 of 42 live (48%); live-only 22; engine-only 107 (shorts 94, longs 13)
+  entry price, engine vs live: median +0.0bp, |diff| > 20bp on 5
+  R: live total +59.92, engine total +64.52; engine - live per trade median -0.003, mean +0.230; |diff| > 0.25R on 8
+  units agree on 20 of 20
+    SHIBUSDT 1h  short  live   -1.07R 1u in 5.12e-06 out 5.21e-06 (09-14 03:00) | engine   +1.38R 1u in 5.16e-06 (09-15 07:00) out nan (09-17 01:00)
+    ADAUSDT  1h  short  live   -1.06R 1u in 0.2026 out 0.20666 (09-14 03:00) | engine   +0.72R 1u in 0.2044 (09-15 07:00) out nan (09-17 12:00)
+    XRPUSDT  1h  short  live   -1.09R 1u in 1.3376 out 1.3562 (09-14 03:00) | engine   +0.18R 1u in 1.3252 (09-15 19:00) out nan (09-17 14:00)
+    LINKUSDT 1h  short  live   -1.07R 1u in 11.168 out 11.354 (09-14 03:00) | engine   -0.14R 1u in 11.182 (09-15 15:00) out nan (09-17 06:00)
+    SUIUSDT  1h  short  live   +0.13R 1u in 0.7084 out 0.70546 (09-16 20:00) | engine   -0.34R 1u in 0.7085 (09-15 07:00) out nan (09-16 20:00)
+    AVAXUSDT 1h  long   live  +85.79R 5u in 7.53 out 11.007 (10-04 11:01) | engine  +85.36R 5u in 7.478 (09-17 00:00) out 11.007 (10-05 13:00)
+    WLDUSDT  1h  short  live   +0.28R 1u in 0.3784 out 0.37512 (09-17 01:00) | engine   -0.11R 1u in 0.3784 (09-15 04:00) out nan (09-17 07:00)
+    LTCUSDT  1h  short  live   +1.47R 1u in 53.37 out 52.02 (09-17 02:01) | engine   +1.09R 1u in 53.38 (09-14 22:00) out nan (09-17 06:00)
+    LIVE ONLY   in~09-13 23:00 out 09-14 03:00 SUIUSDT  1h  short  -1.06R
+    LIVE ONLY   in~09-13 23:00 out 09-14 03:00 AVAXUSDT 1h  short  -1.08R
+    LIVE ONLY   in~09-13 23:00 out 09-14 03:00 ENAUSDT  1h  short  -1.05R
+    LIVE ONLY   in~09-13 21:01 out 09-15 01:01 LTCUSDT  4h  long   -1.04R
+    LIVE ONLY   in~09-14 17:01 out 09-15 04:01 SHIBUSDT 1h  long   -1.06R
+    LIVE ONLY   in~09-14 04:01 out 09-15 08:01 NEARUSDT 1h  long   -2.08R
+    LIVE ONLY   in~09-15 01:02 out 09-15 13:02 ARBUSDT  1h  short  -1.03R
+    LIVE ONLY   in~09-14 17:01 out 09-15 17:01 XRPUSDT  4h  long   -1.04R
+    LIVE ONLY   in~09-15 00:01 out 09-16 13:01 DOTUSDT  1h  short  +0.90R
+    LIVE ONLY   in~09-16 13:00 out 09-16 15:00 ARBUSDT  1h  long   -1.02R
+    ENGINE ONLY in 08-19 12:00 out 09-15 20:00 XRPUSDT  4h  long   +73.22R
+    ENGINE ONLY in 08-21 00:00 out 09-16 12:00 SHIBUSDT 12h long   -6.06R
+    ENGINE ONLY in 09-07 00:00 out 09-16 00:00 DOTUSDT  12h long   -2.03R
+    ENGINE ONLY in 09-07 04:00 out 09-15 13:00 ARBUSDT  1h  short  +2.41R
+    ENGINE ONLY in 09-08 16:00 out 09-17 16:00 ENAUSDT  4h  short  +0.26R
+    ENGINE ONLY in 09-10 00:00 out 09-17 20:00 SHIBUSDT 4h  short  +0.08R
+    ENGINE ONLY in 09-10 04:00 out 09-18 04:00 LINKUSDT 4h  short  -0.15R
+    ENGINE ONLY in 09-10 04:00 out 09-18 04:00 ADAUSDT  4h  short  -0.22R
+    ENGINE ONLY in 09-10 04:00 out 09-18 04:00 SUIUSDT  4h  short  +0.14R
+    ENGINE ONLY in 09-10 16:00 out 09-18 04:00 AVAXUSDT 4h  short  -0.88R
+
+TRIPLE: 49 live trades closed 2026-09-24 .. 2026-10-05 (entries from 2026-09-16); engine trades over the same span 138
+  matched BY ENTRY 17 of 49 live (35%); live-only 32; engine-only 122 (shorts 83, longs 39)
+  entry price, engine vs live: median +0.0bp, |diff| > 20bp on 7
+  R: live total +255.14, engine total +247.78; engine - live per trade median +0.001, mean -0.433; |diff| > 0.25R on 7
+  units agree on 16 of 17
+    SUIUSDT  1h  long   live +127.68R 7u in 0.7114 out 1.1619 (09-28 10:00) | engine +121.60R 7u in 0.7079 (09-16 20:00) out 1.1672 (09-28 09:00)
+    WLDUSDT  1h  long   live  +32.16R 7u in 0.3734 out 0.52029 (09-28 06:00) | engine  +37.85R 7u in 0.3727 (09-17 00:00) out 0.51641 (09-28 05:00)
+    LINKUSDT 4h  long   live   +5.48R 5u in 11.787 out 14.111 (10-02 21:01) | engine   +0.27R 5u in 11.787 (09-18 08:00) out 13.792 (10-02 20:00)
+    AVAXUSDT 1h  long   live +104.20R 7u in 7.53 out 10.963 (09-28 06:00) | engine +101.87R 7u in 7.478 (09-17 00:00) out 10.921 (09-28 05:00)
+    ENAUSDT  1h  long   live   -1.06R 1u in 0.2391 out 0.23446 (10-04 17:01) | engine   +0.22R 3u in 0.2391 (10-03 22:00) out 0.2515 (10-05 13:00)
+    XRPUSDT  1h  short  live   -0.45R 1u in 1.4643 out 1.4799 (10-03 10:01) | engine   -0.82R 1u in 1.4643 (10-02 19:00) out nan (10-04 06:00)
+    SUIUSDT  1h  short  live   +0.12R 1u in 1.1812 out 1.1733 (09-30 08:01) | engine   -0.16R 1u in 1.1787 (09-28 08:00) out nan (09-30 12:00)
+    LIVE ONLY   in~09-17 00:01 out 09-24 02:01 DOTUSDT  1h  long   -0.14R
+    LIVE ONLY   in~09-18 01:00 out 09-28 06:00 ADAUSDT  1h  long   +22.20R
+    LIVE ONLY   in~09-17 09:00 out 09-28 06:00 LINKUSDT 1h  long   +32.11R
+    LIVE ONLY   in~09-24 03:00 out 09-28 06:00 LTCUSDT  1h  long   +1.83R
+    LIVE ONLY   in~09-17 00:00 out 09-28 06:00 ARBUSDT  1h  long   +8.09R
+    LIVE ONLY   in~09-16 20:00 out 09-28 10:00 ENAUSDT  1h  long   +71.42R
+    LIVE ONLY   in~09-16 16:00 out 09-28 10:00 NEARUSDT 1h  long   +150.11R
+    LIVE ONLY   in~09-28 10:00 out 09-28 11:00 LTCUSDT  1h  short  -1.05R
+    LIVE ONLY   in~09-28 07:02 out 09-28 13:02 XRPUSDT  1h  short  -1.05R
+    LIVE ONLY   in~09-28 07:02 out 09-28 13:02 ADAUSDT  1h  short  -1.04R
+    ENGINE ONLY in 09-08 16:00 out 09-17 16:00 ENAUSDT  4h  short  +0.26R
+    ENGINE ONLY in 09-10 00:00 out 09-17 20:00 SHIBUSDT 4h  short  +0.08R
+    ENGINE ONLY in 09-10 04:00 out 09-18 04:00 SUIUSDT  4h  short  +0.14R
+    ENGINE ONLY in 09-10 04:00 out 09-18 04:00 ADAUSDT  4h  short  -0.22R
+    ENGINE ONLY in 09-10 04:00 out 09-18 04:00 LINKUSDT 4h  short  -0.15R
+    ENGINE ONLY in 09-10 16:00 out 09-18 04:00 AVAXUSDT 4h  short  -0.88R
+    ENGINE ONLY in 09-11 12:00 out 09-18 12:00 ENAUSDT  12h short  -1.01R
+    ENGINE ONLY in 09-11 15:00 out 09-16 19:00 DOTUSDT  1h  short  +1.52R
+    ENGINE ONLY in 09-13 04:00 out 09-17 16:00 DOTUSDT  4h  short  -0.63R
+    ENGINE ONLY in 09-14 16:00 out 09-18 04:00 WLDUSDT  4h  short  -1.02R

@@ -1,0 +1,14 @@
+
+MAIN - 10 random orderings, halves split 2024-05-20
+  E0 the engine's structure (every backtest)   tune  +5.77%  hold  +2.89%/mo   DD 54% / 56%
+  E3 the live bot as built                     tune  +4.66%  hold  +0.91%/mo   DD 73% / 69%
+  E3b the live bot, pause removed              tune  +5.20%  hold  +0.78%/mo   DD 74% / 69%
+  THE FIX, E3b - E3 (paired):   tune +0.54 +- 0.29 (7/10 up)   hold -0.14 +- 0.27 (4/10 up)
+  what is left, E3b - E0:        tune -0.56 +- 0.33 (2/10 up)   hold -2.12 +- 0.35 (0/10 up)
+
+TRIPLE - 10 random orderings, halves split 2024-03-20
+  E0 the engine's structure (every backtest)   tune +11.18%  hold  +6.71%/mo   DD 48% / 49%
+  E3 the live bot as built                     tune +10.33%  hold  +4.52%/mo   DD 64% / 57%
+  E3b the live bot, pause removed              tune +10.37%  hold  +4.79%/mo   DD 61% / 55%
+  THE FIX, E3b - E3 (paired):   tune +0.04 +- 0.49 (7/10 up)   hold +0.27 +- 0.31 (6/10 up)
+  what is left, E3b - E0:        tune -0.81 +- 0.55 (3/10 up)   hold -1.92 +- 0.48 (1/10 up)

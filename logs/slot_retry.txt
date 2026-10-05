@@ -1,0 +1,26 @@
+
+MAIN (36 keys)
+  CHECK A, each key alone with no slots: engine trades 15736, this file's 15735, identical 15735 (100.0%)
+  halves split 2024-06-10
+  allocator                                                                   trades     sum R  tune %/mo  hold %/mo  tune DD  hold DD
+  CHECK B: engine taken(), 10 random tie orders (median; range)                                    +5.96%     +3.96%   tune +4.81..+6.80, hold +3.00..+4.95
+  E0 engine-equivalent: lanes per side, drop, slot frees at the exit LABEL      5670  +11413.2     +5.29%     +5.58%      58%      56%
+  E1 + one position per key                                                     6560  +10442.4     +4.87%     +3.57%      54%      55%
+  E2 + slot frees at the exit bar's CLOSE                                       6095   +9485.8     +4.98%     +1.87%      72%      70%
+  E3 + RETRY = the live bot                                                     5349   +8499.0     +5.21%     +1.65%      72%      70%
+  E4 retry, lanes per side                                                      6165   +8758.3     +5.38%     +1.61%      79%      70%
+  late entries (retried after a decline): 2219 (41.5% of trades), sum +2336.6R, mean +1.05R a trade (on-time trades +1.97R); longs 988
+  biggest late entries: ADAUSDT 1h 2020-12-24 +565R; DOTUSDT 1h 2020-12-24 +527R; XRPUSDT 4h 2024-11-06 +414R; AVAXUSDT 1h 2021-07-21 +381R; ADAUSDT 1h 2024-11-06 +320R
+
+TRIPLE (36 keys)
+  CHECK A, each key alone with no slots: engine trades 17542, this file's 17541, identical 17541 (100.0%)
+  halves split 2024-05-28
+  allocator                                                                   trades     sum R  tune %/mo  hold %/mo  tune DD  hold DD
+  CHECK B: engine taken(), 10 random tie orders (median; range)                                    +9.06%     +9.06%   tune +8.66..+10.77, hold +7.63..+10.76
+  E0 engine-equivalent: lanes per side, drop, slot frees at the exit LABEL      7499  +14598.2     +9.43%     +9.09%      44%      49%
+  E1 + one position per key                                                     8429  +17030.7    +12.44%     +9.13%      53%      42%
+  E2 + slot frees at the exit bar's CLOSE                                       7938  +15572.6    +11.92%     +6.61%      51%      57%
+  E3 + RETRY = the live bot                                                     7138  +13042.7     +9.85%     +6.73%      52%      52%
+  E4 retry, lanes per side                                                      7914  +13589.6     +9.31%     +9.94%      56%      42%
+  late entries (retried after a decline): 2723 (38.1% of trades), sum +4680.6R, mean +1.72R a trade (on-time trades +1.89R); longs 1263
+  biggest late entries: XRPUSDT 1h 2024-11-06 +972R; ADAUSDT 1h 2023-10-20 +673R; XRPUSDT 4h 2024-11-06 +655R; AVAXUSDT 1h 2023-10-21 +456R; ADAUSDT 1h 2024-11-06 +434R

@@ -135,6 +135,7 @@ candidate on paper. The rule above still stands for everything else.
 | **Bar label read as entry time** | `asof(t0)` on a 4h/12h row reads a bar that closed hours after the entry. The short boost's "+0.481R" was 118 look-ahead trades; causal, it is +0.305R and worth ~+0.5%/mo | `causal_t0.real_t0(rows)` |
 | **Fees charged, funding not** | Every figure for the deployed book was fees-only. Funding takes the tune half +16.5% → +12.2%/mo | `funding_cost.charged(...)` |
 | **Scaling a trade by equity it was never sized on** | Daily-sum / sequential compounding credit open runners with profit other trades banked: ~2× the achievable return. `blend_paper.py`'s paper equity does it too | entry-sized curve, `mtm_sizing.simulate(..., "realised")` |
+| **A slot freed at the exit bar's LABEL** | `walk()` stamps an exit with the label of the bar the stop is hit in - for 1h, its OPEN - and `taken()` frees the slot for a trade entering at that same open: the allocator knows a position will stop out later that hour. Flattered the tune half 1.3-1.6 %/mo, 0/10 orderings (mistake #17, 2026-10-06). And the live bots are a different book again: one position per key, retry on a declined signal, a one-bar pause - together 1-2 %/mo under every published figure, with deeper falls | Free a slot when the exit bar CLOSES. Reconcile the backtest's position model with the bot's, trade by trade (`engine_vs_live.py`) |
 | **Booking P&L at the bar close hides what happened inside the bar** | Doc 15's crash bids made money in the 2025-10-10 21:00 hour *at its close*. Five-minute bars show every bid filled and kept falling, and together with the trend book the account had **10% left** inside that hour (2026-09-25, `joint_worst_hour.py`) | For any book that buys INTO a move, measure the worst price after the fill inside the holding bar, summed across the book and added to what else is open |
 
 ## 4. Where things are
@@ -522,6 +523,22 @@ the detail lives in the numbered docs.*
 - **Sentiment** (`sentiment.py`, `sentiment_dial.py`, doc 02): Fear & Greed and Wikipedia attention predict the
   combo's NEXT WEEK (momentum, both halves, survive controls) - but as a size dial Fear & Greed LOWERS Sharpe on
   both halves (0/10 orderings), worst fall 50->61% / 60->73%. Greedy weeks pay more because they are wilder.
+
+### 2026-10-06 - the engine checked against the live books: a fourth flattering bug (doc 03 #17)
+
+- **The engine reproduces the live books' trades** where both hold them: entry median 0.0bp, R -0.004, units
+  agree; one key alone, 15,735 of 15,736 trades identical (`engine_vs_live.py`, `slot_retry.py` CHECK A).
+- **The engine's candle cache (`blend.fetch`, `*_1h_2400d.json`) stops 2026-09-11 16:00** and is never
+  refreshed. Harmless for history; any test of recent weeks silently sees nothing.
+- **Mistake #17, the allocator look-ahead:** slots freed at the exit bar's label. Fixed causally: tune -1.55 /
+  -1.33 %/mo (main / triple, 0/10), holdout +0.25 / -0.55.
+- **The live bots (blend_paper.cycle, so combo_bot too) are a different book:** one position per key, retry,
+  a one-bar pause. **Plan on 1-2 %/mo under the published figures, with deeper falls** (triple, this file's
+  terms: +4.52 holdout vs the engine's +6.71). Removing the pause changes nothing; the rest is mixed across
+  halves, so the bot is not changed.
+- **Graveyard:** the earlier corrected-engine rescore (doc 11 part 2) already re-ran every engine kill. The only
+  kills that rested on the allocator are the slot ones (16 slots, slot priority, correlation allocation, slots
+  by side) - the legitimate reopening under rule 9, not yet run.
 
 ### 2026-10-01 - his January-March clock may be one hour off (his_strategy.md s35)
 

@@ -367,3 +367,59 @@ the cancel removes only the remainder. Two regression tests added, and the old f
 **what is still live on the exchange**, never by how the bookkeeping classified it. And a limit
 whose job is to fire in a disaster must be tested **in the disaster**, not in the tidy case.
 
+
+## 17. The slot allocator freed a slot before the position had closed — `backtest/slot_retry.py`
+
+*Found 2026-10-05/06 while reconciling the engine with the live paper books (`backtest/engine_vs_live.py`).*
+
+**Where the engine and the live bots agree:** on the trades they share, entry prices (median 0.0bp), units and R
+(median −0.004). Replayed one key at a time with no slots, `slot_retry.py` reproduces the engine's trades
+15,735 of 15,736 (CHECK A).
+
+**The look-ahead.** `walk()` records an exit at the LABEL of the bar the stop is hit in. For 1h bars that is the
+bar's OPEN. `graveyard_rescore.taken()` drops positions with `t1 <= t0` before admitting a new trade.
+- So at the open of an hour the allocator already "knows" a position will be stopped out later in that hour,
+  and gives its slot to a trade entering at that open.
+- On 4h/12h bars the label sits 1h before the close, so the same happens on exits in a bar's last hour.
+
+**Measured:** release at the exit bar's CLOSE instead, everything else the engine, paired on 10 random orderings
+(`logs/slot_release.txt`):
+
+| book | tune %/mo | holdout %/mo |
+|---|---|---|
+| main | **−1.55 ± 0.13** (0/10 better) | +0.25 ± 0.34 |
+| triple | **−1.33 ± 0.30** (0/10 better) | −0.55 ± 0.20 (3/10) |
+
+It flatters most where slots are crowded: the 2021 bull in the tune half. **Every %/mo in this repo that comes
+from `taken()` carries it.**
+
+**And the live bots are a different book again** (`logs/slot_retry_orderings.txt`, `logs/slot_retry_pause.txt`).
+`blend_paper.cycle`, which `combo_paper.py` and `combo_bot.py` also run, differs in three ways:
+- **one position per coin × sleeve**, where the engine keeps longs and shorts in independent lists, so one key can
+  hold a long runner and shorts at once;
+- **retry**: a signal declined for slots is tried again on every later bar while it holds, so it enters late; the
+  engine drops it for good;
+- **a one-bar pause** after each exit before the next entry check.
+
+Paired against the engine's structure, the live bot as built makes:
+
+| book | tune %/mo | holdout %/mo | worst fall, tune / holdout |
+|---|---|---|---|
+| main | −1.11 ± 0.31 | −1.98 ± 0.37 | 54 → 73% / 56 → 69% |
+| triple | −0.85 ± 0.44 | −2.19 ± 0.52 | 48 → 64% / 49 → 57% |
+
+- **Removing the pause changes nothing:** +0.54 / −0.14 and +0.04 / +0.27, all inside about one se.
+- **The structure itself (one position per key plus retry)** costs 1.4–2.4 on the holdout and adds 0.5–1.0 on the
+  tune half. That is mixed across halves, so it is **not** a reason to change the bot.
+
+**What to plan on:** the live bot earns about 1–2 %/mo less than the published backtest figures, with deeper falls.
+In this file's own terms (unguarded, cache to 2026-09-11, no MN or sleeve, haircut, entry-sized), triple:
+
+| | tune %/mo | holdout %/mo |
+|---|---|---|
+| engine | +11.18 | +6.71 |
+| **live bot as built** | **+10.33** | **+4.52** |
+
+**Rule:** an allocator may free a slot only when the exit is KNOWN, at the close of the bar that judged it. And a
+backtest's position model must be the bot's position model. Check one against the other trade by trade, as
+`engine_vs_live.py` does, before believing either.

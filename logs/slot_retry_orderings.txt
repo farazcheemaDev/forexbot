@@ -1,0 +1,12 @@
+
+MAIN - 10 random orderings, halves split 2024-05-20; E0 (the engine's structure) tune +5.77%, hold +2.89%/mo (DD 54% / 56%)
+  variant, paired against E0 on the same ordering                    tune %/mo               hold %/mo  tune DD  hold DD
+  E1 one position per key                              +0.77 +- 0.22 (9/10 up) -0.61 +- 0.26 (3/10 up)      58%      62%
+  E2 + exit handled at the bar close, one-bar pause    -0.38 +- 0.19 (2/10 up) -1.48 +- 0.34 (0/10 up)      70%      64%
+  E3 + RETRY = the live bot                            -1.11 +- 0.31 (1/10 up) -1.98 +- 0.37 (2/10 up)      73%      69%
+
+TRIPLE - 10 random orderings, halves split 2024-03-20; E0 (the engine's structure) tune +11.18%, hold +6.71%/mo (DD 48% / 49%)
+  variant, paired against E0 on the same ordering                    tune %/mo               hold %/mo  tune DD  hold DD
+  E1 one position per key                              +0.41 +- 0.66 (5/10 up) +0.46 +- 0.29 (7/10 up)      50%      48%
+  E2 + exit handled at the bar close, one-bar pause    +0.58 +- 0.41 (6/10 up) -2.57 +- 0.41 (1/10 up)      57%      56%
+  E3 + RETRY = the live bot                            -0.85 +- 0.44 (2/10 up) -2.19 +- 0.52 (1/10 up)      64%      57%
