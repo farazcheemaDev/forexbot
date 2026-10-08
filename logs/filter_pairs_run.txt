@@ -1,0 +1,33 @@
+D. THE DAILY BOOK x EVERY PAIR OF ITS 13 FILTERS (78 pairs), vs the base's line, 3 day boundaries: tune/hold above the line by boundary
+  breadth20 >= 50% & breadth20 <= 50%              trades   106 | CAGR   +23% /   +8% fall  50% | -28/-18  -113/-23  -78/-34 -> fail
+  breadth20 >= 50% & momentum top half             trades   987 | CAGR  +100% /  +31% fall  58% | +9/+6  -7/+12  -48/-39 -> fail
+  breadth20 >= 50% & above 200d EMA                trades   897 | CAGR   +82% /  +33% fall  66% | -71/-10  +0/+15  -104/-27 -> fail
+  breadth20 >= 50% & volume >= 1.5x                trades   961 | CAGR  +113% /  +39% fall  54% | -6/+4  +55/+22  -22/-19 -> fail
+  breadth20 >= 50% & volume >= 2x                  trades   752 | CAGR  +103% /  +33% fall  52% | +8/+12  +33/+22  -31/-42 -> fail
+  breadth20 >= 50% & Fear&Greed < 75               trades   962 | CAGR   +99% /  +15% fall  57% | +3/-16  -6/-2  -39/-51 -> fail
+  breadth20 >= 50% & Fear&Greed > 50               trades   952 | CAGR  +104% /  +32% fall  53% | -2/-15  +63/+16  -60/-14 -> fail
+  breadth20 >= 50% & BTC 28d > 0                   trades  1114 | CAGR  +122% /  +18% fall  52% | +31/-10  +59/-20  -12/-20 -> fail
+  breadth20 >= 50% & BTC > its 50d mean            trades  1133 | CAGR  +135% /  +17% fall  49% | +40/-13  +68/-20  +29/-16 -> fail
+  breadth20 >= 50% & RSI(14) < 80                  trades  1190 | CAGR  +132% /  +17% fall  58% | +33/-6  +46/-15  -22/-44 -> fail
+  breadth20 >= 50% & new 50-day high               trades   603 | CAGR   +83% /  +26% fall  54% | -27/-18  -13/+10  -17/-21 -> fail
+  breadth20 >= 50% & not overextended              trades  1176 | CAGR  +123% /  +18% fall  56% | +22/+10  +40/-14  -23/-55 -> fail
+  breadth20 <= 50% & momentum top half             trades   454 | CAGR   +21% /  +17% fall  74% | -132/-21  -153/-40  -155/-8 -> fail
+  breadth20 <= 50% & above 200d EMA                trades   357 | CAGR   +15% /  +31% fall  73% | -144/-4  -124/-26  -173/+6 -> fail
+  breadth20 <= 50% & volume >= 1.5x                trades   356 | CAGR    +1% /  +27% fall  82% | -191/-14  -170/-31  -187/+15 -> fail
+  breadth20 <= 50% & volume >= 2x                  trades   276 | CAGR    +1% /  +37% fall  81% | -190/+2  -168/-24  -189/+22 -> fail
+  breadth20 <= 50% & Fear&Greed < 75               trades   405 | CAGR   +14% /  +26% fall  73% | -149/-7  -161/-34  -149/-2 -> fail
+  breadth20 <= 50% & Fear&Greed > 50               trades   231 | CAGR   +23% /  +14% fall  57% | -87/-5  -86/-24  -96/-41 -> fail
+  breadth20 <= 50% & BTC 28d > 0                   trades   324 | CAGR   +32% /   +9% fall  60% | -77/-22  -89/-25  -98/-43 -> fail
+  breadth20 <= 50% & BTC > its 50d mean            trades   286 | CAGR   +30% /  +11% fall  54% | -49/-19  -87/-33  -83/-23 -> fail
+  breadth20 <= 50% & RSI(14) < 80                  trades   458 | CAGR   +24% /   +5% fall  74% | -136/-32  -148/-40  -150/-34 -> fail
+  breadth20 <= 50% & new 50-day high               trades   141 | CAGR    -7% /  +29% fall  70% | -198/-4  -149/-28  -143/-7 -> fail
+  breadth20 <= 50% & not overextended              trades   445 | CAGR   +18% /   +3% fall  75% | -161/-35  -134/-35  -167/-40 -> fail
+  momentum top half & above 200d EMA               trades   848 | CAGR   +38% /  +58% fall  77% | -157/+11  -116/+24  -143/+24 -> fail
+  momentum top half & volume >= 1.5x               trades   917 | CAGR   +58% /  +60% fall  67% | -103/+20  -50/+25  -102/+9 -> fail
+  momentum top half & volume >= 2x                 trades   743 | CAGR   +66% /  +59% fall  65% | -100/+39  -37/+29  -76/-12 -> fail
+  momentum top half & Fear&Greed < 75              trades   943 | CAGR   +73% /  +27% fall  66% | -63/-9  -61/-12  -80/-23 -> fail
+  momentum top half & Fear&Greed > 50              trades   804 | CAGR   +66% /  +47% fall  59% | -58/+3  -12/+25  -99/-4 -> fail
+  momentum top half & BTC 28d > 0                  trades   972 | CAGR   +82% /  +26% fall  56% | -11/-7  -15/-7  -56/-21 -> fail
+  momentum top half & BTC > its 50d mean           trades   973 | CAGR   +97% /  +32% fall  53% | +1/+2  +1/-4  -9/-7 -> fail
+  momentum top half & RSI(14) < 80                 trades  1110 | CAGR   +86% /  +17% fall  65% | -64/-15  -44/-22  -51/-34 -> fail
+  momentum top half & new 50-day high              trades   581 | CAGR   +52% /  +52% fall  66% | -109/+10  -91/+7  -67/+18 -> fail

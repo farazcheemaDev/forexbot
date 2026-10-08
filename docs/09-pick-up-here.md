@@ -7,6 +7,44 @@
 (what is running, what is next), then the last entries of [doc 02](02-what-failed.md) and [doc 21](21-graveyard-audit.md)
 before proposing anything - most ideas have been tested, and doc 21 says how well.
 
+## IN PROGRESS when this was committed (2026-10-09): the archive-hole re-run
+
+**A measurement bug was found and fixed 2026-10-09** (`backtest/capitulation_wide.halt_cut`, test in
+`tests/test_capitulation_wide.py`): every loader cut a coin's history at its first gap over 48h, and two ARCHIVE holes
+(2022-02-26..28, 2022-04-01..02, ~48 coins each) cut 51 coins - XRP, SOL, LTC, NEAR, FIL, TRX, XLM... - at 2022-02-25:
+16.4% of all PIT top-40 coin-months were missing. Now only a gap of more than 7 days (a real halt: BNX, TLM, ICP) cuts.
+Fixed in capitulation_wide, lottery, lottery_v2, micro_honest, short_families.
+
+**Already re-run on the fixed loader** (their logs are current): capitulation_exits, capitulation_tp5, machine_capit,
+capit_combos, capit_stack, capit_volume, daily_phase, pair_books, pair_lab, mn_capped, pair_full, pair_tweaks,
+machine_mix, v2_addons, daily_combos, daily_stack, daily_families, machine_combos, regime_weights, machine_factorial.
+
+**NOT yet re-run** (their logs and the numbers quoted from them are from the BROKEN loader): filter_pairs (new),
+trend_combos, wick_capit, sleeve_combos, sweep_reclaim, capit_1h, capitulation_wide, capitulation_freq,
+capitulation_breadth, breadth_events, tv_indicators, lottery_v2, micro_honest, short_families. Resume with
+`python -m backtest.<name>` for each, in that order (the caches rebuild themselves). Also pending: `moderate_retests.py
+--wide` and `meme_days.py --all-days --per-day=60` (resumable: cached candles are reused).
+
+**What the fix changed so far** (the docs above this section still quote some pre-fix numbers - trust the logs):
+- the plain capitulation book is WEAKER: 73-78 signals a year (was 57-62), +1.9..+2.7% a trade (was +2.4..+3.1), the
+  pair's fall 36-37% (was 27%);
+- the live capit2 rule (coin -10% + limit 2%, 0.3% trade-through) STILL PASSES in all 4 phases (`logs/capit_stack.txt`):
+  +3.0% / +4.3% a trade vs the plain book's +1.5% / +3.1%, 1x fall 10% vs 22%; three of its parts alone now fail one phase;
+- the daily book holds (+83..+100%/yr at 1x); two daily changes now PASS - exit under the 20-day mean, and the BTC exit
+  (out when BTC closes under its 20-day mean) - and their stack cuts the fall 65% -> 48% (`logs/daily_combos.txt`,
+  `logs/daily_stack.txt`): candidates for the daily book, after paper;
+- machine v3 +140%/yr (was +133%), MIX B about unchanged;
+- **"E" (v2 with the MN exit + daily + improved capitulation), MN on every weekday:** at the published v2's typical year
+  its worst month is **-21.0% (v2 safe -27.2%, published v2 -29.3%)**, fall 42% vs 57% (`logs/machine_combos.txt`) -
+  this REVERSES the 2026-10-08 "only ~1 point" correction, which was itself on the truncated data;
+- regime weights (no leak) still fail; the 728-machine factorial still picks E (`logs/machine_factorial.txt`).
+
+**Re-tests of MODERATE kills done 2026-10-09** (`backtest/moderate_retests.py`, `logs/moderate_retests.txt`): grid bots
+on 15 more coins 4/120 profitable (stands); cross-sectional indicator ranking - RSI-ranked MN is NOT worse than momentum
+(the old claim was wrong) and **half momentum + half RSI ranking beats momentum alone on both halves and on the worst
+weekday** (`backtest/mn_blend_rsi.py`): a candidate; VWAP reversion on daily bars positive a trade but a LOSING account
+(-23..-39%/yr holdout, falls 78-88%: `backtest/vwap_daily.py`) - stands; meta-labelling fails (stands).
+
 ## What is running
 
 | what | where | status |

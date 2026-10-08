@@ -1,0 +1,5 @@
+backtest/mn_blend_rsi.py, 2026-10-09 00:13; 7 rebalance days, +50% short-leg exit on both; Sharpe tune / holdout (split 2024-04-07)
+  momentum alone   Sharpe mean +1.06 / +1.31, worst day +0.85 / +0.76 | ann +47% / +110% | falls 29-42%
+  RSI alone        Sharpe mean +1.48 / +1.03, worst day +1.31 / +0.45 | ann +79% / +59% | falls 27-54%
+  half each        Sharpe mean +1.39 / +1.36, worst day +1.21 / +0.90 | ann +65% / +88% | falls 27-38%
+  weekly correlation, momentum book vs RSI book: +0.57 (mean over the 7 days)

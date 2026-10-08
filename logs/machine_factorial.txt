@@ -1,0 +1,51 @@
+backtest/machine_factorial.py, 2026-10-09 00:49; 728 machines (6 books x 0 / 0.5 / 1), $300, 10 orderings; first 4 years < 2024-08-29 <= last 2 years (all rows: machine_factorial.csv)
+
+  E (all six at 1):  first 4y typical $3,239, worst month -22.7% | last 2y $4,616, -30.4%, fall 51%
+  v2 safe:           first 4y typical $2,218, worst month -27.2% | last 2y $2,741, -29.3%, fall 47%
+  v2 as published:   first 4y worst month -28.2% (the pick's risk ceiling)
+  machines WITHOUT the trend book: best typical first 4y $816 / last 2y $1,521 (E: $3,239 / $4,616)
+
+THE HONEST PICK (best first-4y typical year with a worst month no worse than v2's -28.2%):
+  trend + mn_safe + sleeve + bids + daily + capit2
+  first 4y: typical $3,239, worst month -22.7%, fall 49%
+  LAST 2y (never seen by the pick): typical $4,616, worst month -30.4%, fall 51%, worst year $487   vs E $4,616 / -30.4%
+  its last-2y typical year ranks 1 of 728
+
+THE FIRST-4Y EFFICIENT FRONTIER: 29 machines; still efficient on the last 2y: 5
+  trend + mn_safe + sleeve + bids + daily + capit2                       4y $  3,239  -22.7% | 2y $  4,616  -30.4% (still efficient)
+  trend + mn_safe + sleeve x0.5 + bids + daily + capit2                  4y $  2,767  -22.2% | 2y $  4,463  -30.1% 
+  trend + mn_safe x0.5 + sleeve + bids + daily + capit2                  4y $  2,673  -19.3% | 2y $  2,911  -25.7% 
+  trend + mn_safe x0.5 + sleeve x0.5 + bids + daily + capit2             4y $  2,214  -18.5% | 2y $  2,735  -25.3% 
+  trend + sleeve + bids + daily + capit2                                 4y $  2,112  -18.3% | 2y $  1,576  -26.7% 
+  trend + sleeve + bids + daily + capit2 x0.5                            4y $  2,021  -18.0% | 2y $  1,534  -26.7% 
+  trend x0.5 + mn_safe + sleeve x0.5 + bids + daily + capit2             4y $  1,904  -16.8% | 2y $  2,852  -25.5% 
+  trend x0.5 + mn_safe x0.5 + sleeve + bids + daily + capit2             4y $  1,846  -16.7% | 2y $  2,115  -18.7% (still efficient)
+  trend x0.5 + mn_safe x0.5 + sleeve + bids x0.5 + daily + capit2        4y $  1,722  -16.4% | 2y $  2,083  -18.9% 
+  trend x0.5 + mn_safe x0.5 + sleeve + bids + daily x0.5 + capit2        4y $  1,614  -15.8% | 2y $  1,760  -17.7% (still efficient)
+  trend x0.5 + mn_safe x0.5 + sleeve x0.5 + bids + daily + capit2        4y $  1,540  -13.1% | 2y $  2,053  -18.4% (still efficient)
+  trend x0.5 + mn_safe x0.5 + sleeve x0.5 + bids + daily + capit2 x0.5   4y $  1,493  -13.0% | 2y $  1,992  -18.4% 
+  trend x0.5 + mn_safe x0.5 + sleeve x0.5 + bids + daily x0.5 + capit2   4y $  1,286  -11.7% | 2y $  1,639  -17.3% 
+  trend x0.5 + mn_safe x0.5 + sleeve x0.5 + bids + daily x0.5 + capit2 x0.5 4y $  1,253  -11.4% | 2y $  1,598  -17.3% 
+  trend x0.5 + sleeve x0.5 + bids + daily + capit2 x0.5                  4y $  1,164  -11.3% | 2y $  1,110  -17.4% 
+  trend x0.5 + sleeve x0.5 + bids + daily                                4y $  1,124  -11.3% | 2y $  1,081  -17.4% 
+  trend x0.5 + mn_safe x0.5 + bids + daily x0.5 + capit2                 4y $  1,042  -11.0% | 2y $  1,555  -17.0% 
+  trend x0.5 + mn_safe x0.5 + bids + daily x0.5 + capit2 x0.5            4y $  1,006  -11.0% | 2y $  1,511  -17.0% 
+  trend x0.5 + sleeve x0.5 + bids + daily x0.5 + capit2                  4y $    986   -9.7% | 2y $    877  -12.6% 
+  trend x0.5 + sleeve x0.5 + bids + daily x0.5 + capit2 x0.5             4y $    953   -9.2% | 2y $    854  -12.6% 
+  trend x0.5 + sleeve x0.5 + bids + daily x0.5                           4y $    930   -9.0% | 2y $    830  -12.6% 
+  mn_safe x0.5 + bids + daily x0.5 + capit2                              4y $    534   -8.0% | 2y $    759  -11.9% 
+  sleeve x0.5 + bids x0.5 + daily x0.5 + capit2                          4y $    448   -8.0% | 2y $    442   -4.9% (still efficient)
+  bids + daily x0.5 + capit2                                             4y $    440   -5.9% | 2y $    436   -5.9% 
+  bids + daily x0.5 + capit2 x0.5                                        4y $    430   -5.6% | 2y $    424   -5.9% 
+  bids + capit2                                                          4y $    359   -2.7% | 2y $    346   -3.3% 
+  bids + capit2 x0.5                                                     4y $    349   -1.6% | 2y $    336   -3.3% 
+  bids                                                                   4y $    337   -1.1% | 2y $    326   -3.3% 
+  bids x0.5                                                              4y $    318   -0.6% | 2y $    313   -1.6% 
+
+EACH BOOK'S AVERAGE EFFECT across all machines (mean change in typical year / worst month when the book goes 0 -> 1, other books held fixed), first 4y | last 2y
+  trend    typical   +215% worst month  -9.4 pts | typical   +175% worst month -13.0 pts
+  mn_safe  typical    +50% worst month  -5.4 pts | typical   +182% worst month  -9.1 pts
+  sleeve   typical    +42% worst month  -2.5 pts | typical    +12% worst month  -0.7 pts
+  bids     typical    +15% worst month  +0.5 pts | typical     +8% worst month  -0.2 pts
+  daily    typical    +43% worst month  +0.1 pts | typical    +58% worst month  -4.1 pts
+  capit2   typical     +6% worst month  +0.3 pts | typical     +6% worst month  +0.0 pts

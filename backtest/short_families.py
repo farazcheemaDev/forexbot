@@ -116,9 +116,8 @@ def one_coin(args):
         return []
     d = pd.read_csv(f, parse_dates=["time"]).rename(columns={"qvol": "volume"})
     d = d[d.close > 0].reset_index(drop=True)
-    gap = d.time.diff().dt.total_seconds().fillna(3600) / 3600
-    if (gap > 48).any():                      # relisted symbol: first episode only
-        d = d.iloc[:int(np.argmax(gap.values > 48))].reset_index(drop=True)
+    from backtest.capitulation_wide import halt_cut
+    d = halt_cut(d)                           # relisted symbol: first episode only (> 7 days; shorter = archive hole)
     if len(d) < 500:
         return []
     # only simulate around months the coin was eligible (plus warm-up and run-off)

@@ -1,0 +1,3 @@
+  MAIN   12 BOOK coins    5158 trades | tune  +4.20%/mo DD  79% | holdout  +3.67%/mo DD  80%
+  MAIN   PIT top-40      23354 trades | tune  +1.39%/mo DD  94% | holdout  -0.75%/mo DD  82%
+  TRIPLE 12 BOOK coins    6851 trades | tune +10.17%/mo DD  61% | holdout +12.48%/mo DD  66%

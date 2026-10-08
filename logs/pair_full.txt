@@ -1,8 +1,8 @@
-backtest/pair_full.py, 2026-10-08 19:59; median of 10 same-day orders per phase combination
+backtest/pair_full.py, 2026-10-09 00:28; median of 10 same-day orders per phase combination
 
-A base pair                              CAGR  +52% (phases +48..+58) | tune +66 / holdout +35 | fall 30% (worst 33%) | up 49% | median month +0.0% | worst month -15% | bull +10.5 chop +2.1 bear -2.3
-B + 1000h gate                           CAGR  +46% (phases +44..+53) | tune +63 / holdout +24 | fall 26% (worst 31%) | up 49% | median month +0.0% | worst month -14% | bull +10.2 chop -1.1 bear +0.1
-C + gate + MN(capped) x0.5               CAGR  +82% (phases +80..+91) | tune +99 / holdout +61 | fall 36% (worst 39%) | up 64% | median month +2.3% | worst month -18% | bull +13.1 chop +0.7 bear +1.9
-D + gate + MN x0.5 + bear sleeve x1      CAGR +123% (phases +121..+134) | tune +165 / holdout +70 | fall 40% (worst 43%) | up 66% | median month +4.5% | worst month -16% | bull +13.1 chop -0.1 bear +9.6
-E = D with cap 60                        CAGR +128% (phases +116..+133) | tune +168 / holdout +68 | fall 39% (worst 42%) | up 63% | median month +3.3% | worst month -16% | bull +12.0 chop +2.8 bear +9.5
-F = D with MN x1                         CAGR +164% (phases +161..+178) | tune +208 / holdout +108 | fall 50% (worst 52%) | up 65% | median month +5.6% | worst month -21% | bull +16.0 chop +1.7 bear +11.2
+A base pair                              CAGR  +58% (phases +55..+61) | tune +71 / holdout +37 | fall 39% (worst 46%) | up 51% | median month +0.2% | worst month -15% | bull +11.6 chop +2.8 bear -3.0
+B + 1000h gate                           CAGR  +48% (phases +46..+56) | tune +65 / holdout +29 | fall 34% (worst 37%) | up 48% | median month +0.0% | worst month -15% | bull +11.1 chop -1.1 bear -0.3
+C + gate + MN(capped) x0.5               CAGR  +84% (phases +82..+95) | tune +102 / holdout +67 | fall 41% (worst 44%) | up 63% | median month +2.0% | worst month -18% | bull +14.0 chop +0.6 bear +1.6
+D + gate + MN x0.5 + bear sleeve x1      CAGR +126% (phases +123..+139) | tune +169 / holdout +77 | fall 41% (worst 45%) | up 66% | median month +5.0% | worst month -18% | bull +14.0 chop -0.2 bear +9.2
+E = D with cap 60                        CAGR +135% (phases +116..+137) | tune +165 / holdout +76 | fall 39% (worst 43%) | up 63% | median month +3.6% | worst month -16% | bull +13.1 chop +2.2 bear +9.0
+F = D with MN x1                         CAGR +167% (phases +163..+183) | tune +213 / holdout +116 | fall 50% (worst 53%) | up 67% | median month +6.0% | worst month -21% | bull +17.0 chop +1.6 bear +10.8

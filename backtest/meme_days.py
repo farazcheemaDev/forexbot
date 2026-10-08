@@ -36,9 +36,9 @@ sys.path.insert(0, str(ROOT))
 
 from backtest import meme_grad as MG  # noqa: E402
 
-LOG = ROOT / "logs" / "meme_days.txt"
+LOG = ROOT / "logs" / ("meme_days_all.txt" if "--all-days" in sys.argv else "meme_days.txt")
 CACHE = MG.OUT / "ohlcv_days"
-PER_DAY = 25
+PER_DAY = int(next((a.split("=")[1] for a in sys.argv if a.startswith("--per-day=")), 25))
 
 
 def window(pool, t_seen):
@@ -62,7 +62,7 @@ def main():
     g = pd.read_csv(ROOT / "logs" / "meme_graduates.csv", parse_dates=["seen_utc"])
     g = g[g.pool.notna()].drop_duplicates("mint")
     g["day"] = g.seen_utc.dt.strftime("%Y-%m-%d")
-    days = sorted(d for d in g.day.unique() if "2026-09-23" <= d <= "2026-10-06")
+    days = sorted(g.day.unique()) if "--all-days" in sys.argv else sorted(d for d in g.day.unique() if "2026-09-23" <= d <= "2026-10-06")
     rng = np.random.default_rng(0)
     pick = pd.concat([x.iloc[rng.permutation(len(x))[:PER_DAY]] for d, x in g[g.day.isin(days)].groupby("day")])
     res = []

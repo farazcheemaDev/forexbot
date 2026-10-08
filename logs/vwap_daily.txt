@@ -1,0 +1,14 @@
+backtest/vwap_daily.py, 2026-10-09 00:51; PIT top-40 daily, long 2 ATR under VWAP(20), out at VWAP or 12 days; 12bp + funding; account 8 slots 1x marked to market, 10 orders
+
+1-2. BY DAY BOUNDARY: trades, per trade tune / holdout, 1x account CAGR tune / holdout, fall, worst month
+  00 UTC: 1549 trades | +2.67% / +2.13% a trade | account +11% / -23% a year, fall 78%, worst month -24.7%
+  08 UTC: 1547 trades | +2.66% / +1.50% a trade | account -1% / -39% a year, fall 88%, worst month -33.6%
+  16 UTC: 1536 trades | +1.46% / +0.66% a trade | account -10% / -35% a year, fall 87%, worst month -35.4%
+
+3. BY YEAR (00 UTC): 2020: 83.0 trades +5.9%  2021: 191.0 trades +12.4%  2022: 389.0 trades -2.6%  2023: 196.0 trades +2.7%  2024: 219.0 trades +1.2%  2025: 277.0 trades +3.3%  2026: 194.0 trades +1.2%
+
+4. OVERLAP: 251 of 1549 VWAP trades are within 2 days of a capitulation trade on the same coin; monthly correlation with the capitulation book -0.02, with the daily trend book +0.39
+
+5. THRESHOLD (00 UTC): per trade tune / holdout, account CAGR tune / holdout, fall
+  1.5 ATR under: 2540 trades | +1.64% / +0.52% | account -13% / -41%, fall 92%
+  2.5 ATR under: 752 trades | +2.82% / -0.47% | account +17% / -17%, fall 56%

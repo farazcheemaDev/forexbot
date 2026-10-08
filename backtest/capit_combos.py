@@ -197,7 +197,8 @@ def gen(off, cfg):
                     free = i + 2
                     continue
                 ib, e, lf = i + 2, o[i + 2], False
-            j, net, worst, jx, after = exit_tp(i, ib, e, P, fc=P["fc"], stop=cfg["stop"], limit_fill=lf)
+            j, net, worst, jx, after = exit_tp(i, ib, e, P, fc=P["fc"], stop=cfg["stop"], limit_fill=lf,
+                                               tp=cfg.get("tp", 0.05), nw=cfg.get("nw", 24))
             t_out = t[min(jx, len(t) - 1)] + (H4 if after else np.timedelta64(0, "h"))
             sc = cfg["prio"](row) if cfg["prio"] is not None else 0.0
             rows.append((s, t[ib], t_out, net, worst, sc))

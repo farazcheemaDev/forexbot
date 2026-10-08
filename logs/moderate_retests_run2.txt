@@ -1,0 +1,3 @@
+  daily: tune: n 879, +2.65% a trade vs control -2.78% (excess t +3.6) | holdout: n 663, +2.25% a trade vs control -3.36% (excess t +3.9) -> ALIVE
+  4h   : tune: n 5052, +0.31% a trade vs control -0.40% (excess t +4.0) | holdout: n 3764, -0.28% a trade vs control -0.39% (excess t +0.8) -> dead
+  boundary 00: kept 51% of 1579 trades, fall 56%, vs line -23 / -28 | boundary 08: kept 51% of 1585 trades, fall 51%, vs line -54 / -18 | boundary 16: kept 51% of 1581 trades, fall 57%, vs line -38 / -11 -> fail

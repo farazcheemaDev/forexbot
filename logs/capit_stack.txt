@@ -1,12 +1,12 @@
-backtest/capit_stack.py, 2026-10-08 21:07; same method as capit_combos.py
+backtest/capit_stack.py, 2026-10-09 00:17; same method as capit_combos.py
 
-  BASE                                 trades  353 | per trade +2.36% / +3.11% | CAGR 1x +9.3% / +13.0% fall 12% | vs line +0.0/+0.0  +0.0/+0.0  +0.0/+0.0  +0.0/+0.0 -> -
-  BTC down >= 5% (alone, for reference) trades  252 | per trade +2.75% / +4.39% | CAGR 1x +7.7% / +16.6% fall 6% | vs line +1.7/+11.9  +4.1/+11.7  +2.8/+7.1  +1.2/+5.9 -> PASS
-  limit -2% (alone, for reference)     trades  226 | per trade +3.53% / +4.13% | CAGR 1x +10.2% / +13.9% fall 6% | vs line +8.0/+5.8  +3.7/+9.4  +2.3/+6.6  +4.0/+4.4 -> PASS
-  BTC down >= 5% + limit -2%           trades  169 | per trade +3.63% / +4.85% | CAGR 1x +7.8% / +12.8% fall 4% | vs line +5.2/+5.3  +1.5/+6.6  +2.3/+11.0  +3.7/+2.7 -> PASS
-  coin down >= 10% + limit -2%         trades  196 | per trade +3.89% / +4.41% | CAGR 1x +9.7% / +14.1% fall 4% | vs line +6.6/+7.1  +3.6/+8.7  +2.9/+7.2  +5.2/+6.4 -> PASS
-  BTC -5% + coin -10% + limit -2%      trades  158 | per trade +3.84% / +4.88% | CAGR 1x +7.9% / +12.2% fall 3% | vs line +5.0/+5.3  +2.4/+5.6  +2.0/+9.7  +3.6/+2.7 -> PASS
-  BTC down >= 5% + limit -4%           trades   95 | per trade +4.29% / +4.92% | CAGR 1x +5.8% / +8.8% fall 1% | vs line +2.3/-0.0  +1.1/+5.1  +0.4/+5.3  +1.2/-1.0 -> fail
-  BTC -5% OR coin -10%, + limit -2%    trades  207 | per trade +3.71% / +4.41% | CAGR 1x +9.8% / +14.5% fall 5% | vs line +6.9/+7.2  +2.9/+9.7  +2.5/+7.2  +5.4/+6.4 -> PASS
-  limit -2%, fill only on a 0.3% trade-through trades  212 | per trade +3.67% / +4.14% | CAGR 1x +9.9% / +13.3% fall 5% | vs line +7.1/+5.2  +3.7/+9.1  +0.7/+5.5  +5.6/+4.9 -> PASS
-  coin -10% + limit -2%, 0.3% trade-through trades  186 | per trade +3.94% / +4.44% | CAGR 1x +9.5% / +13.5% fall 4% | vs line +6.1/+6.9  +3.7/+8.4  +1.6/+6.2  +5.3/+5.2 -> PASS
+  BASE                                 trades  464 | per trade +1.50% / +3.13% | CAGR 1x +4.9% / +14.4% fall 22% | vs line +0.0/+0.0  +0.0/+0.0  +0.0/+0.0  +0.0/+0.0 -> -
+  BTC down >= 5% (alone, for reference) trades  313 | per trade +2.71% / +4.35% | CAGR 1x +8.5% / +17.6% fall 8% | vs line +7.6/+10.8  -0.8/+4.7  +7.0/+10.7  +5.8/+9.9 -> fail
+  limit -2% (alone, for reference)     trades  288 | per trade +2.49% / +4.05% | CAGR 1x +7.8% / +15.1% fall 14% | vs line +9.6/+5.0  -1.5/+3.5  +6.2/+9.4  +0.9/+3.0 -> fail
+  BTC down >= 5% + limit -2%           trades  204 | per trade +3.04% / +4.81% | CAGR 1x +8.3% / +13.9% fall 6% | vs line +10.9/+4.4  +0.1/+3.2  +5.4/+13.9  +5.0/+3.6 -> PASS
+  coin down >= 10% + limit -2%         trades  243 | per trade +2.95% / +4.31% | CAGR 1x +9.2% / +14.8% fall 10% | vs line +8.9/+6.5  +1.1/+4.9  +8.7/+8.6  +5.1/+7.3 -> PASS
+  BTC -5% + coin -10% + limit -2%      trades  188 | per trade +3.10% / +4.83% | CAGR 1x +7.7% / +13.1% fall 6% | vs line +9.6/+4.3  -0.5/+0.6  +4.8/+11.9  +4.1/+3.6 -> fail
+  BTC down >= 5% + limit -4%           trades  114 | per trade +2.86% / +4.92% | CAGR 1x +5.2% / +9.8% fall 6% | vs line +7.0/-0.7  -1.1/+2.2  +3.1/+7.5  +0.4/+0.2 -> fail
+  BTC -5% OR coin -10%, + limit -2%    trades  259 | per trade +2.92% / +4.32% | CAGR 1x +9.5% / +15.7% fall 10% | vs line +10.1/+6.3  -0.4/+5.3  +9.3/+10.7  +5.7/+7.6 -> fail
+  limit -2%, fill only on a 0.3% trade-through trades  269 | per trade +2.62% / +4.04% | CAGR 1x +8.0% / +14.1% fall 12% | vs line +8.2/+4.3  +3.1/+7.1  +6.6/+8.5  +1.8/+3.7 -> PASS
+  coin -10% + limit -2%, 0.3% trade-through trades  229 | per trade +2.98% / +4.32% | CAGR 1x +8.6% / +14.3% fall 10% | vs line +8.2/+6.3  +0.8/+4.3  +7.9/+8.4  +4.6/+6.2 -> PASS

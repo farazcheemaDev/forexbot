@@ -69,6 +69,21 @@ HOLDOUT = pd.Timestamp("2024-04-07")
 STAKE = 10_000.0
 
 
+HALT_H = 168
+
+
+def halt_cut(d):
+    """Stop a coin's history at a REAL halt or relisting: a gap of more than 7 days (BNX 2023-02: 21 days, -98% across
+    it; TLM 30 days; ICP 26 days). Shorter gaps are holes in the ARCHIVE and are kept: 2022-02-26..28 (73h) and
+    2022-04-01..02 (49h) are missing for 47 and 48 coins at once, with prices a few percent apart across them.
+    Until 2026-10-09 every gap over 48h was read as a halt, which cut 51 coins - XRP, SOL, LTC, NEAR, FIL, TRX, XLM... -
+    at 2022-02-25: 16.4% of all PIT top-40 coin-months were missing from every book built on this loader (CLAUDE.md s3)."""
+    gap = d.time.diff().dt.total_seconds().fillna(3600) / 3600
+    if (gap > HALT_H).any():
+        d = d.iloc[:int(np.argmax(gap.values > HALT_H))].reset_index(drop=True)
+    return d
+
+
 def hourly(sym):
     f = PERPS / f"{sym}_1h.csv.gz"
     if not f.exists():
@@ -76,9 +91,7 @@ def hourly(sym):
     d = pd.read_csv(f, usecols=["time", "open", "high", "low", "close", "qvol"])
     d["time"] = pd.to_datetime(d["time"]).astype("datetime64[ns]")
     d = d[d.close > 0].drop_duplicates("time").sort_values("time", kind="stable").reset_index(drop=True)
-    gap = d.time.diff().dt.total_seconds().fillna(3600) / 3600
-    if (gap > 48).any():                                   # a halt or relisting: stop at it (lottery.py's rule)
-        d = d.iloc[:int(np.argmax(gap.values > 48))].reset_index(drop=True)
+    d = halt_cut(d)
     return d if len(d) > 600 else None
 
 

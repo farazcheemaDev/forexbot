@@ -1,0 +1,41 @@
+19:07:37 START capitulation_exits
+19:10:52 END   capitulation_exits (exit 0)
+19:10:52 START capitulation_tp5
+19:10:56 END   capitulation_tp5 (exit 0)
+19:10:56 START machine_capit
+19:11:32 END   machine_capit (exit 0)
+19:11:32 START capit_combos
+19:17:00 END   capit_combos (exit 0)
+19:17:00 START capit_stack
+19:18:28 END   capit_stack (exit 0)
+19:18:28 START capit_volume
+19:20:03 END   capit_volume (exit 0)
+19:20:03 START daily_phase
+19:22:18 END   daily_phase (exit 0)
+19:22:18 START pair_books
+19:23:23 END   pair_books (exit 0)
+19:23:23 START pair_lab
+19:24:22 END   pair_lab (exit 0)
+19:24:22 START mn_capped
+19:27:26 END   mn_capped (exit 0)
+19:27:26 START pair_full
+19:31:29 END   pair_full (exit 0)
+19:31:29 START pair_tweaks
+19:33:35 END   pair_tweaks (exit 0)
+19:33:35 START machine_mix
+19:34:45 END   machine_mix (exit 0)
+19:34:45 START v2_addons
+19:36:34 END   v2_addons (exit 0)
+19:36:34 START daily_combos
+19:42:35 END   daily_combos (exit 0)
+19:42:35 START daily_stack
+19:43:54 END   daily_stack (exit 0)
+19:43:54 START daily_families
+19:45:51 END   daily_families (exit 0)
+19:45:51 START machine_combos
+19:47:47 END   machine_combos (exit 0)
+19:47:47 START regime_weights
+19:48:38 END   regime_weights (exit 0)
+19:48:38 START machine_factorial
+19:49:25 END   machine_factorial (exit 0)
+19:49:25 START filter_pairs

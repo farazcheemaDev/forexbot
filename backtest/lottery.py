@@ -81,9 +81,8 @@ def _pit_coin(sym, months):
     d = d.rename(columns={"qvol": "volume"})
     d["time"] = pd.to_datetime(d["time"]).astype("datetime64[ns]")
     d = d[d.close > 0].drop_duplicates("time").sort_values("time").reset_index(drop=True)
-    gap = d.time.diff().dt.total_seconds().fillna(3600) / 3600
-    if (gap > 48).any():
-        d = d.iloc[:int(np.argmax(gap.values > 48))].reset_index(drop=True)
+    from backtest.capitulation_wide import halt_cut
+    d = halt_cut(d)                       # 2026-10-09: > 7 days is a halt; shorter gaps are archive holes, kept
     if len(d) < 600:
         return []
     fu = pd.read_csv(PERPS / f"{sym}_funding.csv.gz")

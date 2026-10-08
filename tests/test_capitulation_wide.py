@@ -47,6 +47,16 @@ def test_funding_window(tmp_path=None):
     assert abs(fc[4] - (0.001 * 108 + 0.002 * 116)) < 1e-12
 
 
+def test_archive_holes_are_kept_and_real_halts_cut():
+    """2026-10-09: a 73-hour archive hole (2022-02-26..28 on 47 coins) must NOT end a coin's history; a gap of more
+    than 7 days (BNX's 21-day halt) must. The old 48-hour rule cut XRP, SOL and 49 others at 2022-02-25."""
+    d = hours(2000)
+    hole = d.drop(index=range(1000, 1072)).reset_index(drop=True)          # 73h between two rows
+    assert len(cw.halt_cut(hole)) == len(hole), "an archive hole cut the coin's history"
+    halt = d.drop(index=range(1000, 1200)).reset_index(drop=True)          # a 201h gap
+    assert len(cw.halt_cut(halt)) == 1000, "a real halt was not cut"
+
+
 if __name__ == "__main__":
     tests = [v for k, v in dict(globals()).items() if k.startswith("test_")]
     for fn in tests:

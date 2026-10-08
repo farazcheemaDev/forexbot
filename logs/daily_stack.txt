@@ -1,5 +1,5 @@
-backtest/daily_stack.py, 2026-10-08 21:15
-  BTC exit + BTC above 50d             CAGR +130% / +15% fall 48% worst month -21.7% | vs line +57/-9  +55/-22  +14/-22 -> fail
-  20-day-mean exit + BTC exit          CAGR +116% / +33% fall 47% worst month -20.8% | vs line +19/+10  +31/+5  +39/-11 -> fail
-  20-day-mean exit + BTC above 50d     CAGR +130% / +37% fall 47% worst month -20.1% | vs line +24/+4  +73/+20  +36/-11 -> fail
-  all three                            CAGR +124% / +11% fall 43% worst month -20.3% | vs line +56/-10  +54/-23  +28/-27 -> fail
+backtest/daily_stack.py, 2026-10-09 00:43
+  BTC exit + BTC above 50d             CAGR +142% / +24% fall 47% worst month -21.6% | vs line +59/-3  +23/-18  +52/-8 -> fail
+  20-day-mean exit + BTC exit          CAGR +132% / +42% fall 48% worst month -20.7% | vs line +19/+8  +29/+10  +52/+5 -> PASS
+  20-day-mean exit + BTC above 50d     CAGR +152% / +34% fall 47% worst month -20.1% | vs line +52/+1  +53/+8  +64/-8 -> fail
+  all three                            CAGR +138% / +16% fall 43% worst month -19.7% | vs line +58/-11  +52/-15  +50/-21 -> fail

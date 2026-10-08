@@ -96,9 +96,8 @@ class Coin:
         d = d[d.close > 0].drop_duplicates("time").sort_values("time").reset_index(drop=True)
         if t_from is not None:                                  # keep warm-up before, room for exits after
             d = d[(d.time >= t_from - pd.Timedelta(days=30)) & (d.time <= t_to)].reset_index(drop=True)
-        gap = d.time.diff().dt.total_seconds().fillna(3600) / 3600
-        if (gap > 48).any():                                   # a halt or a relisting: stop at it
-            d = d.iloc[:int(np.argmax(gap.values > 48))].reset_index(drop=True)
+        from backtest.capitulation_wide import halt_cut
+        d = halt_cut(d)                       # 2026-10-09: > 7 days is a halt; shorter gaps are archive holes, kept
         self.sym = sym
         self.t = d.time.to_numpy("datetime64[ns]").astype(np.int64)
         self.o, self.h, self.l, self.c = (d[k].to_numpy(float) for k in ("open", "high", "low", "close"))

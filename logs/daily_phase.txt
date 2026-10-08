@@ -1,8 +1,8 @@
-backtest/daily_phase.py, 2026-10-08 19:27; daily bb own-exit book, PIT top-40
+backtest/daily_phase.py, 2026-10-09 00:20; daily bb own-exit book, PIT top-40
 
-  day starts 00:00 UTC: 1313 trades, avg +7.35% (tune +10.01 / holdout +2.04), t by day +3.3; 10,000 PKR 8 slots 1x: +90%/yr, worst fall 49%, months up 44%
-  day starts 04:00 UTC: 1337 trades, avg +6.80% (tune +8.90 / holdout +2.41), t by day +3.1; 10,000 PKR 8 slots 1x: +69%/yr, worst fall 63%, months up 43%
-  day starts 08:00 UTC: 1315 trades, avg +7.13% (tune +9.63 / holdout +2.07), t by day +2.9; 10,000 PKR 8 slots 1x: +82%/yr, worst fall 56%, months up 45%
-  day starts 12:00 UTC: 1320 trades, avg +6.71% (tune +9.47 / holdout +1.13), t by day +3.4; 10,000 PKR 8 slots 1x: +82%/yr, worst fall 51%, months up 45%
-  day starts 16:00 UTC: 1307 trades, avg +7.40% (tune +10.03 / holdout +2.06), t by day +3.4; 10,000 PKR 8 slots 1x: +88%/yr, worst fall 48%, months up 47%
-  day starts 20:00 UTC: 1312 trades, avg +7.34% (tune +9.99 / holdout +2.07), t by day +3.2; 10,000 PKR 8 slots 1x: +83%/yr, worst fall 50%, months up 47%
+  day starts 00:00 UTC: 1563 trades, avg +7.08% (tune +9.52 / holdout +2.34), t by day +3.6; 10,000 PKR 8 slots 1x: +94%/yr, worst fall 60%, months up 47%
+  day starts 04:00 UTC: 1590 trades, avg +6.45% (tune +8.36 / holdout +2.62), t by day +3.3; 10,000 PKR 8 slots 1x: +83%/yr, worst fall 59%, months up 47%
+  day starts 08:00 UTC: 1575 trades, avg +6.62% (tune +8.98 / holdout +2.06), t by day +3.1; 10,000 PKR 8 slots 1x: +93%/yr, worst fall 58%, months up 47%
+  day starts 12:00 UTC: 1577 trades, avg +6.25% (tune +8.87 / holdout +1.12), t by day +3.7; 10,000 PKR 8 slots 1x: +90%/yr, worst fall 53%, months up 45%
+  day starts 16:00 UTC: 1566 trades, avg +7.00% (tune +9.43 / holdout +2.22), t by day +3.6; 10,000 PKR 8 slots 1x: +99%/yr, worst fall 61%, months up 51%
+  day starts 20:00 UTC: 1563 trades, avg +6.95% (tune +9.41 / holdout +2.23), t by day +3.4; 10,000 PKR 8 slots 1x: +100%/yr, worst fall 53%, months up 47%

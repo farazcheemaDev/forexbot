@@ -1,24 +1,24 @@
-backtest/capitulation_tp5.py, 2026-10-08 19:10; tp5_nw, 6.0 years
+backtest/capitulation_tp5.py, 2026-10-09 00:10; tp5_nw, 6.2 years
 
-phase +0m: 350 trades on 42 days, t by day +2.8, majors +0.15% (45) others +2.87% (305), worst -27.1%, deepest dip 52%
-    by year: 2020:+2.5%(20) 2021:+3.8%(33) 2022:-0.1%(70) 2023:+2.8%(39) 2024:+3.2%(93) 2025:+3.8%(72) 2026:+1.2%(23)
-phase +60m: 347 trades on 42 days, t by day +3.4, majors +1.28% (45) others +3.20% (302), worst -44.0%, deepest dip 46%
-    by year: 2020:+2.9%(24) 2021:+4.1%(38) 2022:+3.0%(63) 2023:+1.5%(54) 2024:+3.5%(77) 2025:+3.4%(63) 2026:+1.6%(28)
-phase +120m: 371 trades on 46 days, t by day +2.0, majors +1.21% (45) others +2.54% (326), worst -30.6%, deepest dip 40%
-    by year: 2020:+3.8%(26) 2021:+4.6%(48) 2022:+1.4%(70) 2023:+1.2%(48) 2024:+1.5%(89) 2025:+2.8%(73) 2026:+4.1%(17)
-phase +180m: 343 trades on 41 days, t by day +3.5, majors +1.79% (45) others +3.27% (298), worst -23.3%, deepest dip 31%
-    by year: 2020:+4.7%(32) 2021:+4.4%(44) 2022:-0.2%(58) 2023:+1.5%(44) 2024:+4.3%(86) 2025:+3.6%(62) 2026:+4.1%(17)
+phase +0m: 455 trades on 49 days, t by day +1.0, majors +1.45% (69) others +2.00% (386), worst -99.5%, deepest dip 100%
+    by year: 2020:+2.5%(20) 2021:+3.8%(33) 2022:-1.4%(106) 2023:+1.0%(71) 2024:+3.5%(110) 2025:+4.0%(81) 2026:+2.0%(34)
+phase +60m: 454 trades on 48 days, t by day +3.7, majors +1.97% (64) others +2.84% (390), worst -99.4%, deepest dip 100%
+    by year: 2020:+2.9%(24) 2021:+4.1%(38) 2022:+2.1%(102) 2023:+1.5%(75) 2024:+3.7%(105) 2025:+3.3%(72) 2026:+1.5%(38)
+phase +120m: 485 trades on 54 days, t by day +1.6, majors +1.50% (75) others +2.08% (410), worst -30.6%, deepest dip 40%
+    by year: 2020:+3.8%(26) 2021:+4.6%(48) 2022:+1.0%(113) 2023:-0.1%(65) 2024:+1.7%(108) 2025:+2.6%(99) 2026:+3.5%(26)
+phase +180m: 461 trades on 48 days, t by day +2.9, majors +2.18% (75) others +2.41% (386), worst -23.3%, deepest dip 31%
+    by year: 2020:+4.7%(32) 2021:+4.4%(44) 2022:-0.7%(102) 2023:+0.5%(76) 2024:+4.1%(104) 2025:+3.4%(78) 2026:+3.8%(25)
 
 ACCOUNTS from 10,000 PKR (mean over 5 same-bar orders): % a year (CAGR) and worst fall, per phase
-  3 slots 1x:    +6%/yr (fall 24%) |   +15%/yr (fall 15%) |   +13%/yr (fall 14%) |    +9%/yr (fall 23%)
-  3 slots 2x:    +9%/yr (fall 48%) |   +31%/yr (fall 28%) |   +27%/yr (fall 29%) |   +17%/yr (fall 45%)
-  3 slots 3x:    +9%/yr (fall 67%) |   +14%/yr (fall 76%) |   +11%/yr (fall 81%) |   +23%/yr (fall 65%)
-  3 slots 5x:   -43%/yr (fall 100%) |  -100%/yr (fall 100%) |  -100%/yr (fall 100%) |  -100%/yr (fall 100%)
-  5 slots 1x:    +7%/yr (fall 22%) |   +15%/yr (fall 10%) |   +12%/yr (fall 13%) |   +10%/yr (fall 18%)
-  5 slots 2x:   +11%/yr (fall 45%) |   +31%/yr (fall 20%) |   +25%/yr (fall 27%) |   +20%/yr (fall 35%)
-  5 slots 3x:   +12%/yr (fall 63%) |   +17%/yr (fall 70%) |   +15%/yr (fall 75%) |   +29%/yr (fall 52%)
-  5 slots 5x:   -47%/yr (fall 100%) |  -100%/yr (fall 100%) |  -100%/yr (fall 100%) |   -32%/yr (fall 99%)
-  8 slots 1x:    +9%/yr (fall 15%) |   +14%/yr (fall 9%) |   +11%/yr (fall 11%) |   +11%/yr (fall 11%)
-  8 slots 2x:   +17%/yr (fall 33%) |   +30%/yr (fall 18%) |   +23%/yr (fall 23%) |   +23%/yr (fall 23%)
-  8 slots 3x:   +24%/yr (fall 46%) |   +19%/yr (fall 63%) |   +23%/yr (fall 55%) |   +35%/yr (fall 34%)
-  8 slots 5x:    +4%/yr (fall 79%) |  -100%/yr (fall 100%) |   -23%/yr (fall 97%) |    +0%/yr (fall 92%)
+  3 slots 1x:    -1%/yr (fall 53%) |   +17%/yr (fall 18%) |    +6%/yr (fall 32%) |    +8%/yr (fall 28%)
+  3 slots 2x:    -0%/yr (fall 72%) |   +36%/yr (fall 28%) |   +10%/yr (fall 57%) |   +15%/yr (fall 51%)
+  3 slots 3x:    -2%/yr (fall 84%) |   +30%/yr (fall 73%) |   -13%/yr (fall 95%) |   +19%/yr (fall 70%)
+  3 slots 5x:  -100%/yr (fall 100%) |  -100%/yr (fall 100%) |  -100%/yr (fall 100%) |  -100%/yr (fall 100%)
+  5 slots 1x:    +2%/yr (fall 42%) |   +17%/yr (fall 11%) |    +6%/yr (fall 25%) |    +7%/yr (fall 29%)
+  5 slots 2x:    +5%/yr (fall 62%) |   +37%/yr (fall 18%) |    +9%/yr (fall 48%) |   +13%/yr (fall 52%)
+  5 slots 3x:    +5%/yr (fall 78%) |   +31%/yr (fall 67%) |   -10%/yr (fall 91%) |   +16%/yr (fall 71%)
+  5 slots 5x:  -100%/yr (fall 100%) |  -100%/yr (fall 100%) |  -100%/yr (fall 100%) |   -53%/yr (fall 100%)
+  8 slots 1x:    +5%/yr (fall 34%) |   +15%/yr (fall 12%) |    +7%/yr (fall 17%) |    +8%/yr (fall 26%)
+  8 slots 2x:   +11%/yr (fall 54%) |   +32%/yr (fall 17%) |   +14%/yr (fall 34%) |   +14%/yr (fall 48%)
+  8 slots 3x:   +14%/yr (fall 72%) |   +23%/yr (fall 63%) |    +5%/yr (fall 73%) |   +19%/yr (fall 67%)
+  8 slots 5x:   -52%/yr (fall 100%) |  -100%/yr (fall 100%) |   -72%/yr (fall 100%) |   -33%/yr (fall 99%)

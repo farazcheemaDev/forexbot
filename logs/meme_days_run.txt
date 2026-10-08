@@ -4,3 +4,13 @@
   75/175 fetched
   100/175 fetched
   125/175 fetched
+  150/175 fetched
+backtest/meme_days.py, 2026-10-08 23:53; 98 real graduates (glitches out) from 7 days 2026-09-23 .. 2026-09-29, up to 25 a day; net of 2%
+
+  buy +1 min, sell +15 min                 n   98 | mean  -30.2% [-51%, -6%] | median  -80.4% | win  30% | days with a positive mean 1/7
+  buy +1 min, sell +1h                     n   98 | mean  -66.9% [-81%, -50%] | median  -96.8% | win  12% | days with a positive mean 0/7
+  buy +1 min, sell +6h                     n   98 | mean  -92.5% [-96%, -88%] | median -102.0% | win   1% | days with a positive mean 0/7
+  buy +15 min, sell +15 min                n   98 | mean   -7.1% [-15%, +2%] | median   -2.4% | win  21% | days with a positive mean 2/7
+  buy +15 min, sell +1h                    n   98 | mean  -26.3% [-37%, -16%] | median   -4.1% | win   9% | days with a positive mean 0/7
+  buy +15 min, sell +6h                    n   98 | mean  -38.7% [-50%, -27%] | median  -10.7% | win   3% | days with a positive mean 0/7
+  wait for proof (alive at +1h), hold 6h   n   13 | mean  -82.9% [-97%, -64%] | median -102.0% | win   8% | days with a positive mean 0/6
