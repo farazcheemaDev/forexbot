@@ -355,6 +355,53 @@ def test_one_account_one_bot():
     cb.guard_one_bot("demo", lister=lambda: [])
 
 
+# ------------------------------------------------------------------ the MN short-leg exit (2026-10-08)
+
+def mn_state(w):
+    """An MN basket set at a rebalance at XRP 2.0 with base $100: coins = weight x base / price."""
+    st = state(mn_qty={"XRPUSDT": w * 100.0 / 2.0})
+    st["mn"] = dict(weights={"XRPUSDT": w}, mark_px={"XRPUSDT": 2.0}, base=100.0, last_rebal="2026-10-01")
+    st["equity"], st["cum"] = 221.0, dict(trend=0.0, mn=0.0, sleeve=0.0, fees=0.0)
+    return st
+
+
+def test_mn_squeezed_short_is_closed_and_stays_out_until_the_rebalance():
+    ex = fake_demo()
+    v = cb.Venue(ex, "demo")
+    st = mn_state(-0.1)                                                   # short 5 XRP at 2.0
+    cb.execute(st, v, "demo", PX, dry=False)
+    assert abs(ex.pos["SXRP/SUSDT:SUSDT"] + 5.0) < 1e-9
+    up = dict(PX, XRPUSDT=3.1)                                            # +55%: the squeeze
+    ex.px["SXRP/SUSDT:SUSDT"] = 3.1
+    cb.execute(st, v, "demo", up, dry=False)
+    assert "SXRP/SUSDT:SUSDT" not in ex.pos, "the squeezed short is still open"
+    assert "XRPUSDT" not in st["mn"]["weights"] and "XRPUSDT" not in st["exec"]["mn_qty"]
+    assert abs(st["cum"]["mn"] - 100.0 * -0.1 * (3.1 / 2.0 - 1)) < 1e-9 and st["equity"] < 221.0 - 5.5
+    back = dict(PX, XRPUSDT=2.5)                                          # it falls back: still out
+    ex.px["SXRP/SUSDT:SUSDT"] = 2.5
+    cb.execute(st, v, "demo", back, dry=False)
+    assert "SXRP/SUSDT:SUSDT" not in ex.pos, "the netting re-opened a short the book dropped"
+    # the next rebalance picks a fresh basket - the name may come back
+    st["mn"].update(weights={"XRPUSDT": -0.1}, mark_px={"XRPUSDT": 2.5}, base=100.0, last_rebal="2026-10-08")
+    st["exec"]["mn_qty"] = cb.mn_quantities(st)
+    cb.execute(st, v, "demo", back, dry=False)
+    assert abs(ex.pos["SXRP/SUSDT:SUSDT"] + 4.0) < 1e-9
+    assert len(st["exec"]["mn_exits"]) == 1
+
+
+def test_mn_exit_fires_only_on_shorts_and_only_past_the_level():
+    st = mn_state(-0.1)
+    assert cb.mn_squeeze_exits(st, {"XRPUSDT": 2.0 * 1.49}) == []         # +49%: not yet
+    assert cb.mn_squeeze_exits(st, {"XRPUSDT": 2.0 * 1.50}) == ["XRPUSDT"]
+    st = mn_state(+0.1)                                                   # a LONG up 60% is left alone
+    assert cb.mn_squeeze_exits(st, {"XRPUSDT": 3.2}) == [] and "XRPUSDT" in st["mn"]["weights"]
+    st = mn_state(-0.1)
+    st["mn"]["mark_px"]["XRPUSDT"] = 2.8                                  # marked up since the rebalance:
+    cb.mn_squeeze_exits(st, {"XRPUSDT": 3.0})                             # the level is from the OPEN (2.0)
+    assert "XRPUSDT" not in st["mn"]["weights"]
+    assert abs(st["cum"]["mn"] - 100.0 * -0.1 * (3.0 / 2.8 - 1)) < 1e-9    # P&L only since the last mark
+
+
 if __name__ == "__main__":
     tests = [v for k, v in dict(globals()).items() if k.startswith("test_")]
     for fn in tests:

@@ -20,7 +20,12 @@ SAFETY, IN THE ORDER IT MATTERS
        position, which is what the backtests' 10x gross guard assumes.
     4. A DISASTER STOP on every net position, 30% beyond the mark, re-placed when the position
        changes. It is not the strategy's exit (the books exit at market); it is the backstop if
-       this process or its machine dies.
+       this process or its machine dies. It does NOT protect the market-neutral shorts while the
+       bot runs - the netting re-opens a stopped position - which is why 4b exists.
+    4b. THE MN SHORT-LEG EXIT (2026-10-08, mn_squeeze_exits): a market-neutral short 50% above the
+       price it was opened at is dropped by the book until the next rebalance, so it is closed AND
+       stays closed. On one of the 7 weekdays the book could rebalance on, the 2025-09-12 squeeze
+       (MYX) cost the unprotected book 99% of the account (backtest/mn_combos.py).
     5. PRICE SANITY: an order is refused if the venue's price differs from Binance's by more
        than 3%, which is what a symbol-name mismatch (1000PEPE vs PEPE) looks like.
     6. Orders under $5 are not sent, except a full close, which always goes.
@@ -74,6 +79,7 @@ DEMO_COINS = ("BTCUSDT", "ETHUSDT", "XRPUSDT")
 VIRTUAL_EQUITY = {"demo": 221.0, "dry": 221.0, "live": None}
 MIN_ORDER = 5.0
 CAT_STOP = 0.30
+MN_SHORT_EXIT = 0.50              # backtest/mn_combos.py, logs/mn_rebalance_days.txt (2026-10-08): see mn_squeeze_exits
 PRICE_TOL = 0.03
 MARGIN_MODE, LEVERAGE = "cross", 20
 POLL_S = 120
@@ -131,6 +137,52 @@ def mark_breaches(st: dict, prices: dict) -> list:
             hit.append(key)
             log(f"TREND {key}: live price {px:.6g} crossed the stop {rec['stop']:.6g} - exiting now")
     return hit
+
+
+def mn_squeeze_exits(st: dict, prices: dict) -> list:
+    """The market-neutral book's SHORT-LEG EXIT, checked every poll (added 2026-10-08).
+
+    WHY. backtest/mn_combos.py ran the MN book on all 7 days of the week it could rebalance on (every earlier figure
+    used one). On one of them the 2025-09-12 week cost 99% of the account: MYX squeezed the short basket. The 30%
+    disaster stop below is no protection - it is a backstop for a dead process, and the netting re-opens a stopped
+    position two minutes later because the book still wants it. The fix that tested free on average (Sharpe +1.06 /
+    +1.31 vs +1.06 / +1.33 over the 7 days, worst week -29% instead of -99%) is a BOOK exit: once a short's live price
+    is MN_SHORT_EXIT above the price the book opened it at, the book drops that name until the next rebalance.
+
+    HOW. The opening price needs no new state: mn_quantities fixed each name's coins at the rebalance as
+    weight x base / price, so price = weight x base / coins. The exit removes the name from the basket's weights and
+    from mn_qty (so book_targets stops wanting it and plan_orders closes it), and books the book's P&L from its last
+    daily mark to the live price plus one side's fee. combo_paper.py, the pre-registered paper book, is NOT changed:
+    this lives only in the bot. The next rebalance picks a fresh basket, which may include the name again."""
+    mn, ex = st.get("mn", {}), st.setdefault("exec", {})
+    qty = ex.get("mn_qty", {})
+    out = []
+    for s, w in list(mn.get("weights", {}).items()):
+        q, px = qty.get(s), prices.get(s)
+        if w >= 0 or not q or not px or not mn.get("base"):
+            continue
+        opened = w * mn["base"] / q
+        if px < opened * (1 + MN_SHORT_EXIT):
+            continue
+        mark = mn.get("mark_px", {}).get(s, opened)
+        pnl = mn["base"] * w * (px / mark - 1)
+        fee = abs(q) * px * cp.SIDE_FEE
+        st["equity"] = st.get("equity", 0.0) + pnl - fee
+        cum = st.setdefault("cum", {})
+        cum["mn"] = cum.get("mn", 0.0) + pnl
+        cum["fees"] = cum.get("fees", 0.0) + fee
+        mn["weights"].pop(s, None)
+        mn.get("mark_px", {}).pop(s, None)
+        qty.pop(s, None)
+        ex.setdefault("mn_exits", []).append(dict(ts=f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M:%S}", symbol=s,
+                                                  opened=opened, price=px, pnl=round(pnl, 6)))
+        cp.append(cp.P["state"].parent / "combo_mn_exits.csv",
+                  dict(ts=f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M:%S}", symbol=s, opened=f"{opened:.8g}",
+                       price=f"{px:.8g}", rise=f"{px / opened - 1:+.3f}", pnl=f"{pnl:.4f}", fee=f"{fee:.4f}"))
+        log(f"MN EXIT {s}: short opened at {opened:.6g}, live {px:.6g} ({px / opened - 1:+.0%}) - the book drops it "
+            f"until the next rebalance (P&L since the last mark {pnl:+.2f}, fee {fee:.2f})")
+        out.append(s)
+    return out
 
 
 def mn_quantities(st: dict) -> dict:
@@ -354,6 +406,7 @@ def execute(st: dict, venue: "Venue | None", mode: str, prices: dict, dry: bool)
     """Reconcile the account (or the dry-run ledger) to the books. Returns orders sent."""
     ex_state = st.setdefault("exec", {})
     mark_breaches(st, prices)
+    mn_squeeze_exits(st, prices)
     tgt = book_targets(st)
     if mode == "demo":
         tgt = route_demo(tgt, prices)
