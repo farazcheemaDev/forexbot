@@ -16,7 +16,7 @@ before proposing anything - most ideas have been tested, and doc 21 says how wel
 | **combo-bot-demo** - v2 executed on the Bitget DEMO (order-path test, P&L meaningless) | Azure VM | running. **Restarted 2026-10-08 18:37 UTC with the MN short-leg exit** (commit cb6bcbf). Two-week PASS check due ~2026-10-13: `./.venv/bin/python combo_bot.py --mode demo --report` on the VM |
 | **wick-paper** - crash-bid paper book (Bitget + Binance) | Azure VM | running; verdict at 60+ Bitget fills |
 | status-server | Azure VM | running |
-| `pair_live.py` - the daily + capitulation "pair" signals, 10,000 PKR paper book | PC | **one pass only (2026-10-08), not looping** - to be a forward record it must run hourly (`--loop`), ideally on the VM (the user's call) |
+| **pair-paper** - `pair_live.py --loop`: the pair (daily + capitulation, 10,000 PKR) AND the **capit2 shadow book** (improved capitulation, own 5,000 PKR, pre-registered H1-H3 in the file's docstring) | Azure VM | **running hourly since 2026-10-08** (`deploy/pair-paper.service`); state moved from the PC (PC copy renamed `.moved-to-vm`). `./.venv/bin/python pair_live.py --status` on the VM. First capitulation event recorded 2026-10-08 (7 coins, entered ~3h late on the PC before the move) |
 | meme / Polymarket collectors | PC | append to `logs/meme_graduates.csv`, `logs/poly_snapshots.csv` |
 | `mn_paper.py` (old 5th book) | PC | **dead 8.9 days** (stale lock) and carries the funding bug (s7b). Superseded; not worth restarting |
 
@@ -47,8 +47,8 @@ moved to the VM on 2026-09-29 and must not also run on the PC (one account, one 
 
 ## What is next (each needs the user's go-ahead)
 
-1. **Step 2:** put the improved capitulation rule into `pair_live.py`'s paper book and run it hourly (~2-3 signals a month,
-   so months of record are needed).
+1. **Step 2 is DONE (2026-10-08):** capit2 runs on the VM. Judge it at 30 closed capit2 trades or 12 months (H1: > +1% a
+   trade; H2: 50-80% of limits filled; H3: beats the plain book on shared signals). ~2-3 signals a month - be patient.
 2. Decide later, from paper records, whether "E" (daily book + improved capitulation added to v2) goes into `combo_bot.py`.
    It needs ~$300+ of capital to clear Bitget's $5 minimum per order.
 3. `combo_paper.py` keeps the MN risk by design (pre-registered). If the user wants the paper record protected too, that is

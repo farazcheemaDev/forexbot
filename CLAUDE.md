@@ -172,7 +172,8 @@ pair_live.py       THE PAIR, LIVE: read-only Bitget signals (daily Bollinger tre
                      perps only - isRwa stock tokens and stables excluded) and a 10,000 PKR paper book
                      (logs/pair_paper_state.json, logs/pair_paper_trades.csv). --scan / --paper (hourly) / --loop /
                      --status. tests/test_pair_live.py: fake exchange, 4 tests, a breadth-gate mutation caught.
-                     Started on the PC 2026-10-08; NOT on the VM (deploying is the user's call)
+                     ON THE VM since 2026-10-08 (pair-paper.service), with the capit2 SHADOW book: the improved
+                     capitulation rule (coin -10% in 24h + limit 2% under), pre-registered H1-H3, own 5,000 PKR
 backtest/pair_books.py / daily_phase.py / tv_indicators.py  THE PAIR: daily Bollinger trend book + capitulation book
                      on the PIT top-40, 1x: +51%/yr median, falls 25-34% - the best no-hindsight candidate (doc 02)
 backtest/capitulation_exits.py / capitulation_tp5.py / machine_capit.py  the capitulation book with a +5% exit, its
@@ -563,6 +564,16 @@ the box was patched before the repo was public.
 
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
+
+### 2026-10-08 (late) - step 2: the improved capitulation book runs forward on the VM
+
+- `pair_live.py` gained the **capit2 shadow book** (coin down >= 10% over 24h + a limit 2% under the signal close, filled
+  only on a 0.3% trade-through; target not in the fill bar; clocks from the signal) - its own 5,000 PKR, the pair's two
+  books unchanged. Pre-registered H1-H3 in the docstring. 3 new tests (7 in `tests/test_pair_live.py`), 5 mutations
+  caught. Deployed as `pair-paper.service` on the VM (hourly), state moved from the PC.
+- The first live capitulation (2026-10-08 12:00 UTC bar, 7 coins: ETH XRP SOL DOGE UNI BCH LTC) was recorded by the
+  plain book ~3h late; capit2 correctly placed nothing (their 24h drops were 5-7%, under its 10%).
+- `meme_days.py`: memecoin graduations on 7 more days - the kill stands (+1 min / +1h -66.9%, 0/7 days positive).
 
 ### 2026-10-08 (the goal's second half) - EVERY kill audited: docs/21-graveyard-audit.md
 

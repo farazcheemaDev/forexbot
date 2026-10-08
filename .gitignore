@@ -86,3 +86,7 @@ logs/v2_addons_parts.pkl
 logs/rsi_factors_trades.csv
 logs/rsi_only_trades.csv
 logs/tv_indicators_trades.csv.gz
+
+# pair_live.py's paper record (the pair + the capit2 shadow book) runs on the VM since 2026-10-08: machine-local, a
+# committed copy would be restored over it by the VM's git reset --hard (its state already matches *_state.json).
+logs/pair_paper_trades.csv

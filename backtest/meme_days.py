@@ -12,6 +12,13 @@ REGISTERED BEFORE RUNNING: every day's mean at "buy +1 min, sell +1h" is negativ
 between -30% and -70% with a 95% interval below zero; "buy +15 min, sell +15 min" (the original's one row reaching
 zero) is negative pooled. The kill stands on many days.
 
+RESULT (2026-10-08, logs/meme_days.txt): THE KILL STANDS ON OTHER DAYS. 98 real graduates (glitches out) from 7 days
+    (2026-09-23 .. 09-29; the collector's later days had too few fetchable pools in the sample), net of 2%: buy +1 min /
+    sell +1h -66.9% [-81%, -50%], 0 of 7 days positive; +1 min / +6h -92.5%; +15 min / +15 min -7.1% [-15%, +2%] (the
+    original's least-bad row again); wait-for-proof -82.9%. Predictions: every day negative at +1h - right; pooled
+    -30..-70% with the interval below zero - right (-66.9%); +15/+15 negative pooled - right in sign, its interval
+    reaches +2%.
+
     python -m backtest.meme_days            (fetches; ~40 min at the free rate limit, resumable)
 """
 from __future__ import annotations

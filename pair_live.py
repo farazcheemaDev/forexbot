@@ -16,6 +16,22 @@ What it does: PUBLIC Bitget market data only (ccxt, no keys, no orders). It prin
 paper account (10,000 PKR at 280 PKR/$, half per book, a position = that book's equity / 8) in logs/pair_paper_state.json,
 every trade in logs/pair_paper_trades.csv. Funding is not charged on paper (the backtest charged it; ~0.03%/day).
 
+THE IMPROVED CAPITULATION BOOK, "capit2" - a SHADOW book beside the pair (added 2026-10-08; its own 5,000 PKR, not part
+of the pair's 10,000; the pair's two books are unchanged so their record stays as registered):
+    the same signal and breadth as CAPITULATION, AND the coin's 4h close is down >= 10% from 24 hours (6 bars) earlier;
+    entry by a LIMIT 2% under the signal close, live for the next 4h bar only, filled only if that bar trades 0.3%
+    THROUGH it (at the bar's open if it opens below the limit), else cancelled; +5% target (a limit - not in the bar the
+    entry filled in, whose order of events is unknown), or SELL once a close 24+ bars after the SIGNAL is not above the
+    entry, 7-day cap (42 bars after the signal).
+    Backtest (backtest/capit_combos.py, capit_stack.py, capit_volume.py; 4 bar phases x 10 orders, PIT top-40, 12bp +
+    funding): ~30 trades a year, +3.9% / +4.4% a trade (tune / holdout) against the plain book's +2.4% / +3.1%, 1x fall
+    ~4% against 12%; passes the plain book's leverage line in all 4 phases, also with the 0.3% trade-through used here.
+    REGISTERED 2026-10-08, before any live signal: judged at 30 CLOSED capit2 trades or 12 months, whichever first.
+      H1  mean return a trade (paper, net of 12bp, no funding) > +1.0%       - below it, the improvement did not carry
+      H2  limits filled 50-80% of the time (backtest ~63% with the trade-through)
+      H3  capit2's mean a trade beats capit's on the trades both books took (the rule adds over the plain book)
+    Signals are rare: ~2-3 a month, in bursts on crash days - a quiet month is normal.
+
     python pair_live.py --scan        what fires right now (no state change)
     python pair_live.py --paper       update the paper book once (run hourly)
     python pair_live.py --loop        --paper every hour at :02
@@ -38,6 +54,9 @@ TRADES = ROOT / "logs" / "pair_paper_trades.csv"
 TOP_N, SLOTS, START_PKR, PKR = 40, 8, 10_000.0, 280.0
 FEE = 0.0012
 BOOKS = ("daily", "capit")
+SHADOW = "capit2"                    # the improved capitulation book - its own money, reported separately
+DROP, LIMIT, THROUGH = 0.10, 0.02, 0.003
+H4_MS = 14_400_000
 
 
 def now_ms():
@@ -116,16 +135,33 @@ def capit_hits(d):
     return [int(d.t.iloc[i]) for i in idx if i >= len(d) - 6]
 
 
+def drop24(d, t_ms):
+    """The coin's 4h close at bar t_ms against the close 6 bars (24h) earlier, minus 1 (None if not enough bars)."""
+    i = np.flatnonzero(d.t.to_numpy() == t_ms)
+    if not len(i) or i[0] < 6:
+        return None
+    c = d.c.to_numpy(float)
+    return c[i[0]] / c[i[0] - 6] - 1
+
+
 # ---------------------------------------------------------------- paper book
 
 def fresh():
     half = START_PKR / PKR / 2
-    return dict(cash={b: half for b in BOOKS}, open={b: {} for b in BOOKS}, started=datetime.now(timezone.utc).isoformat(),
-                signals=0, last_daily=None, last_4h=None)
+    return dict(cash={b: half for b in BOOKS + (SHADOW,)}, open={b: {} for b in BOOKS + (SHADOW,)},
+                started=datetime.now(timezone.utc).isoformat(), signals=0, last_daily=None, last_4h=None,
+                pending={}, shadow_started=datetime.now(timezone.utc).isoformat(), limits=dict(placed=0, filled=0))
 
 
 def load():
-    return json.loads(STATE.read_text()) if STATE.exists() else fresh()
+    st = json.loads(STATE.read_text()) if STATE.exists() else fresh()
+    # a state written before capit2 existed: add the shadow book with its own 5,000 PKR, starting now
+    st["cash"].setdefault(SHADOW, START_PKR / PKR / 2)
+    st["open"].setdefault(SHADOW, {})
+    st.setdefault("pending", {})
+    st.setdefault("shadow_started", datetime.now(timezone.utc).isoformat())
+    st.setdefault("limits", dict(placed=0, filled=0))
+    return st
 
 
 def save(st):
@@ -160,6 +196,76 @@ def open_pos(st, b, sym, px, extra):
                               **extra)
     st["cash"][b] -= usd
     return True
+
+
+def capit2(mk, st, lines, trade, d4s, hits, breadth, last_4h):
+    """The shadow book (see the docstring): exits, then pending limits, then new limits on a new closed 4h bar.
+    Events are judged on CLOSED 4h bars in the backtest's order (capit_combos.exit_tp): target before 'not working'
+    on the same bar; both clocks count bars from the SIGNAL bar; the fill bar cannot take profit."""
+    book = st["open"][SHADOW]
+    for s, p in list(book.items()):
+        d = d4s.get(s)
+        if d is None or not len(d) or int(d.t.iloc[0]) > p["signal_t"]:
+            d = mk.closed(s, "4h", 60)
+        after = d[d.t > p["signal_t"]].reset_index(drop=True)
+        if not len(after):
+            continue
+        k = np.arange(1, len(after) + 1)
+        e = p["entry"]
+        ev = []
+        t_hit = np.flatnonzero((after.t.to_numpy() > p["fill_t"]) & (after.h.to_numpy() >= e * 1.05))
+        if len(t_hit):
+            ev.append((t_hit[0], 0, "target"))
+        n_hit = np.flatnonzero((k >= 24) & (after.c.to_numpy() <= e))
+        if len(n_hit):
+            ev.append((n_hit[0], 1, "not_working"))
+        c_hit = np.flatnonzero(k >= 43)
+        if len(c_hit):
+            ev.append((c_hit[0], 2, "cap"))
+        if not ev:
+            continue
+        j, _, why = min(ev)
+        px = e * 1.05 if why == "target" else (float(after.c.iloc[j]) if why == "cap" else mk.price(s))
+        lines.append(f"CAPIT2 {'TARGET' if why == 'target' else 'SELL'} {s} at {px:g} ({why})")
+        if trade:
+            close_pos(st, SHADOW, s, px, why)
+    for s, rec in list(st["pending"].items()):
+        d = d4s.get(s)
+        if d is None or not len(d):
+            d = mk.closed(s, "4h", 60)
+        win = d[d.t == rec["signal_t"] + H4_MS]
+        if not len(win):
+            if len(d) and int(d.t.iloc[-1]) > rec["signal_t"] + H4_MS:      # the bar is missing (a gap): give up
+                lines.append(f"CAPIT2 limit {s} cancelled - no data for its bar")
+                if trade:
+                    st["pending"].pop(s)
+            continue                                                       # its bar has not closed yet
+        o, low = float(win.o.iloc[0]), float(win.l.iloc[0])
+        if low <= rec["lim"] * (1 - THROUGH):
+            px = min(o, rec["lim"])
+            lines.append(f"CAPIT2 FILLED {s} at {px:g} (limit {rec['lim']:g}); target {px * 1.05:g}")
+            if trade:
+                st["pending"].pop(s)
+                if open_pos(st, SHADOW, s, px, dict(signal_t=rec["signal_t"], fill_t=rec["signal_t"] + H4_MS)):
+                    st["limits"]["filled"] += 1
+        else:
+            lines.append(f"CAPIT2 limit {s} {rec['lim']:g} not reached (low {low:g}) - cancelled")
+            if trade:
+                st["pending"].pop(s)
+    if last_4h is not None and last_4h != st.get("last_4h") and len(breadth) >= 5:
+        for s, h in hits.items():
+            if last_4h not in h or s in book or s in st["pending"]:
+                continue
+            dr = drop24(d4s[s], last_4h)
+            if dr is None or dr > -DROP:
+                continue
+            c = float(d4s[s].c[d4s[s].t == last_4h].iloc[0])                 # the SIGNAL bar's close
+            lim = c * (1 - LIMIT)
+            lines.append(f"CAPIT2 LIMIT BUY {s} at {lim:g} (signal close {c:g}, down {dr:.0%} in 24h) - live for the next 4h "
+                         f"bar; fills only if it trades below {lim * (1 - THROUGH):g}")
+            if trade:
+                st["pending"][s] = dict(lim=lim, signal_t=last_4h)
+                st["limits"]["placed"] += 1
 
 
 def cycle(mk, st, say=print, trade=True):
@@ -206,6 +312,7 @@ def cycle(mk, st, say=print, trade=True):
     hits = {s: capit_hits(d) for s, d in d4s.items()}
     cutoff = (last_4h or 0) - 24 * 3_600_000 + 14_400_000            # the 6 closed 4h bars up to the last
     breadth = sorted(s for s, h in hits.items() if any(t >= cutoff for t in h))
+    capit2(mk, st, lines, trade, d4s, hits, breadth, last_4h)
     if last_4h is not None and last_4h != st.get("last_4h"):
         fresh_hits = [s for s, h in hits.items() if last_4h in h]
         if fresh_hits and len(breadth) >= 5:
@@ -237,10 +344,20 @@ def status(st, mk=None):
     for b in BOOKS:
         print(f"  {b:6}: equity {book_equity(st, b, prices) * PKR:,.0f} PKR, open {len(st['open'][b])}: "
               + ", ".join(f"{s.split('/')[0]} {(prices.get(s, p['entry']) / p['entry'] - 1) * 100:+.1f}%" for s, p in st["open"][b].items()))
+    for s in st["open"].get(SHADOW, {}):
+        if mk is not None:
+            prices[s] = mk.price(s)
+    lm = st.get("limits", dict(placed=0, filled=0))
+    print(f"  SHADOW capit2 (improved capitulation, own 5,000 PKR since {st.get('shadow_started', '?')[:16]} UTC): equity "
+          f"{book_equity(st, SHADOW, prices) * PKR:,.0f} PKR, open {len(st['open'].get(SHADOW, {}))}, pending limits "
+          f"{len(st.get('pending', {}))}, limits filled {lm['filled']} of {lm['placed']}")
     if TRADES.exists():
         t = pd.read_csv(TRADES)
         for b, g in t.groupby("book"):
             print(f"  closed {b}: {len(g)} trades, win {np.mean(g.ret_pct > 0):.0%}, avg {g.ret_pct.mean():+.2f}%")
+        if (t.book == SHADOW).sum():
+            print(f"  capit2 verdict at 30 closed trades or 12 months: H1 mean > +1.0% a trade (now "
+                  f"{t[t.book == SHADOW].ret_pct.mean():+.2f}% on {(t.book == SHADOW).sum()})")
 
 
 def main():

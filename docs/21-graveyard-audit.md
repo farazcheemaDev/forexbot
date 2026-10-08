@@ -23,7 +23,7 @@ original backing, and records what was re-tested and what changed.*
 |---|---|
 | **reversed** | stops on the market-neutral short leg cost return (`mn_stop.py`): a +50% short-leg book exit is free on average across the 7 rebalance days and removes a wipe-out |
 | **wrong as stated** | "volume is anti-useful in crypto"; "every reversal idea fails" |
-| **stand, now properly backed** | indicators exhausted · funding carry · pairs · protecting the pyramid · stop width · entry limits · bb(20,2)/bb(50,1.5) on the engine · risk by sleeve · long BTC / short alts · MN basket width · crash bids up in chop · ICT sweep / prior-day fade · 1h capitulation |
+| **stand, now properly backed** | indicators exhausted · funding carry · pairs · protecting the pyramid · stop width · entry limits · bb(20,2)/bb(50,1.5) on the engine · risk by sleeve · long BTC / short alts · MN basket width · crash bids up in chop · ICT sweep / prior-day fade · 1h capitulation · meme graduations on 7 more days |
 
 Nothing in the graveyard came back as a book to trade. Two came close and died on the check that has killed
 findings here before: the BTC/alts dispersion trade on a point-in-time basket (+0.55%/month, then 1 of 7 weekly
@@ -106,7 +106,7 @@ anchors) and risk by sleeve (cleared the paired bar on both halves, then failed 
 | claim | original backing | rating | re-test / why not | now |
 |---|---|---|---|---|
 | listing announcements | 122 Upbit + 2,263 Binance; the pump is gone in under a minute | STRONG | — | stands |
-| **memecoin graduations** | ONE day, 631 graduates | THIN across days | `meme_days.py`: random graduates from later days (collector), first 13 hours from GeckoTerminal | **pending** - `meme_days.py` was still fetching when this was committed; its RESULT will be added here |
+| **memecoin graduations** | ONE day, 631 graduates | THIN across days | `meme_days.py`: random graduates from later days (collector), first 13 hours from GeckoTerminal | **stands on other days**: 98 graduates from 7 later days, buy +1 min / sell +1h -66.9% [-81%, -50%], 0 of 7 days positive (`logs/meme_days.txt`) |
 | copying Hyperliquid's best | 27 months, 3,000 accounts | MODERATE / DATA-LIMITED | needs a forward record | stands |
 | funding spikes on small perps | 2.07M settlements | STRONG | — | stands |
 | taker flow / crowd positioning | 5.99M rows, 13 symbols, Holm, then as a book | MODERATE | the archive covers 13 symbols only | stands |

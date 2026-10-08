@@ -1,0 +1,25 @@
+[Unit]
+Description=Pair paper book - daily Bollinger trend + 4h capitulation (the pair) and the improved capitulation shadow book (capit2)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__USER__
+WorkingDirectory=__APP_DIR__
+ExecStart=__APP_DIR__/.venv/bin/python -u pair_live.py --loop
+# ONE INSTANCE ONLY. Moved from the PC to the VM on 2026-10-08 (its state file was copied over; the PC copy was
+# renamed so it cannot be resumed there). Two copies are two records, and capit2's registered verdict needs one.
+Restart=always
+RestartSec=60
+StandardOutput=journal
+StandardError=journal
+# It places NO orders anywhere; it reads Bitget public endpoints only and needs no keys.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+ReadWritePaths=__APP_DIR__/logs
+
+[Install]
+WantedBy=multi-user.target
