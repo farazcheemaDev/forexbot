@@ -19,11 +19,7 @@ Fixed in capitulation_wide, lottery, lottery_v2, micro_honest, short_families.
 capit_combos, capit_stack, capit_volume, daily_phase, pair_books, pair_lab, mn_capped, pair_full, pair_tweaks,
 machine_mix, v2_addons, daily_combos, daily_stack, daily_families, machine_combos, regime_weights, machine_factorial.
 
-**NOT yet re-run** (their logs and the numbers quoted from them are from the BROKEN loader): filter_pairs (new),
-trend_combos, wick_capit, sleeve_combos, sweep_reclaim, capit_1h, capitulation_wide, capitulation_freq,
-capitulation_breadth, breadth_events, tv_indicators, lottery_v2, micro_honest, short_families. Resume with
-`python -m backtest.<name>` for each, in that order (the caches rebuild themselves). Also pending: `moderate_retests.py
---wide` and `meme_days.py --all-days --per-day=60` (resumable: cached candles are reused).
+**NOT yet re-run when last committed** (2026-10-09 ~21:20 UTC; the driver was still running them on the PC): tv_indicators, lottery_v2, micro_honest, short_families. Resume with `python -m backtest.<name>` for each. Everything else above IS re-run, and so are filter_pairs, trend_combos, wick_capit, sleeve_combos, sweep_reclaim, capit_1h, capitulation_wide, capitulation_freq, capitulation_breadth, breadth_events, moderate_retests (--xs --grid --vwap --meta --wide) and meme_days --all-days (309 graduates, 9 days: +1 min / +1h -54.6%, kill stands). Still to do: fold all corrected numbers into doc 02 / doc 21 / CLAUDE.md s10.
 
 **What the fix changed so far** (the docs above this section still quote some pre-fix numbers - trust the logs):
 - the plain capitulation book is WEAKER: 73-78 signals a year (was 57-62), +1.9..+2.7% a trade (was +2.4..+3.1), the

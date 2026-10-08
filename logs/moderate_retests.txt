@@ -30,3 +30,9 @@ backtest/moderate_retests.py --vwap, 2026-10-09 00:49; long 2 ATR under VWAP(20)
 backtest/moderate_retests.py --meta, 2026-10-09 00:49; walk-forward logistic filter on the daily book (features br, rk, vr, atrp, ext, btc_r28, fg, RSI, distance to EMA200)
   boundary 00: kept 51% of 1579 trades, fall 56%, vs line -23 / -28 | boundary 08: kept 51% of 1585 trades, fall 51%, vs line -54 / -18 | boundary 16: kept 51% of 1581 trades, fall 57%, vs line -38 / -11 -> fail
 
+backtest/moderate_retests.py --wide, 2026-10-09 00:52; corrected engine, longs only, no funding on either side, tune < 2024-08-29 <= holdout; %/mo is CAGR/3
+  MAIN   12 BOOK coins    5158 trades | tune  +4.20%/mo DD  79% | holdout  +3.67%/mo DD  80%
+  MAIN   PIT top-40      23354 trades | tune  +1.39%/mo DD  94% | holdout  -0.75%/mo DD  82%
+  TRIPLE 12 BOOK coins    6851 trades | tune +10.17%/mo DD  61% | holdout +12.48%/mo DD  66%
+  TRIPLE PIT top-40      31309 trades | tune  +7.00%/mo DD  85% | holdout  +3.46%/mo DD  77%
+

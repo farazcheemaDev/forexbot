@@ -48,3 +48,203 @@ D. THE DAILY BOOK x EVERY PAIR OF ITS 13 FILTERS (78 pairs), vs the base's line,
   volume >= 1.5x & Fear&Greed > 50                 trades   939 | CAGR   +90% /  +54% fall  55% | -32/+18  -13/+25  -49/+4 -> fail
   volume >= 1.5x & BTC 28d > 0                     trades  1136 | CAGR  +115% /  +29% fall  53% | -1/-3  +10/-6  -6/-10 -> fail
   volume >= 1.5x & BTC > its 50d mean              trades  1146 | CAGR  +109% /  +16% fall  53% | +2/-24  +16/-13  -33/-24 -> fail
+  volume >= 1.5x & RSI(14) < 80                    trades  1281 | CAGR  +111% /  +19% fall  64% | -57/-27  -20/-9  -46/-31 -> fail
+  volume >= 1.5x & new 50-day high                 trades   693 | CAGR   +69% /  +63% fall  63% | -110/+17  -120/+21  -17/+27 -> fail
+  volume >= 1.5x & not overextended                trades  1173 | CAGR   +77% /  +22% fall  71% | -153/-10  -52/-24  -112/-35 -> fail
+  volume >= 2x & Fear&Greed < 75                   trades   815 | CAGR   +65% /  +64% fall  62% | -94/+17  -88/+48  -60/+2 -> fail
+  volume >= 2x & Fear&Greed > 50                   trades   742 | CAGR   +77% /  +44% fall  55% | -35/+18  -59/+39  -33/-39 -> fail
+  volume >= 2x & BTC 28d > 0                       trades   877 | CAGR  +117% /  +27% fall  46% | +15/+10  +21/-0  +34/-25 -> fail
+  volume >= 2x & BTC > its 50d mean                trades   893 | CAGR  +101% /  +31% fall  50% | +4/+3  -11/+11  -3/-27 -> fail
+  volume >= 2x & RSI(14) < 80                      trades   998 | CAGR   +97% /  +38% fall  62% | -66/-0  -35/+21  -50/-34 -> fail
+  volume >= 2x & new 50-day high                   trades   586 | CAGR   +82% /  +74% fall  62% | -106/+29  -73/+33  -10/+38 -> fail
+  volume >= 2x & not overextended                  trades   783 | CAGR   +45% /  +33% fall  70% | -99/+6  -152/-6  -143/-32 -> fail
+  Fear&Greed < 75 & Fear&Greed > 50                trades   912 | CAGR   +85% /  +29% fall  55% | -33/-18  -11/+1  -61/-14 -> fail
+  Fear&Greed < 75 & BTC 28d > 0                    trades  1151 | CAGR  +111% /  +15% fall  51% | +35/-12  -11/-26  -24/-23 -> fail
+  Fear&Greed < 75 & BTC > its 50d mean             trades  1155 | CAGR  +110% /  +16% fall  50% | +25/-14  +2/-31  -11/-10 -> fail
+  Fear&Greed < 75 & RSI(14) < 80                   trades  1326 | CAGR  +118% /   +1% fall  66% | -52/-37  -33/-43  -40/-48 -> fail
+  Fear&Greed < 75 & new 50-day high                trades   587 | CAGR   +61% /  +53% fall  64% | -137/+9  -118/+12  -24/+13 -> fail
+  Fear&Greed < 75 & not overextended               trades  1308 | CAGR  +103% /   -5% fall  68% | -64/-40  -62/-36  -70/-71 -> fail
+  Fear&Greed > 50 & BTC 28d > 0                    trades  1102 | CAGR  +103% /  +25% fall  48% | +6/-20  +19/+1  -13/-9 -> fail
+  Fear&Greed > 50 & BTC > its 50d mean             trades  1132 | CAGR  +118% /  +23% fall  53% | +22/-19  -7/-11  -3/-10 -> fail
+  Fear&Greed > 50 & RSI(14) < 80                   trades  1151 | CAGR  +109% /  +28% fall  56% | -7/-28  -4/-3  -39/-4 -> fail
+  Fear&Greed > 50 & new 50-day high                trades   612 | CAGR   +75% /  +11% fall  55% | -66/-28  -106/-24  +23/-24 -> fail
+  Fear&Greed > 50 & not overextended               trades  1133 | CAGR   +88% /  +30% fall  54% | -15/-16  -16/+1  -55/-10 -> fail
+  BTC 28d > 0 & BTC > its 50d mean                 trades  1358 | CAGR  +121% /  +34% fall  50% | +28/-9  +31/+6  -11/-2 -> fail
+  BTC 28d > 0 & RSI(14) < 80                       trades  1398 | CAGR  +127% /  +30% fall  51% | +58/+10  +12/-6  -17/-19 -> fail
+  BTC 28d > 0 & new 50-day high                    trades   683 | CAGR   +85% /  +13% fall  50% | -33/-11  -72/-41  +38/-11 -> fail
+  BTC 28d > 0 & not overextended                   trades  1375 | CAGR  +115% /  +23% fall  54% | +41/-1  -12/+5  -44/-46 -> fail
+  BTC > its 50d mean & RSI(14) < 80                trades  1399 | CAGR  +148% /  +38% fall  52% | +57/+16  +19/-11  +29/+1 -> fail
+  BTC > its 50d mean & new 50-day high             trades   713 | CAGR   +77% /   +7% fall  56% | -80/-25  -99/-45  +34/-20 -> fail
+  BTC > its 50d mean & not overextended            trades  1382 | CAGR  +138% /  +27% fall  54% | +33/+15  +15/-26  +11/-22 -> fail
+  RSI(14) < 80 & new 50-day high                   trades   728 | CAGR   +60% /  +14% fall  70% | -131/-28  -150/-19  -71/-39 -> fail
+  RSI(14) < 80 & not overextended                  trades  1558 | CAGR  +138% /  +14% fall  66% | -26/-16  -25/-15  -18/-57 -> fail
+  new 50-day high & not overextended               trades   343 | CAGR   +37% /  -16% fall  72% | -120/-67  -161/-44  -157/-68 -> fail
+  D: 1 of 78 pairs pass
+
+C. THE CAPITULATION BOOK x EVERY PAIR OF ITS 17 FILTERS (136 pairs), 4 phases
+  BTC regime bear only & BTC regime not bull       trades   154 | CAGR  +0.2% /  +4.9% fall  19% | -5/-12  +4/-3  -5/-1  -6/-11 -> fail
+  BTC regime bear only & BTC regime bull only      trades     0 | CAGR  +0.0% /  +0.0% fall   0% | +1/-9  -6/-9  -4/-3  -1/-8 -> fail
+  BTC regime bear only & BTC under 1000h mean      trades   154 | CAGR  +0.2% /  +4.9% fall  19% | -5/-12  +4/-3  -5/-1  -6/-11 -> fail
+  BTC regime bear only & BTC over 1000h mean       trades     0 | CAGR  +0.0% /  +0.0% fall   0% | +1/-9  -6/-9  -4/-3  -1/-8 -> fail
+  BTC regime bear only & coin above 4h EMA200      trades     0 | CAGR  +0.0% /  +0.0% fall   0% | +1/-9  -6/-9  -4/-3  -1/-8 -> fail
+  BTC regime bear only & coin 30-day return > 0    trades     2 | CAGR  +0.1% /  +0.4% fall   0% | +1/-9  -6/-8  -4/-3  -1/-7 -> fail
+  BTC regime bear only & breadth20 <= 10%          trades   110 | CAGR  -0.9% /  +4.9% fall  16% | -5/-9  +1/-3  -4/+0  -6/-8 -> fail
+  BTC regime bear only & breadth20 <= 30%          trades   145 | CAGR  -0.3% /  +4.9% fall  18% | -5/-12  +4/-3  -8/-2  -4/-8 -> fail
+  BTC regime bear only & Fear&Greed <= 25          trades    89 | CAGR  -1.5% /  +2.7% fall  17% | -7/-14  +3/-5  -5/-3  -7/-12 -> fail
+  BTC regime bear only & Fear&Greed <= 40          trades   125 | CAGR  -1.3% /  +4.9% fall  19% | -6/-12  +3/-3  -6/-1  -8/-11 -> fail
+  BTC regime bear only & RSI < 15                  trades    22 | CAGR  +0.8% /  +0.4% fall   3% | +1/-8  -4/-9  -3/-3  -1/-8 -> fail
+  BTC regime bear only & volume >= 3x              trades    80 | CAGR  +1.2% /  +3.9% fall   7% | -1/-5  -3/-4  -3/-0  +1/-4 -> fail
+  BTC regime bear only & coin down >= 10% in 24h   trades   125 | CAGR  +2.2% /  +4.9% fall  12% | -4/-8  +3/-3  +1/+1  -0/-3 -> fail
+  BTC regime bear only & BTC down >= 5% in 24h     trades    95 | CAGR  +3.3% /  +4.7% fall   6% | +1/-3  +2/-3  -1/-0  +0/-3 -> fail
+  BTC regime bear only & K >= 8                    trades   138 | CAGR  +1.1% /  +4.7% fall  15% | -4/-11  +2/-3  -0/-0  -3/-6 -> fail
+  BTC regime bear only & K >= 10                   trades   125 | CAGR  +1.3% /  +4.5% fall  11% | -0/-3  -0/-3  -3/-1  -2/-6 -> fail
+  BTC regime not bull & BTC regime bull only       trades     0 | CAGR  +0.0% /  +0.0% fall   0% | +1/-9  -6/-9  -4/-3  -1/-8 -> fail
+  BTC regime not bull & BTC under 1000h mean       trades   365 | CAGR  +3.6% / +13.8% fall  20% | -1/-5  +2/+2  -0/+11  -0/-1 -> fail
+  BTC regime not bull & BTC over 1000h mean        trades    32 | CAGR  -0.3% /  -0.5% fall   7% | +1/-10  -6/-8  -5/-6  -3/-7 -> fail
+  BTC regime not bull & coin above 4h EMA200       trades     0 | CAGR  +0.0% /  +0.0% fall   0% | +1/-9  -6/-9  -4/-3  -1/-8 -> fail
+  BTC regime not bull & coin 30-day return > 0     trades    10 | CAGR  +0.6% /  +1.0% fall   0% | +1/-8  -5/-7  -3/-2  -1/-7 -> fail
+  BTC regime not bull & breadth20 <= 10%           trades   298 | CAGR  +2.3% / +11.1% fall  16% | -1/-5  -3/+1  +0/+5  -0/+1 -> fail
+  BTC regime not bull & breadth20 <= 30%           trades   372 | CAGR  +2.9% / +12.8% fall  21% | -1/-6  -4/-2  -5/+3  +1/+3 -> fail
+  BTC regime not bull & Fear&Greed <= 25           trades   179 | CAGR  +0.5% /  +5.9% fall  20% | -4/-13  -4/-11  -2/+2  -4/-8 -> fail
+  BTC regime not bull & Fear&Greed <= 40           trades   275 | CAGR  +2.4% / +10.6% fall  21% | -1/-11  -3/-4  +1/+9  -3/-6 -> fail
+  BTC regime not bull & RSI < 15                   trades    74 | CAGR  +2.8% /  +4.7% fall   4% | +2/-3  -2/-7  -0/+2  +1/-1 -> fail
+  BTC regime not bull & volume >= 3x               trades   258 | CAGR  +3.9% / +11.5% fall  10% | +1/+6  +0/+2  +0/+5  +3/+4 -> PASS
+  BTC regime not bull & coin down >= 10% in 24h    trades   316 | CAGR  +7.4% / +13.5% fall  15% | +1/-2  +0/-2  +8/+9  +5/+7 -> fail
+  BTC regime not bull & BTC down >= 5% in 24h      trades   267 | CAGR  +7.3% / +14.4% fall   8% | +6/+7  -1/+3  +6/+8  +5/+7 -> fail
+  BTC regime not bull & K >= 8                     trades   350 | CAGR  +4.3% / +13.7% fall  18% | -0/-2  +1/-1  +4/+14  +1/-2 -> fail
+  BTC regime not bull & K >= 10                    trades   299 | CAGR  +3.1% / +13.1% fall  13% | +3/+5  -1/-0  -4/+11  -0/+1 -> fail
+  BTC regime bull only & BTC under 1000h mean      trades    24 | CAGR  +0.3% /  +1.9% fall   1% | +1/-7  -5/-7  -4/-1  -1/-6 -> fail
+  BTC regime bull only & BTC over 1000h mean       trades    49 | CAGR  +1.6% /  +1.2% fall   5% | +2/-4  -4/-7  -4/-8  +1/-5 -> fail
+  BTC regime bull only & coin above 4h EMA200      trades     0 | CAGR  +0.0% /  -0.2% fall   0% | +1/-9  -6/-9  -4/-4  -1/-8 -> fail
+  BTC regime bull only & coin 30-day return > 0    trades    10 | CAGR  +0.7% /  +1.0% fall   0% | +2/-7  -5/-7  -3/-3  -1/-7 -> fail
+  BTC regime bull only & breadth20 <= 10%          trades    28 | CAGR  +0.0% /  +3.4% fall   0% | +1/-5  -6/-5  -4/-0  -1/-5 -> fail
+  BTC regime bull only & breadth20 <= 30%          trades    55 | CAGR  +0.6% /  +1.9% fall   5% | +1/-3  -5/-6  -4/-8  -1/-4 -> fail
+  BTC regime bull only & Fear&Greed <= 25          trades     0 | CAGR  +0.0% /  +0.0% fall   0% | +1/-9  -6/-9  -4/-3  -1/-8 -> fail
+  BTC regime bull only & Fear&Greed <= 40          trades     2 | CAGR  -0.0% /  +0.0% fall   0% | +1/-9  -6/-9  -4/-3  -1/-8 -> fail
+  BTC regime bull only & RSI < 15                  trades     8 | CAGR  +0.3% /  +1.1% fall   0% | +1/-8  -5/-6  -4/-3  -1/-6 -> fail
+  BTC regime bull only & volume >= 3x              trades    46 | CAGR  +1.2% /  +0.5% fall   6% | +2/-5  -4/-8  -4/-8  -1/-6 -> fail
+  BTC regime bull only & coin down >= 10% in 24h   trades    64 | CAGR  +1.8% /  +1.6% fall   5% | +2/-3  -4/-7  -3/-8  +1/-4 -> fail
+  BTC regime bull only & BTC down >= 5% in 24h     trades    46 | CAGR  +1.2% /  +3.0% fall   1% | +2/-4  -4/-6  -3/-1  -0/-5 -> fail
+  BTC regime bull only & K >= 8                    trades    53 | CAGR  +1.1% /  +1.0% fall   5% | +2/-4  -5/-8  -4/-6  +1/-6 -> fail
+  BTC regime bull only & K >= 10                   trades    50 | CAGR  +0.9% /  +1.0% fall   5% | +2/-4  -7/-10  -4/-6  +1/-6 -> fail
+  BTC under 1000h mean & BTC over 1000h mean       trades     0 | CAGR  +0.0% /  +0.0% fall   0% | +1/-9  -6/-9  -4/-3  -1/-8 -> fail
+  BTC under 1000h mean & coin above 4h EMA200      trades     0 | CAGR  +0.0% /  +0.0% fall   0% | +1/-9  -6/-9  -4/-3  -1/-8 -> fail
+  BTC under 1000h mean & coin 30-day return > 0    trades     8 | CAGR  +0.6% /  +0.8% fall   0% | +1/-8  -5/-8  -3/-2  -1/-7 -> fail
+  BTC under 1000h mean & breadth20 <= 10%          trades   313 | CAGR  +2.2% / +14.3% fall  17% | -1/-4  -4/-0  -0/+12  -1/+5 -> fail
+  BTC under 1000h mean & breadth20 <= 30%          trades   377 | CAGR  +3.2% / +15.7% fall  21% | -1/-6  -1/+2  -5/+11  +1/+4 -> fail
+  BTC under 1000h mean & Fear&Greed <= 25          trades   179 | CAGR  +0.5% /  +5.8% fall  20% | -4/-13  -4/-11  -2/+2  -4/-8 -> fail
+  BTC under 1000h mean & Fear&Greed <= 40          trades   269 | CAGR  +2.8% / +10.6% fall  19% | -1/-11  -3/-4  +1/+9  -2/-3 -> fail
+  BTC under 1000h mean & RSI < 15                  trades    68 | CAGR  +2.9% /  +4.2% fall   3% | +3/-3  -2/-5  -0/-0  +2/-4 -> fail
+  BTC under 1000h mean & volume >= 3x              trades   249 | CAGR  +4.5% / +14.6% fall  10% | +1/+9  +1/+6  +0/+9  +5/+5 -> PASS
+  BTC under 1000h mean & coin down >= 10% in 24h   trades   310 | CAGR  +8.1% / +16.9% fall  14% | +2/+1  +3/+4  +8/+15  +7/+8 -> PASS
+  BTC under 1000h mean & BTC down >= 5% in 24h     trades   264 | CAGR  +7.9% / +14.9% fall   8% | +7/+6  -5/+0  +6/+11  +7/+5 -> fail
+  BTC under 1000h mean & K >= 8                    trades   341 | CAGR  +4.4% / +15.9% fall  18% | +1/+1  -4/-2  +4/+16  +2/+0 -> fail
+  BTC under 1000h mean & K >= 10                   trades   296 | CAGR  +2.9% / +14.5% fall  14% | +3/+7  -6/-2  -4/+12  +1/+2 -> fail
+  BTC over 1000h mean & coin above 4h EMA200       trades     0 | CAGR  +0.0% /  -0.2% fall   0% | +1/-9  -6/-9  -4/-4  -1/-8 -> fail
+  BTC over 1000h mean & coin 30-day return > 0     trades    11 | CAGR  +0.7% /  +1.3% fall   0% | +2/-7  -5/-6  -3/-3  -1/-7 -> fail
+  BTC over 1000h mean & breadth20 <= 10%           trades    14 | CAGR  +0.0% /  +1.1% fall   3% | +1/-7  -6/-5  -4/-5  -1/-7 -> fail
+  BTC over 1000h mean & breadth20 <= 30%           trades    56 | CAGR  +0.3% /  +1.4% fall   8% | +1/-5  -6/-6  -7/-12  -1/-4 -> fail
+  BTC over 1000h mean & Fear&Greed <= 25           trades     0 | CAGR  +0.0% /  +0.1% fall   0% | +1/-9  -6/-9  -4/-3  -1/-8 -> fail
+  BTC over 1000h mean & Fear&Greed <= 40           trades     8 | CAGR  -0.4% /  +0.1% fall   3% | +1/-9  -6/-9  -4/-3  -3/-8 -> fail
+  BTC over 1000h mean & RSI < 15                   trades    13 | CAGR  +0.2% /  +1.6% fall   1% | +1/-8  -5/-8  -4/-1  -1/-4 -> fail
+  BTC over 1000h mean & volume >= 3x               trades    60 | CAGR  +0.7% /  -0.2% fall   8% | +1/-8  -4/-9  -6/-10  -2/-5 -> fail
+  BTC over 1000h mean & coin down >= 10% in 24h    trades    74 | CAGR  +1.2% /  +0.5% fall   8% | +2/-6  -5/-9  -5/-10  -0/-4 -> fail
+  BTC over 1000h mean & BTC down >= 5% in 24h      trades    50 | CAGR  +0.5% /  +2.6% fall   4% | +2/-4  -5/-8  -3/-3  -1/-3 -> fail
+  BTC over 1000h mean & K >= 8                     trades    67 | CAGR  +0.7% /  +0.5% fall   7% | +2/-6  -5/-9  -5/-6  -0/-5 -> fail
+  BTC over 1000h mean & K >= 10                    trades    57 | CAGR  +0.8% /  +1.1% fall   6% | +2/-4  -6/-10  -4/-5  +1/-5 -> fail
+  coin above 4h EMA200 & coin 30-day return > 0    trades     1 | CAGR  +0.1% /  -0.2% fall   0% | +1/-9  -6/-9  -4/-4  -1/-8 -> fail
+  coin above 4h EMA200 & breadth20 <= 10%          trades     0 | CAGR  +0.0% /  +0.0% fall   0% | +1/-9  -6/-9  -4/-3  -1/-8 -> fail
+  coin above 4h EMA200 & breadth20 <= 30%          trades     0 | CAGR  +0.0% /  -0.2% fall   0% | +1/-9  -6/-9  -4/-4  -1/-8 -> fail
+  coin above 4h EMA200 & Fear&Greed <= 25          trades     0 | CAGR  +0.0% /  +0.0% fall   0% | +1/-9  -6/-9  -4/-3  -1/-8 -> fail
+  coin above 4h EMA200 & Fear&Greed <= 40          trades     0 | CAGR  +0.0% /  +0.0% fall   0% | +1/-9  -6/-9  -4/-3  -1/-8 -> fail
+  coin above 4h EMA200 & RSI < 15                  trades     0 | CAGR  +0.0% /  +0.0% fall   0% | +1/-9  -6/-9  -4/-3  -1/-8 -> fail
+  coin above 4h EMA200 & volume >= 3x              trades     0 | CAGR  +0.1% /  +0.0% fall   0% | +1/-9  -6/-9  -4/-3  -1/-8 -> fail
+  coin above 4h EMA200 & coin down >= 10% in 24h   trades     0 | CAGR  +0.1% /  +0.0% fall   0% | +1/-9  -6/-9  -4/-3  -1/-8 -> fail
+  coin above 4h EMA200 & BTC down >= 5% in 24h     trades     0 | CAGR  +0.1% /  +0.0% fall   0% | +1/-9  -6/-9  -4/-3  -1/-8 -> fail
+  coin above 4h EMA200 & K >= 8                    trades     0 | CAGR  +0.1% /  +0.0% fall   0% | +1/-9  -6/-9  -4/-3  -1/-8 -> fail
+  coin above 4h EMA200 & K >= 10                   trades     0 | CAGR  +0.1% /  +0.0% fall   0% | +1/-9  -6/-9  -4/-3  -1/-8 -> fail
+  coin 30-day return > 0 & breadth20 <= 10%        trades     9 | CAGR  +0.2% /  +1.6% fall   0% | +1/-7  -6/-7  -4/-1  -1/-7 -> fail
+  coin 30-day return > 0 & breadth20 <= 30%        trades    14 | CAGR  +0.6% /  +1.9% fall   1% | +1/-6  -5/-6  -3/-2  -1/-6 -> fail
+  coin 30-day return > 0 & Fear&Greed <= 25        trades     4 | CAGR  +0.4% /  +0.1% fall   0% | +1/-9  -5/-8  -3/-3  -1/-8 -> fail
+  coin 30-day return > 0 & Fear&Greed <= 40        trades     7 | CAGR  +0.5% /  +0.6% fall   0% | +1/-9  -6/-8  -3/-2  -1/-7 -> fail
+  coin 30-day return > 0 & RSI < 15                trades     1 | CAGR  +0.1% /  +0.1% fall   0% | +1/-9  -6/-8  -4/-3  -1/-8 -> fail
+  coin 30-day return > 0 & volume >= 3x            trades     9 | CAGR  +0.6% /  +0.9% fall   0% | +2/-8  -6/-7  -3/-3  -1/-7 -> fail
+  coin 30-day return > 0 & coin down >= 10% in 24h trades    17 | CAGR  +1.4% /  +1.9% fall   0% | +3/-7  -5/-6  -2/-2  -0/-6 -> fail
+  coin 30-day return > 0 & BTC down >= 5% in 24h   trades    14 | CAGR  +1.2% /  +1.3% fall   0% | +2/-7  -5/-8  -2/-3  -1/-7 -> fail
+  coin 30-day return > 0 & K >= 8                  trades    16 | CAGR  +1.1% /  +1.8% fall   0% | +3/-6  -5/-6  -3/-2  -0/-7 -> fail
+  coin 30-day return > 0 & K >= 10                 trades    14 | CAGR  +0.9% /  +1.8% fall   0% | +2/-6  -6/-6  -3/-2  -0/-7 -> fail
+  breadth20 <= 10% & breadth20 <= 30%              trades   327 | CAGR  +2.0% / +14.6% fall  17% | -2/-2  -4/+3  -0/+8  -1/+4 -> fail
+  breadth20 <= 10% & Fear&Greed <= 25              trades   145 | CAGR  +0.9% /  +4.5% fall  17% | -3/-12  -3/-10  -2/+1  -3/-4 -> fail
+  breadth20 <= 10% & Fear&Greed <= 40              trades   230 | CAGR  +2.0% /  +9.0% fall  17% | -1/-11  -3/-4  -0/+6  -2/-0 -> fail
+  breadth20 <= 10% & RSI < 15                      trades    48 | CAGR  +1.5% /  +4.2% fall   3% | +2/-3  -4/-5  -2/-0  -1/-4 -> fail
+  breadth20 <= 10% & volume >= 3x                  trades   194 | CAGR  +3.6% / +13.1% fall   6% | +2/+8  -2/+6  +0/+6  +4/+4 -> fail
+  breadth20 <= 10% & coin down >= 10% in 24h       trades   263 | CAGR  +4.9% / +16.6% fall  13% | -0/+4  +1/+7  +4/+10  +3/+8 -> fail
+  breadth20 <= 10% & BTC down >= 5% in 24h         trades   230 | CAGR  +5.7% / +15.1% fall   7% | +6/+9  -2/+6  +2/+8  +4/+6 -> fail
+  breadth20 <= 10% & K >= 8                        trades   288 | CAGR  +2.7% / +15.2% fall  16% | -0/+7  -3/+1  +2/+13  -0/-2 -> fail
+  breadth20 <= 10% & K >= 10                       trades   256 | CAGR  +2.0% / +14.6% fall  12% | +4/+9  -4/+3  -2/+13  -2/-1 -> fail
+  breadth20 <= 30% & Fear&Greed <= 25              trades   178 | CAGR  +1.0% /  +5.9% fall  18% | -4/-13  -4/-11  -2/+2  -2/-4 -> fail
+  breadth20 <= 30% & Fear&Greed <= 40              trades   271 | CAGR  +3.0% / +10.6% fall  18% | -1/-12  -2/-3  +0/+9  +0/+0 -> fail
+  breadth20 <= 30% & RSI < 15                      trades    75 | CAGR  +3.1% /  +5.9% fall   3% | +3/-2  -2/-4  -0/+2  +1/+0 -> fail
+  breadth20 <= 30% & volume >= 3x                  trades   277 | CAGR  +4.4% / +13.1% fall  13% | +1/+11  -1/+2  -4/-2  +4/+7 -> fail
+  breadth20 <= 30% & coin down >= 10% in 24h       trades   349 | CAGR  +8.2% / +15.7% fall  15% | +2/+4  +2/+1  +8/+5  +6/+11 -> PASS
+  breadth20 <= 30% & BTC down >= 5% in 24h         trades   291 | CAGR  +7.4% / +17.5% fall   8% | +6/+11  -4/+3  +6/+10  +6/+10 -> fail
+  breadth20 <= 30% & K >= 8                        trades   372 | CAGR  +3.8% / +16.1% fall  19% | -0/+5  -2/-2  -0/+9  +2/+2 -> fail
+  breadth20 <= 30% & K >= 10                       trades   328 | CAGR  +2.8% / +14.4% fall  16% | +3/+11  -10/-10  -6/+7  -0/+3 -> fail
+  Fear&Greed <= 25 & Fear&Greed <= 40              trades   179 | CAGR  +0.5% /  +5.9% fall  20% | -4/-13  -4/-11  -2/+2  -4/-8 -> fail
+  Fear&Greed <= 25 & RSI < 15                      trades    19 | CAGR  +1.2% /  +0.1% fall   3% | +2/-9  -5/-8  -2/-3  -1/-8 -> fail
+  Fear&Greed <= 25 & volume >= 3x                  trades    90 | CAGR  +2.7% /  +4.2% fall   7% | +0/-4  -2/-5  -1/+0  +3/-3 -> fail
+  Fear&Greed <= 25 & coin down >= 10% in 24h       trades   146 | CAGR  +3.9% /  +6.2% fall  13% | -2/-7  +0/-5  +3/+2  +3/-2 -> fail
+  Fear&Greed <= 25 & BTC down >= 5% in 24h         trades   136 | CAGR  +4.5% /  +6.4% fall   8% | +4/-2  -6/-9  +2/+3  +3/-2 -> fail
+  Fear&Greed <= 25 & K >= 8                        trades   161 | CAGR  +2.5% /  +6.0% fall  17% | -3/-12  -2/-9  +2/+4  +0/-4 -> fail
+  Fear&Greed <= 25 & K >= 10                       trades   136 | CAGR  +2.5% /  +4.5% fall  13% | +1/-4  -5/-12  +0/+1  -1/-4 -> fail
+  Fear&Greed <= 40 & RSI < 15                      trades    40 | CAGR  +1.5% /  +2.5% fall   4% | +2/-4  -4/-7  -2/-2  -1/-6 -> fail
+  Fear&Greed <= 40 & volume >= 3x                  trades   156 | CAGR  +3.4% /  +9.4% fall   8% | +2/+2  -1/+1  -0/+4  +2/+1 -> fail
+  Fear&Greed <= 40 & coin down >= 10% in 24h       trades   227 | CAGR  +4.3% / +11.4% fall  15% | -1/-6  -2/-1  +5/+9  +2/+3 -> fail
+  Fear&Greed <= 40 & BTC down >= 5% in 24h         trades   214 | CAGR  +5.4% / +11.8% fall   8% | +5/+4  -7/-4  +3/+7  +3/+3 -> fail
+  Fear&Greed <= 40 & K >= 8                        trades   252 | CAGR  +3.2% / +11.9% fall  18% | -0/-5  -4/-5  +2/+10  +0/-2 -> fail
+  Fear&Greed <= 40 & K >= 10                       trades   215 | CAGR  +3.1% / +10.3% fall  13% | +3/+3  -7/-7  -0/+7  -0/+0 -> fail
+  RSI < 15 & volume >= 3x                          trades    72 | CAGR  +3.0% /  +5.7% fall   2% | +2/-2  -2/-4  -1/+1  +3/+0 -> fail
+  RSI < 15 & coin down >= 10% in 24h               trades    70 | CAGR  +3.0% /  +6.0% fall   4% | +2/-2  -2/-4  +0/+2  +1/+0 -> fail
+  RSI < 15 & BTC down >= 5% in 24h                 trades    57 | CAGR  +2.7% /  +5.5% fall   2% | +2/-2  -3/-4  -0/+0  +2/+0 -> fail
+  RSI < 15 & K >= 8                                trades    78 | CAGR  +3.2% /  +5.8% fall   4% | +3/-2  -2/-4  -0/+1  +2/+0 -> fail
+  RSI < 15 & K >= 10                               trades    68 | CAGR  +2.4% /  +5.7% fall   3% | +3/-2  -3/-5  -1/+1  +1/+0 -> fail
+  volume >= 3x & coin down >= 10% in 24h           trades   248 | CAGR  +7.2% / +12.6% fall   8% | +5/+8  +2/+3  +4/+3  +6/+7 -> PASS
+  volume >= 3x & BTC down >= 5% in 24h             trades   197 | CAGR  +5.4% / +13.7% fall   4% | +5/+6  +0/+7  +3/+8  +4/+6 -> PASS
+  volume >= 3x & K >= 8                            trades   265 | CAGR  +6.0% / +11.6% fall   9% | +5/+8  +1/-1  +2/+6  +5/+4 -> fail
+  volume >= 3x & K >= 10                           trades   231 | CAGR  +4.5% / +11.3% fall   8% | +6/+8  -1/-1  -4/+4  +4/+3 -> fail
+  coin down >= 10% in 24h & BTC down >= 5% in 24h  trades   279 | CAGR  +8.5% / +17.6% fall   8% | +6/+12  +1/+5  +6/+10  +7/+10 -> PASS
+  coin down >= 10% in 24h & K >= 8                 trades   338 | CAGR  +7.7% / +15.2% fall  15% | +3/+7  -4/-6  +7/+10  +9/+5 -> fail
+  coin down >= 10% in 24h & K >= 10                trades   299 | CAGR  +6.9% / +14.7% fall  11% | +6/+12  -6/-5  +3/+10  +8/+5 -> fail
+  BTC down >= 5% in 24h & K >= 8                   trades   283 | CAGR  +8.0% / +17.7% fall   6% | +7/+11  +2/+9  +4/+13  +8/+8 -> PASS
+  BTC down >= 5% in 24h & K >= 10                  trades   250 | CAGR  +6.4% / +16.1% fall   6% | +8/+10  -2/+7  +1/+10  +7/+8 -> fail
+  K >= 8 & K >= 10                                 trades   348 | CAGR  +3.9% / +14.1% fall  16% | +4/+11  -4/-4  -7/+6  +2/+3 -> fail
+  C: 8 of 136 pairs pass
+
+C2. THE IMPROVED CAPITULATION BOOK x EVERY SINGLE CHANGE (26), vs the IMPROVED book's own line, 4 phases
+  + BTC regime bear only                           trades    80 | CAGR  +3.9% /  +3.1% fall   6% | -13/-20  +3/-6  -1/-3  -1/-6 -> fail
+  + BTC regime not bull                            trades   206 | CAGR  +8.3% / +12.7% fall   7% | -7/-12  -4/-11  +5/+9  +1/+1 -> fail
+  + BTC regime bull only                           trades    37 | CAGR  +1.3% /  +2.0% fall   3% | -3/-4  -4/-4  -11/-15  -1/-4 -> fail
+  + BTC under 1000h mean                           trades   204 | CAGR  +8.1% / +13.6% fall   8% | -7/-10  -9/-15  +5/+10  -1/-4 -> fail
+  + BTC over 1000h mean                            trades    42 | CAGR  +1.0% /  +2.2% fall   4% | -3/-5  -4/-6  -10/-11  -2/-3 -> fail
+  + coin above 4h EMA200                           trades     0 | CAGR  +0.1% /  +0.0% fall   0% | -4/-7  -5/-8  -6/-6  -3/-7 -> fail
+  + coin 30-day return > 0                         trades    12 | CAGR  +1.2% /  +1.0% fall   0% | -3/-7  -4/-7  -5/-5  -2/-6 -> fail
+  + breadth20 <= 10%                               trades   170 | CAGR  +4.3% / +13.5% fall   9% | -9/-9  -13/-15  -1/+7  -6/-7 -> fail
+  + breadth20 <= 30%                               trades   226 | CAGR  +8.1% / +14.6% fall  10% | -7/-8  -1/-0  -2/-1  +1/+2 -> fail
+  + Fear&Greed <= 25                               trades   100 | CAGR  +5.0% /  +4.1% fall   9% | -17/-30  -3/-14  +0/+0  -3/-12 -> fail
+  + Fear&Greed <= 40                               trades   163 | CAGR  +6.6% /  +9.7% fall   9% | -8/-14  -2/-7  +3/+6  -2/-7 -> fail
+  + RSI < 15                                       trades    43 | CAGR  +2.6% /  +4.4% fall   1% | -3/-2  -2/-5  -2/-2  -1/-3 -> fail
+  + volume >= 3x                                   trades   152 | CAGR  +5.1% / +10.1% fall   6% | +2/+4  +1/+4  -15/-11  -1/-1 -> fail
+  + BTC down >= 5% in 24h                          trades   188 | CAGR  +7.7% / +13.1% fall   6% | +5/+6  -2/-4  +2/+9  -0/-2 -> fail
+  + K >= 8                                         trades   219 | CAGR  +7.9% / +14.1% fall   8% | -9/-12  +0/-0  +2/+7  -6/-13 -> fail
+  + K >= 10                                        trades   193 | CAGR  +5.7% / +12.9% fall   9% | -9/-11  -14/-17  -1/+6  -7/-13 -> fail
+  entry: limit 4% instead of 2%                    trades   140 | CAGR  +5.4% / +11.8% fall  10% | -10/-13  -3/-5  +2/+6  -10/-18 -> fail
+  entry: limit 3%, live 6 bars                     trades   258 | CAGR  +8.4% / +15.6% fall  13% | -22/-37  +2/-1  +1/+4  -12/-25 -> fail
+  stop -10%                                        trades   244 | CAGR  +3.2% /  +1.6% fall  14% | -2/-7  -8/-19  -20/-31  -13/-25 -> fail
+  stop -15%                                        trades   244 | CAGR  +4.3% /  +5.9% fall  16% | +5/+6  -8/-22  -19/-27  -13/-25 -> fail
+  stop -25%                                        trades   243 | CAGR  +5.1% / +10.5% fall  15% | +5/+8  -9/-20  -19/-21  -6/-15 -> fail
+  target +3%                                       trades   245 | CAGR  +5.6% /  +9.2% fall   9% | -9/-13  -4/-8  +1/+0  -6/-11 -> fail
+  target +8%                                       trades   241 | CAGR +12.0% / +21.8% fall  11% | -18/-26  +3/+9  +5/+2  -6/-7 -> fail
+  target +10%                                      trades   240 | CAGR +12.5% / +26.3% fall  12% | -17/-19  +1/+13  +7/+0  -3/+2 -> fail
+  'not working' after 12 bars                      trades   243 | CAGR  +8.6% / +15.0% fall   9% | -6/-8  -9/-10  -1/-1  +1/+3 -> fail
+  'not working' after 48 bars                      trades   243 | CAGR  +9.7% / +15.9% fall   9% | -6/-8  -0/-0  +8/+9  -0/-1 -> fail
+  C2: 0 of 26 improve on the improved book

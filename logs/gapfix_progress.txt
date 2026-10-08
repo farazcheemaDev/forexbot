@@ -39,3 +39,23 @@
 19:48:38 START machine_factorial
 19:49:25 END   machine_factorial (exit 0)
 19:49:25 START filter_pairs
+20:34:06 END   filter_pairs (exit 0)
+20:34:06 START trend_combos
+20:57:02 END   trend_combos (exit 0)
+20:57:02 START wick_capit
+20:57:59 END   wick_capit (exit 0)
+20:57:59 START sleeve_combos
+20:59:12 END   sleeve_combos (exit 0)
+20:59:12 START sweep_reclaim
+21:01:34 END   sweep_reclaim (exit 0)
+21:01:34 START capit_1h
+21:04:10 END   capit_1h (exit 0)
+21:04:10 START capitulation_wide
+21:08:35 END   capitulation_wide (exit 0)
+21:08:35 START capitulation_freq
+21:15:15 END   capitulation_freq (exit 0)
+21:15:15 START capitulation_breadth
+21:15:27 END   capitulation_breadth (exit 0)
+21:15:27 START breadth_events
+21:20:11 END   breadth_events (exit 0)
+21:20:11 START tv_indicators

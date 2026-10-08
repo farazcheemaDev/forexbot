@@ -1,4 +1,4 @@
-backtest/trend_combos.py, 2026-10-08 21:43; the triple, RAW (no hindsight shrink), 4 bar phases x 10 orderings
+backtest/trend_combos.py, 2026-10-09 01:57; the triple, RAW (no hindsight shrink), 4 bar phases x 10 orderings
 
 THE LINE (base at risk x g): per phase fall / tune / holdout CAGR
   phase 0: x0.6: 35% / +392% / +325%; x0.8: 43% / +531% / +416%; x1.0: 51% / +652% / +480%; x1.2: 58% / +775% / +510%
@@ -6,7 +6,7 @@ THE LINE (base at risk x g): per phase fall / tune / holdout CAGR
   phase 2: x0.6: 33% / +533% / +338%; x0.8: 41% / +732% / +441%; x1.0: 49% / +915% / +510%; x1.2: 54% / +1097% / +574%
   phase 3: x0.6: 36% / +470% / +296%; x0.8: 45% / +646% / +372%; x1.0: 52% / +804% / +422%; x1.2: 58% / +945% / +445%
 
-  G1 breadth20 >= 50% (else x0.5)          tune +669% hold +439% fall 40% | vs line by phase +90/+60  +4/-10  +94/+20  +124/+57 -> fail
-  G2 coin above its 30d mean (else x0.5)   tune +642% hold +384% fall 41% | vs line by phase +34/-31  +41/-7  +40/-51  +16/-29 -> fail
-  G3 x1.5 within 72h of a capitulation     tune +776% hold +486% fall 50% | vs line by phase -27/-17  -19/-16  -27/-16  -25/-11 -> fail
-  G4 G1 and G2                             tune +588% hold +377% fall 36% | vs line by phase +98/+44  +23/-13  +71/-8  +108/+40 -> fail
+  G1 breadth20 >= 50% (else x0.5)          tune +596% hold +456% fall 40% | vs line by phase +35/+67  -70/+6  -5/+51  +55/+70 -> fail
+  G2 coin above its 30d mean (else x0.5)   tune +644% hold +353% fall 40% | vs line by phase +35/-58  +43/-42  +73/-58  +42/-58 -> fail
+  G3 x1.5 within 72h of a capitulation     tune +777% hold +486% fall 50% | vs line by phase -29/-17  -21/-17  -28/-18  -24/-12 -> fail
+  G4 G1 and G2                             tune +528% hold +394% fall 37% | vs line by phase +37/+41  -38/+11  -21/+19  +46/+42 -> fail

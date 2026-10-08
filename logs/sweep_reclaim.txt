@@ -1,9 +1,9 @@
-backtest/sweep_reclaim.py, 2026-10-08 23:24; PIT top-40 hourly, prior UTC day's low/high, +-2% target, stop at the sweep, 24h; control = same coin-month, same stop distance
+backtest/sweep_reclaim.py, 2026-10-09 02:01; PIT top-40 hourly, prior UTC day's low/high, +-2% target, stop at the sweep, 24h; control = same coin-month, same stop distance
   SWEEP LONG (reclaim the prior day's low)
-    tune: n 17833, signal -0.09% vs control -0.21%, excess +0.12% (t by day +6.4)
-    holdout: n 12172, signal -0.13% vs control -0.19%, excess +0.06% (t by day +4.0)
+    tune: n 21275, signal -0.08% vs control -0.22%, excess +0.14% (t by day +7.3)
+    holdout: n 14272, signal -0.13% vs control -0.20%, excess +0.08% (t by day +4.6)
     -> PASS
   SWEEP SHORT (reject the prior day's high)
-    tune: n 18786, signal -0.04% vs control -0.12%, excess +0.08% (t by day +4.5)
-    holdout: n 11076, signal -0.09% vs control -0.13%, excess +0.03% (t by day +2.8)
+    tune: n 22218, signal -0.04% vs control -0.12%, excess +0.07% (t by day +4.7)
+    holdout: n 13124, signal -0.09% vs control -0.13%, excess +0.04% (t by day +2.6)
     -> PASS

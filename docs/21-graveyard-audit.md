@@ -106,7 +106,7 @@ anchors) and risk by sleeve (cleared the paired bar on both halves, then failed 
 | claim | original backing | rating | re-test / why not | now |
 |---|---|---|---|---|
 | listing announcements | 122 Upbit + 2,263 Binance; the pump is gone in under a minute | STRONG | — | stands |
-| **memecoin graduations** | ONE day, 631 graduates | THIN across days | `meme_days.py`: random graduates from later days (collector), first 13 hours from GeckoTerminal | **stands on other days**: 98 graduates from 7 later days, buy +1 min / sell +1h -66.9% [-81%, -50%], 0 of 7 days positive (`logs/meme_days.txt`) |
+| **memecoin graduations** | ONE day, 631 graduates | THIN across days | `meme_days.py`: random graduates from later days (collector), first 13 hours from GeckoTerminal | **stands on other days**: the FULL collector record - 309 graduates, 9 days - buy +1 min / sell +1h -54.6% [-71%, -32%], 1 of 9 days positive (`logs/meme_days_all.txt`) |
 | copying Hyperliquid's best | 27 months, 3,000 accounts | MODERATE / DATA-LIMITED | needs a forward record | stands |
 | funding spikes on small perps | 2.07M settlements | STRONG | — | stands |
 | taker flow / crowd positioning | 5.99M rows, 13 symbols, Holm, then as a book | MODERATE | the archive covers 13 symbols only | stands |
