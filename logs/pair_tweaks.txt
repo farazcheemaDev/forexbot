@@ -1,0 +1,6 @@
+backtest/pair_tweaks.py, 2026-10-08 20:06; 6 phase combinations x 10 orders, medians
+
+base (machine v3)                CAGR +133% (5..95 +123..+144) tune +172 / holdout +83 | fall 40% | up 65% | median month +4.6% | bull +13.3 chop +3.2 bear +6.6
+chop dial (MN x1 in chop)        CAGR +150% (5..95 +140..+161) tune +199 / holdout +88 | fall 48% | up 67% | median month +5.1% | bull +14.0 chop +5.0 bear +6.7
+anchor 21d on the daily book     CAGR +131% (5..95 +123..+142) tune +169 / holdout +82 | fall 40% | up 65% | median month +4.6% | bull +13.2 chop +3.1 bear +6.5
+chop dial + anchor               CAGR +148% (5..95 +139..+159) tune +196 / holdout +87 | fall 48% | up 67% | median month +5.1% | bull +14.0 chop +4.9 bear +6.6

@@ -1,0 +1,25 @@
+backtest/micro_honest.py, 2026-10-06 05:10; micro_bot's own rules on real 1h paths, 63 monthly starts x 2 orderings, 12 months of entries; exits at the next open after the bar that breached; MTM equity; liquidation checked every hour; ruin = under $0.50
+
+MICRO10 (micro_bot's 10 coins - hindsight, optimistic)
+    stake  risk  reached 5x  median days  ended >=1x  median end  ruined  liquidated  trades  size forced up
+  $ 10.00    4%         42%           81         43%       0.04x     56%         17%     138             28%
+  $ 10.00    2%         46%          130         62%       2.14x     26%          7%     248             39%
+  $ 10.00    1%         28%          162         70%       1.86x     22%          8%     444             63%
+  $ 14.29    4%         45%           90         46%       0.34x     47%         10%     166             23%
+  $ 14.29    2%         45%          130         64%       2.20x     17%          3%     359             22%
+  $ 14.29    1%         22%          184         74%       1.71x     10%          2%     464             41%
+
+PIT12 (no hindsight - honest)
+    stake  risk  reached 5x  median days  ended >=1x  median end  ruined  liquidated  trades  size forced up
+  $ 10.00    4%         43%          104         44%       0.04x     55%         33%     124             34%
+  $ 10.00    2%         44%          152         47%       0.67x     45%         28%     182             58%
+  $ 10.00    1%         29%          161         46%       0.74x     40%         21%     244             78%
+  $ 14.29    4%         42%          104         44%       0.03x     53%         29%     148             26%
+  $ 14.29    2%         42%          152         51%       1.10x     36%         18%     256             34%
+  $ 14.29    1%         25%          195         55%       1.19x     24%         13%     421             59%
+
+BY START YEAR - $10 and $14.29 at the bot's 4%: P(reached 5x) / P(ruined):
+  MICRO10 $10.00: 2020-07..21-04 75%/25% | 2021-05..12 56%/44% | 2022 12%/83% | 2023 42%/50% | 2024 62%/38% | 2025 6%/94%
+  MICRO10 $14.29: 2020-07..21-04 80%/15% | 2021-05..12 56%/31% | 2022 12%/67% | 2023 46%/46% | 2024 71%/29% | 2025 6%/94%
+  PIT12 ( $10.00: 2020-07..21-04 70%/25% | 2021-05..12 19%/81% | 2022 8%/92% | 2023 25%/67% | 2024 67%/33% | 2025 72%/28%
+  PIT12 ( $14.29: 2020-07..21-04 60%/30% | 2021-05..12 19%/81% | 2022 8%/92% | 2023 29%/58% | 2024 67%/29% | 2025 72%/28%

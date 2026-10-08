@@ -1,0 +1,9 @@
+backtest/mn_width7.py, 2026-10-08 23:14; PIT top-60, 30-day momentum, weekly, 1x; 7 rebalance days
+  width 10% uncapped         Sharpe mean +1.06 / +1.33, worst day +0.79 / +0.03 | ann +48% / +119% | falls 29-100% | worst week -99%
+  width 10% +50% short exit  Sharpe mean +1.06 / +1.31, worst day +0.85 / +0.76 | ann +47% / +110% | falls 29-42% | worst week -29%
+  width 15% uncapped         Sharpe mean +1.19 / +1.07, worst day +0.94 / -0.10 | ann +47% / +63% | falls 22-81% | worst week -66%
+  width 15% +50% short exit  Sharpe mean +1.19 / +1.03, worst day +0.99 / +0.54 | ann +46% / +55% | falls 25-33% | worst week -27%
+  width 20% uncapped         Sharpe mean +1.01 / +0.79, worst day +0.76 / -0.53 | ann +33% / +32% | falls 23-89% | worst week -67%
+  width 20% +50% short exit  Sharpe mean +1.04 / +0.86, worst day +0.83 / +0.37 | ann +33% / +34% | falls 23-29% | worst week -21%
+  width 25% uncapped         Sharpe mean +0.97 / +0.73, worst day +0.71 / -0.52 | ann +28% / +25% | falls 22-80% | worst week -53%
+  width 25% +50% short exit  Sharpe mean +1.02 / +0.86, worst day +0.78 / +0.29 | ann +29% / +30% | falls 21-29% | worst week -19%

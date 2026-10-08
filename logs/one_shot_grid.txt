@@ -1,0 +1,60 @@
+backtest/one_shot.py --grid, 2026-10-06 04:32; random moments 2022-01 .. 2026-08, 6,000 per coin, long and short averaged; liquidation = 1/L - 0.5% - 0.06%
+
+BTCUSDT, held up to 3 days:
+   lev | lose all |   +50% | double  (fair) | triple |    5x | avg result, aiming to double | expired
+    2x |     0.0% |   0.1% |   0.0%   49.7% |   0.0% |  0.0% |                        -0.2% |  100.0%
+    3x |     0.0% |   0.8% |   0.0%   49.5% |   0.0% |  0.0% |                        -0.4% |  100.0%
+    5x |     0.5% |   4.7% |   0.4%   49.1% |   0.0% |  0.0% |                        -0.6% |   99.1%
+   10x |     5.7% |  21.5% |   4.7%   48.3% |   0.4% |  0.0% |                        -1.4% |   89.6%
+   20x |    25.9% |  47.1% |  20.6%   46.4% |   4.5% |  0.4% |                        -4.5% |   53.5%
+   30x |    43.1% |  55.8% |  32.6%   44.5% |  11.5% |  1.7% |                        -9.4% |   24.3%
+   40x |    52.4% |  56.7% |  38.1%   42.5% |  16.9% |  3.8% |                       -13.5% |    9.5%
+   50x |    57.1% |  55.2% |  39.0%   40.4% |  19.9% |  6.0% |                       -17.8% |    3.9%
+   75x |    64.2% |  49.5% |  35.3%   34.7% |  21.6% |  9.3% |                       -28.9% |    0.4%
+  100x |    71.8% |  41.4% |  28.2%   28.2% |  18.0% |  9.3% |                       -43.6% |    0.0%
+
+BTCUSDT, held up to 30 days:
+   lev | lose all |   +50% | double  (fair) | triple |    5x | avg result, aiming to double | expired
+    2x |     0.4% |   9.5% |   0.3%   49.7% |   0.0% |  0.0% |                        -0.2% |   99.3%
+    3x |     5.0% |  22.5% |   4.6%   49.5% |   0.0% |  0.0% |                        -0.4% |   90.4%
+    5x |    17.6% |  44.5% |  16.3%   49.1% |   2.5% |  0.0% |                        -0.9% |   66.0%
+   10x |    43.2% |  62.4% |  39.8%   48.3% |  15.2% |  2.5% |                        -3.4% |   16.9%
+   20x |    53.2% |  62.7% |  46.4%   46.4% |  28.5% | 12.0% |                        -6.7% |    0.4%
+   30x |    55.4% |  60.6% |  44.6%   44.5% |  29.7% | 15.3% |                       -10.8% |    0.0%
+   40x |    57.4% |  58.3% |  42.6%   42.5% |  28.4% | 16.6% |                       -14.8% |    0.0%
+   50x |    59.2% |  56.0% |  40.8%   40.4% |  26.5% | 16.1% |                       -18.4% |    0.0%
+   75x |    65.1% |  49.6% |  34.9%   34.7% |  22.3% | 13.9% |                       -30.2% |    0.0%
+  100x |    72.3% |  41.5% |  27.7%   28.2% |  17.3% | 10.0% |                       -44.6% |    0.0%
+
+DOGEUSDT, held up to 3 days:
+   lev | lose all |   +50% | double  (fair) | triple |    5x | avg result, aiming to double | expired
+    2x |     0.3% |   2.3% |   0.3%   49.7% |   0.0% |  0.0% |                        -0.2% |   99.4%
+    3x |     1.2% |   6.4% |   1.1%   49.5% |   0.2% |  0.0% |                        -0.4% |   97.7%
+    5x |     4.2% |  17.7% |   3.8%   49.1% |   0.6% |  0.1% |                        -0.7% |   92.0%
+   10x |    19.4% |  41.9% |  17.1%   48.3% |   3.6% |  0.5% |                        -2.0% |   63.5%
+   20x |    43.5% |  59.0% |  36.8%   46.4% |  15.0% |  3.2% |                        -6.3% |   19.8%
+   30x |    52.9% |  59.6% |  41.6%   44.5% |  22.3% |  7.6% |                       -11.2% |    5.5%
+   40x |    56.5% |  57.7% |  42.0%   42.5% |  25.0% | 10.4% |                       -14.3% |    1.5%
+   50x |    58.6% |  55.9% |  41.0%   40.4% |  25.3% | 12.3% |                       -17.6% |    0.4%
+   75x |    64.7% |  49.5% |  35.3%   34.7% |  22.9% | 12.4% |                       -29.4% |    0.1%
+  100x |    71.8% |  41.3% |  28.2%   28.2% |  17.9% | 10.1% |                       -43.7% |    0.0%
+
+DOGEUSDT, held up to 30 days:
+   lev | lose all |   +50% | double  (fair) | triple |    5x | avg result, aiming to double | expired
+    2x |     7.0% |  33.1% |   6.7%   49.7% |   2.7% |  0.5% |                        -0.3% |   86.4%
+    3x |    20.4% |  47.1% |  19.4%   49.5% |   4.2% |  2.5% |                        -0.7% |   60.2%
+    5x |    40.0% |  57.6% |  38.6%   49.1% |  12.1% |  3.0% |                        -1.2% |   21.4%
+   10x |    49.8% |  62.8% |  46.8%   48.3% |  31.1% |  9.9% |                        -3.0% |    3.4%
+   20x |    53.1% |  62.6% |  46.9%   46.4% |  32.2% | 20.9% |                        -6.3% |    0.0%
+   30x |    55.1% |  60.1% |  44.9%   44.5% |  30.1% | 19.4% |                       -10.2% |    0.0%
+   40x |    57.0% |  58.3% |  43.0%   42.5% |  28.4% | 17.2% |                       -13.9% |    0.0%
+   50x |    59.2% |  56.1% |  40.8%   40.4% |  26.9% | 16.1% |                       -18.3% |    0.0%
+   75x |    65.5% |  49.6% |  34.5%   34.7% |  22.3% | 13.3% |                       -30.9% |    0.0%
+  100x |    71.7% |  41.5% |  28.3%   28.2% |  17.7% | 10.6% |                       -43.5% |    0.0%
+
+SPLITTING THE STAKE into k equal shots, one after another, each aiming to double (drawn from the measured outcomes above, 20,000 draws):
+  BTCUSDT 40x 3 days:  k=1: lose all 52%, end below start 57%, at least double 38%, average -13% | k=2: lose all 28%, end below start 38%, at least double 14%, average -14% | k=4: lose all 7%, end below start 50%, at least double 2%, average -14% | k=10: lose all 0%, end below start 64%, at least double 0%, average -14%
+  DOGEUSDT 40x 3 days:  k=1: lose all 56%, end below start 56%, at least double 43%, average -13% | k=2: lose all 32%, end below start 33%, at least double 18%, average -14% | k=4: lose all 10%, end below start 45%, at least double 3%, average -15% | k=10: lose all 0%, end below start 58%, at least double 0%, average -14%
+  BTCUSDT 10x 30 days:  k=1: lose all 43%, end below start 52%, at least double 39%, average -4% | k=2: lose all 19%, end below start 35%, at least double 16%, average -4% | k=4: lose all 4%, end below start 44%, at least double 2%, average -4% | k=10: lose all 0%, end below start 53%, at least double 0%, average -3%
+  DOGEUSDT 10x 30 days:  k=1: lose all 50%, end below start 51%, at least double 47%, average -3% | k=2: lose all 25%, end below start 28%, at least double 22%, average -3% | k=4: lose all 6%, end below start 36%, at least double 5%, average -3% | k=10: lose all 0%, end below start 45%, at least double 0%, average -3%
+  DOGEUSDT 100x 3 days:  k=1: lose all 72%, end below start 72%, at least double 28%, average -43% | k=2: lose all 51%, end below start 51%, at least double 8%, average -43% | k=4: lose all 26%, end below start 68%, at least double 1%, average -44% | k=10: lose all 4%, end below start 88%, at least double 0%, average -44%

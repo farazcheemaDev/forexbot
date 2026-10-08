@@ -1,0 +1,126 @@
+backtest/scalp_1m.py, 2026-10-06 04:03
+
+BTCUSDT: 2,453,760 1m bars 2022-01-01 .. 2026-08-31; stop (2xATR14) median 0.122% of price -> 12bp = 0.98R, 4bp = 0.33R a trade
+DOGEUSDT: 2,453,760 1m bars 2022-01-01 .. 2026-08-31; stop (2xATR14) median 0.240% of price -> 12bp = 0.50R, 4bp = 0.17R a trade
+
+holdout from 2024-10-19; 572 tests per fee level (EDGE t > 4.0, WEAK t > 2.4, both halves net-positive for either)
+
+ANY MINUTE (the coin flip), mean % of position per trade:
+  BTCUSDT  long  1R gross     : -0.0008%  (TP first 49.5%, n 294245)
+  BTCUSDT  long  1R maker 4bp : -0.0408%  (TP first 49.5%, n 294245)
+  BTCUSDT  long  1R taker 12bp: -0.1208%  (TP first 49.5%, n 294245)
+  BTCUSDT  long  2R gross     : +0.0014%  (TP first 32.1%, n 164706)
+  BTCUSDT  long  2R maker 4bp : -0.0386%  (TP first 32.1%, n 164706)
+  BTCUSDT  long  2R taker 12bp: -0.1186%  (TP first 32.1%, n 164706)
+  BTCUSDT  short 1R gross     : +0.0003%  (TP first 49.9%, n 294245)
+  BTCUSDT  short 1R maker 4bp : -0.0397%  (TP first 49.9%, n 294245)
+  BTCUSDT  short 1R taker 12bp: -0.1197%  (TP first 49.9%, n 294245)
+  BTCUSDT  short 2R gross     : +0.0026%  (TP first 32.4%, n 164089)
+  BTCUSDT  short 2R maker 4bp : -0.0374%  (TP first 32.4%, n 164089)
+  BTCUSDT  short 2R taker 12bp: -0.1174%  (TP first 32.4%, n 164089)
+  DOGEUSDT long  1R gross     : -0.0022%  (TP first 49.1%, n 249821)
+  DOGEUSDT long  1R maker 4bp : -0.0422%  (TP first 49.1%, n 249821)
+  DOGEUSDT long  1R taker 12bp: -0.1222%  (TP first 49.1%, n 249821)
+  DOGEUSDT long  2R gross     : -0.0011%  (TP first 30.2%, n 138447)
+  DOGEUSDT long  2R maker 4bp : -0.0411%  (TP first 30.2%, n 138447)
+  DOGEUSDT long  2R taker 12bp: -0.1211%  (TP first 30.2%, n 138447)
+  DOGEUSDT short 1R gross     : +0.0015%  (TP first 50.1%, n 249821)
+  DOGEUSDT short 1R maker 4bp : -0.0385%  (TP first 50.1%, n 249821)
+  DOGEUSDT short 1R taker 12bp: -0.1185%  (TP first 50.1%, n 249821)
+  DOGEUSDT short 2R gross     : +0.0042%  (TP first 31.6%, n 138118)
+  DOGEUSDT short 2R maker 4bp : -0.0358%  (TP first 31.6%, n 138118)
+  DOGEUSDT short 2R taker 12bp: -0.1158%  (TP first 31.6%, n 138118)
+
+NAMED RULES, mean % of position per trade (tune / holdout), gross and after fees:
+  rsi_rev   BTCUSDT  long  1R n  26449  gross: -0.0058 (-0.0073/-0.0037)  maker 4bp: -0.0458 (-0.0473/-0.0437)  taker 12bp: -0.1258 (-0.1273/-0.1237)
+  rsi_rev   BTCUSDT  long  2R n  26204  gross: -0.0046 (-0.0054/-0.0035)  maker 4bp: -0.0446 (-0.0454/-0.0435)  taker 12bp: -0.1246 (-0.1254/-0.1235)
+  rsi_rev   BTCUSDT  short 1R n  26630  gross: -0.0022 (-0.0020/-0.0025)  maker 4bp: -0.0422 (-0.0420/-0.0425)  taker 12bp: -0.1222 (-0.1220/-0.1225)
+  rsi_rev   BTCUSDT  short 2R n  26403  gross: -0.0012 (-0.0010/-0.0014)  maker 4bp: -0.0412 (-0.0410/-0.0414)  taker 12bp: -0.1212 (-0.1210/-0.1214)
+  rsi_trend BTCUSDT  long  1R n   1550  gross: +0.0056 (+0.0048/+0.0065)*  maker 4bp: -0.0344 (-0.0352/-0.0335)  taker 12bp: -0.1144 (-0.1152/-0.1135)
+  rsi_trend BTCUSDT  long  2R n   1532  gross: -0.0008 (-0.0128/+0.0118)  maker 4bp: -0.0408 (-0.0528/-0.0282)  taker 12bp: -0.1208 (-0.1328/-0.1082)
+  rsi_trend BTCUSDT  short 1R n   1249  gross: +0.0124 (+0.0110/+0.0140)*  maker 4bp: -0.0276 (-0.0290/-0.0260)  taker 12bp: -0.1076 (-0.1090/-0.1060)
+  rsi_trend BTCUSDT  short 2R n   1236  gross: +0.0119 (+0.0095/+0.0146)*  maker 4bp: -0.0281 (-0.0305/-0.0254)  taker 12bp: -0.1081 (-0.1105/-0.1054)
+  rsi_mom   BTCUSDT  long  1R n  60337  gross: -0.0016 (-0.0015/-0.0018)  maker 4bp: -0.0416 (-0.0415/-0.0418)  taker 12bp: -0.1216 (-0.1215/-0.1218)
+  rsi_mom   BTCUSDT  long  2R n  49431  gross: +0.0009 (+0.0016/-0.0001)  maker 4bp: -0.0391 (-0.0384/-0.0401)  taker 12bp: -0.1191 (-0.1184/-0.1201)
+  rsi_mom   BTCUSDT  short 1R n  59092  gross: +0.0028 (+0.0039/+0.0011)*  maker 4bp: -0.0372 (-0.0361/-0.0389)  taker 12bp: -0.1172 (-0.1161/-0.1189)
+  rsi_mom   BTCUSDT  short 2R n  48359  gross: +0.0069 (+0.0080/+0.0053)*  maker 4bp: -0.0331 (-0.0320/-0.0347)  taker 12bp: -0.1131 (-0.1120/-0.1147)
+  ema_cross BTCUSDT  long  1R n  51964  gross: +0.0000 (+0.0005/-0.0007)  maker 4bp: -0.0400 (-0.0395/-0.0407)  taker 12bp: -0.1200 (-0.1195/-0.1207)
+  ema_cross BTCUSDT  long  2R n  48133  gross: +0.0024 (+0.0028/+0.0018)*  maker 4bp: -0.0376 (-0.0372/-0.0382)  taker 12bp: -0.1176 (-0.1172/-0.1182)
+  ema_cross BTCUSDT  short 1R n  52088  gross: +0.0011 (+0.0014/+0.0007)*  maker 4bp: -0.0389 (-0.0386/-0.0393)  taker 12bp: -0.1189 (-0.1186/-0.1193)
+  ema_cross BTCUSDT  short 2R n  48229  gross: +0.0042 (+0.0052/+0.0027)*  maker 4bp: -0.0358 (-0.0348/-0.0373)  taker 12bp: -0.1158 (-0.1148/-0.1173)
+  bb_rev    BTCUSDT  long  1R n  75184  gross: +0.0006 (-0.0012/+0.0032)  maker 4bp: -0.0394 (-0.0412/-0.0368)  taker 12bp: -0.1194 (-0.1212/-0.1168)
+  bb_rev    BTCUSDT  long  2R n  66698  gross: +0.0027 (+0.0005/+0.0060)*  maker 4bp: -0.0373 (-0.0395/-0.0340)  taker 12bp: -0.1173 (-0.1195/-0.1140)
+  bb_rev    BTCUSDT  short 1R n  73584  gross: +0.0009 (-0.0005/+0.0031)  maker 4bp: -0.0391 (-0.0405/-0.0369)  taker 12bp: -0.1191 (-0.1205/-0.1169)
+  bb_rev    BTCUSDT  short 2R n  65241  gross: +0.0041 (+0.0024/+0.0065)*  maker 4bp: -0.0359 (-0.0376/-0.0335)  taker 12bp: -0.1159 (-0.1176/-0.1135)
+  bb_break  BTCUSDT  long  1R n  73584  gross: -0.0016 (-0.0003/-0.0035)  maker 4bp: -0.0416 (-0.0403/-0.0435)  taker 12bp: -0.1216 (-0.1203/-0.1235)
+  bb_break  BTCUSDT  long  2R n  54560  gross: +0.0005 (+0.0015/-0.0011)  maker 4bp: -0.0395 (-0.0385/-0.0411)  taker 12bp: -0.1195 (-0.1185/-0.1211)
+  bb_break  BTCUSDT  short 1R n  75184  gross: -0.0011 (+0.0004/-0.0035)  maker 4bp: -0.0411 (-0.0396/-0.0435)  taker 12bp: -0.1211 (-0.1196/-0.1235)
+  bb_break  BTCUSDT  short 2R n  55653  gross: +0.0001 (+0.0017/-0.0023)  maker 4bp: -0.0399 (-0.0383/-0.0423)  taker 12bp: -0.1199 (-0.1183/-0.1223)
+  donchian  BTCUSDT  long  1R n  44874  gross: -0.0050 (-0.0046/-0.0054)  maker 4bp: -0.0450 (-0.0446/-0.0454)  taker 12bp: -0.1250 (-0.1246/-0.1254)
+  donchian  BTCUSDT  long  2R n  33469  gross: -0.0026 (-0.0033/-0.0017)  maker 4bp: -0.0426 (-0.0433/-0.0417)  taker 12bp: -0.1226 (-0.1233/-0.1217)
+  donchian  BTCUSDT  short 1R n  44232  gross: -0.0043 (-0.0038/-0.0050)  maker 4bp: -0.0443 (-0.0438/-0.0450)  taker 12bp: -0.1243 (-0.1238/-0.1250)
+  donchian  BTCUSDT  short 2R n  32892  gross: -0.0043 (-0.0043/-0.0043)  maker 4bp: -0.0443 (-0.0443/-0.0443)  taker 12bp: -0.1243 (-0.1243/-0.1243)
+  rsi_rev   DOGEUSDT long  1R n  26167  gross: -0.0000 (+0.0056/-0.0082)  maker 4bp: -0.0400 (-0.0344/-0.0482)  taker 12bp: -0.1200 (-0.1144/-0.1282)
+  rsi_rev   DOGEUSDT long  2R n  25856  gross: +0.0007 (+0.0049/-0.0053)  maker 4bp: -0.0393 (-0.0351/-0.0453)  taker 12bp: -0.1193 (-0.1151/-0.1253)
+  rsi_rev   DOGEUSDT short 1R n  24831  gross: +0.0056 (+0.0065/+0.0043)*  maker 4bp: -0.0344 (-0.0335/-0.0357)  taker 12bp: -0.1144 (-0.1135/-0.1157)
+  rsi_rev   DOGEUSDT short 2R n  24590  gross: +0.0054 (+0.0042/+0.0072)*  maker 4bp: -0.0346 (-0.0358/-0.0328)  taker 12bp: -0.1146 (-0.1158/-0.1128)
+  rsi_trend DOGEUSDT long  1R n   1377  gross: +0.0047 (-0.0049/+0.0173)  maker 4bp: -0.0353 (-0.0449/-0.0227)  taker 12bp: -0.1153 (-0.1249/-0.1027)
+  rsi_trend DOGEUSDT long  2R n   1361  gross: -0.0151 (-0.0301/+0.0045)  maker 4bp: -0.0551 (-0.0701/-0.0355)  taker 12bp: -0.1351 (-0.1501/-0.1155)
+  rsi_trend DOGEUSDT short 1R n   1315  gross: -0.0040 (+0.0068/-0.0184)  maker 4bp: -0.0440 (-0.0332/-0.0584)  taker 12bp: -0.1240 (-0.1132/-0.1384)
+  rsi_trend DOGEUSDT short 2R n   1305  gross: +0.0041 (+0.0113/-0.0056)  maker 4bp: -0.0359 (-0.0287/-0.0456)  taker 12bp: -0.1159 (-0.1087/-0.1256)
+  rsi_mom   DOGEUSDT long  1R n  57075  gross: -0.0017 (-0.0004/-0.0038)  maker 4bp: -0.0417 (-0.0404/-0.0438)  taker 12bp: -0.1217 (-0.1204/-0.1238)
+  rsi_mom   DOGEUSDT long  2R n  45658  gross: +0.0016 (+0.0028/-0.0003)  maker 4bp: -0.0384 (-0.0372/-0.0403)  taker 12bp: -0.1184 (-0.1172/-0.1203)
+  rsi_mom   DOGEUSDT short 1R n  56526  gross: +0.0034 (+0.0036/+0.0032)*  maker 4bp: -0.0366 (-0.0364/-0.0368)  taker 12bp: -0.1166 (-0.1164/-0.1168)
+  rsi_mom   DOGEUSDT short 2R n  45757  gross: +0.0101 (+0.0098/+0.0107)*  maker 4bp: -0.0299 (-0.0302/-0.0293)  taker 12bp: -0.1099 (-0.1102/-0.1093)
+  ema_cross DOGEUSDT long  1R n  50447  gross: +0.0003 (-0.0003/+0.0012)  maker 4bp: -0.0397 (-0.0403/-0.0388)  taker 12bp: -0.1197 (-0.1203/-0.1188)
+  ema_cross DOGEUSDT long  2R n  45958  gross: +0.0016 (-0.0006/+0.0048)  maker 4bp: -0.0384 (-0.0406/-0.0352)  taker 12bp: -0.1184 (-0.1206/-0.1152)
+  ema_cross DOGEUSDT short 1R n  50583  gross: +0.0059 (+0.0057/+0.0061)*  maker 4bp: -0.0341 (-0.0343/-0.0339)  taker 12bp: -0.1141 (-0.1143/-0.1139)
+  ema_cross DOGEUSDT short 2R n  46163  gross: +0.0077 (+0.0079/+0.0076)*  maker 4bp: -0.0323 (-0.0321/-0.0324)  taker 12bp: -0.1123 (-0.1121/-0.1124)
+  bb_rev    DOGEUSDT long  1R n  72746  gross: -0.0006 (-0.0006/-0.0006)  maker 4bp: -0.0406 (-0.0406/-0.0406)  taker 12bp: -0.1206 (-0.1206/-0.1206)
+  bb_rev    DOGEUSDT long  2R n  63192  gross: +0.0010 (+0.0001/+0.0023)*  maker 4bp: -0.0390 (-0.0399/-0.0377)  taker 12bp: -0.1190 (-0.1199/-0.1177)
+  bb_rev    DOGEUSDT short 1R n  67547  gross: +0.0046 (+0.0053/+0.0037)*  maker 4bp: -0.0354 (-0.0347/-0.0363)  taker 12bp: -0.1154 (-0.1147/-0.1163)
+  bb_rev    DOGEUSDT short 2R n  59337  gross: +0.0088 (+0.0085/+0.0092)*  maker 4bp: -0.0312 (-0.0315/-0.0308)  taker 12bp: -0.1112 (-0.1115/-0.1108)
+  bb_break  DOGEUSDT long  1R n  67547  gross: -0.0055 (-0.0064/-0.0041)  maker 4bp: -0.0455 (-0.0464/-0.0441)  taker 12bp: -0.1255 (-0.1264/-0.1241)
+  bb_break  DOGEUSDT long  2R n  49404  gross: -0.0047 (-0.0073/-0.0008)  maker 4bp: -0.0447 (-0.0473/-0.0408)  taker 12bp: -0.1247 (-0.1273/-0.1208)
+  bb_break  DOGEUSDT short 1R n  72746  gross: -0.0006 (-0.0010/+0.0000)  maker 4bp: -0.0406 (-0.0410/-0.0400)  taker 12bp: -0.1206 (-0.1210/-0.1200)
+  bb_break  DOGEUSDT short 2R n  52505  gross: +0.0016 (-0.0008/+0.0051)  maker 4bp: -0.0384 (-0.0408/-0.0349)  taker 12bp: -0.1184 (-0.1208/-0.1149)
+  donchian  DOGEUSDT long  1R n  40406  gross: -0.0095 (-0.0123/-0.0055)  maker 4bp: -0.0495 (-0.0523/-0.0455)  taker 12bp: -0.1295 (-0.1323/-0.1255)
+  donchian  DOGEUSDT long  2R n  29438  gross: -0.0088 (-0.0135/-0.0018)  maker 4bp: -0.0488 (-0.0535/-0.0418)  taker 12bp: -0.1288 (-0.1335/-0.1218)
+  donchian  DOGEUSDT short 1R n  39363  gross: -0.0027 (-0.0053/+0.0008)  maker 4bp: -0.0427 (-0.0453/-0.0392)  taker 12bp: -0.1227 (-0.1253/-0.1192)
+  donchian  DOGEUSDT short 2R n  29103  gross: -0.0008 (-0.0042/+0.0038)  maker 4bp: -0.0408 (-0.0442/-0.0362)  taker 12bp: -0.1208 (-0.1242/-0.1162)
+  btc_lead  DOGEUSDT long  1R n  11556  gross: +0.0027 (+0.0062/-0.0035)  maker 4bp: -0.0373 (-0.0338/-0.0435)  taker 12bp: -0.1173 (-0.1138/-0.1235)
+  btc_lead  DOGEUSDT long  2R n  10846  gross: -0.0008 (+0.0060/-0.0129)  maker 4bp: -0.0408 (-0.0340/-0.0529)  taker 12bp: -0.1208 (-0.1140/-0.1329)
+  btc_lead  DOGEUSDT short 1R n  10245  gross: +0.0110 (+0.0090/+0.0142)*  maker 4bp: -0.0290 (-0.0310/-0.0258)  taker 12bp: -0.1090 (-0.1110/-0.1058)
+  btc_lead  DOGEUSDT short 2R n   9812  gross: +0.0159 (+0.0150/+0.0174)*  maker 4bp: -0.0241 (-0.0250/-0.0226)  taker 12bp: -0.1041 (-0.1050/-0.1026)
+
+COUNTS (all named rules + cells):
+  gross     :  207 net-positive on both halves,  43 WEAK,   8 EDGE, of 572
+  maker 4bp :    4 net-positive on both halves,   1 WEAK,   0 EDGE, of 572
+  taker 12bp:    0 net-positive on both halves,   0 WEAK,   0 EDGE, of 572
+    WEAK at maker 4bp: cell RSI >70 (overbought), strong up, middle of range, BTC bear DOGEUSDT short 1R  mean +0.1037% t +2.7  tune +0.1437 hold +0.0385  n 258
+
+LEVERAGE: best TUNE-half rule at each fee, replayed on the HOLDOUT from 4,000 PKR, whole margin every trade:
+  [maker 4bp] cell RSI <30 (oversold), strong down, middle of range, BTC bull DOGEUSDT long 1R: tune +0.0897%/trade, holdout -0.0508%/trade over 121 trades
+       1x: end        3,751 PKR, lowest      3,751
+      10x: end        1,653 PKR, lowest      1,653
+      20x: end          394 PKR, lowest        394, below 10% after 121 trades
+      30x: end           49 PKR, lowest         49, below 10% after 53 trades
+      40x: end            0 PKR, lowest          0, below 10% after 42 trades
+  [maker 4bp] any minute BTCUSDT long 1R: tune -0.0410%/trade, holdout -0.0404%/trade over 122869 trades
+       1x: end            0 PKR, lowest          0, below 10% after 6144 trades
+      10x: end            0 PKR, lowest          0, below 10% after 500 trades
+      20x: end            0 PKR, lowest          0, below 10% after 273 trades
+      30x: end            0 PKR, lowest          0, below 10% after 179 trades
+      40x: end            0 PKR, lowest          0, below 10% after 132 trades
+  [taker 12bp] cell RSI <30 (oversold), strong down, middle of range, BTC bull DOGEUSDT long 1R: tune +0.0097%/trade, holdout -0.1308%/trade over 121 trades
+       1x: end        3,405 PKR, lowest      3,405
+      10x: end          620 PKR, lowest        620
+      20x: end           53 PKR, lowest         53, below 10% after 53 trades
+      30x: end            2 PKR, lowest          2, below 10% after 42 trades
+      40x: end            0 PKR, lowest          0, below 10% after 22 trades
+  [taker 12bp] any minute BTCUSDT long 1R: tune -0.1210%/trade, holdout -0.1204%/trade over 122869 trades
+       1x: end            0 PKR, lowest          0, below 10% after 1883 trades
+      10x: end            0 PKR, lowest          0, below 10% after 188 trades
+      20x: end            0 PKR, lowest          0, below 10% after 93 trades
+      30x: end            0 PKR, lowest          0, below 10% after 61 trades
+      40x: end            0 PKR, lowest          0, below 10% after 45 trades

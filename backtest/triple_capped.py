@@ -83,7 +83,8 @@ def build(tight=True, time_stop=(100, 2.0), max_units=7):
         uR = np.array(rk) + fk
         assert abs(uR.sum() - r["R"]) < 1e-6, (r["coin"], r["rule"], uR.sum(), r["R"])
         out.append(dict(t0=pd.Timestamp(r["t0"]).value, t1=t1, side=r["side"], uR=uR,
-                        ut=[tk for _, tk in units], ue=[e for e, _ in units], risk=risk))
+                        ut=[tk for _, tk in units], ue=[e for e, _ in units], risk=risk,
+                        coin=r["coin"]))
     out.sort(key=lambda z: z["t0"])
     return out
 

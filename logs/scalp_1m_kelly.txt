@@ -1,0 +1,42 @@
+backtest/scalp_1m.py --kelly, 2026-10-06 04:05, holdout from 2024-10-19; whole margin every trade from 4,000 PKR
+
+rsi_mom BTCUSDT short 2R [zero fees]: tune +0.80bp/trade (n 28689), holdout +0.53bp (n 19670); tune-half Kelly leverage 11.3x
+     1x: growth    +0.51bp/trade, end         10,851 PKR
+    10x: growth    +2.85bp/trade, end      1,080,286 PKR
+    11x: growth    +2.86bp/trade, end      1,116,560 PKR
+    20x: growth    +0.88bp/trade, end         22,552 PKR, below 10% after 1055 trades
+    30x: growth    -5.76bp/trade, end              0 PKR, below 10% after 829 trades
+    40x: growth   -17.02bp/trade, end              0 PKR, below 10% after 726 trades
+rsi_mom BTCUSDT short 2R [maker 0% + 2bp taker on stop/timeout]: tune -0.53bp/trade (n 28689), holdout -0.79bp (n 19670); tune-half Kelly leverage -7.0x
+     1x: growth    -0.82bp/trade, end            796 PKR
+    10x: growth   -10.59bp/trade, end              0 PKR, below 10% after 1056 trades
+    20x: growth   -26.36bp/trade, end              0 PKR, below 10% after 726 trades
+    30x: growth   -47.19bp/trade, end              0 PKR, below 10% after 627 trades
+    40x: growth   -73.08bp/trade, end              0 PKR, below 10% after 614 trades
+rsi_mom DOGEUSDT short 2R [zero fees]: tune +0.98bp/trade (n 27439), holdout +1.07bp (n 18318); tune-half Kelly leverage 4.0x
+     1x: growth    +0.94bp/trade, end         22,509 PKR
+     4x: growth    +2.24bp/trade, end        240,072 PKR
+    10x: growth   -15.34bp/trade, end              0 PKR, below 10% after 628 trades
+    20x: growth   -51.13bp/trade, end              0 PKR, below 10% after 470 trades
+    30x: growth  -107.97bp/trade, end              0 PKR, below 10% after 349 trades
+    40x: growth  -226.70bp/trade, end              0 PKR, below 10% after 271 trades
+rsi_mom DOGEUSDT short 2R [maker 0% + 2bp taker on stop/timeout]: tune -0.39bp/trade (n 27439), holdout -0.28bp (n 18318); tune-half Kelly leverage -1.6x
+     1x: growth    -0.41bp/trade, end          1,880 PKR
+    10x: growth   -29.24bp/trade, end              0 PKR, below 10% after 616 trades
+    20x: growth   -79.77bp/trade, end              0 PKR, below 10% after 452 trades
+    30x: growth  -152.41bp/trade, end              0 PKR, below 10% after 300 trades
+    40x: growth  -288.05bp/trade, end              0 PKR, below 10% after 248 trades
+cell RSI 30-45, flat, near support, BTC bull DOGEUSDT short 2R [zero fees]: tune +1.74bp/trade (n 6582), holdout +2.02bp (n 5025); tune-half Kelly leverage 6.8x
+     1x: growth    +1.89bp/trade, end         10,354 PKR
+     7x: growth    +7.86bp/trade, end        208,117 PKR
+    10x: growth    +7.49bp/trade, end        172,423 PKR
+    20x: growth    -9.55bp/trade, end             33 PKR, below 10% after 327 trades
+    30x: growth  -100.80bp/trade, end              0 PKR, below 10% after 290 trades
+    40x: growth  -163.81bp/trade, end              0 PKR, below 10% after 173 trades
+cell RSI 30-45, flat, near support, BTC bull DOGEUSDT short 2R [maker 0% + 2bp taker on stop/timeout]: tune +0.41bp/trade (n 6582), holdout +0.70bp (n 5025); tune-half Kelly leverage 1.6x
+     1x: growth    +0.56bp/trade, end          5,310 PKR
+     2x: growth    +0.86bp/trade, end          6,160 PKR
+    10x: growth    -6.16bp/trade, end            181 PKR, below 10% after 501 trades
+    20x: growth   -37.75bp/trade, end              0 PKR, below 10% after 305 trades
+    30x: growth  -144.54bp/trade, end              0 PKR, below 10% after 206 trades
+    40x: growth  -224.48bp/trade, end              0 PKR, below 10% after 167 trades

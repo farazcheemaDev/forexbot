@@ -77,3 +77,12 @@ logs/combo_bot_*/
 # The crash-bid paper book's live record (wick_paper.py) is machine-local, like the state
 # files: a committed copy would be restored over the VM's record by git reset --hard.
 logs/wickp_*.csv
+
+# 2026-10-08 backtest caches - REGENERABLE, rebuilt by the script on first run (~1.3 GB for the panels).
+logs/daily_combos_cache/
+logs/pair_lab_cache/
+logs/v2_addons_parts.pkl
+# Large per-trade dumps (10-46 MB), rewritten by their own scripts; the summary logs beside them are committed.
+logs/rsi_factors_trades.csv
+logs/rsi_only_trades.csv
+logs/tv_indicators_trades.csv.gz

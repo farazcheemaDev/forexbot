@@ -1,0 +1,8 @@
+backtest/wick_capit.py, 2026-10-08 21:18; base = top-40, 10% under, skip BEAR days, $300
+  rule                     fills/yr    TUNE worst mo    HOLD worst mo   DD | vs smaller tune / hold
+  base (deployed rule)          478  +37.0%    -1.2%  +16.9%    -3.3%   9% |   +0.0 /   +0.0  -
+  K>=5 only                      31   +1.5%    -0.9%   -0.1%    -0.4%   2% |  -25.3 /   -1.9  fail
+  K>=5 skip                     447  +34.9%    -1.5%  +17.0%    -3.3%   9% |  -13.4 /   +0.1  fail
+  BTC-5 only                    108  +12.9%    -0.9%   +4.0%    -0.2%   4% |  -14.8 /   +2.7  fail
+  BTC-5 skip                    370  +21.3%    -7.4%  +12.4%    -3.3%   9% | -122.2 /   -4.5  fail
+  K>=1 skip                     387  +32.4%    -2.3%  +15.2%    -2.0%   4% |  -43.2 /   +4.9  fail

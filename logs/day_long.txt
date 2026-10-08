@@ -1,0 +1,83 @@
+backtest/day_long.py, 2026-10-08 18:10; long at the daily close (00:00 UTC), out 24h later; 12bp + funding; liquidation from the 1h lows
+
+tune < 2024-03-31 <= holdout
+
+1. LONG EVERY DAY, 1x, net of costs:
+  BTCUSDT   tune +0.045%/day (n 1352, up days 48%) | holdout -0.092%/day (n 902, up days 46%)
+  ETHUSDT   tune +0.129%/day (n 1352, up days 50%) | holdout -0.107%/day (n 902, up days 48%)
+  SOLUSDT   tune +0.319%/day (n 1089, up days 49%) | holdout -0.109%/day (n 902, up days 47%)
+  DOGEUSDT  tune +0.558%/day (n 1160, up days 47%) | holdout -0.134%/day (n 902, up days 45%)
+  XRPUSDT   tune +0.087%/day (n 1341, up days 49%) | holdout +0.045%/day (n 902, up days 46%)
+
+2. EVERY FILTER: 6,750 coin x filter tests, 2,160 with 30+ days in each half
+  EDGE (both halves above zero and above long-every-day, t > 4.4): 0
+  WEAK (same, t > 2.4): 97   (chance alone gives roughly 4-17)
+    WEAK SOLUSDT   macd>signal & 20d_high & btc>ema50       n  214  +1.49%/day (t +3.7)  tune +2.04 / holdout +0.62  vs every day +0.32 / -0.11
+    WEAK SOLUSDT   >ema20 & 20d_high & btc>ema50            n  221  +1.44%/day (t +3.6)  tune +1.97 / holdout +0.58  vs every day +0.32 / -0.11
+    WEAK SOLUSDT   20d_high & btc>ema50                     n  221  +1.44%/day (t +3.6)  tune +1.97 / holdout +0.58  vs every day +0.32 / -0.11
+    WEAK SOLUSDT   >sma200 & macd>signal & btc>ema50        n  394  +0.96%/day (t +3.5)  tune +1.52 / holdout +0.11  vs every day +0.32 / -0.11
+    WEAK SOLUSDT   >sma200 & 20d_high & btc>ema50           n  167  +1.54%/day (t +3.5)  tune +2.11 / holdout +0.54  vs every day +0.32 / -0.11
+    WEAK SOLUSDT   >ema50 & 20d_high & btc>ema50            n  216  +1.41%/day (t +3.5)  tune +1.97 / holdout +0.54  vs every day +0.32 / -0.11
+    WEAK SOLUSDT   >ema20 & macd>signal & btc>ema50         n  565  +0.74%/day (t +3.4)  tune +1.18 / holdout +0.12  vs every day +0.32 / -0.11
+    WEAK SOLUSDT   pop>3% & 20d_high & btc>ema50            n  149  +1.81%/day (t +3.3)  tune +2.42 / holdout +0.54  vs every day +0.32 / -0.11
+    WEAK SOLUSDT   >ema50 & macd>signal & btc>ema50         n  524  +0.76%/day (t +3.2)  tune +1.24 / holdout +0.09  vs every day +0.32 / -0.11
+    WEAK SOLUSDT   macd>signal & macd_hist_up & btc>ema50   n  339  +0.92%/day (t +3.2)  tune +1.29 / holdout +0.39  vs every day +0.32 / -0.11
+    WEAK SOLUSDT   macd_hist_up & 20d_high & btc>ema50      n  201  +1.33%/day (t +3.2)  tune +1.72 / holdout +0.75  vs every day +0.32 / -0.11
+    WEAK SOLUSDT   >ema20 & vol>1.5x & btc>ema50            n  157  +1.53%/day (t +3.2)  tune +1.83 / holdout +0.98  vs every day +0.32 / -0.11
+
+3. PICK THE BEST INDICATORS ON 2020-23 (tune half, 30+ days), THEN TRADE THEM ON THE HOLDOUT:
+    DOGEUSDT  stoch<20 & btc>ema50                     tune +14.33%/day (n 30) -> holdout -1.31%/day (n 40)   every day: -0.13
+    DOGEUSDT  ema20>ema50 & >sma200 & stoch<20         tune +13.44%/day (n 32) -> holdout +0.97%/day (n 17)   every day: -0.13
+    DOGEUSDT  <lower_bb & stoch<20                     tune +13.11%/day (n 32) -> holdout +0.74%/day (n 41)   every day: -0.13
+    DOGEUSDT  <lower_bb & dip>3% & 20d_low             tune +11.14%/day (n 36) -> holdout +0.86%/day (n 42)   every day: -0.13
+    DOGEUSDT  <lower_bb & dip>3%                       tune +10.49%/day (n 38) -> holdout +0.86%/day (n 42)   every day: -0.13
+    DOGEUSDT  stoch<20 & dip>3% & 20d_low              tune +9.96%/day (n 41) -> holdout +0.35%/day (n 57)   every day: -0.13
+    DOGEUSDT  <lower_bb & 20d_low                      tune +8.56%/day (n 48) -> holdout +0.91%/day (n 49)   every day: -0.13
+    DOGEUSDT  ema20>ema50 & stoch<20                   tune +8.46%/day (n 57) -> holdout +0.39%/day (n 47)   every day: -0.13
+    DOGEUSDT  >sma200 & stoch<20                       tune +8.10%/day (n 52) -> holdout -0.74%/day (n 29)   every day: -0.13
+    DOGEUSDT  <lower_bb                                tune +6.83%/day (n 60) -> holdout +0.98%/day (n 54)   every day: -0.13
+  average of the 10 on the holdout: +0.402%/day against long-every-day -0.134%; lost more than half their tune edge: 10 of 10
+
+4. 10,000 PKR ON THE HOLDOUT (2024-03-31 .. ), long every day vs the tune-picked filter:
+  BTCUSDT - long every day: 902 trade days
+     1x  fixed 10k: avg      -9 PKR/trade, up 46%, best   +1213, worst   -1415, liquidated   0x, total     -8,306 | all-in: ends        3,365 PKR
+     3x  fixed 10k: avg     -28 PKR/trade, up 46%, best   +3640, worst   -4246, liquidated   0x, total    -24,918 | all-in: ends           79 PKR, under 1,000 after 583 trades
+     5x  fixed 10k: avg     -46 PKR/trade, up 46%, best   +6066, worst   -7077, liquidated   0x, total    -41,530 | all-in: ends            0 PKR, under 1,000 after 95 trades
+    10x  fixed 10k: avg    -104 PKR/trade, up 46%, best  +12133, worst  -10000, liquidated   6x, total    -94,002 | all-in: ends            0 PKR, under 1,000 after 13 trades
+    20x  fixed 10k: avg    -420 PKR/trade, up 46%, best  +23540, worst  -10000, liquidated  77x, total   -379,000 | all-in: ends            0 PKR, under 1,000 after 1 trades
+    50x  fixed 10k: avg   -1311 PKR/trade, up 39%, best  +58851, worst  -10000, liquidated 410x, total -1,182,863 | all-in: ends            0 PKR, under 1,000 after 1 trades
+  BTCUSDT - picked: stoch<20 & dip>3% & adx>25: 20 trade days
+     1x  fixed 10k: avg    -173 PKR/trade, up 30%, best   +1213, worst   -1415, liquidated   0x, total     -3,453 | all-in: ends        6,901 PKR
+     3x  fixed 10k: avg    -518 PKR/trade, up 30%, best   +3640, worst   -4246, liquidated   0x, total    -10,358 | all-in: ends        2,748 PKR
+     5x  fixed 10k: avg    -863 PKR/trade, up 30%, best   +6066, worst   -7077, liquidated   0x, total    -17,263 | all-in: ends          740 PKR, under 1,000 after 13 trades
+    10x  fixed 10k: avg   -1519 PKR/trade, up 30%, best  +12133, worst  -10000, liquidated   1x, total    -30,372 | all-in: ends            0 PKR, under 1,000 after 12 trades
+    20x  fixed 10k: avg   -5206 PKR/trade, up 25%, best   +2252, worst  -10000, liquidated   9x, total   -104,129 | all-in: ends            0 PKR, under 1,000 after 1 trades
+    50x  fixed 10k: avg   -7857 PKR/trade, up 15%, best   +5100, worst  -10000, liquidated  17x, total   -157,134 | all-in: ends            0 PKR, under 1,000 after 1 trades
+  DOGEUSDT - long every day: 902 trade days
+     1x  fixed 10k: avg     -13 PKR/trade, up 45%, best   +2671, worst   -2245, liquidated   0x, total    -12,079 | all-in: ends        1,178 PKR, under 1,000 after 853 trades
+     3x  fixed 10k: avg     -44 PKR/trade, up 45%, best   +8013, worst  -10000, liquidated   1x, total    -39,502 | all-in: ends            0 PKR, under 1,000 after 75 trades
+     5x  fixed 10k: avg    -100 PKR/trade, up 45%, best  +13354, worst  -10000, liquidated   6x, total    -90,475 | all-in: ends            0 PKR, under 1,000 after 12 trades
+    10x  fixed 10k: avg    -270 PKR/trade, up 44%, best  +26708, worst  -10000, liquidated  54x, total   -243,554 | all-in: ends            0 PKR, under 1,000 after 1 trades
+    20x  fixed 10k: avg    -883 PKR/trade, up 41%, best  +53417, worst  -10000, liquidated 267x, total   -796,308 | all-in: ends            0 PKR, under 1,000 after 1 trades
+    50x  fixed 10k: avg   -1853 PKR/trade, up 27%, best +133542, worst  -10000, liquidated 621x, total -1,671,800 | all-in: ends            0 PKR, under 1,000 after 1 trades
+  DOGEUSDT - picked: stoch<20 & btc>ema50: 40 trade days
+     1x  fixed 10k: avg    -131 PKR/trade, up 50%, best    +678, worst   -1305, liquidated   0x, total     -5,229 | all-in: ends        5,657 PKR
+     3x  fixed 10k: avg    -392 PKR/trade, up 50%, best   +2034, worst   -3915, liquidated   0x, total    -15,687 | all-in: ends        1,292 PKR, under 1,000 after 27 trades
+     5x  fixed 10k: avg    -654 PKR/trade, up 50%, best   +3390, worst   -6524, liquidated   0x, total    -26,146 | all-in: ends          147 PKR, under 1,000 after 10 trades
+    10x  fixed 10k: avg   -1466 PKR/trade, up 48%, best   +6779, worst  -10000, liquidated   5x, total    -58,647 | all-in: ends            0 PKR, under 1,000 after 4 trades
+    20x  fixed 10k: avg   -2079 PKR/trade, up 48%, best  +13559, worst  -10000, liquidated  15x, total    -83,140 | all-in: ends            0 PKR, under 1,000 after 2 trades
+    50x  fixed 10k: avg   -2935 PKR/trade, up 30%, best  +33897, worst  -10000, liquidated  27x, total   -117,406 | all-in: ends            0 PKR, under 1,000 after 1 trades
+  SOLUSDT - long every day: 902 trade days
+     1x  fixed 10k: avg     -11 PKR/trade, up 47%, best   +2429, worst   -2059, liquidated   0x, total     -9,834 | all-in: ends        1,750 PKR
+     3x  fixed 10k: avg     -39 PKR/trade, up 47%, best   +7288, worst  -10000, liquidated   1x, total    -35,052 | all-in: ends            0 PKR, under 1,000 after 95 trades
+     5x  fixed 10k: avg     -70 PKR/trade, up 47%, best  +12147, worst  -10000, liquidated   4x, total    -63,443 | all-in: ends            0 PKR, under 1,000 after 13 trades
+    10x  fixed 10k: avg    -212 PKR/trade, up 47%, best  +24293, worst  -10000, liquidated  34x, total   -190,874 | all-in: ends            0 PKR, under 1,000 after 9 trades
+    20x  fixed 10k: avg    -699 PKR/trade, up 44%, best  +48587, worst  -10000, liquidated 219x, total   -630,593 | all-in: ends            0 PKR, under 1,000 after 1 trades
+    50x  fixed 10k: avg   -2273 PKR/trade, up 29%, best  +96027, worst  -10000, liquidated 610x, total -2,050,264 | all-in: ends            0 PKR, under 1,000 after 1 trades
+  SOLUSDT - picked: rsi<30: 28 trade days
+     1x  fixed 10k: avg     -45 PKR/trade, up 43%, best   +1168, worst   -1507, liquidated   0x, total     -1,258 | all-in: ends        8,417 PKR
+     3x  fixed 10k: avg    -135 PKR/trade, up 43%, best   +3504, worst   -4521, liquidated   0x, total     -3,774 | all-in: ends        4,375 PKR
+     5x  fixed 10k: avg    -225 PKR/trade, up 43%, best   +5840, worst   -7535, liquidated   0x, total     -6,290 | all-in: ends        1,214 PKR, under 1,000 after 23 trades
+    10x  fixed 10k: avg   -1257 PKR/trade, up 39%, best   +7481, worst  -10000, liquidated   4x, total    -35,189 | all-in: ends            0 PKR, under 1,000 after 2 trades
+    20x  fixed 10k: avg   -4669 PKR/trade, up 25%, best  +14836, worst  -10000, liquidated  18x, total   -130,726 | all-in: ends            0 PKR, under 1,000 after 1 trades
+    50x  fixed 10k: avg   -4707 PKR/trade, up 14%, best  +37091, worst  -10000, liquidated  24x, total   -131,798 | all-in: ends            0 PKR, under 1,000 after 1 trades

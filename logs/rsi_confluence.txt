@@ -1,0 +1,103 @@
+backtest/rsi_confluence.py, 2026-10-08 18:33; 1,440 configurations (5 coins pooled); tune < 2024-04-07 <= holdout; EDGE t > 4.3
+
+1. EXTREME RSI ALONE (no confirmation): trades | win | avg | worst | tune | holdout
+  15m long  RSI <20  tp2       1168   82%   -0.13%   -49.2%   +0.07%   -0.45% (n 439)
+  15m long  RSI <20  tp2_nw    1594   47%   +0.04%   -21.9%   +0.13%   -0.10% (n 636)
+  15m long  RSI <20  rsi50     1510   61%   +0.20%   -18.1%   +0.37%   -0.05% (n 608)
+  15m long  RSI <15  tp2        446   86%   +0.17%   -46.8%   +0.26%   +0.00% (n 161)
+  15m long  RSI <15  tp2_nw     496   52%   +0.27%   -14.0%   +0.43%   -0.00% (n 185)
+  15m long  RSI <15  rsi50      484   66%   +0.85%   -14.7%   +1.21%   +0.25% (n 181)
+  15m long  RSI <10  tp2         91   88%   +0.54%   -28.4%   +0.51%   +0.59% (n 33)
+  15m long  RSI <10  tp2_nw      96   60%   +0.55%   -14.0%   +0.53%   +0.59% (n 35)
+  15m long  RSI <10  rsi50       95   75%   +2.98%   -13.7%   +3.48%   +2.06% (n 34)
+  15m short RSI >80  tp2       1292   85%   -0.61%  -113.5%   -0.69%   -0.47% (n 457)
+  15m short RSI >80  tp2_nw    1792   45%   -0.14%   -51.1%   -0.12%   -0.18% (n 646)
+  15m short RSI >80  rsi50     1651   59%   -0.45%  -203.5%   -0.52%   -0.34% (n 599)
+  15m short RSI >85  tp2        505   83%   -0.75%   -88.6%   -0.57%   -1.17% (n 156)
+  15m short RSI >85  tp2_nw     582   43%   -0.31%   -21.3%   -0.16%   -0.64% (n 184)
+  15m short RSI >85  rsi50      547   56%   -0.75%  -170.2%   -0.85%   -0.53% (n 175)
+  15m short RSI >90  tp2        120   81%   -0.67%   -29.1%   +0.23%   -2.94% (n 34)
+  15m short RSI >90  tp2_nw     125   54%   -0.35%   -13.5%   -0.15%   -0.82% (n 37)
+  15m short RSI >90  rsi50      121   58%   -0.51%   -35.5%   -0.24%   -1.18% (n 35)
+   1h long  RSI <20  tp2        426   86%   +0.35%   -35.8%   +0.53%   +0.10% (n 178)
+   1h long  RSI <20  tp2_nw     458   69%   +0.41%   -17.2%   +0.63%   +0.11% (n 194)
+   1h long  RSI <20  rsi50      410   61%   +0.89%   -18.2%   +1.60%   -0.10% (n 172)
+   1h long  RSI <15  tp2        117   83%   +0.27%   -21.3%   +0.52%   +0.00% (n 57)
+   1h long  RSI <15  tp2_nw     120   68%   +0.50%    -7.3%   +0.48%   +0.51% (n 58)
+   1h long  RSI <15  rsi50      116   65%   +1.69%   -11.8%   +2.12%   +1.24% (n 56)
+   1h long  RSI <10  tp2         19  100%   +1.89%    +1.9%   +1.90%   +1.88% (n 8)
+   1h long  RSI <10  tp2_nw      19   89%   +1.58%    -1.3%   +1.66%   +1.48% (n 8)
+   1h long  RSI <10  rsi50       19   79%   +4.06%    -4.7%   +4.62%   +3.29% (n 8)
+   1h short RSI >80  tp2        498   82%   -1.63%  -185.9%   -1.83%   -1.28% (n 178)
+   1h short RSI >80  tp2_nw     564   63%   -0.64%  -103.8%   -0.54%   -0.80% (n 208)
+   1h short RSI >80  rsi50      481   58%   -1.95%  -281.7%   -1.87%   -2.09% (n 177)
+   1h short RSI >85  tp2        178   79%   -3.15%  -185.9%   -3.81%   -1.86% (n 60)
+   1h short RSI >85  tp2_nw     189   63%   -1.45%  -138.8%   -1.96%   -0.45% (n 64)
+   1h short RSI >85  rsi50      171   58%   -2.81%  -281.7%   -3.43%   -1.62% (n 58)
+   1h short RSI >90  tp2         39   74%   -2.63%   -33.9%   -0.72%   -5.10% (n 17)
+   1h short RSI >90  tp2_nw      39   69%   -1.24%   -31.6%   -0.53%   -2.17% (n 17)
+   1h short RSI >90  rsi50       37   43%  -11.06%  -257.5%  -17.03%   -4.04% (n 17)
+   4h long  RSI <20  tp2        134   91%   +0.90%   -17.5%   +0.63%   +1.19% (n 65)
+   4h long  RSI <20  tp2_nw     135   89%   +0.82%   -15.1%   +0.59%   +1.06% (n 66)
+   4h long  RSI <20  rsi50      112   64%   +2.15%   -39.7%   +0.53%   +3.89% (n 54)
+   4h long  RSI <15  tp2         44   91%   +1.15%    -7.9%   +0.98%   +1.37% (n 19)
+   4h long  RSI <15  tp2_nw      44   91%   +1.10%    -9.8%   +0.98%   +1.26% (n 19)
+   4h long  RSI <15  rsi50       42   71%   +5.27%   -31.6%   +3.01%   +8.01% (n 19)
+   4h long  RSI <10  tp2          5   60%   -0.18%    -4.5%   -0.70%   +1.88% (n 1)
+   4h long  RSI <10  tp2_nw       5   60%   -0.04%    -3.9%   -0.51%   +1.88% (n 1)
+   4h long  RSI <10  rsi50        5   60%   +4.73%    -3.0%   +3.11%  +11.21% (n 1)
+   4h short RSI >80  tp2        203   78%   -4.02%  -250.5%   -4.29%   -3.48% (n 68)
+   4h short RSI >80  tp2_nw     210   76%   -3.45%  -251.7%   -3.93%   -2.51% (n 71)
+   4h short RSI >80  rsi50      168   51%   -7.75%  -305.7%   -9.32%   -4.85% (n 59)
+   4h short RSI >85  tp2         82   71%   -4.34%   -75.9%   -3.26%   -6.97% (n 24)
+   4h short RSI >85  tp2_nw      84   65%   -4.00%   -88.6%   -3.53%   -5.12% (n 25)
+   4h short RSI >85  rsi50       72   38%  -11.50%  -182.0%  -12.91%   -8.30% (n 22)
+   4h short RSI >90  tp2         27   85%   -0.44%   -33.7%   -0.36%   -0.58% (n 10)
+   4h short RSI >90  tp2_nw      27   85%   -0.06%   -24.7%   +0.06%   -0.26% (n 10)
+   4h short RSI >90  rsi50       27   37%  -14.79%  -182.0%  -20.79%   -4.59% (n 10)
+
+2. EACH CONFIRMATION ALONE vs NO CONFIRMATION, same tf/side/level/exit (average difference per trade, tune / holdout; configs with 30+ trades in each half on both sides of the comparison):
+  sr         :  24 pairs, tune +0.52%, holdout +0.16%, better on both halves in 9 of 24
+  bb         :  36 pairs, tune +0.03%, holdout +0.02%, better on both halves in 11 of 36
+  divergence :   6 pairs, tune -0.36%, holdout -0.14%, better on both halves in 0 of 6
+  vol        :  27 pairs, tune +0.15%, holdout +0.02%, better on both halves in 7 of 27
+  htf        :  28 pairs, tune -0.20%, holdout -0.01%, better on both halves in 10 of 28
+  stoch      :  24 pairs, tune +0.49%, holdout +0.15%, better on both halves in 17 of 24
+  trend      : too few trades
+  btc        :   3 pairs, tune +1.31%, holdout +0.58%, better on both halves in 3 of 3
+
+3. EDGE 19, WEAK 62 of 409 configs with 30+ trades in each half:
+    EDGE  4h long  X20 vol                    tp2_nw  n   70 win 96% avg +1.61% (t +9.4) tune +1.63 / hold +1.58 worst -6.7%
+    EDGE  4h long  X20 bb+vol                 tp2_nw  n   70 win 96% avg +1.61% (t +9.4) tune +1.63 / hold +1.58 worst -6.7%
+    EDGE  4h long  X20 vol                    tp2     n   70 win 97% avg +1.59% (t +8.0) tune +1.56 / hold +1.62 worst -8.7%
+    EDGE  4h long  X20 bb+vol                 tp2     n   70 win 97% avg +1.59% (t +8.0) tune +1.56 / hold +1.62 worst -8.7%
+    EDGE  1h long  X20 htf+stoch              tp2_nw  n  104 win 83% avg +1.06% (t +5.4) tune +1.33 / hold +0.72 worst -7.0%
+    EDGE 15m long  X10 bb                     rsi50   n   91 win 75% avg +3.10% (t +4.8) tune +3.67 / hold +2.11 worst -13.7%
+    EDGE  1h long  X20 bb+stoch               tp2_nw  n  185 win 74% avg +0.76% (t +4.8) tune +1.04 / hold +0.44 worst -8.7%
+    EDGE 15m long  X10 none                   rsi50   n   95 win 75% avg +2.98% (t +4.8) tune +3.48 / hold +2.06 worst -13.7%
+    EDGE  1h long  X20 htf                    rsi50   n  214 win 66% avg +2.13% (t +4.7) tune +2.90 / hold +1.15 worst -15.1%
+    EDGE  1h long  X20 stoch                  tp2_nw  n  210 win 74% avg +0.72% (t +4.7) tune +0.97 / hold +0.43 worst -8.7%
+
+4. PICKED ON THE TUNE HALF (best tune average, 100+ tune trades), judged on the holdout:
+     1h long  X20 htf                    rsi50   tune +2.90% (n 120) -> holdout +1.15% (n 94, win 60%)
+        10,000 PKR on ONE coin, 1x: 11,185, 14,721, 9,710, 9,539, 16,652  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+        10,000 PKR on ONE coin, 3x: 12,004, 27,462, 7,066, 7,354, 0  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+        10,000 PKR on ONE coin, 5x: 9,268, 0, 0, 0, 0  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+     1h long  X20 sr+bb                  rsi50   tune +1.97% (n 113) -> holdout +0.68% (n 87, win 62%)
+        10,000 PKR on ONE coin, 1x: 9,926, 14,409, 8,065, 10,568, 12,896  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+        10,000 PKR on ONE coin, 3x: 8,774, 26,417, 3,792, 9,397, 18,978  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+        10,000 PKR on ONE coin, 5x: 5,905, 0, 0, 5,484, 24,626  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+     1h long  X20 stoch                  rsi50   tune +1.94% (n 108) -> holdout +0.52% (n 94, win 60%)
+        10,000 PKR on ONE coin, 1x: 9,235, 14,361, 8,892, 9,266, 13,305  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+        10,000 PKR on ONE coin, 3x: 6,951, 26,098, 5,083, 6,753, 22,652  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+        10,000 PKR on ONE coin, 5x: 3,915, 0, 0, 3,458, 36,779  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+     1h long  X20 sr                     rsi50   tune +1.87% (n 137) -> holdout +0.84% (n 106, win 63%)
+        10,000 PKR on ONE coin, 1x: 11,713, 14,559, 8,554, 11,242, 12,755  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+        10,000 PKR on ONE coin, 3x: 13,950, 26,622, 4,501, 11,253, 18,202  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+        10,000 PKR on ONE coin, 5x: 12,218, 0, 0, 7,347, 22,619  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+    15m long  X15 bb+htf                 rsi50   tune +1.61% (n 159) -> holdout +0.46% (n 112, win 70%)
+        10,000 PKR on ONE coin, 1x: 11,283, 11,974, 8,880, 13,037, 10,055  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+        10,000 PKR on ONE coin, 3x: 14,075, 0, 6,038, 21,134, 0  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+        10,000 PKR on ONE coin, 5x: 17,093, 0, 0, 0, 0  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+
+  average of the 5 picks on the holdout: +0.73% a trade (tune +2.06%)

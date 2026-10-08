@@ -1,0 +1,40 @@
+  uncapped (v2 backtest)             start +0d: Sharpe +1.04 / +1.45 | ann +46% / +101% | fall 37% | worst week -24%
+  uncapped (v2 backtest)             start +1d: Sharpe +1.06 / +1.65 | ann +45% / +164% | fall 37% | worst week -28%
+  uncapped (v2 backtest)             start +2d: Sharpe +1.23 / +1.66 | ann +55% / +228% | fall 29% | worst week -23%
+  uncapped (v2 backtest)             start +3d: Sharpe +0.87 / +1.17 | ann +35% / +99% | fall 34% | worst week -26%
+  uncapped (v2 backtest)             start +4d: Sharpe +0.79 / +1.47 | ann +32% / +182% | fall 37% | worst week -30%
+  uncapped (v2 backtest)             start +5d: Sharpe +0.98 / +1.84 | ann +44% / +144% | fall 45% | worst week -40%
+  uncapped (v2 backtest)             start +6d: Sharpe +1.46 / +0.03 | ann +76% / -82% | fall 100% | worst week -99%
+  uncapped (v2 backtest)             MEAN Sharpe +1.06 / +1.33, worst day +0.79 / +0.03, falls 29-100%
+
+  capped +100% (v3)                  start +0d: Sharpe +1.02 / +1.23 | ann +43% / +59% | fall 36% | worst week -24%
+  capped +100% (v3)                  start +1d: Sharpe +1.02 / +1.65 | ann +41% / +88% | fall 35% | worst week -28%
+  capped +100% (v3)                  start +2d: Sharpe +1.11 / +1.68 | ann +45% / +100% | fall 31% | worst week -23%
+  capped +100% (v3)                  start +3d: Sharpe +0.71 / +1.55 | ann +23% / +85% | fall 41% | worst week -26%
+  capped +100% (v3)                  start +4d: Sharpe +0.64 / +1.69 | ann +21% / +98% | fall 48% | worst week -30%
+  capped +100% (v3)                  start +5d: Sharpe +0.82 / +1.97 | ann +31% / +125% | fall 45% | worst week -22%
+  capped +100% (v3)                  start +6d: Sharpe +1.32 / +0.71 | ann +59% / +26% | fall 38% | worst week -25%
+  capped +100% (v3)                  MEAN Sharpe +0.95 / +1.50, worst day +0.64 / +0.71, falls 31-48%
+
+  30% disaster stop (the live bot)   start +0d: Sharpe +0.87 / +0.74 | ann +33% / +33% | fall 60% | worst week -15%
+  30% disaster stop (the live bot)   start +1d: Sharpe +0.86 / +0.99 | ann +32% / +63% | fall 36% | worst week -17%
+  30% disaster stop (the live bot)   start +2d: Sharpe +0.76 / +1.03 | ann +25% / +86% | fall 39% | worst week -20%
+  30% disaster stop (the live bot)   start +3d: Sharpe +0.71 / +0.87 | ann +24% / +56% | fall 32% | worst week -22%
+  30% disaster stop (the live bot)   start +4d: Sharpe +0.60 / +1.10 | ann +20% / +101% | fall 41% | worst week -26%
+  30% disaster stop (the live bot)   start +5d: Sharpe +0.61 / +1.60 | ann +20% / +98% | fall 43% | worst week -22%
+  30% disaster stop (the live bot)   start +6d: Sharpe +0.72 / +0.63 | ann +26% / +23% | fall 39% | worst week -23%
+  30% disaster stop (the live bot)   MEAN Sharpe +0.73 / +0.99, worst day +0.60 / +0.63, falls 32-60%
+
+  capped +100% AND 30% stop          start +0d: Sharpe +0.80 / +0.31 | ann +29% / +4% | fall 60% | worst week -15%
+  capped +100% AND 30% stop          start +1d: Sharpe +0.79 / +0.69 | ann +27% / +23% | fall 36% | worst week -17%
+  capped +100% AND 30% stop          start +2d: Sharpe +0.61 / +0.40 | ann +17% / +8% | fall 43% | worst week -20%
+  capped +100% AND 30% stop          start +3d: Sharpe +0.53 / +0.42 | ann +14% / +9% | fall 40% | worst week -22%
+  capped +100% AND 30% stop          start +4d: Sharpe +0.34 / +0.88 | ann +5% / +32% | fall 56% | worst week -26%
+  capped +100% AND 30% stop          start +5d: Sharpe +0.38 / +1.36 | ann +7% / +64% | fall 44% | worst week -22%
+  capped +100% AND 30% stop          start +6d: Sharpe +0.51 / +0.26 | ann +13% / +2% | fall 41% | worst week -23%
+  capped +100% AND 30% stop          MEAN Sharpe +0.56 / +0.62, worst day +0.34 / +0.26, falls 36-60%
+
+  short-leg book exit at +50%      Sharpe mean +1.06 / +1.31, worst day +0.85 / +0.76 | ann +47% / +110% | falls 29-42% | worst week -29%
+  short-leg book exit at +100%     Sharpe mean +0.99 / +1.35, worst day +0.71 / +0.60 | ann +43% / +123% | falls 35-50% | worst week -33%
+  short-leg book exit at +150%     Sharpe mean +0.96 / +1.40, worst day +0.70 / +0.62 | ann +42% / +130% | falls 37-48% | worst week -30%
+  both legs book exit at 50%       Sharpe mean +0.89 / +1.35, worst day +0.69 / +0.88 | ann +36% / +114% | falls 29-44% | worst week -30%

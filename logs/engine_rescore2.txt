@@ -1,0 +1,27 @@
+backtest/engine_rescore2.py, 2026-10-08 23:09; corrected engine, 10 paired orderings, tune < 2024-08-29 <= holdout; %/mo is CAGR/3, DD and worst month raw
+walk2 reproduces graveyard_rescore.walk on 3 coin/sleeves, plain and triple
+
+BASE MAIN: tune +4.88%/mo DD 54% | holdout +4.88%/mo DD 53% worst month -33.5%
+  MAIN   + scale_out (added units trail 5xATR)      tune  +1.32% DD  34% | hold  +4.53% DD  30% wm -14.3% | d -3.56+-0.10 / -0.34+-0.17 -> -
+  MAIN   + avg_be (breakeven at the average entry)  tune  +2.93% DD  64% | hold  +4.13% DD  47% wm -18.1% | d -1.95+-0.26 / -0.74+-0.30 -> -
+  MAIN   + ratchet 20 -> 10xATR past +10R           tune  +3.10% DD  69% | hold  +3.65% DD  49% wm -31.4% | d -1.78+-0.24 / -1.22+-0.45 -> -
+  MAIN   + stop 1.5xATR                             tune  +4.14% DD  72% | hold  +2.44% DD  78% wm -46.0% | d -0.74+-0.27 / -2.43+-0.36 -> -
+  MAIN   + stop 3xATR                               tune  +3.12% DD  32% | hold  +2.08% DD  41% wm -17.2% | d -1.77+-0.21 / -2.80+-0.36 -> -
+  MAIN   + entry limit 0.25xATR under               tune  +3.64% DD  62% | hold  +4.10% DD  51% wm -27.7% | d -1.24+-0.32 / -0.78+-0.44 -> -
+  MAIN   + entry limit 1xATR under                  tune  +5.47% DD  48% | hold  +2.93% DD  62% wm -37.3% | d +0.58+-0.25 / -1.94+-0.35 -> tune only
+  MAIN   + risk x1.5 / x1.0 / x0.5 by sleeve 1h/4h/12h tune  +5.35% DD  64% | hold  +5.85% DD  64% wm -39.9% | d +0.47+-0.08 / +0.98+-0.09 -> CLEARS THE BAR
+  MAIN   + entry bb(20, 2.0)                        tune  +4.55% DD  60% | hold  +3.37% DD  50% wm -27.4% | d -0.33+-0.26 / -1.50+-0.33 -> -
+  MAIN   + entry bb(50, 1.5)                        tune  +6.03% DD  56% | hold  +2.14% DD  58% wm -30.8% | d +1.15+-0.36 / -2.73+-0.22 -> tune only
+
+BASE TRIPLE: tune +8.89%/mo DD 48% | holdout +10.76%/mo DD 51% worst month -19.2%
+  TRIPLE + scale_out (added units trail 5xATR)      tune  +2.10% DD  50% | hold  +6.24% DD  29% wm -13.0% | d -6.79+-0.21 / -4.52+-0.35 -> -
+  TRIPLE + avg_be (breakeven at the average entry)  tune  +4.06% DD  73% | hold  +8.70% DD  35% wm -14.5% | d -4.83+-0.22 / -2.06+-0.61 -> -
+  TRIPLE + ratchet 20 -> 10xATR past +10R           tune  +6.01% DD  72% | hold +10.16% DD  46% wm -19.0% | d -2.88+-0.31 / -0.60+-0.87 -> -
+  TRIPLE + stop 1.5xATR                             tune  +9.77% DD  64% | hold  +9.17% DD  70% wm -35.3% | d +0.88+-0.49 / -1.59+-0.59 -> -
+  TRIPLE + stop 3xATR                               tune  +6.39% DD  33% | hold  +5.93% DD  25% wm -10.1% | d -2.50+-0.43 / -4.83+-0.44 -> -
+  TRIPLE + entry limit 0.25xATR under               tune  +8.81% DD  51% | hold  +9.00% DD  42% wm -19.6% | d -0.08+-0.46 / -1.76+-0.59 -> -
+  TRIPLE + entry limit 1xATR under                  tune  +8.72% DD  64% | hold  +5.28% DD  61% wm -31.9% | d -0.17+-0.31 / -5.49+-0.38 -> -
+  TRIPLE + risk x1.5 / x1.0 / x0.5 by sleeve 1h/4h/12h tune  +9.65% DD  57% | hold +13.03% DD  62% wm -26.6% | d +0.75+-0.13 / +2.27+-0.18 -> CLEARS THE BAR
+  TRIPLE + entry bb(20, 2.0)                        tune  +8.97% DD  53% | hold  +9.11% DD  52% wm -22.1% | d +0.08+-0.41 / -1.65+-0.70 -> -
+  TRIPLE + entry bb(50, 1.5)                        tune +11.21% DD  47% | hold  +7.95% DD  49% wm -26.2% | d +2.32+-0.40 / -2.81+-0.47 -> tune only
+

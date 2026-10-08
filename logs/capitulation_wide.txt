@@ -1,0 +1,28 @@
+backtest/capitulation_wide.py, 2026-10-08 18:39; frozen rule, PIT top-40 by prior-month volume (dead coins in), 4h bars from 1h perps, 4 phases
+
+PHASE +0 min
+  the 5 majors (reproduction): 50 trades (8 a year) on 35 days, 5 coins, win 96%, avg +1.66%, t by day +6.2, tune +1.88% / holdout +1.40%, worst -6.7%, deepest dip 23%
+  OTHER top-40 coins (never seen): 284 trades (44 a year) on 88 days, 107 coins, win 92%, avg +1.15%, t by day +2.0, tune +0.95% / holdout +1.31%, worst -16.3%, deepest dip 41%
+  other coins without LUNA: 284 trades (44 a year) on 88 days, 107 coins, win 92%, avg +1.15%, t by day +2.0, tune +0.95% / holdout +1.31%, worst -16.3%, deepest dip 41%
+PHASE +60 min
+  the 5 majors (reproduction): 49 trades (8 a year) on 35 days, 5 coins, win 90%, avg +1.19%, t by day +2.6, tune +1.43% / holdout +0.94%, worst -7.0%, deepest dip 21%
+  OTHER top-40 coins (never seen): 265 trades (41 a year) on 88 days, 101 coins, win 91%, avg +0.79%, t by day +0.3, tune +0.84% / holdout +0.75%, worst -49.7%, deepest dip 66%
+  other coins without LUNA: 265 trades (41 a year) on 88 days, 101 coins, win 91%, avg +0.79%, t by day +0.3, tune +0.84% / holdout +0.75%, worst -49.7%, deepest dip 66%
+PHASE +120 min
+  the 5 majors (reproduction): 55 trades (9 a year) on 36 days, 4 coins, win 82%, avg +0.15%, t by day +0.4, tune -0.63% / holdout +1.09%, worst -21.7%, deepest dip 34%
+  OTHER top-40 coins (never seen): 292 trades (45 a year) on 102 days, 112 coins, win 85%, avg +0.09%, t by day -1.3, tune +0.47% / holdout -0.22%, worst -44.4%, deepest dip 74%
+  other coins without LUNA: 292 trades (45 a year) on 102 days, 112 coins, win 85%, avg +0.09%, t by day -1.3, tune +0.47% / holdout -0.22%, worst -44.4%, deepest dip 74%
+PHASE +180 min
+  the 5 majors (reproduction): 49 trades (8 a year) on 35 days, 4 coins, win 90%, avg +1.23%, t by day +4.1, tune +1.12% / holdout +1.44%, worst -6.8%, deepest dip 44%
+  OTHER top-40 coins (never seen): 290 trades (45 a year) on 93 days, 107 coins, win 93%, avg +1.10%, t by day +0.5, tune +0.90% / holdout +1.28%, worst -52.1%, deepest dip 69%
+  other coins without LUNA: 290 trades (45 a year) on 93 days, 107 coins, win 93%, avg +1.10%, t by day +0.5, tune +0.90% / holdout +1.28%, worst -52.1%, deepest dip 69%
+
+OTHER COINS, phase 0, by year (avg per trade, trades):  2020: +1.35% (18) 2021: +1.88% (21) 2022: +0.97% (33) 2023: +0.29% (47) 2024: +1.64% (77) 2025: +1.26% (56) 2026: +0.67% (32)
+worst 8 trades on the other coins, phase 0: NEIRO 2024-12-19 -16%, SIGN 2026-04-16 -15%, EOS 2023-08-15 -14%, TOMO 2023-08-24 -10%, FARTCOIN 2025-09-22 -10%, UNI 2025-09-22 -9%, SAND 2022-01-22 -9%, ADA 2022-10-11 -9%
+coins with 3+ trades: 27, of which positive on average: 24
+
+10,000 PKR, fixed per trade (not compounded), phase 0, everything that fired on the PIT top-40 (all coins):
+  1x: 334 trades over 6.4 years, total +41,096 PKR (+6,397 a year), liquidated 0x, worst trade -1,632 PKR
+  2x: 334 trades over 6.4 years, total +82,193 PKR (+12,793 a year), liquidated 0x, worst trade -3,265 PKR
+  3x: 334 trades over 6.4 years, total +93,992 PKR (+14,630 a year), liquidated 3x, worst trade -10,000 PKR
+  5x: 334 trades over 6.4 years, total +92,785 PKR (+14,442 a year), liquidated 15x, worst trade -10,000 PKR

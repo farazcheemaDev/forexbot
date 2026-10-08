@@ -1,0 +1,35 @@
+backtest/carry_revisit.py, 2026-10-08 22:53; PIT top-60, 1x gross; Sharpe tune / holdout (split 2024-04-07)
+CHECK: start-day 0 reproduces bear_chop.fast_run's carry on 337 of 337 rebalances, max gap 0.0e+00
+
+  carry as killed (uncapped)               Sharpe mean +1.17 / +0.04, worst day +0.66 / -0.33 | ann +43% / -42% | falls 68-142% | worst week -122% | corr with momentum MN -0.15
+      start +0d: Sharpe +1.15 / +0.32, fall 133%, worst week -107%
+      start +1d: Sharpe +1.86 / +0.21, fall 85%, worst week -85%
+      start +2d: Sharpe +1.66 / +0.57, fall 68%, worst week -36%
+      start +3d: Sharpe +0.66 / +0.03, fall 108%, worst week -106%
+      start +4d: Sharpe +0.96 / -0.19, fall 98%, worst week -96%
+      start +5d: Sharpe +1.10 / -0.33, fall 142%, worst week -122%
+      start +6d: Sharpe +0.77 / -0.29, fall 99%, worst week -97%
+  carry + short exit +50%                  Sharpe mean +1.27 / +0.28, worst day +0.71 / -0.24 | ann +46% / +6% | falls 50-74% | worst week -22% | corr with momentum MN +0.10
+      start +0d: Sharpe +1.15 / +0.60, fall 56%, worst week -17%
+      start +1d: Sharpe +1.84 / +0.52, fall 64%, worst week -18%
+      start +2d: Sharpe +2.04 / +0.45, fall 58%, worst week -18%
+      start +3d: Sharpe +1.05 / +0.40, fall 50%, worst week -15%
+      start +4d: Sharpe +0.92 / +0.14, fall 55%, worst week -22%
+      start +5d: Sharpe +1.16 / -0.24, fall 65%, worst week -16%
+      start +6d: Sharpe +0.71 / +0.07, fall 74%, worst week -16%
+  carry + short exit +100%                 Sharpe mean +1.26 / +0.25, worst day +0.68 / -0.21 | ann +46% / +3% | falls 55-79% | worst week -28% | corr with momentum MN +0.06
+      start +0d: Sharpe +1.32 / +0.53, fall 56%, worst week -21%
+      start +1d: Sharpe +1.97 / +0.48, fall 56%, worst week -24%
+      start +2d: Sharpe +1.90 / +0.32, fall 61%, worst week -23%
+      start +3d: Sharpe +0.89 / +0.70, fall 55%, worst week -24%
+      start +4d: Sharpe +0.98 / +0.04, fall 62%, worst week -28%
+      start +5d: Sharpe +1.07 / -0.09, fall 67%, worst week -19%
+      start +6d: Sharpe +0.68 / -0.21, fall 79%, worst week -18%
+  carry + exit +50%, ranked a day earlier  Sharpe mean +1.14 / +0.23, worst day +0.80 / -0.30 | ann +39% / +4% | falls 51-65% | worst week -25% | corr with momentum MN +0.11
+      start +0d: Sharpe +0.80 / +0.45, fall 58%, worst week -14%
+      start +1d: Sharpe +1.29 / +0.72, fall 62%, worst week -18%
+      start +2d: Sharpe +1.62 / +0.34, fall 51%, worst week -18%
+      start +3d: Sharpe +1.20 / +0.33, fall 57%, worst week -16%
+      start +4d: Sharpe +1.05 / -0.18, fall 58%, worst week -18%
+      start +5d: Sharpe +0.93 / -0.30, fall 63%, worst week -25%
+      start +6d: Sharpe +1.08 / +0.29, fall 65%, worst week -16%

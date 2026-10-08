@@ -1,0 +1,24 @@
+backtest/pair_books.py, 2026-10-08 19:26; daily bb (own exit) + 4h capitulation tp5_nw (phase 0 and +180); 8 slots per book
+
+DAILY BOOK: 1313 trades, avg +7.35%, win 34%; by year: 2020:+12.7%(186) 2021:+20.4%(290) 2022:-7.3%(129) 2023:+6.1%(199) 2024:+0.3%(215) 2025:+8.0%(150) 2026:-1.3%(144)
+  holdout +2.04% a trade (439); share of the holdout sum from 2024-10-15..12-15: 49%
+
+1x:
+  [cap phase +0m] daily alone           :    +90%/yr, worst fall 49%, months up 44%, worst month -23%
+  [cap phase +0m] capitulation alone    :     +9%/yr, worst fall 16%, months up 26%, worst month -12%
+  [cap phase +0m] THE PAIR (half each)  :    +48%/yr, worst fall 27%, months up 45%, worst month -12%
+      the pair by year: 2020:+52% 2021:+327% 2022:-21% 2023:+30% 2024:+24% 2025:+15% 2026:+38%
+  [cap phase +180m] daily alone           :    +90%/yr, worst fall 49%, months up 44%, worst month -23%
+  [cap phase +180m] capitulation alone    :    +11%/yr, worst fall 11%, months up 28%, worst month -9%
+  [cap phase +180m] THE PAIR (half each)  :    +48%/yr, worst fall 27%, months up 45%, worst month -12%
+      the pair by year: 2020:+58% 2021:+316% 2022:-20% 2023:+29% 2024:+24% 2025:+14% 2026:+38%
+
+2x:
+  [cap phase +0m] daily alone           :     +4%/yr, worst fall 99%, months up 39%, worst month -67%
+  [cap phase +0m] capitulation alone    :    +17%/yr, worst fall 34%, months up 26%, worst month -25%
+  [cap phase +0m] THE PAIR (half each)  :    +33%/yr, worst fall 77%, months up 41%, worst month -34%
+      the pair by year: 2020:+114% 2021:+582% 2022:-49% 2023:+56% 2024:-20% 2025:-29% 2026:-4%
+  [cap phase +180m] daily alone           :     +4%/yr, worst fall 99%, months up 39%, worst month -67%
+  [cap phase +180m] capitulation alone    :    +23%/yr, worst fall 21%, months up 28%, worst month -17%
+  [cap phase +180m] THE PAIR (half each)  :    +33%/yr, worst fall 76%, months up 41%, worst month -33%
+      the pair by year: 2020:+126% 2021:+554% 2022:-48% 2023:+54% 2024:-18% 2025:-30% 2026:-3%

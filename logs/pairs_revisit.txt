@@ -1,0 +1,7 @@
+backtest/pairs_revisit.py, 2026-10-08 22:57; %/month ALL / TUNE / HOLD (split 2024-08-29), trades, win, share stopped
+  primary as killed (180d, z 2, stop 4)    -0.38% / -0.42% / -0.30% | 1212 trades, win 45%, stopped 72%
+  60-day formation                         -1.21% / -1.46% / -0.67% | 2831 trades, win 46%, stopped 82%
+  90-day formation                         -0.60% / -0.44% / -0.96% | 2264 trades, win 47%, stopped 78%
+  90-day, NO stop                          -0.42% / -0.24% / -0.82% | 698 trades, win 51%, stopped 0%
+  90-day, entry z 1.5                      -0.58% / -0.45% / -0.87% | 2430 trades, win 48%, stopped 73%
+  90-day, PIT top-60                       -1.04% / -0.95% / -1.23% | 2426 trades, win 48%, stopped 77%

@@ -1,0 +1,5 @@
+backtest/sleeve_risk_control.py, 2026-10-08 23:19; corrected engine, 10 orderings; per half: %/mo (CAGR/3) and biggest fall
+  MAIN  : tune +5.35%/mo at fall 64% vs uniform line +5.45%/mo (-0.10) | hold +5.85%/mo at fall 64% vs uniform line +5.23%/mo (+0.62) -> fails the control
+          uniform line: x1.0: +4.88/54% & +4.88/53%; x1.1: +5.11/58% & +5.03/57%; x1.2: +5.31/61% & +5.14/60%; x1.3: +5.49/65% & +5.22/64%; x1.4: +5.64/68% & +5.25/67%; x1.5: +5.77/70% & +5.26/70%
+  TRIPLE: tune +9.65%/mo at fall 57% vs uniform line +10.32%/mo (-0.67) | hold +13.03%/mo at fall 62% vs uniform line +12.23%/mo (+0.80) -> fails the control
+          uniform line: x1.0: +8.89/48% & +10.76/51%; x1.1: +9.41/51% & +11.27/54%; x1.2: +9.89/54% & +11.71/57%; x1.3: +10.31/57% & +12.08/61%; x1.4: +10.69/60% & +12.39/63%; x1.5: +11.03/63% & +12.64/66%

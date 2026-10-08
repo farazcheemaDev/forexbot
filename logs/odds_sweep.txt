@@ -1,0 +1,25 @@
+odds_now.py --sweep, table 2,714,844 rows, split 2024-01-28
+
+any moment  long 1R: n 236420, TP first 47.5%, stop first 49.7%, avg -0.068R / -0.166%
+any moment  long 2R: n 144312, TP first 26.6%, stop first 60.7%, avg -0.070R / -0.148%
+any moment  long 3R: n 120586, TP first 14.8%, stop first 63.4%, avg -0.068R / -0.130%
+any moment short 1R: n 236420, TP first 49.5%, stop first 47.7%, avg -0.023R / -0.091%
+any moment short 2R: n 143263, TP first 27.6%, stop first 59.4%, avg -0.019R / -0.125%
+any moment short 3R: n 119248, TP first 14.8%, stop first 62.2%, avg -0.014R / -0.134%
+BTC bull    long 1R: n 131653, TP first 48.2%, stop first 49.1%, avg -0.058R / -0.138%
+BTC bull    long 2R: n  80222, TP first 27.8%, stop first 60.2%, avg -0.049R / -0.085%
+BTC bull    long 3R: n  66864, TP first 16.2%, stop first 62.8%, avg -0.039R / -0.039%
+BTC bull   short 1R: n 131653, TP first 49.0%, stop first 48.4%, avg -0.032R / -0.118%
+BTC bull   short 2R: n  81807, TP first 26.8%, stop first 60.6%, avg -0.041R / -0.181%
+BTC bull   short 3R: n  69282, TP first 14.1%, stop first 63.4%, avg -0.040R / -0.190%
+BTC bear    long 1R: n 112710, TP first 46.5%, stop first 50.3%, avg -0.080R / -0.194%
+BTC bear    long 2R: n  71485, TP first 25.1%, stop first 61.4%, avg -0.095R / -0.218%
+BTC bear    long 3R: n  61045, TP first 13.3%, stop first 63.9%, avg -0.098R / -0.221%
+BTC bear   short 1R: n 112710, TP first 50.1%, stop first 46.7%, avg -0.011R / -0.063%
+BTC bear   short 2R: n  68655, TP first 28.4%, stop first 57.6%, avg +0.010R / -0.056%
+BTC bear   short 3R: n  57154, TP first 15.7%, stop first 60.2%, avg +0.024R / -0.045%
+
+570 tests (cells x sides x targets), baseline = same BTC regime: 0 EDGE (t > 3.9), 3 WEAK (t > 2.4, both halves)
+WEAK short 1R  RSI <30 (oversold), flat, near support, BTC bear: t +2.6, avg +0.60% vs -0.06%, TP first 57% vs 50%, n 656, tune +0.39% holdout +0.86%
+WEAK short 2R  RSI <30 (oversold), flat, near support, BTC bull: t +2.5, avg +0.76% vs -0.18%, TP first 38% vs 27%, n 389, tune +0.78% holdout +0.74%
+WEAK short 2R  RSI 45-55, flat, near support, BTC bear: t +2.5, avg +0.29% vs -0.06%, TP first 32% vs 28%, n 2514, tune +0.39% holdout +0.19%

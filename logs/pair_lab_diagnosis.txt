@@ -1,0 +1,25 @@
+backtest/pair_lab.py (diagnosis), 2026-10-08 19:49; the pair: daily book + capitulation book (phase 0), half each, 8 slots each, 1x, 10 same-day orders
+
+THE PAIR: +52%/yr (tune +64 / holdout +38), fall 31%, months up 50%, median month +0.1%; average month by market: bull +10.2%, chop +2.2%, bear -2.1%
+  days by market type: {'bear': 614, 'bull': 881, 'chop': 959}
+
+a) EACH BOOK ALONE (its half, the other half in cash), average month by market type:
+  daily : +46%/yr; bull +9.8%, chop +1.8%, bear -2.3% a month; months up 47%
+  capit : +5%/yr; bull +0.4%, chop +0.5%, bear +0.1% a month; months up 26%
+
+b) IDLE CAPITAL: share of days each book holds nothing, average slots in use (of 8):
+  daily : idle 15% of days, average 4.8 of 8 slots, full (8) 42% of days
+  capit : idle 95% of days, average 0.2 of 8 slots, full (8) 1% of days
+
+c) SIGNALS SKIPPED (slots full), median of 10 orders: daily 706 of 1328, capit 114 of 350
+   skipped daily trades averaged (all daily trades): +7.19% a trade
+
+d) DAILY BOOK TRADES by market type at entry (n, win, avg, share of all losses):
+  bear :   178 trades, win 31%, avg +3.38%, 15% of all losses, 11% of all gains
+  bull :   643 trades, win 32%, avg +9.14%, 51% of all losses, 56% of all gains
+  chop :   507 trades, win 38%, avg +6.04%, 34% of all losses, 33% of all gains
+  exit cap  :   248 trades, avg +70.31%
+  exit mean :  1080 trades, avg -7.31%
+  CAPITULATION trades by market type: bear 102 avg +1.93%, bull 69 avg +3.35%, chop 179 avg +2.53%
+
+e) COSTS on the daily book: fees 159 trade-% (12bp x 1328) against a gross of 9703 trade-% (1.6% of gross)

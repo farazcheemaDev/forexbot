@@ -1,5 +1,14 @@
 """MICRO ACCOUNT, GO FOR BROKE — $5-10 on real Bitget, sized for a multiple.
 
+RE-MEASURED 2026-10-06 (backtest/micro_honest.py, logs/micro_honest.txt) - quote THESE, not the table below.
+    This bot's own rules on real 1h paths, account-level, exits filled at the next open after the breach, funding,
+    mark-to-market sizing, hourly liquidation check, 63 monthly starts x 2 orderings, 12 months:
+        $10 at 4% (as configured):  ENDED >= 5x 29% (touched 42%), wiped out 56%, liquidated 17%
+        4,000 PKR at 4% / at 2%:    ended >= 5x 32% / 25%, wiped out 47% / 17%   (its own 10 coins, hindsight)
+        no-hindsight top-12:        ended >= 5x 25% / 29%, wiped out 53% / 36%
+    2% risk gives about the same chance of 5x with 20-30 points less ruin. RISK_PCT is NOT changed here - a
+    human decides. The odds swing with the start year (2022 starts: 8-12%; 2024 starts: 62-71%).
+
 THE ODDS. READ THESE BEFORE FUNDING ANYTHING.
     Measured in backtest/microacct.py: 6,000 bootstrapped paths per cell on the
     hindsight-deflated edge, Bitget's real $5 order minimum enforced.

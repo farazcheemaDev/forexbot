@@ -1,0 +1,17 @@
+backtest/maker_exec.py, 2026-10-06 04:43; limits valid 3 min, filled only on a trade-through; taker 6bp
+
+A. btc_doge models (fit < 2024-02, threshold on 2024-02..10 by maker-execution GROSS, HOLDOUT shown):
+  h=15m ridge |pred| > 4bp: 2093/2204 filled (95%); gross +5.38bp vs +6.50bp for the filled signals and +7.64bp for EVERY signal tried, at the next open; legs maker 1.95 / taker 0.05; break-even maker fee +2.61bp a leg
+      maker 0bp: +5.10bp (t +2.3; tune +nan / hold +5.10)  maker 1bp: +3.14bp (t +1.4; tune +nan / hold +3.14)  maker 2bp: +1.19bp (t +0.5; tune +nan / hold +1.19)
+  h=15m trees |pred| > 2bp: 4729/4912 filled (96%); gross -0.88bp vs +0.32bp for the filled signals and +1.51bp for EVERY signal tried, at the next open; legs maker 1.96 / taker 0.04; break-even maker fee -0.56bp a leg
+      maker 0bp: -1.11bp (t -0.8; tune +nan / hold -1.11)  maker 1bp: -3.07bp (t -2.2; tune +nan / hold -3.07)  maker 2bp: -5.03bp (t -3.6; tune +nan / hold -5.03)
+  h=60m ridge |pred| > 6bp: 1490/1565 filled (95%); gross +8.27bp vs +9.63bp for the filled signals and +10.07bp for EVERY signal tried, at the next open; legs maker 1.95 / taker 0.05; break-even maker fee +4.09bp a leg
+      maker 0bp: +7.97bp (t +1.9; tune +nan / hold +7.97)  maker 1bp: +6.02bp (t +1.4; tune +nan / hold +6.02)  maker 2bp: +4.07bp (t +1.0; tune +nan / hold +4.07)
+  h=60m trees |pred| > 16bp: 1714/1783 filled (96%); gross +2.39bp vs +3.49bp for the filled signals and +3.99bp for EVERY signal tried, at the next open; legs maker 1.96 / taker 0.04; break-even maker fee +1.11bp a leg
+      maker 0bp: +2.18bp (t +0.5; tune +nan / hold +2.18)  maker 1bp: +0.21bp (t +0.1; tune +nan / hold +0.21)  maker 2bp: -1.75bp (t -0.4; tune +nan / hold -1.75)
+
+B. rsi_mom short 2R (scalp_1m's best named gross edge), every signal 2022-01 .. 2026-08:
+  BTCUSDT: 45747/49429 filled (93%); gross +0.09bp vs +0.12bp for the filled signals and +0.69bp for EVERY signal tried, at the next open; legs maker 1.32 / taker 0.68; break-even maker fee -3.04bp a leg
+      maker 0bp: -4.00bp (t -31.1; tune -3.86 / hold -4.21)  maker 1bp: -5.32bp (t -41.9; tune -5.18 / hold -5.52)  maker 2bp: -6.64bp (t -53.0; tune -6.50 / hold -6.84)
+  DOGEUSDT: 43753/46980 filled (93%); gross -0.26bp vs -0.18bp for the filled signals and +1.00bp for EVERY signal tried, at the next open; legs maker 1.30 / taker 0.70; break-even maker fee -3.42bp a leg
+      maker 0bp: -4.45bp (t -18.7; tune -4.64 / hold -4.17)  maker 1bp: -5.75bp (t -24.3; tune -5.93 / hold -5.48)  maker 2bp: -7.05bp (t -30.1; tune -7.23 / hold -6.79)

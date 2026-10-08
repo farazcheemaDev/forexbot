@@ -1,0 +1,41 @@
+backtest/lottery_v2.py --detail, 2026-10-06 05:00; $14.29 (4,000 PKR), 12 months, 63 starts x 2 orderings
+
+PIT12 (honest), 1% risk per unit:
+  run to exit: >=5x 23%, >=10x 16% | booked by month 12: >=5x 21%, >=10x 16% | ever under $5 35% | ruined 0%
+  >=10x outcomes that started before 2021-05: 50% of 20
+    starts 2020-07 .. 2021-04 : n  20, median 39.59x, >=2x  50%, >=5x  50% (booked by month 12  50%), ever under $5  40%, ended below start  50%
+    starts 2021-05 .. 2021-12 : n  16, median  0.31x, >=2x   0%, >=5x   0% (booked by month 12   0%), ever under $5  62%, ended below start  88%
+    starts 2022               : n  24, median  1.71x, >=2x  42%, >=5x   0% (booked by month 12   0%), ever under $5  25%, ended below start  21%
+    starts 2023               : n  24, median  0.49x, >=2x   0%, >=5x   0% (booked by month 12   0%), ever under $5  67%, ended below start  92%
+    starts 2024               : n  24, median  7.04x, >=2x  71%, >=5x  62% (booked by month 12  54%), ever under $5   8%, ended below start  29%
+    starts 2025               : n  18, median  1.88x, >=2x  44%, >=5x  22% (booked by month 12  22%), ever under $5  11%, ended below start  17%
+
+PIT12 (honest), 2% risk per unit:
+  run to exit: >=5x 29%, >=10x 22% | booked by month 12: >=5x 27%, >=10x 24% | ever under $5 49% | ruined 6%
+  >=10x outcomes that started before 2021-05: 54% of 28
+    starts 2020-07 .. 2021-04 : n  20, median 203.94x, >=2x  75%, >=5x  75% (booked by month 12  75%), ever under $5  20%, ended below start  20%
+    starts 2021-05 .. 2021-12 : n  16, median  0.23x, >=2x   0%, >=5x   0% (booked by month 12   0%), ever under $5  75%, ended below start  81%
+    starts 2022               : n  24, median  1.27x, >=2x  42%, >=5x   0% (booked by month 12   0%), ever under $5  42%, ended below start  38%
+    starts 2023               : n  24, median  0.21x, >=2x   4%, >=5x   0% (booked by month 12   0%), ever under $5 100%, ended below start  96%
+    starts 2024               : n  24, median  7.07x, >=2x  67%, >=5x  62% (booked by month 12  54%), ever under $5  42%, ended below start  21%
+    starts 2025               : n  18, median  1.26x, >=2x  39%, >=5x  33% (booked by month 12  33%), ever under $5  11%, ended below start  44%
+
+BOOK12 (hindsight), 1% risk per unit:
+  run to exit: >=5x 24%, >=10x 10% | booked by month 12: >=5x 17%, >=10x 6% | ever under $5 24% | ruined 0%
+  >=10x outcomes that started before 2021-05: 31% of 13
+    starts 2020-07 .. 2021-04 : n  20, median  0.38x, >=2x  20%, >=5x  20% (booked by month 12  20%), ever under $5  50%, ended below start  70%
+    starts 2021-05 .. 2021-12 : n  16, median  0.26x, >=2x   0%, >=5x   0% (booked by month 12   0%), ever under $5  75%, ended below start 100%
+    starts 2022               : n  24, median  2.66x, >=2x  58%, >=5x  21% (booked by month 12   4%), ever under $5  17%, ended below start  17%
+    starts 2023               : n  24, median  1.08x, >=2x  46%, >=5x  38% (booked by month 12  21%), ever under $5  17%, ended below start  50%
+    starts 2024               : n  24, median  1.47x, >=2x  46%, >=5x  33% (booked by month 12  33%), ever under $5   0%, ended below start  38%
+    starts 2025               : n  18, median  2.74x, >=2x  72%, >=5x  22% (booked by month 12  17%), ever under $5   0%, ended below start  11%
+
+BOOK12 (hindsight), 2% risk per unit:
+  run to exit: >=5x 19%, >=10x 13% | booked by month 12: >=5x 14%, >=10x 10% | ever under $5 42% | ruined 2%
+  >=10x outcomes that started before 2021-05: 76% of 17
+    starts 2020-07 .. 2021-04 : n  20, median 33.03x, >=2x  70%, >=5x  70% (booked by month 12  65%), ever under $5  40%, ended below start  30%
+    starts 2021-05 .. 2021-12 : n  16, median  1.40x, >=2x  12%, >=5x   0% (booked by month 12   0%), ever under $5  38%, ended below start  38%
+    starts 2022               : n  24, median  2.10x, >=2x  50%, >=5x   4% (booked by month 12   0%), ever under $5  29%, ended below start  17%
+    starts 2023               : n  24, median  1.05x, >=2x  33%, >=5x  21% (booked by month 12   4%), ever under $5  71%, ended below start  46%
+    starts 2024               : n  24, median  0.93x, >=2x  29%, >=5x  17% (booked by month 12  17%), ever under $5  38%, ended below start  58%
+    starts 2025               : n  18, median  1.39x, >=2x  28%, >=5x   0% (booked by month 12   0%), ever under $5  33%, ended below start  22%

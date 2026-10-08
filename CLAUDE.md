@@ -1,12 +1,14 @@
 # CLAUDE.md — read this first, every session
 
-*Last updated 2026-09-29. Dated history in §10.*
+*Last updated 2026-10-08. Dated history in §10.*
 
 This file is the orientation for a new session. It is deliberately short. It tells you the
 goal, the rules that keep the numbers honest, where everything is, and the traps that have
 already produced wrong answers in this project more than once.
 
 **A LOCAL session on the PC (MT5 open)? There is a task list waiting: [`docs/LOCAL_MT5_TASKS.md`](docs/LOCAL_MT5_TASKS.md).**
+
+**Coming back after 2026-10-08? [`docs/09-pick-up-here.md`](docs/09-pick-up-here.md) was rewritten that evening: what runs on the VM and the PC, the machine names (v2 / v3 / MIX B / E), the one live change (the MN short-leg exit in `combo_bot.py`), and what is next. [`docs/21-graveyard-audit.md`](docs/21-graveyard-audit.md) rates every kill.**
 
 **Read this file, then [`docs/09-pick-up-here.md`](docs/09-pick-up-here.md) for live state,
 then [`docs/02-what-failed.md`](docs/02-what-failed.md) before proposing any strategy.**
@@ -119,6 +121,8 @@ candidate on paper. The rule above still stands for everything else.
 | **Ruin tests set too deep** | A 98%-drawdown config was picked as "best" because the ruin flag only fired at 99% | Ruin = 90% drawdown |
 | **Azure Run command JSON-decodes scripts** | A backslash-n inside a pasted heredoc becomes a REAL NEWLINE and breaks Python mid-string | **Patch scripts contain zero backslashes.** Use `chr(10)`. See `deploy/patch_*.sh` |
 | **Bash heredocs mangling escapes in Python literals** | Same class of bug, locally | Use the Edit/Write tool for code containing escapes |
+| **A weekly book measured on ONE weekday** | Every market-neutral figure used one rebalance day. On one of the seven the 2025-09-12 squeeze wipes the book out (-99%); funding carry and the BTC/alts dispersion trade also changed verdict with the anchor (2026-10-08, `mn_combos.py`, `bear_alpha_pit.py`) | Run any weekly book on all 7 weekdays (`mn_combos.mn_run(start=0..6)`) before quoting it |
+| **Weighting a series that is BOOKED AT CLOSE by a label read the same day** | The trend book (`dd_fixes.sim`) books each unit when it closes; weighting its daily series by the regime label of that day is sizing after the outcome. Regime weights read +45% over the line; sized at entry they fail (2026-10-08, `regime_weights.py`) | Apply a size rule at ENTRY (`size_fn`/`gate_fn`), or lag the label by the holding time |
 | **Haircutting a LOSS** | The 3× hindsight haircut divides an *annualised* rate by 3, which shrinks losses as eagerly as gains: a real −30% month reads −3.3%, and a year that ended at $92 reads $172. Found while answering "what happens at worst" — the first table showed a worst-ever month of −3.5% | Quote **downside raw, upside haircut**, and label which is which |
 | **A non-stable sort on an append-only log** | `sort_values` defaults to quicksort. It reordered simultaneous closes and misaligned a log's own `equity` column against its rows, reading as a $4,534 self-check failure on a log that was correct | `kind="stable"` whenever row order carries meaning |
 | **Run command wraps long lines** | Near 50 chars, and a wrapped line's tail RUNS as a command. A wrapped COMMENT loses its `#` and executes. This destroyed a 22KB base64 one-liner | Every line in `deploy/*.sh` under 44 chars; payloads in heredocs, which `base64 -d` decodes however they are broken up |
@@ -154,6 +158,51 @@ backtest/          every experiment. blend.py holds the deployed constants.
                      (funding, real t0) most 2026-09-23/24 tests build on; score() pairs them
   one_year.py / month_dist.py / book_stats.py   what $221 does in a month / a year, per book
   kelly_corrected.py risk-per-unit sweep with leverage and ruin (why 0.30% stays)
+docs/21-graveyard-audit.md  EVERY kill, its backing rated, the thin ones re-tested (2026-10-08): engine_rescore2,
+                     sleeve_risk_control, bear_alpha_pit, mn_width7, wick_chop_size, sweep_reclaim, meme_days
+backtest/daily_combos.py / capit_combos.py / capit_stack.py / mn_combos.py / machine_combos.py  the combination sweep
+                     (doc 02, 2026-10-08): capitulation improved (coin -10% + limit -2%); the MN rebalance-day wipe-out and
+                     its +50% short-leg exit; the machine measured with MN on every day. Phase-2 re-tests: daily_families,
+                     carry_revisit, capit_volume, pairs_revisit, capit_1h, sleeve_combos, trend_combos, wick_capit
+backtest/v2_addons.py  today's books ADDED to v2 (marked to market, vs the bet-smaller line): v2 + capitulation + daily,
+                     all x0.75 = v2's typical year with the worst month -21% instead of -29% (doc 02, 2026-10-08)
+backtest/pair_lab.py / mn_capped.py / pair_full.py  "machine v3": the pair diagnosed and fixed - + capped MN x0.5 +
+                     bear sleeve x1 = +133%/yr on paper, every year positive, all point-in-time (doc 02, 2026-10-08)
+pair_live.py       THE PAIR, LIVE: read-only Bitget signals (daily Bollinger trend + 4h capitulation breadth, crypto
+                     perps only - isRwa stock tokens and stables excluded) and a 10,000 PKR paper book
+                     (logs/pair_paper_state.json, logs/pair_paper_trades.csv). --scan / --paper (hourly) / --loop /
+                     --status. tests/test_pair_live.py: fake exchange, 4 tests, a breadth-gate mutation caught.
+                     Started on the PC 2026-10-08; NOT on the VM (deploying is the user's call)
+backtest/pair_books.py / daily_phase.py / tv_indicators.py  THE PAIR: daily Bollinger trend book + capitulation book
+                     on the PIT top-40, 1x: +51%/yr median, falls 25-34% - the best no-hindsight candidate (doc 02)
+backtest/capitulation_exits.py / capitulation_tp5.py / machine_capit.py  the capitulation book with a +5% exit, its
+                     accounts, and as a machine sleeve (+14% typical year) (doc 02, 2026-10-08)
+backtest/doge_focus.py  one-coin (DOGE) walk-forward over 134 strategies: no route to +10%/month (doc 02)
+backtest/capitulation_freq.py / capitulation_breadth.py  more signals = less edge; waiting for >=5 coins to
+                     capitulate (breadth) is the best version: ~55/yr, +1.1-1.7%/trade, all 4 phases (post-hoc)
+backtest/capitulation_wide.py  the capitulation buy, frozen, on the PIT top-40: carries in direction, not by-day t
+backtest/rsi_confluence.py  extreme RSI + confirmations, ~2,000 configs: CANDIDATE 4h capitulation buy (RSI<20 +
+                     volume spike), all 4 bar phases, ~+1%/trade but ~13 signals/yr (doc 02, 2026-10-08)
+backtest/rsi_factors.py  RSI both ways with factor exits instead of a stop: no factor turns it positive (doc 02)
+backtest/rsi_only.py  the no-stop retail RSI trade, 15m/1h/4h x 5 coins, by year: 80-90% win rate always, money only
+                     in 2020/2021/2023 (doc 02, 2026-10-08)
+backtest/scalp_15m.py  15m long+short on 5 coins, scalp_1m's machinery: 0 EDGE, 1 WEAK at taker (doc 02)
+backtest/day_long.py  one-day longs on 10k PKR picked by 1,350 indicator filters x 5 coins: dead as asked (doc 02)
+backtest/micro_honest.py  micro_bot's own rules re-measured on real paths: $10 at 4% ends >= 5x 29%, wiped out
+                     56%; 2% halves the ruin at the same odds (doc 02, 2026-10-06)
+backtest/lottery_v2.py  go-for-broke odds on 4,000 PKR, corrected (causal slots, 7 units, add guard): honest
+                     12-month >=5x 23-29% at 1-2%/unit, ~half stuck under $5, decided by the start year (doc 02)
+backtest/maker_exec.py  limit-order execution (trade-through fills) for today's 1m edges: ridge BTC->DOGE 60-min
+                     is +4bp/trade at Bitget maker, t +1.0 - a forward-test CANDIDATE, nothing more (doc 02)
+backtest/one_shot.py  one trade at 10-40x to double/triple/5x the stake, random vs indicator+volume setups: the
+                     coin flip's odds minus fees; setups move them ~1 point (doc 02, 2026-10-06)
+backtest/btc_doge.py  trade DOGE on a model of BTC+DOGE (1m features, ridge + trees): real but tiny before fees,
+                     loses at taker fees, wiped out at 5x+ by the 2025-10-10 hour (doc 02, 2026-10-06)
+backtest/scalp_1m.py  1-minute BTC/DOGE scalping at 30-40x, every retail rule + the leverage (Kelly) test: dead
+                     even at zero fees past ~10x (doc 02, 2026-10-06)
+odds_now.py        "if I go long/short this coin NOW, how often does take-profit hit first?" - a read-only MANUAL
+                     trade checker: live Bitget cell (RSI/momentum/range/BTC gate) vs the same cell in history,
+                     against the same-regime baseline. Answer is almost always NO EDGE (doc 02, 2026-10-06)
 btc_regime_now.py  LIVE read-only readout: 1000h gate, 4h break level, momentum, Coinbase
                      premium, funding. Public endpoints, no keys. (doc 12)
 blend_paper.py     THE LIVE PAPER BOOKS — seven in one process. main / tight / sized /
@@ -185,13 +234,13 @@ combo_bot.py       THE LIVE COMBINATION BOT (2026-09-24): combo_paper's three bo
 longtrend_bot.py   the OLD Bitget demo bot, STOPPED 2026-09-24 (combo_bot replaced it on the demo
                      account). ALLOW_REAL = False. Its live mode trades a 9-coin list that is NOT the
                      validated 12-coin book - never take it live as it stands
-micro_bot.py       the $10 go-for-broke bet. ALLOW_REAL = False
+micro_bot.py       the $10 go-for-broke bet. ALLOW_REAL = False. Odds re-measured 2026-10-06 (backtest/micro_honest.py)
 health.py          "is anything wedged or dead" — three signals per bot
 backtest/wick_better.py, wick_5m.py, joint_worst_hour.py, worst_month.py   the crash bids (docs 15/16):
                      which rule, what happens inside the hour, the account's worst hour, the worst
                      month and recovery. wick_replay.py replays wick_paper.py on past crash hours.
                      Candidate only - nothing in combo_bot.py
-docs/              00-20 + README. Doc 02 is the graveyard; read it before proposing.
+docs/              00-21 + README. DOC 21 = the graveyard audit (every kill rated, thin ones re-tested). Doc 02 is the graveyard; read it before proposing.
                      DOC 20 = THE PRODUCT: what combo_bot is, what it earns per market, and the
                      sideways gap with every test that tried to close it.
                      DOC 17 = THE MACHINE v2: all four books, the evidence, every risk in one table.
@@ -383,6 +432,15 @@ even less room. More return comes from 7 units or from capital, not from risk.
 
 ## 7b. OPEN BUGS — read before trusting a live book's numbers
 
+- **v2's market-neutral book can be wiped out by one squeeze, depending on its rebalance day** (found 2026-10-08,
+  `backtest/mn_combos.py`, `logs/mn_rebalance_days.txt`). **FIXED IN `combo_bot.py` AND DEPLOYED 2026-10-08 18:37 UTC** (commit cb6bcbf; only combo-bot-demo restarted,
+  every other service's code verified byte-identical; state backup `logs/combo_bot_demo/cs.20261008-183656` on the VM)
+  (`mn_squeeze_exits`, `MN_SHORT_EXIT = 0.50`; 2 tests in `tests/test_combo_bot.py`, 23 pass, 5 mutations caught incl.
+  the old no-exit behaviour; one dry poll clean). `combo_paper.py` is unchanged - pre-registered - and still carries the risk. Uncapped, on 1 of 7 rebalance days the 2025-09-12 week (MYX) costs 99% of the account. The
+  live `combo_bot.py`'s 30% disaster stop does not protect it: the netting re-opens a stopped position on the next poll.
+  `combo_paper.py` and the demo bot run the uncapped book on whatever day they started. The tested fix is a short-leg
+  BOOK exit at +50% (out of that name until the next rebalance): same average Sharpe across the 7 days, worst week -29%.
+
 - **The seven blend books' RECORDED equity is overstated - the triple's by ~$325** (found
   2026-09-29, `rebuild_equity.py`, **not fixable in place, measured instead**). Positions opened
   before the entry-sized fix carry no `risk_usd`, so blend_paper still sizes them at CLOSE, each
@@ -505,6 +563,230 @@ the box was patched before the repo was public.
 
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
+
+### 2026-10-08 (the goal's second half) - EVERY kill audited: docs/21-graveyard-audit.md
+
+- Every kill in doc 02 / doc 11 / docs 12-13 / this session rated STRONG / MODERATE / THIN / DATA-LIMITED; every THIN one
+  the data allows was re-tested. **Nothing came back as a book.** Reversed: the MN short-leg stop (`mn_combos.py`). Wrong as
+  stated: "volume is anti-useful", "every reversal fails". Re-tested and standing: protecting the pyramid, stop width,
+  entry limits, bb(20,2)/(50,1.5), risk by sleeve (cleared the paired bar, failed matched risk: `engine_rescore2.py`,
+  `sleeve_risk_control.py`); long BTC / short alts on a PIT basket (+0.55%/mo on the original weekday, 1 of 7 weekly
+  anchors: `bear_alpha_pit.py`); MN width on 7 days (`mn_width7.py`); crash bids up in chop (`wick_chop_size.py`); ICT
+  sweep / prior-day fade (real information, loses after fees: `sweep_reclaim.py`); memecoin graduations on later days
+  (`meme_days.py`); funding carry, pairs, indicators on daily PIT bars, 1h capitulation (earlier entry).
+- Lesson, again: a weekly book must be checked on all 7 weekdays (MN, carry, dispersion all moved with the anchor).
+
+### 2026-10-08 (goal: every combination, then the thin kills) - ~150 variants; one real risk found
+
+- **The market-neutral book's REBALANCE DAY decides survival** (`mn_combos.py`, `logs/mn_rebalance_days.txt`): on 6 of 7
+  days fine, on one the holdout is wiped out (2025-09-12 week -99%, MYX squeeze). v2's figures sit on a lucky day; rotated,
+  v2's worst year is $17 (`machine_combos.py`). The live bot's 30% disaster stop does not help (the netting re-enters).
+  **Fix: a short-leg BOOK exit at +50%** - same average Sharpe, worst week -29%. Not in any bot yet (user's call; §7b).
+- **Capitulation improved** (`capit_combos.py`, `capit_stack.py`): coins down >= 10% in 24h + a limit 2% under - all 4
+  phases, ~30/yr, +3.9 / +4.4% a trade, 1x fall 4%; volume rule then redundant (`capit_volume.py`).
+- **Machine, honest MN** (`machine_combos.py`): v2 safe + daily + improved capitulation beats "v2 safe smaller" +11% / +34%;
+  at v2's typical year the worst month is -26.0% (v2 safe -27.2%). **This corrects the v2.1 entry below (-21% was the lucky
+  MN day).** Regime weights' +45% was a look-ahead (trend booked at close); fixed, it fails (`regime_weights.py`).
+- Nothing improves the daily book (0/37, 0/4 stacks, 0/10 indicator families on daily PIT bars); its holdout rests on 5 pump
+  trades (without them -30..-39%/yr). Trend x today's signals 0/4, crash bids x capitulation 0/5, sleeve x capitulation 0/4.
+- Thin kills re-tested: funding carry stands (holdout Sharpe +0.28 with the exit); pairs stand (6/6 negative); "indicators
+  exhausted" stands, now backed on daily PIT; "volume anti-useful" is wrong as stated; the MN-stop kill is reversed. Doc 02.
+
+### 2026-10-08 - "v2.1": today's two books ADDED to the running bot (`backtest/v2_addons.py`)
+
+- v2 + the capitulation book + the daily Bollinger book, everything x0.75: **same typical year as v2 ($1,777 / $1,773 vs
+  $1,812 / $1,625 on $300), worst month -21% / -20% vs -29% / -25%**, fall 53% vs 57%. Passes the bet-smaller line on
+  both spans; the daily book does the work, the capitulation book is small. Full size: +50% typical, fall 64%.
+- **CORRECTED the same evening (`machine_combos.py`):** the -21% sat on the market-neutral book's lucky rebalance
+  day. Measured with the day rotated, the add-ons buy about one point of worst month (-26.0% vs -27.2%), plus return.
+- Swapping v2's MN for the capped one fails. The daily book was picked after looking and makes under half on the
+  holdout what it makes on the tune half; the x0.75 mix loses 2022 and 2026 to v2. Forward paper before money.
+
+### 2026-10-08 - the names, and MIX B (v2 x v3)
+
+- **Machine v2** = the running one (combo_bot demo + combo_paper on the VM): triple trend (12 coins) + MN 1x + bear sleeve
+  + crash bids. **Machine v3** = this session's: daily Bollinger book + capitulation book + capped MN x0.5 + bear sleeve
+  (point-in-time only). Not running yet (only the pair half, on the PC: pair_live.py).
+- `machine_mix.py`: **MIX B = v3 + v2's trend at 0.5 + crash bids** - $300 -> $1,406 / $1,355 typical year (v2 $1,812 /
+  $1,625), worst month -16% (v2 -29%), worst year $290 / $480 (v2 $222 / $454). The best balance measured.
+- Capital: the pair cannot trade at 10,000 PKR (every order under Bitget's $5); ~25,000 PKR runs the pair, ~100-150k PKR
+  the full v3 (`pair_min_capital.py`); MIX B needs at least that.
+
+### 2026-10-08 (goal: fix the pain points) - "machine v3": pair + capped MN + bear sleeve, +133%/yr on paper
+
+- `pair_lab.py` diagnosis: capitulation half idle 95% of days; daily book skips 53% of signals; bear months -2.1%.
+  Fixes that FAILED: more slots, a shared pool (holdout down), the 1000h gate (holdout down across phases), longer caps
+  (small). Fixes that WORKED: the market-neutral book x0.5 with each coin-week CAPPED at +100% (`mn_capped.py`: 2026's
+  AKE/RIVER/BEAT pumps otherwise carry it) and the doc-13 bear sleeve x1 (bear months +6.6%).
+- `pair_full.py`: daily + capitulation (halves, 1x) + capped MN x0.5 + bear sleeve x1, no gate: **+133%/yr (+123..+144
+  over 6 phase combos x 10 orders), holdout +83%, fall 40%, 65% of months up, median month +4.6%, every year positive
+  (2022 +64%)**. All point-in-time. Not proven forward; the combo paper's MN leg is -$13 live so far.
+
+### 2026-10-08 - pair_live.py: the pair as live signals + a paper book
+
+- Read-only scanner on Bitget public data; first live pass 2026-10-08: daily BUY PUMP; capitulation breadth 0. Caught
+  on its first run: Bitget's top-40 includes stock tokens (SPCX, isRwa=YES) the backtest never had - now excluded.
+  Paper book from 10,000 PKR. To make it a forward record it must run hourly (the VM is the place - user's call).
+
+### 2026-10-08 (goal: keep searching) - THE PAIR: daily Bollinger trend + capitulation, +51%/yr, no hindsight
+
+- `tv_indicators.py`: TradingView favourites (SuperTrend, Squeeze, Ichimoku, PSAR, Hull, W%R, CCI, MFI, OBV, Heikin-Ashi,
+  VWAP) lose to the deployed Bollinger entry. Standout: Bollinger(30,1.5) on DAILY bars, out under the 30-day mean:
+  +7.35%/trade on the PIT top-40; `daily_phase.py`: positive at all 6 day boundaries, holdout +1.1..+2.4%.
+- `pair_books.py`: half the account in that daily book, half in the capitulation book, 1x: **+47..+59%/yr (median +51%),
+  worst fall 25-34%, last 12 months +66%**, 2022 -21%; robust to capitulation phase and slot order. Point-in-time, no
+  haircut. Lumpy (median month ~0). Daily book picked after looking -> forward paper decides. 2x = liquidation.
+
+### 2026-10-08 (goal: keep searching) - capitulation with a +5% exit; as a machine sleeve
+
+- `capitulation_exits.py` / `capitulation_tp5.py` / `machine_capit.py` (doc 02): the breadth capitulation entry with
+  "+5% or out after 24 bars if not in profit": **+2.4..+3.1%/trade in all 4 phases, both halves**; 10,000 PKR at 8 slots
+  2x: +17..+30%/yr, falls 18-33%. Uncorrelated with the machine (+0.08): as a sleeve it lifts the machine's typical
+  year $1,812 -> $2,072 (1x) / $2,295 (2x) on $300, worst month unchanged. An increment, not a breakthrough.
+
+### 2026-10-08 - "study DOGE only, 1,000 PKR a month on 10k": the walk-forward says no
+
+- `backtest/doge_focus.py` (doc 02): 134 DOGE strategies; each month trade the best of the trailing 3/6/12 months.
+  10,000 PKR -> 1,798 / 11,620 / 3,177 at 1x, ~0 at 3x over 57 months; median month <= 0. Hindsight best (EMA 20/50):
+  1.04M PKR - the illusion. +10% months exist at 3x (25-32%) only beside months that wipe the account.
+
+### 2026-10-08 - more frequency from the capitulation buy: loosening kills it; BREADTH helps
+
+- `capitulation_freq.py`: RSI 25/30, 1h, top-100 all add signals and lose the edge; a realistic 3-slot 10,000 PKR
+  account makes at best +395 PKR/yr at 1x. Cause: the FIRST signals of a crash keep falling (-0.65..+0.85%/trade),
+  later ones bounce (+1.1..+1.8%).
+- `capitulation_breadth.py` (post-hoc): only after >=5 coins capitulated in 24h -> top-40, RSI<20, vol>2x: ~55/yr,
+  +1.1..+1.7%/trade in all 4 phases, +570..+1,260 PKR/yr at 1x, +1,280..+3,480 at 2x on 10,000 PKR. Candidate.
+
+### 2026-10-08 - the capitulation buy on unseen coins: direction holds, confidence does not
+
+- `backtest/capitulation_wide.py`: the frozen rule on the PIT top-40 (dead coins in). Other coins: ~44 signals/yr,
+  85-93% win, +0.8 to +1.2%/trade in 3 of 4 bar phases (+0.09% in one), 24/27 coins positive, but t by DAY only
+  -1.3..+2.0. LUNA never fired. 10,000 PKR per trade: +0.5k to +6.3k PKR/yr at 1x by phase; signals bunch (19 on one
+  day). Candidate; a top-40 paper tracker would settle it in ~6 months.
+
+### 2026-10-08 - extreme RSI + confirmations: one CANDIDATE, the 4h capitulation buy
+
+- `backtest/rsi_confluence.py` (doc 02): ~2,000 configs. **4h RSI(14) crossing under 20 with a >3x volume spike, +2% or
+  out after 4 days:** positive on both halves in all 4 bar phases (+0.9 to +1.6%/trade, t by day 3.7-6.9), every
+  year 2020-26, every coin. Honest ~+1.0%/trade, ~13 signals a year across 5 coins: 10,000 PKR -> ~12k at 1x over 5.5
+  years, ~12-20k at 3x, 0 at 10x (dips inside trades 29-53%). Shorts at high RSI lose everywhere. Found in the ~10th
+  sweep of this holdout -> forward paper before anything. Same family as the crash bids.
+
+### 2026-10-08 - RSI both ways with "factor" exits instead of a stop: dead
+
+- `backtest/rsi_factors.py` (doc 02): 6 factor exits (RSI deeper, level break, BTC against, volume against, not working,
+  6xATR) x trend filter, 336 configs x 5 coins x 15m/1h/4h. **No factor makes the holdout positive** (longs -0.05 to
+  -0.50%/trade); shorts lose with all; the EMA200 filter HURT longs in 2022. Tune-picked top 5 all lost on the
+  holdout. Only 4h RSI<25 longs (+2%, no stop) held on both halves - rsi_only's exception again.
+
+### 2026-10-08 - "I used to make money with just RSI": true in 2020/2021/2023, false in 2022/2025-26
+
+- `backtest/rsi_only.py` (doc 02): the retail RSI trade - buy the cross under 30/25, take +1-2% or exit on RSI 50/70,
+  NO stop - on 15m/1h/4h x 5 coins. **Wins 76-95% of trades in every year; sum of returns 2021 +558%, 2023 +421%,
+  2022 -737%, 2025-26 -639%.** Since 2024-04 on 10,000 PKR: 1x ends 2-9k on 14 of 15 cells, 5x+ wiped on all.
+  The win rate never says which year it is - that is why it feels like it works.
+
+### 2026-10-08 - 15-minute bars, long and short: dead after fees
+
+- `backtest/scalp_15m.py` (doc 02): 5 coins, 2020-09..2026-08, scalp_1m's rules + cells both sides. Fee toll 0.09-0.17R
+  (1m: 0.5-1R) and still **taker: 1 WEAK, 0 EDGE of 980**. Best pick (short DOGE overbought spikes in a bull):
+  +0.10%/trade on the holdout; 10,000 PKR -> 11,580 at 1x over 2.4 years, gone at 20x in 36 trades.
+
+### 2026-10-08 - "a one-day long on 10k PKR, every indicator combination": dead as asked
+
+- `backtest/day_long.py` (doc 02): long at 00:00 UTC for 24h, 1,350 filters (20 conditions, singles/pairs/triples)
+  x 5 coins. **Holdout: long every day -0.1%/day, 0 EDGE, tune-picked indicators lose on the holdout, 10x all-in gone
+  in 1-13 trades.** The only thing visible - daily breakout + BTC uptrend on SOL/DOGE/XRP, +0.6 to +2.8%/day, half of
+  it Nov 2024, nothing on BTC/ETH - was found after looking at the holdout; it is the trend book's momentum.
+
+### 2026-10-08 - combo paper day 14: -20.6%, at the backtest's 5th percentile
+
+- VM `combo_paper.py --status`: **$175.56 (-20.56%)**, trend -$31.77, MN -$13.25, sleeve idle, 11 trend positions open;
+  H1 fair combo x0.794 vs triple x0.835 (59 trades). BTC $82.5k, +1.8% over its 1000h average (was +7.2% on 10-05),
+  4h trail break 2026-10-08 04:00 UTC.
+- `combo_window.py --days 14 --live -0.2056` (`logs/combo_window_14d.txt`; the default reproduces the day-11 log
+  exactly): **5.0th percentile of BULL-start 14-day windows, 2.6th of all** (registered 5-8th / 3-5th: BULL right,
+  all slightly worse). Starts this bad came from 20 distinct months; 18 ended the 182 days above the start, but 11
+  of the 20 are the 2020-21 bull, and the two that did not recover started in 2022-08 (bear) and 2024-06 (chop).
+  **Inside the backtest, at its edge. Not a verdict; a reason not to fund real money before the paper record does.**
+
+### 2026-10-08 - the same odds at 10,000 PKR
+
+- `lottery_v2.py --pkr 10000` / `micro_honest.py --pkr 10000`: at $35.71 the $5 minimum refuses ~half the units (vs
+  70-75% at 4,000 PKR), so **the trend book at 1% a unit becomes the best row: >=5x 38%, >=10x 30%, ended below start
+  37%, ever under $5 only 5%** (honest universe, 12 months). micro_bot's rules: 17-22% ended >=5x. Still the start
+  year: 2022-23 starts 0%, 2024 starts 79% (doc 02).
+
+### 2026-10-06 (last of all) - micro_bot re-measured with its OWN settings
+
+- `backtest/micro_honest.py`: micro_bot's exact rules (exits tested equal to `manage()`), account-level, MTM sizing,
+  market exits after the bar close, hourly liquidation. **$10 at its 4%: ENDED >= 5x 29% (touched 42%), wiped out
+  56%. 4,000 PKR at 2%: 25-29% >= 5x with 17-36% wiped out - same odds, far less ruin.** Wins are real runs (AVAX
+  2021, SHIB 2021/2024, DOGE late 2024); 2022 starts 8-12%, 2024 starts 62-71%. micro_bot.py's docstring now points
+  here. RISK_PCT and ALLOW_REAL untouched (human decisions).
+
+### 2026-10-06 (after final) - "I don't want small gains": go-for-broke on 4,000 PKR, re-measured
+
+- `backtest/lottery_v2.py` = `lottery.py` + mistake #17's causal release + the 7-unit triple + the 10x guard on ADDS +
+  the user's $14.29 + Bitget per-coin minimums. Self-checks: reproduces triple_capped exactly, and lottery's PIT rows.
+- **PIT12 (honest), 4,000 PKR, 12 months, 2% a unit: >=5x 29%, >=10x 22%, >=20x 18%; but 49% of accounts fell under
+  $5 (stuck in practice) and 49% ended below the start.** The 40x one-shot: 5x 4-17%, average -14%.
+- **It is the start year:** 2020-07..2021-04 starts 75% >=5x, 2024 starts 62%; 2021-05..2023 starts 0% (2023: every
+  account under $5). `lottery.py`'s and `micro_bot.py`'s older odds are superseded by this file.
+
+### 2026-10-06 (final) - "find what you undermined": execution - and one weak CANDIDATE
+
+- Audit: funding carry/spikes were already dead (doc 02); the gap was EXECUTION - today's 1m tests filled at the next
+  open. `backtest/maker_exec.py` models limits properly (fill only on a trade-through): 93-96% fill, adverse
+  selection 0.6-2.4bp. **The ridge BTC+DOGE 60-min model is +4.07bp a trade at Bitget's 2bp maker (t +1.0), +60%
+  over 22 months at 1x IF real.** Not significant, holdout read twice, no stop. Candidate for a forward paper test
+  only (doc 02). rsi_mom shorts stay dead even at 0bp maker.
+
+### 2026-10-06 (one more) - "one trade, high leverage, indicators and volume": the coin flip, minus fees
+
+- `backtest/one_shot.py`: the whole stake at 10/20/40x on BTC/DOGE, target 2x/3x/5x the stake before
+  liquidation. **40x: P(double) 37-44%, P(5x) 4-10%, average -9% to -21% of the stake a shot.** Five indicator +
+  volume setups: 0 of 18 beat random by >4 points on both halves (best +1.6), all negative on average. Volume
+  stays anti-useful in crypto (doc 02: VSA, volume surge, and now this).
+- `--grid`: 2-100x. **Higher leverage = worse odds for the same goal and a bigger average loss** (10x -3%, 20x -7%,
+  40x -14%, 100x -44% of the stake a shot). Stake size changes nothing (percentages); splitting it changes the
+  spread, not the average.
+
+### 2026-10-06 (last) - "analyse BTC, trade DOGE": the information is real, the trade is not
+
+- `backtest/btc_doge.py`: 27 BTC+DOGE features into ridge and gradient-boosted trees, fit 2022-24, traded on unseen
+  2024-10 .. 2026-08. **The models do predict a little** (holdout IC +0.01 to +0.05, 51-57% right direction, +4 to
+  +11bp a trade gross). **Taker 12bp: all 6 lose. Maker 4bp: 5 of 6 slightly positive, none significant.**
+- **Every version is wiped out at 5x and above.** One hour - 2025-10-10 21:20 UTC, DOGE -63% inside the hour on
+  Binance 1m bars - liquidates anything at 2x+. Quote this whenever high leverage on an alt is proposed.
+
+### 2026-10-06 (later still) - 1-minute scalping at 30-40x: dead, and leverage cannot rescue a small edge
+
+- **The user's follow-up:** 30-40x leverage, BTC and DOGE only, 1-minute RSI and the like - "even a small edge makes
+  money because of leverage". `backtest/scalp_1m.py` (doc 02 entry). Binance 1m perp bars cached in
+  `strategy_analysis/data/min1/` (2022-01 .. 2026-08, downloaded from data.binance.vision).
+- **Fees are charged on the POSITION**: 12bp at 40x = 4.8% of the account per round trip. A 1m stop is ~0.12% (BTC) /
+  0.24% (DOGE) of price, so 12bp = 0.98R / 0.50R a trade before any signal.
+- **572 tests per fee level: 0 net-positive at 12bp, 0 EDGE at 4bp.** Before fees 8 real edges (all shorts,
+  +0.5 to +1.9bp a trade), a tenth to a half of the cheapest fee.
+- **`--kelly`: the leverage question itself.** The three best gross edges have a Kelly leverage of 4-11x at ZERO fees;
+  at 30x and 40x all three wipe the account on the holdout even at zero fees. Quote this whenever leverage is
+  proposed as the way to make a small edge pay.
+
+### 2026-10-06 (later) - "what are my odds right now": a manual-trade checker, and the answer is no edge
+
+- **The user asked** for something other than the bot: read RSI / momentum / support-resistance on the day and say
+  "long here has X% to take profit, stop there", for 3-5k PKR (~$14). Built as **`odds_now.py`** (read-only,
+  Bitget public candles, no keys, no orders): it puts the moment in a cell and replays every past moment in that
+  cell on the PIT top-50 perps (2.7M coin-hours, dead coins in), against the same-regime baseline. Doc 02 entry.
+- **A TP-first % means nothing alone**: any moment, 1R long hits target first 47.5% (-0.17% a trade after costs).
+- **Sweep, 570 tests: 0 EDGE, 3 WEAK - chance.** The first, looser rule (vs any moment) passed 8, above the
+  registered 0-5; it was "short in a BTC bear" plus luck (t +2.2 against the same-regime baseline). The rule was
+  tightened AFTER that (same-regime baseline, t > 3.9 for EDGE) - stricter, and said so in the file.
+- Live 2026-10-05 21:00 UTC: BTC long, SOL short, PEPE long - all NO EDGE. Usage: `python odds_now.py BTC long`.
+- History table: `strategy_analysis/data/odds_table.parquet` (gitignored, `--build`, ~3 min). It ends 2026-09-19 with
+  the perp archive; it does not need to be current - it is the history the live cell is looked up in.
 
 ### 2026-10-05 - back on the crypto bot: SSH to the VM, first full reading
 

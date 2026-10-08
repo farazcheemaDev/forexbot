@@ -1,0 +1,20 @@
+backtest/machine_mix.py, 2026-10-08 20:21; $300, 10 orderings; trend gains shrunk for hindsight, the other parts raw
+
+monthly correlation (ordering 0): trend-pair +0.41, trend-mn -0.04, pair-mn -0.05, trend-sleeve -0.06, pair-sleeve -0.26
+
+all 6 years: $300 after 12 months - typical / bad / worst | years < $300 | worst month | biggest fall | months up
+  v2 (trend + MN 1x + sleeve + bids)                   $  1,812 / $   725 / $   222 |   9% |  -29.3% |  57% |  57%
+  v3 (pair + MN capped 0.5 + sleeve)                   $    547 / $   394 / $   286 |   1% |  -12.5% |  36% |  65%
+  MIX A: v2 with MN capped 0.5 + pair 0.5              $  1,688 / $   715 / $   218 |   6% |  -24.6% |  54% |  56%
+  MIX B: v3 + trend 0.5 + bids                         $  1,406 / $   722 / $   290 |   1% |  -15.9% |  45% |  64%
+  MIX C: trend 1 + pair 1 + MN capped 0.5 + sleeve + bids $  1,971 / $   752 / $   212 |   8% |  -25.3% |  58% |  56%
+  v2 with MN capped 0.5 (only the MN change)           $  1,441 / $   601 / $   222 |   5% |  -25.5% |  51% |  54%
+
+last 2 years: $300 after 12 months - typical / bad / worst | years < $300 | worst month | biggest fall | months up
+  v2 (trend + MN 1x + sleeve + bids)                   $  1,625 / $ 1,060 / $   454 |   0% |  -25.0% |  45% |  64%
+  v3 (pair + MN capped 0.5 + sleeve)                   $    650 / $   583 / $   448 |   0% |   -9.5% |  28% |  63%
+  MIX A: v2 with MN capped 0.5 + pair 0.5              $  1,486 / $ 1,055 / $   354 |   0% |  -21.2% |  45% |  60%
+  MIX B: v3 + trend 0.5 + bids                         $  1,355 / $ 1,029 / $   480 |   0% |  -15.6% |  38% |  68%
+  MIX C: trend 1 + pair 1 + MN capped 0.5 + sleeve + bids $  1,831 / $ 1,313 / $   406 |   0% |  -24.1% |  50% |  61%
+  v2 with MN capped 0.5 (only the MN change)           $  1,111 / $   801 / $   292 |   1% |  -21.0% |  43% |  54%
+

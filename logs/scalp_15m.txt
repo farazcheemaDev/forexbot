@@ -1,0 +1,71 @@
+backtest/scalp_15m.py, 2026-10-08 18:16; holdout from 2024-04-07; stop 2xATR, targets 1R/2R, timeout 60 bars (15h)
+
+BTCUSDT: 210,336 bars; stop median 0.704% -> 12bp = 0.17R, 4bp = 0.06R
+ETHUSDT: 210,336 bars; stop median 0.941% -> 12bp = 0.13R, 4bp = 0.04R
+SOLUSDT: 208,580 bars; stop median 1.374% -> 12bp = 0.09R, 4bp = 0.03R
+DOGEUSDT: 210,336 bars; stop median 1.191% -> 12bp = 0.10R, 4bp = 0.03R
+XRPUSDT: 209,856 bars; stop median 1.033% -> 12bp = 0.12R, 4bp = 0.04R
+
+980 tests per fee level (EDGE t > 4.3, WEAK t > 2.4, both halves net-positive for either)
+
+ANY BAR (the coin flip), mean % of position per trade, 1R target:
+  BTCUSDT  long  gross     : -0.0025%  (target first 48.9%, n 18165)
+  BTCUSDT  long  maker 4bp : -0.0425%  (target first 48.9%, n 18165)
+  BTCUSDT  long  taker 12bp: -0.1225%  (target first 48.9%, n 18165)
+  BTCUSDT  short gross     : -0.0015%  (target first 48.6%, n 18165)
+  BTCUSDT  short maker 4bp : -0.0415%  (target first 48.6%, n 18165)
+  BTCUSDT  short taker 12bp: -0.1215%  (target first 48.6%, n 18165)
+  ETHUSDT  long  gross     : -0.0087%  (target first 48.5%, n 18312)
+  ETHUSDT  long  maker 4bp : -0.0487%  (target first 48.5%, n 18312)
+  ETHUSDT  long  taker 12bp: -0.1287%  (target first 48.5%, n 18312)
+  ETHUSDT  short gross     : +0.0041%  (target first 49.5%, n 18312)
+  ETHUSDT  short maker 4bp : -0.0359%  (target first 49.5%, n 18312)
+  ETHUSDT  short taker 12bp: -0.1159%  (target first 49.5%, n 18312)
+  SOLUSDT  long  gross     : +0.0139%  (target first 48.8%, n 18200)
+  SOLUSDT  long  maker 4bp : -0.0261%  (target first 48.8%, n 18200)
+  SOLUSDT  long  taker 12bp: -0.1061%  (target first 48.8%, n 18200)
+  SOLUSDT  short gross     : -0.0177%  (target first 49.7%, n 18200)
+  SOLUSDT  short maker 4bp : -0.0577%  (target first 49.7%, n 18200)
+  SOLUSDT  short taker 12bp: -0.1377%  (target first 49.7%, n 18200)
+  DOGEUSDT long  gross     : -0.0082%  (target first 47.6%, n 17828)
+  DOGEUSDT long  maker 4bp : -0.0482%  (target first 47.6%, n 17828)
+  DOGEUSDT long  taker 12bp: -0.1282%  (target first 47.6%, n 17828)
+  DOGEUSDT short gross     : +0.0040%  (target first 50.3%, n 17828)
+  DOGEUSDT short maker 4bp : -0.0360%  (target first 50.3%, n 17828)
+  DOGEUSDT short taker 12bp: -0.1160%  (target first 50.3%, n 17828)
+  XRPUSDT  long  gross     : -0.0247%  (target first 47.5%, n 17824)
+  XRPUSDT  long  maker 4bp : -0.0647%  (target first 47.5%, n 17824)
+  XRPUSDT  long  taker 12bp: -0.1447%  (target first 47.5%, n 17824)
+  XRPUSDT  short gross     : +0.0196%  (target first 50.6%, n 17824)
+  XRPUSDT  short maker 4bp : -0.0204%  (target first 50.6%, n 17824)
+  XRPUSDT  short taker 12bp: -0.1004%  (target first 50.6%, n 17824)
+
+COUNTS:
+  gross     :  270 net-positive both halves,  16 WEAK,   0 EDGE, of 980; long / short among the passes: 116 / 154
+  maker 4bp :  110 net-positive both halves,   2 WEAK,   0 EDGE, of 980; long / short among the passes: 38 / 72
+  taker 12bp:   27 net-positive both halves,   1 WEAK,   0 EDGE, of 980; long / short among the passes: 13 / 14
+    WEAK [gross] DOGEUSDT short 1R cell RSI >70 (overbought), strong up, near resistance, BTC bull: +0.4655% (t +3.4), tune +0.6317 / hold +0.2200, n 436
+    WEAK [gross] SOLUSDT long 1R cell RSI 55-70, flat, near resistance, BTC bull: +0.1395% (t +3.2), tune +0.1991 / hold +0.0558, n 1509
+    WEAK [gross] ETHUSDT long 1R cell RSI 55-70, flat, near resistance, BTC bull: +0.0910% (t +3.1), tune +0.1034 / hold +0.0716, n 1536
+    WEAK [gross] SOLUSDT long 2R rsi_mom: +0.1327% (t +3.1), tune +0.1744 / hold +0.0712, n 3494
+    WEAK [gross] SOLUSDT short 1R cell RSI 30-45, flat, middle of range, BTC bull: +0.0994% (t +2.9), tune +0.1245 / hold +0.0597, n 2768
+    WEAK [gross] DOGEUSDT short 2R cell RSI >70 (overbought), strong up, near resistance, BTC bull: +0.4420% (t +2.8), tune +0.5702 / hold +0.2554, n 425
+    WEAK [gross] ETHUSDT long 1R cell RSI 55-70, strong up, near resistance, BTC bull: +0.2120% (t +2.8), tune +0.2525 / hold +0.1452, n 236
+    WEAK [gross] SOLUSDT long 2R cell RSI >70 (overbought), up, middle of range, BTC bull: +0.9301% (t +2.8), tune +1.3665 / hold +0.0246, n 123
+    WEAK [maker 4bp] DOGEUSDT short 1R cell RSI >70 (overbought), strong up, near resistance, BTC bull: +0.4255% (t +3.1), tune +0.5917 / hold +0.1800, n 436
+    WEAK [maker 4bp] DOGEUSDT short 2R cell RSI >70 (overbought), strong up, near resistance, BTC bull: +0.4020% (t +2.5), tune +0.5302 / hold +0.2154, n 425
+    WEAK [taker 12bp] DOGEUSDT short 1R cell RSI >70 (overbought), strong up, near resistance, BTC bull: +0.3455% (t +2.5), tune +0.5117 / hold +0.1000, n 436
+
+10,000 PKR ON THE HOLDOUT - the best TUNE-half rule at each fee, and 'any bar' long:
+  [maker 4bp] DOGEUSDT short 1R cell RSI >70 (overbought), strong up, near resistance, BTC bull: tune +0.5917%/trade -> holdout +0.1800%/trade over 176 trades (~0.2 a day)
+      10,000 PKR -> 1x 13,329 | 3x 19,853 | 5x 23,319 | 10x 11,508 | 20x 0 (<1k after 40) | 50x 0 (<1k after 2)
+  [maker 4bp] DOGEUSDT short 1R cell RSI >70 (overbought), strong up, near resistance, BTC bull: tune +0.5917%/trade -> holdout +0.1800%/trade over 176 trades (~0.2 a day)
+      10,000 PKR -> 1x 13,329 | 3x 19,853 | 5x 23,319 | 10x 11,508 | 20x 0 (<1k after 40) | 50x 0 (<1k after 2)
+  [maker 4bp] BTCUSDT long 1R any bar: tune -0.0418%/trade -> holdout -0.0436%/trade over 7468 trades (~8.5 a day)
+      10,000 PKR -> 1x 307 (<1k after 5018) | 3x 0 (<1k after 1220) | 5x 0 (<1k after 645) | 10x 0 (<1k after 180) | 20x 0 (<1k after 49) | 50x 0 (<1k after 17)
+  [taker 12bp] DOGEUSDT short 1R cell RSI >70 (overbought), strong up, near resistance, BTC bull: tune +0.5117%/trade -> holdout +0.1000%/trade over 176 trades (~0.2 a day)
+      10,000 PKR -> 1x 11,580 | 3x 13,019 | 5x 11,522 | 10x 2,729 | 20x 0 (<1k after 36) | 50x 0 (<1k after 2)
+  [taker 12bp] DOGEUSDT short 1R cell RSI >70 (overbought), strong up, near resistance, BTC bull: tune +0.5117%/trade -> holdout +0.1000%/trade over 176 trades (~0.2 a day)
+      10,000 PKR -> 1x 11,580 | 3x 13,019 | 5x 11,522 | 10x 2,729 | 20x 0 (<1k after 36) | 50x 0 (<1k after 2)
+  [taker 12bp] BTCUSDT long 1R any bar: tune -0.1218%/trade -> holdout -0.1236%/trade over 7468 trades (~8.5 a day)
+      10,000 PKR -> 1x 1 (<1k after 2076) | 3x 0 (<1k after 580) | 5x 0 (<1k after 267) | 10x 0 (<1k after 89) | 20x 0 (<1k after 44) | 50x 0 (<1k after 14)

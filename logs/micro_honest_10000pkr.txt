@@ -1,0 +1,17 @@
+backtest/micro_honest.py, 2026-10-08 12:45; micro_bot's own rules on real 1h paths, 63 monthly starts x 2 orderings, 12 months of entries; exits at the next open after the bar that breached; MTM equity; liquidation checked every hour; ruin = under $0.50
+
+MICRO10 (micro_bot's 10 coins - hindsight, optimistic)
+    stake  risk  reached 5x  median days  ended >=1x  median end  ruined  liquidated  trades  size forced up
+  $ 35.71    4%         43%           84         45%       0.40x     33%         13%     230             12%
+  $ 35.71    2%         44%          128         64%       1.75x      6%          2%     461              5%
+  $ 35.71    1%         21%          195         79%       1.76x      0%          0%     470              4%
+
+PIT12 (no hindsight - honest)
+    stake  risk  reached 5x  median days  ended >=1x  median end  ruined  liquidated  trades  size forced up
+  $ 35.71    4%         40%          106         41%       0.20x     44%         20%     205             16%
+  $ 35.71    2%         40%          164         51%       1.13x     10%          6%     427              9%
+  $ 35.71    1%         16%          196         61%       1.32x      0%          0%     490             10%
+
+BY START YEAR at the bot's 4%: P(reached 5x) / P(ruined):
+  MICRO10 $35.71: 2020-07..21-04 85%/5% | 2021-05..12 56%/25% | 2022 12%/25% | 2023 42%/38% | 2024 58%/21% | 2025 6%/94%
+  PIT12 ( $35.71: 2020-07..21-04 60%/5% | 2021-05..12 19%/81% | 2022 8%/79% | 2023 25%/50% | 2024 67%/21% | 2025 61%/28%

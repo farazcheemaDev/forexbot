@@ -1,0 +1,39 @@
+backtest/rsi_confluence.py --verify, 2026-10-08 18:34 (after main; predictions in the docstring)
+
+4h long RSI<20 vol tp2_nw
+  phase +  0min: 70 trades on 40 distinct days, win 96%, avg +1.61%, t by day +6.9, tune +1.63% (n 33) / holdout +1.58% (n 37), worst -6.7%
+      by year (avg, trades): 2020:+1.9%(2) 2021:+1.9%(5) 2022:+1.3%(14) 2023:+1.9%(10) 2024:+1.1%(14) 2025:+1.9%(17) 2026:+1.9%(8)
+      best 5 days carry 15% of the day-sum; per coin: BTC +0.99%(12), DOGE +1.88%(17), ETH +1.30%(15), SOL +1.88%(10), XRP +1.88%(16)
+  phase + 60min: 74 trades on 47 distinct days, win 91%, avg +1.00%, t by day +3.8, tune +1.55% (n 34) / holdout +0.53% (n 40), worst -14.1%
+  phase +120min: 84 trades on 43 distinct days, win 88%, avg +0.91%, t by day +3.7, tune +0.26% (n 38) / holdout +1.45% (n 46), worst -12.9%
+  phase +180min: 76 trades on 42 distinct days, win 92%, avg +1.30%, t by day +4.5, tune +0.96% (n 40) / holdout +1.67% (n 36), worst -10.0%
+
+4h long RSI<20 none tp2
+  phase +  0min: 134 trades on 72 distinct days, win 91%, avg +0.90%, t by day +2.6, tune +0.63% (n 69) / holdout +1.19% (n 65), worst -17.5%
+      by year (avg, trades): 2020:+1.9%(3) 2021:+1.9%(10) 2022:+0.6%(38) 2023:-0.2%(16) 2024:+1.2%(18) 2025:+1.8%(28) 2026:+0.3%(21)
+      best 5 days carry 15% of the day-sum; per coin: BTC -0.78%(24), DOGE +1.46%(32), ETH -0.06%(28), SOL +1.91%(23), XRP +1.89%(27)
+  phase + 60min: 130 trades on 71 distinct days, win 88%, avg +0.52%, t by day +2.2, tune +0.95% (n 70) / holdout +0.02% (n 60), worst -16.5%
+  phase +120min: 152 trades on 78 distinct days, win 91%, avg +0.78%, t by day +2.5, tune +0.69% (n 78) / holdout +0.89% (n 74), worst -23.0%
+  phase +180min: 144 trades on 81 distinct days, win 91%, avg +0.84%, t by day +2.6, tune +0.49% (n 77) / holdout +1.25% (n 67), worst -37.6%
+
+1h long RSI<20 htf+stoch tp2_nw
+  phase +  0min: 104 trades on 68 distinct days, win 83%, avg +1.06%, t by day +4.9, tune +1.33% (n 58) / holdout +0.72% (n 46), worst -7.0%
+      by year (avg, trades): 2020:+1.9%(3) 2021:+1.9%(13) 2022:+1.4%(31) 2023:-0.2%(8) 2024:+1.6%(13) 2025:+1.3%(18) 2026:-0.3%(18)
+      best 5 days carry 13% of the day-sum; per coin: BTC -0.09%(27), DOGE +1.73%(24), ETH +1.38%(24), SOL +1.09%(14), XRP +1.54%(15)
+  phase + 15min: 113 trades on 76 distinct days, win 78%, avg +0.88%, t by day +3.7, tune +0.94% (n 60) / holdout +0.82% (n 53), worst -7.1%
+  phase + 30min: 126 trades on 84 distinct days, win 79%, avg +0.64%, t by day +1.9, tune +0.74% (n 69) / holdout +0.53% (n 57), worst -14.9%
+  phase + 45min: 128 trades on 80 distinct days, win 77%, avg +0.58%, t by day +1.3, tune +0.37% (n 74) / holdout +0.87% (n 54), worst -9.0%
+
+1h long RSI<20 stoch tp2_nw
+  phase +  0min: 210 trades on 126 distinct days, win 74%, avg +0.72%, t by day +4.9, tune +0.97% (n 112) / holdout +0.43% (n 98), worst -8.7%
+      by year (avg, trades): 2020:+1.9%(7) 2021:+1.2%(34) 2022:+0.9%(50) 2023:+0.1%(18) 2024:+1.4%(19) 2025:+0.1%(45) 2026:+0.4%(37)
+      best 5 days carry 9% of the day-sum; per coin: BTC -0.37%(52), DOGE +1.40%(39), ETH +0.76%(47), SOL +0.90%(43), XRP +1.40%(29)
+  phase + 15min: 225 trades on 135 distinct days, win 68%, avg +0.35%, t by day +2.5, tune +0.61% (n 111) / holdout +0.09% (n 114), worst -10.3%
+  phase + 30min: 230 trades on 132 distinct days, win 71%, avg +0.43%, t by day +2.7, tune +0.63% (n 120) / holdout +0.21% (n 110), worst -14.9%
+  phase + 45min: 240 trades on 135 distinct days, win 71%, avg +0.47%, t by day +2.6, tune +0.43% (n 133) / holdout +0.51% (n 107), worst -10.6%
+
+15m long RSI<10 none rsi50
+  phase +  0min: 95 trades on 56 distinct days, win 75%, avg +2.98%, t by day +3.5, tune +3.48% (n 61) / holdout +2.06% (n 34), worst -13.7%
+      by year (avg, trades): 2020:+3.6%(1) 2021:+7.5%(15) 2022:+1.5%(15) 2023:+2.3%(26) 2024:+2.1%(12) 2025:+3.2%(14) 2026:+1.1%(12)
+      best 5 days carry 55% of the day-sum; per coin: BTC +0.59%(23), DOGE +5.57%(13), ETH -0.63%(19), SOL +4.59%(19), XRP +5.79%(21)
+

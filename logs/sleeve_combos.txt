@@ -1,0 +1,9 @@
+backtest/sleeve_combos.py, 2026-10-08 23:02
+CHECK: the base reproduces logs/breadth_real_1x.pkl on 2455 days, max gap 2.2e-16
+  capitulation days flagged: 38 bear days; low-breadth long days: 126
+  the line (base x 0.5 / 1 / 1.5 / 2): 10% +16%/+3%; 20% +32%/+6%; 30% +48%/+9%; 39% +64%/+10%
+  BASE (as built)                      CAGR +31.9% / +6.2% fall 20% | vs line +0.0 / +0.0 -> -
+  long only                            CAGR +11.8% / +5.8% fall 24% | vs line -25.8 / -1.2 -> fail
+  short only                           CAGR +17.9% / +0.3% fall 19% | vs line -12.1 / -5.6 -> fail
+  + capitulation longs                 CAGR +31.4% / +5.4% fall 20% | vs line -0.5 / -0.8 -> fail
+  capitulation instead of low breadth  CAGR +16.1% / +3.5% fall 18% | vs line -12.4 / -2.1 -> fail

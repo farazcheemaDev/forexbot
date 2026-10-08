@@ -1,0 +1,24 @@
+backtest/bear_alpha_pit.py, 2026-10-08 23:10; weekly, dollar-neutral, gate blend.btc_bear()
+  ORIGINAL: 11 BOOK alts, no funding (reproduce) active weeks 252 | net %/month +0.04 (tune +0.33 / holdout -0.42) | gross/wk +0.100% funding/wk +0.000% | months up 50%
+  PIT top-20 alts, bear leg, funding charged     active weeks 253 | net %/month +0.55 (tune +0.69 / holdout +0.34) | gross/wk +0.304% funding/wk -0.050% | months up 57%
+  PIT top-40 alts, bear leg, funding charged     active weeks 253 | net %/month +0.38 (tune +0.53 / holdout +0.13) | gross/wk +0.254% funding/wk -0.058% | months up 54%
+  PIT top-20 alts, bull leg, funding charged     active weeks 262 | net %/month -0.30 (tune +0.62 / holdout -1.67) | gross/wk -0.022% funding/wk +0.030% | months up 41%
+  PIT top-40 alts, bull leg, funding charged     active weeks 262 | net %/month -0.20 (tune +0.98 / holdout -1.94) | gross/wk +0.007% funding/wk +0.031% | months up 45%
+
+AS AN OVERLAY ON THE MACHINE (machine_combos.py's E), registered: ties the line (+-5%)
+  all 6 years  machine E + dispersion x0: typical $3,036, worst month -35.3%, fall 61% | E's own line at that worst month $3,036 (+0%)
+  all 6 years  machine E + dispersion x1: typical $3,379, worst month -33.9%, fall 59% | E's own line at that worst month $2,854 (+18%)
+  all 6 years  machine E + dispersion x2: typical $3,555, worst month -32.5%, fall 60% | E's own line at that worst month $2,681 (+33%)
+  last 2 years machine E + dispersion x0: typical $4,767, worst month -34.2%, fall 52% | E's own line at that worst month $4,767 (+0%)
+  last 2 years machine E + dispersion x1: typical $5,194, worst month -32.8%, fall 52% | E's own line at that worst month $4,327 (+20%)
+  last 2 years machine E + dispersion x2: typical $5,231, worst month -31.4%, fall 53% | E's own line at that worst month $3,927 (+33%)
+  monthly correlation with the bear sleeve -0.25
+
+THE 7 WEEKLY ANCHORS (registered: both halves positive on >= 6 of 7)
+  PIT top-20 bear leg, weeks end SUN             active weeks 253 | net %/month +0.55 (tune +0.69 / holdout +0.34) | gross/wk +0.304% funding/wk -0.050% | months up 57%
+  PIT top-20 bear leg, weeks end MON             active weeks 235 | net %/month -0.67 (tune +0.00 / holdout -1.70) | gross/wk -0.019% funding/wk -0.064% | months up 46%
+  PIT top-20 bear leg, weeks end TUE             active weeks 248 | net %/month -0.53 (tune +0.36 / holdout -1.89) | gross/wk +0.002% funding/wk -0.066% | months up 49%
+  PIT top-20 bear leg, weeks end WED             active weeks 257 | net %/month -0.14 (tune -0.19 / holdout -0.04) | gross/wk +0.085% funding/wk -0.049% | months up 48%
+  PIT top-20 bear leg, weeks end THU             active weeks 235 | net %/month -0.38 (tune -0.37 / holdout -0.40) | gross/wk +0.011% funding/wk -0.058% | months up 48%
+  PIT top-20 bear leg, weeks end FRI             active weeks 235 | net %/month +0.10 (tune +0.47 / holdout -0.48) | gross/wk +0.172% funding/wk -0.059% | months up 49%
+  PIT top-20 bear leg, weeks end SAT             active weeks 249 | net %/month +0.11 (tune -0.16 / holdout +0.54) | gross/wk +0.167% funding/wk -0.057% | months up 54%

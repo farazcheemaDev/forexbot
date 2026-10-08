@@ -1,0 +1,10 @@
+combo (trend + MN + sleeve, no bids), every 14-day window, 10 orderings: 23,865 windows, 2020-02-17 .. 2026-08-30
+
+  windows starting in        n  <= -20%  <= -15%  <= -10%   median  5th pct  1st pct
+  any regime            23,865     2.9%     9.2%    19.3%    +0.1%   -17.8%   -25.0%
+  BULL                   8,595     5.4%    11.3%    20.0%    +3.1%   -20.5%   -29.1%
+  CHOP                   9,130     1.9%     8.4%    18.6%    -1.1%   -17.2%   -23.9%
+  BEAR                   6,140     0.9%     7.4%    19.3%    +0.2%   -15.9%   -19.7%
+
+  the live book's first 14 days: -20.6% -> percentile among BULL windows: 5.0%, among all: 2.6%
+  windows that started this badly (609): from day 14 to day 182 the median was +503%; the full 182 days ended above the start in 98%, median +342%

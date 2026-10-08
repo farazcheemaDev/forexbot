@@ -1,0 +1,21 @@
+backtest/machine_capit.py, 2026-10-08 19:12; machine v2 (machine.py) + the capitulation book as an overlay of weight w; $300, 10 orderings (phase = ordering % 4)
+
+monthly correlation, machine vs capitulation book (1x): mean +0.08 (range -0.09 .. +0.21)
+
+all years: $300 after 12 months - typical / bad (1 in 4) / worst; worst month; biggest fall; months up
+  capitulation 1x weight 0.0: $  1,812 / $   725 / $   222 | worst month -29.3% | fall 57% | up 57%
+  capitulation 1x weight 0.5: $  1,929 / $   755 / $   227 | worst month -29.3% | fall 56% | up 59%
+  capitulation 1x weight 1.0: $  2,072 / $   783 / $   230 | worst month -29.3% | fall 56% | up 60%
+  capitulation 1x weight 2.0: $  2,296 / $   865 / $   214 | worst month -29.3% | fall 56% | up 61%
+  capitulation 2x weight 0.5: $  2,072 / $   782 / $   230 | worst month -29.3% | fall 56% | up 61%
+  capitulation 2x weight 1.0: $  2,295 / $   867 / $   205 | worst month -29.3% | fall 56% | up 61%
+  capitulation 2x weight 2.0: $  2,746 / $   984 / $   149 | worst month -33.9% | fall 61% | up 63%
+
+last 2 years: $300 after 12 months - typical / bad (1 in 4) / worst; worst month; biggest fall; months up
+  capitulation 1x weight 0.0: $  1,625 / $ 1,060 / $   454 | worst month -25.0% | fall 45% | up 64%
+  capitulation 1x weight 0.5: $  1,711 / $ 1,120 / $   459 | worst month -24.8% | fall 45% | up 66%
+  capitulation 1x weight 1.0: $  1,806 / $ 1,181 / $   464 | worst month -24.8% | fall 45% | up 68%
+  capitulation 1x weight 2.0: $  2,045 / $ 1,313 / $   470 | worst month -24.8% | fall 44% | up 68%
+  capitulation 2x weight 0.5: $  1,808 / $ 1,183 / $   465 | worst month -24.8% | fall 45% | up 68%
+  capitulation 2x weight 1.0: $  2,045 / $ 1,316 / $   472 | worst month -24.8% | fall 44% | up 68%
+  capitulation 2x weight 2.0: $  2,707 / $ 1,588 / $   473 | worst month -24.8% | fall 44% | up 71%

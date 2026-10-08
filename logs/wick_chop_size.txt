@@ -1,0 +1,7 @@
+backtest/wick_chop_size.py, 2026-10-08 23:17; capped crash bids alone: CAGR and worst month per half; vs the uniform line at the same worst month
+  chop x1.5: tune +21.3% (wm -1.6%) vs line +28.8% | hold +14.2% (wm -4.7%) vs line +16.6% -> fail
+  chop x2.0: tune +24.1% (wm -2.2%) vs line +39.9% | hold +17.1% (wm -6.1%) vs line +22.0% -> fail
+  machine E, all 6 years, bids x1.5 in chop: typical $3,114, worst month -35.9% | line $3,142 (-1%)
+  machine E, all 6 years, bids x2.0 in chop: typical $3,169, worst month -36.5% | line $3,252 (-3%)
+  machine E, last 2 years, bids x1.5 in chop: typical $4,946, worst month -34.9% | line $4,970 (-0%)
+  machine E, last 2 years, bids x2.0 in chop: typical $5,100, worst month -35.5% | line $5,196 (-2%)

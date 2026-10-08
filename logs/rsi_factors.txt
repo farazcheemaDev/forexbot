@@ -1,0 +1,61 @@
+backtest/rsi_factors.py, 2026-10-08 18:27; 336 configurations x 5 coins pooled; tune < 2024-04-07 <= holdout
+
+1. WHAT EACH FACTOR DOES (averaged over tf, L, profit exit; no trend filter), pooled coins:
+   side       factor   win  avg/trade  worst trade     tune  holdout      2020     2021     2022     2023     2024  2025-26
+   long         none   73%     +0.08%       -43.5%   +0.18%   -0.12%    -0.31%   +1.20%   -0.76%   +0.37%   +0.25%   -0.16%
+   long   rsi_deeper   71%     -0.07%       -42.0%   +0.10%   -0.33%    +0.82%   +0.87%   -0.75%   +0.28%   -0.11%   -0.30%
+   long  level_break   42%     -0.17%       -17.2%   -0.09%   -0.29%    +0.04%   +0.32%   -0.40%   -0.08%   -0.25%   -0.25%
+   long  btc_against   64%     -0.23%       -37.7%   -0.05%   -0.50%    +0.28%   +0.38%   -0.57%   +0.12%   -0.38%   -0.41%
+   long  vol_against   55%     -0.05%       -25.6%   +0.15%   -0.31%    +0.72%   +0.89%   -0.29%   -0.07%   -0.29%   -0.26%
+   long  not_working   60%     +0.08%       -33.6%   +0.15%   -0.05%    +0.46%   +1.03%   -0.52%   +0.14%   +0.01%   +0.02%
+   long         atr6   68%     -0.16%       -36.0%   +0.02%   -0.42%    +0.07%   +0.68%   -0.63%   +0.22%   -0.21%   -0.40%
+  short         none   72%     -1.84%      -299.1%   -2.32%   -1.06%    -2.97%   -4.57%   -0.26%   -1.27%   -2.32%   -0.50%
+  short   rsi_deeper   69%     -0.93%      -100.5%   -1.05%   -0.72%    -1.89%   -2.06%   +0.29%   -0.85%   -1.36%   -0.31%
+  short  level_break   36%     -0.37%       -44.2%   -0.44%   -0.27%    -0.48%   -0.70%   +0.01%   -0.44%   -0.36%   -0.22%
+  short  btc_against   64%     -1.01%      -170.5%   -1.26%   -0.57%    -2.10%   -2.49%   -0.27%   -0.69%   -0.70%   -0.41%
+  short  vol_against   55%     -0.65%       -63.4%   -0.70%   -0.58%    -1.29%   -1.17%   +0.16%   -0.68%   -1.04%   -0.26%
+  short  not_working   58%     -1.39%      -207.8%   -1.70%   -0.87%    -2.78%   -3.36%   -0.43%   -0.83%   -1.29%   -0.57%
+  short         atr6   66%     -0.72%       -53.9%   -0.81%   -0.57%    -1.63%   -1.47%   +0.17%   -0.65%   -0.91%   -0.30%
+
+2. THE TREND FILTER (EMA200), longs, averaged over everything else: without / with
+     2020: +0.30% / +1.63% a trade
+     2021: +0.77% / +0.73% a trade
+     2022: -0.56% / -1.27% a trade
+     2023: +0.14% / +1.12% a trade
+     2024: -0.14% / +0.13% a trade
+  2025-26: -0.25% / -0.29% a trade
+   holdout: -0.29% / -0.21%
+
+3. CONFIGURATIONS POSITIVE ON THE HOLDOUT (50+ trades): 26 of 336; positive on BOTH halves: 16
+     4h long  L25 tp2   none         trend=False win 88% tune +0.17% (n 177) holdout +0.64% (n 149) worst -51.4%
+     4h long  L25 tp2   not_working  trend=False win 84% tune +0.15% (n 180) holdout +0.42% (n 155) worst -29.0%
+     1h long  L30 rsi50 vol_against  trend=True  win 55% tune +0.15% (n 101) holdout +0.14% (n 81) worst -15.6%
+     1h long  L30 rsi50 rsi_deeper   trend=True  win 66% tune +0.45% (n 100) holdout +0.14% (n 80) worst -12.1%
+    15m long  L30 tp2   not_working  trend=True  win 44% tune +0.01% (n 324) holdout +0.12% (n 229) worst -8.8%
+    15m long  L30 rsi50 none         trend=True  win 67% tune +0.40% (n 324) holdout +0.12% (n 230) worst -14.2%
+    15m long  L30 rsi50 rsi_deeper   trend=True  win 67% tune +0.39% (n 324) holdout +0.09% (n 230) worst -14.2%
+    15m long  L30 rsi50 atr6         trend=True  win 66% tune +0.33% (n 324) holdout +0.09% (n 230) worst -10.3%
+    15m long  L30 tp2   btc_against  trend=True  win 74% tune +0.13% (n 324) holdout +0.08% (n 228) worst -11.9%
+    15m long  L30 rsi50 not_working  trend=True  win 62% tune +0.19% (n 324) holdout +0.08% (n 230) worst -8.8%
+
+4. PICKED ON THE TUNE HALF (best tune average, 200+ tune trades), judged on the holdout:
+     1h long  L25 rsi50 none         trend=False tune +0.76% -> holdout -0.51% (n 383, win 56%, worst -19.7%)
+        10,000 PKR all-in on ONE coin, 1x: ends 6,698, 6,609, 3,742, 5,199, 11,411  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+        10,000 PKR all-in on ONE coin, 3x: ends 2,283, 0, 221, 804, 0  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+        10,000 PKR all-in on ONE coin, 5x: ends 439, 0, 0, 0, 0  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+     1h long  L25 rsi50 not_working  trend=False tune +0.63% -> holdout -0.24% (n 427, win 52%, worst -20.6%)
+        10,000 PKR all-in on ONE coin, 1x: ends 6,789, 9,979, 5,177, 6,609, 10,926  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+        10,000 PKR all-in on ONE coin, 3x: ends 2,604, 0, 898, 1,630, 0  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+        10,000 PKR all-in on ONE coin, 5x: ends 757, 0, 0, 0, 0  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+     1h long  L25 rsi50 rsi_deeper   trend=False tune +0.58% -> holdout -0.62% (n 406, win 55%, worst -19.9%)
+        10,000 PKR all-in on ONE coin, 1x: ends 6,750, 4,776, 4,079, 5,161, 7,328  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+        10,000 PKR all-in on ONE coin, 3x: ends 2,369, 0, 278, 829, 1,727  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+        10,000 PKR all-in on ONE coin, 5x: ends 521, 0, 0, 0, 0  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+     4h long  L30 rsi50 vol_against  trend=False tune +0.56% -> holdout -0.82% (n 233, win 49%, worst -24.2%)
+        10,000 PKR all-in on ONE coin, 1x: ends 9,054, 5,054, 7,480, 3,286, 8,123  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+        10,000 PKR all-in on ONE coin, 3x: ends 5,706, 419, 2,426, 148, 0  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+        10,000 PKR all-in on ONE coin, 5x: ends 2,267, 0, 0, 0, 0  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+     1h long  L25 rsi50 vol_against  trend=False tune +0.53% -> holdout -0.36% (n 498, win 45%, worst -13.7%)
+        10,000 PKR all-in on ONE coin, 1x: ends 7,997, 6,660, 4,995, 5,269, 8,195  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+        10,000 PKR all-in on ONE coin, 3x: ends 4,417, 1,457, 840, 853, 3,321  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
+        10,000 PKR all-in on ONE coin, 5x: ends 1,973, 91, 73, 0, 546  (BTCUSDT, DOGEUSDT, ETHUSDT, SOLUSDT, XRPUSDT)
