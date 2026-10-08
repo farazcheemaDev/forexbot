@@ -48,6 +48,9 @@ RESULT (2026-10-08, logs/daily_combos.txt): 0 of 37 pass. Base: +133% tune / +41
     priority fails); "at most 5 pass" - right (0).
 
     python -m backtest.daily_combos
+
+RE-RUN 2026-10-09 on the FIXED loader (capitulation_wide.halt_cut): until then a data-archive hole cut 51 coins (XRP, SOL,
+    LTC ...) at 2022-02-25. Where a RESULT above differs from this file's log, THE LOG IS CURRENT - doc 02, "The archive-hole bug".
 """
 from __future__ import annotations
 

@@ -15,6 +15,9 @@ RESULT (2026-10-08, logs/mn_capped.txt): the uncapped rebuild reproduces fast_ru
     points: WRONG - it adds +27..+38.
 
     python -m backtest.mn_capped
+
+RE-RUN 2026-10-09 on the FIXED loader (capitulation_wide.halt_cut): until then a data-archive hole cut 51 coins (XRP, SOL,
+    LTC ...) at 2022-02-25. Where a RESULT above differs from this file's log, THE LOG IS CURRENT - doc 02, "The archive-hole bug".
 """
 from __future__ import annotations
 

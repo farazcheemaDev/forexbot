@@ -21,6 +21,9 @@ REGISTERED BEFORE THE RUN (2026-10-08)
     - At least one wide exit is positive in all 4 phases on both halves.
 
     python -m backtest.capitulation_exits
+
+RE-RUN 2026-10-09 on the FIXED loader (capitulation_wide.halt_cut): until then a data-archive hole cut 51 coins (XRP, SOL,
+    LTC ...) at 2022-02-25. Where a RESULT above differs from this file's log, THE LOG IS CURRENT - doc 02, "The archive-hole bug".
 """
 from __future__ import annotations
 

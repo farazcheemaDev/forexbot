@@ -10,6 +10,9 @@ RESULT (2026-10-08, logs/daily_stack.txt): all 4 stacks fail (falls 43-48%, hold
     Predictions - right.
 
     python -m backtest.daily_stack
+
+RE-RUN 2026-10-09 on the FIXED loader (capitulation_wide.halt_cut): until then a data-archive hole cut 51 coins (XRP, SOL,
+    LTC ...) at 2022-02-25. Where a RESULT above differs from this file's log, THE LOG IS CURRENT - doc 02, "The archive-hole bug".
 """
 from __future__ import annotations
 

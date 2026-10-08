@@ -59,3 +59,11 @@
 21:15:27 START breadth_events
 21:20:11 END   breadth_events (exit 0)
 21:20:11 START tv_indicators
+21:25:30 END   tv_indicators (exit 0)
+21:25:30 START lottery_v2
+21:28:03 END   lottery_v2 (exit 0)
+21:28:03 START micro_honest
+21:30:30 END   micro_honest (exit 0)
+21:30:31 START short_families
+21:30:45 END   short_families (exit 0)
+21:30:45 ALL DONE

@@ -46,6 +46,9 @@ RESULT (2026-10-08, logs/machine_combos.txt; $300, 6 years / last 2): A v2 as pu
     leak was removed; I ties - right; ablations: MN > 15% - right on 2y, WRONG on 6y.
 
     python -m backtest.machine_combos
+
+RE-RUN 2026-10-09 on the FIXED loader (capitulation_wide.halt_cut): until then a data-archive hole cut 51 coins (XRP, SOL,
+    LTC ...) at 2022-02-25. Where a RESULT above differs from this file's log, THE LOG IS CURRENT - doc 02, "The archive-hole bug".
 """
 from __future__ import annotations
 

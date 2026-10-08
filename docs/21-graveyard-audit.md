@@ -1,6 +1,7 @@
 # 21 — The graveyard audit: every "this doesn't work", how well it was backed, and what a re-test found
 
-*Written 2026-10-08, the second half of the goal "test every combination of what worked, then re-test what we
+*Written 2026-10-08, completed 2026-10-09 (every MODERATE kill the data allows re-tested, and every number re-run on the
+fixed loader - doc 02, "The archive-hole bug"), the second half of the goal "test every combination of what worked, then re-test what we
 claimed doesn't work with very little backing behind the claim". The first half is doc 02's entry "The combination
 sweep". This document walks every kill in the repo — doc 02, doc 11, docs 12/13 and this session's — rates its
 original backing, and records what was re-tested and what changed.*
@@ -36,7 +37,7 @@ anchors) and risk by sleeve (cleared the paired bar on both halves, then failed 
 |---|---|---|---|---|
 | mean reversion / fading extremes (Bollinger + RSI, z-score), PF 0.46–0.85 | early, mixed markets | STRONG today | re-measured since: `bear_chop.py` #4 (daily PIT top-40, every regime, vs random), `rsi_only.py`, `rsi_factors.py`, `rsi_confluence.py` (~2,000 configs) | stands — except when keyed to forced selling (capitulation with breadth) |
 | prior-day high/low fade; ICT liquidity sweep, PF ~1 / 0.53–0.79 | one line each, pre-fix, no universe, no control | THIN | `sweep_reclaim.py`: PIT top-40 hourly, ~60,000 trades, random control with the same stop | **stands as a trade**: real information (+0.03 to +0.12% over random, t 2.8–6.4) but −0.04 to −0.13% a trade after fees |
-| VWAP reversion, PF 0.46–0.85 | early | MODERATE | the reversion family is re-measured above; a separate run would repeat it | stands |
+| VWAP reversion, PF 0.46–0.85 | early | MODERATE | `moderate_retests.py --vwap`, `vwap_daily.py`: daily and 4h, PIT top-40, vs random, then as an account on 3 day boundaries | **stands**: +0.7..+2.7% a trade on daily bars, but the account LOSES (holdout -23..-39%/yr, falls 78-88%) |
 | StochRSI | "no robust edge" | MODERATE | stochastic confirmations are inside `rsi_confluence.py`'s 2,000 configs | stands |
 | pairs NASDAQ vs gold/silver | correlation +0.19 | MODERATE | forex; crypto pairs re-tested (§E) | stands |
 | classic indicators on EURUSD | early | STRONG today | doc 18: 33 tests with Holm | stands |
@@ -56,8 +57,8 @@ anchors) and risk by sleeve (cleared the paired bar on both halves, then failed 
 | claim | original backing | rating | re-test | now |
 |---|---|---|---|---|
 | **"indicators are exhausted, they all detect the same thing"** | longs on 9 coins big today (hindsight), hourly | THIN | `daily_families.py`: 9 families + an ER filter on DAILY bars, PIT top-40, 3 day boundaries | **stands, now backed**: bb(30,1.5) first of 22 daily entries; Keltner closest (holdout-only) |
-| cross-sectional versions of the 19 | Sharpe 0.49 vs 1.09 | MODERATE | superseded: price momentum became the MN book | stands |
-| meta-labelling (ML filter on signals) | one early attempt | MODERATE | covered since by `entry_features.py` (9 features, Holm), `entry_runner.py`, `btc_doge.py` | stands |
+| cross-sectional versions of the 19 | Sharpe 0.49 vs 1.09, one rebalance day | THIN | `moderate_retests.py --xs`, 7 weekdays | **wrong**: RSI-ranked MN +1.45 / +1.22 vs momentum +1.06 / +1.33; half each beats momentum on both halves (`mn_blend_rsi.py`) - a candidate |
+| meta-labelling (ML filter on signals) | one early attempt | MODERATE | `moderate_retests.py --meta`: walk-forward logistic filter on the daily book | **stands**: fails at all 3 day boundaries |
 | VSA / volume absorption | 199 virgin coins | STRONG | — | stands for hourly breakouts |
 | **"volume is anti-useful in crypto"** | VSA, a surge filter, 1m setups | THIN as a general claim | `capit_volume.py` | **wrong as stated**: required in the base capitulation book, redundant once a 10% drop is required |
 | crypto momentum + Kaufman ER | killed by correlation tax | MODERATE | ER filter on the daily book (`daily_families.py`) | stands |
@@ -78,7 +79,7 @@ anchors) and risk by sleeve (cleared the paired bar on both halves, then failed 
 | take profit early, trade more | monotone over 5 targets | STRONG | — | stands |
 | slot priority; slots by side; 16 slots | — | STRONG | re-run on the causal allocator 2026-10-06; priority again today | stand |
 | equity-curve trading; funding-trail; nine entry features | corrected engine | STRONG | — | stand |
-| breadth does not scale (hourly engine on PIT top-30/60/100) | old engine, not re-run | MODERATE | every fix lowers a long book, so none can close a +6 points/month gap in its favour; the daily book (a different timeframe) is today's counterexample | stands for the hourly engine |
+| breadth does not scale (hourly engine on PIT top-30/60/100) | old engine, not re-run | MODERATE | `moderate_retests.py --wide`: corrected engine, 12 coins vs PIT top-40, same loader | **stands**: holdout -0.75 vs +3.67 %/mo (main), +3.46 vs +12.48 (triple) |
 | risk > 0.30%, low capital as an advantage, bar-phase blending | — | STRONG | — | stand |
 
 ### E. Bear, chop and market-neutral
@@ -112,7 +113,8 @@ anchors) and risk by sleeve (cleared the paired bar on both halves, then failed 
 | taker flow / crowd positioning | 5.99M rows, 13 symbols, Holm, then as a book | MODERATE | the archive covers 13 symbols only | stands |
 | delisting announcements (doc 11 §2) | pre-registered confirmation failed | MODERATE / DATA-LIMITED | few events | stands |
 | funding-settlement timing (doc 11 §1) | real, sub-second | STRONG for this setup | infrastructure | stands |
-| grid bots; CME gaps; first-perp short; kimchi premium; HLP vault | 30 configs; 180 trades + placebo; ... | MODERATE | — | stand |
+| grid bots | 30 configs, 5 coins | MODERATE | `moderate_retests.py --grid`: 15 more coins, 120 configs | **stands**: 4 of 120 profitable |
+| CME gaps; first-perp short; kimchi premium; HLP vault | 180 trades + placebo; placebos; registered rules | MODERATE | each lost to its own placebo or a rule fixed in advance | stand |
 | TradFi perps | daily since 2005 | STRONG | — | stands |
 | token unlocks | "not dead, not tradable" | — | — | unchanged |
 

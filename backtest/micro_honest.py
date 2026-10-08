@@ -54,6 +54,9 @@ RESULT (2026-10-06, logs/micro_honest.txt, logs/micro_honest.csv)
     Not modelled: Bitget per-coin amount minimums (0.1 LTC ~ $8-10 forces more risk), slippage beyond the next open.
 
     python -m backtest.micro_honest
+
+RE-RUN 2026-10-09 on the FIXED loader (capitulation_wide.halt_cut): until then a data-archive hole cut 51 coins (XRP, SOL,
+    LTC ...) at 2022-02-25. Where a RESULT above differs from this file's log, THE LOG IS CURRENT - doc 02, "The archive-hole bug".
 """
 from __future__ import annotations
 

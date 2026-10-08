@@ -8,7 +8,7 @@ already produced wrong answers in this project more than once.
 
 **A LOCAL session on the PC (MT5 open)? There is a task list waiting: [`docs/LOCAL_MT5_TASKS.md`](docs/LOCAL_MT5_TASKS.md).**
 
-**2026-10-09: a data-gap bug was fixed and a re-run is IN PROGRESS - read the top of docs/09 first.** **Coming back after 2026-10-08? [`docs/09-pick-up-here.md`](docs/09-pick-up-here.md) was rewritten that evening: what runs on the VM and the PC, the machine names (v2 / v3 / MIX B / E), the one live change (the MN short-leg exit in `combo_bot.py`), and what is next. [`docs/21-graveyard-audit.md`](docs/21-graveyard-audit.md) rates every kill.**
+**2026-10-09: a data-gap bug was fixed and everything re-run - doc 02's last entry has the corrected numbers.** **Coming back after 2026-10-08? [`docs/09-pick-up-here.md`](docs/09-pick-up-here.md) was rewritten that evening: what runs on the VM and the PC, the machine names (v2 / v3 / MIX B / E), the one live change (the MN short-leg exit in `combo_bot.py`), and what is next. [`docs/21-graveyard-audit.md`](docs/21-graveyard-audit.md) rates every kill.**
 
 **Read this file, then [`docs/09-pick-up-here.md`](docs/09-pick-up-here.md) for live state,
 then [`docs/02-what-failed.md`](docs/02-what-failed.md) before proposing any strategy.**
@@ -159,6 +159,8 @@ backtest/          every experiment. blend.py holds the deployed constants.
                      (funding, real t0) most 2026-09-23/24 tests build on; score() pairs them
   one_year.py / month_dist.py / book_stats.py   what $221 does in a month / a year, per book
   kelly_corrected.py risk-per-unit sweep with leverage and ruin (why 0.30% stays)
+backtest/machine_factorial.py / filter_pairs.py / moderate_retests.py / mn_blend_rsi.py / vwap_daily.py  2026-10-09:
+                     every book combination (728), every filter pair, the MODERATE kills re-tested, the MN momentum+RSI candidate
 docs/21-graveyard-audit.md  EVERY kill, its backing rated, the thin ones re-tested (2026-10-08): engine_rescore2,
                      sleeve_risk_control, bear_alpha_pit, mn_width7, wick_chop_size, sweep_reclaim, meme_days
 backtest/daily_combos.py / capit_combos.py / capit_stack.py / mn_combos.py / machine_combos.py  the combination sweep
@@ -565,6 +567,22 @@ the box was patched before the repo was public.
 
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
+
+### 2026-10-09 - the archive-hole bug; everything re-run; every combination and thin kill finished
+
+- **Loader bug** (`capitulation_wide.halt_cut`): a >48h-gap rule read two archive holes as halts and cut 51 coins at
+  2022-02-25 (16.4% of PIT top-40 coin-months). Now > 7 days. 34 scripts re-run - **their logs supersede the RESULT lines
+  quoted in s10 entries below for 2026-10-06..08** (doc 02, "The archive-hole bug" has the table).
+- Corrected headlines: capit2's rule still passes in all 4 phases (+3.0 / +4.3% a trade, `logs/capit_stack.txt`) and 0 of
+  26 changes improve it (`logs/filter_pairs.txt`); the plain capitulation book is weaker (+1.9..+2.7% a trade); v3 +140%/yr;
+  **"E" at the published v2's typical year: worst month -21% (v2 safe -27%)** - the 2026-10-08 "~1 point" correction was
+  on the truncated data.
+- New candidates (paper first): daily-book exits (20-day mean + BTC exit, fall 65 -> 48%: `logs/daily_stack.txt`); the MN
+  book half momentum / half RSI-ranked (`backtest/mn_blend_rsi.py`: beats momentum on both halves and the worst weekday).
+- Finished: 728-machine factorial (honest pick = E), every filter pair, the MODERATE kills (`moderate_retests.py`: grid,
+  wide PIT engine, meta-labelling, VWAP - all stand; the XS-indicator kill was wrong), memes on the full 9-day record.
+- `backtest/tv_indicators.py` had overwritten an older library (aroon, dmi, ...) that `tv_test.py` / `tv_crosssec.py`
+  import - restored inside the same file.
 
 ### 2026-10-08 (late) - step 2: the improved capitulation book runs forward on the VM
 

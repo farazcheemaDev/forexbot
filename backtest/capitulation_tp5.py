@@ -9,6 +9,9 @@ REGISTERED BEFORE RUNNING: every year positive except perhaps 2023; t by day > 3
 design at <= 3x makes +30..+80% a year averaged over phases, with a worst fall of 30-60%.
 
     python -m backtest.capitulation_tp5
+
+RE-RUN 2026-10-09 on the FIXED loader (capitulation_wide.halt_cut): until then a data-archive hole cut 51 coins (XRP, SOL,
+    LTC ...) at 2022-02-25. Where a RESULT above differs from this file's log, THE LOG IS CURRENT - doc 02, "The archive-hole bug".
 """
 from __future__ import annotations
 

@@ -21,6 +21,9 @@ RESULT (2026-10-08, logs/pair_books.txt; random same-day order over 10 seeds in 
     Both books are point-in-time with dead coins: NO hindsight haircut (rule 5), stated so.
 
     python -m backtest.pair_books
+
+RE-RUN 2026-10-09 on the FIXED loader (capitulation_wide.halt_cut): until then a data-archive hole cut 51 coins (XRP, SOL,
+    LTC ...) at 2022-02-25. Where a RESULT above differs from this file's log, THE LOG IS CURRENT - doc 02, "The archive-hole bug".
 """
 from __future__ import annotations
 

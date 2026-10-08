@@ -53,6 +53,9 @@ RESULT (2026-10-06, logs/lottery_v2.txt, logs/lottery_v2_detail.txt)
 
     python -m backtest.lottery_v2
     python -m backtest.lottery_v2 --detail     # by start year, booked at month 12, ever under $5
+
+RE-RUN 2026-10-09 on the FIXED loader (capitulation_wide.halt_cut): until then a data-archive hole cut 51 coins (XRP, SOL,
+    LTC ...) at 2022-02-25. Where a RESULT above differs from this file's log, THE LOG IS CURRENT - doc 02, "The archive-hole bug".
 """
 from __future__ import annotations
 

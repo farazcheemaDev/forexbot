@@ -22,6 +22,9 @@ RESULT (2026-10-08, logs/trend_combos.txt): 0 of 4 pass. G1 breadth (fall 51 -> 
     everywhere. Prediction (0 of 4) - right.
 
     python -m backtest.trend_combos
+
+RE-RUN 2026-10-09 on the FIXED loader (capitulation_wide.halt_cut): until then a data-archive hole cut 51 coins (XRP, SOL,
+    LTC ...) at 2022-02-25. Where a RESULT above differs from this file's log, THE LOG IS CURRENT - doc 02, "The archive-hole bug".
 """
 from __future__ import annotations
 

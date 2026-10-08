@@ -19,6 +19,9 @@ REGISTERED BEFORE RUNNING:
     - the efficient frontier on the first 4 years keeps at most half of its members efficient on the last 2.
 
     python -m backtest.machine_factorial
+
+RE-RUN 2026-10-09 on the FIXED loader (capitulation_wide.halt_cut): until then a data-archive hole cut 51 coins (XRP, SOL,
+    LTC ...) at 2022-02-25. Where a RESULT above differs from this file's log, THE LOG IS CURRENT - doc 02, "The archive-hole bug".
 """
 from __future__ import annotations
 

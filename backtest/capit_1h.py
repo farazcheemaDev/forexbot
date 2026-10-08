@@ -20,6 +20,9 @@ RESULT (2026-10-08, logs/capit_1h.txt): the 1h base reproduces the kill (holdout
     trades - right; beats the 4h book on the holdout - WRONG.
 
     python -m backtest.capit_1h
+
+RE-RUN 2026-10-09 on the FIXED loader (capitulation_wide.halt_cut): until then a data-archive hole cut 51 coins (XRP, SOL,
+    LTC ...) at 2022-02-25. Where a RESULT above differs from this file's log, THE LOG IS CURRENT - doc 02, "The archive-hole bug".
 """
 from __future__ import annotations
 

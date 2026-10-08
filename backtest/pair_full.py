@@ -21,6 +21,9 @@ RESULT (2026-10-08, logs/pair_full.txt + the session's no-gate run): over 3 dail
     +4..+10 points), phase spread < +-20 (right).
 
     python -m backtest.pair_full
+
+RE-RUN 2026-10-09 on the FIXED loader (capitulation_wide.halt_cut): until then a data-archive hole cut 51 coins (XRP, SOL,
+    LTC ...) at 2022-02-25. Where a RESULT above differs from this file's log, THE LOG IS CURRENT - doc 02, "The archive-hole bug".
 """
 from __future__ import annotations
 

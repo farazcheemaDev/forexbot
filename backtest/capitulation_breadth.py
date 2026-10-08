@@ -18,6 +18,9 @@ RESULT (2026-10-08, logs/capitulation_breadth.txt): breadth raises the average i
     the data the idea came from: a forward record decides.
 
     python -m backtest.capitulation_breadth
+
+RE-RUN 2026-10-09 on the FIXED loader (capitulation_wide.halt_cut): until then a data-archive hole cut 51 coins (XRP, SOL,
+    LTC ...) at 2022-02-25. Where a RESULT above differs from this file's log, THE LOG IS CURRENT - doc 02, "The archive-hole bug".
 """
 from __future__ import annotations
 

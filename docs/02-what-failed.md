@@ -4058,3 +4058,57 @@ width on 7 days (`mn_width7.py`), crash bids up in chop (`wick_chop_size.py`), t
 (`sweep_reclaim.py`) and memecoin graduations on later days (`meme_days.py`). Nothing came back as a book; one kill
 reversed (the MN short-leg stop) and two claims were too broad ("volume is anti-useful", "every reversal fails").
 
+
+## The archive-hole bug, the re-run, and the last combinations (2026-10-09)
+
+**The bug** (`backtest/capitulation_wide.halt_cut`, test in `tests/test_capitulation_wide.py`). Every loader of the perp
+archive cut a coin's history at its first gap over 48 hours, meant for real halts (BNX's 21-day stop). Two ARCHIVE holes
+- 2022-02-26..28 (73h, 47 coins) and 2022-04-01..02 (49h, 48 coins), prices a few percent apart across them - cut 51
+coins (XRP, SOL, LTC, NEAR, FIL, TRX, XLM...) at 2022-02-25: **16.4% of all point-in-time top-40 coin-months were missing**
+from every daily-book, capitulation and pair result. Now only a gap of more than 7 days cuts. All 34 affected scripts
+were re-run; their logs are current and their docstrings say so.
+
+**What changed** (all point-in-time, 12bp + funding):
+
+| | before the fix | after | file |
+|---|---|---|---|
+| plain capitulation book (+5% exit) | 57-62 a year, +2.4..+3.1% a trade | **73-78 a year, +1.9..+2.7%** | `logs/capitulation_exits.txt` |
+| the pair (daily + capitulation, half each, 1x) | +48%/yr, fall 27%, 2022 -21% | +50%/yr, **fall 36-37%, 2022 -32%** | `logs/pair_books.txt` |
+| the daily book alone, 8 slots 1x | +69..+90%/yr | +83..+100%/yr, falls 53-61% | `logs/daily_phase.txt` |
+| machine v3 | +133%/yr, holdout +83 | **+140%/yr, holdout +86**, fall 40% | `logs/pair_tweaks.txt` |
+| MIX B ($300, 6y / 2y) | $1,406 / $1,355 | $1,487 / $1,370, worst month -17% / -15% | `logs/machine_mix.txt` |
+| **capit2's rule** (coin -10% + limit 2%, 0.3% trade-through) | passed, 4 phases | **still passes, 4 phases**: +3.0% / +4.3% a trade vs +1.5% / +3.1%, ~35 a year, 1x fall 10% vs 22% | `logs/capit_stack.txt` |
+| **"E"** (v2 + MN short-leg exit + daily + improved capitulation), MN on every weekday | worst month -26.0% at v2's typical year | **-21.0%** (v2 safe -27.2%, published v2 -29.3%), fall 42% vs 57% | `logs/machine_combos.txt` |
+
+The 2026-10-08 correction ("the add-ons buy ~1 point of worst month") was itself made on the truncated data; on the full
+data they buy ~6 points over "v2 safe" and ~8 over the published v2, plus return. Three of the four single capitulation
+improvements now fail one phase by a hair; their stack (capit2's rule) still passes.
+
+**New passes on the corrected data - candidates, after paper:**
+- the daily book's exit under the 20-day mean, and its BTC exit (out when BTC closes under its own 20-day mean): both pass
+  all 3 day boundaries (`logs/daily_combos.txt`); stacked, the fall drops 65% -> 48% at about the same growth
+  (`logs/daily_stack.txt`);
+- the market-neutral book ranked HALF by 30-day momentum and HALF by RSI(14): Sharpe +1.39 / +1.36 vs momentum's +1.06 /
+  +1.31 over the 7 rebalance weekdays, worst weekday +1.21 / +0.90 vs +0.85 / +0.76, falls 27-38% vs 29-42%
+  (`backtest/mn_blend_rsi.py`). Found while re-testing an old kill; RSI was one of two indicators tried.
+
+**Every combination, finished:**
+- all 728 machines (6 books x 0 / 0.5 / 1, `backtest/machine_factorial.py`): the pick made on the first 4 years is every
+  book at full size ("E"), and on the 2 years it never saw it ranks first of 728 - but its worst month there (-30.4%) is
+  past the -28.2% ceiling it was picked under;
+- every pair of filters (`backtest/filter_pairs.py`): daily book 1 of 78 (chance), capitulation 8 of 136 (each a crash
+  condition plus a market filter), and **0 of 26 single changes improve capit2's rule**;
+- trend book x today's signals 0/4, crash bids x capitulation 0/5, sleeve x capitulation 0/4, regime weights (no leak)
+  fail, the 1h capitulation still loses to the 4h book (their logs).
+
+**The remaining thin / moderate kills, re-tested** (`backtest/moderate_retests.py`, `logs/moderate_retests.txt`):
+grid bots on 15 more coins 4 of 120 profitable - stands; the hourly trend engine on the PIT top-40 vs the 12 coins
+(corrected engine, no funding on either) holdout -0.75 vs +3.67 %/mo (main), +3.46 vs +12.48 (triple) - "breadth does
+not scale" stands; meta-labelling fails - stands; VWAP reversion on daily bars is positive a trade (+0.7..+2.7%) but a
+LOSING account (holdout -23..-39%/yr, falls 78-88%: `backtest/vwap_daily.py`) - stands; cross-sectional indicator
+ranking is NOT worse than momentum - that claim was wrong (above); memecoin graduations on the collector's full record
+(309 graduates, 9 days: +1 min / +1h -54.6%) - stands.
+
+**Also found and fixed: `backtest/tv_indicators.py` had been a LIBRARY** (supertrend, keltner, ttm_squeeze, psar, aroon,
+dmi, ichimoku, chandelier) imported by `tv_test.py` and `tv_crosssec.py`, and the 2026-10-08 study was written under
+the same name and replaced it. The library is restored verbatim (from 91c9dbe) inside the same file; all importers work.
