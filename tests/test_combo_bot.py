@@ -221,6 +221,23 @@ def test_dry_places_nothing_and_keeps_a_ledger():
     assert st["exec"]["unmapped"] == ["NOTLISTEDUSDT"]
 
 
+def test_dry_ledger_closes_what_the_books_exit():
+    """Found 2026-10-09: the dry ledger kept every position its books had exited - a coin no book wants has no target,
+    so it had no price, and an order with no price is skipped. The venue branch looked those prices up; dry did not."""
+    ex = FakeEx(prefix="", quote="USDT", coins=("XRP", "SOL"), px={})
+    st = state(mn_qty={"XRPUSDT": 20.0, "SOLUSDT": 0.5})
+    px = {"XRPUSDT": 2.0, "SOLUSDT": 200.0}
+    cb.execute(st, cb.Venue(ex, "dry"), "dry", px, dry=True)
+    st["exec"]["mn_qty"].pop("SOLUSDT")                                   # the book drops SOL
+    cb.execute(st, cb.Venue(ex, "dry"), "dry", px, dry=True)
+    assert st["exec"]["virtual_pos"] == {"XRP/USDT:USDT": 20.0}, "the dry ledger kept a position no book holds"
+    st2 = state(mn_qty={"XRPUSDT": 20.0})                                 # without a venue (Binance symbols) too
+    cb.execute(st2, None, "dry", px, dry=True)
+    st2["exec"]["mn_qty"] = {}
+    cb.execute(st2, None, "dry", px, dry=True)
+    assert st2["exec"]["virtual_pos"] == {}
+
+
 # ------------------------------------------------------------------ the venue's own minimums
 
 def link_venue(px=14.0):

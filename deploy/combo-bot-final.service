@@ -1,0 +1,25 @@
+[Unit]
+Description=THE FINAL MACHINE, paper - combo_bot.py --mode dry --final ($300 virtual account, all coins, NO orders, no keys)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__USER__
+WorkingDirectory=__APP_DIR__
+# DRY: it reads Binance and Bitget PUBLIC data only and keeps a virtual ledger in logs/combo_bot_dry_final/. It places
+# no orders and needs no keys, so it runs BESIDE combo-bot-demo (guard_one_bot ignores --mode dry) without touching the
+# demo account or the demo's two-week PASS check. ONE INSTANCE ONLY: one record (combo_paper.single_instance).
+ExecStart=__APP_DIR__/.venv/bin/python -u combo_bot.py --mode dry --final
+Restart=always
+RestartSec=120
+StandardOutput=journal
+StandardError=journal
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+ReadWritePaths=__APP_DIR__/logs
+
+[Install]
+WantedBy=multi-user.target

@@ -7,6 +7,16 @@
 (what is running, what is next), then the last entries of [doc 02](02-what-failed.md) and [doc 21](21-graveyard-audit.md)
 before proposing anything - most ideas have been tested, and doc 21 says how well.
 
+## 2026-10-09 (late): THE FINAL MACHINE runs on paper on the VM
+
+`combo_bot.py --final` (+ `final_books.py`) = machine v2 + the MN book ranked half momentum / half RSI + funding carry 0.5x
++ the daily Bollinger book (20-day exit) 0.5x + capit2 0.5x, the whole account held under 10x (trend guard 6.25x).
+**On the VM as `combo-bot-final.service`, `--mode dry`: $300 virtual, all coins, no orders, no keys**, beside the demo.
+Backtest of exactly this (`backtest/final_machine.py`, DEPLOYABLE): typical year $3,400 / $4,735 on $300, worst month
+-30% - BACKTEST ONLY. Read it: `./.venv/bin/python combo_bot.py --mode dry --final --status` on the VM. Trades in
+`logs/combo_bot_dry_final/combo_final_trades.csv`, orders in `combo_exec.csv`, the log in `combo_paper.log`.
+Next decision (the user's): after the demo's PASS (~2026-10-13), whether the demo account should run `--final` instead.
+
 ## 2026-10-09: the archive-hole bug - fixed, and EVERYTHING re-run
 
 A loader rule cut 51 coins (XRP, SOL, LTC...) at a 2022 data-archive hole; 16.4% of PIT top-40 coin-months were missing.
@@ -31,6 +41,7 @@ carry (7-day, 20% basket, +50% exit) at 0.5x.
 | **combo-paper** - "machine v2" on paper: triple trend + MN 1x + bear sleeve, pre-registered | Azure VM | running since 2026-09-24; day 14 -20.6% (5th percentile of its backtest). **Its MN book has NO short-leg exit** (pre-registered, unchanged) - see the risk below. Verdict ~2027-03-24 |
 | **combo-bot-demo** - v2 executed on the Bitget DEMO (order-path test, P&L meaningless) | Azure VM | running. **Restarted 2026-10-08 18:37 UTC with the MN short-leg exit** (commit cb6bcbf). Two-week PASS check due ~2026-10-13: `./.venv/bin/python combo_bot.py --mode demo --report` on the VM |
 | **wick-paper** - crash-bid paper book (Bitget + Binance) | Azure VM | running; verdict at 60+ Bitget fills |
+| **combo-bot-final** - THE FINAL MACHINE on paper: `combo_bot.py --mode dry --final` ($300 virtual, all coins, no orders) | Azure VM | **started 2026-10-09** (`deploy/combo-bot-final.service`). `--status` as above |
 | status-server | Azure VM | running |
 | **pair-paper** - `pair_live.py --loop`: the pair (daily + capitulation, 10,000 PKR) AND the **capit2 shadow book** (improved capitulation, own 5,000 PKR, pre-registered H1-H3 in the file's docstring) | Azure VM | **running hourly since 2026-10-08** (`deploy/pair-paper.service`); state moved from the PC (PC copy renamed `.moved-to-vm`). `./.venv/bin/python pair_live.py --status` on the VM. First capitulation event recorded 2026-10-08 (7 coins, entered ~3h late on the PC before the move) |
 | meme / Polymarket collectors | PC | append to `logs/meme_graduates.csv`, `logs/poly_snapshots.csv` |

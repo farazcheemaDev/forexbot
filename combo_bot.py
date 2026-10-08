@@ -44,6 +44,13 @@ MODES
           symbol mapping for all coins, which the 3-coin demo cannot.
     live  Real USDT-FUTURES with the account's real equity. Refused unless ALLOW_REAL is True.
 
+THE FINAL MACHINE (--final, 2026-10-09, final_books.py)
+    Adds to the books above: the MN book ranked half by momentum / half by RSI(14), funding carry at 0.5x, the daily
+    Bollinger book with the 20-day-mean exit at 0.5x, the improved capitulation book (capit2) at 0.5x - and holds the
+    WHOLE account under 10x gross (the trend book's own guard drops to 6.25x). Its own state in
+    logs/combo_bot_<mode>_final/, paper equity $300. On the VM as combo-bot-final.service, --mode dry.
+
+    python combo_bot.py --mode dry --final  the final machine, paper (VM: combo-bot-final.service)
     python combo_bot.py --mode demo       order-path test on the demo account
     python combo_bot.py --mode dry        all coins, no orders
     python combo_bot.py --mode live       real money (after a human sets ALLOW_REAL = True)
@@ -112,6 +119,10 @@ def book_targets(st: dict) -> dict:
             add(sym, n / px)
     for sym, q in st.get("wick", {}).get("hold", {}).items():   # crash-bid fills (wick_live.py)
         add(sym, q)
+    if st.get("fin"):                                            # --final: carry, daily, capit2 (final_books.py)
+        import final_books as fb
+        for sym, q in fb.targets(st).items():
+            add(sym, q)
     return {s: q for s, q in out.items() if abs(q) > 0}
 
 
@@ -407,6 +418,9 @@ def execute(st: dict, venue: "Venue | None", mode: str, prices: dict, dry: bool)
     ex_state = st.setdefault("exec", {})
     mark_breaches(st, prices)
     mn_squeeze_exits(st, prices)
+    if st.get("fin"):
+        import final_books as fb
+        fb.carry_squeeze_exits(st, prices, MN_SHORT_EXIT, rec=final_record)
     tgt = book_targets(st)
     if mode == "demo":
         tgt = route_demo(tgt, prices)
@@ -421,17 +435,26 @@ def execute(st: dict, venue: "Venue | None", mode: str, prices: dict, dry: bool)
             continue
         vt[s] = vt.get(s, 0.0) + q
         vp[s] = prices.get(sym)
-    if dry or venue is None:
-        actual = dict(ex_state.get("virtual_pos", {}))
-    else:
-        actual = venue.positions()
-        by_venue = {venue.symbol(b): b for b in prices if b.endswith("USDT")} if actual else {}
-        for s in actual:
-            if s not in vp and s in by_venue:
-                vp[s] = prices.get(by_venue[s])
+    actual = dict(ex_state.get("virtual_pos", {})) if (dry or venue is None) else venue.positions()
+    # a held coin no book wants any more needs a price too, or it is never closed. Until 2026-10-09 only the venue
+    # branch looked these up, so the DRY ledger kept every position its books had exited (tests/test_final_books.py)
+    by_venue = ({venue.symbol(b): b for b in prices if b.endswith("USDT")} if venue else {b: b for b in prices}) \
+        if actual else {}
+    for s in actual:
+        if s not in vp and s in by_venue:
+            vp[s] = prices.get(by_venue[s])
     sent = []
     refused = ex_state.setdefault("refused", {})
-    for s, side, qty, reduce, why in plan_orders(vt, actual, vp):
+    orders = plan_orders(vt, actual, vp)
+    if st.get("fin"):
+        # THE ACCOUNT-LEVEL 10x GUARD (--final): the books are sized separately, so their sum is held here
+        import final_books as fb
+        orders, over = fb.gross_gate(orders, actual, vp, float(st["equity"]))
+        for s, side, qty, reduce, why in over:
+            if refused.get(s) != "gross":
+                refused[s] = "gross"
+                log(f"EXEC {s}: {side} {qty:.6g} ({why}) NOT SENT - the account would pass {fb.GROSS_CAP:g}x gross")
+    for s, side, qty, reduce, why in orders:
         px = vp.get(s)
         if not px:
             continue
@@ -699,22 +722,31 @@ def warm_start(st: dict) -> int:
     return n
 
 
-def poll(st: dict, venue, mode: str, caches: tuple, desk=None):
+def final_record(row: dict):
+    cp.append(cp.P["state"].parent / "combo_final_trades.csv", row)
+
+
+def poll(st: dict, venue, mode: str, caches: tuple, desk=None, prices_fn=None):
     ve = VIRTUAL_EQUITY[mode]
     if ve is None and venue is not None:
         st["equity"] = venue.equity()            # live: the books size off the real account
     today = f"{datetime.now(timezone.utc):%Y-%m-%d}"
     st.setdefault("exec", {})         # a FRESH state has none; found by the first dry run
+    prices = (prices_fn or binance_prices)() if st.get("fin") else None
     if st["last_day"] != today:
         before = st["mn"].get("last_rebal")
         cp.daily(st)
         if st["mn"].get("last_rebal") != before or "mn_qty" not in st["exec"]:
             st["exec"]["mn_qty"] = mn_quantities(st)
         st["exec"]["mn_qty"] = {s: q for s, q in st["exec"]["mn_qty"].items() if s in st["mn"]["weights"]}
+    if st.get("fin"):
+        import final_books as fb
+        fb.daily_books(st, prices, rec=final_record)
+        fb.capit2_poll(st, prices, int(time.time() * 1000), rec=final_record)
     cp.trend_poll(st, *caches)
     if desk is not None:
         desk.watch(st)                   # a fill not yet in `hold` would be netted away
-    execute(st, venue, mode, binance_prices(), dry=(mode == "dry"))
+    execute(st, venue, mode, (prices_fn or binance_prices)(), dry=(mode == "dry"))
 
 
 def main():
@@ -727,11 +759,22 @@ def main():
     ap.add_argument("--wick-dist", type=float, default=None, help="bid distance (default 0.10); tests only")
     ap.add_argument("--wick-cap", type=int, default=None, help="fills per hour before cancelling (default 10)")
     ap.add_argument("--wick-usd", type=float, default=None, help="fixed $ per bid; tests only")
+    ap.add_argument("--final", action="store_true",
+                    help="THE FINAL MACHINE (final_books.py): + MN blend, carry, daily book, capit2, 10x account cap; "
+                         "its own state in logs/combo_bot_<mode>_final")
     args = ap.parse_args()
-    cp.set_dir(ROOT / "logs" / f"combo_bot_{args.mode}")
+    cp.set_dir(ROOT / "logs" / f"combo_bot_{args.mode}{'_final' if args.final else ''}")
+    if args.final:
+        import final_books as fb
+        fb.enable(cp)                    # after set_dir, which sets the trend guard to 9x: this lowers it to 6.25x
+        VIRTUAL_EQUITY.update({k: fb.EQUITY for k, v in VIRTUAL_EQUITY.items() if v is not None})
+    new_state = not cp.P["state"].exists()
     st = cp.load()
-    if VIRTUAL_EQUITY[args.mode] and not cp.P["state"].exists():
+    if VIRTUAL_EQUITY[args.mode] and new_state:
         st["equity"] = VIRTUAL_EQUITY[args.mode]
+        st["peak"] = VIRTUAL_EQUITY[args.mode]
+    if args.final:
+        st.setdefault("fin", fb.fresh())
     if args.report:
         report(cp.P["state"].parent)
         return
@@ -741,6 +784,9 @@ def main():
         print(f"  EXECUTION ({args.mode}): targets {book_targets(st)}")
         print(f"  unmapped coins: {e.get('unmapped', [])}")
         print(f"  disaster stops: {len(e.get('stops', {}))}   virtual ledger: {e.get('virtual_pos', {})}")
+        if st.get("fin"):
+            import final_books as fb
+            fb.status(st)
         wk = st.get("wick")
         if wk:
             print(f"  crash desk: hour {wk['hour']}, {len(wk['orders'])} bids, {wk['fills']} fills this hour, "
@@ -754,6 +800,10 @@ def main():
     log("=" * 70)
     log(f"COMBO BOT --mode {args.mode} | trend (triple + 21d anchor) + market-neutral 1x + bear "
         f"sleeve 1x on ONE account, netted per coin | cross margin, {CAT_STOP:.0%} disaster stops")
+    if args.final:
+        log(f"  FINAL MACHINE: MN ranked half momentum / half RSI(14), funding carry {fb.K_CARRY}x, daily Bollinger "
+            f"book (20-day exit) {fb.K_DAILY}x, capit2 {fb.K_CAPIT2}x | trend guard {cp.bp.MAX_LEVERAGE}x, account "
+            f"cap {fb.GROSS_CAP:g}x | paper equity ${st['equity']:.2f}")
     if args.mode == "demo":
         log("  DEMO: every coin routed onto SBTC/SETH/SXRP by dollar value - an ORDER-PATH test; "
             "its P&L means nothing. Sized as $221.")

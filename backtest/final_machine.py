@@ -11,6 +11,12 @@ each measured on the fixed loader with the market-neutral rebalance weekday rota
 Reported on $300: typical / bad / worst 12 months, the AVERAGE and the MEDIAN month, the share of months up, the worst
 month and the biggest fall - 6 years and the last 2 - at full size and scaled to E's worst month.
 
+DEPLOYABLE (added 2026-10-09 before the bot was built): FINAL with the trend book's gross guard at 6.25x instead of 9x,
+so the whole account stays under 10x. Registered: 10-25% below FINAL's typical year, worst month 2-5 points less bad.
+RESULT (DEPLOYABLE): typical $3,400 / $4,735 against FINAL's $3,838 / $5,835 - 11% / 19% below (right); worst month
+    -30.0%, the SAME (wrong: the worst month does not come from the trend book's gross peaks); fall 60% / 51% against
+    61% / 52%; median month +4.6% / +7.3%. x0.65: $1,806 / $2,297, worst month -20.4%, fall 44% / 36%. This is the
+    configuration combo_bot.py --final runs (final_books.py).
 REGISTERED BEFORE RUNNING: FINAL's typical year is 5-15% above E's on both spans at about the same worst month; its median
 month stays near +2..+5% and about 4 months in 10 still lose.
 
@@ -47,8 +53,33 @@ def months(xs, t0=None):
     return a.mean(), np.median(a), (a > 0).mean(), (a <= -0.10).mean()
 
 
+def trend_capped(lev):
+    """The trend book with its gross guard at `lev` (the deployable bot caps the WHOLE account at 10x, and the other books
+    can take 3.75x at their peaks, so the trend book gets 6.25x instead of 9x), gains shrunk as worst_month.py."""
+    import pickle
+    import backtest.dd_fixes as Dd
+    from backtest.bar_phase import rows_for_phase
+    from backtest.bull_boost import regimes
+    from backtest.worst_month import TCACHE
+    f = ROOT / "logs" / "daily_combos_cache" / f"trend_lev{lev}.pkl"
+    if f.exists():
+        return pickle.loads(f.read_bytes())
+    cache = pickle.loads(TCACHE.read_bytes())
+    bear = regimes()[1000]
+    bn, bv = pd.DatetimeIndex(bear.index).as_unit("ns").asi8, bear.to_numpy(bool)
+    trows = Dd.decompose(rows_for_phase(0, tight=True, time_stop=(100, 2.0), max_units=7))
+    out = {}
+    for sd in mc.SEEDS:
+        r = Dd.sim(trows, bn, bv, sd, lev=lev, size_fn=Dd.anchor(21)).pct_change().fillna(0.0)
+        s = cache[("shrink", sd)]
+        out[sd] = pd.Series(np.where(r > 0, s * r, r), index=r.index)
+    f.write_bytes(pickle.dumps(out))
+    return out
+
+
 def main():
     P = mc.parts()
+    T625 = trend_capped(6.25)
     D = m.data()
     C = pd.DataFrame(D["X"])
     d = C.diff()
@@ -57,7 +88,7 @@ def main():
     rsi = (100 - 100 / (1 + up / dn.replace(0, np.nan))).to_numpy()
     mom = D["X"] / np.r_[np.full((30, D["X"].shape[1]), np.nan), D["X"][:-30]] - 1
     T20 = {off: dc.gen(off, dict(dc.BASE, mean_n=20)) for off in dc.PHASES}
-    E, F = [], []
+    E, F, DEP = [], [], []
     for sd in mc.SEEDS:
         b = P[sd]
         idx = b.index
@@ -71,11 +102,13 @@ def main():
         core = b.trend + b.sleeve + b.bids + b.capit2
         E.append(core + b.mn_safe + b.daily)
         F.append(core + mn_blend + 0.5 * carry + daily20)
+        DEP.append(T625[sd].reindex(idx).fillna(0.0) + b.sleeve + b.bids + b.capit2 + mn_blend + 0.5 * carry + daily20)
     lines = [f"backtest/final_machine.py, {pd.Timestamp.now():%Y-%m-%d %H:%M}; $300, 10 orderings (MN weekday, daily boundary, "
              f"capitulation phase rotated); trend gains shrunk for hindsight, everything else raw; BACKTEST ONLY", ""]
     e_wm = summary(E)["wm"]
     g = min(np.round(np.arange(0.4, 1.21, 0.05), 2), key=lambda k: abs(summary([k * x for x in F])["wm"] - e_wm))
     for nm, xs in (("E (current best, measured 10-09)", E), ("FINAL, full size", F),
+                   ("DEPLOYABLE (trend guard 6.25x)", DEP), ("DEPLOYABLE x0.65", [0.65 * x for x in DEP]),
                    (f"FINAL x{g:.2f} (E's worst month)", [g * x for x in F]), ("FINAL x0.65 (a safer size)", [0.65 * x for x in F])):
         for sp, t0 in (("all 6 years", None), ("last 2 years", CUT)):
             s = summary(xs, t0)

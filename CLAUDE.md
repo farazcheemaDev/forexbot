@@ -225,6 +225,9 @@ wick_paper.py      THE CRASH BIDS (doc 16 s7), pre-registered: top-40 bids 10% u
                      No orders, no keys. For the VM: deploy/install_wick.sh (pulls, verifies, installs
                      wick-paper.service). Verdict at 6 months with 60+ Bitget fills, else 12
 xs_paper.py        an EARLIER pre-registered XS test (21 coins, daily). Frozen — do not edit
+final_books.py     THE FINAL MACHINE's extra books for combo_bot.py --final (2026-10-09): MN half momentum / half RSI,
+                     carry 0.5x, daily Bollinger (20-day exit) 0.5x, capit2 0.5x, the account-level 10x gate. On the VM
+                     as combo-bot-final.service (--mode dry: $300 paper, all coins, no orders). tests/test_final_books.py
 combo_bot.py       THE LIVE COMBINATION BOT (2026-09-24): combo_paper's three books executed on ONE Bitget
                      account, netted per coin, cross margin, 30% disaster stops, intrabar trend stops.
                      --mode demo (ON THE VM since 2026-09-29, combo-bot-demo.service; the demo lists only SBTC/SETH/SXRP, so every coin is
@@ -567,6 +570,28 @@ the box was patched before the repo was public.
 
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
+
+### 2026-10-09 (late) - THE FINAL MACHINE built into the bot (`--final`) and running on paper on the VM
+
+- **Asked:** "make the final version of bot combining all the rsi and other good stuff that maximises gain and then
+  deploy it to vm". Built as `final_books.py` + `combo_bot.py --final`: machine v2's books + the MN book ranked half
+  momentum / half RSI(14) + funding carry 0.5x + the daily Bollinger book with the 20-day exit 0.5x + capit2 0.5x, one
+  account, netted per coin. **The whole account is held under 10x** (`final_books.gross_gate`); the trend book's own
+  guard drops 9x -> 6.25x, since the other books can hold 3.75x at their peaks.
+- **Its backtest, as deployed** (`backtest/final_machine.py`, DEPLOYABLE line; $300, trend gains shrunk, BACKTEST
+  ONLY): typical year $3,400 / $4,735 (6 yrs / last 2), median month +4.6% / +7.3%, ~4 months in 10 lose, **worst month
+  -30%**, fall 60% / 51%. The 10x cap costs 11% / 19% of the typical year and does NOT soften the worst month
+  (registered: 2-5 points less bad - wrong). x0.65 = $1,806 / $2,297 with a -20% worst month.
+- **On the VM as `combo-bot-final.service`: `--mode dry`** - a $300 virtual account on all coins, public data, NO orders,
+  no keys; beside the demo, which is untouched (its two-week PASS check is not restarted). Real money stays impossible:
+  `ALLOW_REAL = False`. Status: `./.venv/bin/python combo_bot.py --mode dry --final --status` on the VM.
+- **Found while building it:** (1) the DRY ledger never closed a position its books exited (a coin no book wants had no
+  price; only the venue branch looked it up) - fixed, `test_dry_ledger_closes_what_the_books_exit` fails on the old
+  code; P&L was never affected (it is booked by the books). (2) On a late start the daily book bought a 24-hour-old
+  signal 10.7% from its close (PUMP) - buys now only within 3h of the close (`LATE_MS`), exits always.
+- Tests: `tests/test_final_books.py` 13, every rule where it must fire and where it must not; **14 mutations, all
+  caught**. `tests/test_combo_bot.py` 24. Live vs backtest differences (capit2 by market order on a 0.3% trade-through
+  each 2-min poll, not a resting limit; slot ties by volume) are listed in `final_books.py`'s docstring.
 
 ### 2026-10-09 - the archive-hole bug; everything re-run; every combination and thin kill finished
 

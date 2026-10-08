@@ -1,10 +1,16 @@
-backtest/final_machine.py, 2026-10-09 04:20; $300, 10 orderings (MN weekday, daily boundary, capitulation phase rotated); trend gains shrunk for hindsight, everything else raw; BACKTEST ONLY
+backtest/final_machine.py, 2026-10-09 04:32; $300, 10 orderings (MN weekday, daily boundary, capitulation phase rotated); trend gains shrunk for hindsight, everything else raw; BACKTEST ONLY
 
   E (current best, measured 10-09)   all 6 years  12 months: typical $ 3,198 / bad $ 1,020 / worst $  206 | month: average +38.8%, median  +4.8%, up  59%, -10% or worse  21% | worst month  -30.8% | biggest fall  59%
   E (current best, measured 10-09)   last 2 years 12 months: typical $ 4,616 / bad $ 2,228 / worst $  487 | month: average +47.3%, median  +8.7%, up  62%, -10% or worse  23% | worst month  -30.4% | biggest fall  51%
 
   FINAL, full size                   all 6 years  12 months: typical $ 3,838 / bad $ 1,162 / worst $  230 | month: average +42.2%, median  +4.5%, up  59%, -10% or worse  17% | worst month  -30.0% | biggest fall  61%
   FINAL, full size                   last 2 years 12 months: typical $ 5,835 / bad $ 2,616 / worst $  759 | month: average +49.4%, median  +6.3%, up  58%, -10% or worse  22% | worst month  -30.0% | biggest fall  52%
+
+  DEPLOYABLE (trend guard 6.25x)     all 6 years  12 months: typical $ 3,400 / bad $ 1,086 / worst $  230 | month: average +40.0%, median  +4.6%, up  59%, -10% or worse  17% | worst month  -30.0% | biggest fall  60%
+  DEPLOYABLE (trend guard 6.25x)     last 2 years 12 months: typical $ 4,735 / bad $ 2,454 / worst $  767 | month: average +43.7%, median  +7.3%, up  59%, -10% or worse  22% | worst month  -30.0% | biggest fall  51%
+
+  DEPLOYABLE x0.65                   all 6 years  12 months: typical $ 1,806 / bad $   803 / worst $  263 | month: average +24.1%, median  +3.4%, up  61%, -10% or worse   8% | worst month  -20.4% | biggest fall  44%
+  DEPLOYABLE x0.65                   last 2 years 12 months: typical $ 2,297 / bad $ 1,355 / worst $  610 | month: average +26.9%, median  +5.2%, up  60%, -10% or worse  12% | worst month  -20.4% | biggest fall  36%
 
   FINAL x1.05 (E's worst month)      all 6 years  12 months: typical $ 4,067 / bad $ 1,196 / worst $  225 | month: average +44.9%, median  +4.7%, up  59%, -10% or worse  18% | worst month  -31.2% | biggest fall  63%
   FINAL x1.05 (E's worst month)      last 2 years 12 months: typical $ 6,398 / bad $ 2,790 / worst $  777 | month: average +52.4%, median  +6.5%, up  58%, -10% or worse  24% | worst month  -31.2% | biggest fall  54%
