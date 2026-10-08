@@ -82,9 +82,9 @@ def main():
     R = R[(R.real == True) & (R.glitch == False)]  # noqa: E712
     lines = [f"backtest/meme_days.py, {pd.Timestamp.now():%Y-%m-%d %H:%M}; {len(R)} real graduates (glitches out) from "
              f"{R.day.nunique()} days {days[0]} .. {days[-1]}, up to {PER_DAY} a day; net of 2%", ""]
-    cols = [("e1_15m", "buy +1 min, sell +15 min"), ("e1_1h", "buy +1 min, sell +1h"), ("e1_6h", "buy +1 min, sell +6h"),
-            ("e15_15m", "buy +15 min, sell +15 min"), ("e15_1h", "buy +15 min, sell +1h"), ("e15_6h", "buy +15 min, sell +6h"),
-            ("w60_h360", "wait for proof (alive at +1h), hold 6h")]
+    cols = [(f"e{en}_{xn}", f"buy +{en} min, sell +{xn}") for en in MG.ENTRIES for xn in MG.EXITS] + [
+        ("w60_h360", "wait for proof (alive at +1h), hold 6h"), ("w60_h720", "wait for proof (alive at +1h), hold 12h"),
+        ("w360_h720", "wait for proof (alive at +6h), hold 12h")]
     for c, nm in cols:
         if c not in R:
             continue

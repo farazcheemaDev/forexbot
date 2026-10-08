@@ -4112,3 +4112,30 @@ ranking is NOT worse than momentum - that claim was wrong (above); memecoin grad
 **Also found and fixed: `backtest/tv_indicators.py` had been a LIBRARY** (supertrend, keltner, ttm_squeeze, psar, aroon,
 dmi, ichimoku, chandelier) imported by `tv_test.py` and `tv_crosssec.py`, and the 2026-10-08 study was written under
 the same name and replaced it. The library is restored verbatim (from 91c9dbe) inside the same file; all importers work.
+
+
+## The re-tested kills swept over their parameters, and the indicator families inside the machine (2026-10-09)
+
+The audit (doc 21) had re-tested each thin kill at one or a few settings. A kill that holds at one setting can hide a
+working neighbour, so each was swept (`backtest/kill_sweeps.py`, logs `logs/kill_sweeps_*.txt`), and the two partial
+reversals were checked again (`backtest/kill_followups.py`, `logs/kill_followups.txt`):
+
+| kill | swept over | now |
+|---|---|---|
+| pairs stat-arb | formation 60/90/180 x entry z 1.5/2/2.5 x stop 4/none (18) | **stands**: all 18 negative on both halves |
+| meta-labelling | logistic / boosted trees x keep top 50/30% (4) | **stands**: all 4 fail the line |
+| memecoin graduations | all 12 entry x exit pairs + 3 wait-for-proof, full 9-day record | **stands**: all 15 negative (`logs/meme_days_all.txt`) |
+| grid bots | 4% / 5% spacing, gated, 20 survivors + 20 coins that DIED | **stands**: gated wide grids look positive on survivors (holdout median +2..+3%/yr) and LOSE on coins that died (-4%/yr) - survivorship |
+| VWAP reversion (daily) | VWAP 10/20/50 x stretch 1.5/2/2.5/3 ATR x hold 5/12/20 (36), as accounts | **partly reversed**: one corner - VWAP(10), 2.5-3 ATR under - is a positive account at all 3 day boundaries, but small (+1..+8%/yr at 1x, 3-15 trades a year): the capitulation buy again |
+| funding carry MN | window 3/7/14/30 x short exit none/+50/+100% x basket 10/20% (24), 7 weekdays | **partly reversed**: 7-day window, 20% basket, +50% exit: Sharpe +1.40 / +0.74, positive on every weekday; as a 0.5x overlay on the MN blend it lifts both halves (+1.21 / +1.07 vs +0.97 / +0.96 on one date grid) - uncorrelated (-0.01). A candidate |
+| cross-sectional indicators | RSI 14/7, MACD histogram, ROC 14, Stochastic, CCI, %b; blends 25/50/75% | no single indicator beats momentum on the holdout; **momentum + RSI blends at 25-50% beat momentum on both halves** (the candidate) |
+
+**The indicator families inside the machine** (`backtest/family_machine.py`, `logs/family_machine.txt`): each of 11 daily
+entries x 3 exits as machine E's daily book, against E's own size line. Only ONE beats E on both spans - the same
+Bollinger entry with the **20-day-mean exit** (+8% / +13% at the same worst month). Every indicator family loses to bb
+in the machine (Keltner the closest, -6..-25%). The 20-day + BTC-exit stack that passed on its own (daily_stack.py)
+HURTS inside the machine (-13% / -11%): the trend book already exits on BTC's break, so the daily book's second BTC exit
+only gives up return. Prediction (no family beats bb by > 5%) right; (the BTC-exit stack helps the machine) wrong.
+
+**Candidates for paper, after all of this** (none is in any bot): the daily book's 20-day-mean exit; the market-neutral
+book ranked half by momentum / half by RSI; funding carry (7-day, 20% basket, +50% exit) at 0.5x beside it.

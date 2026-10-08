@@ -1,0 +1,38 @@
+--vwap: daily, PIT top-40, an ACCOUNT of 8 slots 1x marked, 10 orders; day boundary 00 UTC (others if the holdout account is positive)
+  VWAP(10) 1.5 ATR under, max 5d:  1635 trades, +1.79% / +0.64% a trade | account +2% / -1% a year, fall 79%
+  VWAP(10) 1.5 ATR under, max 12d:  1520 trades, +3.49% / +2.21% a trade | account +18% / +0% a year, fall 70% | 08: +14/+10  16: +6/-4
+  VWAP(10) 1.5 ATR under, max 20d:  1498 trades, +3.75% / +2.47% a trade | account +16% / -1% a year, fall 70%
+  VWAP(10) 2.0 ATR under, max 5d:   497 trades, +3.33% / +2.82% a trade | account +7% / +8% a year, fall 36% | 08: +9/+12  16: -10/+3
+  VWAP(10) 2.0 ATR under, max 12d:   489 trades, +4.89% / +3.56% a trade | account +22% / +6% a year, fall 37% | 08: +23/+18  16: -5/-0
+  VWAP(10) 2.0 ATR under, max 20d:   484 trades, +5.61% / +3.18% a trade | account +21% / +1% a year, fall 42% | 08: +22/+19  16: -5/-2
+  VWAP(10) 2.5 ATR under, max 5d:    96 trades, +7.37% / +2.73% a trade | account +5% / +4% a year, fall 15% | 08: +8/+8  16: +10/+3  <- POSITIVE ACCOUNT AT ALL 3
+  VWAP(10) 2.5 ATR under, max 12d:    95 trades, +6.77% / +4.95% a trade | account +4% / +8% a year, fall 30% | 08: +9/+15  16: +12/+3  <- POSITIVE ACCOUNT AT ALL 3
+  VWAP(10) 2.5 ATR under, max 20d:    95 trades, +9.15% / +4.33% a trade | account +7% / +7% a year, fall 30% | 08: +10/+14  16: +14/+4  <- POSITIVE ACCOUNT AT ALL 3
+  VWAP(10) 3.0 ATR under, max 5d:    20 trades, +9.83% / +6.48% a trade | account +1% / +2% a year, fall 11% | 08: +2/+2  16: +1/+5  <- POSITIVE ACCOUNT AT ALL 3
+  VWAP(10) 3.0 ATR under, max 12d:    20 trades, +12.45% / +6.59% a trade | account +1% / +3% a year, fall 19% | 08: +4/+1  16: +2/+6  <- POSITIVE ACCOUNT AT ALL 3
+  VWAP(10) 3.0 ATR under, max 20d:    20 trades, +16.41% / +4.87% a trade | account +3% / +2% a year, fall 16% | 08: +4/+1  16: +2/+5  <- POSITIVE ACCOUNT AT ALL 3
+  VWAP(20) 1.5 ATR under, max 5d:  3893 trades, +1.19% / +0.06% a trade | account -3% / -31% a year, fall 88%
+  VWAP(20) 1.5 ATR under, max 12d:  2540 trades, +1.64% / +0.52% a trade | account -13% / -41% a year, fall 92%
+  VWAP(20) 1.5 ATR under, max 20d:  2134 trades, +1.19% / +1.31% a trade | account -23% / -46% a year, fall 97%
+  VWAP(20) 2.0 ATR under, max 5d:  2125 trades, +1.76% / +1.03% a trade | account +11% / +9% a year, fall 71% | 08: -1/-14  16: -20/-18
+  VWAP(20) 2.0 ATR under, max 12d:  1549 trades, +2.67% / +2.13% a trade | account +11% / -23% a year, fall 78%
+  VWAP(20) 2.0 ATR under, max 20d:  1370 trades, +2.57% / +4.00% a trade | account -1% / -24% a year, fall 85%
+  VWAP(20) 2.5 ATR under, max 5d:   926 trades, +2.08% / -0.27% a trade | account +16% / -6% a year, fall 49%
+  VWAP(20) 2.5 ATR under, max 12d:   752 trades, +2.82% / -0.47% a trade | account +17% / -17% a year, fall 56%
+  VWAP(20) 2.5 ATR under, max 20d:   714 trades, +3.09% / -0.13% a trade | account +9% / -13% a year, fall 65%
+  VWAP(20) 3.0 ATR under, max 5d:   379 trades, +2.64% / +0.40% a trade | account +8% / +7% a year, fall 41% | 08: +13/+12  16: +8/-4
+  VWAP(20) 3.0 ATR under, max 12d:   333 trades, +3.47% / -1.53% a trade | account +13% / -15% a year, fall 57%
+  VWAP(20) 3.0 ATR under, max 20d:   328 trades, +5.14% / -2.04% a trade | account +21% / -18% a year, fall 56%
+  VWAP(50) 1.5 ATR under, max 5d:  6794 trades, +0.36% / -0.61% a trade | account -18% / -63% a year, fall 99%
+  VWAP(50) 1.5 ATR under, max 12d:  3638 trades, -0.20% / -1.26% a trade | account -25% / -60% a year, fall 99%
+  VWAP(50) 1.5 ATR under, max 20d:  2575 trades, -0.21% / -0.95% a trade | account -18% / -68% a year, fall 99%
+  VWAP(50) 2.0 ATR under, max 5d:  5685 trades, +0.57% / -0.66% a trade | account -7% / -57% a year, fall 96%
+  VWAP(50) 2.0 ATR under, max 12d:  3093 trades, +0.03% / -0.94% a trade | account -15% / -62% a year, fall 98%
+  VWAP(50) 2.0 ATR under, max 20d:  2232 trades, -0.29% / -1.92% a trade | account -17% / -71% a year, fall 99%
+  VWAP(50) 2.5 ATR under, max 5d:  4568 trades, +0.64% / -0.30% a trade | account +4% / -48% a year, fall 93%
+  VWAP(50) 2.5 ATR under, max 12d:  2537 trades, +0.16% / -1.10% a trade | account -11% / -55% a year, fall 96%
+  VWAP(50) 2.5 ATR under, max 20d:  1863 trades, -0.24% / -1.71% a trade | account -13% / -71% a year, fall 99%
+  VWAP(50) 3.0 ATR under, max 5d:  3555 trades, +0.66% / -0.42% a trade | account +8% / -44% a year, fall 85%
+  VWAP(50) 3.0 ATR under, max 12d:  2034 trades, +0.01% / -0.67% a trade | account -11% / -41% a year, fall 91%
+  VWAP(50) 3.0 ATR under, max 20d:  1504 trades, -0.30% / -1.06% a trade | account -14% / -50% a year, fall 95%
+

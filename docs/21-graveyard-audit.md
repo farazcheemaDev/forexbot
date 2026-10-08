@@ -37,7 +37,7 @@ anchors) and risk by sleeve (cleared the paired bar on both halves, then failed 
 |---|---|---|---|---|
 | mean reversion / fading extremes (Bollinger + RSI, z-score), PF 0.46–0.85 | early, mixed markets | STRONG today | re-measured since: `bear_chop.py` #4 (daily PIT top-40, every regime, vs random), `rsi_only.py`, `rsi_factors.py`, `rsi_confluence.py` (~2,000 configs) | stands — except when keyed to forced selling (capitulation with breadth) |
 | prior-day high/low fade; ICT liquidity sweep, PF ~1 / 0.53–0.79 | one line each, pre-fix, no universe, no control | THIN | `sweep_reclaim.py`: PIT top-40 hourly, ~60,000 trades, random control with the same stop | **stands as a trade**: real information (+0.03 to +0.12% over random, t 2.8–6.4) but −0.04 to −0.13% a trade after fees |
-| VWAP reversion, PF 0.46–0.85 | early | MODERATE | `moderate_retests.py --vwap`, `vwap_daily.py`: daily and 4h, PIT top-40, vs random, then as an account on 3 day boundaries | **stands**: +0.7..+2.7% a trade on daily bars, but the account LOSES (holdout -23..-39%/yr, falls 78-88%) |
+| VWAP reversion, PF 0.46–0.85 | early | MODERATE | `moderate_retests.py --vwap`, `vwap_daily.py`: daily and 4h, PIT top-40, vs random, then as an account on 3 day boundaries | **partly reversed after a 36-setting sweep** (`kill_sweeps.py --vwap`): the 2-ATR / 20-day version loses as an account, but VWAP(10) at 2.5-3 ATR under is a small positive account at all 3 boundaries (+1..+8%/yr, 3-15 trades a year) - the capitulation buy in another form |
 | StochRSI | "no robust edge" | MODERATE | stochastic confirmations are inside `rsi_confluence.py`'s 2,000 configs | stands |
 | pairs NASDAQ vs gold/silver | correlation +0.19 | MODERATE | forex; crypto pairs re-tested (§E) | stands |
 | classic indicators on EURUSD | early | STRONG today | doc 18: 33 tests with Holm | stands |
@@ -58,7 +58,7 @@ anchors) and risk by sleeve (cleared the paired bar on both halves, then failed 
 |---|---|---|---|---|
 | **"indicators are exhausted, they all detect the same thing"** | longs on 9 coins big today (hindsight), hourly | THIN | `daily_families.py`: 9 families + an ER filter on DAILY bars, PIT top-40, 3 day boundaries | **stands, now backed**: bb(30,1.5) first of 22 daily entries; Keltner closest (holdout-only) |
 | cross-sectional versions of the 19 | Sharpe 0.49 vs 1.09, one rebalance day | THIN | `moderate_retests.py --xs`, 7 weekdays | **wrong**: RSI-ranked MN +1.45 / +1.22 vs momentum +1.06 / +1.33; half each beats momentum on both halves (`mn_blend_rsi.py`) - a candidate |
-| meta-labelling (ML filter on signals) | one early attempt | MODERATE | `moderate_retests.py --meta`: walk-forward logistic filter on the daily book | **stands**: fails at all 3 day boundaries |
+| meta-labelling (ML filter on signals) | one early attempt | MODERATE | `moderate_retests.py --meta`: walk-forward logistic filter on the daily book | **stands**: 5 variants (logistic, boosted trees, two keep levels) all fail (`kill_sweeps.py --meta`) |
 | VSA / volume absorption | 199 virgin coins | STRONG | — | stands for hourly breakouts |
 | **"volume is anti-useful in crypto"** | VSA, a surge filter, 1m setups | THIN as a general claim | `capit_volume.py` | **wrong as stated**: required in the base capitulation book, redundant once a 10% drop is required |
 | crypto momentum + Kaufman ER | killed by correlation tax | MODERATE | ER filter on the daily book (`daily_families.py`) | stands |
@@ -86,10 +86,10 @@ anchors) and risk by sleeve (cleared the paired bar on both halves, then failed 
 | claim | original backing | rating | re-test | now |
 |---|---|---|---|---|
 | short-term reversal MN (18 cells) | PIT | STRONG | — | stands |
-| crypto pairs stat-arb | 4 settings | MODERATE | `pairs_revisit.py`: 6 more (60/90-day formation, no stop, z 1.5, top-60) | **stands**: all negative on both halves |
+| crypto pairs stat-arb | 4 settings | MODERATE | `pairs_revisit.py`: 6 more (60/90-day formation, no stop, z 1.5, top-60) | **stands**: all 24 settings negative on both halves (`pairs_revisit.py`, `kill_sweeps.py --pairs`) |
 | daily trend shorts in bears | t −3.8 vs random | STRONG | — | stands |
 | mean reversion gated by regime; shorting BTC/ETH below 1000h | PIT | STRONG | — | stand |
-| **funding carry MN** | one week (MYX −107%), one rebalance day | THIN | `carry_revisit.py`: 7 days, +50% short exit, a day's lag | **stands**: no wipe-out with the exit, but holdout Sharpe +0.28 |
+| **funding carry MN** | one week (MYX −107%), one rebalance day | THIN | `carry_revisit.py`: 7 days, +50% short exit, a day's lag | **partly reversed after a 24-setting sweep** (`kill_sweeps.py --carry`): with a 20% basket and the +50% exit, Sharpe +1.40 / +0.74 on all 7 weekdays; as an overlay it improves the MN blend (`kill_followups.py`) - a candidate |
 | **long BTC / short alts in bears** | 11 SURVIVOR alts as the short leg, no funding | THIN | `bear_alpha_pit.py`: PIT top-20/40, funding, 7 weekly anchors, as an overlay | **stands**: +0.55 %/month on the original weekday, 1 of 7 anchors positive on both halves |
 | funding_xs / cash_carry | 18 cells; same-coin carry | STRONG | — | stand |
 | **MN short-leg stop costs return** (`mn_stop.py`) | one rebalance day | THIN | `mn_combos.py`: 7 days, a book exit at +50% | **REVERSED**: same average Sharpe, worst week −29% instead of −99% |
@@ -113,7 +113,7 @@ anchors) and risk by sleeve (cleared the paired bar on both halves, then failed 
 | taker flow / crowd positioning | 5.99M rows, 13 symbols, Holm, then as a book | MODERATE | the archive covers 13 symbols only | stands |
 | delisting announcements (doc 11 §2) | pre-registered confirmation failed | MODERATE / DATA-LIMITED | few events | stands |
 | funding-settlement timing (doc 11 §1) | real, sub-second | STRONG for this setup | infrastructure | stands |
-| grid bots | 30 configs, 5 coins | MODERATE | `moderate_retests.py --grid`: 15 more coins, 120 configs | **stands**: 4 of 120 profitable |
+| grid bots | 30 configs, 5 coins | MODERATE | `moderate_retests.py --grid`: 15 more coins, 120 configs | **stands**: 4 of 120 at 0.5-3%; 4-5% gated grids look positive on survivors but lose on coins that died (`kill_followups.py`) |
 | CME gaps; first-perp short; kimchi premium; HLP vault | 180 trades + placebo; placebos; registered rules | MODERATE | each lost to its own placebo or a rule fixed in advance | stand |
 | TradFi perps | daily since 2005 | STRONG | — | stands |
 | token unlocks | "not dead, not tradable" | — | — | unchanged |

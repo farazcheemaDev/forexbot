@@ -17,6 +17,12 @@ the 2026-10-08 correction said (worst month -21% at the published v2's typical y
 momentum + RSI market-neutral book are new paper candidates. `backtest/tv_indicators.py` was found to have overwritten an
 older indicator library - restored.
 
+**Last session note (2026-10-09, end of day):** the full "final machine" (everything that passed, together) is measured in
+`backtest/final_machine.py` / `logs/final_machine.txt` - backtest only. Stopped partway by the user: `trend_factorial.py`
+(37 of 216 settings, none beat the deployed config) and part B of `family_machine.py` (families x filters, no pass so
+far). Paper candidates not yet built: the daily book's 20-day exit, the MN book ranked half momentum / half RSI, funding
+carry (7-day, 20% basket, +50% exit) at 0.5x.
+
 ## What is running
 
 | what | where | status |

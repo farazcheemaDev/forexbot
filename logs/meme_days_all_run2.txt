@@ -1,3 +1,25 @@
+  0/540 fetched
+  25/540 fetched
+  50/540 fetched
+  75/540 fetched
+  100/540 fetched
+  125/540 fetched
+  150/540 fetched
+  175/540 fetched
+  200/540 fetched
+  225/540 fetched
+  250/540 fetched
+  275/540 fetched
+  300/540 fetched
+  325/540 fetched
+  350/540 fetched
+  375/540 fetched
+  400/540 fetched
+  425/540 fetched
+  450/540 fetched
+  475/540 fetched
+  500/540 fetched
+  525/540 fetched
 backtest/meme_days.py, 2026-10-09 04:06; 309 real graduates (glitches out) from 9 days 2026-09-21 .. 2026-09-29, up to 60 a day; net of 2%
 
   buy +1 min, sell +15m                    n  309 | mean  -32.9% [-45%, -19%] | median  -83.1% | win  28% | days with a positive mean 1/9

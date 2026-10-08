@@ -1,0 +1,68 @@
+--carry: funding carry MN on 7 rebalance weekdays, Sharpe tune / holdout mean (worst day)
+  window  3d, short exit  none, basket 10%: Sharpe +1.29 / -0.47 (worst +0.94 / -0.94), falls 95-129%
+  window  3d, short exit  none, basket 20%: Sharpe +1.46 / -0.09 (worst +1.20 / -0.58), falls 60-90%
+  window  3d, short exit  +50%, basket 10%: Sharpe +1.58 / -0.24 (worst +0.99 / -0.50), falls 41-74%
+  window  3d, short exit  +50%, basket 20%: Sharpe +1.71 / +0.43 (worst +1.28 / +0.14), falls 28-41%
+  window  3d, short exit +100%, basket 10%: Sharpe +1.44 / -0.20 (worst +0.82 / -0.62), falls 42-83%
+  window  3d, short exit +100%, basket 20%: Sharpe +1.57 / +0.39 (worst +1.14 / +0.08), falls 32-46%
+  window  7d, short exit  none, basket 10%: Sharpe +1.17 / +0.04 (worst +0.66 / -0.33), falls 68-142%
+  window  7d, short exit  none, basket 20%: Sharpe +1.41 / +0.34 (worst +1.08 / +0.07), falls 43-72%
+  window  7d, short exit  +50%, basket 10%: Sharpe +1.27 / +0.28 (worst +0.71 / -0.24), falls 50-74%
+  window  7d, short exit  +50%, basket 20%: Sharpe +1.40 / +0.74 (worst +1.20 / +0.44), falls 21-40%
+  window  7d, short exit +100%, basket 10%: Sharpe +1.26 / +0.25 (worst +0.68 / -0.21), falls 55-79%
+  window  7d, short exit +100%, basket 20%: Sharpe +1.40 / +0.69 (worst +1.14 / +0.40), falls 27-43%
+  window 14d, short exit  none, basket 10%: Sharpe +0.86 / -0.21 (worst +0.55 / -0.82), falls 77-126%
+  window 14d, short exit  none, basket 20%: Sharpe +1.11 / +0.21 (worst +0.98 / -0.19), falls 40-73%
+  window 14d, short exit  +50%, basket 10%: Sharpe +0.91 / -0.02 (worst +0.60 / -0.46), falls 55-74%
+  window 14d, short exit  +50%, basket 20%: Sharpe +1.11 / +0.54 (worst +0.94 / +0.30), falls 29-45%
+  window 14d, short exit +100%, basket 10%: Sharpe +0.86 / -0.05 (worst +0.68 / -0.61), falls 52-81%
+  window 14d, short exit +100%, basket 20%: Sharpe +1.10 / +0.52 (worst +1.02 / +0.18), falls 30-44%
+  window 30d, short exit  none, basket 10%: Sharpe +1.36 / +0.18 (worst +1.16 / -0.29), falls 60-117%
+  window 30d, short exit  none, basket 20%: Sharpe +0.82 / +0.44 (worst +0.66 / +0.10), falls 37-68%
+  window 30d, short exit  +50%, basket 10%: Sharpe +1.37 / +0.15 (worst +1.13 / -0.12), falls 48-72%
+  window 30d, short exit  +50%, basket 20%: Sharpe +0.98 / +0.50 (worst +0.72 / +0.30), falls 32-50%
+  window 30d, short exit +100%, basket 10%: Sharpe +1.43 / +0.16 (worst +1.24 / -0.13), falls 51-72%
+  window 30d, short exit +100%, basket 20%: Sharpe +0.91 / +0.48 (worst +0.77 / +0.08), falls 34-48%
+
+--meta: walk-forward filters on the daily book (retrained each January on trades closed before it), vs bb's line
+  logistic       keep top 50%: -23/-28  -54/-18  -38/-11 -> fail
+  logistic       keep top 30%: -23/-35  -7/-23  -25/-21 -> fail
+  boosted trees  keep top 50%: -52/+11  -62/-0  -23/-35 -> fail
+  boosted trees  keep top 30%: -42/+45  -21/-27  -39/-37 -> fail
+
+--xs: the MN book ranked by each score, +50% short-leg exit, 7 rebalance weekdays: Sharpe tune / holdout mean (worst day)
+  momentum 30d (the book)  +1.06 / +1.31 (+0.85 / +0.76), falls 29-42%
+  RSI(14)                  +1.48 / +1.03 (+1.31 / +0.45), falls 27-54%
+  RSI(7)                   +1.58 / +0.85 (+1.32 / +0.07), falls 31-50%
+  MACD histogram           +0.99 / +0.30 (+0.75 / -0.46), falls 52-72%
+  ROC(14)                  +1.20 / +0.78 (+0.94 / +0.17), falls 40-67%
+  Stochastic %K(14)        +1.40 / +0.82 (+1.06 / +0.33), falls 33-48%
+  CCI(20)                  +1.58 / +0.57 (+1.14 / -0.20), falls 35-60%
+  Bollinger %b(20)         +1.58 / +0.67 (+1.28 / +0.04), falls 34-55%
+  blend momentum / RSI(14) at 25% RSI: +1.24 / +1.37 (+1.06 / +0.84)
+  blend momentum / RSI(14) at 50% RSI: +1.39 / +1.36 (+1.21 / +0.90)
+  blend momentum / RSI(14) at 75% RSI: +1.47 / +1.26 (+1.29 / +0.92)
+
+--grid: 4% / 5% spacing, plain and range-gated, 20 coins; %/yr of one side's ladder capital
+  BTCUSDT   4% -12%  4%g +1%  5% -24%  5%g +0%
+  ETHUSDT   4% -45%  4%g +17%  5% -26%  5%g +13%
+  SOLUSDT   4% -32%  4%g -12%  5% -39%  5%g -12%
+  XRPUSDT   4% -13%  4%g +15%  5% -13%  5%g +13%
+  DOGEUSDT  4% -48%  4%g +5%  5% -11%  5%g -4%
+  ADAUSDT   4% -27%  4%g +1%  5% +6%  5%g +6%
+  LINKUSDT  4% +9%  4%g +4%  5% +12%  5%g +6%
+  AVAXUSDT  4% -23%  4%g +2%  5% -46%  5%g +1%
+  LTCUSDT   4% +10%  4%g -8%  5% +3%  5%g -2%
+  DOTUSDT   4% -12%  4%g -3%  5% -12%  5%g +9%
+  BNBUSDT   4% -46%  4%g +12%  5% -42%  5%g +12%
+  TRXUSDT   4% -20%  4%g -4%  5% -30%  5%g -5%
+  BCHUSDT   4% -19%  4%g +7%  5% +6%  5%g +6%
+  NEARUSDT  4% -5%  4%g -17%  5% -23%  5%g -23%
+  UNIUSDT   4% -47%  4%g -2%  5% -42%  5%g +13%
+  ATOMUSDT  4% -4%  4%g -1%  5% -12%  5%g -4%
+  FILUSDT   4% -43%  4%g -3%  5% -12%  5%g +1%
+  ETCUSDT   4% -30%  4%g +5%  5% -49%  5%g +2%
+  AAVEUSDT  4% -13%  4%g +5%  5% -18%  5%g +14%
+  XLMUSDT   4% -0%  4%g +19%  5% +11%  5%g +14%
+  33 of 80 make money; median -4%/yr
+

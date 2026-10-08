@@ -1,0 +1,13 @@
+backtest/kill_followups.py, 2026-10-09 04:13
+
+1. GRIDS, range-gated, %/yr of one side's ladder capital, tune / holdout (split 2024-04-07)
+  20 coins big today           4% gated: 20 coins | tune median +1%/yr, positive 12/20 | holdout median +3%/yr, positive 13/20
+  20 coins big today           5% gated: 20 coins | tune median +8%/yr, positive 13/20 | holdout median +2%/yr, positive 12/20
+  20 top-40 coins that DIED    4% gated: 20 coins | tune median -2%/yr, positive 8/20 | holdout median -4%/yr, positive 5/19
+  20 top-40 coins that DIED    5% gated: 20 coins | tune median +2%/yr, positive 11/20 | holdout median -4%/yr, positive 7/19
+
+2. FUNDING CARRY (7-day window, 20% basket, +50% short exit) AS AN OVERLAY at 0.5x on the MN blend (momentum + RSI half each, +50% exit); Sharpe tune / holdout mean (worst weekday)
+  MN blend alone           +0.97 / +0.96 (+0.85 / +0.63), falls 27-38%
+  MN blend + carry x0.5    +1.21 / +1.07 (+1.07 / +0.73), falls 27-41%
+  carry alone              +0.98 / +0.52 (+0.84 / +0.31), falls 21-40%
+  correlation, MN blend vs carry: -0.01

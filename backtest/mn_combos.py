@@ -93,14 +93,14 @@ def ohl():
 
 
 def mn_run(look=30, hold=7, frac=0.1, start=0, score="ret", off_regime=None, cap=None, stop=None, short_stop=None,
-           lag=0):
+           lag=0, fwin=7):
     """mn_capped.mn_series generalised. Returns the net per rebalance, booked at entry + hold (daily-indexed).
     score="funding7" is bear_chop's test 6 (funding carry): long the LOWEST 7-day funding sum, short the highest,
     ranked on row i - lag (row j = funding over days j-6..j, all settled by close j), with look=1 as it ran."""
     D = ohl() if stop is not None else data()
     idx, X, Fx, ff, R = D["idx"], D["X"], D["Fx"], D["ff"], D["R"]
-    if score == "funding7" and "SC7" not in D:
-        D["SC7"] = -pd.DataFrame(Fx).rolling(7, min_periods=7).sum().to_numpy()
+    if score == "funding7" and f"SC{fwin}" not in D:                 # fwin: the funding window in days (7 = test 6)
+        D[f"SC{fwin}"] = -pd.DataFrame(Fx).rolling(fwin, min_periods=fwin).sum().to_numpy()
     i0 = look + 1 + start                                   # the base's own date grid (mn_series starts at look + 1)
     while i0 < (61 if score == "comp" else look + 1):
         i0 += hold
@@ -119,7 +119,7 @@ def mn_run(look=30, hold=7, frac=0.1, start=0, score="ret", off_regime=None, cap
         if score == "ret":
             past = X[i, cand] / X[i - look, cand] - 1
         elif score == "funding7":
-            past = D["SC7"][i - lag, cand]
+            past = D[f"SC{fwin}"][i - lag, cand]
         elif score == "skip3":
             past = X[i - 3, cand] / X[i - look, cand] - 1
         elif score == "voladj":
