@@ -1,0 +1,102 @@
+backtest/doge_book.py, 2026-10-09 21:11 UTC; book_rec.py recording 2026-10-09 16:47 .. 21:09 UTC (262 min, 7,795 snapshots, 26,979 trades); halves split at 17:53
+DOGE mid 0.08474 -> 0.08500; spread median 1.18bp; mid moves by 1 s: median 0.00bp; typical |move| at 10/30/60/300 s: 1.2, 2.4, 3.6, 8.3bp
+
+IC (Spearman, non-overlapping) first half / second half, and the extreme-decile trade on the SECOND half (thresholds from the first): move in bp, hit rate, net after costs
+  horizon 10 s
+    bg_imb1    IC +0.245 / +0.199  (n 385/396) | decile signals  211: move  +1.06bp (se 0.19), hit  57%, taker net -12.12bp, maker net  -2.94bp
+    bg_imb5    IC +0.132 / +0.141  (n 385/396) | decile signals  209: move  +0.25bp (se 0.20), hit  42%, taker net -12.93bp, maker net  -3.75bp
+    bg_imb20   IC -0.012 / -0.037  (n 385/396) | decile signals  139: move  +0.09bp (se 0.27), hit  35%, taker net -13.09bp, maker net  -3.91bp
+    bg_imb50   IC +0.067 / -0.053  (n 385/396) | decile signals   95: move  +0.09bp (se 0.34), hit  37%, taker net -13.09bp, maker net  -3.91bp
+    bg_band10  IC +0.099 / +0.039  (n 385/396) | decile signals  147: move  +0.20bp (se 0.23), hit  45%, taker net -12.98bp, maker net  -3.80bp
+    bg_band25  IC -0.040 / -0.048  (n 385/396) | decile signals  140: move  +0.11bp (se 0.24), hit  35%, taker net -13.07bp, maker net  -3.89bp
+    bg_micro   IC +0.244 / +0.199  (n 385/396) | decile signals  210: move  +1.02bp (se 0.19), hit  57%, taker net -12.16bp, maker net  -2.98bp
+    bn_imb1    IC +0.195 / +0.234  (n 385/396) | decile signals  212: move  +0.81bp (se 0.18), hit  54%, taker net -12.37bp, maker net  -3.19bp
+    bn_imb5    IC +0.122 / +0.200  (n 385/396) | decile signals  200: move  +1.07bp (se 0.20), hit  56%, taker net -12.11bp, maker net  -2.93bp
+    bn_imb20   IC -0.071 / -0.065  (n 385/396) | decile signals  141: move  -0.15bp (se 0.27), hit  33%, taker net -13.33bp, maker net  -4.15bp
+    bn_band10  IC +0.085 / +0.128  (n 385/396) | decile signals  127: move  +0.69bp (se 0.29), hit  51%, taker net -12.49bp, maker net  -3.31bp
+    bn_band25  IC -0.071 / -0.065  (n 385/396) | decile signals  141: move  -0.15bp (se 0.27), hit  33%, taker net -13.33bp, maker net  -4.15bp
+    basis      IC +0.213 / +0.223  (n 385/396) | decile signals  156: move  +1.87bp (se 0.25), hit  65%, taker net -11.31bp, maker net  -2.13bp
+    bn_lead2   IC +0.077 / +0.123  (n 384/395) | decile signals  197: move  +1.20bp (se 0.22), hit  57%, taker net -11.98bp, maker net  -2.80bp
+    btc5       IC +0.094 / +0.041  (n 384/396) | decile signals  138: move  +1.02bp (se 0.29), hit  54%, taker net -12.16bp, maker net  -2.98bp
+    btc30      IC +0.039 / +0.003  (n 382/396) | decile signals   86: move  +0.40bp (se 0.31), hit  47%, taker net -12.78bp, maker net  -3.60bp
+    flow10     IC +0.096 / +0.040  (n 385/396) | decile signals  205: move  +0.12bp (se 0.16), hit  37%, taker net -13.06bp, maker net  -3.88bp
+    flow30     IC +0.056 / -0.009  (n 385/396) | decile signals  124: move  -0.24bp (se 0.21), hit  29%, taker net -13.42bp, maker net  -4.24bp
+    mkt_liq60  IC +0.069 / +0.023  (n 385/396) | decile signals  380: move  -0.10bp (se 0.13), hit  35%, taker net -13.28bp, maker net  -4.10bp
+    doge_liq60 IC -0.044 / +nan  (n 385/396) | decile signals    0
+    oi5m       IC -0.042 / +0.054  (n 346/396) | decile signals   29: move  -0.04bp (se 0.72), hit  38%, taker net -13.22bp, maker net  -4.04bp
+  horizon 30 s
+    bg_imb1    IC +0.179 / +0.132  (n 131/135) | decile signals  102: move  +0.89bp (se 0.45), hit  49%, taker net -12.29bp, maker net  -3.11bp
+    bg_imb5    IC +0.206 / +0.148  (n 131/135) | decile signals  101: move  +0.32bp (se 0.52), hit  50%, taker net -12.86bp, maker net  -3.68bp
+    bg_imb20   IC +0.140 / +0.032  (n 131/135) | decile signals   72: move  +0.34bp (se 0.59), hit  43%, taker net -12.84bp, maker net  -3.66bp
+    bg_imb50   IC +0.171 / -0.098  (n 131/135) | decile signals   49: move  +0.10bp (se 0.76), hit  41%, taker net -13.08bp, maker net  -3.90bp
+    bg_band10  IC +0.100 / +0.015  (n 131/135) | decile signals   85: move  +0.65bp (se 0.55), hit  55%, taker net -12.53bp, maker net  -3.35bp
+    bg_band25  IC +0.041 / -0.054  (n 131/135) | decile signals   74: move  +0.99bp (se 0.59), hit  49%, taker net -12.19bp, maker net  -3.01bp
+    bg_micro   IC +0.178 / +0.133  (n 131/135) | decile signals  103: move  +0.60bp (se 0.47), hit  47%, taker net -12.58bp, maker net  -3.40bp
+    bn_imb1    IC +0.008 / +0.241  (n 131/135) | decile signals  101: move  +1.00bp (se 0.47), hit  50%, taker net -12.17bp, maker net  -3.00bp
+    bn_imb5    IC -0.012 / +0.171  (n 131/135) | decile signals   98: move  +1.45bp (se 0.47), hit  58%, taker net -11.73bp, maker net  -2.55bp
+    bn_imb20   IC -0.012 / -0.001  (n 131/135) | decile signals   67: move  -0.05bp (se 0.63), hit  40%, taker net -13.23bp, maker net  -4.05bp
+    bn_band10  IC +0.023 / +0.186  (n 131/135) | decile signals   71: move  +0.63bp (se 0.62), hit  52%, taker net -12.55bp, maker net  -3.37bp
+    bn_band25  IC -0.012 / -0.001  (n 131/135) | decile signals   67: move  -0.05bp (se 0.63), hit  40%, taker net -13.23bp, maker net  -4.05bp
+    basis      IC +0.128 / +0.161  (n 131/135) | decile signals   80: move  +1.74bp (se 0.54), hit  52%, taker net -11.44bp, maker net  -2.26bp
+    bn_lead2   IC +0.058 / -0.041  (n 130/135) | decile signals   94: move  +1.08bp (se 0.50), hit  53%, taker net -12.10bp, maker net  -2.92bp
+    btc5       IC -0.009 / +0.092  (n 130/135) | decile signals   82: move  +0.46bp (se 0.58), hit  43%, taker net -12.72bp, maker net  -3.54bp
+    btc30      IC -0.061 / -0.021  (n 130/135) | decile signals   43: move  +0.44bp (se 0.80), hit  51%, taker net -12.74bp, maker net  -3.56bp
+    flow10     IC +0.030 / +0.075  (n 131/135) | decile signals  105: move  -0.10bp (se 0.51), hit  36%, taker net -13.28bp, maker net  -4.10bp
+    flow30     IC +0.005 / -0.006  (n 131/135) | decile signals   64: move  -0.33bp (se 0.47), hit  33%, taker net -13.51bp, maker net  -4.33bp
+    mkt_liq60  IC +0.191 / +0.040  (n 131/135) | decile signals  131: move  -0.13bp (se 0.40), hit  42%, taker net -13.30bp, maker net  -4.13bp
+    doge_liq60 IC -0.069 / +nan  (n 131/135) | decile signals    0
+    oi5m       IC -0.054 / +0.076  (n 117/135) | decile signals   12: move  -0.09bp (se 2.02), hit  67%, taker net -13.27bp, maker net  -4.09bp
+  horizon 60 s
+    bg_imb1    IC +0.231 / +0.098  (n 66/69) | decile signals   60: move  +0.89bp (se 0.83), hit  45%, taker net -12.29bp, maker net  -3.11bp
+    bg_imb5    IC +0.142 / +0.055  (n 66/69) | decile signals   58: move  +1.04bp (se 0.87), hit  52%, taker net -12.14bp, maker net  -2.96bp
+    bg_imb20   IC +0.062 / +0.049  (n 66/69) | decile signals   48: move  +1.50bp (se 1.04), hit  56%, taker net -11.68bp, maker net  -2.50bp
+    bg_imb50   IC +0.254 / -0.121  (n 66/69) | decile signals   34: move  +1.01bp (se 1.22), hit  47%, taker net -12.17bp, maker net  -2.99bp
+    bg_band10  IC +0.107 / +0.174  (n 66/69) | decile signals   51: move  +1.16bp (se 0.94), hit  57%, taker net -12.02bp, maker net  -2.84bp
+    bg_band25  IC +0.103 / +0.011  (n 66/69) | decile signals   45: move  +0.44bp (se 0.93), hit  38%, taker net -12.74bp, maker net  -3.56bp
+    bg_micro   IC +0.231 / +0.096  (n 66/69) | decile signals   60: move  +0.89bp (se 0.83), hit  45%, taker net -12.29bp, maker net  -3.11bp
+    bn_imb1    IC +0.242 / +0.205  (n 66/69) | decile signals   58: move  +0.16bp (se 0.82), hit  41%, taker net -13.02bp, maker net  -3.84bp
+    bn_imb5    IC +0.146 / +0.146  (n 66/69) | decile signals   55: move  +1.14bp (se 0.85), hit  56%, taker net -12.04bp, maker net  -2.86bp
+    bn_imb20   IC +0.109 / -0.042  (n 66/69) | decile signals   41: move  -1.15bp (se 1.03), hit  41%, taker net -14.33bp, maker net  -5.15bp
+    bn_band10  IC +0.097 / +0.065  (n 66/69) | decile signals   49: move  -1.08bp (se 0.90), hit  35%, taker net -14.26bp, maker net  -5.08bp
+    bn_band25  IC +0.109 / -0.042  (n 66/69) | decile signals   41: move  -1.15bp (se 1.03), hit  41%, taker net -14.33bp, maker net  -5.15bp
+    basis      IC +0.054 / +0.280  (n 66/69) | decile signals   50: move  +1.79bp (se 0.94), hit  54%, taker net -11.39bp, maker net  -2.21bp
+    bn_lead2   IC +0.042 / +0.104  (n 65/68) | decile signals   56: move  +0.19bp (se 0.94), hit  52%, taker net -12.99bp, maker net  -3.81bp
+    btc5       IC -0.068 / +0.102  (n 65/69) | decile signals   51: move  +0.69bp (se 0.94), hit  57%, taker net -12.48bp, maker net  -3.31bp
+    btc30      IC -0.143 / -0.128  (n 65/69) | decile signals   29: move  +1.18bp (se 1.15), hit  52%, taker net -11.99bp, maker net  -2.82bp
+    flow10     IC +0.023 / +0.020  (n 66/69) | decile signals   59: move  -0.26bp (se 0.77), hit  41%, taker net -13.44bp, maker net  -4.26bp
+    flow30     IC -0.011 / -0.092  (n 66/69) | decile signals   47: move  -0.05bp (se 0.83), hit  43%, taker net -13.23bp, maker net  -4.05bp
+    mkt_liq60  IC +0.244 / -0.051  (n 66/69) | decile signals   68: move  -0.31bp (se 0.72), hit  46%, taker net -13.49bp, maker net  -4.31bp
+    doge_liq60 IC -0.121 / +nan  (n 66/69) | decile signals    0
+    oi5m       IC +0.038 / +0.155  (n 59/69) | decile signals    8: move  +0.01bp (se 2.75), hit  50%, taker net -13.17bp, maker net  -3.99bp
+  horizon 300 s
+    bg_imb1    IC +nan / +nan  (n 14/14) | decile signals   14: move  +3.71bp (se 3.61), hit  57%, taker net  -9.47bp, maker net  -0.29bp
+    bg_imb5    IC +nan / +nan  (n 14/14) | decile signals   14: move  -1.10bp (se 3.52), hit  50%, taker net -14.28bp, maker net  -5.10bp
+    bg_imb20   IC +nan / +nan  (n 14/14) | decile signals   13: move  +0.73bp (se 3.49), hit  46%, taker net -12.45bp, maker net  -3.27bp
+    bg_imb50   IC +nan / +nan  (n 14/14) | decile signals   12: move  -3.55bp (se 3.12), hit  42%, taker net -16.72bp, maker net  -7.55bp
+    bg_band10  IC +nan / +nan  (n 14/14) | decile signals   13: move  +0.63bp (se 3.86), hit  54%, taker net -12.54bp, maker net  -3.37bp
+    bg_band25  IC +nan / +nan  (n 14/14) | decile signals   13: move  -0.26bp (se 4.10), hit  38%, taker net -13.44bp, maker net  -4.26bp
+    bg_micro   IC +nan / +nan  (n 14/14) | decile signals   14: move  +3.71bp (se 3.61), hit  57%, taker net  -9.47bp, maker net  -0.29bp
+    bn_imb1    IC +nan / +nan  (n 14/14) | decile signals   14: move  -1.95bp (se 3.47), hit  43%, taker net -15.12bp, maker net  -5.95bp
+    bn_imb5    IC +nan / +nan  (n 14/14) | decile signals   14: move  +2.12bp (se 4.16), hit  36%, taker net -11.05bp, maker net  -1.88bp
+    bn_imb20   IC +nan / +nan  (n 14/14) | decile signals   13: move  -0.99bp (se 3.53), hit  46%, taker net -14.17bp, maker net  -4.99bp
+    bn_band10  IC +nan / +nan  (n 14/14) | decile signals   13: move  -8.17bp (se 3.99), hit  23%, taker net -21.34bp, maker net -12.17bp
+    bn_band25  IC +nan / +nan  (n 14/14) | decile signals   13: move  -0.99bp (se 3.53), hit  46%, taker net -14.17bp, maker net  -4.99bp
+    basis      IC +nan / +nan  (n 14/14) | decile signals   13: move  -4.28bp (se 4.30), hit  46%, taker net -17.45bp, maker net  -8.28bp
+    bn_lead2   IC +nan / +nan  (n 13/14) | decile signals   14: move  +4.89bp (se 3.37), hit  71%, taker net  -8.28bp, maker net  +0.89bp
+    btc5       IC +nan / +nan  (n 13/14) | decile signals   14: move  -7.01bp (se 4.02), hit  43%, taker net -20.18bp, maker net -11.01bp
+    btc30      IC +nan / +nan  (n 13/14) | decile signals   11: move  +5.48bp (se 2.77), hit  64%, taker net  -7.70bp, maker net  +1.48bp
+    flow10     IC +nan / +nan  (n 14/14) | decile signals   14: move  -1.27bp (se 4.36), hit  50%, taker net -14.43bp, maker net  -5.27bp
+    flow30     IC +nan / +nan  (n 14/14) | decile signals   13: move  +3.27bp (se 2.33), hit  62%, taker net  -9.90bp, maker net  -0.73bp
+    mkt_liq60  IC +nan / +nan  (n 14/14) | decile signals   14: move  -3.97bp (se 3.43), hit  43%, taker net -17.13bp, maker net  -7.97bp
+    doge_liq60 IC +nan / +nan  (n 14/14) | decile signals    0
+    oi5m       IC +nan / +nan  (n 12/14) | decile signals    4: move  -3.83bp (se 7.20), hit  50%, taker net -17.00bp, maker net  -7.83bp
+
+R1 (bg_imb5 -> next 10 s, IC > +0.05 on both halves): +0.132 / +0.141 -> RIGHT
+R2 (bg_imb5 extreme deciles, 30 s move < 4bp): +0.32bp on 101 signals -> RIGHT
+R3 (Binance lead -> next 10 s IC > +0.05, move < 2bp): IC +0.077 / +0.123, move +1.20bp -> IC RIGHT, move RIGHT
+R4 (flow30 -> next 60 s, |IC| < 0.05): -0.011 / -0.092 -> WRONG
+R5 (no feature moves > 12bp at 60 s+ in its extreme decile): 0 do -> TOO FEW DATA
+L1: 1 DOGE liquidation bursts (|net| >= $103 in 60 s): move in the snap-back direction over 5 min +2.36bp, hit 100%
+L2 (mkt_liq60, |IC| < 0.05 at 300 s): IC +nan / +nan -> TOO FEW DATA
+L3 (oi5m, |IC| < 0.05 at 300 s): IC +nan / +nan -> TOO FEW DATA
+Best five by TAKER net on the second half: btc30@300s -7.70bp (move +5.48, n 11); bn_lead2@300s -8.28bp (move +4.89, n 14); bg_imb1@300s -9.47bp (move +3.71, n 14); bg_micro@300s -9.47bp (move +3.71, n 14); flow30@300s -9.90bp (move +3.27, n 13)

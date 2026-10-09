@@ -1,6 +1,6 @@
 # CLAUDE.md — read this first, every session
 
-*Last updated 2026-10-08. Dated history in §10.*
+*Last updated 2026-10-10. Dated history in §10.*
 
 This file is the orientation for a new session. It is deliberately short. It tells you the
 goal, the rules that keep the numbers honest, where everything is, and the traps that have
@@ -8,7 +8,7 @@ already produced wrong answers in this project more than once.
 
 **A LOCAL session on the PC (MT5 open)? There is a task list waiting: [`docs/LOCAL_MT5_TASKS.md`](docs/LOCAL_MT5_TASKS.md).**
 
-**2026-10-09: a data-gap bug was fixed and everything re-run - doc 02's last entry has the corrected numbers.** **Coming back after 2026-10-08? [`docs/09-pick-up-here.md`](docs/09-pick-up-here.md) was rewritten that evening: what runs on the VM and the PC, the machine names (v2 / v3 / MIX B / E), the one live change (the MN short-leg exit in `combo_bot.py`), and what is next. [`docs/21-graveyard-audit.md`](docs/21-graveyard-audit.md) rates every kill.**
+**2026-10-09 (night): DOGE scalping, analysed and forward-tested LIVE with TradingView - dead at retail fees; see §10 and doc 02's last entry. The final machine runs on paper on the VM (combo-bot-final).** **2026-10-09: a data-gap bug was fixed and everything re-run - doc 02's last entry has the corrected numbers.** **Coming back after 2026-10-08? [`docs/09-pick-up-here.md`](docs/09-pick-up-here.md) was rewritten that evening: what runs on the VM and the PC, the machine names (v2 / v3 / MIX B / E), the one live change (the MN short-leg exit in `combo_bot.py`), and what is next. [`docs/21-graveyard-audit.md`](docs/21-graveyard-audit.md) rates every kill.**
 
 **Read this file, then [`docs/09-pick-up-here.md`](docs/09-pick-up-here.md) for live state,
 then [`docs/02-what-failed.md`](docs/02-what-failed.md) before proposing any strategy.**
@@ -135,6 +135,7 @@ candidate on paper. The rule above still stands for everything else.
 | **Mixed datetime64 units in the row set** | t0 comes back as `[us]` and t1 as `[ms]`, so `date_range` inherits `[us]` from its bounds while `Timestamp.value` returns ns. `searchsorted` then puts every span past the end of the grid and a whole leverage series came back silently ZERO (2026-09-24, cost a run) | Force BOTH sides with `.as_unit("ns")`, and assert the result is non-zero rather than trusting it |
 | **A cancel set defined by bookkeeping, not by the exchange** | `wick_live`'s cap cancelled orders that were `open and not counted`. A PARTLY filled bid is counted but still open, so it survived the cap - and in a sweep deep enough to touch every level, ALL 40 bids are partly filled, so the cap cancelled **0 of 40** (mistake #16, fixed 2026-09-25) | The cancel set is **whatever is still live on the exchange**. Test a safety limit IN the disaster, not in the tidy case |
 | **A test that cannot exhibit the bug** | With one position open at a time the two compounding conventions are arithmetically IDENTICAL, so a non-overlapping test showed $0.00 difference and passed while proving nothing. The bug only bites when positions OVERLAP | Construct the case so the bug MUST appear if it is present |
+| **Binance WEBSOCKETS on this PC** | They connect and then deliver nothing - DOGE's own trade stream gave 0 messages in 12 s (2026-10-09) - while Binance REST works; a liquidation recorder listened to silence for 17 minutes | Probe any stream with a known-busy channel first; on this PC use REST (OKX needs a browser User-Agent, else 403) |
 | **Trusting `ls` / `date` in Git Bash for "is it stale?"** | They print the Windows local clock (PKT here) but label it PST, so a log written 20 minutes ago read as 13 hours dead and sent a session hunting a wedge that did not exist (2026-09-26) | Get the time from the PROCESS: `datetime.now(timezone.utc)` in Python, and compare it to the log's own UTC prefix |
 | **Timestamp unit mismatch** | `.asof()` raises "Cannot losslessly convert units" (ms index vs ns clock) | `blend_paper._ns()` |
 | **Bar label read as entry time** | `asof(t0)` on a 4h/12h row reads a bar that closed hours after the entry. The short boost's "+0.481R" was 118 look-ahead trades; causal, it is +0.305R and worth ~+0.5%/mo | `causal_t0.real_t0(rows)` |
@@ -225,6 +226,9 @@ wick_paper.py      THE CRASH BIDS (doc 16 s7), pre-registered: top-40 bids 10% u
                      No orders, no keys. For the VM: deploy/install_wick.sh (pulls, verifies, installs
                      wick-paper.service). Verdict at 6 months with 60+ Bitget fills, else 12
 xs_paper.py        an EARLIER pre-registered XS test (21 coins, daily). Frozen — do not edit
+doge_live.py / book_rec.py / liq_rec.py   2026-10-09: DOGE live forward test (frozen rules + logged calls, --call to
+                     log a prediction), the order-book and liquidation recorders; scored by backtest/doge_adapt.py,
+                     doge_bigtarget.py, doge_book.py. Data in strategy_analysis/data/{bitget_1m,doge_book}/ (gitignored)
 final_books.py     THE FINAL MACHINE's extra books for combo_bot.py --final (2026-10-09): MN half momentum / half RSI,
                      carry 0.5x, daily Bollinger (20-day exit) 0.5x, capit2 0.5x, the account-level 10x gate. On the VM
                      as combo-bot-final.service (--mode dry: $300 paper, all coins, no orders). tests/test_final_books.py
@@ -579,6 +583,36 @@ the box was patched before the repo was public.
 
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
+
+### 2026-10-09 (night) - "analyse DOGE today, trade it live": the fee wins at scalping speed; the book's edge is 10-30 s
+
+- **TradingView is wired in**: the MCP bridge lives in `D:/TRADING/tradingview-mcp`; `D:/forexbot/.mcp.json` (gitignored)
+  points at it, loading as native tools when Claude Code is next started in forexbot. Until then its CLI works:
+  `node D:/TRADING/tradingview-mcp/src/cli/index.js quote|ohlcv|screenshot|draw ...`. TradingView Desktop is the Store build:
+  launch the LOCAL COPY `%LOCALAPPDATA%/tradingview-mcp/TradingView.Desktop_*/TradingView.exe --remote-debugging-port=9222`
+  (launching from WindowsApps fails with spawn EPERM). Six "AI" support/resistance lines were drawn on the DOGE chart
+  (ids in `logs/doge_live_drawings.txt`); the user's own drawings were left alone.
+- **`backtest/doge_adapt.py`** (the user's method, honestly): every 6 h pick the best of 228 scalping rules over the trailing
+  6h/12h/24h/3d/7d and trade it for 6 h, 90 days of Bitget 1m bars (`backtest/bitget_1m.py`, fetcher fixed for a 1-bar
+  hole per page). **Loses at every window, -0.09..-0.15% a trade at 12bp = the fee; 0 of 228 rules positive.**
+- **`backtest/doge_bigtarget.py`** ("aim for 1%"): 790 rules with 0.5-2% targets on 5m/15m/1h entries win exactly as often
+  as RANDOM entries at every bracket and lose the fee (-0.12% a trade); 2 of 790 positive on both halves. Bigger targets
+  shrink the fee's share of the risk (an edge would pay there) but the chart entries have none at the hours scale.
+- **The order book, recorded live** (`book_rec.py` 1 s snapshots of Bitget + Binance DOGE books, trades and BTC;
+  `liq_rec.py` OKX liquidations + Binance OI; scored by `backtest/doge_book.py`, predictions in the recorders' docstrings):
+  on the full 262 min (7,795 snapshots, halves by count - a ~2 h network outage made the clock split meaningless), book
+  imbalance, microprice and the Binance-Bitget gap predict the next 10 s on both halves (IC +0.20..+0.25) and still at
+  60 s (+0.10..+0.28) - **but the move they predict is ~1-2bp at every horizon**: maker net -2..-3bp, taker -11..-13bp.
+  R1-R3 right; R4 wrong (taker flow vs the next minute: -0.01 / -0.09, a mild reversal). An earlier 110-min read said the
+  information was "gone by 60 s" - the full recording corrects that; the size verdict stands. The edge belongs to market
+  makers. Liquidations: one tiny DOGE event on a quiet day - untested.
+- **Live forward test** (`doge_live.py`, rules frozen 16:35 UTC in `logs/doge_live/registered.json`, stopped 21:09 UTC at
+  the user's call): **7 trades, 29% won, -1.41% net at 12bp** (-0.85% at 4bp) - VWAP fade short 2 won / 2 lost -0.08%,
+  EMA pullback 0/2 -0.85%, my level bounce 0/1 -0.47% (`logs/doge_live/rule_trades.csv`). My two range-edge limit calls
+  never filled (`calls.csv`). A ~2 h network drop froze the loop at 18:53; restarted, it rebuilt the record from Bitget's
+  bars, so nothing was lost. Bitget's fee re-verified on the demo's own fills: **0.0600% of ORDER VALUE at 20x**.
+- Next, if anything: slower forced-flow trades (capit2, liquidation cascades) where a 1%+ move dwarfs the fee; a
+  zero-maker-fee venue (not yet checked); or the user logging 30 calls with `doge_live.py --call` to measure their own edge.
 
 ### 2026-10-09 (late) - THE FINAL MACHINE built into the bot (`--final`) and running on paper on the VM
 

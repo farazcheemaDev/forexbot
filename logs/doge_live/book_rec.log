@@ -1,0 +1,70 @@
+recording to D:\forexbot\strategy_analysis\data\doge_book from 2026-10-09 16:47:26 UTC
+16:57:58 UTC: 600 snapshots in 10.5 min, 0 errors
+17:08:01 UTC: 1200 snapshots in 20.6 min, 0 errors
+17:18:09 UTC: 1800 snapshots in 30.7 min, 0 errors
+17:28:12 UTC: 2400 snapshots in 40.8 min, 0 errors
+17:38:23 UTC: 3000 snapshots in 50.9 min, 0 errors
+17:48:28 UTC: 3600 snapshots in 61.0 min, 0 errors
+17:58:45 UTC: 4200 snapshots in 71.3 min, 0 errors
+binance trades error: The read operation timed out
+binance book error: 
+18:10:16 UTC: 4800 snapshots in 82.8 min, 2 errors
+18:20:55 UTC: 5400 snapshots in 93.5 min, 2 errors
+18:31:11 UTC: 6000 snapshots in 103.7 min, 2 errors
+18:41:37 UTC: 6600 snapshots in 114.2 min, 2 errors
+18:51:47 UTC: 7200 snapshots in 124.4 min, 2 errors
+bitget trades error: bitget GET https://api.bitget.com/api/v2/mix/market/fills-history?symbol=DOGEUSDT&limit=100&productT
+binance trades error: <urlopen error [Errno 11001] getaddrinfo failed>
+bitget trades error: bitget GET https://api.bitget.com/api/v2/mix/market/fills-history?symbol=DOGEUSDT&limit=100&productT
+binance trades error: <urlopen error [Errno 11001] getaddrinfo failed>
+bitget book error: bitget GET https://api.bitget.com/api/v2/mix/market/merge-depth?symbol=DOGEUSDT&limit=50&productType
+binance book error: <urlopen error [Errno 11001] getaddrinfo failed>
+binance btc error: <urlopen error [Errno 11001] getaddrinfo failed>
+bitget book error: bitget GET https://api.bitget.com/api/v2/mix/market/merge-depth?symbol=DOGEUSDT&limit=50&productType
+binance book error: <urlopen error [Errno 11001] getaddrinfo failed>
+binance btc error: <urlopen error [Errno 11001] getaddrinfo failed>
+bitget trades error: bitget GET https://api.bitget.com/api/v2/mix/market/fills-history?symbol=DOGEUSDT&limit=100&productT
+binance trades error: <urlopen error [Errno 11001] getaddrinfo failed>
+bitget book error: bitget GET https://api.bitget.com/api/v2/mix/market/merge-depth?symbol=DOGEUSDT&limit=50&productType
+binance book error: <urlopen error [Errno 11001] getaddrinfo failed>
+binance btc error: <urlopen error [Errno 11001] getaddrinfo failed>
+bitget book error: bitget GET https://api.bitget.com/api/v2/mix/market/merge-depth?symbol=DOGEUSDT&limit=50&productType
+binance book error: <urlopen error [Errno 11001] getaddrinfo failed>
+binance btc error: <urlopen error [Errno 11001] getaddrinfo failed>
+bitget trades error: bitget GET https://api.bitget.com/api/v2/mix/market/fills-history?symbol=DOGEUSDT&limit=100&productT
+binance trades error: <urlopen error [Errno 11001] getaddrinfo failed>
+bitget book error: bitget GET https://api.bitget.com/api/v2/mix/market/merge-depth?symbol=DOGEUSDT&limit=50&productType
+binance book error: <urlopen error [Errno 11001] getaddrinfo failed>
+binance btc error: <urlopen error [Errno 11001] getaddrinfo failed>
+bitget book error: bitget GET https://api.bitget.com/api/v2/mix/market/merge-depth?symbol=DOGEUSDT&limit=50&productType
+binance book error: <urlopen error [Errno 11001] getaddrinfo failed>
+binance btc error: <urlopen error [Errno 11001] getaddrinfo failed>
+bitget trades error: bitget GET https://api.bitget.com/api/v2/mix/market/fills-history?symbol=DOGEUSDT&limit=100&productT
+binance trades error: <urlopen error [Errno 11001] getaddrinfo failed>
+bitget book error: bitget GET https://api.bitget.com/api/v2/mix/market/merge-depth?symbol=DOGEUSDT&limit=50&productType
+binance book error: <urlopen error [Errno 11001] getaddrinfo failed>
+binance btc error: <urlopen error [Errno 11001] getaddrinfo failed>
+bitget book error: bitget GET https://api.bitget.com/api/v2/mix/market/merge-depth?symbol=DOGEUSDT&limit=50&productType
+binance book error: <urlopen error [Errno 11001] getaddrinfo failed>
+binance btc error: <urlopen error [Errno 11001] getaddrinfo failed>
+bitget trades error: bitget GET https://api.bitget.com/api/v2/mix/market/fills-history?symbol=DOGEUSDT&limit=100&productT
+binance trades error: <urlopen error [Errno 11001] getaddrinfo failed>
+bitget book error: bitget GET https://api.bitget.com/api/v2/mix/market/merge-depth?symbol=DOGEUSDT&limit=50&productType
+binance book error: <urlopen error [Errno 11001] getaddrinfo failed>
+binance btc error: <urlopen error [Errno 11001] getaddrinfo failed>
+bitget book error: bitget GET https://api.bitget.com/api/v2/mix/market/merge-depth?symbol=DOGEUSDT&limit=50&productType
+binance book error: <urlopen error [Errno 11001] getaddrinfo failed>
+binance btc error: <urlopen error [Errno 11001] getaddrinfo failed>
+bitget trades error: bitget GET https://api.bitget.com/api/v2/mix/market/fills-history?symbol=DOGEUSDT&limit=100&productT
+binance trades error: <urlopen error [Errno 11001] getaddrinfo failed>
+bitget book error: bitget GET https://api.bitget.com/api/v2/mix/market/merge-depth?symbol=DOGEUSDT&limit=50&productType
+binance book error: <urlopen error [Errno 11001] getaddrinfo failed>
+binance btc error: <urlopen error [Errno 11001] getaddrinfo failed>
+bitget trades error: bitget GET https://api.bitget.com/api/v2/mix/market/fills-history?symbol=DOGEUSDT&limit=100&productT
+binance trades error: <urlopen error [Errno 11001] getaddrinfo failed>
+bitget trades error: bitget GET https://api.bitget.com/api/v2/mix/market/fills-history?symbol=DOGEUSDT&limit=100&productT
+binance trades error: <urlopen error [Errno 11001] getaddrinfo failed>
+bitget book error: bitget GET https://api.bitget.com/api/v2/mix/market/merge-depth?symbol=DOGEUSDT&limit=50&productType
+binance book error: <urlopen error [WinError 10054] An existing connection was forcibly closed by the remote host>
+binance btc error: <urlopen error [WinError 10054] An existing connection was forcibly closed by the remote host>
+21:09:09 UTC: 7800 snapshots in 261.7 min, 56 errors

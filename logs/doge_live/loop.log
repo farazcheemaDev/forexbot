@@ -1,0 +1,1745 @@
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:35 UTC, last closed bar 2026-10-09 16:34, price 0.08471
+RULES frozen 2026-10-09 16:35 UTC (0.0h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:36 UTC, last closed bar 2026-10-09 16:35, price 0.08472
+RULES frozen 2026-10-09 16:35 UTC (0.0h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:37 UTC, last closed bar 2026-10-09 16:36, price 0.08479
+RULES frozen 2026-10-09 16:35 UTC (0.0h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:38 UTC, last closed bar 2026-10-09 16:37, price 0.08473
+RULES frozen 2026-10-09 16:35 UTC (0.1h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:39 UTC, last closed bar 2026-10-09 16:38, price 0.08468
+RULES frozen 2026-10-09 16:35 UTC (0.1h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:40 UTC, last closed bar 2026-10-09 16:39, price 0.08469
+RULES frozen 2026-10-09 16:35 UTC (0.1h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:41 UTC, last closed bar 2026-10-09 16:40, price 0.08468
+RULES frozen 2026-10-09 16:35 UTC (0.1h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:42 UTC, last closed bar 2026-10-09 16:41, price 0.08469
+RULES frozen 2026-10-09 16:35 UTC (0.1h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:43 UTC, last closed bar 2026-10-09 16:42, price 0.08466
+RULES frozen 2026-10-09 16:35 UTC (0.1h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:44 UTC, last closed bar 2026-10-09 16:43, price 0.08465
+RULES frozen 2026-10-09 16:35 UTC (0.2h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:45 UTC, last closed bar 2026-10-09 16:44, price 0.08465
+RULES frozen 2026-10-09 16:35 UTC (0.2h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:46 UTC, last closed bar 2026-10-09 16:45, price 0.08470
+RULES frozen 2026-10-09 16:35 UTC (0.2h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:47 UTC, last closed bar 2026-10-09 16:46, price 0.08475
+RULES frozen 2026-10-09 16:35 UTC (0.2h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:48 UTC, last closed bar 2026-10-09 16:47, price 0.08476
+RULES frozen 2026-10-09 16:35 UTC (0.2h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:49 UTC, last closed bar 2026-10-09 16:48, price 0.08479
+RULES frozen 2026-10-09 16:35 UTC (0.2h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:50 UTC, last closed bar 2026-10-09 16:49, price 0.08484
+RULES frozen 2026-10-09 16:35 UTC (0.3h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:51 UTC, last closed bar 2026-10-09 16:50, price 0.08486
+RULES frozen 2026-10-09 16:35 UTC (0.3h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:52 UTC, last closed bar 2026-10-09 16:51, price 0.08491
+RULES frozen 2026-10-09 16:35 UTC (0.3h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN entering now
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:53 UTC, last closed bar 2026-10-09 16:52, price 0.08485
+RULES frozen 2026-10-09 16:35 UTC (0.3h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN short @0.08491 stop 0.08504 target 0.08466
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:54 UTC, last closed bar 2026-10-09 16:53, price 0.08484
+RULES frozen 2026-10-09 16:35 UTC (0.3h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN short @0.08491 stop 0.08504 target 0.08466
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:55 UTC, last closed bar 2026-10-09 16:54, price 0.08481
+RULES frozen 2026-10-09 16:35 UTC (0.3h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN short @0.08491 stop 0.08504 target 0.08466
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:56 UTC, last closed bar 2026-10-09 16:55, price 0.08481
+RULES frozen 2026-10-09 16:35 UTC (0.4h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN short @0.08491 stop 0.08504 target 0.08466
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:57 UTC, last closed bar 2026-10-09 16:56, price 0.08480
+RULES frozen 2026-10-09 16:35 UTC (0.4h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN short @0.08491 stop 0.08504 target 0.08466
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:58 UTC, last closed bar 2026-10-09 16:57, price 0.08479
+RULES frozen 2026-10-09 16:35 UTC (0.4h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN short @0.08491 stop 0.08504 target 0.08466
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 16:59 UTC, last closed bar 2026-10-09 16:58, price 0.08474
+RULES frozen 2026-10-09 16:35 UTC (0.4h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN short @0.08491 stop 0.08504 target 0.08466
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:00 UTC, last closed bar 2026-10-09 16:59, price 0.08478
+RULES frozen 2026-10-09 16:35 UTC (0.4h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN short @0.08491 stop 0.08504 target 0.08466
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:01 UTC, last closed bar 2026-10-09 17:00, price 0.08491
+RULES frozen 2026-10-09 16:35 UTC (0.4h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN short @0.08491 stop 0.08504 target 0.08466
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:02 UTC, last closed bar 2026-10-09 17:01, price 0.08487
+RULES frozen 2026-10-09 16:35 UTC (0.5h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN short @0.08491 stop 0.08504 target 0.08466
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:03 UTC, last closed bar 2026-10-09 17:02, price 0.08476
+RULES frozen 2026-10-09 16:35 UTC (0.5h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN short @0.08491 stop 0.08504 target 0.08466
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:04 UTC, last closed bar 2026-10-09 17:03, price 0.08473
+RULES frozen 2026-10-09 16:35 UTC (0.5h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN short @0.08491 stop 0.08504 target 0.08466
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:05 UTC, last closed bar 2026-10-09 17:04, price 0.08474
+RULES frozen 2026-10-09 16:35 UTC (0.5h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN short @0.08491 stop 0.08504 target 0.08466
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:06 UTC, last closed bar 2026-10-09 17:05, price 0.08474
+RULES frozen 2026-10-09 16:35 UTC (0.5h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN short @0.08491 stop 0.08504 target 0.08466
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:07 UTC, last closed bar 2026-10-09 17:06, price 0.08470
+RULES frozen 2026-10-09 16:35 UTC (0.5h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN short @0.08491 stop 0.08504 target 0.08466
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:08 UTC, last closed bar 2026-10-09 17:07, price 0.08472
+RULES frozen 2026-10-09 16:35 UTC (0.6h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN short @0.08491 stop 0.08504 target 0.08466
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:09 UTC, last closed bar 2026-10-09 17:08, price 0.08475
+RULES frozen 2026-10-09 16:35 UTC (0.6h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN short @0.08491 stop 0.08504 target 0.08466
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:10 UTC, last closed bar 2026-10-09 17:09, price 0.08472
+RULES frozen 2026-10-09 16:35 UTC (0.6h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN short @0.08491 stop 0.08504 target 0.08466
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:11 UTC, last closed bar 2026-10-09 17:10, price 0.08469
+RULES frozen 2026-10-09 16:35 UTC (0.6h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN short @0.08491 stop 0.08504 target 0.08466
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:12 UTC, last closed bar 2026-10-09 17:11, price 0.08468
+RULES frozen 2026-10-09 16:35 UTC (0.6h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN short @0.08491 stop 0.08504 target 0.08466
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:13 UTC, last closed bar 2026-10-09 17:12, price 0.08475
+RULES frozen 2026-10-09 16:35 UTC (0.6h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN short @0.08491 stop 0.08504 target 0.08466
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:14 UTC, last closed bar 2026-10-09 17:13, price 0.08471
+RULES frozen 2026-10-09 16:35 UTC (0.7h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN short @0.08491 stop 0.08504 target 0.08466
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:15 UTC, last closed bar 2026-10-09 17:14, price 0.08457
+RULES frozen 2026-10-09 16:35 UTC (0.7h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:16 UTC, last closed bar 2026-10-09 17:15, price 0.08464
+RULES frozen 2026-10-09 16:35 UTC (0.7h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:17 UTC, last closed bar 2026-10-09 17:16, price 0.08460
+RULES frozen 2026-10-09 16:35 UTC (0.7h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:18 UTC, last closed bar 2026-10-09 17:17, price 0.08459
+RULES frozen 2026-10-09 16:35 UTC (0.7h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:19 UTC, last closed bar 2026-10-09 17:18, price 0.08458
+RULES frozen 2026-10-09 16:35 UTC (0.7h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:20 UTC, last closed bar 2026-10-09 17:19, price 0.08459
+RULES frozen 2026-10-09 16:35 UTC (0.8h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:21 UTC, last closed bar 2026-10-09 17:20, price 0.08467
+RULES frozen 2026-10-09 16:35 UTC (0.8h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:22 UTC, last closed bar 2026-10-09 17:21, price 0.08464
+RULES frozen 2026-10-09 16:35 UTC (0.8h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:23 UTC, last closed bar 2026-10-09 17:22, price 0.08441
+RULES frozen 2026-10-09 16:35 UTC (0.8h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:24 UTC, last closed bar 2026-10-09 17:23, price 0.08445
+RULES frozen 2026-10-09 16:35 UTC (0.8h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:25 UTC, last closed bar 2026-10-09 17:24, price 0.08458
+RULES frozen 2026-10-09 16:35 UTC (0.8h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:26 UTC, last closed bar 2026-10-09 17:25, price 0.08463
+RULES frozen 2026-10-09 16:35 UTC (0.9h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:27 UTC, last closed bar 2026-10-09 17:26, price 0.08476
+RULES frozen 2026-10-09 16:35 UTC (0.9h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:28 UTC, last closed bar 2026-10-09 17:27, price 0.08480
+RULES frozen 2026-10-09 16:35 UTC (0.9h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:29 UTC, last closed bar 2026-10-09 17:28, price 0.08480
+RULES frozen 2026-10-09 16:35 UTC (0.9h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:30 UTC, last closed bar 2026-10-09 17:29, price 0.08473
+RULES frozen 2026-10-09 16:35 UTC (0.9h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN entering now
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:31 UTC, last closed bar 2026-10-09 17:30, price 0.08465
+RULES frozen 2026-10-09 16:35 UTC (0.9h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:32 UTC, last closed bar 2026-10-09 17:31, price 0.08470
+RULES frozen 2026-10-09 16:35 UTC (1.0h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:33 UTC, last closed bar 2026-10-09 17:32, price 0.08471
+RULES frozen 2026-10-09 16:35 UTC (1.0h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:34 UTC, last closed bar 2026-10-09 17:33, price 0.08478
+RULES frozen 2026-10-09 16:35 UTC (1.0h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:35 UTC, last closed bar 2026-10-09 17:34, price 0.08480
+RULES frozen 2026-10-09 16:35 UTC (1.0h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:36 UTC, last closed bar 2026-10-09 17:35, price 0.08478
+RULES frozen 2026-10-09 16:35 UTC (1.0h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:37 UTC, last closed bar 2026-10-09 17:36, price 0.08478
+RULES frozen 2026-10-09 16:35 UTC (1.0h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:38 UTC, last closed bar 2026-10-09 17:37, price 0.08479
+RULES frozen 2026-10-09 16:35 UTC (1.1h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:39 UTC, last closed bar 2026-10-09 17:38, price 0.08475
+RULES frozen 2026-10-09 16:35 UTC (1.1h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:40 UTC, last closed bar 2026-10-09 17:39, price 0.08478
+RULES frozen 2026-10-09 16:35 UTC (1.1h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:41 UTC, last closed bar 2026-10-09 17:40, price 0.08475
+RULES frozen 2026-10-09 16:35 UTC (1.1h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:42 UTC, last closed bar 2026-10-09 17:41, price 0.08481
+RULES frozen 2026-10-09 16:35 UTC (1.1h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:43 UTC, last closed bar 2026-10-09 17:42, price 0.08483
+RULES frozen 2026-10-09 16:35 UTC (1.1h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:44 UTC, last closed bar 2026-10-09 17:43, price 0.08479
+RULES frozen 2026-10-09 16:35 UTC (1.2h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:45 UTC, last closed bar 2026-10-09 17:44, price 0.08476
+RULES frozen 2026-10-09 16:35 UTC (1.2h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:46 UTC, last closed bar 2026-10-09 17:45, price 0.08462
+RULES frozen 2026-10-09 16:35 UTC (1.2h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:47 UTC, last closed bar 2026-10-09 17:46, price 0.08474
+RULES frozen 2026-10-09 16:35 UTC (1.2h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:48 UTC, last closed bar 2026-10-09 17:47, price 0.08470
+RULES frozen 2026-10-09 16:35 UTC (1.2h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:49 UTC, last closed bar 2026-10-09 17:48, price 0.08472
+RULES frozen 2026-10-09 16:35 UTC (1.2h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:50 UTC, last closed bar 2026-10-09 17:49, price 0.08472
+RULES frozen 2026-10-09 16:35 UTC (1.3h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:51 UTC, last closed bar 2026-10-09 17:50, price 0.08480
+RULES frozen 2026-10-09 16:35 UTC (1.3h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:52 UTC, last closed bar 2026-10-09 17:51, price 0.08484
+RULES frozen 2026-10-09 16:35 UTC (1.3h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:53 UTC, last closed bar 2026-10-09 17:52, price 0.08482
+RULES frozen 2026-10-09 16:35 UTC (1.3h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:54 UTC, last closed bar 2026-10-09 17:53, price 0.08484
+RULES frozen 2026-10-09 16:35 UTC (1.3h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:55 UTC, last closed bar 2026-10-09 17:54, price 0.08484
+RULES frozen 2026-10-09 16:35 UTC (1.3h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:56 UTC, last closed bar 2026-10-09 17:55, price 0.08487
+RULES frozen 2026-10-09 16:35 UTC (1.4h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:57 UTC, last closed bar 2026-10-09 17:56, price 0.08494
+RULES frozen 2026-10-09 16:35 UTC (1.4h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN entering now
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:58 UTC, last closed bar 2026-10-09 17:57, price 0.08491
+RULES frozen 2026-10-09 16:35 UTC (1.4h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 17:59 UTC, last closed bar 2026-10-09 17:58, price 0.08495
+RULES frozen 2026-10-09 16:35 UTC (1.4h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:00 UTC, last closed bar 2026-10-09 17:59, price 0.08493
+RULES frozen 2026-10-09 16:35 UTC (1.4h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:01 UTC, last closed bar 2026-10-09 18:00, price 0.08491
+RULES frozen 2026-10-09 16:35 UTC (1.4h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:02 UTC, last closed bar 2026-10-09 18:01, price 0.08490
+RULES frozen 2026-10-09 16:35 UTC (1.5h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:03 UTC, last closed bar 2026-10-09 18:02, price 0.08484
+RULES frozen 2026-10-09 16:35 UTC (1.5h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:04 UTC, last closed bar 2026-10-09 18:03, price 0.08486
+RULES frozen 2026-10-09 16:35 UTC (1.5h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:05 UTC, last closed bar 2026-10-09 18:04, price 0.08485
+RULES frozen 2026-10-09 16:35 UTC (1.5h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:06 UTC, last closed bar 2026-10-09 18:05, price 0.08488
+RULES frozen 2026-10-09 16:35 UTC (1.5h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:07 UTC, last closed bar 2026-10-09 18:06, price 0.08495
+RULES frozen 2026-10-09 16:35 UTC (1.5h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:08 UTC, last closed bar 2026-10-09 18:07, price 0.08494
+RULES frozen 2026-10-09 16:35 UTC (1.6h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:09 UTC, last closed bar 2026-10-09 18:08, price 0.08490
+RULES frozen 2026-10-09 16:35 UTC (1.6h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:10 UTC, last closed bar 2026-10-09 18:09, price 0.08487
+RULES frozen 2026-10-09 16:35 UTC (1.6h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:11 UTC, last closed bar 2026-10-09 18:10, price 0.08489
+RULES frozen 2026-10-09 16:35 UTC (1.6h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:12 UTC, last closed bar 2026-10-09 18:11, price 0.08490
+RULES frozen 2026-10-09 16:35 UTC (1.6h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:13 UTC, last closed bar 2026-10-09 18:12, price 0.08497
+RULES frozen 2026-10-09 16:35 UTC (1.6h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:14 UTC, last closed bar 2026-10-09 18:13, price 0.08491
+RULES frozen 2026-10-09 16:35 UTC (1.7h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:15 UTC, last closed bar 2026-10-09 18:14, price 0.08490
+RULES frozen 2026-10-09 16:35 UTC (1.7h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:16 UTC, last closed bar 2026-10-09 18:15, price 0.08485
+RULES frozen 2026-10-09 16:35 UTC (1.7h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:17 UTC, last closed bar 2026-10-09 18:16, price 0.08488
+RULES frozen 2026-10-09 16:35 UTC (1.7h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:18 UTC, last closed bar 2026-10-09 18:17, price 0.08485
+RULES frozen 2026-10-09 16:35 UTC (1.7h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:19 UTC, last closed bar 2026-10-09 18:18, price 0.08480
+RULES frozen 2026-10-09 16:35 UTC (1.7h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:20 UTC, last closed bar 2026-10-09 18:19, price 0.08479
+RULES frozen 2026-10-09 16:35 UTC (1.8h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:21 UTC, last closed bar 2026-10-09 18:20, price 0.08481
+RULES frozen 2026-10-09 16:35 UTC (1.8h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:22 UTC, last closed bar 2026-10-09 18:21, price 0.08474
+RULES frozen 2026-10-09 16:35 UTC (1.8h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:23 UTC, last closed bar 2026-10-09 18:22, price 0.08474
+RULES frozen 2026-10-09 16:35 UTC (1.8h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:24 UTC, last closed bar 2026-10-09 18:23, price 0.08471
+RULES frozen 2026-10-09 16:35 UTC (1.8h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            1 closed, win 100% | net  +0.18% (+0.26%) | avg +0.179% a trade | OPEN short @0.08494 stop 0.08506 target 0.08469
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 1 trades, net +0.18% at 12bp, +0.26% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:25 UTC, last closed bar 2026-10-09 18:24, price 0.08469
+RULES frozen 2026-10-09 16:35 UTC (1.8h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 2 trades, net +0.35% at 12bp, +0.51% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:26 UTC, last closed bar 2026-10-09 18:25, price 0.08468
+RULES frozen 2026-10-09 16:35 UTC (1.9h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 2 trades, net +0.35% at 12bp, +0.51% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:27 UTC, last closed bar 2026-10-09 18:26, price 0.08469
+RULES frozen 2026-10-09 16:35 UTC (1.9h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 2 trades, net +0.35% at 12bp, +0.51% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:28 UTC, last closed bar 2026-10-09 18:27, price 0.08470
+RULES frozen 2026-10-09 16:35 UTC (1.9h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 2 trades, net +0.35% at 12bp, +0.51% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:29 UTC, last closed bar 2026-10-09 18:28, price 0.08467
+RULES frozen 2026-10-09 16:35 UTC (1.9h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 2 trades, net +0.35% at 12bp, +0.51% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:30 UTC, last closed bar 2026-10-09 18:29, price 0.08465
+RULES frozen 2026-10-09 16:35 UTC (1.9h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 2 trades, net +0.35% at 12bp, +0.51% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:31 UTC, last closed bar 2026-10-09 18:30, price 0.08466
+RULES frozen 2026-10-09 16:35 UTC (1.9h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 2 trades, net +0.35% at 12bp, +0.51% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:32 UTC, last closed bar 2026-10-09 18:31, price 0.08467
+RULES frozen 2026-10-09 16:35 UTC (2.0h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 2 trades, net +0.35% at 12bp, +0.51% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:33 UTC, last closed bar 2026-10-09 18:32, price 0.08457
+RULES frozen 2026-10-09 16:35 UTC (2.0h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 2 trades, net +0.35% at 12bp, +0.51% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:34 UTC, last closed bar 2026-10-09 18:33, price 0.08455
+RULES frozen 2026-10-09 16:35 UTC (2.0h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 2 trades, net +0.35% at 12bp, +0.51% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:35 UTC, last closed bar 2026-10-09 18:34, price 0.08449
+RULES frozen 2026-10-09 16:35 UTC (2.0h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 2 trades, net +0.35% at 12bp, +0.51% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:36 UTC, last closed bar 2026-10-09 18:35, price 0.08441
+RULES frozen 2026-10-09 16:35 UTC (2.0h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade | OPEN long @0.08473 stop 0.08434 target 0.08551
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 2 trades, net +0.35% at 12bp, +0.51% at 4bp; wins 100%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:37 UTC, last closed bar 2026-10-09 18:36, price 0.08433
+RULES frozen 2026-10-09 16:35 UTC (2.0h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           1 closed, win   0% | net  -0.58% (-0.50%) | avg -0.579% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 3 trades, net -0.23% at 12bp, +0.01% at 4bp; wins 67%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:38 UTC, last closed bar 2026-10-09 18:37, price 0.08444
+RULES frozen 2026-10-09 16:35 UTC (2.1h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           1 closed, win   0% | net  -0.58% (-0.50%) | avg -0.579% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 3 trades, net -0.23% at 12bp, +0.01% at 4bp; wins 67%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:39 UTC, last closed bar 2026-10-09 18:38, price 0.08446
+RULES frozen 2026-10-09 16:35 UTC (2.1h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           1 closed, win   0% | net  -0.58% (-0.50%) | avg -0.579% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 3 trades, net -0.23% at 12bp, +0.01% at 4bp; wins 67%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:40 UTC, last closed bar 2026-10-09 18:39, price 0.08449
+RULES frozen 2026-10-09 16:35 UTC (2.1h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           1 closed, win   0% | net  -0.58% (-0.50%) | avg -0.579% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 3 trades, net -0.23% at 12bp, +0.01% at 4bp; wins 67%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:41 UTC, last closed bar 2026-10-09 18:40, price 0.08451
+RULES frozen 2026-10-09 16:35 UTC (2.1h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           1 closed, win   0% | net  -0.58% (-0.50%) | avg -0.579% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 3 trades, net -0.23% at 12bp, +0.01% at 4bp; wins 67%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:42 UTC, last closed bar 2026-10-09 18:41, price 0.08453
+RULES frozen 2026-10-09 16:35 UTC (2.1h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           1 closed, win   0% | net  -0.58% (-0.50%) | avg -0.579% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 3 trades, net -0.23% at 12bp, +0.01% at 4bp; wins 67%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:43 UTC, last closed bar 2026-10-09 18:42, price 0.08451
+RULES frozen 2026-10-09 16:35 UTC (2.1h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           1 closed, win   0% | net  -0.58% (-0.50%) | avg -0.579% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 3 trades, net -0.23% at 12bp, +0.01% at 4bp; wins 67%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:44 UTC, last closed bar 2026-10-09 18:43, price 0.08450
+RULES frozen 2026-10-09 16:35 UTC (2.2h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           1 closed, win   0% | net  -0.58% (-0.50%) | avg -0.579% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 3 trades, net -0.23% at 12bp, +0.01% at 4bp; wins 67%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:45 UTC, last closed bar 2026-10-09 18:44, price 0.08451
+RULES frozen 2026-10-09 16:35 UTC (2.2h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           1 closed, win   0% | net  -0.58% (-0.50%) | avg -0.579% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 3 trades, net -0.23% at 12bp, +0.01% at 4bp; wins 67%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:46 UTC, last closed bar 2026-10-09 18:45, price 0.08448
+RULES frozen 2026-10-09 16:35 UTC (2.2h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           1 closed, win   0% | net  -0.58% (-0.50%) | avg -0.579% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 3 trades, net -0.23% at 12bp, +0.01% at 4bp; wins 67%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:47 UTC, last closed bar 2026-10-09 18:46, price 0.08458
+RULES frozen 2026-10-09 16:35 UTC (2.2h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           1 closed, win   0% | net  -0.58% (-0.50%) | avg -0.579% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 3 trades, net -0.23% at 12bp, +0.01% at 4bp; wins 67%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:48 UTC, last closed bar 2026-10-09 18:47, price 0.08457
+RULES frozen 2026-10-09 16:35 UTC (2.2h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           1 closed, win   0% | net  -0.58% (-0.50%) | avg -0.579% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 3 trades, net -0.23% at 12bp, +0.01% at 4bp; wins 67%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:49 UTC, last closed bar 2026-10-09 18:48, price 0.08457
+RULES frozen 2026-10-09 16:35 UTC (2.2h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           1 closed, win   0% | net  -0.58% (-0.50%) | avg -0.579% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 3 trades, net -0.23% at 12bp, +0.01% at 4bp; wins 67%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:50 UTC, last closed bar 2026-10-09 18:49, price 0.08472
+RULES frozen 2026-10-09 16:35 UTC (2.3h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           1 closed, win   0% | net  -0.58% (-0.50%) | avg -0.579% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 3 trades, net -0.23% at 12bp, +0.01% at 4bp; wins 67%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:51 UTC, last closed bar 2026-10-09 18:50, price 0.08490
+RULES frozen 2026-10-09 16:35 UTC (2.3h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           1 closed, win   0% | net  -0.58% (-0.50%) | avg -0.579% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 3 trades, net -0.23% at 12bp, +0.01% at 4bp; wins 67%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:52 UTC, last closed bar 2026-10-09 18:51, price 0.08473
+RULES frozen 2026-10-09 16:35 UTC (2.3h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           1 closed, win   0% | net  -0.58% (-0.50%) | avg -0.579% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 3 trades, net -0.23% at 12bp, +0.01% at 4bp; wins 67%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 18:53 UTC, last closed bar 2026-10-09 18:52, price 0.08468
+RULES frozen 2026-10-09 16:35 UTC (2.3h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade
+  5m|ema_pullback|both|2|2           1 closed, win   0% | net  -0.58% (-0.50%) | avg -0.579% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  ALL RULES: 3 trades, net -0.23% at 12bp, +0.01% at 4bp; wins 67%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - waiting | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - waiting | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 21:01 UTC, last closed bar 2026-10-09 21:00, price 0.08480
+RULES frozen 2026-10-09 16:35 UTC (4.4h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade | OPEN short @0.08482 stop 0.08490 target 0.08466
+  5m|ema_pullback|both|2|2           2 closed, win   0% | net  -0.85% (-0.69%) | avg -0.427% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           1 closed, win   0% | net  -0.47% (-0.39%) | avg -0.473% a trade
+  ALL RULES: 5 trades, net -0.97% at 12bp, -0.57% at 4bp; wins 40%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - unfilled | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - unfilled | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 21:01 UTC, last closed bar 2026-10-09 21:00, price 0.08480
+RULES frozen 2026-10-09 16:35 UTC (4.4h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade | OPEN short @0.08482 stop 0.08490 target 0.08466
+  5m|ema_pullback|both|2|2           2 closed, win   0% | net  -0.85% (-0.69%) | avg -0.427% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           1 closed, win   0% | net  -0.47% (-0.39%) | avg -0.473% a trade
+  ALL RULES: 5 trades, net -0.97% at 12bp, -0.57% at 4bp; wins 40%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - unfilled | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - unfilled | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 21:02 UTC, last closed bar 2026-10-09 21:01, price 0.08481
+RULES frozen 2026-10-09 16:35 UTC (4.5h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            2 closed, win 100% | net  +0.35% (+0.51%) | avg +0.176% a trade | OPEN short @0.08482 stop 0.08490 target 0.08466
+  5m|ema_pullback|both|2|2           2 closed, win   0% | net  -0.85% (-0.69%) | avg -0.427% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           1 closed, win   0% | net  -0.47% (-0.39%) | avg -0.473% a trade
+  ALL RULES: 5 trades, net -0.97% at 12bp, -0.57% at 4bp; wins 40%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - unfilled | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - unfilled | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 21:03 UTC, last closed bar 2026-10-09 21:02, price 0.08491
+RULES frozen 2026-10-09 16:35 UTC (4.5h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            3 closed, win  67% | net  +0.14% (+0.38%) | avg +0.047% a trade
+  5m|ema_pullback|both|2|2           2 closed, win   0% | net  -0.85% (-0.69%) | avg -0.427% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           1 closed, win   0% | net  -0.47% (-0.39%) | avg -0.473% a trade
+  ALL RULES: 6 trades, net -1.19% at 12bp, -0.71% at 4bp; wins 33%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - unfilled | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - unfilled | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 21:04 UTC, last closed bar 2026-10-09 21:03, price 0.08496
+RULES frozen 2026-10-09 16:35 UTC (4.5h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            3 closed, win  67% | net  +0.14% (+0.38%) | avg +0.047% a trade | OPEN entering now
+  5m|ema_pullback|both|2|2           2 closed, win   0% | net  -0.85% (-0.69%) | avg -0.427% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           1 closed, win   0% | net  -0.47% (-0.39%) | avg -0.473% a trade
+  ALL RULES: 6 trades, net -1.19% at 12bp, -0.71% at 4bp; wins 33%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - unfilled | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - unfilled | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 21:05 UTC, last closed bar 2026-10-09 21:04, price 0.08500
+RULES frozen 2026-10-09 16:35 UTC (4.5h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            3 closed, win  67% | net  +0.14% (+0.38%) | avg +0.047% a trade | OPEN short @0.08496 stop 0.08504 target 0.08479
+  5m|ema_pullback|both|2|2           2 closed, win   0% | net  -0.85% (-0.69%) | avg -0.427% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           1 closed, win   0% | net  -0.47% (-0.39%) | avg -0.473% a trade | OPEN entering now
+  ALL RULES: 6 trades, net -1.19% at 12bp, -0.71% at 4bp; wins 33%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - unfilled | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - unfilled | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 21:06 UTC, last closed bar 2026-10-09 21:05, price 0.08500
+RULES frozen 2026-10-09 16:35 UTC (4.5h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            3 closed, win  67% | net  +0.14% (+0.38%) | avg +0.047% a trade | OPEN short @0.08496 stop 0.08504 target 0.08479
+  5m|ema_pullback|both|2|2           2 closed, win   0% | net  -0.85% (-0.69%) | avg -0.427% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           1 closed, win   0% | net  -0.47% (-0.39%) | avg -0.473% a trade | OPEN long @0.08500 stop 0.08471 target 0.08529
+  ALL RULES: 6 trades, net -1.19% at 12bp, -0.71% at 4bp; wins 33%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - unfilled | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - unfilled | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 21:07 UTC, last closed bar 2026-10-09 21:06, price 0.08498
+RULES frozen 2026-10-09 16:35 UTC (4.5h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            3 closed, win  67% | net  +0.14% (+0.38%) | avg +0.047% a trade | OPEN short @0.08496 stop 0.08504 target 0.08479
+  5m|ema_pullback|both|2|2           2 closed, win   0% | net  -0.85% (-0.69%) | avg -0.427% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           1 closed, win   0% | net  -0.47% (-0.39%) | avg -0.473% a trade | OPEN long @0.08500 stop 0.08471 target 0.08529
+  ALL RULES: 6 trades, net -1.19% at 12bp, -0.71% at 4bp; wins 33%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - unfilled | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - unfilled | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 21:08 UTC, last closed bar 2026-10-09 21:07, price 0.08503
+RULES frozen 2026-10-09 16:35 UTC (4.6h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            4 closed, win  50% | net  -0.08% (+0.24%) | avg -0.020% a trade
+  5m|ema_pullback|both|2|2           2 closed, win   0% | net  -0.85% (-0.69%) | avg -0.427% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           1 closed, win   0% | net  -0.47% (-0.39%) | avg -0.473% a trade | OPEN long @0.08500 stop 0.08471 target 0.08529
+  ALL RULES: 7 trades, net -1.41% at 12bp, -0.85% at 4bp; wins 29%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - unfilled | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - unfilled | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557
+----------------------------------------------------------------------------------------------------
+DOGE LIVE FORWARD TEST - 2026-10-09 21:09 UTC, last closed bar 2026-10-09 21:08, price 0.08503
+RULES frozen 2026-10-09 16:35 UTC (4.6h ago) - net at 12bp (4bp maker in brackets), 1x:
+  1m|vwap_fade3|short|2|2            4 closed, win  50% | net  -0.08% (+0.24%) | avg -0.020% a trade | OPEN entering now
+  5m|ema_pullback|both|2|2           2 closed, win   0% | net  -0.85% (-0.69%) | avg -0.427% a trade
+  5m|breakout60|both|2|2             0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|breakout60|short|2|2            0 closed, win   0% | net  +0.00% (+0.00%) | avg +0.000% a trade
+  5m|level_bounce|both|2|1           1 closed, win   0% | net  -0.47% (-0.39%) | avg -0.473% a trade | OPEN long @0.08500 stop 0.08471 target 0.08529
+  ALL RULES: 7 trades, net -1.41% at 12bp, -0.85% at 4bp; wins 29%
+MY CALLS:
+  #1 2026-10-09 16:35 long  limit @0.08425 tgt 0.08495 stop 0.08378 180m - unfilled | range fade: S1 0.0842-43 held twice today; stop under day low 0.08381
+  #2 2026-10-09 16:35 short limit @0.08512 tgt 0.08455 stop 0.08560 180m - unfilled | range fade: R1 0.0851-52 swing highs + supply; stop over day high 0.08557

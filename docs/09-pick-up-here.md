@@ -1,11 +1,35 @@
 # Pick up here
 
-*Rewritten 2026-10-08 ~19:00 UTC. State verified the same hour: `systemctl list-units` on the VM over `ssh forexbot-vm`
+*Rewritten 2026-10-08 ~19:00 UTC; top sections added 2026-10-09. State verified the same hour: `systemctl list-units` on the VM over `ssh forexbot-vm`
 (read-only), and `python health.py` on the PC.*
 
 **If you are a new Claude session, read [`CLAUDE.md`](../CLAUDE.md) first** (rules, traps, safety gates), then this file
 (what is running, what is next), then the last entries of [doc 02](02-what-failed.md) and [doc 21](21-graveyard-audit.md)
 before proposing anything - most ideas have been tested, and doc 21 says how well.
+
+## 2026-10-09 (night): DOGE scalping, live with TradingView - dead at retail fees (nothing left running)
+
+The user asked to stop backtesting for years and instead read DOGE today, predict, and forward-test live. Done, and it
+does not work at retail costs - full write-up in doc 02's last entry, numbers in CLAUDE.md s10:
+- "pick what worked in the last hours/days, trade it next": loses the fee at every look-back (`backtest/doge_adapt.py`);
+- 1-2% targets: the chart entries win exactly as often as random ones (`backtest/doge_bigtarget.py`);
+- the order book predicts the next 10-60 s (real, IC +0.1..+0.25) but only ~1-2bp of movement (`backtest/doge_book.py`);
+- live: 7 trades, -1.41% net (`doge_live.py`, `logs/doge_live/`).
+**Nothing from this session is still running** (stopped 2026-10-09 21:09 UTC at the user's call).
+
+**How to use what was built:**
+- **TradingView from Claude Code:** the bridge is in `D:/TRADING/tradingview-mcp`; `.mcp.json` here (gitignored, this PC
+  only) loads it as MCP tools in a session started in `D:/forexbot`. TradingView Desktop must run with the debug port:
+  start `%LOCALAPPDATA%/tradingview-mcp/TradingView.Desktop_*/TradingView.exe --remote-debugging-port=9222` (the Store
+  path fails with EPERM). Without MCP tools, the CLI works: `node D:/TRADING/tradingview-mcp/src/cli/index.js status`
+  (also `quote`, `ohlcv -n 100`, `screenshot -r chart`, `draw shape -t horizontal_line -p PRICE`, `range --from --to`).
+- **Bitget 1m history:** `python -m backtest.bitget_1m DOGE BTC --days 90` (cache in `strategy_analysis/data/bitget_1m/`).
+- **Log a trade idea and have it scored honestly:** `python doge_live.py --call long 0.0842 0.0852 0.0838 120 "why"`
+  (entry `mkt` = now), then `python doge_live.py --status`. 30 calls tell whether the caller beats break-even.
+- **A new live rule test:** `logs/doge_live/registered.json` is FROZEN; move that folder aside to register new rules
+  (`--register "5m|level_bounce|both|2|1" ...`, names from `backtest/doge_adapt.py`), then `--loop`.
+- **Order book / liquidations:** `python book_rec.py` and `python liq_rec.py` (public data; Binance WEBSOCKETS do not work
+  on this PC, REST does; OKX needs a browser User-Agent), then `python -m backtest.doge_book`.
 
 ## 2026-10-09 (late): THE FINAL MACHINE runs on paper on the VM
 

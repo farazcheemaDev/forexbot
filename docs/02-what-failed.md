@@ -4139,3 +4139,30 @@ only gives up return. Prediction (no family beats bb by > 5%) right; (the BTC-ex
 
 **Candidates for paper, after all of this** (none is in any bot): the daily book's 20-day-mean exit; the market-neutral
 book ranked half by momentum / half by RSI; funding carry (7-day, 20% basket, +50% exit) at 0.5x beside it.
+
+## Dead: "analyse DOGE today and scalp it live" - the fee wins; the book's edge lasts 10-30 seconds (2026-10-09)
+
+**The user's method:** skip years of backtests, read the coin today (levels, indicators, the live chart in TradingView),
+predict, and forward-test in real time. Tested three ways, every prediction registered before the data:
+- **`backtest/doge_adapt.py`** - the method's honest history: every 6 hours pick the best of 228 scalping rules (VWAP
+  fade, Bollinger re-entry, volume breakout, EMA pullback, level bounce, opening range, RSI fades; 1m/5m; ATR brackets)
+  over the trailing 6h..7d and trade it for 6 hours, on 90 days of Bitget's own 1m DOGE bars. **Every window loses
+  -0.09..-0.15% a trade at 12bp - the fee; before costs the pick makes ~0 over the next 6 hours.** 0 of 228 rules are
+  positive over the 90 days. Rankings persist (rho +0.45..+0.60) only because busy rules pay the most fees every window.
+- **`backtest/doge_bigtarget.py`** - "aim for 1%": 790 rules with 0.5-2% targets and 4h/24h time stops win exactly as often
+  as RANDOM entries at every bracket and lose the fee. Accuracy needed falls with the target (62% at 0.5/0.5, 37% at 2/1)
+  and accuracy got falls with it (49.8% -> 38.2%), as a coin flip does. 2 of 790 positive on both halves.
+- **`book_rec.py` / `liq_rec.py` / `backtest/doge_book.py`** - the scalper's information, recorded live for ~2 hours at 1 s:
+  Bitget and Binance books and trades, BTC, OKX liquidations, Binance open interest (262 min, 7,795 snapshots, halves by
+  snapshot count). Book imbalance, microprice and the Binance-Bitget gap predict Bitget's next 10 s on both halves (IC
+  +0.20..+0.25) and still at 60 s (+0.10..+0.28) - **but the move in their extreme decile is ~1-2bp at every horizon**.
+  Maker net -2..-3bp, taker -11..-13bp. It is the market makers' edge: they collect the spread and pay ~0 in fees.
+- **Live** (`doge_live.py`, rules frozen 16:35 UTC, stopped 21:09 UTC): 7 trades, 29% won, -1.41% net at 12bp (-0.85% at
+  4bp) - `logs/doge_live/rule_trades.csv`. Two range-edge limit calls (0.8% targets) never filled. Too few to judge
+  anything alone; the 90 days are the evidence.
+- **Leverage** does not help: Bitget charges 0.06% of ORDER VALUE (verified on the demo account's own fills at 20x), so the
+  fee scales with the position exactly as the move does.
+**Reading:** on DOGE at retail costs and home-PC speed, the predictable part of the move is smaller than the round trip at
+every horizon tested - seconds to a minute (book), minutes (1m/5m rules), hours (1% brackets). What is left is slower trades on forced
+flows (capit2, liquidation cascades), where a multi-percent move dwarfs the fee and fast bots do not hold.
+

@@ -1,0 +1,12 @@
+backtest/doge_bigtarget.py, 2026-10-09 17:23 UTC; Bitget DOGE perp 1m 2026-07-11 .. 2026-10-09 17:22; tune < 2026-09-03 <= holdout; 790 rules; 12bp a round trip, 1x
+
+BY BRACKET (all rules with 10+ trades): accuracy needed vs got, net a trade, and how many are net positive
+  target 0.5% / stop 0.50%: need 62.0% wins | rules: median win 49.8%, median net -0.124% a trade, positive over 90 days 2/158, on BOTH halves 0 | RANDOM: win 50.0%, net -0.120% a trade
+  target 1.0% / stop 0.50%: need 41.3% wins | rules: median win 35.6%, median net -0.117% a trade, positive over 90 days 7/158, on BOTH halves 0 | RANDOM: win 36.4%, net -0.121% a trade
+  target 1.0% / stop 1.00%: need 56.0% wins | rules: median win 50.0%, median net -0.120% a trade, positive over 90 days 8/158, on BOTH halves 0 | RANDOM: win 50.0%, net -0.120% a trade
+  target 1.5% / stop 0.75%: need 38.7% wins | rules: median win 37.1%, median net -0.122% a trade, positive over 90 days 12/158, on BOTH halves 0 | RANDOM: win 38.4%, net -0.131% a trade
+  target 2.0% / stop 1.00%: need 37.3% wins | rules: median win 38.2%, median net -0.123% a trade, positive over 90 days 9/158, on BOTH halves 2 | RANDOM: win 40.5%, net -0.130% a trade
+
+RULES NET POSITIVE ON BOTH HALVES at 12bp: 2 of 790 (0.3%)
+  60m breakout20    long  tgt 2.0% stop 1.00% 24h | 41 trades (0.5/day), win 44% | net tune +0.120% (n 23) holdout +0.213% (n 18, se 0.362) | random at this bracket, holdout -0.096% | beats random by +0.9 se
+  60m breakout20    long  tgt 2.0% stop 1.00%  4h | 42 trades (0.5/day), win 43% | net tune +0.035% (n 24) holdout +0.001% (n 18, se 0.311) | random at this bracket, holdout -0.116% | beats random by +0.4 se

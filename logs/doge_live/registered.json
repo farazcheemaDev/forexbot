@@ -1,0 +1,11 @@
+{
+ "registered": "2026-10-09 16:35",
+ "registered_ms": 1791563700346,
+ "rules": [
+  "1m|vwap_fade3|short|2|2",
+  "5m|ema_pullback|both|2|2",
+  "5m|breakout60|both|2|2",
+  "5m|breakout60|short|2|2",
+  "5m|level_bounce|both|2|1"
+ ]
+}

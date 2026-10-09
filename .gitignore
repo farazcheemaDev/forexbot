@@ -90,3 +90,6 @@ logs/tv_indicators_trades.csv.gz
 # pair_live.py's paper record (the pair + the capit2 shadow book) runs on the VM since 2026-10-08: machine-local, a
 # committed copy would be restored over it by the VM's git reset --hard (its state already matches *_state.json).
 logs/pair_paper_trades.csv
+
+# local MCP config: the TradingView bridge lives in D:/TRADING/tradingview-mcp (this machine only)
+.mcp.json
