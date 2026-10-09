@@ -238,6 +238,35 @@ def test_dry_ledger_closes_what_the_books_exit():
     assert st2["exec"]["virtual_pos"] == {}
 
 
+class InvalidOrder(Exception):
+    pass
+
+
+class StrictEx(FakeEx):
+    """ccxt's real behaviour: amount_to_precision RAISES for an amount under one step, it does not return 0."""
+
+    def amount_to_precision(self, s, a):
+        st = (self.markets[s].get("precision") or {}).get("amount")
+        if st and a < st:
+            raise InvalidOrder(f"bitget amount of {s} must be greater than minimum amount precision of {st}")
+        return super().amount_to_precision(s, a)
+
+
+def test_an_order_under_one_step_does_not_kill_the_poll():
+    """Found on the VM 2026-10-09: a 0.046-SOL reduce (step 0.1) made ccxt raise, and every poll died there - the
+    orders after it, the stops and the state save never ran. Now it is zero contracts: not sent, the rest goes."""
+    ex = StrictEx(prefix="", quote="USDT", coins=("SOL", "XRP"), px={"SOL/USDT:USDT": 110.0, "XRP/USDT:USDT": 2.0},
+                  lim={"SOL": (0.1, 0.1, 5.0), "XRP": (1.0, 1.0, 5.0)})
+    v = cb.Venue(ex, "dry")
+    st = state(mn_qty={"SOLUSDT": 0.1})
+    cb.execute(st, v, "dry", {"SOLUSDT": 110.0, "XRPUSDT": 2.0}, dry=True)
+    assert st["exec"]["virtual_pos"] == {"SOL/USDT:USDT": 0.1}
+    st["exec"]["mn_qty"] = {"SOLUSDT": 0.054, "XRPUSDT": 10.0}           # SOL -0.046 ($5.06): under half a step
+    cb.execute(st, v, "dry", {"SOLUSDT": 110.0, "XRPUSDT": 2.0}, dry=True)
+    assert st["exec"]["virtual_pos"] == {"SOL/USDT:USDT": 0.1, "XRP/USDT:USDT": 10.0}, "XRP after SOL was never sent"
+    assert st["exec"]["refused"]["SOL/USDT:USDT"] == "rounds to zero at the venue's step"
+
+
 # ------------------------------------------------------------------ the venue's own minimums
 
 def link_venue(px=14.0):

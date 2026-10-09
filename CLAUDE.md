@@ -439,6 +439,15 @@ even less room. More return comes from 7 units or from capital, not from risk.
 
 ## 7b. OPEN BUGS — read before trusting a live book's numbers
 
+- **FIXED IN THE CODE 2026-10-09, NOT YET IN THE RUNNING DEMO: an order under one venue step killed the whole poll.**
+  ccxt's `amount_to_precision` raises (bitget: "must be greater than minimum amount precision") instead of returning 0,
+  and `combo_bot.execute` did not catch it - so every later order, the disaster stops AND the state save were skipped,
+  every poll, for as long as the books wanted a sub-step change in that coin. Seen on the VM in the final bot's dry run
+  (a 0.046-SOL reduce, step 0.1). `Venue.contracts` now returns 0 (refused, logged once);
+  `test_an_order_under_one_step_does_not_kill_the_poll` fails on the old code. **combo-bot-demo runs the old code until
+  restarted** - it has not hit it (0 poll errors), but if its `--report` ever shows poll errors, this is the first
+  suspect. Restarting it is the user's call (its two-week PASS check is due ~2026-10-13).
+
 - **v2's market-neutral book can be wiped out by one squeeze, depending on its rebalance day** (found 2026-10-08,
   `backtest/mn_combos.py`, `logs/mn_rebalance_days.txt`). **FIXED IN `combo_bot.py` AND DEPLOYED 2026-10-08 18:37 UTC** (commit cb6bcbf; only combo-bot-demo restarted,
   every other service's code verified byte-identical; state backup `logs/combo_bot_demo/cs.20261008-183656` on the VM)
@@ -589,8 +598,15 @@ the detail lives in the numbered docs.*
   price; only the venue branch looked it up) - fixed, `test_dry_ledger_closes_what_the_books_exit` fails on the old
   code; P&L was never affected (it is booked by the books). (2) On a late start the daily book bought a 24-hour-old
   signal 10.7% from its close (PUMP) - buys now only within 3h of the close (`LATE_MS`), exits always.
-- Tests: `tests/test_final_books.py` 13, every rule where it must fire and where it must not; **14 mutations, all
-  caught**. `tests/test_combo_bot.py` 24. Live vs backtest differences (capit2 by market order on a 0.3% trade-through
+  (3) **On the VM, every poll died** on `InvalidOrder: amount of SOL must be greater than minimum amount precision`:
+  ccxt RAISES for an order under one step instead of returning 0, and the exception aborted the poll - no later order,
+  no stops, **no state save**. `Venue.contracts` now reads it as zero contracts (refused once, logged). **The demo bot
+  carries this bug until it is restarted** (it has not hit it: 0 poll errors). (4) A basket rebalanced late was marked
+  from the stale close - the first VM run booked -$6.90 on day 1 from moves it never held; late rebalances are now
+  marked at live prices (`final_books.rebase`). The first VM state (10 minutes old) was archived and the book restarted
+  fresh after 00:00 UTC on 2026-10-09.
+- Tests: `tests/test_final_books.py` 15, every rule where it must fire and where it must not; **16 mutations, all
+  caught**. `tests/test_combo_bot.py` 25 (two new ones fail on the old code). Live vs backtest differences (capit2 by market order on a 0.3% trade-through
   each 2-min poll, not a resting limit; slot ties by volume) are listed in `final_books.py`'s docstring.
 
 ### 2026-10-09 - the archive-hole bug; everything re-run; every combination and thin kill finished

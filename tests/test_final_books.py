@@ -176,6 +176,53 @@ def test_daily_book_buys_only_soon_after_the_close():
     assert "F00USDT" not in st["fin"]["daily"]["open"], "a late process must still exit (age past the 31-day cap)"
 
 
+def test_a_late_carry_rebalance_is_marked_at_the_live_price():
+    """Rebalanced 5h after the close: the basket's marks are the live prices, so day 1 books only what it held."""
+    bars = daily_setup([100.0])
+    elig = mp.eligible(bars, "2026-10")
+    fund = lambda s, a, b: 0.0001 * (elig.index(s) if s in elig else 0)  # noqa: E731   distinct funding sums
+    live = {s: 2.0 * float(d.close.iloc[-1]) for s, d in bars.items()}
+    for late, want in ((False, "close"), (True, "live")):
+        daily_setup([100.0])
+        st = account()
+        st["last_day"] = "2026-10-09"
+        clock = ON_TIME("2026-10-09") + (5 * 3_600_000 if late else 0)
+        fb.daily_books(st, live, fund=fund, clock_ms=clock)
+        cr = st["fin"]["carry"]
+        assert cr["weights"] and set(cr["mark_px"]) == set(cr["weights"])
+        for s, px in cr["mark_px"].items():
+            assert px == (live[s] if want == "live" else float(bars[s].close.iloc[-1])), (late, s)
+        q = st["exec"]["carry_qty"]
+        for s, w in cr["weights"].items():
+            assert abs(q[s] - w * cr["base"] / cr["mark_px"][s]) < 1e-12
+
+
+def test_poll_marks_a_late_mn_rebalance_at_live_prices():
+    """combo_paper.daily ranks the MN basket on the close and marks it there; the final bot re-marks a LATE rebalance at
+    the live price (and v2, without --final, is left exactly as it was)."""
+    saved = (cp.daily, cp.trend_poll, fb.daily_books, fb.capit2_poll)
+    live = {"AUSDT": 12.0, "BUSDT": 3.0}
+
+    def fake_daily(st):
+        st["mn"].update(weights={"AUSDT": 0.25, "BUSDT": -0.25}, mark_px={"AUSDT": 10.0, "BUSDT": 4.0}, base=100.0,
+                        last_rebal="2026-01-01")
+        st["last_day"] = "2026-01-01"                                             # long ago: late
+    try:
+        cp.daily, cp.trend_poll = fake_daily, (lambda st, a, b: None)
+        fb.daily_books, fb.capit2_poll = (lambda *a, **k: None), (lambda *a, **k: None)
+        for final in (True, False):
+            st = account(100.0)
+            st["mn"]["last_rebal"] = None
+            if not final:
+                st.pop("fin")
+            cb.poll(st, None, "dry", ({}, {}), prices_fn=lambda: dict(live))
+            want = live if final else {"AUSDT": 10.0, "BUSDT": 4.0}
+            assert st["mn"]["mark_px"] == want, (final, st["mn"]["mark_px"])
+            assert st["exec"]["mn_qty"] == {"AUSDT": 25.0 / want["AUSDT"], "BUSDT": -25.0 / want["BUSDT"]}
+    finally:
+        cp.daily, cp.trend_poll, fb.daily_books, fb.capit2_poll = saved
+
+
 def test_daily_book_respects_slots_and_history():
     bars = daily_setup([112.0])
     for i in range(10):                                                           # 10 more breakouts

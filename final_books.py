@@ -197,6 +197,25 @@ def gross_gate(orders: list, actual: dict, prices: dict, equity: float, cap: flo
     return ok, no
 
 
+def is_late(day: str, clock_ms=None) -> bool:
+    """More than LATE_MS since the daily close that opens `day`?"""
+    now = clock_ms if clock_ms is not None else datetime.now(timezone.utc).timestamp() * 1000
+    return now - pd.Timestamp(day).timestamp() * 1000 > LATE_MS
+
+
+def rebase(book: dict, prices: dict) -> int:
+    """A basket rebalanced LATE is entered at the live price, not at the close it was ranked on: marking it from that
+    close would book a day of moves it never held. The first VM run did - its MN and carry baskets were set at 23:53
+    and marked from 00:00 the day before, -$6.90 (2.3%) on day 1. Re-marks the basket at the live prices (the ones the
+    ledger trades at); coins with no live price keep the close. Returns how many were re-marked."""
+    n = 0
+    for s in book["weights"]:
+        if prices.get(s):
+            book["mark_px"][s] = float(prices[s])
+            n += 1
+    return n
+
+
 def targets(st: dict) -> dict:
     """Signed coin quantities the extra books hold, by Binance symbol."""
     fin, out = st.get("fin"), {}
@@ -309,6 +328,7 @@ def daily_books(st: dict, prices: dict, rec=None, fund=funding_sum, fetch=None, 
     if held:
         closes.update(mp.held_closes(held, syms, bar_day))
     elig = mp.eligible(bars, f"{pd.Timestamp(day):%Y-%m}")
+    late = is_late(day, clock_ms)
     # ---- CARRY: mark, then rebalance every 7 days
     cr, ex = fin["carry"], st.setdefault("exec", {})
     since = fin["last_fund_ms"]
@@ -339,10 +359,13 @@ def daily_books(st: dict, prices: dict, rec=None, fund=funding_sum, fetch=None, 
             _book(st, "carry", 0.0, c)
             cr.update(weights=tgt, base=K_CARRY * st["equity"], last_rebal=day, n_rebal=cr["n_rebal"] + 1)
             cr["mark_px"] = {s: closes[s] for s in tgt if s in closes}
+            if late:
+                rebase(cr, prices)
             ex["carry_qty"] = {s: w * cr["base"] / cr["mark_px"][s] for s, w in tgt.items() if s in cr["mark_px"]}
             log(f"CARRY REBALANCE #{cr['n_rebal']} | long {' '.join(s[:-4] for s, x in tgt.items() if x > 0)} | short "
                 f"{' '.join(s[:-4] for s, x in tgt.items() if x < 0)} | ${per:.2f}/position | fee ${c:.3f}")
-    cr["mark_px"] = {s: closes[s] for s in cr["weights"] if s in closes}
+    if not (due and late):
+        cr["mark_px"] = {s: closes[s] for s in cr["weights"] if s in closes}
     ex["carry_qty"] = {s: q for s, q in ex.get("carry_qty", {}).items() if s in cr["weights"]}
     fin["last_fund_ms"] = now_ms
     # ---- DAILY: exits on yesterday's close, then entries, both at the live price (= the next open)
@@ -359,7 +382,6 @@ def daily_books(st: dict, prices: dict, rec=None, fund=funding_sum, fetch=None, 
         why = "mean20" if daily_exit(d.close.to_numpy(float)) else ("cap" if age >= CAP_D else None)
         if why and prices.get(s):
             _close(st, "daily", s, prices[s], why, now_ms, fund, rec)
-    late = (clock_ms if clock_ms is not None else datetime.now(timezone.utc).timestamp() * 1000) - now_ms > LATE_MS
     if late:
         log(f"DAILY: {day}'s close was read more than {LATE_MS // 3_600_000}h after it - no buys today (exits only)")
     for s in [] if late else uni:

@@ -282,7 +282,15 @@ class Venue:
         step = self.rules(s)[0]
         if nearest and step > 0:
             n = round(n / step) * step + step * 1e-9      # the nudge survives the truncation
-        return float(self.ex.amount_to_precision(s, n))
+        try:
+            return float(self.ex.amount_to_precision(s, n))
+        except Exception as e:
+            # ccxt RAISES for an amount under one step (bitget: "must be greater than minimum amount precision")
+            # instead of returning 0. That is zero contracts - refusal() says so, once. Uncaught, it killed the whole
+            # poll, every poll, from a 0.046-SOL reduce: no later order, no stops, no state save (VM, 2026-10-09).
+            if type(e).__name__ == "InvalidOrder" or "precision" in str(e).lower():
+                return 0.0
+            raise
 
     def refusal(self, s: str, n: float, px: float, reduce: bool) -> "str | None":
         """Why the venue would refuse n contracts at px - or None. The reason is a fixed phrase
@@ -737,6 +745,11 @@ def poll(st: dict, venue, mode: str, caches: tuple, desk=None, prices_fn=None):
         before = st["mn"].get("last_rebal")
         cp.daily(st)
         if st["mn"].get("last_rebal") != before or "mn_qty" not in st["exec"]:
+            if st.get("fin") and st["mn"].get("last_rebal") != before and prices and st["last_day"]:
+                import final_books as fb
+                if fb.is_late(st["last_day"]):
+                    log(f"MN: rebalanced {fb.LATE_MS // 3_600_000}h+ after the close - marked at live prices "
+                        f"({fb.rebase(st['mn'], prices)} names), not at the close")
             st["exec"]["mn_qty"] = mn_quantities(st)
         st["exec"]["mn_qty"] = {s: q for s, q in st["exec"]["mn_qty"].items() if s in st["mn"]["weights"]}
     if st.get("fin"):
