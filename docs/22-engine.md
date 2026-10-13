@@ -2,8 +2,8 @@
 
 *Written 2026-10-13, at the user's request: "complete documentation of the engine I have built so far ... from where we
 are fetching the data, how it is processed, what the end result is, how all the things work, the factors", **excluding
-the strategies and everything running on dry run**. A separate part covers where the budget held the engine back and
-which paid sources would improve it.*
+the strategies and everything running on dry run**. Separate parts cover where the budget held the engine back, which
+paid sources would improve it and how, and what changes if the capital constraint is removed.*
 
 **What this document is NOT about.** It does not explain any strategy's rules or say whether one makes money. That is in
 docs 01, 02, 10, 13, 16, 17 and 20. It also does not cover the `--final` book set running in `--mode dry` on the VM
@@ -32,6 +32,7 @@ Every statement names the file that implements it (CLAUDE.md rule 7). Line numbe
 13. [Known limits of the engine itself](#13-known-limits-of-the-engine-itself)
 14. [**Where the budget held the engine back**](#14-where-the-budget-held-the-engine-back)
 15. [**Paid sources that would make the engine better**](#15-paid-sources-that-would-make-the-engine-better)
+16. [**If the capital constraint is removed**](#16-if-the-capital-constraint-is-removed)
 
 ---
 
@@ -759,6 +760,74 @@ pages and third-party listings, and they change, so confirm before paying.
 | 9 | **Glassnode / CryptoQuant** (on-chain) | paid tiers | better on-chain metrics than CoinMetrics' free set | **low priority**: doc 12 found MVRV and exchange flows do not improve the bot |
 | 10 | **A paid news / squawk feed** | varies | real-time headlines | **low priority**: no news angle survived Holm (his_strategy.md §24, §28, §29) |
 
+### How each paid source helps, in detail
+
+For each source, this section says what changes inside the engine, which existing script it upgrades, the test it
+would make possible, and the honest prior. The prior comes from what the free version of the same test already showed.
+
+#### CoinGlass: positioning and liquidations across every venue
+
+- **What changes in the engine.** A new loader beside `metrics_fetch.py`. It gives open interest, funding,
+  long/short ratios and **liquidation totals for Bitget, OKX, Bybit and Binance**, not Binance alone. Today the engine's
+  positioning data comes from Binance only; Bitget's own positioning is never seen.
+- **Scripts it upgrades:**
+  - `liq_rec.py` / `doge_book.py`: the L1–L3 liquidation hypotheses were registered and never testable (one $103
+    event on a quiet day). Years of liquidation history decide them in an afternoon.
+  - `cascade_redux.py`: the liquidation-cascade bounce was killed on hourly *price* bars. With real liquidation
+    volumes, a cascade can be identified directly instead of inferred from price.
+  - `btc_signals.py`: the "top traders piling long precede weaker weeks" result can be re-checked on all venues.
+  - `capitulation_*.py`: the capitulation entry could require real forced selling, not only a price drop.
+- **Honest prior.** Moderate. The capitulation family is the one place repeated tests found a direction that holds
+  (doc 02, capit2). Liquidation data is the most direct measure of forced selling, the mechanism behind it. Positioning
+  alone failed as a BTC timer (doc 12), so only the liquidation side is promising.
+
+#### Tardis.dev (or CoinAPI): tick and order-book history
+
+- **What changes in the engine.**
+  - The backtester gets a **tick/L2 replay mode**. Stops, adds and limit fills can be resolved on the real sequence of
+    trades instead of hourly highs and lows. This removes the "bar extreme" assumption in `pyramid.run_pyramid` and the
+    trade-through rule in `maker_exec.py`.
+  - The market-making question can be measured on months of data instead of 262 minutes.
+- **Scripts it upgrades:**
+  - `doge_book.py`: from one afternoon to months. Its R5 ("no feature gives a move above 12bp at 60 s or longer") was
+    **not decidable** on 14 samples; months make it decidable.
+  - `maker_exec.py`: measure queue position and adverse selection exactly. Today a limit fills only if price trades
+    through it, which is pessimistic but blind to the queue.
+  - `wick_5m.py` / `joint_worst_hour.py`: the crash hour of 2025-10-10, replayed tick by tick. That is the account's
+    worst hour, and today it is measured on 1m/5m bars.
+  - `wick_bitget.py`: Bitget's own history for dead coins, replacing the Binance stand-in.
+  - `settlement_ticks.py`: the funding-settlement race measured on more venues and more years.
+- **Honest prior.** The engine's accounting gets more exact, but no new edge is likely. Every free tick-level test so
+  far said the information is real and the move is smaller than the fee. Months of data will most likely confirm that
+  more precisely. The value is in checking the existing books' fills, especially the crash-hour fills.
+
+#### Databento: CME futures
+
+- **What changes in the engine.** The forex/index studies stop depending on yfinance's 60 days and on MT5 ticks that
+  start in 2026-01.
+- **Scripts it upgrades:**
+  - `nq_*.py`, `fx_tsmom.py`: years of index and commodity futures at any resolution;
+  - a **CME bitcoin futures basis** series (CME vs Binance), a regime input the crypto engine has never had.
+- **Honest prior.** Low for the copy-trader question (`his_tape.py` already ruled the tape out). Useful for the
+  forex/commodity trend book, the one forex result that held (doc 18). Most of the $125 credit is still unspent.
+
+#### A better fee tier or venue
+
+- **What changes in the engine.** One constant: `FEE_BP = 12` in `blend.py`, `blend_paper.py` and the study scripts.
+- **Why it matters most.**
+  - The fee is the number that decided the 1-minute, 15-minute, order-book, BTC→DOGE and DOGE live tests.
+  - At a 2bp maker fee the BTC→DOGE model reads +4bp a trade (`maker_exec.py`), not significant but positive.
+  - At a maker *rebate*, the 1–2bp order-book move (`doge_book.py`) stops being a loss.
+- **Honest prior.** This is the only change that could turn a measured "real but too small" signal into a positive
+  one. It cannot be bought at $221: fee tiers follow traded volume or holdings (see §16).
+
+#### A second VM or a larger one
+
+- **What changes.** `book_rec.py` and `liq_rec.py` run 24/7 beside the bots instead of on the PC for an evening. The
+  recorders already exist and are tested.
+- **Honest prior.** The cheapest route to owned L2 and liquidation data (~$10–30/mo). The catch is time: months of
+  recording before anything can be tested.
+
 ### What to do first, if any money is spent
 
 1. **Free first.** Pull Tardis's free first-of-month days for DOGE/BTC on Bitget and Binance, and spend the remaining
@@ -776,3 +845,83 @@ Sources for the prices: [CoinGlass pricing](https://coinglass.com/pricing),
 [CoinAPI pricing](https://www.coinapi.io/market-data-api/pricing),
 [CoinAPI flat files](https://www.coinapi.io/products/flat-files/pricing); Databento from
 `strategy_analysis/his_strategy.md` §36–37.
+
+---
+
+## 16. If the capital constraint is removed
+
+The question: what happens to the engine if the account is not ~$221 but $2,000, $20,000 or more? Two answers are
+easy to mix up. **Capital changes what the engine can DO** (orders accepted, books run, code paths exercised).
+**It barely changes the PERCENTAGE the strategies earn.** Every number below names its file.
+
+### 16.1 What does NOT change
+
+| claim | evidence |
+|---|---|
+| **The monthly percentage is the same from ~$100 to $5,000** | `backtest/small_capital.py` (`logs/small_capital.txt`), deployed config: tune +20.12% at $25 and +20.14% at $100 to $5,000; holdout +10.3% to +12.5% with no trend; drawdown 56% at every size. (Measured on MEXC's minimums, CLAUDE.md §7b.) |
+| **Risk per unit stays 0.30%** | `backtest/kelly_corrected.py`: 0.45% buys +0.34%/mo and multiplies the chance of an 80% drawdown within 3 years by nine (2.7% → 24.7%). This is a property of the strategy, not of the account size |
+| **The worst month and the biggest fall stay the same in percent** | they scale with position SIZE, not with capital (`worst_month.py`) |
+| **The regime dependence stays** | the trend book earns in bull markets and roughly nothing in chop at any capital (`regime_and_liq.py`, doc 20) |
+| **Speed and fees stay retail**, unless volume reaches a fee tier (16.2) | §14.2–14.3 |
+| **Low capital is not an advantage either** | `backtest/capacity_edge.py`: the edge gets WORSE in smaller coins, so a small account has no niche a fund cannot reach (doc 11 part 3) |
+
+**One small effect goes the other way.** At $221, Bitget's minimums refuse the units with the widest stops, and that
+*helps* return: +0.48 tune / +0.38 holdout %/mo, paired over 10 orderings (`backtest/bitget_minimums.py`, CLAUDE.md
+§7b). A large account takes those units, so on paper it earns a fraction of a percent less a month. This is a side effect
+of the minimum, not a tested rule. It is not a reason to stay small.
+
+### 16.2 What capital unlocks in the engine
+
+| today, at ~$221 | with more capital | evidence |
+|---|---|---|
+| Bitget refuses **6.4%** of the trend book's units (24.2% at $100); 26.2% of LINK's | **~0% refused**: every order the books want is placed | `bitget_minimums.py` |
+| every accepted LINK order rounded by a median **9.4%** (step = 1 LINK) | rounding error shrinks in proportion to order size (≈0.9% at 10× the size) | CLAUDE.md §7b |
+| the crash desk places **0 bids** on the demo (a $5.19 bid is under every demo coin's minimum); its cap-and-cancel path has never run on the exchange | bids of $50+ on all 40 coins; the cap path can finally be tested live | CLAUDE.md §7b |
+| the bear sleeve skips **a third of its orders** (holdout +8%/yr instead of its full figure) | the sleeve runs as backtested | doc 13 |
+| the point-in-time pair **cannot trade at 10,000 PKR**; ~25,000 PKR runs the pair, **~100–150k PKR** the full v3 set; "E" needs ~$300+ | every candidate combination fits on one account | `pair_min_capital.py`, doc 09 |
+| a 4,000 PKR account has 70–75% of units refused; at 10,000 PKR about half | removed; small-account odds tables stop being dominated by refusals | `lottery_v2.py` |
+| forex: the one book that holds fits only on a **Cent** account at $300, and gold/silver are too big even there | a standard swap-free account with every leg, including gold and silver | doc 18 |
+| order-path testing on the demo, P&L meaningless | a real dedicated account large enough that every book trades: the forward record finally measures the strategies, not the plumbing | doc 20 |
+| retail fee tier | trading volume rises with capital; above some 30-day volume or asset threshold a lower Bitget tier applies (not measured; check Bitget's VIP table) | §14.2 |
+| withdrawals: half of each month's profit ≈ **$31–39/month** at $221 (backtest, typical) | the same percentage in bigger dollars: at $2,210 roughly ten times that. **Backtest figures, not a forecast** | CLAUDE.md §6 |
+
+**What the engine needs for it.** Nothing new in the code: `combo_bot.py --mode live` already reads the account's
+real equity, and every size is a fraction of equity. Only two things change:
+
+- `ALLOW_REAL`, which a human sets;
+- a **dedicated account**, because the bot nets the whole account to its books.
+
+### 16.3 Where capital starts to hurt: capacity
+
+A large account eventually moves the price it trades. `backtest/capacity_edge.py` measured this for the market-neutral
+momentum book with a square-root impact model (`impact = daily volatility × sqrt(order / daily volume)`), charged on
+both legs. Net %/week by volume tier and account size (`logs/capacity_edge.txt`):
+
+| tier (by prior month's volume) | $200 | $20,000 | $200,000 | $2,000,000 | $20,000,000 |
+|---|---|---|---|---|---|
+| ranks 1–20 (mega) | +0.358% | +0.341% | +0.300% | +0.171% | −0.236% |
+| ranks 21–60 (large) | +0.594% | +0.569% | +0.509% | +0.320% | −0.280% |
+| ranks 61–120 (mid) | −0.004% | −0.035% | −0.109% | −0.342% | −1.080% |
+
+Read it as:
+
+- **up to ~$200,000** the top-60 books lose about a tenth of their edge to impact;
+- **at $2 million** about half;
+- **at $20 million** the edge is gone.
+
+The trend book trades 12 mid-size alts (ARB, WLD, ENA and others), and its impact has **not** been measured. Its
+pyramids add into moves, which costs more than a weekly rebalance, so its ceiling is probably lower than the
+market-neutral book's. The crash desk buys into crashes, when order books are thinnest; its capacity is the least
+known of all. **Measure impact before scaling either past five figures.**
+
+### 16.4 Bottom line
+
+- **Removing the capital constraint makes the engine run as designed.** Every order is accepted, every book fits on
+  one account, the crash desk and bear sleeve trade fully, and the forward record measures the strategies instead of the
+  venue's minimums.
+- **It does not raise the percentage.** It raises dollars, with the same percentage drawdowns. A −30% month is still
+  −30%, so a bigger account loses bigger dollars in the bad months.
+- **After capital, the binding constraints are fees, speed and the market regime.** Capital helps with one of them,
+  through a lower fee tier at high volume.
+- **There is a ceiling.** Somewhere between $200,000 and $2,000,000 the market-neutral book's edge starts to shrink
+  measurably; the other books need their own impact test first.
