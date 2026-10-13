@@ -251,7 +251,9 @@ backtest/wick_better.py, wick_5m.py, joint_worst_hour.py, worst_month.py   the c
                      which rule, what happens inside the hour, the account's worst hour, the worst
                      month and recovery. wick_replay.py replays wick_paper.py on past crash hours.
                      Candidate only - nothing in combo_bot.py
-docs/              00-21 + README. DOC 21 = the graveyard audit (every kill rated, thin ones re-tested). Doc 02 is the graveyard; read it before proposing.
+docs/              00-22 + README. DOC 22 = THE ENGINE: data sources -> processing -> simulator -> validation ->
+                     live executor -> records/deploy, no strategies; the budget limits and paid data sources.
+                     DOC 21 = the graveyard audit (every kill rated, thin ones re-tested). Doc 02 is the graveyard; read it before proposing.
                      DOC 20 = THE PRODUCT: what combo_bot is, what it earns per market, and the
                      sideways gap with every test that tried to close it.
                      DOC 17 = THE MACHINE v2: all four books, the evidence, every risk in one table.
