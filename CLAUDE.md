@@ -1,6 +1,6 @@
 # CLAUDE.md — read this first, every session
 
-*Last updated 2026-10-10. Dated history in §10.*
+*Last updated 2026-10-12. Dated history in §10.*
 
 This file is the orientation for a new session. It is deliberately short. It tells you the
 goal, the rules that keep the numbers honest, where everything is, and the traps that have
@@ -9,6 +9,8 @@ already produced wrong answers in this project more than once.
 **A LOCAL session on the PC (MT5 open)? There is a task list waiting: [`docs/LOCAL_MT5_TASKS.md`](docs/LOCAL_MT5_TASKS.md).**
 
 **2026-10-09 (night): DOGE scalping, analysed and forward-tested LIVE with TradingView - dead at retail fees; see §10 and doc 02's last entry. The final machine runs on paper on the VM (combo-bot-final).** **2026-10-09: a data-gap bug was fixed and everything re-run - doc 02's last entry has the corrected numbers.** **Coming back after 2026-10-08? [`docs/09-pick-up-here.md`](docs/09-pick-up-here.md) was rewritten that evening: what runs on the VM and the PC, the machine names (v2 / v3 / MIX B / E), the one live change (the MN short-leg exit in `combo_bot.py`), and what is next. [`docs/21-graveyard-audit.md`](docs/21-graveyard-audit.md) rates every kill.**
+
+**2026-10-10: [`docs/22-decision-rule.md`](docs/22-decision-rule.md) fixes when real money may go in, the code freeze to 2027-04-09 and the research stop date (2026-12-31) - read it before proposing any new book.**
 
 **Read this file, then [`docs/09-pick-up-here.md`](docs/09-pick-up-here.md) for live state,
 then [`docs/02-what-failed.md`](docs/02-what-failed.md) before proposing any strategy.**
@@ -135,6 +137,8 @@ candidate on paper. The rule above still stands for everything else.
 | **Mixed datetime64 units in the row set** | t0 comes back as `[us]` and t1 as `[ms]`, so `date_range` inherits `[us]` from its bounds while `Timestamp.value` returns ns. `searchsorted` then puts every span past the end of the grid and a whole leverage series came back silently ZERO (2026-09-24, cost a run) | Force BOTH sides with `.as_unit("ns")`, and assert the result is non-zero rather than trusting it |
 | **A cancel set defined by bookkeeping, not by the exchange** | `wick_live`'s cap cancelled orders that were `open and not counted`. A PARTLY filled bid is counted but still open, so it survived the cap - and in a sweep deep enough to touch every level, ALL 40 bids are partly filled, so the cap cancelled **0 of 40** (mistake #16, fixed 2026-09-25) | The cancel set is **whatever is still live on the exchange**. Test a safety limit IN the disaster, not in the tidy case |
 | **A test that cannot exhibit the bug** | With one position open at a time the two compounding conventions are arithmetically IDENTICAL, so a non-overlapping test showed $0.00 difference and passed while proving nothing. The bug only bites when positions OVERLAP | Construct the case so the bug MUST appear if it is present |
+| **Yahoo's FOREX daily bars (`EURUSD=X`, `JPY=X`, ...)** | Not internally consistent: the open sits ~27bp from the previous close (a continuous market: Exness 1.1bp), and the close is not the end of the high/low window - after a close in the bottom fifth of the range the next close rose 92-95% of the time (Exness 49-50%). It produced 79 fake 'passes' at t up to +25 (2026-10-11, `fx_capit.py`). Bars are also dated one day off Exness's (corr 0.948 shifted, 0.05 not). `fx_anomalies.py` T8 (month-end USD) used these closes and measured the day BEFORE the month-end; re-checked on Exness (`fx_t8_exness.py`): the kill stands | Forex daily bars from Exness (`fx_capit.exness_csv`: MT5 1h -> 17:00 New York days). Yahoo forex only for monthly signals (`fx_tsmom.py`), never for anything that reads the close inside a day's range |
+| **HistData.com minute bars' clock** | Documented as fixed EST; the stamps are New York time WITH daylight saving. Converted with a fixed +5 h, every summer release sat an hour early, its jump fell into the "hour after" window, and a fake post-release drift read +10.5bp at t +21 with 9 passes (2026-10-12, `fx_surprises_1m.py`). Also: `to_datetime(format=...)` returns datetime64[us] there, so `int64 // 10**6` dated every bar in January 1970 | `histdata_1m.parse` localises to America/New_York. Before any minute-level event study, check that the biggest 1-minute move on payroll days sits in the release minute, winter AND summer |
 | **Binance WEBSOCKETS on this PC** | They connect and then deliver nothing - DOGE's own trade stream gave 0 messages in 12 s (2026-10-09) - while Binance REST works; a liquidation recorder listened to silence for 17 minutes | Probe any stream with a known-busy channel first; on this PC use REST (OKX needs a browser User-Agent, else 403) |
 | **Trusting `ls` / `date` in Git Bash for "is it stale?"** | They print the Windows local clock (PKT here) but label it PST, so a log written 20 minutes ago read as 13 hours dead and sent a session hunting a wedge that did not exist (2026-09-26) | Get the time from the PROCESS: `datetime.now(timezone.utc)` in Python, and compare it to the log's own UTC prefix |
 | **Timestamp unit mismatch** | `.asof()` raises "Cannot losslessly convert units" (ms index vs ns clock) | `blend_paper._ns()` |
@@ -226,9 +230,28 @@ wick_paper.py      THE CRASH BIDS (doc 16 s7), pre-registered: top-40 bids 10% u
                      No orders, no keys. For the VM: deploy/install_wick.sh (pulls, verifies, installs
                      wick-paper.service). Verdict at 6 months with 60+ Bitget fills, else 12
 xs_paper.py        an EARLIER pre-registered XS test (21 coins, daily). Frozen — do not edit
+sentiment_rec.py   2026-10-12: retail long/short ratios (Myfxbook, OANDA, + 7 brokers via FXSSI) every 30 min, record
+                     only (no history is free); predictions R1-R3 in its docstring
 doge_live.py / book_rec.py / liq_rec.py   2026-10-09: DOGE live forward test (frozen rules + logged calls, --call to
                      log a prediction), the order-book and liquidation recorders; scored by backtest/doge_adapt.py,
                      doge_bigtarget.py, doge_book.py. Data in strategy_analysis/data/{bitget_1m,doge_book}/ (gitignored)
+backtest/fx_macro_data.py / fx_drivers.py / fx_surprises.py / fx_rates2y.py / fx_tff.py / fx_surprises_1m.py / fx_speeches.py /
+  fx_news_tone.py / histdata_1m.py   2026-10-12: 30 years of forex DRIVERS (rates, risk, commodities,
+                     positioning, data surprises): they move forex the same day; none predicts the next period (doc 02)
+backtest/his_tickets.py / his_absorb.py / his_options.py   2026-10-12: his record is live (ticket counter); absorption and the options tape
+                     ruled out
+backtest/ustec_burst_anatomy.py / his_burst_after.py / ustec_burst_straddle.py   2026-10-12: NASDAQ bursts are foreseeable in time (AUC 0.86), not in
+                     direction (0.51); his trades are ordinary moves, not burst trades - only his side is special (his_strategy s52)
+backtest/his_clock_exits.py / ustec_burst.py / his_headlines.py / his_hour.py   2026-10-12: the trader's clock (exact), gold (no edge),
+                     bursts (= random), headlines and the top of the hour - none reproduces his direction (his_strategy s49-51)
+backtest/fx_news_seconds.py   2026-10-12: the news bot's window on Exness ticks - one second, the broker's lag, not an edge
+backtest/ndx_close_momo.py   2026-10-12: NASDAQ last-hour momentum (market intraday momentum): dead - NASDAQ scalping closed
+backtest/fx_t8_exness.py   2026-10-11: T8 (month-end USD) re-measured on Exness prices - kill stands
+backtest/fx_capit.py   2026-10-11: the NASDAQ dip-buy both ways on forex/gold/silver at Exness prices: dead; Yahoo FX daily bars broken
+backtest/ndx_capit.py / ndx_capit_check.py   2026-10-11: CANDIDATE - buy NASDAQ's sharp down days (RSI(2) < 10 / 3 down
+                     closes), out above the 5-day average; 27 years both halves, weak on other indices, worst trade -20..-26%
+backtest/mt5_1m.py / cfd_scalp.py / cfd_bigtarget.py / ustec_seconds.py   2026-10-11: Exness 1m bars from ticks with the real
+                     spread; the DOGE scalping menu, the bigger targets and the seconds-scale test on NASDAQ/US30/gold/FX: dead (doc 02)
 final_books.py     THE FINAL MACHINE's extra books for combo_bot.py --final (2026-10-09): MN half momentum / half RSI,
                      carry 0.5x, daily Bollinger (20-day exit) 0.5x, capit2 0.5x, the account-level 10x gate. On the VM
                      as combo-bot-final.service (--mode dry: $300 paper, all coins, no orders). tests/test_final_books.py
@@ -583,6 +606,188 @@ the box was patched before the repo was public.
 
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
+
+### 2026-10-15 (evening UTC) - VM check: everything running; the demo's 2 poll errors are network; pair-paper crash-loops
+
+- **Read-only check** (`ssh forexbot-vm`, `deploy/status_digest.sh`): 7 services active, up 31 days, disk 9%, RAM tight
+  (67 MB free of 896; 2 GB swap, 657 MB used; no OOM kills).
+- **Demo two-week check, 14.6 days:** 177 orders, 177 real fills, 0 order / stop failures, 11 flips, slippage median
+  +1.3bp (worst +47.8). **VERDICT NOT YET only for 2 poll errors**, both Bitget `NetworkError` on the positions GET
+  (2026-10-06 15:07, 2026-10-15 01:44); the next poll ran normally each time. Not the s7b sub-step bug.
+- **Books:** crash bids on target (Bitget +0.84% a fill on 34, Binance +0.74% on 32); seven books CORRECTED main $403,
+  tight $433, tstop $440, units $475, triple $484; combo paper day 21 $179.02 (-19%: trend -$34.62, MN -$6.92), fair H1
+  x0.810 vs triple x0.828; final machine (dry, $300 from 2026-10-09) $276.34; pair 9,882 PKR (capit 9 closed, 67% won,
+  +2.58% avg; daily 1 closed -17.7%, 4 open). BTC $82.4k, +0.8% over its 1000h average.
+- **pair-paper restarted 206 times since 2026-10-08** (about once an hour): `pair_live.py --loop` exits on a Bitget
+  `RequestTimeout` / 429 `DDoSProtection` during the hourly scan; systemd restarts it after 60 s and the restart's full
+  re-fetch invites the next 429. Its state still saves every hour, so no hour is lost yet. Fix (a bug fix, allowed by
+  doc 22 s4): catch ccxt network / rate-limit errors per cycle and retry with backoff. **Not applied - user's call.**
+
+### 2026-10-12 (last) - the NASDAQ burst: seen coming, not which way; his trades are not burst trades
+
+- The user: "the burst in NASDAQ has something to do with his strategy". **`backtest/ustec_burst_anatomy.py`** (181 days of
+  Exness ticks, 1-s grid, trees fit on 60% of days): a >= 7-point / 5-s burst (6.8% of seconds) is foreseeable in TIME
+  (holdout AUC 0.861, volatility clustering) but not in DIRECTION (0.513). A bot entering at the top 0.5% / 0.1% of burst
+  scores loses -1.76 / -1.82 points a trade, = a random side. His clicks sit at a median 59th percentile of burst score.
+- **`backtest/his_burst_after.py`**: after his click a burst comes 22% vs 23% at other seconds; his +7 arrives in a median
+  29 s vs 33 s for any +-7 move, 36% vs 38% via a burst. His moves are ordinary; only his side (39 of 41 on the mid) is
+  special, and no feature carries it (his_strategy s52).
+- **`backtest/ustec_burst_straddle.py`** (use the timing without a side: stops 2-4 points either side at the most volatile
+  seconds): -2.0 points a trade on the holdout, +0.05..+0.16 better than the same bracket at random seconds. Dead.
+- **`backtest/his_tickets.py`**: his record is LIVE - the closing tickets rise with close time in 90 of 90 pairs and track a
+  ~2,700/day broker counter (log-log +0.99); s34's 'real-time' proof had only covered his exits. **`backtest/his_absorb.py`**:
+  absorption (hidden size soaking up flow) on the cached CME data at his clicks - ruled out (his_strategy s53).
+  **`backtest/his_options.py`**: the options tape (0DTE QQQ flow, Databento OPRA, $16.04 with the user's OK) - ruled out:
+  agrees with his side 38-55%, no predictive value for the next minute.
+- **His broker is CapitalFX** (statement header); "VertexPro" was the app, VertexFX Trader Pro (not MetaTrader). His own chart,
+  screenshotted by the user (**`backtest/his_chart_capfx.py`**): CapitalFX's NASDAQ Dec = Exness + 207 points, 1-minute moves
+  corr 0.992 - his screen is the market (his_strategy s54). The app's clock is UTC+3; his statement's UTC+5.
+- **`backtest/his_retest.py`** (micro-levels, the last 15 minutes' high / low and retests): he enters a little nearer a recent
+  level with room ahead (rank 0.41, p 0.044) - a style lean; as a rule -1.9 points a trade, = random (s55).
+  **[docs/23-his-strategy.md](docs/23-his-strategy.md) is the readable summary of everything known about him.**
+- **2026-10-13, his_strategy s56** (`backtest/his_race_curve42.py`): his edge rises with the move's size and holds to +-15
+  (62% at +-2, 88% at +-7..+-12); 95% at a 30-s horizon is beyond any public data, so either a private live source (A) or
+  entries not decided live (B) - the closes are proven live, the ENTRIES never were. The user's app is logged into the
+  statement's own account: its History (opening tickets?) and a live screenshot of his next trade settle A vs B.
+- **`backtest/his_open_tickets.py`**: the app's History screenshots (2026-09-10) carry OPEN tickets - 20 trades, all 111 events
+  in counter order, open-close gaps 1-52 growing with the hold: **his entries were placed live; B refuted** (s57).
+- **s58**: "~10% is safer" = his MONTHLY TARGET (`backtest/his_monthly_target.py`: he stops at ~10%, 60-180x notional, no
+  stop, ~5 NASDAQ trades a month). **`backtest/ndx_aplus.py`**: 16 years of NASDAQ minute bars searched for a RARE chart
+  setup at his selectivity - TEST AUC 0.506, top 0.05% of calls ~58% before spread, his entries ordinary to it. No A+ setup.
+- **`backtest/his_volprofile.py`** (volume profile from Exness tick counts: POC, value area, six reads): his side 41-55%,
+  rules = random, -1.2..-2.1 points a trade (s59). His Orders tab is empty: market orders, the click is the decision.
+- **`backtest/his_pasted_ideas.py`**: seconds 00-04 CME flow (51%) and DAX / STOXX lead (36-53%) - ruled out (s60).
+  `backtest/his_pasted_ideas2.py`: copiers after his click (tape = any 7-point move) and a strike magnet (31-57%) - ruled out.
+  `backtest/his_pasted_ideas3.py`: block trades before him (faint lean, rule 48-49%), empty target zone (52%), squawk after-headlines (0.87x) - ruled out.
+- **`backtest/ndx_aplus_ticks.py`**: the rare-setup search at TICK level (181 days) - AUC 0.505; a 70% top-0.1% bucket was 7
+  episodes counted 57 times each (`ndx_aplus_ticks_check.py`). No tick-rhythm setup (s61).
+- **2026-10-15 `backtest/his_fullbook.py`**: the FULL CME book (MBO, $39.09, 29 days) at his clicks - imbalance and walls 38-56%,
+  rules = his sittings' 55% drift. Ruled out (s63). Raw MBO deleted at the user's word (features kept: nq_mbo_features.pkl).
+- **`backtest/his_winners_days.py`** (s64): his 5 losing races were fast, chased moments; winners calm pullbacks; his days lean trending.
+  **`his_score_new.py`**: score a new trade of his from the app's History in one command -> logs/his_new_trades.csv.
+- **`backtest/his_style_bot.py`** (s65): a bot from ALL his habits (trend day, calm pullback, +7/-30) - every cell loses on both
+  halves (-2.5..-5 pts a trade at 70% wins); the flipped side loses less. Dead.
+  `backtest/his_style_grid.py`: 256 tweaks chosen on tune days - the best reads -0.25 on the holdout, 2/256 positive on both. Dead.
+
+### 2026-10-12 (later) - /goal: thirty years of what DRIVES forex - it explains moves, it predicts none
+
+- **Data** (`backtest/fx_macro_data.py`, FRED is blocked from this PC): Fed H.10 noon FX and H.15 yields 1996-, BIS policy
+  rates, OECD 3m / 10y rates (no GBP / CHF 10y), CFTC positioning 1995-, VIX / S&P / oil / gold / copper, and the
+  ForexFactory calendar with forecasts 2007-2026 (237 months). Cached in `strategy_analysis/data/fx_macro/`.
+- **`backtest/fx_drivers.py`** (368 months): same-month moves follow risk (S&P: AUD +0.52, CAD +0.51), copper / gold
+  (+0.25..+0.53), oil -> CAD +0.38 and the US 2-year yield (JPY -0.40) - NOT policy-rate changes (~0). Next-month: all
+  77 correlations within +-0.13. 0 of 11 rules pass on Exness; carry +2.6%/yr only where carry is paid (Exness: -0.26%).
+- **`backtest/fx_surprises.py`** (6,810 releases): the surprise moves the currency its way ~60% of days (+15bp; 16 of
+  23 within 5 minutes in 2026); the drift after it is ~0 at 1 hour to 5 days. No rule passes. Doc 02's last entry.
+- **`backtest/fx_rates2y.py`** (after the user's "you did not have all the information"): daily 2-YEAR yields from
+  each issuer (Bundesbank, Japan MoF, Bank of Canada, SNB; BoE / RBA / RBNZ unreachable from this PC). The 2y gap is
+  the real rate driver - same month EUR +0.40, JPY +0.41, CAD +0.31, CHF +0.27 - and predicts nothing (<= 0.09);
+  catch-up, fair-value and rate-trend rules 0 of 4 pass (fair value +1.3%/yr, holdout only).
+- **`backtest/fx_tff.py`** (the user: "do all the free ones"): CFTC hedge funds / asset managers / dealers, 2006-2026 -
+  same-week moves follow the textbook (funds buy as it rises +0.09..+0.32, dealers sell -0.27..-0.48); next week
+  nothing (<= 0.07); 0 of 5 rules pass. Dukascopy's free minute bars (`backtest/dukascopy_1m.py`, plain HTTP - it
+  answers bursts with a 301 to HTTPS, which times out here) was throttled; HistData.com (`backtest/histdata_1m.py`, one zip
+  per pair-year, 7 pairs 2007-2026) replaced it. **`fx_surprises_1m.py`**: a release moves its currency the surprise's way
+  81% of the time within 5 minutes (+14bp); +1 -> +15 min keeps +0.8bp gross (the spread takes it), the next hour ~0, half
+  a day a mild reversal; 0 windows pass (the first run's +10bp "drift" was HistData's DST clock - trap in s3).
+- **`backtest/fx_speeches.py`** (8,850 BIS central bankers' speeches 1996-2026, hawk - dove words): the Fed's tone tracks the
+  US 2-year (+0.45) - the count is real - but relative tone does not move currencies the same month and its next-month
+  lean flips between halves; 0 of 2 rules pass. **`backtest/fx_news_tone.py`** (GDELT news tone / volume per economy,
+  2017-2026): ~0 same week, ~0 next week, 0 of 3 pass. OANDA's order books: the user cannot reach OANDA; not tested.
+- **`sentiment_rec.py` - RETAIL POSITIONING, RECORDED FROM 2026-10-12** (the user: "start recording myfxbook sentiment").
+  Myfxbook's page is Cloudflare-guarded (not bypassed) and its API needs a login; FXSSI's public endpoint republishes the
+  long share at Myfxbook, OANDA, Dukascopy, IG, FXBlue, XM and 4 more, 25 instruments, no login. Every 30 min to
+  `strategy_analysis/data/sentiment/fxssi_ratios.csv` (gitignored; the response's client IP is not stored). Predictions
+  R1-R3 registered in its docstring; score after >= 3 months. Running on the PC (session background) - the VM would
+  make it durable (user's call).
+- **`backtest/fx_news_seconds.py`** (the user: "run the seconds capture test"): 2026 releases on Exness ticks - entered
+  0.5-1 s after the print +6.2bp a trade (t +3.9), at 2 s +0.6bp, at 10 s -0.9bp. Exness's quote reaches the
+  market ~1 s late (clock check: the jump in the 2nd second on 15 of 18); that window is broker latency arbitrage, not
+  an edge (against broker terms, needs the number in <0.5 s). **His latest statement** (his_strategy.md s48): 2 new
+  trades on 2026-10-08, both won the +-7 race in 1-2 s - out-of-sample record 38 of 43.
+- **`backtest/his_headlines.py`** (the user: "run the headline test"): FinancialJuice / Walter Bloomberg / Breaking Market
+  News (public Telegram, fetched through the VM - t.me times out from this PC) against his 89 clicks: no excess in the
+  15 s before (0.48x matched); the 60 s excess is his habit of trading in minutes :00-:04 of the hour (25% of NASDAQ
+  clicks). The headline wire is ruled out (his_strategy.md s49).
+- **`backtest/his_hour.py`** (the user: "that's your answer, you haven't checked it properly"): only 3 of his 48 NASDAQ
+  clicks follow a US release (his top-of-hour clicks are mostly 11:00 New York); following the first reaction to
+  every release 2010-2026 loses -1.2..-1.7bp (= no-release minutes); following the closed hourly candle (9 of his
+  12) is 49-51% on 17,036 hours. HistData NSXUSD 1m 2010-2026 added (same DST clock).
+- **Council 2 ("if not news, what?") and its tests**: `backtest/his_clock_exits.py` - his main broker's clock is exact
+  (best shift 0 s vs CME and Exness), the market had NOT moved his way before his click (median 0.00 points in 5 s)
+  and he still won 40 of 46; his 41 GOLD trades have no edge (51% vs 47%). `backtest/ustec_burst.py` - following or
+  fading NASDAQ bursts = random (34-35% vs 35.4%), -2 points a trade. Kill line hit: his direction is not
+  reproducible from market data; only he can say what he uses (his_strategy.md s51).
+
+### 2026-10-12 - the council; NASDAQ's last-hour momentum (its one remaining test) is dead: NASDAQ scalping closed
+
+- Council (crypto ideas on forex / NASDAQ scalping / what to take from him): nothing from crypto works on currency pairs
+  (no forced sellers); NASDAQ scalping dead because entries carry no direction; the dip-buy is NASDAQ-only and partly
+  hindsight; his lesson is to size on the worst move and that an edge can live in a person. First step it named: test
+  the PKR -> USDT -> PKR money path with ~3,000 PKR (doc 22 needs it).
+- **`backtest/ndx_close_momo.py`** (Gao et al.'s market intraday momentum, the council's one allowed test): NQ 2024-2026,
+  first window vs last hour correlation -0.005, best rule +0.26bp a day; Exness's exact half-hours flip sign between
+  halves. No pass -> by the registered kill line, NASDAQ scalping is closed at every horizon.
+
+### 2026-10-11 (last) - the NASDAQ dip-buy and his daily "pause" on forex, gold, silver: nothing; a Yahoo data bug found
+
+- `backtest/fx_capit.py`: ndx_capit's rules both ways, with the trend gate as his "join the move after a pause" at the
+  daily scale, on 7 forex majors (Yahoo 2003-2026 and Exness 2020-2026) and gold / silver (Exness). **On Exness's own
+  prices 1 of 1,296 cells passes (14 trades, chance)**; gold's dip-buys +0.03% a trade through its rise.
+- **Yahoo forex daily bars are broken for anything inside a day** (open ~27bp off the previous close; 92-95% "bounces";
+  dated a day off): 79 fake passes at t up to +25. New trap in s3. **`fx_t8_exness.py` re-checked T8 (month-end USD) on Exness prices: -4.06bp a month, t -0.83 - the kill
+  stands;** Yahoo had read the day before the month-end (+4.40bp on the same months, 55bp a month apart). Realigned by
+  a day, Yahoo 2003-2026 gives -4.74bp, both halves negative.
+
+### 2026-10-11 (later) - CANDIDATE: NASDAQ's sharp down days bought (crypto's forced-flow family + his trade shape)
+
+- `backtest/ndx_capit.py` on ^NDX 1999-2026: **22 of 192 cells pass both halves vs a buy-every-day control**; best: RSI(2)
+  under 10 at the close, out at the first close above the 5-day average - +0.95% a trade, 12 a year, CAGR +11% at 1x,
+  fall 22%. `backtest/ndx_capit_check.py`: smooth plateau, half the edge after publication, strong since 2020; **weak on
+  S&P / Dow / DAX / Nikkei / STOXX (3 of 120 pass)**; worst trade -20..-26% -> ruin at Exness's 0.05-lot minimum on
+  $221. Bitget's QQQ/USDT perp (isRwa, $5 minimum) tracks the NASDAQ close (corr 0.9993) and can carry it at 1-2x.
+  Doc 02's CANDIDATE entry. Not running anywhere; a forward paper record is the user's call (doc 22).
+
+### 2026-10-11 - the crypto scalping tests carried to NASDAQ, US30, gold and forex: dead, and not because of cost
+
+- Asked: "the scalping strategies we applied on crypto ... on nasdaq or forex - give it a shot" (a research request
+  inside doc 22's window; no bot touched). **`backtest/mt5_1m.py`**: 1m MID bars built from every Exness tick with the
+  real spread (MT5 caps bars at 100,000, not ticks; ticks start 2026-01-01), cached in `strategy_analysis/data/mt5_1m/`.
+- The spread is 0.12-0.24 of a 1-minute ATR on gold / US30 / NASDAQ and 0.57-0.68 on the forex majors, against 1.73 for
+  DOGE's 12bp - 7-14x cheaper. **Still: `cfd_scalp.py` 0 of 1,368 rules survive; `cfd_bigtarget.py` 0 of 4,820 beat random
+  entries; `ustec_seconds.py` real 5-60 s reversal worth +0.00..+0.14bp against a 0.82bp spread.** Gross is ~0 everywhere:
+  the entries choose direction like a coin. The walk-forward "pick the recent winner" loses on every instrument.
+  Doc 02's last entry. Registered predictions: Q1/Q2/Q5, F2, E3 right; Q3, F1 (by 0.2 points), F3, E1, E2 wrong.
+
+### 2026-10-10 (last) - the councils' shortlist finished; the decision rule written (doc 22)
+
+- **Polymarket 80-90c favourites** without the early-resolution bias (`backtest/poly_rescore.py`): +10.1 -> +7.9 points on
+  schedule (se 4.8, 23 events) - inside 2 se, killed by its registered rule. Early resolutions ran +26..+36 points YES.
+- **capit2 execution** (`backtest/capit2_exec.py`, 387 signals, 1m bars): the backtested resting limit earns +2.15% a
+  signal, the live bot's 2-minute poll at market +1.76% (+0.39 points, se 0.09) - the poll misses the fastest bounces (94%
+  winners). Fix = a resting post-only limit (crash-desk machinery); not applied - code frozen, the user decides.
+- **Capped exchange rewards**: premise fails - Bitget Launchpool pays pro-rata to stake (only the stake is capped).
+- **`docs/22-decision-rule.md`**: verdict dates, fund / kill / extend lines (same-regime percentile, the BTC-1000h
+  benchmark, tradable capital, a tested PKR money path), code freeze to 2027-04-09, research stop 2026-12-31.
+
+### 2026-10-10 (later) - two councils, and the trader's copy passes the size test (`backtest/his_size.py`)
+
+- Council 1 ("weather / >10%/month"): drop weather; no tested path to >10%/month; freeze the bots, write the decision
+  rule before more paper data; capital, not strategy, is the binding constraint. Council 2 ("overlooked edges"): ranked
+  (1) copying the NASDAQ trader live, (2) per-person-capped exchange rewards (launchpools/competitions, forward log),
+  (3) maker execution on running books, (4) re-scoring the Polymarket 80-90c log; set a stop date for the research.
+- **The trader's size test** (his_strategy.md s47): copies 5-10 s late won 98-100%, +6.6..+7.0 pts, worst adverse move
+  ~41 pts; same-sitting moments' 99th percentile 149 pts. Sized on that tail, 0.37 lot = ~+$14/month (6.3%) on $221;
+  on the worst move (315 pts) 0.18 lot = ~+$6.5. Passes the pre-registered 0.10-lot kill line. Needs his live signals.
+
+### 2026-10-10 - Polymarket weather markets vs a free forecast: efficient (`backtest/poly_weather.py`, doc 08)
+
+- From a reel ("Grok agent", $50 -> "thousands", "pivot to weather / NOAA"; its own screens: $339, 43-52% wins). 4,782
+  resolved daily-temperature days, 22 cities, 51,848 bucket histories vs Open-Meteo's day-before forecasts, walk-forward:
+  **the market beats the forecast in every city** (log loss 1.27 vs 1.71); the reel's buy-if-8-points-cheap rule loses
+  35-46% per $1; the longshot bias is spread-sized. Same-day (look-ahead) forecast beats the market - pipeline sound.
+  Untested: NOAA station forecasts (NBM / MOS via Iowa Environmental Mesonet). Caches in strategy_analysis/data/poly_weather/
+  (events.json is 690 MB, gitignored).
 
 ### 2026-10-09 (night) - "analyse DOGE today, trade it live": the fee wins at scalping speed; the book's edge is 10-30 s
 
