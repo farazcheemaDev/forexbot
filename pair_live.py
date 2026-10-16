@@ -74,8 +74,27 @@ def rsi14(c):
 class Market:
     """Everything that touches the exchange (a ccxt bitget instance, or a fake in tests)."""
 
-    def __init__(self, ex):
+    def __init__(self, ex, waits=(5, 15, 45, 90)):
         self.ex = ex
+        self.waits = waits
+
+    def call(self, fn, *a, **k):
+        """A Bitget call, retried with backoff on network errors, timeouts and 429s (ccxt.NetworkError covers
+        RequestTimeout, DDoSProtection, ExchangeNotAvailable). Until 2026-10-16 one such error ended the process and
+        systemd restarted it - 212 restarts in 8 days, each restart's full re-fetch inviting the next 429."""
+        try:
+            import ccxt
+            transient = (ccxt.NetworkError,)
+        except ImportError:                                            # tests without ccxt
+            transient = (TimeoutError, ConnectionError)
+        for w in (*self.waits, None):
+            try:
+                return fn(*a, **k)
+            except transient as e:
+                if w is None:
+                    raise
+                print(f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M:%S} | Bitget {type(e).__name__}, retry in {w}s", flush=True)
+                time.sleep(w)
 
     def crypto(self, s):
         """Crypto perps only, like the backtest: no Bitget real-world-asset contracts (isRwa - stock tokens such as
@@ -87,7 +106,7 @@ class Market:
         return s.split("/")[0] not in NON_CRYPTO
 
     def universe(self):
-        tick = self.ex.fetch_tickers()
+        tick = self.call(self.ex.fetch_tickers)
         cand = sorted(((s, (t.get("quoteVolume") or 0.0)) for s, t in tick.items()
                        if s.endswith("/USDT:USDT") and self.crypto(s)), key=lambda x: -x[1])[:120]
         vol30 = {}
@@ -99,12 +118,12 @@ class Market:
 
     def closed(self, sym, tf, n):
         ms = {"1d": 86_400_000, "4h": 14_400_000}[tf]
-        raw = self.ex.fetch_ohlcv(sym, tf, limit=n + 1)
+        raw = self.call(self.ex.fetch_ohlcv, sym, tf, limit=n + 1)
         d = pd.DataFrame(raw, columns=["t", "o", "h", "l", "c", "v"])
         return d[d.t + ms <= now_ms()].reset_index(drop=True)          # closed bars only
 
     def price(self, sym):
-        return float(self.ex.fetch_ticker(sym)["last"])
+        return float(self.call(self.ex.fetch_ticker, sym)["last"])
 
 
 # ---------------------------------------------------------------- the two rules (on CLOSED bars)
@@ -369,7 +388,7 @@ def main():
     a = ap.parse_args()
     import ccxt
     mk = Market(ccxt.bitget({"enableRateLimit": True, "options": {"defaultType": "swap"}}))
-    mk.ex.load_markets()
+    mk.call(mk.ex.load_markets)
     if a.status:
         return status(load(), mk)
     if a.scan:
@@ -378,7 +397,14 @@ def main():
         while True:
             st = load()
             stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
-            cycle(mk, st, say=lambda m: print(f"{stamp} | {m}", flush=True))
+            try:
+                cycle(mk, st, say=lambda m: print(f"{stamp} | {m}", flush=True))
+            except ccxt.NetworkError as e:                             # retries exhausted: do not save a half
+                if not a.loop:                                         # cycle; the next attempt reloads the state
+                    raise
+                print(f"{stamp} | cycle failed after retries ({type(e).__name__}); trying again in 5 minutes", flush=True)
+                time.sleep(300)
+                continue
             save(st)
             if not a.loop:
                 break

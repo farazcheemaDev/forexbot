@@ -1,0 +1,18 @@
+backtest/final_capit2_lev.py, 2026-10-16 00:54 UTC; $300, 10 orderings; the deployable final machine with capit2 at share W and leverage L; BACKTEST ONLY (trend gains shrunk, the rest raw)
+
+  capit2 W 0.5 L 1x  all 6 years  typical $ 3,400 / bad $ 1,086 / worst $  230 | month avg +40.0%, median  +4.6%, up  59% | worst month  -30.0% | fall  60%
+  capit2 W 0.5 L 1x  last 2 years typical $ 4,735 / bad $ 2,454 / worst $  767 | month avg +43.7%, median  +7.3%, up  59% | worst month  -30.0% | fall  51%
+
+  capit2 W 0.5 L 2x  all 6 years  typical $ 3,666 / bad $ 1,146 / worst $  233 | month avg +40.7%, median  +5.2%, up  62% | worst month  -30.0% | fall  59%
+  capit2 W 0.5 L 2x  last 2 years typical $ 4,967 / bad $ 2,581 / worst $  828 | month avg +44.4%, median  +8.3%, up  61% | worst month  -30.0% | fall  51%
+
+  capit2 W 0.5 L 3x  all 6 years  typical $ 3,915 / bad $ 1,197 / worst $  236 | month avg +40.9%, median  +5.8%, up  63% | worst month  -30.4% | fall  58%
+  capit2 W 0.5 L 3x  last 2 years typical $ 5,216 / bad $ 2,733 / worst $  893 | month avg +45.1%, median  +9.9%, up  62% | worst month  -30.0% | fall  51%
+
+  capit2 W 1.0 L 2x  all 6 years  typical $ 4,098 / bad $ 1,337 / worst $  238 | month avg +41.9%, median  +7.6%, up  64% | worst month  -30.0% | fall  57%
+  capit2 W 1.0 L 2x  last 2 years typical $ 5,494 / bad $ 2,881 / worst $  961 | month avg +45.9%, median +11.4%, up  63% | worst month  -30.0% | fall  51%
+
+REGISTERED PREDICTIONS
+  1 W0.5 L1 reproduces DEPLOYABLE ($3,400 / $4,735): $3,400 / $4,735 -> RIGHT
+  2 W0.5 L2: typical +7.8% / +4.9%, worst month +0.0 / -0.0 points -> WRONG
+  3 W1.0 L2 and W0.5 L3 more return, worst month > 2 points deeper -> WRONG

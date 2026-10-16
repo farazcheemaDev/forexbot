@@ -103,22 +103,22 @@ def test_gross_gate_reductions_first_then_opens_until_the_cap():
     px = {"A": 1.0, "B": 1.0, "C": 1.0}
     actual = {"A": 900.0}                                                         # 9x of $100 already on
     orders = [("B", "buy", 50.0, False, "open"), ("A", "sell", 300.0, True, "reduce"), ("C", "buy", 400.0, False, "open")]
-    ok, no = fb.gross_gate(orders, actual, px, 100.0)                             # 900 - 300 + 50 = 650; + 400 > 1000
+    ok, no = fb.gross_gate(orders, actual, px, 100.0, cap=10.0)                   # 900 - 300 + 50 = 650; + 400 > 1000
     assert [o[0] for o in ok] == ["B", "A"] and [o[0] for o in no] == ["C"]
     ok, no = fb.gross_gate(orders, actual, px, 100.0, cap=10.5)                   # 1050 fits under 10.5x
     assert not no and len(ok) == 3
-    ok, no = fb.gross_gate([("C", "buy", 300.0, False, "open")], {}, px, 100.0)
+    ok, no = fb.gross_gate([("C", "buy", 300.0, False, "open")], {}, px, 100.0, cap=10.0)
     assert not no
 
 
-def test_execute_holds_the_account_under_10x():
-    """Books that together want 14x: the dry ledger stops at 10x, and reductions still go."""
+def test_execute_holds_the_account_under_the_gross_cap():
+    """Books that together want 14x: the dry ledger stops at GROSS_CAP (11.5x since 2026-10-16), reductions still go."""
     st = account(100.0)
     st["fin"]["daily"]["open"] = {f"C{i}USDT": dict(qty=200.0, entry=1.0, t_ms=0) for i in range(7)}
     px = {f"C{i}USDT": 1.0 for i in range(7)}
     cb.execute(st, None, "dry", px, dry=True)
     led = st["exec"]["virtual_pos"]
-    assert sum(abs(q) for q in led.values()) <= 1000.0 + 1e-9 and len(led) == 5
+    assert sum(abs(q) for q in led.values()) <= fb.GROSS_CAP * 100.0 + 1e-9 and len(led) == int(fb.GROSS_CAP * 100 // 200)
     st["fin"]["daily"]["open"].pop("C0USDT")                                      # a close frees room
     cb.execute(st, None, "dry", px, dry=True)
     led = st["exec"]["virtual_pos"]
@@ -322,7 +322,7 @@ def test_capit2_fills_only_through_the_limit_and_takes_the_target():
     px["K0USDT"] = lim * 0.996                                                   # through: filled at that price
     fb.capit2_poll(st, px, now + 120_000, fund=NOFUND, get4=get4)
     p = st["fin"]["capit2"]["open"]["K0USDT"]
-    assert p["entry"] == lim * 0.996 and abs(p["qty"] * p["entry"] - fb.K_CAPIT2 * 300.0 / fb.SLOTS) < 1e-9
+    assert p["entry"] == lim * 0.996 and abs(p["qty"] * p["entry"] - fb.K_CAPIT2 * fb.CAPIT2_LEV * 300.0 / fb.SLOTS) < 1e-9
     assert cb.book_targets(st)["K0USDT"] == p["qty"]
     fb.capit2_poll(st, {"K0USDT": p["entry"] * 1.049}, now + 180_000, fund=NOFUND, get4=get4)
     assert "K0USDT" in st["fin"]["capit2"]["open"]
@@ -332,6 +332,21 @@ def test_capit2_fills_only_through_the_limit_and_takes_the_target():
     assert abs(st["equity"] - (eq + p["qty"] * p["entry"] * 0.05 - p["qty"] * p["entry"] * 1.05 * fb.SIDE_FEE)) < 1e-9
     fb.capit2_poll(st, {}, last4 + 2 * H4, fund=NOFUND, get4=get4)               # the limit's bar is over
     assert not st["fin"]["capit2"]["pending"] and st["fin"]["capit2"]["cancelled"] == 4
+
+
+def test_capit2_is_full_share_at_2x_and_closed_at_the_liquidation_equivalent():
+    assert fb.K_CAPIT2 == 1.0 and fb.CAPIT2_LEV == 2.0 and abs(fb.LIQ_EQ - 0.4944) < 1e-9
+    last4 = 1_790_000_000_000 // H4 * H4
+    now = last4 + H4 + 60_000
+    st = account()
+    st["fin"]["last_4h"] = (now // H4) * H4 - H4                                  # no new bar: live-price checks only
+    st["fin"]["capit2"]["open"]["K0USDT"] = dict(qty=0.75, entry=100.0, t_ms=now - 1, signal_t=last4)
+    fb.capit2_poll(st, {"K0USDT": 100.0 * (1 - 0.49)}, now, fund=NOFUND, get4=lambda s, n: None)
+    assert "K0USDT" in st["fin"]["capit2"]["open"]                               # -49%: still held
+    eq = st["equity"]
+    fb.capit2_poll(st, {"K0USDT": 100.0 * (1 - 0.495)}, now + 60_000, fund=NOFUND, get4=lambda s, n: None)
+    assert "K0USDT" not in st["fin"]["capit2"]["open"]                           # -49.5%: closed, the slot's margin
+    assert abs(st["equity"] - (eq - 0.75 * 49.5 - 0.75 * 50.5 * fb.SIDE_FEE)) < 1e-9
 
 
 def test_capit2_not_working_after_24_bars_and_the_cap():
@@ -361,7 +376,7 @@ def test_enable_installs_the_blend_and_the_6_25x_trend_guard():
             fb._FETCH_ALL in [c.cell_contents for c in mp.fetch_all.__closure__]
     finally:
         mp.target, mp.fetch_all, mp.perp_universe, cp.bp.MAX_LEVERAGE = saved
-    assert fb.TREND_LEV + 1.0 + fb.K_CARRY + 1.0 + 0.25 + fb.K_DAILY + fb.K_CAPIT2 == fb.GROSS_CAP
+    assert fb.TREND_LEV + 1.0 + fb.K_CARRY + 1.0 + 0.25 + fb.K_DAILY + fb.K_CAPIT2 * fb.CAPIT2_LEV == fb.GROSS_CAP
 
 
 if __name__ == "__main__":

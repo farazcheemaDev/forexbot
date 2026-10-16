@@ -15,10 +15,17 @@ The running bot (machine v2: trend triple + market-neutral + bear sleeve + crash
                once >= 5 of the top-40 have done so within 24h, on a coin down >= 10% over those 24h -> a buy 2% under
                the signal close, live for the next 4h bar only and taken only once the price trades 0.3% THROUGH it;
                +5% target, out once a close 24+ bars after the signal is not above the entry, 43-bar cap. 8 slots of
-               half the account (capit_stack.py, pair_live.py's shadow book).
+               the WHOLE account at 2x since 2026-10-16 (was half at 1x): backtest/capit2_lev.py (+20.0 / +29.9 %/yr
+               tune / holdout vs +8.6 / +14.3 at 1x, fall 10 -> 12%) and final_capit2_lev.py (the machine's typical
+               year $3,400 / $4,735 -> $4,098 / $5,494 on $300, worst month -30% unchanged). A position is closed at
+               -49.4% ("liquidation_eq"), the loss the backtest booked as an isolated 2x liquidation.
     GROSS CAP  the WHOLE account is held under 10x gross: an order that would take it past is not sent. The trend
-               book's own guard drops 9x -> 6.25x, because the other books can hold 3.75x at their peaks (MN 1 +
-               carry 0.5 + sleeve 1 + bids 0.25 + daily 0.5 + capit2 0.5). The backtest let the trend book reach 9x ON
+               book's own guard drops 9x -> 6.25x, because the other books could hold 3.75x at their peaks (MN 1 +
+               carry 0.5 + sleeve 1 + bids 0.25 + daily 0.5 + capit2 0.5). Since capit2 went to 1.0 x 2x their peak is
+               5.25x; the trend guard stays 6.25x as backtested (final_capit2_lev.py) and the account gate is RAISED to
+               11.5x - the summed peaks - at the user's word (2026-10-16), so it refuses nothing the backtest took.
+               Past ~10x an ~8% move against everything closes a real cross-margin account (CLAUDE.md s7): this is a
+               paper setting. The backtest let the trend book reach 9x ON
                TOP of the overlays; backtest/final_machine.py's DEPLOYABLE line is this file's configuration.
 
 WHAT THE BACKTEST SAYS (backtest/final_machine.py, logs/final_machine.txt; $300; trend gains shrunk for hindsight,
@@ -50,10 +57,14 @@ import pandas as pd
 
 import mn_paper as mp
 
-K_CARRY, K_DAILY, K_CAPIT2 = 0.5, 0.5, 0.5
+K_CARRY, K_DAILY, K_CAPIT2 = 0.5, 0.5, 1.0
+CAPIT2_LEV = 2.0                  # 2026-10-16 (backtest/capit2_lev.py, final_capit2_lev.py): full share at 2x, user's OK
+LIQ_EQ = 1 / CAPIT2_LEV - 0.0056  # the backtest's isolated liquidation: a capit2 position is closed at this loss
 SLOTS, TOP_N = 8, 40
 TREND_LEV = 6.25                  # 10 - the other books' 3.75x at their peaks (see the docstring)
-GROSS_CAP = 10.0
+GROSS_CAP = 11.5                  # 2026-10-16, the user: "we can exceed the account cap" - the books' summed peaks
+                                  # (trend 6.25 + MN 1 + carry 0.5 + sleeve 1 + bids 0.25 + daily 0.5 + capit2 2), as
+                                  # final_capit2_lev.py backtested. DRY / paper only; reconsider before any real money
 EQUITY = 300.0                    # the paper account (dry / demo); final_machine.py's figures are on $300
 CARRY_FRAC, CARRY_WIN_D = 0.20, 7
 BB_N, BB_K, MEAN_N, CAP_D = 30, 1.5, 20, 31
@@ -284,7 +295,7 @@ def _open(st, book, s, px, extra, now_ms):
     fin = st["fin"]
     if len(fin[book]["open"]) >= SLOTS or s in fin[book]["open"] or not px:
         return False
-    k = K_DAILY if book == "daily" else K_CAPIT2
+    k = K_DAILY if book == "daily" else K_CAPIT2 * CAPIT2_LEV
     usd = k * st["equity"] / SLOTS
     fin[book]["open"][s] = dict(qty=usd / px, entry=px, t_ms=now_ms, **extra)
     _book(st, book, 0.0, usd * SIDE_FEE)
@@ -403,6 +414,8 @@ def capit2_poll(st: dict, prices: dict, now_ms: int, rec=None, fund=funding_sum,
         px = prices.get(s)
         if px and px >= p["entry"] * (1 + TARGET):
             _close(st, "capit2", s, px, "target", now_ms, fund, rec)
+        elif px and px <= p["entry"] * (1 - LIQ_EQ):         # at 2x the backtest lost this slot's margin here
+            _close(st, "capit2", s, px, "liquidation_eq", now_ms, fund, rec)
     for s, r in list(cb["pending"].items()):                 # limits: live for the bar after the signal bar
         px = prices.get(s)
         if now_ms >= r["signal_t"] + 2 * H4:

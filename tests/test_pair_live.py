@@ -144,6 +144,33 @@ def test_forming_bar_is_ignored():
     assert list(d.c) == [1.0, 2.0]
 
 
+def test_network_errors_are_retried_not_fatal():
+    """2026-10-16: a Bitget timeout / 429 used to end the process (212 systemd restarts). Retried with backoff now."""
+    import ccxt
+    calls = []
+
+    def flaky(n_fail):
+        def f(*a, **k):
+            calls.append(1)
+            if len(calls) <= n_fail:
+                raise (ccxt.RequestTimeout if len(calls) % 2 else ccxt.DDoSProtection)("bitget")
+            return {"last": 1.5}
+        return f
+    mk = pl.Market(None, waits=(0, 0, 0))
+    assert mk.call(flaky(2)) == {"last": 1.5} and len(calls) == 3            # two failures, then the answer
+    calls.clear()
+    try:
+        mk.call(flaky(9))
+        raise AssertionError("should have raised after the last retry")
+    except ccxt.NetworkError:
+        assert len(calls) == 4                                               # 1 try + 3 retries
+    calls.clear()
+    try:
+        mk.call(lambda: (calls.append(1), (_ for _ in ()).throw(ValueError("bug"))))
+    except ValueError:
+        assert len(calls) == 1                                               # a real bug is NOT retried
+
+
 if __name__ == "__main__":
     tests = [v for k, v in dict(globals()).items() if k.startswith("test_")]
     for fn in tests:
@@ -292,6 +319,7 @@ def test_capit2_not_working_after_24_bars_from_the_signal():
 
 if __name__ == "__main__":
     for fn in (test_stock_tokens_and_stables_excluded, test_capit2_fills_on_a_trade_through_and_skips_the_fill_bar_target,
-               test_capit2_cancels_an_unfilled_limit_and_needs_the_drop, test_capit2_not_working_after_24_bars_from_the_signal):
+               test_capit2_cancels_an_unfilled_limit_and_needs_the_drop, test_capit2_not_working_after_24_bars_from_the_signal,
+               test_network_errors_are_retried_not_fatal):
         fn()
         print(f"PASS {fn.__name__}")
