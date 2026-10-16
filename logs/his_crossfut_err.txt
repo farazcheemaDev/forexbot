@@ -1,0 +1,16 @@
+D:\forexbot\backtest\his_crossfut.py:59: BentoWarning: The streaming request contained one or more days which have reduced quality: 2026-03-16 (degraded). See: https://databento.com/docs/api-reference-historical/metadata/metadata-get-dataset-condition
+  df = cl.timeseries.get_range(dataset=TP.DATASET, symbols=[s], schema="bbo-1s", stype_in=TP.STYPE,
+D:\forexbot\backtest\his_crossfut.py:59: BentoWarning: The streaming request contained one or more days which have reduced quality: 2026-03-16 (degraded). See: https://databento.com/docs/api-reference-historical/metadata/metadata-get-dataset-condition
+  df = cl.timeseries.get_range(dataset=TP.DATASET, symbols=[s], schema="bbo-1s", stype_in=TP.STYPE,
+D:\forexbot\backtest\his_crossfut.py:59: BentoWarning: The streaming request contained one or more days which have reduced quality: 2026-03-16 (degraded). See: https://databento.com/docs/api-reference-historical/metadata/metadata-get-dataset-condition
+  df = cl.timeseries.get_range(dataset=TP.DATASET, symbols=[s], schema="bbo-1s", stype_in=TP.STYPE,
+D:\forexbot\backtest\his_crossfut.py:59: BentoWarning: The streaming request contained one or more days which have reduced quality: 2026-03-16 (degraded). See: https://databento.com/docs/api-reference-historical/metadata/metadata-get-dataset-condition
+  df = cl.timeseries.get_range(dataset=TP.DATASET, symbols=[s], schema="bbo-1s", stype_in=TP.STYPE,
+D:\forexbot\backtest\his_crossfut.py:59: BentoWarning: The streaming request contained one or more days which have reduced quality: 2026-03-16 (degraded). See: https://databento.com/docs/api-reference-historical/metadata/metadata-get-dataset-condition
+  df = cl.timeseries.get_range(dataset=TP.DATASET, symbols=[s], schema="bbo-1s", stype_in=TP.STYPE,
+D:\forexbot\backtest\his_crossfut.py:59: BentoWarning: The streaming request contained one or more days which have reduced quality: 2026-03-16 (degraded). See: https://databento.com/docs/api-reference-historical/metadata/metadata-get-dataset-condition
+  df = cl.timeseries.get_range(dataset=TP.DATASET, symbols=[s], schema="bbo-1s", stype_in=TP.STYPE,
+D:\forexbot\backtest\his_crossfut.py:59: BentoWarning: The streaming request contained one or more days which have reduced quality: 2026-03-16 (degraded). See: https://databento.com/docs/api-reference-historical/metadata/metadata-get-dataset-condition
+  df = cl.timeseries.get_range(dataset=TP.DATASET, symbols=[s], schema="bbo-1s", stype_in=TP.STYPE,
+D:\forexbot\backtest\his_crossfut.py:59: BentoWarning: The streaming request contained one or more days which have reduced quality: 2026-03-16 (degraded). See: https://databento.com/docs/api-reference-historical/metadata/metadata-get-dataset-condition
+  df = cl.timeseries.get_range(dataset=TP.DATASET, symbols=[s], schema="bbo-1s", stype_in=TP.STYPE,

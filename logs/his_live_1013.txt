@@ -1,0 +1,7 @@
+backtest/his_live_1013.py - 2026-10-13, History clock tested at UTC+3 and UTC+5
+--- History clock = UTC+3
+  SELL 20:24:30: basis +165.0 | market +6.00 his way over the hold (banked +12.00) | +-7 race WON in 53 s | 5 s before the click +2.00
+  SELL 20:27:06: basis +159.0 | market -5.00 his way over the hold (banked +6.75) | +-7 race LOST in 186 s | 5 s before the click +0.25
+--- History clock = UTC+5
+  SELL 20:24:30: basis +189.5 | market +12.01 his way over the hold (banked +12.00) | +-7 race WON in 30 s | 5 s before the click -0.50
+  SELL 20:27:06: basis +189.2 | market +6.74 his way over the hold (banked +6.75) | +-7 race WON in 71 s | 5 s before the click -1.00

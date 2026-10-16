@@ -1,0 +1,21 @@
+backtest/ndx_close_momo.py, 2026-10-11 23:52 UTC; cost 0.8bp a round trip, flat by 16:00 ET
+
+A  NQ futures, 1h (first: prev close -> 10:00 ET; trade 15:00-16:00 ET): 588 days 2024-04-22 .. 2026-09-10, holdout from 2025-09-30; last window |move| median 15.2bp; corr(first, last) -0.005
+  S1 sign(first)              588 days | right 53.2% | net  +0.26bp a day | tune  -0.39bp (t -0.19) | holdout  +1.22bp (t +0.54)
+  S2 sign(first), big days    220 days | right 50.0% | net  -0.24bp a day | tune  -0.54bp (t -0.13) | holdout  +0.10bp (t +0.03)
+  S3 sign(first + mid)        588 days | right 51.2% | net  -1.76bp a day | tune  -2.31bp (t -1.15) | holdout  -0.93bp (t -0.41)
+  ALWAYS LONG                 588 days | right 50.2% | net  -1.25bp a day | tune  -0.79bp (t -0.39) | holdout  -1.93bp (t -0.85)
+  PASS: none
+
+B  Exness USTECm, 5m (first: prev close -> 10:00 ET; trade 15:30-16:00 ET): 242 days 2025-09-23 .. 2026-09-11, holdout from 2026-04-24; last window |move| median 12.1bp; corr(first, last) +0.059
+  S1 sign(first)              242 days | right 52.1% | net  +0.41bp a day | tune  -2.59bp (t -1.44) | holdout  +4.89bp (t +1.94)
+  S2 sign(first), big days     87 days | right 50.6% | net  -1.41bp a day | tune  -5.17bp (t -1.36) | holdout  +3.43bp (t +1.04)
+  S3 sign(first + mid)        242 days | right 52.9% | net  +0.72bp a day | tune  -2.74bp (t -1.52) | holdout  +5.90bp (t +2.36)
+  ALWAYS LONG                 242 days | right 50.8% | net  -1.03bp a day | tune  +0.08bp (t +0.04) | holdout  -2.68bp (t -1.04)
+  PASS: none
+
+REGISTERED PREDICTIONS
+  C1 A, S1: right 53.2%, net +0.26bp a day; passes none -> WRONG
+  C2 ALWAYS LONG the last hour: -1.25bp a day -> WRONG
+  C3 Exness S1 +0.41bp vs NQ S1 +0.26bp -> RIGHT
+  C4 S2 -0.24bp vs S1 +0.26bp a trade -> WRONG

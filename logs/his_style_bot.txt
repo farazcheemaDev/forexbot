@@ -1,0 +1,32 @@
+backtest/his_style_bot.py, 2026-10-15 19:07 UTC; 181 tick days, holdout from 2026-06-04; +7 / -30 points at the real spread, 30-min cap, <= 3 a day
+
+  cell                           half  trades    won  net pts      t  flipped won  flipped net
+  day >= 0.3%, pullback >= 3     tune     318    70%    -3.94   -4.2          77%        -1.53
+  day >= 0.3%, pullback >= 3  HOLDOUT     203    71%    -3.75   -3.2          74%        -2.48
+  day >= 0.3%, pullback >= 5     tune     317    70%    -3.97   -4.2          76%        -1.58
+  day >= 0.3%, pullback >= 5  HOLDOUT     202    70%    -3.99   -3.3          74%        -2.57
+  day >= 0.3%, pullback >= 8     tune     313    73%    -3.17   -3.4          77%        -1.57
+  day >= 0.3%, pullback >= 8  HOLDOUT     202    67%    -5.09   -4.2          75%        -2.20
+  day >= 0.4%, pullback >= 3     tune     305    69%    -4.39   -4.5          73%        -2.71
+  day >= 0.4%, pullback >= 3  HOLDOUT     192    69%    -4.31   -3.5          76%        -1.91
+  day >= 0.4%, pullback >= 5     tune     303    69%    -4.34   -4.4          73%        -2.81
+  day >= 0.4%, pullback >= 5  HOLDOUT     191    69%    -4.37   -3.5          75%        -2.15
+  day >= 0.4%, pullback >= 8     tune     293    71%    -3.73   -3.8          75%        -2.22
+  day >= 0.4%, pullback >= 8  HOLDOUT     190    69%    -4.34   -3.5          75%        -2.40
+  day >= 0.6%, pullback >= 3     tune     249    71%    -3.65   -3.4          73%        -2.37
+  day >= 0.6%, pullback >= 3  HOLDOUT     155    71%    -3.65   -2.7          74%        -2.61
+  day >= 0.6%, pullback >= 5     tune     248    70%    -3.78   -3.6          73%        -2.68
+  day >= 0.6%, pullback >= 5  HOLDOUT     156    72%    -3.35   -2.5          73%        -2.85
+  day >= 0.6%, pullback >= 8     tune     239    69%    -4.23   -3.8          76%        -1.71
+  day >= 0.6%, pullback >= 8  HOLDOUT     155    74%    -2.46   -1.9          73%        -3.16
+  TREND ONLY, day >= 0.3%        tune     314    72%    -3.37   -3.6
+  TREND ONLY, day >= 0.3%     HOLDOUT     201    70%    -4.04   -3.4
+  TREND ONLY, day >= 0.4%        tune     302    73%    -2.61   -2.8
+  TREND ONLY, day >= 0.4%     HOLDOUT     190    72%    -3.43   -2.8
+  TREND ONLY, day >= 0.6%        tune     247    73%    -2.52   -2.5
+  TREND ONLY, day >= 0.6%     HOLDOUT     149    68%    -4.67   -3.3
+
+REGISTERED PREDICTIONS
+  1 no cell net positive on both halves: 0 cells are ([]) -> RIGHT
+  2 best holdout win rate 74% vs flipped 73% within 8 points -> RIGHT
+  LEAD LINE: not hit

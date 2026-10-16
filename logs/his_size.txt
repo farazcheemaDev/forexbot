@@ -1,0 +1,16 @@
+backtest/his_size.py, 2026-10-09 23:51 UTC; his 46 NASDAQ trades from 2026-01-01 (5.5 a month), 42 with ticks; his exit = +7 points, no stop, 30-min close; Exness quotes; loss limit 25% of $221 = $55.25
+
+COPIED d seconds late: result and the deepest move against the position before it resolved (points)
+   0s: 42 trades | avg result +6.57 pts, won 98% | adverse move: median 5.3, 90th 13.6, WORST 39.9 pts | median hold 43 s | worst result -11.1
+   5s: 42 trades | avg result +6.56 pts, won 98% | adverse move: median 4.3, 90th 19.1, WORST 40.5 pts | median hold 38 s | worst result -11.6
+  10s: 42 trades | avg result +7.00 pts, won 100% | adverse move: median 4.9, 90th 18.0, WORST 40.9 pts | median hold 41 s | worst result +7.0
+  SAME-SITTING moments, same rule, 5 s: 1603 trades | won 91%, avg +2.68 pts | adverse move: median 8.5, 90th 42.6, 99th 148.8, WORST 315.4 pts
+
+SIZING ($1 a point per lot; the lot that keeps the worst adverse move within $55.25); edge used: +6.78 pts a trade (avg of the 5 s and 10 s copies), 5.5 trades a month
+  sized on his own worst (5-10 s copies)      40.9 pts -> 1.35 lot (notional ~$33,738, ~153x) -> $50.23 a month, 22.7% of $221
+  sized on same-sitting 99th percentile      148.8 pts -> 0.37 lot (notional ~$9,283, ~42x) -> $13.82 a month,  6.3% of $221
+  sized on same-sitting worst                315.4 pts -> 0.18 lot (notional ~$4,379, ~20x) -> $ 6.52 a month,  3.0% of $221
+
+S1 (his worst 15-40 pts): 40.9 -> WRONG
+S2 (same-sitting 99th = 2-4x his worst): 3.6x -> RIGHT
+S3 / KILL RULE: the size the tail allows is 0.37 lot -> PASSES (> 0.10 lot); worth $13.82 a month on $221

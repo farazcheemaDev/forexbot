@@ -1,0 +1,17 @@
+backtest/his_retest.py, 2026-10-12 18:16 UTC; levels = the high / low of [T-15 min, T-60 s]; 42 of his entries, 1553 same-sitting moments
+
+A. HIS ENTRIES vs his sittings' other moments (his direction)
+   dist to the level behind: his median 18.3 pts vs 25.7; rank 0.41 (p 0.044, 42 entries; low = nearer the level)
+   room to the level ahead:  his median 24.9 pts vs 19.5; rank 0.59 (p 0.100)
+   retest of a 15-min level: his 17% (7 of 42) vs 10% -> 1.59x (p 0.202)
+   range-trader's side agrees with HIS side: 50% of 30 entries in an outer third (p 1.000); 12 in the middle third
+
+B. THE RULE on all days: buy the retest of the 15-min low / sell the retest of the high, +-7 at real prices
+   tune   :  20667 trades won 36.1% net -1.92 pts (t -41.0) | random side won 35.9% net -1.94 | diff +0.2 points of win rate
+   HOLDOUT:  16266 trades won 36.3% net -1.90 pts (t -36.1) | random side won 35.1% net -2.06 | diff +1.1 points of win rate
+
+REGISTERED PREDICTIONS
+  1 dist rank 0.41, room rank 0.59 within 0.40-0.60 -> RIGHT
+  2 retest 1.59x < 1.5x and range-side agreement 50% within 40-65% -> WRONG
+  3 rule within +-3 win-rate points of random and net <= 0 on both halves: +0.2, +1.1 -> RIGHT
+  LEAD LINE: not hit

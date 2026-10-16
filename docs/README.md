@@ -28,6 +28,7 @@ of the rules and the traps, and it is the only file you must not skip.
 | 19 | [All-weather](19-all-weather.md) | Another session's MN 1.5x / sleeve 1.5x weights for sideways months. **Not adopted** - CLAUDE.md s10 (2026-09-29) says why. |
 | 20 | [The product](20-the-product.md) | What combo_bot is, what it earns in each market type, and the sideways gap with every test that tried to close it. |
 | 21 | [The graveyard audit](21-graveyard-audit.md) | **Every kill in the repo, its backing rated, every thin one re-tested (2026-10-08).** Nothing came back as a book; the MN short-leg stop kill was reversed (now in the demo bot); "volume is useless" and "every reversal fails" were too broad. Read with doc 02's last entry, the combination sweep. |
+| 22 | [The decision rule](22-decision-rule.md) | **When real money may go in (fund / kill / extend lines, the BTC-1000h benchmark, a tested PKR money path), the code freeze to 2027-04-09 and the research stop date 2026-12-31 - written 2026-10-10 before the verdict data.** |
 
 ## Also in the repo
 
@@ -37,6 +38,14 @@ of the rules and the traps, and it is the only file you must not skip.
 - [`strategy_analysis/validation_protocol.md`](../strategy_analysis/validation_protocol.md) —
   the full testing gates, in technical detail. This is the authority; docs 02 and
   03 here are the readable summary of it.
+- [`23-his-strategy.md`](23-his-strategy.md) — **the NASDAQ trader, everything known**: his record (real, live,
+  not luck), his method, his edge (the side, ~95%), every source ruled out, what a bot can take from him.
+- [`24-dashboard-plan.md`](24-dashboard-plan.md) — **the live dashboard, planned**: every trade and book live,
+  a scorecard against the backtest, safe "learning" (record, score, propose - never self-tune), sentiment sources and costs.
+- [`25-sentiment-engine.md`](25-sentiment-engine.md) — **the sentiment engine, designed**: collect, enrich, score; each
+  news category's weight LEARNED from the price moves that followed it (event studies), then vetoes / exits for the bot.
+- [`26-the-one-bot.md`](26-the-one-bot.md) — **THE END GOAL**: one bot, five layers (edges, eyes on the world, risk,
+  execution, a learning loop that proposes but never self-tunes), where each stands today, and the road from here.
 - [`strategy_analysis/his_strategy.md`](../strategy_analysis/his_strategy.md) —
   the original human scalper's method, reverse-engineered and tested.
 - [`README.md`](../README.md) — repo-level setup.

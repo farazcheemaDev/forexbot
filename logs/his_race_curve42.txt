@@ -1,0 +1,6 @@
+backtest/his_race_curve42.py - race to +-T within 600 s, his entries (corrected clock) vs his sittings' other moments
+T                2      3      4      5      6      7      8      9     10     12     15
+his            62%    71%    74%    71%    73%    88%    83%    83%    88%    88%    84%
+n               42     42     42     42     41     41     41     41     41     41     37
+sittings       53%    53%    54%    55%    54%    56%    57%    58%    58%    58%    59%
+hindsight      61%    66%    72%    77%    82%    88%    83%    79%    76%    72%    68%   (picked only for winning +-7, random walk after)

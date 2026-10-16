@@ -1,0 +1,49 @@
+  fetched 1/31 (1,419,447 prints)
+  fetched 2/31 (1,012,692 prints)
+  fetched 3/31 (878,354 prints)
+  fetched 4/31 (0 prints)
+  fetched 5/31 (1,146,037 prints)
+  fetched 6/31 (963,111 prints)
+  fetched 7/31 (22,358 prints)
+  fetched 8/31 (1,245,441 prints)
+  fetched 9/31 (344,725 prints)
+  fetched 10/31 (1,106,494 prints)
+  fetched 11/31 (15,144 prints)
+  fetched 12/31 (266,975 prints)
+  fetched 13/31 (356,520 prints)
+  fetched 14/31 (300,232 prints)
+  fetched 15/31 (377,633 prints)
+  fetched 16/31 (5,458 prints)
+  fetched 17/31 (345,546 prints)
+  fetched 18/31 (630,047 prints)
+  fetched 19/31 (883,114 prints)
+  fetched 20/31 (768,012 prints)
+  fetched 21/31 (316,078 prints)
+  fetched 22/31 (872,038 prints)
+  fetched 23/31 (1,012,446 prints)
+  fetched 24/31 (1,123,695 prints)
+  fetched 25/31 (917,974 prints)
+  fetched 26/31 (4,489 prints)
+  fetched 27/31 (643,896 prints)
+  fetched 28/31 (411,642 prints)
+  fetched 29/31 (283,858 prints)
+  fetched 30/31 (4,652 prints)
+  fetched 31/31 (620,673 prints)
+backtest/his_darkpool.py, 2026-10-15 20:21 UTC; 17,923,539 prints in 31 windows, 13,522,090 off-exchange (FINN/FINC, 176.5 $bn, 7,594 blocks >= $1M); 46 of his entries, 1763 sitting moments
+baseline: his side at the sittings' moments wins 55.7%
+
+    feature   agree       p    rank       p    rule     n
+     dark15     57%   0.451    0.47   0.521     59%   317
+    block15     56%   0.701    0.51   0.887     52%   317
+     dark30     43%   0.451    0.45   0.344     58%   317
+    block30     44%   0.618    0.46   0.323     57%   317
+     dark60     45%   0.652    0.42   0.083     57%   317
+    block60     33%   0.053    0.40   0.020     57%   317
+    dark120     45%   0.652    0.43   0.078     59%   317
+   block120     23%   0.001    0.40   0.007     54%   317
+
+REGISTERED PREDICTIONS
+  1 A within 35-65%: 23..57% -> WRONG
+  2 B within 0.40-0.60: 0.40..0.51 -> WRONG
+  3 C within 5 points of 56%: 52..59% -> RIGHT
+  LEAD LINE: not hit

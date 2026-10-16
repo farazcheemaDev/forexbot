@@ -1,0 +1,10 @@
+backtest/month_target.py --in, 2026-10-16 08:39 UTC; 10 orderings
+
+  IN SAMPLE: the deployed final machine 2020-2026 (capit2 1.0 x 2x)
+    rule             avg month  median  >= +10%  losing  <= -10%    CAGR  fall
+    no rule             +41.9%   +7.6%      46%     36%      16%  +1373%   56%
+    stop at +10%        +13.0%  +11.0%      61%     30%      13%   +199%   50%
+    stop at +15%        +17.5%  +15.6%      55%     33%      14%   +298%   50%
+    stop at +20%        +21.5%  +12.9%      52%     34%      15%   +426%   50%
+    stop at -10%        +34.7%   +0.2%      37%     49%      40%   +663%   51%
+    +10% and -10%        +7.6%  +10.1%      51%     44%      37%    +76%   46%

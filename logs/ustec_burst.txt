@@ -1,0 +1,9 @@
+backtest/ustec_burst.py, 2026-10-12 14:46 UTC; Exness USTECm ticks, 181 days 2026-01-02 .. 2026-09-14; burst = mid moves >= 2.5 points in 3 s; entry 1 s later at the real price; race +-7 points (30-min cap); holdout from 2026-06-04
+
+  FADE   201932 trades | won the race 34.9% | net -2.11 points a trade (tune -1.97 t -92.5 / holdout -2.25 t -108.7)
+  FOLLOW 204162 trades | won the race 33.6% | net -2.29 points a trade (tune -2.16 t -103.1 / holdout -2.41 t -118.3)
+  RANDOM   7240 trades | won the race 35.4% | net -2.00 points a trade (tune -1.94 t -19.1 / holdout -2.08 t -16.8)
+
+REGISTERED PREDICTIONS
+  U1 neither rule positive on both halves: FOLLOW -2.16/-2.41, FADE -1.97/-2.25 -> RIGHT
+  U2 FOLLOW won 33.6% (< 50%?), FADE 34.9% (50-55%?) -> WRONG

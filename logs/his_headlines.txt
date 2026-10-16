@@ -1,0 +1,158 @@
+backtest/his_headlines.py, 2026-10-12 14:46 UTC; 89 clicks (48 NASDAQ, 41 gold) in 35 sittings; headlines in the windows: FinancialJuice 367, WalterBloomberg 239, breakingmarketnews 367, marketfeed 1664
+
+NASDAQ clicks (48) vs 5107 same-sitting moments: share with >= 1 headline in the window BEFORE
+  FinancialJuice       | 15s: his   4.2% vs   4.2% (1.00x, p 0.598) | 60s: his  29.2% vs  13.6% (2.15x, p 0.004)
+  WalterBloomberg      | 15s: his   0.0% vs   2.3% (0.00x, p 1.000) | 60s: his  10.4% vs   7.7% (1.35x, p 0.309)
+  breakingmarketnews   | 15s: his   2.1% vs   4.0% (0.52x, p 0.861) | 60s: his  29.2% vs  13.7% (2.13x, p 0.004)
+  marketfeed           | 15s: his  18.8% vs  14.1% (1.33x, p 0.226) | 60s: his  58.3% vs  38.0% (1.53x, p 0.003)
+  any                  | 15s: his  20.8% vs  17.8% (1.17x, p 0.347) | 60s: his  58.3% vs  40.1% (1.46x, p 0.008)
+
+GOLD clicks (41) vs 5107 same-sitting moments: share with >= 1 headline in the window BEFORE
+  FinancialJuice       | 15s: his   2.4% vs   4.2% (0.59x, p 0.824) | 60s: his   2.4% vs  13.6% (0.18x, p 0.997)
+  WalterBloomberg      | 15s: his   0.0% vs   2.3% (0.00x, p 1.000) | 60s: his   0.0% vs   7.7% (0.00x, p 1.000)
+  breakingmarketnews   | 15s: his   2.4% vs   4.0% (0.60x, p 0.815) | 60s: his   2.4% vs  13.7% (0.18x, p 0.998)
+  marketfeed           | 15s: his   4.9% vs  14.1% (0.35x, p 0.985) | 60s: his  29.3% vs  38.0% (0.77x, p 0.908)
+  any                  | 15s: his   7.3% vs  17.8% (0.41x, p 0.984) | 60s: his  31.7% vs  40.1% (0.79x, p 0.896)
+
+ALL clicks (89) vs 5107 same-sitting moments: share with >= 1 headline in the window BEFORE
+  FinancialJuice       | 15s: his   3.4% vs   4.2% (0.81x, p 0.720) | 60s: his  16.9% vs  13.6% (1.24x, p 0.223)
+  WalterBloomberg      | 15s: his   0.0% vs   2.3% (0.00x, p 1.000) | 60s: his   5.6% vs   7.7% (0.73x, p 0.824)
+  breakingmarketnews   | 15s: his   2.2% vs   4.0% (0.56x, p 0.879) | 60s: his  16.9% vs  13.7% (1.23x, p 0.233)
+  marketfeed           | 15s: his  12.4% vs  14.1% (0.88x, p 0.722) | 60s: his  44.9% vs  38.0% (1.18x, p 0.110)
+  any                  | 15s: his  14.6% vs  17.8% (0.82x, p 0.823) | 60s: his  46.1% vs  40.1% (1.15x, p 0.147)
+
+HEADLINES IN THE 60 s BEFORE EACH NASDAQ CLICK (his side, result $; s before the click, channel: text)
+  2026-01-02 14:51:10 UTC SELL   +38.25   (none)
+  2026-01-06 15:33:13 UTC SELL    +4.75
+      -  55s marketfeed   NICKEL SURGES MORE THAN 9% ON LME, MOST SINCE DEC 2022 ...
+  2026-01-16 15:45:05 UTC SELL   +14.00   (none)
+  2026-01-19 14:54:21 UTC BUY    +48.00
+      -  55s marketfeed   IMF'S MANAGING DIRECTOR GEORGIEVA: I AM NOT YET WORRIED ABOUT A DOTCOM-STYLE BUBBLE. ...
+  2026-01-21 14:52:45 UTC BUY    +41.25
+      -  34s marketfeed   TRUMP ON RECESSION FEARS: SOMETHING THINGS UNEXPECTED HAPPEN ...
+      -  28s breakingmark Trump ends Davos address and starts Q&A.
+      -  27s FinancialJui Trump ends Davos address and starts Q&A.|FJ
+      -   4s marketfeed   TRUMP ENDS DAVOS ADDRESS AND STARTS Q&A. ...
+  2026-01-26 15:19:54 UTC BUY    +10.00
+      -  35s breakingmark Crypto Fear & Greed Index: 20/100 - Extreme Fear
+      -  31s FinancialJui Crypto Fear & Greed Index: 20/100 - Extreme Fear|FJ
+      -  29s marketfeed   CRYPTO FEAR & GREED INDEX: 20/100 - EXTREME FEAR  ...
+  2026-02-04 13:54:41 UTC BUY    -24.00
+      -  52s WalterBloomb 🇨🇳 CHINESE TRADER MAKES $500M BET AGAINST SILVER  Zhongcai Futures made more than $500 million after shorting 
+      -  44s marketfeed   🇨🇳 CHINESE TRADER MAKES $500M BET AGAINST SILVER  ZHONGCAI FUTURES MADE MORE THAN $500 MILLION AFTER SHORTING 
+      -  14s marketfeed   THE THRESHOLD FOR HOUSEHOLDS TO BE IN THE TOP 10% OF EARNERS ROSE 23% SINCE 2020, PER VISA. ...
+      -  13s marketfeed   OVER 70% OF LICENSED REALTORS DIDN’T SELL A SINGLE HOME LAST YEAR, PER NAR ...
+  2026-02-11 15:14:14 UTC BUY    +40.50
+      -  57s marketfeed   FED’S SCHMID: FURTHER RATE CUTS COULD ALLOW HIGHER INFLATION TO PERSIST FOR LONGER - NOT SEEING EVIDENCE CURRE
+  2026-02-17 18:58:50 UTC SELL   +33.75
+      -  52s WalterBloomb PORT OF LA IMPORTS, EXPORTS DROP AMID US-CHINA TARIFFS  Port of Los Angeles container traffic fell sharply in 
+      -  23s marketfeed   PORT OF LA IMPORTS, EXPORTS DROP AMID US-CHINA TARIFFS  PORT OF LOS ANGELES CONTAINER TRAFFIC FELL SHARPLY IN 
+  2026-02-17 18:59:11 UTC SELL   +20.00
+      -  44s marketfeed   PORT OF LA IMPORTS, EXPORTS DROP AMID US-CHINA TARIFFS  PORT OF LOS ANGELES CONTAINER TRAFFIC FELL SHARPLY IN 
+  2026-02-20 15:01:48 UTC BUY     +3.75
+      -  55s breakingmark ⚠ University Michigan Sentiment Final Actual 56.6 (Forecast 57.3, Previous 57.3)  University Michigan Conditio
+      -  54s FinancialJui ⚠ University Michigan Sentiment Final Actual 56.6 (Forecast 57.3, Previous 57.3)  University Michigan Conditio
+      -  41s marketfeed   U.S. MICHIGAN CONSUMER SENTIMENT (FEB) ACTUAL: 56.6 VS 57.3 PREVIOUS; EST 57.3 ...
+      -  41s marketfeed   ⚠ UNIVERSITY MICHIGAN SENTIMENT FINAL ACTUAL 56.6 (FORECAST 57.3, PREVIOUS 57.3)  UNIVERSITY MICHIGAN CONDITIO
+      -  24s WalterBloomb MICHIGAN CONSUMER SENTIMENT SLIPS IN FEBRUARY  Sentiment (final Feb): 56.6 vs. 57.3 expected, 56.4 in Jan  🔸Cu
+      -  11s marketfeed   MICHIGAN CONSUMER SENTIMENT SLIPS IN FEBRUARY  SENTIMENT (FINAL FEB): 56.6 VS. 57.3 EXPECTED, 56.4 IN JAN  🔸CU
+  2026-02-20 15:02:15 UTC SELL   +95.00
+      -  51s WalterBloomb MICHIGAN CONSUMER SENTIMENT SLIPS IN FEBRUARY  Sentiment (final Feb): 56.6 vs. 57.3 expected, 56.4 in Jan  🔸Cu
+      -  38s marketfeed   MICHIGAN CONSUMER SENTIMENT SLIPS IN FEBRUARY  SENTIMENT (FINAL FEB): 56.6 VS. 57.3 EXPECTED, 56.4 IN JAN  🔸CU
+      -  24s breakingmark US New Home Sales - Units Actual 0.745M (Forecast 0.73M, Previous 0.737M)
+      -  22s FinancialJui US New Home Sales - Units Actual 0.745M (Forecast 0.73M, Previous 0.737M)|FJ
+      -  21s WalterBloomb 🚨 U.S. SUPREME COURT DOES NOT ISSUE RULING IN CHALLENGE TO LEGALITY OF TRUMP'S GLOBAL TARIFFS (@WalterBloomber
+      -   8s marketfeed   US NEW HOME SALES - UNITS ACTUAL 0.745M (FORECAST 0.73M, PREVIOUS 0.737M) ...
+      -   8s marketfeed   🚨 U.S. SUPREME COURT DOES NOT ISSUE RULING IN CHALLENGE TO LEGALITY OF TRUMP'S GLOBAL TARIFFS ...
+      -   7s marketfeed   TRUMP’S GLOBAL TARIFFS STRUCK DOWN BY U.S. SUPREME COURT ...
+  2026-02-24 13:32:10 UTC SELL   +45.50
+      -  11s marketfeed   TRUMP: 'THE DEMOCRAT SHUTDOWN IS KILLING THE BLUE STATES!' ...
+  2026-02-25 18:51:18 UTC BUY    +12.50   (none)
+  2026-02-27 19:15:09 UTC BUY     +9.00   (none)
+  2026-03-02 19:02:40 UTC BUY    +23.75
+      -  40s marketfeed   JPMORGAN CEO DIMON SAYS BANKS WANT A LEVEL PLAYING FIELD WITH CRYPTO FIRMS ...
+      -  25s marketfeed   "AMERICANS WILL SEE HIGHER PRICES FOR ENERGY IN THE WEEKS AHEAD," PER AXIOS. ...
+      -   8s breakingmark Kuwait Army says one navy soldier killed while on duty - Kuna.
+      -   3s FinancialJui Kuwait Army says one navy soldier killed while on duty - Kuna.|FJ
+  2026-03-03 21:02:10 UTC SELL   +37.50   (none)
+  2026-03-06 11:54:33 UTC SELL   +15.00   (none)
+  2026-03-16 17:04:28 UTC BUY    +63.00
+      -  55s marketfeed   TRUMP: IRAN HAS PEOPLE WHO WANT TO TALK, WE DON'T KNOW WHO ...
+      -  48s WalterBloomb TRUMP ON IRAN'S NEW SUPREME LEADER: PEOPLE SAYING HE'S BEEN HURT, OTHERS SAYING HE'S DEAD (@WalterBloomberg)
+      -  41s marketfeed   TRUMP ON IRAN'S NEW SUPREME LEADER: PEOPLE SAYING HE'S BEEN HURT, OTHERS SAYING HE'S DEAD ...
+      -  21s breakingmark Volland SPX Greek Hedging Greek Hedging (SPX) estimates the direction and size of daily dealer rebalancing flo
+      -  16s FinancialJui Volland SPX Greek Hedging Greek Hedging (SPX) estimates the direction and size of daily dealer rebalancing flo
+      -  10s marketfeed   TRUMP SAYS ON IRAN'S NEW SUPREME LEADER: PEOPLE SAYING HE'S BEEN HURT, OTHERS SAYING HE'S DEAD ...
+      -  10s marketfeed   VOLLAND SPX GREEK HEDGING GREEK HEDGING (SPX) ESTIMATES THE DIRECTION AND SIZE OF DAILY DEALER REBALANCING FLO
+  2026-03-31 19:58:14 UTC BUY    +68.00
+      -  18s marketfeed   ONTARIO SECURITIES COMMISSION: ACCUSES KPMG OF AUDIT DEFICIENCIES RELATED TO FOUR BRIDGING FINANCE INC. FUNDS 
+      -  17s marketfeed   ISRAELI MILITARY STATES, REGARDING INCIDENT INVOLVING LEBANON PEACEKEEPERS, ITS FORCES DID NOT DEPLOY AN EXPLO
+  2026-04-02 15:10:35 UTC BUY   +112.00   (none)
+  2026-04-02 15:11:16 UTC BUY    +28.75   (none)
+  2026-04-06 15:38:36 UTC BUY    +96.00   (none)
+  2026-04-06 15:44:39 UTC SELL    +6.50   (none)
+  2026-04-28 16:16:15 UTC BUY    +86.25
+      -  52s marketfeed   CBS NEWS PRODUCER IN TEHRAN: THE COUNTRY DOES NOT APPEAR TO BE IN A STATE OF COLLAPSE, BY ANY STANDARDS AT ALL
+      -  39s breakingmark CBS News producer in Tehran: The country does not appear to be in a state of collapse, by any standards at all
+      -  35s FinancialJui CBS News producer in Tehran: The country does not appear to be in a state of collapse, by any standards at all
+  2026-05-05 15:03:41 UTC BUY   +240.00
+      -  60s FinancialJui Trump: We're doing very well in Iran.|FJ
+      -  60s breakingmark Trump: We're doing very well in Iran.
+      -  38s marketfeed   TRUMP: WE'RE DOING VERY WELL IN IRAN. ...
+  2026-05-07 15:07:11 UTC SELL    +3.00
+      -  45s marketfeed   JUST IN: MICHAEL SAYLOR SAYS "BUY MORE BITCOIN THAN YOU SELL."  ...
+  2026-05-07 15:13:06 UTC SELL   +28.00
+      -  40s marketfeed   SOLV PROTOCOL TO SWITCH FROM LAYERZERO TO CHAINLINK'S CCIP FOLLOWING SECURITY REVIEW ...
+      -  10s marketfeed   CRYPTO ETF BOOM CONTINUES WITH DEBUT OF FIRST FUND TO TRACK CANTON ...
+  2026-06-05 15:02:16 UTC BUY   +150.00
+      -  52s breakingmark Fitch Ratings: Oil market will return to oversupply once Hormuz reopens.
+      -  51s FinancialJui Fitch Ratings: Oil market will return to oversupply once Hormuz reopens.|FJ
+      -  22s marketfeed   FITCH RATINGS: OIL MARKET WILL RETURN TO OVERSUPPLY ONCE HORMUZ REOPENS.  ...
+  2026-06-05 15:04:00 UTC BUY   +155.00
+      -   7s marketfeed   FITCH RATINGS: PROJECT OIL MARKET TO RETURN TO OVERSUPPLY FROM SEPTEMBER 2026. ...
+      -   7s marketfeed   FITCH FORECASTS OIL MARKET TO FACE OVERSUPPLY STARTING SEPTEMBER 2026, WITH GLOBAL OIL SUPPLY EXPECTED TO OUTP
+  2026-06-05 15:04:39 UTC SELL   +70.00
+      -  46s marketfeed   FITCH FORECASTS OIL MARKET TO FACE OVERSUPPLY STARTING SEPTEMBER 2026, WITH GLOBAL OIL SUPPLY EXPECTED TO OUTP
+      -  46s marketfeed   FITCH RATINGS: PROJECT OIL MARKET TO RETURN TO OVERSUPPLY FROM SEPTEMBER 2026. ...
+      -  31s breakingmark Fitch Ratings: We assume global oil supply to exceed demand in 2026 on average for the year.
+      -  29s FinancialJui Fitch Ratings: We assume global oil supply to exceed demand in 2026 on average for the year.|FJ
+      -  16s marketfeed   FITCH RATINGS: WE ASSUME GLOBAL OIL SUPPLY TO EXCEED DEMAND IN 2026 ON AVERAGE FOR THE YEAR. ...
+  2026-07-01 15:39:33 UTC SELL   +60.00   (none)
+  2026-07-01 15:40:20 UTC SELL  +147.50   (none)
+  2026-07-10 09:11:46 UTC BUY    +75.00   (none)
+  2026-07-10 16:18:29 UTC BUY    +65.00   (none)
+  2026-07-24 18:57:02 UTC SELL  +115.00
+      -  32s marketfeed   JUST IN: ELON MUSK SAYS HE IS NOW A "FORMER TRILLIONAIRE." ...
+  2026-08-07 16:59:59 UTC BUY   +123.75   (none)
+  2026-08-07 17:03:15 UTC SELL   +97.50
+      -  38s marketfeed   US TOTAL RIG COUNT 588 || US GAS RIG COUNT DOWN 3 TO 124 || US OIL RIG COUNT UP 3 TO 454 , BAKER HUGHES SAYS .
+  2026-08-10 22:30:21 UTC SELL  +273.75   (none)
+  2026-09-14 18:14:37 UTC BUY   -483.75   (none)
+  2026-09-14 18:30:13 UTC BUY    +95.00   (none)
+  2026-09-14 18:38:07 UTC SELL   +40.00   (none)
+  2026-09-14 18:46:11 UTC SELL  +165.00
+      -  39s breakingmark Brent Crude futures settle at $105.68/bbl, up $1.07, 1.02%. (@BreakingMarketNews)
+      -  35s FinancialJui Brent Crude futures settle at $105.68/bbl, up $1.07, 1.02%.|FJ
+      -  32s marketfeed   BRENT CRUDE FUTURES SETTLE AT $105.68/BBL, UP $1.07, 1.02%. ...
+  2026-09-14 18:49:02 UTC SELL  +156.25
+      -  52s marketfeed   OIL GAINS EASE AS TRADERS WEIGH POSSIBLE DIPLOMATIC PROGRESS WITH IRAN, WHILE THE PIPELINE’S OUTAGE DURATION A
+      -  52s marketfeed   BRENT CRUDE RISES 1.26% TO $105.93 A BARREL AND WTI GAINS 1.47% TO $101.52 AFTER SAUDI ARABIA SHUT ITS EAST-WE
+      -  33s breakingmark Saudis: A warning has been issued in the Najran province. (@BreakingMarketNews)
+      -  33s FinancialJui Saudis: A warning has been issued in the Najran province.|FJ
+      -  23s marketfeed   SAUDIS: A WARNING HAS BEEN ISSUED IN THE NAJRAN PROVINCE. ...
+  2026-09-14 19:00:16 UTC SELL  +206.25
+      -  50s marketfeed   IRGC NAVY COMMAND CITED BY IRNA: SUPERTANKER ALGAYA ENGULFED IN FLAMES AFTER REPORTEDLY STRIKING NAVAL MINE SO
+      -  22s breakingmark IRGC Navy Command cited by IRNA: Supertanker Algaya Engulfed in Flames After Reportedly Striking Naval Mine So
+      -  13s marketfeed   Follow us on X for even faster headlines!  https://x.com/MarketNews_Feed
+      -   6s FinancialJui IRGC Navy Command cited by IRNA: Supertanker Algaya Engulfed in Flames After Reportedly Striking Naval Mine So
+  2026-09-14 19:02:30 UTC SELL  +418.75
+      -  49s marketfeed   IRGC: STRAIT OF HORMUZ CLOSED, UNDER SMART NAVAL CONTROL – TASNIM  ...
+  2026-10-08 17:10:48 UTC SELL  +225.00   (none)
+  2026-10-08 17:17:55 UTC BUY    +75.00
+      -  51s breakingmark EU Commissioner Dombrovskis: I am mindful but not alarmed about bond spreads in the Eurozone (@BreakingMarketN
+      -  49s FinancialJui EU Commissioner Dombrovskis: I am mindful but not alarmed about bond spreads in the Eurozone|FJ
+      -  32s marketfeed   EU COMMISSIONER DOMBROVSKIS: I AM MINDFUL BUT NOT ALARMED ABOUT BOND SPREADS IN THE EUROZONE ...
+
+REGISTERED PREDICTIONS
+  HL1 a channel at >= 2x the control within 15 s with p < 0.01: no -> not shown
+  HL2 every channel within 0.7-1.5x at 15 s: 0.81, 0.00, 0.56, 0.88 -> WRONG; best marketfeed 0.88x

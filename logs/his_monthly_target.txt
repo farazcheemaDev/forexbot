@@ -1,0 +1,24 @@
+backtest/his_monthly_target.py - month by month, all instruments (capital from his_strategy s16)
+
+2026-01: capital ~$1,630, 9 trades on 9 days, month +12.7% | crossed 10% on trade 7 (01-26 19:20); after it 2 trades, +2.4%
+2026-02: capital ~$1,662, 49 trades on 9 days, month +21.6% | crossed 10% on trade 44 (02-20 19:02); after it 5 trades, +11.5%
+2026-03: capital ~$3,658, 4 trades on 4 days, month +3.8% | did not reach 10%
+2026-04: capital ~$3,395, 7 trades on 4 days, month +11.9% | crossed 10% on trade 7 (04-28 21:16); after it 0 trades, +0.0%
+2026-05: capital ~$3,474, 3 trades on 2 days, month +7.8% | did not reach 10%
+2026-06: capital ~$3,378, 3 trades on 1 days, month +11.1% | crossed 10% on trade 3 (06-05 20:05); after it 0 trades, +0.0%
+2026-07: capital ~$3,404, 5 trades on 3 days, month +13.6% | crossed 10% on trade 4 (07-10 21:20); after it 1 trades, +3.4%
+2026-08: capital ~$5,266, 3 trades on 2 days, month +9.4% | did not reach 10%
+2026-09: capital ~$5,256, 8 trades on 2 days, month +11.7% | crossed 10% on trade 6 (09-15 00:02); after it 2 trades, -1.2%
+
+NASDAQ size by month (medians): lots, notional / capital, % of the account per point
+   lots  notional_x  pct_per_point
+m                                 
+1  0.02       23.63           0.09
+2  0.05       74.77           0.30
+3  0.04       30.42           0.12
+4  0.08       56.64           0.24
+5  0.07       58.17           0.20
+6  0.20      176.41           0.59
+7  0.10       89.02           0.29
+8  0.15       84.74           0.28
+9  0.20      111.39           0.38

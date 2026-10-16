@@ -1,0 +1,31 @@
+backtest/his_loopholes.py, 2026-10-15 23:35 UTC
+
+L1  ES LEADING NQ (1-s mids, bp; > 0 = his way)
+    46 of his entries, 1585 sitting moments
+
+     feature   agree       p    rank       p   rule C     n
+         es1     43%   0.572    0.47   0.414      51%   317
+       lead1     50%   1.000    0.51   0.698      52%   317
+         es2     37%   0.200    0.45   0.203      50%   317
+       lead2     52%   0.880    0.57   0.125      54%   317
+         es3     35%   0.121    0.43   0.136      54%   317
+       lead3     59%   0.291    0.57   0.134      54%   317
+         es5     49%   1.000    0.47   0.574      54%   317
+       lead5     45%   0.652    0.49   0.897      51%   317
+
+L3  A SUB-SECOND CME SWEEP BEFORE HIS FILL (real NQ prints, points his way)
+    46 entries with prints
+
+    [T-5, T-4) s   median +nan  mean +nan  his way nan%  against nan%
+    [T-4, T-3) s   median +0.00  mean +0.01  his way 40%  against 42%
+    [T-3, T-2) s   median +0.00  mean +0.01  his way 41%  against 35%
+    [T-2, T-1) s   median -0.25  mean -0.39  his way 33%  against 57%
+    [T-1, T+0) s   median +0.00  mean +0.01  his way 35%  against 41%
+    [T+0, T+1) s   median +0.25  mean +0.65  his way 54%  against 22%
+    [T-1, T+1)       median +0.00  mean +0.66  his way 48%  against 35%
+    largest 400-ms move his way: [T-2, T+1) median 1.25, control [T-5, T-2) 1.25; paired difference median +0.00
+
+REGISTERED PREDICTIONS
+  1 L1 A 35-65%: 35..59%; B 0.40-0.60: 0.43..0.57; C 42-58%: 50..54% -> RIGHT
+  2 L3 median [T-1,T+1) +0.00 (within +-0.5), his way 48% (35-65), jump diff +0.00 (within +-0.5) -> RIGHT
+  LEAD LINE: L1 closed; L3 closed

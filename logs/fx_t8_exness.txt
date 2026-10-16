@@ -1,0 +1,24 @@
+backtest/fx_t8_exness.py, 2026-10-11 23:34 UTC; T8 re-measured. Exness EURUSD daily 2020-02-19 .. 2026-09-14; costs 1.0bp + swap (long -0.51, short 0.0bp a night)
+
+VERDICT - T8 on Exness's own EURUSD prices
+  T8, Exness, last forex day close-to-close    n  78 | net  -4.06bp a month (t -0.83, one-sided p 0.796) | tune -14.75 / holdout +11.31bp (split 2024-01) | right sign 43/78
+  family Holm p (with the other nine rows of logs/fx_anomalies.txt): 1.000 -> FAIL - the kill stands
+  gross -2.72bp a month before costs
+
+A  YAHOO AS PUBLISHED (the broken measurement), the same months
+  T8, Yahoo, as in fx_anomalies.py             n  78 | net  +4.40bp a month (t +0.86, one-sided p 0.195) | tune  +3.00 / holdout  +6.41bp (split 2024-01) | right sign 47/78
+  month by month, |Yahoo - Exness| averages 54.9bp; the two agree in sign in 49% of 78 months; correlation -0.18
+
+B  YAHOO REALIGNED (its bar dated D+1 read as day D): daily-return correlation with Exness on the overlap 0.947 (1702 days)
+  T8, Yahoo realigned, all years               n 233 | net  -4.74bp a month (t -1.20, one-sided p 0.886) | tune  -4.85 / holdout  -4.57bp (split 2018-12) | right sign 112/233
+  Holm p 1.000 -> fails
+    same, only Exness's months (cross-check)   n  78 | net  -5.14bp a month (t -0.96, one-sided p 0.830) | tune -17.48 / holdout +12.60bp (split 2024-01) | right sign 40/78
+
+C  TO THE FIX (Exness close of the day before -> 16:00 London on the last day)
+  T8, Exness, to the 16:00 London fix          n  78 | net  -3.81bp a month (t -0.97, one-sided p 0.833) | tune -13.07 / holdout  +9.50bp (split 2024-01) | right sign 40/78
+
+REGISTERED PREDICTIONS
+  M1 Exness t -0.83, right sign 55% -> RIGHT
+  M2 |Yahoo - Exness| 54.9bp a month -> RIGHT
+  M3 realigned corr 0.947; 2003-2026 corrected T8 Holm 1.000, halves -4.85 / -4.57 -> RIGHT
+  M4 to the fix t -0.97 -> RIGHT

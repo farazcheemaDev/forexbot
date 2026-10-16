@@ -1,0 +1,19 @@
+backtest/ustec_burst_straddle.py, 2026-10-12 17:36 UTC; Exness USTECm 181 days, holdout from 2026-06-04; stops +-k for 60 s at av30 >= the tune days' quantile; race +-7 at real prices
+
+q 0.995 (av30 >= 96.9) tune    k 2:  2745 trades won 36.2% net -1.93 pts (t -15.0) | random seconds  9637 won 37.1% net -1.79 | diff -0.13 (se 0.15)
+q 0.995 (av30 >= 96.9) tune    k 3:  2597 trades won 37.5% net -1.75 pts (t -13.2) | random seconds  9274 won 36.8% net -1.83 | diff +0.08 (se 0.15)
+q 0.995 (av30 >= 96.9) tune    k 4:  2477 trades won 36.7% net -1.86 pts (t -13.7) | random seconds  8837 won 36.2% net -1.92 | diff +0.05 (se 0.15)
+q 0.995 (av30 >= 96.9) HOLDOUT k 2:  8167 trades won 35.6% net -2.01 pts (t -27.1) | random seconds 19420 won 35.2% net -2.07 | diff +0.05 (se 0.09)
+q 0.995 (av30 >= 96.9) HOLDOUT k 3:  7792 trades won 36.0% net -1.96 pts (t -25.7) | random seconds 18760 won 35.0% net -2.10 | diff +0.14 (se 0.09)
+q 0.995 (av30 >= 96.9) HOLDOUT k 4:  7308 trades won 35.5% net -2.03 pts (t -25.9) | random seconds 17766 won 34.4% net -2.17 | diff +0.14 (se 0.09)
+
+q 0.980 (av30 >= 73.1) tune    k 2:  8908 trades won 36.8% net -1.85 pts (t -25.9) | random seconds 25124 won 36.3% net -1.91 | diff +0.06 (se 0.08)
+q 0.980 (av30 >= 73.1) tune    k 3:  8427 trades won 36.3% net -1.92 pts (t -26.2) | random seconds 23988 won 36.1% net -1.93 | diff +0.01 (se 0.09)
+q 0.980 (av30 >= 73.1) tune    k 4:  7871 trades won 36.6% net -1.87 pts (t -24.6) | random seconds 22649 won 35.7% net -2.00 | diff +0.12 (se 0.09)
+q 0.980 (av30 >= 73.1) HOLDOUT k 2: 20339 trades won 35.4% net -2.04 pts (t -43.4) | random seconds 38106 won 34.2% net -2.20 | diff +0.16 (se 0.06)
+q 0.980 (av30 >= 73.1) HOLDOUT k 3: 19142 trades won 35.0% net -2.09 pts (t -43.4) | random seconds 35943 won 34.2% net -2.20 | diff +0.11 (se 0.06)
+q 0.980 (av30 >= 73.1) HOLDOUT k 4: 17822 trades won 35.4% net -2.05 pts (t -40.8) | random seconds 33724 won 34.2% net -2.21 | diff +0.16 (se 0.06)
+
+REGISTERED PREDICTIONS (holdout)
+  S1 net <= 0 in every cell: q0.995/k2 -2.01, q0.995/k3 -1.96, q0.995/k4 -2.03, q0.980/k2 -2.04, q0.980/k3 -2.09, q0.980/k4 -2.05 -> RIGHT
+  S2 beats random seconds by < 0.5 in every cell: +0.05, +0.14, +0.14, +0.16, +0.11, +0.16 -> RIGHT

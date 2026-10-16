@@ -1,0 +1,227 @@
+backtest/ndx_capit_check.py, 2026-10-11 20:59 UTC; exit X2 (first close above the 5-day average, at most 10 days) unless stated; 1x; NASDAQ CFD costs
+
+1. OTHER INDICES, rules frozen
+  S&P 500 (1999 .. 2026, holdout from 2015-08): 3 of 24 PASS
+    capit_z2  close -    n  214 | net +0.14% | tune +0.25% (t +1.0) | holdout -0.03% (t -0.1)
+    capit_z2  close 200d n  143 | net +0.30% | tune +0.26% (t +1.1) | holdout +0.34% (t +1.6)
+    capit_z2  open  -    n  214 | net +0.21% | tune +0.31% (t +1.4) | holdout +0.05% (t +0.2)
+    capit_z2  open  200d n  143 | net +0.31% | tune +0.35% (t +1.8) | holdout +0.26% (t +1.2)
+    rsi2_10   close -    n  320 | net +0.33% | tune +0.37% (t +1.8) | holdout +0.27% (t +1.3)
+    rsi2_10   close 200d n  198 | net +0.29% | tune +0.23% (t +1.2) | holdout +0.35% (t +2.4)
+    rsi2_10   open  -    n  318 | net +0.32% | tune +0.39% (t +1.9) | holdout +0.22% (t +1.3)
+    rsi2_10   open  200d n  198 | net +0.28% | tune +0.31% (t +1.9) | holdout +0.24% (t +1.8)
+    rsi2_5    close -    n  173 | net +0.52% | tune +0.44% (t +1.5) | holdout +0.63% (t +2.9)
+    rsi2_5    close 200d n  101 | net +0.45% | tune +0.25% (t +0.7) | holdout +0.63% (t +3.1)
+    rsi2_5    open  -    n  172 | net +0.54% | tune +0.47% (t +1.7) | holdout +0.64% (t +2.8)
+    rsi2_5    open  200d n  101 | net +0.44% | tune +0.38% (t +1.3) | holdout +0.51% (t +2.6)
+    ibs20     close -    n  859 | net +0.19% | tune +0.16% (t +1.7) | holdout +0.24% (t +2.5)
+    ibs20     close 200d n  588 | net +0.17% | tune +0.15% (t +1.9) | holdout +0.19% (t +2.7)
+    ibs20     open  -    n  856 | net +0.19% | tune +0.16% (t +1.7) | holdout +0.23% (t +2.7)
+    ibs20     open  200d n  587 | net +0.18% | tune +0.18% (t +2.4) | holdout +0.17% (t +2.5)  PASS
+    down3     close -    n  327 | net +0.34% | tune +0.40% (t +2.4) | holdout +0.26% (t +1.3)
+    down3     close 200d n  206 | net +0.31% | tune +0.29% (t +1.6) | holdout +0.33% (t +2.6)
+    down3     open  -    n  326 | net +0.36% | tune +0.45% (t +2.6) | holdout +0.24% (t +1.5)
+    down3     open  200d n  206 | net +0.33% | tune +0.36% (t +2.4) | holdout +0.30% (t +2.5)  PASS
+    bb_low    close -    n  164 | net +0.38% | tune +0.41% (t +1.5) | holdout +0.33% (t +0.9)
+    bb_low    close 200d n   85 | net +0.47% | tune +0.34% (t +1.9) | holdout +0.60% (t +3.0)
+    bb_low    open  -    n  163 | net +0.40% | tune +0.40% (t +1.4) | holdout +0.40% (t +1.4)
+    bb_low    open  200d n   85 | net +0.46% | tune +0.37% (t +2.2) | holdout +0.55% (t +2.8)  PASS
+  Dow (2003 .. 2026, holdout from 2017-03): 0 of 24 PASS
+    capit_z2  close -    n  179 | net +0.19% | tune +0.38% (t +2.0) | holdout -0.11% (t -0.3)
+    capit_z2  close 200d n  124 | net +0.24% | tune +0.33% (t +2.1) | holdout +0.13% (t +0.5)
+    capit_z2  open  -    n  179 | net +0.24% | tune +0.41% (t +2.1) | holdout -0.03% (t -0.1)
+    capit_z2  open  200d n  124 | net +0.24% | tune +0.36% (t +2.2) | holdout +0.08% (t +0.3)
+    rsi2_10   close -    n  276 | net +0.12% | tune +0.16% (t +0.8) | holdout +0.07% (t +0.3)
+    rsi2_10   close 200d n  197 | net +0.18% | tune +0.20% (t +1.1) | holdout +0.17% (t +0.9)
+    rsi2_10   open  -    n  276 | net +0.23% | tune +0.25% (t +1.5) | holdout +0.21% (t +1.0)
+    rsi2_10   open  200d n  197 | net +0.27% | tune +0.28% (t +1.8) | holdout +0.26% (t +1.6)
+    rsi2_5    close -    n  153 | net +0.17% | tune +0.01% (t +0.0) | holdout +0.39% (t +1.9)
+    rsi2_5    close 200d n  102 | net +0.10% | tune -0.01% (t -0.0) | holdout +0.21% (t +1.0)
+    rsi2_5    open  -    n  153 | net +0.26% | tune +0.13% (t +0.6) | holdout +0.43% (t +2.0)
+    rsi2_5    open  200d n  102 | net +0.18% | tune +0.12% (t +0.4) | holdout +0.25% (t +1.2)
+    ibs20     close -    n  704 | net +0.18% | tune +0.19% (t +2.2) | holdout +0.16% (t +1.4)
+    ibs20     close 200d n  507 | net +0.10% | tune +0.11% (t +1.4) | holdout +0.09% (t +1.0)
+    ibs20     open  -    n  700 | net +0.19% | tune +0.20% (t +2.2) | holdout +0.18% (t +1.8)
+    ibs20     open  200d n  506 | net +0.11% | tune +0.14% (t +1.6) | holdout +0.08% (t +1.0)
+    down3     close -    n  257 | net +0.09% | tune +0.07% (t +0.4) | holdout +0.12% (t +0.5)
+    down3     close 200d n  182 | net +0.06% | tune +0.07% (t +0.4) | holdout +0.06% (t +0.3)
+    down3     open  -    n  256 | net +0.13% | tune +0.10% (t +0.5) | holdout +0.17% (t +0.8)
+    down3     open  200d n  181 | net +0.05% | tune +0.05% (t +0.2) | holdout +0.05% (t +0.3)
+    bb_low    close -    n  133 | net -0.00% | tune +0.13% (t +0.5) | holdout -0.23% (t -0.5)
+    bb_low    close 200d n   82 | net +0.06% | tune -0.02% (t -0.1) | holdout +0.16% (t +0.6)
+    bb_low    open  -    n  133 | net +0.10% | tune +0.22% (t +0.8) | holdout -0.08% (t -0.2)
+    bb_low    open  200d n   82 | net +0.10% | tune +0.03% (t +0.1) | holdout +0.19% (t +0.7)
+  DAX (2003 .. 2026, holdout from 2017-03): 0 of 24 PASS
+    capit_z2  close -    n  187 | net -0.12% | tune -0.06% (t -0.2) | holdout -0.20% (t -0.6)
+    capit_z2  close 200d n  141 | net +0.26% | tune +0.30% (t +1.2) | holdout +0.22% (t +0.9)
+    capit_z2  open  -    n  187 | net -0.11% | tune -0.03% (t -0.1) | holdout -0.22% (t -0.8)
+    capit_z2  open  200d n  141 | net +0.20% | tune +0.30% (t +1.2) | holdout +0.08% (t +0.4)
+    rsi2_10   close -    n  265 | net +0.15% | tune +0.28% (t +1.1) | holdout -0.03% (t -0.1)
+    rsi2_10   close 200d n  172 | net -0.02% | tune -0.06% (t -0.2) | holdout +0.04% (t +0.1)
+    rsi2_10   open  -    n  263 | net +0.22% | tune +0.28% (t +1.1) | holdout +0.14% (t +0.5)
+    rsi2_10   open  200d n  172 | net +0.00% | tune -0.08% (t -0.3) | holdout +0.11% (t +0.4)
+    rsi2_5    close -    n  148 | net +0.50% | tune +0.55% (t +1.5) | holdout +0.42% (t +1.1)
+    rsi2_5    close 200d n   83 | net +0.18% | tune +0.20% (t +0.5) | holdout +0.16% (t +0.4)
+    rsi2_5    open  -    n  148 | net +0.53% | tune +0.54% (t +1.4) | holdout +0.52% (t +1.2)
+    rsi2_5    open  200d n   83 | net +0.32% | tune +0.31% (t +0.7) | holdout +0.34% (t +0.8)
+    ibs20     close -    n  667 | net +0.05% | tune +0.16% (t +1.2) | holdout -0.09% (t -0.7)
+    ibs20     close 200d n  496 | net +0.05% | tune +0.13% (t +1.1) | holdout -0.06% (t -0.5)
+    ibs20     open  -    n  666 | net +0.07% | tune +0.19% (t +1.5) | holdout -0.10% (t -0.9)
+    ibs20     open  200d n  496 | net +0.04% | tune +0.12% (t +1.0) | holdout -0.06% (t -0.6)
+    down3     close -    n  278 | net +0.27% | tune +0.49% (t +2.2) | holdout -0.02% (t -0.1)
+    down3     close 200d n  193 | net +0.27% | tune +0.38% (t +1.7) | holdout +0.12% (t +0.6)
+    down3     open  -    n  277 | net +0.27% | tune +0.44% (t +1.8) | holdout +0.06% (t +0.2)
+    down3     open  200d n  193 | net +0.29% | tune +0.33% (t +1.3) | holdout +0.23% (t +1.1)
+    bb_low    close -    n  139 | net +0.13% | tune +0.18% (t +0.5) | holdout +0.07% (t +0.2)
+    bb_low    close 200d n   83 | net +0.25% | tune +0.28% (t +0.9) | holdout +0.23% (t +0.7)
+    bb_low    open  -    n  139 | net +0.06% | tune -0.00% (t -0.0) | holdout +0.13% (t +0.4)
+    bb_low    open  200d n   83 | net +0.23% | tune +0.25% (t +0.9) | holdout +0.20% (t +0.7)
+  Nikkei (2003 .. 2026, holdout from 2017-03): 0 of 24 PASS
+    capit_z2  close -    n  157 | net +0.07% | tune +0.19% (t +0.5) | holdout -0.09% (t -0.2)
+    capit_z2  close 200d n   92 | net -0.04% | tune -0.10% (t -0.3) | holdout +0.05% (t +0.1)
+    capit_z2  open  -    n  156 | net +0.10% | tune +0.20% (t +0.6) | holdout -0.03% (t -0.1)
+    capit_z2  open  200d n   92 | net +0.13% | tune +0.17% (t +0.4) | holdout +0.09% (t +0.2)
+    rsi2_10   close -    n  273 | net +0.22% | tune +0.13% (t +0.5) | holdout +0.35% (t +1.5)
+    rsi2_10   close 200d n  155 | net +0.18% | tune -0.24% (t -0.8) | holdout +0.66% (t +2.7)
+    rsi2_10   open  -    n  272 | net +0.17% | tune +0.05% (t +0.2) | holdout +0.34% (t +1.6)
+    rsi2_10   open  200d n  155 | net +0.15% | tune -0.22% (t -0.8) | holdout +0.57% (t +2.8)
+    rsi2_5    close -    n  160 | net +0.33% | tune -0.01% (t -0.0) | holdout +0.75% (t +2.2)
+    rsi2_5    close 200d n   76 | net +0.19% | tune -0.51% (t -1.1) | holdout +0.85% (t +2.8)
+    rsi2_5    open  -    n  160 | net +0.39% | tune +0.28% (t +0.8) | holdout +0.53% (t +1.7)
+    rsi2_5    open  200d n   76 | net +0.23% | tune -0.19% (t -0.5) | holdout +0.63% (t +2.1)
+    ibs20     close -    n  752 | net +0.08% | tune +0.11% (t +0.9) | holdout +0.04% (t +0.3)
+    ibs20     close 200d n  499 | net +0.04% | tune +0.10% (t +0.8) | holdout -0.05% (t -0.4)
+    ibs20     open  -    n  749 | net +0.05% | tune +0.05% (t +0.4) | holdout +0.06% (t +0.6)
+    ibs20     open  200d n  498 | net -0.00% | tune +0.01% (t +0.1) | holdout -0.02% (t -0.2)
+    down3     close -    n  275 | net +0.24% | tune -0.03% (t -0.1) | holdout +0.60% (t +3.1)
+    down3     close 200d n  154 | net +0.31% | tune +0.11% (t +0.3) | holdout +0.50% (t +2.6)
+    down3     open  -    n  275 | net +0.22% | tune +0.02% (t +0.1) | holdout +0.48% (t +2.8)
+    down3     open  200d n  154 | net +0.32% | tune +0.21% (t +0.8) | holdout +0.43% (t +2.4)
+    bb_low    close -    n  119 | net -0.00% | tune -0.29% (t -0.6) | holdout +0.37% (t +0.9)
+    bb_low    close 200d n   51 | net -0.10% | tune -1.11% (t -1.7) | holdout +1.04% (t +2.0)
+    bb_low    open  -    n  119 | net +0.07% | tune -0.09% (t -0.2) | holdout +0.27% (t +0.7)
+    bb_low    open  200d n   51 | net +0.12% | tune -0.40% (t -0.6) | holdout +0.70% (t +1.7)
+  STOXX 50 (2007 .. 2026, holdout from 2018-12): 0 of 24 PASS
+    capit_z2  close -    n  139 | net -0.13% | tune -0.11% (t -0.3) | holdout -0.15% (t -0.3)
+    capit_z2  close 200d n   78 | net +0.15% | tune +0.10% (t +0.3) | holdout +0.20% (t +0.6)
+    capit_z2  open  -    n  139 | net -0.13% | tune -0.11% (t -0.4) | holdout -0.15% (t -0.3)
+    capit_z2  open  200d n   78 | net +0.12% | tune +0.08% (t +0.2) | holdout +0.17% (t +0.5)
+    rsi2_10   close -    n  235 | net +0.31% | tune +0.52% (t +2.1) | holdout -0.01% (t -0.0)
+    rsi2_10   close 200d n  120 | net +0.18% | tune +0.11% (t +0.4) | holdout +0.26% (t +1.0)
+    rsi2_10   open  -    n  234 | net +0.29% | tune +0.48% (t +2.1) | holdout -0.03% (t -0.1)
+    rsi2_10   open  200d n  120 | net +0.16% | tune +0.12% (t +0.4) | holdout +0.21% (t +0.8)
+    rsi2_5    close -    n  130 | net +0.45% | tune +0.57% (t +1.9) | holdout +0.22% (t +0.4)
+    rsi2_5    close 200d n   55 | net +0.10% | tune +0.34% (t +1.1) | holdout -0.17% (t -0.3)
+    rsi2_5    open  -    n  130 | net +0.39% | tune +0.52% (t +1.9) | holdout +0.13% (t +0.3)
+    rsi2_5    open  200d n   55 | net +0.06% | tune +0.34% (t +1.1) | holdout -0.24% (t -0.5)
+    ibs20     close -    n  575 | net -0.04% | tune +0.01% (t +0.0) | holdout -0.09% (t -0.6)
+    ibs20     close 200d n  370 | net -0.02% | tune -0.03% (t -0.2) | holdout -0.01% (t -0.1)
+    ibs20     open  -    n  574 | net -0.03% | tune +0.01% (t +0.0) | holdout -0.07% (t -0.5)
+    ibs20     open  200d n  370 | net -0.01% | tune -0.08% (t -0.5) | holdout +0.04% (t +0.4)
+    down3     close -    n  250 | net +0.35% | tune +0.55% (t +2.2) | holdout +0.03% (t +0.1)
+    down3     close 200d n  130 | net +0.27% | tune +0.38% (t +2.1) | holdout +0.17% (t +0.7)
+    down3     open  -    n  249 | net +0.36% | tune +0.55% (t +2.5) | holdout +0.04% (t +0.2)
+    down3     open  200d n  130 | net +0.28% | tune +0.38% (t +2.1) | holdout +0.18% (t +0.8)
+    bb_low    close -    n  132 | net +0.41% | tune +0.54% (t +1.5) | holdout +0.21% (t +0.6)
+    bb_low    close 200d n   62 | net +0.21% | tune -0.16% (t -0.3) | holdout +0.51% (t +1.4)
+    bb_low    open  -    n  132 | net +0.39% | tune +0.52% (t +1.6) | holdout +0.19% (t +0.5)
+    bb_low    open  200d n   62 | net +0.23% | tune -0.03% (t -0.1) | holdout +0.45% (t +1.2)
+
+2. PLATEAU on NDX (long, close entry, no gate): net a trade tune / holdout (t)
+  rsi2<5    n  174 | +1.87% (+5.3) / +0.72% (+2.7)
+  rsi2<10   n  330 | +1.18% (+4.8) / +0.57% (+3.5)
+  rsi2<15   n  442 | +0.69% (+3.7) / +0.64% (+4.3)
+  rsi2<20   n  550 | +0.60% (+3.7) / +0.43% (+3.1)
+  rsi2<25   n  646 | +0.52% (+3.5) / +0.47% (+3.4)
+  ibs<0.10  n  624 | +0.44% (+2.9) / +0.78% (+5.7)
+  ibs<0.15  n  765 | +0.36% (+2.7) / +0.60% (+5.4)
+  ibs<0.20  n  864 | +0.31% (+2.4) / +0.51% (+5.0)
+  ibs<0.25  n  980 | +0.26% (+2.3) / +0.40% (+4.1)
+  ibs<0.30  n 1073 | +0.28% (+2.6) / +0.33% (+3.6)
+  down2     n  675 | +0.51% (+3.5) / +0.38% (+3.0)
+  down3     n  330 | +1.26% (+6.1) / +0.62% (+3.9)
+  down4     n  130 | +1.47% (+3.7) / +0.34% (+1.2)
+  down5     n   56 | +2.28% (+3.6) / +0.95% (+2.7)
+  bb1.5     n  269 | +0.93% (+3.5) / +0.67% (+3.2)
+  bb2       n  167 | +1.49% (+4.4) / +0.97% (+4.2)
+  bb2.5     n   55 | +1.21% (+2.2) / +1.61% (+4.6)
+  z1.5      n  387 | +0.72% (+3.5) / +0.52% (+3.1)
+  z2        n  206 | +0.66% (+2.5) / +0.63% (+2.7)
+  z2.5      n  102 | +0.82% (+2.3) / +0.59% (+1.5)
+  z3        n   56 | +0.85% (+1.7) / +0.18% (+0.4)
+  exit variants on rsi2<10 and down3 (close entry, no gate):
+    exit above  3-day avg, max  5 days: rsi2<10 +0.71% (+3.7) / +0.42% (+2.3) | down3 +0.75% (+3.8) / +0.49% (+2.7)
+    exit above  3-day avg, max 10 days: rsi2<10 +0.75% (+4.0) / +0.51% (+3.3) | down3 +0.85% (+4.9) / +0.55% (+3.4)
+    exit above  3-day avg, max 20 days: rsi2<10 +0.76% (+4.1) / +0.51% (+3.3) | down3 +0.85% (+4.9) / +0.55% (+3.4)
+    exit above  5-day avg, max  5 days: rsi2<10 +0.95% (+3.7) / +0.36% (+1.7) | down3 +1.01% (+4.3) / +0.45% (+2.3)
+    exit above  5-day avg, max 10 days: rsi2<10 +1.18% (+4.8) / +0.57% (+3.5) | down3 +1.26% (+6.1) / +0.62% (+3.9)
+    exit above  5-day avg, max 20 days: rsi2<10 +1.18% (+4.8) / +0.58% (+3.5) | down3 +1.25% (+5.9) / +0.62% (+3.9)
+    exit above 10-day avg, max  5 days: rsi2<10 +0.72% (+2.6) / +0.08% (+0.3) | down3 +0.78% (+2.9) / +0.08% (+0.3)
+    exit above 10-day avg, max 10 days: rsi2<10 +0.89% (+2.7) / +0.27% (+0.9) | down3 +0.98% (+3.4) / +0.30% (+1.1)
+    exit above 10-day avg, max 20 days: rsi2<10 +1.01% (+3.6) / +0.50% (+2.0) | down3 +1.08% (+4.5) / +0.63% (+2.9)
+
+3. RECENT YEARS on NDX (net % summed by year at 1x; 2020+ and 2023+ per trade)
+  cell                         2018   2019   2020   2021   2022   2023   2024   2025   2026   2020+ n / mean / t     2023+ n / mean / t
+  capit_z2  close -             -4.8   +6.9   +8.1  +10.4   -4.2   +5.2   +3.8   +7.1   +4.1    52 / +0.67% / +2.0    25 / +0.81% / +2.4
+  capit_z2  close 200d          -6.6   +5.1   +0.2  +10.4   +0.3   +5.2   +3.8   +5.8   +3.6    39 / +0.75% / +2.8    22 / +0.84% / +2.4
+  capit_z2  open  -             -2.6   +9.1   -0.5  +10.5   +1.3   +3.4   +2.2   +7.6   +2.7    52 / +0.52% / +1.7    25 / +0.64% / +1.7
+  capit_z2  open  200d          -5.1   +5.9   -2.6  +10.5   +1.0   +3.4   +2.2   +3.2   +1.6    39 / +0.50% / +2.0    22 / +0.48% / +1.5
+  rsi2_10   close -             -1.2   +5.9   +2.3   +7.6   +5.6   +6.8  +17.8  +15.7  +11.0    79 / +0.84% / +4.5    47 / +1.09% / +4.8
+  rsi2_10   close 200d          -4.5   +4.0   +1.8   +7.6   -3.8   +3.8  +17.8   +4.5   +7.5    57 / +0.68% / +3.2    40 / +0.84% / +3.6
+  rsi2_10   open  -             -4.0   +5.3   -6.4   +6.5   +6.0   +8.7  +13.7  +13.1   +4.6    79 / +0.59% / +2.9    47 / +0.85% / +3.4
+  rsi2_10   open  200d          -4.1   +2.2   -3.6   +6.5   -4.0   +4.9  +13.7   +0.2   +3.3    57 / +0.37% / +1.7    40 / +0.55% / +2.5
+  rsi2_5    close -             +1.1   +4.0   -0.6  +10.6  +10.9   +4.4   +5.2   +8.9  +10.9    42 / +1.20% / +3.5    21 / +1.40% / +2.5
+  rsi2_5    close 200d          -4.8   +2.2   -0.6  +10.6   +1.5   +4.4   +5.2   -1.1   +7.5    30 / +0.92% / +3.2    19 / +0.85% / +2.2
+  rsi2_5    open  -             +2.7   +7.1   -3.7   +9.5  +17.4   +3.3   +4.3  +11.4   +6.9    42 / +1.17% / +2.8    21 / +1.23% / +1.7
+  rsi2_5    open  200d          -2.7   +4.0   -3.7   +9.5   +3.0   +3.3   +4.3   -2.7   +4.6    30 / +0.61% / +2.0    19 / +0.50% / +1.4
+  ibs20     close -             +6.4   +9.1  +58.7  +22.3   +5.5  +22.6  +17.5  +10.9   +5.2   232 / +0.62% / +4.9   118 / +0.48% / +3.7
+  ibs20     close 200d         +11.2   +3.8  +41.4  +22.3   -6.8  +15.6  +17.5   +7.2   +4.7   181 / +0.56% / +5.2   108 / +0.42% / +3.2
+  ibs20     open  -             +9.9  +12.0  +50.3  +20.7   -3.4  +16.3  +16.8   +7.8   +2.2   232 / +0.48% / +4.1   118 / +0.37% / +3.0
+  ibs20     open  200d          +9.9   +7.7  +37.9  +20.7   -5.5   +9.0  +16.8   +1.7   +1.1   181 / +0.45% / +4.4   108 / +0.27% / +2.3
+  down3     close -             +8.0   +1.9   +2.7  +11.8  +21.6   +5.1  +15.9   +1.0  +13.7    79 / +0.91% / +5.0    41 / +0.87% / +4.0
+  down3     close 200d          +1.5   -0.1   +2.2  +11.8   +0.4   +5.1  +15.9   -0.4   +9.4    55 / +0.81% / +4.0    38 / +0.79% / +3.5
+  down3     open  -             +9.3   +0.5   -3.2   +4.9  +22.5   +6.0  +10.0   +2.8   +3.3    79 / +0.59% / +3.2    41 / +0.54% / +2.6
+  down3     open  200d          +3.5   -1.1   -0.5   +4.9   +0.3   +6.0  +10.0   -0.2   +1.6    55 / +0.40% / +2.0    38 / +0.46% / +2.2
+  bb_low    close -             +5.8   +8.0   +9.3  +11.5   +4.9   +0.8   +2.9   +6.1   +8.2    39 / +1.12% / +3.7    18 / +1.00% / +3.7
+  bb_low    close 200d          +1.0   +5.3   +1.4  +11.5   -4.2   +0.8   +2.9   +1.6   +6.7    25 / +0.83% / +2.7    14 / +0.85% / +2.8
+  bb_low    open  -             +5.6   +8.7   +2.3  +12.2   +6.7   -0.3   +2.6   +9.3   +5.3    39 / +0.98% / +2.8    18 / +0.94% / +2.3
+  bb_low    open  200d          +4.3   +7.2   +0.3  +12.2   -4.9   -0.3   +2.6   +1.7   +4.7    25 / +0.65% / +1.9    14 / +0.63% / +1.9
+
+4. EXNESS USTECm vs ^NDX at the 16:00 ET close (backtest/mt5_1m.py 1m bars)
+  182 common days 2026-01-02 .. 2026-09-24: daily return correlation 0.9989, median |difference| 3.1bp; basis (CFD / index - 1) median +0.09%
+    rsi2<10 : CFD fires 16 days, ^NDX 18, both 16 (89% of either)
+    ibs<0.2 : CFD fires 23 days, ^NDX 22, both 22 (96% of either)
+    down3   : CFD fires 17 days, ^NDX 15, both 15 (88% of either)
+
+5. THE MOVE AGAINST EACH TRADE before its exit (entry -> lowest low), and $221 at the 0.05-lot minimum ($1,500, 6.8x)
+  capit_z2  close -   : median  1.4%, 95th  9.0%, worst 20.1% (2008-09-29) -> on $221 at 0.05 lot: worst  136% of the account | net a trade +9.75$
+  capit_z2  close 200d: median  1.2%, 95th  7.3%, worst 14.0% (2011-07-27) -> on $221 at 0.05 lot: worst   95% of the account | net a trade +8.37$
+  capit_z2  open  -   : median  1.5%, 95th  8.4%, worst 22.4% (2008-09-29) -> on $221 at 0.05 lot: worst  152% of the account | net a trade +9.15$
+  capit_z2  open  200d: median  1.2%, 95th  6.8%, worst 14.0% (2011-07-27) -> on $221 at 0.05 lot: worst   95% of the account | net a trade +7.82$
+  rsi2_10   close -   : median  1.3%, 95th  8.8%, worst 21.9% (2001-08-30) -> on $221 at 0.05 lot: worst  148% of the account | net a trade +14.29$
+  rsi2_10   close 200d: median  1.1%, 95th  6.9%, worst 20.1% (2000-03-29) -> on $221 at 0.05 lot: worst  137% of the account | net a trade +7.98$
+  rsi2_10   open  -   : median  1.4%, 95th  8.7%, worst 24.6% (2001-08-30) -> on $221 at 0.05 lot: worst  167% of the account | net a trade +12.72$
+  rsi2_10   open  200d: median  1.1%, 95th  7.1%, worst 19.4% (2000-03-29) -> on $221 at 0.05 lot: worst  132% of the account | net a trade +6.57$
+  rsi2_5    close -   : median  1.3%, 95th  8.2%, worst 20.1% (2008-09-29) -> on $221 at 0.05 lot: worst  136% of the account | net a trade +21.43$
+  rsi2_5    close 200d: median  1.1%, 95th  7.8%, worst 17.1% (2000-03-30) -> on $221 at 0.05 lot: worst  116% of the account | net a trade +11.79$
+  rsi2_5    open  -   : median  1.5%, 95th  7.9%, worst 22.4% (2008-09-29) -> on $221 at 0.05 lot: worst  152% of the account | net a trade +21.08$
+  rsi2_5    open  200d: median  1.2%, 95th  7.8%, worst 17.4% (2000-03-30) -> on $221 at 0.05 lot: worst  118% of the account | net a trade +9.85$
+  ibs20     close -   : median  1.0%, 95th  9.1%, worst 25.1% (2000-03-27) -> on $221 at 0.05 lot: worst  170% of the account | net a trade +5.86$
+  ibs20     close 200d: median  0.8%, 95th  6.5%, worst 25.1% (2000-03-27) -> on $221 at 0.05 lot: worst  170% of the account | net a trade +5.53$
+  ibs20     open  -   : median  1.0%, 95th  9.0%, worst 26.2% (2001-08-28) -> on $221 at 0.05 lot: worst  178% of the account | net a trade +5.44$
+  ibs20     open  200d: median  0.9%, 95th  6.2%, worst 25.1% (2000-03-27) -> on $221 at 0.05 lot: worst  170% of the account | net a trade +4.57$
+  down3     close -   : median  1.2%, 95th  7.5%, worst 24.3% (2001-08-29) -> on $221 at 0.05 lot: worst  165% of the account | net a trade +15.31$
+  down3     close 200d: median  0.9%, 95th  6.2%, worst 17.1% (2000-03-30) -> on $221 at 0.05 lot: worst  116% of the account | net a trade +10.88$
+  down3     open  -   : median  1.2%, 95th  7.8%, worst 22.9% (2001-08-29) -> on $221 at 0.05 lot: worst  155% of the account | net a trade +13.03$
+  down3     open  200d: median  1.0%, 95th  6.1%, worst 17.4% (2000-03-30) -> on $221 at 0.05 lot: worst  118% of the account | net a trade +8.48$
+  bb_low    close -   : median  1.8%, 95th 10.0%, worst 20.1% (2008-09-29) -> on $221 at 0.05 lot: worst  136% of the account | net a trade +19.38$
+  bb_low    close 200d: median  1.4%, 95th  9.5%, worst 14.5% (2000-04-12) -> on $221 at 0.05 lot: worst   98% of the account | net a trade +10.43$
+  bb_low    open  -   : median  1.6%, 95th  9.9%, worst 22.4% (2008-09-29) -> on $221 at 0.05 lot: worst  152% of the account | net a trade +18.84$
+  bb_low    open  200d: median  1.3%, 95th  9.8%, worst 14.8% (2000-04-12) -> on $221 at 0.05 lot: worst  100% of the account | net a trade +10.32$
+
+REGISTERED PREDICTIONS
+  R1 core cells positive on both halves on 1 of 5 other indices; other-index cells passing 3 of 120 -> WRONG
+  R2 every neighbour and exit variant positive on both halves: True -> RIGHT
+  R3 since 2020 all positive with t >= 1.5: True; since 2023 all positive with t < 2: False -> WRONG
+  R4 correlation 0.9989, signal agreement 88-96% -> WRONG
+  R5 worst move: ungated 20-26%, gated 14-25% -> WRONG

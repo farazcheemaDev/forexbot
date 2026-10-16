@@ -1,0 +1,22 @@
+backtest/fx_tff.py, 2026-10-12 07:54 UTC; CFTC Traders in Financial Futures, 7 currency futures, 1059 weeks 2006-06-19 .. 2026-09-28; net position as a share of open interest; Fed H.10 noon FX; Exness costs
+
+                                              EUR    JPY    GBP    AUD    NZD    CAD    CHF
+  A same week - leveraged funds             +0.30  +0.32  +0.23  +0.24  +0.15  +0.16  +0.09
+  B next week - leveraged funds             +0.03  -0.03  -0.01  +0.07  -0.03  -0.05  -0.01
+  A same week - asset managers              +0.20  +0.28  +0.20  +0.12  +0.21  +0.18  +0.19
+  B next week - asset managers              -0.06  +0.03  -0.02  -0.02  -0.01  -0.00  -0.04
+  A same week - dealers                     -0.40  -0.48  -0.37  -0.34  -0.31  -0.27  -0.37
+  B next week - dealers                     -0.01  -0.00  +0.01  -0.04  +0.04  +0.04  +0.01
+
+RULES (% a week; EXNESS is the verdict)
+  LEV CROWD (fade |z| > 1.5)                 n   632 | spot +0.003 | +carry +0.016 | EXNESS -0.023 (tune -0.053 t -0.6 / holdout +0.020 t +0.3) | -1.22%/yr
+  LEV FLOW (follow last week)                n  1057 | spot -0.026 | +carry -0.026 | EXNESS -0.055 (tune -0.062 t -2.2 / holdout -0.044 t -1.8) | -2.85%/yr
+  AM FLOW (follow last week)                 n  1057 | spot +0.010 | +carry +0.010 | EXNESS -0.019 (tune +0.011 t +0.4 / holdout -0.064 t -2.4) | -1.00%/yr
+  AM LEVEL (side of their position)          n  1058 | spot -0.003 | +carry -0.002 | EXNESS -0.024 (tune -0.012 t -0.4 / holdout -0.042 t -1.6) | -1.26%/yr
+  DEALER FADE (against last week's change)   n  1057 | spot -0.014 | +carry -0.014 | EXNESS -0.042 (tune -0.041 t -1.4 / holdout -0.044 t -1.7) | -2.19%/yr
+  Holm p: LEV CROWD 1.00, LEV FLOW 1.00, AM FLOW 1.00, AM LEVEL 1.00, DEALER FADE 1.00 | PASS: none
+
+REGISTERED PREDICTIONS
+  T1 same week: leveraged EUR +0.30, JPY +0.32, GBP +0.23, AUD +0.24, NZD +0.15, CAD +0.16, CHF +0.09; dealers EUR -0.40, JPY -0.48, GBP -0.37, AUD -0.34, NZD -0.31, CAD -0.27, CHF -0.37 -> RIGHT
+  T2 largest next-week |corr| 0.07 -> RIGHT
+  T3 passes: none -> RIGHT

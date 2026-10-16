@@ -113,7 +113,7 @@ positive on both halves, with Holm correction across the nine.
 | gold 22–13 UTC (outside New York) | −0.4bp | −2.1 / +2.3 | fail: the right direction, +2.1bp gross |
 | silver 22–13 UTC | −8.6bp | | fail on its 9.5bp spread |
 | FX home-hours (Breedon-Ranaldo) | −2.1bp | −1.7 / −2.7 | fail: the wrong direction, and costs are bigger than the effect |
-| month-end USD rebalancing (Melvin-Prins) | +4.1bp | +6.7 / +0.3 | fail: right in 128 of 234 months |
+| month-end USD rebalancing (Melvin-Prins) | +4.1bp | +6.7 / +0.3 | fail: right in 128 of 234 months. **Re-checked 2026-10-11 (`fx_t8_exness.py`): Yahoo's bars read the day before the month-end; on Exness's prices −4.1bp a month, t −0.83 - still fail** |
 | NASDAQ-100 intraday (control) | +1.3bp | | fail |
 
 Registered: "T3 and/or T5 survive". **Wrong: none do.** Published effects are a few basis points,

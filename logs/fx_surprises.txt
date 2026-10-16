@@ -1,0 +1,50 @@
+backtest/fx_surprises.py, 2026-10-12 01:17 UTC; ForexFactory high-impact releases with a forecast 2007-08 .. 2026-09: 6810 currency-release groups; H.10 noon fixes; holdout from 2016-07-22
+
+REACTION (last noon before -> first noon after; NOT tradable) - share with the surprise's sign, and the average move in the surprise's direction
+  all, |score| >= 1      n  2111 | reaction right 59.9%,  +15.0bp | drift 1d gross  -0.9bp (t -0.6), net  -2.7 | drift 3d gross  -1.0bp (t -0.4), net  -3.7 | drift 5d gross  -2.9bp (t -0.9), net  -6.3
+  USD, |score| >= 1      n   889 | reaction right 57.3%,  +11.3bp | drift 1d gross  +1.6bp (t +0.8), net  -0.3 | drift 3d gross  +0.0bp (t +0.0), net  -2.9 | drift 5d gross  -2.2bp (t -0.6), net  -6.0
+  others, |score| >= 1   n  1222 | reaction right 61.9%,  +17.7bp | drift 1d gross  -2.7bp (t -1.3), net  -4.4 | drift 3d gross  -1.8bp (t -0.5), net  -4.3 | drift 5d gross  -3.4bp (t -0.8), net  -6.5
+  all, |score| >= 2      n   547 | reaction right 62.3%,  +17.4bp | drift 1d gross  +3.6bp (t +1.2), net  +1.7 | drift 3d gross  +7.8bp (t +1.6), net  +5.0 | drift 5d gross  +5.0bp (t +0.8), net  +1.4
+  USD, |score| >= 2      n   253 | reaction right 59.7%,  +18.8bp | drift 1d gross  +1.6bp (t +0.4), net  -0.3 | drift 3d gross  +3.1bp (t +0.6), net  +0.1 | drift 5d gross  +2.8bp (t +0.4), net  -1.1
+
+DRIFT, Exness net, by half (tune / holdout, bp a trade, t)
+  all, |score| >= 1      1d:   -3.5 (-1.7) /   -1.5 (-0.9)
+  all, |score| >= 1      3d:   -4.0 (-1.1) /   -3.3 (-1.3)
+  all, |score| >= 1      5d:   -5.7 (-1.2) /   -7.1 (-2.0)
+  USD, |score| >= 1      1d:   -1.1 (-0.4) /   +0.6 (+0.3)
+  USD, |score| >= 1      3d:   -2.5 (-0.6) /   -3.3 (-1.0)
+  USD, |score| >= 1      5d:   -4.3 (-0.7) /   -8.0 (-1.7)
+  others, |score| >= 1   1d:   -5.1 (-1.7) /   -3.3 (-1.5)
+  others, |score| >= 1   3d:   -4.9 (-1.0) /   -3.3 (-0.8)
+  others, |score| >= 1   5d:   -6.6 (-1.0) /   -6.4 (-1.2)
+  all, |score| >= 2      1d:   +3.4 (+0.6) /   +0.2 (+0.1)
+  all, |score| >= 2      3d:   +9.4 (+1.1) /   +0.8 (+0.2)
+  all, |score| >= 2      5d:   +4.2 (+0.4) /   -1.2 (-0.2)
+  USD, |score| >= 2      1d:   -3.0 (-0.4) /   +1.8 (+0.5)
+  USD, |score| >= 2      3d:   +1.6 (+0.2) /   -1.0 (-0.2)
+  USD, |score| >= 2      5d:   +5.7 (+0.4) /   -6.2 (-0.9)
+  PASS: none
+
+THE BIGGEST SURPRISES' INDICATORS (|score| >= 2, count; reaction right %)
+  USD Core CPI m/m                               51  reaction right   63%
+  USD Core Retail Sales m/m                      48  reaction right   56%
+  CAD Employment Change                          45  reaction right   71%
+  AUD Employment Change                          37  reaction right   62%
+  USD ADP Non-Farm Employment Change             13  reaction right   69%
+  AUD Goods Trade Balance                        12  reaction right   83%
+  NZD Employment Change q/q                      12  reaction right   83%
+  AUD Building Approvals m/m                     12  reaction right   58%
+  USD Average Hourly Earnings m/m                12  reaction right   58%
+  USD Unemployment Claims                        12  reaction right   75%
+  GBP Manufacturing Production m/m               11  reaction right   55%
+  GBP Claimant Count Change                      11  reaction right   36%
+
+REGISTERED PREDICTIONS
+  E1 reaction right 59.9% -> WRONG
+  E2 drift gross within 2 se of zero (all / USD, 1-5 d): all 1d t -0.6, all 3d t -0.4, all 5d t -0.9, USD 1d t +0.8, USD 3d t +0.0, USD 5d t -0.6 -> RIGHT
+  E3 no drift rule passes: none -> RIGHT
+  E4 big USD: reaction +18.8bp, 1-day drift +1.6bp (9% of it) -> RIGHT
+
+MINUTE RESOLUTION, 2026 (Exness 1m; USD releases, |score| >= 1; the dollar vs EUR, GBP, JPY)
+  23 releases | -1 -> +5 min: the surprise's sign 70%, +6.1bp | +5 -> +60 min drift: gross -0.22bp (t -0.1), net of spread -0.91bp (t -0.4); spread 0.69bp
+  E5 jump right 70% (>= 70%?), drift within 2 se of zero (-0.1) -> WRONG

@@ -1,0 +1,21 @@
+backtest/his_pasted_ideas2.py, 2026-10-13 17:25 UTC
+
+TEST 1 - CME tape in the 20 s after the click (42 his, 1523 sitting moments, 330 of them followed by a >= 7-point move his side)
+   trades a second, t+1..t+20               his  9.632 | sittings  7.632 | same-size moves 10.816
+   median trade size (lots)                 his  1.000 | sittings  1.000 | same-size moves  1.000
+   share of 1-2 lot trades                  his  0.908 | sittings  0.914 | same-size moves  0.915
+   aggressor volume his way (net share)     his  0.101 | sittings  0.010 | same-size moves  0.100
+   intensity after / before the click: his 0.86x, same-size moves 0.98x
+
+TEST 3 - does his side point toward the nearest round level?
+   his fills (futures scale)    nearest  25: toward it   48% of 46 (p 0.88); median distance 5.0
+   his fills (futures scale)    nearest  50: toward it   57% of 46 (p 0.46); median distance 11.6
+   his fills (futures scale)    nearest 100: toward it   50% of 46 (p 1.00); median distance 28.1
+   cash index at his second     nearest  25: toward it   52% of 42 (p 0.88); median distance 6.5
+   cash index at his second     nearest  50: toward it   45% of 42 (p 0.64); median distance 10.1
+   cash index at his second     nearest 100: toward it   31% of 42 (p 0.02); median distance 16.3
+   5-12 points from the nearest 50 (cash): his 33% vs sittings 25%
+
+REGISTERED PREDICTIONS
+  1 his after-click intensity 0.89x and small-lot share 0.99x of same-size moves, within 0.75-1.25 -> RIGHT
+  3 agreement 48%, 57%, 50%, 52%, 45%, 31% within 35-65%, zone 33 vs 25 within 15 -> WRONG

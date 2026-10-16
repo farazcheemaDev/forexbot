@@ -284,3 +284,20 @@ here.
 | `backtest/poly_fast.py` | the lifetime-stratification test that killed the artifact hypothesis |
 | `deploy/poly-forward.service` | systemd unit — **do not enable in a region that returns 451** |
 | `logs/poly_snapshots.csv` | one row per market, written once |
+
+## 2026-10-10: daily-temperature markets vs a free forecast - the market wins (`backtest/poly_weather.py`)
+
+Prompted by a reel claiming an AI agent made "thousands" on Polymarket and "pivoted to weather / NOAA" (its own dashboard
+showed $339, a 43-52% win rate, and a near-death at $11). Tested on **4,782 resolved "Highest temperature in <city> on
+<date>?" days in 22 cities** (Dec 2025 - Oct 2026, 51,848 bucket price histories from the CLOB), against Open-Meteo's
+archived forecasts as they stood a day before, model fitted walk-forward per city, predictions registered first:
+- **The market beats the free forecast in every city**, at local midnight and at noon the day before, on both halves:
+  later half log loss 1.27 (market) vs 1.71 (model); a 50/50 blend is worse than the market alone. Pipeline check: fed the
+  same-day (look-ahead) forecast the model wins 1.15 vs 1.27, so the code is sound - the traders know more than a
+  day-old free forecast.
+- The reel's rule (buy where the forecast is 8+ points above the price) loses **-35% to -46% per $1**.
+- Mild longshot bias (2-20c buckets resolve 0.8-1.7 points less than priced). Selling it, band chosen on the earlier half:
+  +0.2% / +1.2% per $1 at 1c slippage on the later half, nothing on the earlier half, worst day -26% - spread-sized.
+- Untested: a station-specific NOAA forecast (National Blend of Models / MOS; Iowa Environmental Mesonet archives them for
+  US airports). VM note unchanged: Polymarket returns 451 there; all of this ran on the PC.
+

@@ -1,0 +1,18 @@
+backtest/ustec_burst_anatomy.py, 2026-10-12 14:52 UTC; Exness USTECm, 181 days; holdout from 2026-06-04; burst = >= 7 points within 5 s; burst seconds 392,421 (6.80% of all seconds)
+
+B1 OCCURRENCE - holdout AUC 0.861 (0.5 = blind)
+   strongest single features (holdout AUC): av30 0.89, av300 0.88, rg300 0.87, rg30 0.86, dayvol 0.86, since 0.14, av5 0.85, qr30 0.79
+B2 DIRECTION (among bursts) - holdout AUC 0.513
+   signed single features: r1 0.508, r5 0.507, r15 0.508, r30 0.507, r60 0.503, r300 0.499, imb10 0.504
+
+B3 THE BOT (holdout days): enter 1 s after the occurrence score passes the tune days' threshold, direction from the direction model; race +-7 at the real price
+   top 0.5%: 26804 trades | won 37.4% | net -1.76 points a trade (t -42.5) | random side at the same seconds: won 37.6%, -1.73
+   top 0.1%: 14075 trades | won 37.0% | net -1.82 points a trade (t -31.9) | random side at the same seconds: won 37.7%, -1.72
+
+B4 HIS 42 NASDAQ clicks: occurrence-score percentile within his own +-20-minute window: median 59 (top quintile 24% of clicks) | direction model agrees with his side 48%
+
+REGISTERED PREDICTIONS
+  B1 occurrence AUC 0.861 >= 0.70 -> RIGHT
+  B2 direction AUC 0.513 <= 0.55 -> RIGHT
+  B3 bot net <= 0 at both thresholds: -1.76, -1.82 -> RIGHT
+  B4 his median percentile 59 (>= 70?), direction agreement 48% (<= 60?) -> WRONG

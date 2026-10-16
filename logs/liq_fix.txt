@@ -1,0 +1,14 @@
+backtest/liq_fix.py, 2026-10-16 01:22 UTC; the deployed final machine with capit2 versions; $300, 10 orderings (return) / 3 orderings (worst hour, every position at its hour's worst price)
+
+  capit2 version             typical 6y      2y worst mo  fall | worst hour left, ord 0 / 1 / 2    | capit2 alone, worst hour
+  A deployed 2x, 8 open     $    4,098$  5,494   -30.0%   57% |  41% /  29% /  50%        |  69% /  32% /  38%
+  B 1x, 8 open              $    3,648$  4,967   -30.1%   59% |  41% /  56% /  74%        |  84% /  66% /  69%
+  C 1.5x, 8 open            $    3,922$  5,215   -30.0%   58% |  41% /  43% /  64%        |  76% /  49% /  54%
+  D 2x, at most 4 open      $    3,800$  5,026   -30.0%   59% |  41% /  55% /  71%        |  75% /  66% /  65%
+  E 2x, -15% stop           $    3,306$  5,159   -33.3%   60% |  41% /  53% /  66%        |  70% /  70% /  70%
+  F 2x, 4 open, -15% stop   $    3,308$  4,972   -30.0%   61% |  41% /  68% /  74%        |  85% /  85% /  85%
+
+REGISTERED PREDICTIONS
+  1 D keeps 34% of A's gain over B (>= 80), its worst hour +26 points in ordering 1 (>= +15) -> WRONG
+  2 the stop costs return and helps the hour -> RIGHT
+  3 no version moves the worst month by >= 1 point -> WRONG

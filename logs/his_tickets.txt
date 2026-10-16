@@ -1,0 +1,15 @@
+backtest/his_tickets.py; 91 trades with tickets, 2026-01-02 .. 2026-09-15; counter 2,731 tickets a day on average
+
+tickets rising with close time: 90 of 90 consecutive pairs; the rest share one second: True
+closes >= 3 min apart: 45 pairs, ticket gap min 5, median 6881; pairs with <= 2 tickets: 0
+log ticket gap vs log time gap: corr +0.99
+
+largest gaps: time (s) -> tickets
+   3,009,633 s -> 130,641
+   2,504,945 s -> 55,962
+   2,248,476 s -> 60,645
+   1,902,657 s -> 44,210
+   1,309,437 s -> 36,273
+   1,219,065 s -> 46,978
+
+VERDICT: closes recorded LIVE, in sequence with the broker's other orders

@@ -1,0 +1,3 @@
+  binance_announcements: 2,000 messages
+  binance_announcements: 4,000 messages
+  binance_announcements: 6,000 messages

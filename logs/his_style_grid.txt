@@ -1,0 +1,19 @@
+backtest/his_style_grid.py, 2026-10-15 19:11 UTC; 181 tick days, holdout from 2026-06-04; 256 versions (net points a trade at the real spread)
+
+THE TUNE DAYS' TOP 5, read on the holdout:
+   day>=0.3% pull>=3 calm=N fade  +15/-30: tune +0.76 (t +0.7, 318) | HOLDOUT -0.25 (t -0.2, 205, won 66%)
+   day>=0.3% pull>=3 calm=N fade  +10/-30: tune +0.37 (t +0.4, 318) | HOLDOUT +1.14 (t +1.0, 205, won 78%)
+   day>=0.3% pull>=8 calm=Y fade  +15/-30: tune +0.32 (t +0.3, 314) | HOLDOUT +0.70 (t +0.5, 202, won 68%)
+   day>=0.3% pull>=3 calm=Y fade  +15/-30: tune -0.06 (t -0.0, 317) | HOLDOUT +1.34 (t +0.9, 203, won 69%)
+   day>=0.3% pull>=8 calm=Y fade  +15/-15: tune -0.48 (t -0.6, 314) | HOLDOUT -0.74 (t -0.7, 202, won 48%)
+
+versions positive on BOTH halves: 2 of 256 (1%)
+   day>=0.3% pull>=3 calm=N fade  +10/-30: tune +0.37 (t +0.4, 318) | HOLDOUT +1.14 (t +1.0, 205, won 78%)
+   day>=0.3% pull>=8 calm=Y fade  +15/-30: tune +0.32 (t +0.3, 314) | HOLDOUT +0.70 (t +0.5, 202, won 68%)
+
+by side: trend versions net (tune / holdout) -2.75 / -3.52; fade -1.70 / -0.68
+
+REGISTERED PREDICTIONS
+  1 tune-chosen best on the holdout -0.25 <= 0 -> RIGHT
+  2 positive on both halves 1% <= 25% -> RIGHT
+  LEAD LINE: not hit

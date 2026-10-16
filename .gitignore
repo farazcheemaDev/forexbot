@@ -93,3 +93,6 @@ logs/pair_paper_trades.csv
 
 # local MCP config: the TradingView bridge lives in D:/TRADING/tradingview-mcp (this machine only)
 .mcp.json
+
+# the trader's later statements (real name / account number) - never commit
+strategy_analysis/his_statement_*

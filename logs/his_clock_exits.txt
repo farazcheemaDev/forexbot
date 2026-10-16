@@ -1,0 +1,26 @@
+backtest/his_clock_exits.py, 2026-10-12 14:44 UTC; 89 trades: ('CapitalFX', 'NASDAQ') 2, ('VertexPro', 'GOLD') 41, ('VertexPro', 'NASDAQ') 46
+
+CLOCK FIT - his points minus the reference market's move over his two stamps shifted by d seconds
+  CME 1s       VertexPro NASDAQ n 46 | best shift d* =  +0 s (spread of the difference 1.44 vs 1.44 at d = 0) | trades' own best d within 2 s of d*:  24% | his cost vs the market -3.56
+                                     own best d: [-30, -29, -26, -21, -19, -18, -17, -12, -12, -12, -9, -9, -7, -7, -5, -5, -3, -3, -2, -1, -1, -1, 0, 0, 0, 0, 0, 1, 2, 3, 3, 4, 5, 6, 8, 9, 11, 12, 15, 15, 17, 20, 21, 26, 28, 28]
+  Exness ticks CapitalFX NASDAQ n  2 | best shift d* =  +5 s (spread of the difference 0.12 vs 1.01 at d = 0) | trades' own best d within 2 s of d*:  50% | his cost vs the market +7.37
+                                     own best d: [5, 25]
+  Exness ticks VertexPro GOLD   n 41 | best shift d* =  +0 s (spread of the difference 0.88 vs 0.88 at d = 0) | trades' own best d within 2 s of d*:  39% | his cost vs the market +0.04
+                                     own best d: [-29, -28, -28, -26, -20, -15, -13, -12, -12, -11, -8, -2, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 3, 3, 5, 6, 7, 8, 8, 10, 13, 13, 15, 17, 21, 22]
+  Exness ticks VertexPro NASDAQ n 46 | best shift d* =  +0 s (spread of the difference 1.99 vs 1.99 at d = 0) | trades' own best d within 2 s of d*:  35% | his cost vs the market -3.47
+                                     own best d: [-30, -28, -28, -23, -22, -21, -18, -15, -14, -13, -9, -9, -6, -5, -2, -2, -2, -2, -1, -1, -1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 3, 3, 4, 5, 5, 5, 6, 9, 9, 11, 13, 16, 19, 19, 24, 27]
+
+AT THE CORRECTED ENTRY (Exness ticks, d* of each broker x kind): the move HIS way before it, and the +-7 race
+  CapitalFX NASDAQ d*  +5 s, n  2 | 5 s before: median +9.12, >= 2 pts his way 100% | 15 s before: median +6.22 | race +-7 from there: 1/2 = 50%
+  VertexPro GOLD   d*  +0 s, n 41 | 5 s before: median -1.14, >= 2 pts his way  20% | 15 s before: median -2.14 | race +-3.875 from there: 21/41 = 51%
+  VertexPro NASDAQ d*  +0 s, n 46 | 5 s before: median +0.00, >= 2 pts his way  24% | 15 s before: median +0.01 | race +-7 from there: 40/46 = 87%
+
+GOLD (Exness XAUUSDm, race +-$3.875 = his median move): his 41 entries won 51% | same-sitting moments, his side: 47% (1640) | his gold P&L: +117.69, won 30/41
+
+REGISTERED PREDICTIONS
+  K1 CME 1s       VertexPro: d* +0 s, 24% of trades within 2 s -> no consistent non-zero offset
+  K1 Exness ticks CapitalFX: d* +5 s, 50% of trades within 2 s -> no consistent non-zero offset
+  K1 Exness ticks VertexPro: d* +0 s, 35% of trades within 2 s -> no consistent non-zero offset
+  K2 CapitalFX: >= 2 pts his way in the 5 s before the corrected entry in 100% -> RIGHT (the council)
+  K2 VertexPro: >= 2 pts his way in the 5 s before the corrected entry in 24% -> WRONG (the council) / RIGHT (my expectation)
+  G1 gold 51% vs same-sitting 47% -> WRONG

@@ -1,0 +1,33 @@
+backtest/month_regime.py --fit, 2026-10-16 08:51 UTC; fit on 76 months (2020-06..2026-09), judged on 25 unseen months (2017-12..2019-12)
+
+  feature correlation with the month's return - fit years / unseen years:
+    btc_r1     +0.51   +0.39
+    btc_r3     +0.44   +0.13
+    btc_ma     +0.53   +0.37
+    btc_vol    +0.06   -0.28
+    breadth    +0.28   +0.40
+    own_r1     +0.06   +0.33
+    own_r3     -0.02   +0.28
+
+  rule                                        data        CAGR  Sharpe   fall  losing  >=+10%  avg mo
+  linear, all 7 | 1.5x good / 0.5x bad        fit       +3066%    1.36    33%     37%     46%  +65.3%
+     constant 1.0x                            fit       +1944%    1.49    38%     37%     50%  +47.7%
+  linear, all 7 | 1x good / out bad           fit       +1096%    1.29    23%     14%     29%  +41.5%
+     constant 0.5x                            fit        +558%    1.49    21%     37%     41%  +23.8%
+  linear, all 7 | 1.5x good / 0.5x bad        UNSEEN     +235%    1.22    45%     48%     32%  +16.3%
+     constant 1.0x                            UNSEEN     +128%    1.12    37%     48%     32%  +10.2%
+  linear, all 7 | 1x good / out bad           UNSEEN     +161%    1.26    29%     24%     28%  +11.2%
+     constant 0.5x                            UNSEEN      +64%    1.12    20%     48%     24%   +5.1%
+  single: btc_ma (+) | 1.5x good / 0.5x bad   fit       +2449%    1.29    40%     37%     47%  +60.6%
+     constant 1.0x                            fit       +1944%    1.49    38%     37%     50%  +47.7%
+  single: btc_ma (+) | 1x good / out bad      fit        +759%    1.17    23%     17%     28%  +36.7%
+     constant 0.5x                            fit        +558%    1.49    21%     37%     41%  +23.8%
+  single: btc_ma (+) | 1.5x good / 0.5x bad   UNSEEN     +291%    1.32    25%     48%     32%  +17.4%
+     constant 1.0x                            UNSEEN     +128%    1.12    37%     48%     32%  +10.2%
+  single: btc_ma (+) | 1x good / out bad      UNSEEN     +200%    1.42    11%     12%     28%  +12.3%
+     constant 0.5x                            UNSEEN      +64%    1.12    20%     48%     24%   +5.1%
+
+REGISTERED PREDICTIONS
+  1 no rule beats its constant line by > 0.1 Sharpe on the unseen years: best +0.30 -> WRONG
+  2 the strongest feature is own_r3: btc_ma -> WRONG
+  3 no rule gets losing months under 40% on the unseen years: fewest 12% -> WRONG

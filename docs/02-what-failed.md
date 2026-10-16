@@ -2955,6 +2955,12 @@ Doc 18 has the detail. In short:
 basis points. For example, NDX overnight is +3.4bp a night gross against 2.8bp of spread + swap,
 and turn-of-month is +5bp over any 4-day hold.
 
+**T8 re-checked 2026-10-11 (`backtest/fx_t8_exness.py`, rule 9 - the measurement was broken).** Yahoo's EURUSD=X
+bars are dated a day off Exness's (see CLAUDE.md s3), so T8's "month-end" return was the day before. On Exness's own
+prices, 78 month-ends 2020-2026: **-4.06bp a month, t -0.83, right sign 43 of 78 - the kill stands.** Yahoo realigned
+by a day (corr 0.947 with Exness) gives -4.74bp over 2003-2026, both halves negative; to the 16:00 London fix,
+-3.81bp. The published +4.13bp was the wrong day.
+
 **What survives, and only swap-free:** 12-month trend on commodities + indices (`fx_tsmom.py`,
 doc 18 §4), +5.5%/yr at 10% volatility, 2004–2026, both halves. The FX legs of that book earn
 nothing (Sharpe 0.03).
@@ -4166,3 +4172,146 @@ predict, and forward-test in real time. Tested three ways, every prediction regi
 every horizon tested - seconds to a minute (book), minutes (1m/5m rules), hours (1% brackets). What is left is slower trades on forced
 flows (capit2, liquidation cascades), where a multi-percent move dwarfs the fee and fast bots do not hold.
 
+
+## Dead: the crypto scalping tests on NASDAQ, US30, gold and forex at Exness spreads (2026-10-11)
+
+**The user:** "the scalping strategies we applied on crypto ... and also other that we didnt apply on nasdaq or forex -
+give it a shot". The DOGE tests died on the fee (12bp = 1.73 one-minute ATRs on DOGE). An Exness Standard account charges
+only the spread: **0.12 (gold), 0.21 (US30), 0.24 (NASDAQ) of a one-minute ATR, 0.57-0.68 on EURUSD / GBPUSD / USDJPY**,
+7-14x cheaper than DOGE on the indices and gold. So the question was whether the rules carried a small gross edge the
+crypto fee had hidden. Data: **`backtest/mt5_1m.py`** builds 1m MID bars from every Exness tick with the spread at each
+minute (MT5 caps bars at 100,000 but not ticks): 2026-01-01 .. 2026-10-09, six instruments, holdout from 2026-06-19.
+Predictions registered in each file before its run.
+- **`backtest/cfd_scalp.py`** - doge_adapt's 228 rules (ORB at 09:30 New York; clock time stops), 1,368 instrument-rules:
+  **0 survivors** (t > 2 by day on both halves). Before ANY cost the median rule makes -0.08 / -0.02 / -0.03bp a trade on
+  NASDAQ / US30 / gold and +0.00..+0.03bp on forex; 38-64% of rules are positive at zero cost - a coin flip. Net positive:
+  3% NASDAQ, 4% US30, 18% gold (its long breakouts; best +4.95bp a trade, t +1.1 / +2.0), 0-1% forex. The user's
+  "pick the recent winner" walk-forward loses at every window on every instrument and never beats a random positive rule.
+- **`backtest/cfd_bigtarget.py`** - doge_bigtarget's bigger brackets (0.25-1.0 of a daily ATR, 4h / 24h, spread + swap)
+  on 5m/15m/1h entries, 4,820 rules: **0 beat random entries by 2 se on both halves**; the rules' win rates sit within
+  2 points of random's in 27 of 30 instrument-brackets and 3.2 points under it in one. A random long did not pay either
+  (NASDAQ +2.6 / -3.2bp by half, gold -0.9 / -2.1bp).
+- **`backtest/ustec_seconds.py`** - the order-book question without a book (Exness has none): NASDAQ's own tick stream,
+  181 days, 412,680 samples in the cash session. The next 5-60 s ARE predictable - every price feature reverses on both
+  halves (IC -0.007..-0.033, t to -10), a tenth of DOGE's book - but a ridge model's top-1% trades move +0.00..+0.14bp
+  gross against a 0.82bp spread: **net -0.73..-0.92bp a trade at 0.5 / 1 / 2 s latency**. The spread's own IC (+0.03..
+  +0.11) is a rank effect, not money: when it is wide, mid, ask and bid move -0.13..+0.03bp. With `nq_leadlag.py` (no
+  lag to the CME futures), the seconds scale on Exness is closed.
+**Reading:** on DOGE the cost was the visible killer; here the cost is 7-14x smaller and the rules still lose, because
+before costs they make nothing. These entries carry no direction on any of the seven markets tested, at seconds,
+minutes or hours. A cheaper market shrinks the loss to the spread. It does not turn a coin flip into an edge. His own
+pattern as a rule had already died on NASDAQ (`his_micro.py`, 18 of 18 cells); what still wins on NASDAQ is HIS
+direction at HIS moment (his_strategy.md s35-47), which only his live signals carry.
+
+## CANDIDATE (not dead): NASDAQ's sharp down days, bought and sold on the first bounce (2026-10-11) — `backtest/ndx_capit.py`, `backtest/ndx_capit_check.py`
+
+**The user:** "something we tried on crypto should work on NASDAQ - we have clues of our own from his strategy". The
+crypto family that survived everything is buying FORCED selling (capit2, crash bids); his usable clue is the trade's
+shape - NASDAQ, a quick exit, no stop. Equity indices have that mechanism on the daily scale (the published RSI(2) / IBS
+reversal, 2004-09) and a 27-year record (^NDX 1999-2026, four bear markets). Predictions registered in both files.
+- **22 of 192 cells pass** (net > 0 with t >= 2 on both halves AND above a buy-every-day control per day in the market).
+  The strongest, sold on the first close above the 5-day average (max 10 days), 1x, NASDAQ CFD costs:
+  RSI(2) under 10 - 12 a year, won 70%, **+0.95% a trade** (+1.18% t 4.8 / +0.57% t 3.5), CAGR +11%, fall 22%;
+  three down closes - +1.02% (t 6.1 / 3.9); a close under Bollinger(20,2) - +1.29%, 6 a year, fall 13%.
+- **Checked before belief:** a smooth plateau (36 neighbour settings all positive on both halves); half the edge after
+  publication, still positive; since 2020 t 1.5-5 and since 2023 stronger (NASDAQ's AI rise); Exness USTECm's own 16:00
+  close tracks it (corr 0.9989).
+- **Against it:** frozen on five other indices it is weak - 3 of 120 cells pass, all on the S&P; Dow, DAX, Nikkei and
+  STOXX are small and insignificant. It is a NASDAQ effect and rests on NASDAQ staying NASDAQ. The worst move against a
+  trade was **20-26%** (2000-01, 2008): at Exness's 0.05-lot minimum (~7x on $221) that is ruin. **Bitget's QQQ/USDT perp**
+  ($5 minimum, tracks the close at corr 0.9993) can hold it at 1-2x on $221.
+- **Size of the prize:** ~10-12% a year at 1x, in the market 15-20% of days - about $25-50 a year on $221 at 1-2x. Real,
+  modest, and not 10% a month. Next, if anything: a forward paper record of ONE frozen rule (RSI(2) < 10 at the close, out
+  above the 5-day average) - doc 22 decides whether that counts as a new book.
+
+## Dead: the NASDAQ dip-buy, and his "join the move after a pause" at the daily scale, on forex, gold and silver (2026-10-11) — `backtest/fx_capit.py`
+
+**The user:** "take something from the research on him and the strategies that worked or failed on crypto, for forex -
+not copying him." Carried over: crypto's forced-flow bounce, which passed on NASDAQ (`ndx_capit.py`); his one usable
+clue, entering a young move right after a short pause against it, as its daily form (buy dips only above the 200-day
+average, sell rallies only below it); his shape (a target with no stop). Both directions, since forex has no drift;
+Exness spreads and the swap of the side held. Predictions registered in the file.
+- **On Exness's own prices (MT5 1h -> New York 17:00 days, 2020-2026): 1 of 1,296 cells passes** (GBPUSD, 14 trades -
+  chance). Median cells -0.05..+0.09% a trade on the majors; gold's dip-buys +0.03% a trade through its 2024-26 rise;
+  silver nothing. The trend gate changes nothing (better in 55% of cells, at ~0).
+- **On Yahoo's 2003-2026 bars 80 cells "pass" at t up to +25 - a data bug.** Yahoo's forex daily bars are not
+  consistent: the open sits ~27bp from the previous close (Exness ~1bp), the close is not the end of the high/low window
+  (92-95% "bounces" after a close near the low; Exness 49-50%), and the bars are dated a day off Exness's. Trap added to
+  CLAUDE.md s3. `fx_anomalies.py`'s T8 (month-end USD) read these closes, so it was re-measured (rule 9) in
+  `backtest/fx_t8_exness.py`: the kill stands (below, in the 2026-09-25 entry).
+**Reading:** the NASDAQ bounce is a property of a rising, volatile stock index. Forex, gold and silver at daily scale
+show no bounce to buy or rally to sell, with or without his "pause". What stays standing on Exness: `fx_tsmom.py`'s
+12-month trend on a swap-free account (+5.5%/yr at 10% volatility, from indices and commodities, not forex).
+
+## Dead: NASDAQ's last hour following its first ("market intraday momentum") - NASDAQ scalping closed (2026-10-12) — `backtest/ndx_close_momo.py`
+
+**Why tested:** the council's one remaining NASDAQ scalping idea, the only minute-scale effect with a forced counterparty
+(dealer gamma hedging and leveraged-ETF rebalancing near the close; Gao, Han, Li, Zhou 2018). Registered with a kill line:
+if it fails, NASDAQ scalping is closed. Flat by 16:00 ET (no swap), 0.8bp a round trip.
+- **NQ futures 2024-04 .. 2026-09 (588 days):** the return from the previous close to 10:00 ET has a correlation of
+  **-0.005** with the 15:00-16:00 hour. Its sign is right 53.2% of days, **+0.26bp a day** (t -0.19 / +0.54 by half);
+  big first moves do worse (-0.24bp); adding the 14:00 hour -1.76bp. Always-long the last hour -1.25bp.
+- **Exness USTECm, the paper's exact half-hours (242 days):** +0.41bp a day, and the halves flip sign (-2.59 / +4.89bp).
+**Reading:** not present in NASDAQ in 2024-2026. Every NASDAQ horizon is now tested - seconds (`ustec_seconds.py`,
+`nq_leadlag.py`), minutes (`cfd_scalp.py`), hours (`cfd_bigtarget.py`), the session close (this) - and none carries a
+direction worth the spread. **NASDAQ scalping is closed.** What stands on NASDAQ is the daily dip-buy (CANDIDATE above).
+
+## Dead as a trade, true as an explanation: thirty years of what DRIVES forex (2026-10-12) — `backtest/fx_macro_data.py`, `fx_drivers.py`, `fx_surprises.py`
+
+**The user (/goal):** "run these economic data and all other data that drives forex and correlation with them - the last
+30 years". Every earlier forex test read price patterns; this reads the INFORMATION forex is said to move on. Fed H.10
+noon rates 1996-2026 for EUR JPY GBP AUD NZD CAD CHF; H.15 yields; BIS policy rates; OECD 3m / 10y rates; CFTC
+speculator positioning; VIX, S&P 500, oil, gold, copper; ForexFactory's calendar with forecasts, 2007-2026 (6,810
+release groups). Predictions registered in each file. Two questions kept apart: what MOVES WITH a currency in the same
+period (explains, cannot be traded) and what PREDICTS the next period (the only kind that can).
+- **What moves with forex** (`fx_drivers.py`, same month): risk appetite - the S&P 500 (AUD +0.52, CAD +0.51, NZD +0.46;
+  VIX the mirror) - copper and gold (+0.25..+0.53), oil for CAD (+0.38), and the US 2-year yield (dollar up when it
+  rises: JPY -0.40, CHF -0.29). Central-bank policy-rate changes move with nothing (-0.05..+0.05): markets price the
+  2-year yield before the bank acts.
+- **What predicts forex** (next month): nothing - 77 driver-currency correlations all within +-0.13.
+- **11 trading rules on Exness costs, 0 pass** (every Holm p 1.00): carry earns +2.6%/yr only where carry is paid
+  (Exness pays none: -0.26%/yr); commodity-led CAD / AUD +0.74%/yr then flips on the holdout; fading crowded CFTC
+  positioning, following positioning changes, rate changes, the US 2-year, risk and momentum all lose.
+- **Data surprises** (`fx_surprises.py`): a release moves its currency the surprise's way ~60% of days (+15bp; at minute
+  resolution 16 of 23 US releases in 2026, +6bp in 5 minutes). After that, nothing: the drift from the first noon is
+  -0.9..-2.9bp at 1-5 days (t under 1), +5 to +60 minutes -0.2bp. Big US surprises keep 9% of their jump the next day.
+- **2-year yield gaps** (`fx_rates2y.py`, added after the user's "you did not have all the information"): daily 2y
+  yields from the Bundesbank, Japan's Ministry of Finance, the Bank of Canada and the SNB (the BoE, RBA and RBNZ were
+  unreachable from this PC). The 2y gap is the rate measure that moves with forex - same month EUR +0.40, JPY +0.41,
+  CAD +0.31, CHF +0.27, where the policy-rate gap showed ~0 - and it predicts nothing (next week / month <= 0.09).
+  Trading the currency back to its rate-implied fair value: +1.3%/yr at Exness, holdout only (t -0.3 / +1.7); the
+  currency catching up to its rate move: -1.1%/yr; following the 2y trend: negative. 0 of 4 pass.
+- **Who is positioned** (`fx_tff.py`, the CFTC's Traders in Financial Futures, 2006-2026, 1,059 weeks): in the same
+  Tuesday-to-Tuesday week hedge funds add as a currency rises (EUR +0.30, JPY +0.32, AUD +0.24), asset managers too
+  (+0.12..+0.28), and the banks take the other side (dealers -0.27..-0.48). The following week: nothing (|r| <= 0.07);
+  0 of 5 rules pass, all negative at Exness (fade crowded hedge funds -1.2%/yr, follow their flow -2.9%/yr).
+  CBOE's currency volatility indices could not be fetched (CBOE: access denied; Yahoo: ^EVZ delisted).
+- **Data surprises at minute resolution** (`fx_surprises_1m.py`, HistData.com 1-minute bars 2007-2026, 2,078 releases):
+  the currency moves the surprise's way 81% of the time within 5 minutes (+14bp). Entered a minute after the number,
+  +0.8bp more by +15 minutes (t +2.8) - the 0.69bp spread takes it; the next hour ~0; half a day a mild giveback. 0 of
+  15 windows pass. A first run showed a +10bp "drift" at t +21: HistData's clock is New York time with daylight
+  saving, not the fixed EST it documents, so summer jumps landed in the hour-after window (CLAUDE.md s3).
+- **Central-bank speech tone** (`fx_speeches.py`, 8,850 BIS speeches 1996-2026, hawkish minus dovish words): the count
+  is real (the Fed's tone tracks the US 2-year yield, +0.45) but a bank's tone relative to the Fed moves nothing in
+  the same month, and the next-month lean (up to +0.17) flips between halves when traded. 0 of 2 pass.
+- **News mood** (`fx_news_tone.py`, GDELT tone and volume of news about each economy, 2017-2026): same week -0.06..
+  +0.06, next week <= 0.06; 0 of 3 rules pass. OANDA's retail order books: not reachable by the user; untested.
+**Reading:** forex is driven by risk, commodities, market interest rates and data surprises - all of it priced within
+minutes, none of it known early enough to trade at retail speed. With the 33 calendar tests, the scalping menu and the
+daily dip / rally rules, forex is now tested from seconds to months on both price and information. The one forex-account
+result standing is still the 12-month multi-market trend on a swap-free account (`fx_tsmom.py`).
+
+## Not a market edge: the news bot's one-second window is the broker's (2026-10-12) — `backtest/fx_news_seconds.py`
+
+**Why tested:** the user's case for a forex bot - lower costs, real information behind forex - leads to one place: a bot that
+reads the official number the instant it prints and trades in seconds (the jump is 81% right within 5 minutes, but entered a
+minute later only +0.8bp is left: `fx_surprises_1m.py`). Measured on Exness's own ticks, every 2026 high-impact release
+(51 releases, 97 trades), entered d seconds after the stamped release at the real ask / bid:
+- **US releases, out at +60 s: +6.2bp a trade at 0.5-1 s (t +3.9, 81-83% won); +0.6bp at 2 s (t +0.8); 0.0 at 5 s; -0.9bp
+  at 10 s.** A one-second cliff.
+- **Why:** on 15 of 18 payroll / CPI releases Exness's biggest 1-second move is in the SECOND second after 08:30:00 - its quote
+  reaches the market about a second late (or its tick clock runs ~1 s behind), and its spread does not widen meanwhile.
+**Reading:** two seconds after a number there is nothing left for anyone; the first second is the broker's stale quote.
+Trading that is latency arbitrage against the broker - against retail brokers' terms (trades voided, accounts closed),
+countered by last-look and slippage this test cannot see, and it needs the number within ~0.5 s, which free sources do not
+deliver from Pakistan. Not a legitimate or durable forex bot.

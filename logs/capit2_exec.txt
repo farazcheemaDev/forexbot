@@ -1,0 +1,11 @@
+backtest/capit2_exec.py, 2026-10-10 01:00 UTC; capit2 signals (K >= 5, coin -10% in 24h), phase 0: 387 signals, 385 with Binance 1m bars, 2 skipped (symbol not served); 2020-03-12 .. 2026-02-06
+
+FILLS: limit 55% of signals | poll 45% (both phases averaged) | poll fills as a share of limit fills 81%
+ENTRY when both fill (178 signals): the poll buys +1.10% deeper on average (median +0.71%) - against its extra 0.04% fee
+NET A FILLED TRADE: limit +3.91% | poll +3.99%
+PER SIGNAL (a miss = 0): limit +2.151% | poll +1.761% | limit - poll +0.390 points (se 0.093), limit better on 52% of signals
+SIGNALS THE POLL MISSES (in at least one phase) that the limit fills: 47; their net under the limit +4.42% a trade, won 94%
+
+X1 (poll fills 70-90% of limit fills): 81% -> RIGHT
+X2 (poll 0.2-0.6% deeper): +1.10% -> WRONG
+X3 (modes within 0.3 points per signal): +0.390 -> WRONG

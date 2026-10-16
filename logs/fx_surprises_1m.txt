@@ -1,0 +1,33 @@
+backtest/fx_surprises_1m.py, 2026-10-12 08:45 UTC; HistData minute bars; 2078 releases (|score| >= 1) 2007-08 .. 2026-09; holdout from 2016-08-05
+Exness spread after 2026's US releases (median, bp): at +1 min 0.69, at +5 min 0.69, ordinary 0.69 -> cost a trade FAST 0.69bp, HOUR / HALF DAY 0.69bp
+CLOCK CHECK - minute of the biggest 1-min EURUSD move on 210 payroll days, relative to the release (0 = the release minute): {0: 132, 1: 23, 2: 12, 3: 10}
+
+  all, |score| >= 1      n  2078 | JUMP right 81.1% +14.2bp | FAST gross +0.79 (t +2.8) net +0.10 | HOUR gross -0.12 (t -0.3) net -0.81 | HALF DAY gross -1.85 (t -2.6) net -2.54
+  USD, |score| >= 1      n   866 | JUMP right 77.7%  +9.3bp | FAST gross +0.47 (t +1.2) net -0.21 | HOUR gross +0.71 (t +1.2) net +0.02 | HALF DAY gross -0.11 (t -0.1) net -0.80
+  others, |score| >= 1   n  1212 | JUMP right 83.6% +17.7bp | FAST gross +1.01 (t +2.6) net +0.33 | HOUR gross -0.72 (t -1.2) net -1.41 | HALF DAY gross -3.09 (t -3.0) net -3.78
+  all, |score| >= 2      n   544 | JUMP right 82.9% +17.7bp | FAST gross +1.69 (t +2.8) net +1.00 | HOUR gross -0.00 (t -0.0) net -0.69 | HALF DAY gross -0.65 (t -0.4) net -1.34
+  USD, |score| >= 2      n   250 | JUMP right 80.8% +12.7bp | FAST gross +2.74 (t +3.3) net +2.05 | HOUR gross +2.27 (t +2.0) net +1.58 | HALF DAY gross +2.64 (t +1.4) net +1.96
+
+NET BY HALF (bp a trade, t): tune / holdout
+  all, |score| >= 1      FAST    :  +0.07 (+0.2) /  +0.14 (+0.4)
+  all, |score| >= 1      HOUR    :  -1.05 (-1.8) /  -0.46 (-0.8)
+  all, |score| >= 1      HALF DAY:  -3.31 (-3.3) /  -1.38 (-1.5)
+  USD, |score| >= 1      FAST    :  -0.22 (-0.4) /  -0.20 (-0.3)
+  USD, |score| >= 1      HOUR    :  -0.02 (-0.0) /  +0.08 (+0.1)
+  USD, |score| >= 1      HALF DAY:  -1.40 (-1.1) /  -0.01 (-0.0)
+  others, |score| >= 1   FAST    :  +0.27 (+0.5) /  +0.42 (+0.8)
+  others, |score| >= 1   HOUR    :  -1.71 (-2.2) /  -0.91 (-1.0)
+  others, |score| >= 1   HALF DAY:  -4.54 (-3.2) /  -2.51 (-2.0)
+  all, |score| >= 2      FAST    :  +0.49 (+0.5) /  +1.51 (+1.9)
+  all, |score| >= 2      HOUR    :  -1.49 (-1.1) /  +0.09 (+0.1)
+  all, |score| >= 2      HALF DAY:  -3.24 (-1.3) /  +0.53 (+0.3)
+  USD, |score| >= 2      FAST    :  +1.25 (+1.0) /  +2.68 (+2.4)
+  USD, |score| >= 2      HOUR    :  +0.43 (+0.2) /  +2.50 (+1.8)
+  USD, |score| >= 2      HALF DAY:  +0.39 (+0.1) /  +3.21 (+1.2)
+  PASS: none
+
+REGISTERED PREDICTIONS
+  M1 JUMP right 81.1% (|score|>=1), 82.9% (>=2) -> RIGHT
+  M2 HOUR / HALF DAY gross t: all HOUR -0.3, all HALF DAY -2.6, USD HOUR +1.2, USD HALF DAY -0.1 -> WRONG
+  M3 FAST gross +0.79bp (t +2.8), net +0.10bp; FAST passes none -> RIGHT
+  M4 passes: none -> RIGHT

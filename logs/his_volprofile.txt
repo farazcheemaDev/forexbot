@@ -1,0 +1,33 @@
+backtest/his_volprofile.py, 2026-10-12 20:26 UTC; Exness USTECm ticks, 181 days; tick count per 5-point bin as volume; 39 of his entries after 10:00 New York, 1439 same-sitting moments
+
+A. Does each rule's side agree with HIS side where it fires?
+   R1 back to yesterday's POC               fires at 37 of his entries, agrees  40.5% (p 0.324)
+   R2 back to today's POC                   fires at 33 of his entries, agrees  51.5% (p 1.000)
+   R3 fade yesterday's value edge           fires at  1 of his entries, agrees   0.0% (p 1.000)
+   R4 fade today's value edge               fires at  8 of his entries, agrees  50.0% (p 1.000)
+   R5 outside yesterday's value: with it    fires at 33 of his entries, agrees  54.5% (p 0.728)
+   R6 outside today's value: with it        fires at 22 of his entries, agrees  50.0% (p 1.000)
+   Holm-adjusted p: R1 1.00, R2 1.00, R3 1.00, R4 1.00, R5 1.00, R6 1.00
+
+B. his distance to the nearest profile level: median 14.8 pts vs 18.8; rank 0.45 (p 0.387, 39 entries; low = nearer)
+
+C. Each rule at every minute 10:00-19:00 (overlapping trades), +-7 at real prices vs a random side at the same minutes
+   rule                                         half   calls     won   random    diff  net pts
+   R1 back to yesterday's POC                   tune  52,928   34.4%    34.1%    +0.3    -1.85
+   R1 back to yesterday's POC                HOLDOUT  35,628   35.2%    34.1%    +1.1    -1.76
+   R2 back to today's POC                       tune  47,957   34.8%    34.0%    +0.8    -1.77
+   R2 back to today's POC                    HOLDOUT  32,471   35.4%    34.2%    +1.1    -1.78
+   R3 fade yesterday's value edge               tune   1,927   32.7%    35.4%    -2.6    -2.25
+   R3 fade yesterday's value edge            HOLDOUT   1,384   41.1%    37.2%    +3.9    -1.24
+   R4 fade today's value edge                   tune   7,687   36.3%    35.1%    +1.1    -1.68
+   R4 fade today's value edge                HOLDOUT   4,617   37.4%    35.8%    +1.6    -1.58
+   R5 outside yesterday's value: with it        tune  44,935   33.9%    34.0%    -0.1    -1.90
+   R5 outside yesterday's value: with it     HOLDOUT  27,398   33.9%    34.2%    -0.3    -1.98
+   R6 outside today's value: with it            tune  23,100   32.6%    33.9%    -1.3    -2.08
+   R6 outside today's value: with it         HOLDOUT  15,112   33.1%    33.9%    -0.8    -2.14
+
+REGISTERED PREDICTIONS
+  1 A within 35-65% and nothing survives Holm: 41%, 52%, 0%, 50%, 55%, 50% (min Holm p 1.00) -> WRONG
+  2 B rank 0.45 within 0.40-0.60 -> RIGHT
+  3 C within +-3 of random on both halves and net < 0: diffs +0.3, +1.1, +0.8, +1.1, -2.6, +3.9, +1.1, +1.6, -0.1, -0.3, -1.3, -0.8 -> WRONG
+  LEAD LINE: not hit

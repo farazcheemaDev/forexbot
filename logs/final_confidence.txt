@@ -1,0 +1,15 @@
+backtest/final_confidence.py, 2026-10-16 01:11 UTC; the deployed final machine (capit2 1.0 x 2x), $300, 10 orderings; BACKTEST, progressively discounted
+
+  line                              typical  bad 25%     10%   worst  P(<$300)  P(<$150)  worst mo   fall
+  AS BACKTESTED                   $  4,098 $  1,337 $   504 $   238        1%        0%    -30.0%    57%
+  - live-model gap (-1.5%/mo)     $  3,432 $  1,117 $   421 $   199        3%        0%    -31.0%    60%
+  - and mined parts halved        $  2,149 $    842 $   420 $   223        4%        0%    -24.7%    52%
+  - and only BTC-under-1000h days $  1,370 $    635 $   340 $   174        7%        0%    -30.6%    51%
+
+WHERE THE LIVE PAPER RECORDS SIT in the backtest's own same-length windows
+  final machine dry, 7 days -10.6%: percentile 7.3 (median 7-day window +0.8%)
+  combo paper (machine v2, a close relative), 21 days -20.5%: percentile 3.8 of the FINAL machine's 21-day windows (median +5.6%)
+
+REGISTERED PREDICTIONS
+  1 below-start: as backtested 1% (<= 5), discounted 4% (15-30) -> WRONG
+  2 live 7-day at or below the 15th percentile: 7.3 -> RIGHT

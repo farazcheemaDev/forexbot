@@ -1,0 +1,42 @@
+backtest/his_manage_bot.py, 2026-10-15 23:19 UTC; 181 tick days, holdout from 2026-06-04; +7 per leg, -30 on the stuck position, scratch at +1 after 60 s, add/hedge at -15
+
+  hours side   manage       half   pos  green  net/pos     t   worst  legs
+  his   trend  base         tune   555    73%    -2.22  -2.9   -46.8  1.00
+  his   trend  base      HOLDOUT   355    72%    -2.46  -2.6   -42.8  1.00
+  his   trend  scratch      tune   559    78%    -3.20  -4.9   -46.8  1.00
+  his   trend  scratch   HOLDOUT   358    78%    -2.52  -3.1   -42.8  1.00
+  his   trend  average      tune   559    78%    -4.14  -4.9   -77.5  1.35
+  his   trend  average   HOLDOUT   358    78%    -2.98  -2.8   -57.7  1.38
+  his   trend  hedge        tune   559    65%    -3.93  -7.1   -27.7  1.74
+  his   trend  hedge     HOLDOUT   358    62%    -4.28  -5.9   -42.8  1.73
+  his   coin   base         tune   645    76%    -0.74  -1.1   -55.5  1.00
+  his   coin   base      HOLDOUT   431    74%    -1.70  -2.0   -45.1  1.00
+  his   coin   scratch      tune   645    82%    -1.00  -1.8   -46.8  1.00
+  his   coin   scratch   HOLDOUT   431    83%    -1.15  -1.7   -45.1  1.00
+  his   coin   average      tune   645    82%    -1.63  -2.2   -77.5  1.31
+  his   coin   average   HOLDOUT   431    83%    -1.21  -1.4   -69.7  1.33
+  his   coin   hedge        tune   645    68%    -2.68  -5.4   -28.3  1.60
+  his   coin   hedge     HOLDOUT   431    66%    -3.56  -5.7   -42.8  1.61
+  day   trend  base         tune   630    72%    -2.71  -3.7   -46.8  1.00
+  day   trend  base      HOLDOUT   400    72%    -2.31  -2.5   -41.6  1.00
+  day   trend  scratch      tune   631    78%    -2.54  -3.9   -46.8  1.00
+  day   trend  scratch   HOLDOUT   402    76%    -2.64  -3.1   -41.6  1.00
+  day   trend  average      tune   631    78%    -2.91  -3.5   -77.5  1.39
+  day   trend  average   HOLDOUT   402    76%    -3.05  -2.7   -71.4  1.42
+  day   trend  hedge        tune   631    61%    -4.00  -7.3   -35.1  1.68
+  day   trend  hedge     HOLDOUT   402    58%    -4.30  -6.0   -30.5  1.70
+  day   coin   base         tune   648    73%    -2.43  -3.3   -57.1  1.00
+  day   coin   base      HOLDOUT   438    75%    -1.30  -1.5   -41.6  1.00
+  day   coin   scratch      tune   648    76%    -2.55  -3.8   -57.1  1.00
+  day   coin   scratch   HOLDOUT   438    77%    -1.92  -2.3   -41.6  1.00
+  day   coin   average      tune   648    76%    -3.52  -3.9   -98.9  1.42
+  day   coin   average   HOLDOUT   438    77%    -2.68  -2.5   -71.4  1.40
+  day   coin   hedge        tune   648    58%    -4.22  -7.5   -30.9  1.72
+  day   coin   hedge     HOLDOUT   438    60%    -3.57  -5.2   -30.5  1.64
+
+REGISTERED PREDICTIONS
+  1 no cell positive on both halves: 0 are [] -> RIGHT
+  2 scratch vs base: green +2..+9 points, net -0.98..+0.55 -> WRONG
+  3 average/hedge vs scratch: green -18..+0 points, worst -41.8..+26.2 -> WRONG
+  4 his hours - all day: -1.23..+1.88 -> WRONG
+  LEAD LINE: not hit

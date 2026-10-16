@@ -1,0 +1,21 @@
+backtest/his_cancel_proxy.py, 2026-10-15 23:36 UTC; 82,187 book seconds, 46 of his entries, 1585 sitting moments
+
+   feature   agree       p    rank       p   with  against     n
+     pull1     38%   0.581    0.48   0.539    47%      53%   464
+    spike1     67%   1.000    0.51   0.665    53%      47%    90
+     pull2     58%   0.648    0.52   0.416    50%      50%   632
+    spike2     80%   0.375    0.53   0.476    54%      46%   173
+     pull3     52%   1.000    0.49   0.926    50%      50%   646
+    spike3     86%   0.125    0.55   0.452    51%      49%   252
+     pull5     60%   0.362    0.54   0.388    50%      50%   510
+    spike5     60%   0.754    0.52   0.763    52%      48%   319
+    pull10     56%   0.522    0.54   0.357    49%      51%   318
+   spike10     53%   1.000    0.51   0.546    51%      49%   386
+    pull30     48%   0.880    0.49   0.861    45%      55%   318
+   spike30     48%   1.000    0.47   0.559    51%      49%   444
+
+REGISTERED PREDICTIONS
+  1 A 35-65%: 38..86% -> WRONG
+  2 B 0.40-0.60: 0.47..0.55 -> RIGHT
+  3 C 42-58% (both ways): 45..55% -> RIGHT
+  LEAD LINE: not hit

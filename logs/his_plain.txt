@@ -1,0 +1,71 @@
+backtest/his_plain.py, 2026-10-15 23:18 UTC; 46 NASDAQ trades, 41 with Exness ticks
+
+1. ENTRY HOURS, his clock (UTC+5) vs New York
+   2026-01-02  PKT 19:51  NY 09:51  SELL 0.01   +38.25 pts  race 1  first
+   2026-01-06  PKT 20:33  NY 10:33  SELL 0.01    +4.75 pts  race 1  first
+   2026-01-16  PKT 20:45  NY 10:45  SELL 0.02    +7.00 pts  race 1  first
+   2026-01-19  PKT 19:54  NY 09:54  BUY  0.01   +48.00 pts  race 1  first
+   2026-01-21  PKT 19:52  NY 09:52  BUY  0.03   +13.75 pts  race 1  first
+   2026-01-26  PKT 20:19  NY 10:19  BUY  0.02    +5.00 pts  race 1  first
+   2026-02-04  PKT 18:54  NY 08:54  BUY  0.03    -7.50 pts  race -  first
+   2026-02-11  PKT 20:14  NY 10:14  BUY  0.03   +14.00 pts  race 1  first
+   2026-02-17  PKT 23:58  NY 13:58  SELL 0.05    +7.25 pts  race 1  first
+   2026-02-17  PKT 23:59  NY 13:59  SELL 0.05    +4.50 pts  race 1  same
+   2026-02-20  PKT 20:01  NY 10:01  BUY  0.05    +1.25 pts  race 0  first
+   2026-02-20  PKT 20:02  NY 10:02  SELL 0.05   +19.50 pts  race 1  FLIP
+   2026-02-24  PKT 18:32  NY 08:32  SELL 0.07    +7.00 pts  race -  first
+   2026-02-25  PKT 23:51  NY 13:51  BUY  0.05    +3.00 pts  race -  first
+   2026-02-27  PKT 00:15  NY 14:15  BUY  0.03    +3.50 pts  race 1  first
+   2026-03-02  PKT 00:02  NY 14:02  BUY  0.05    +5.25 pts  race 1  first
+   2026-03-03  PKT 02:02  NY 16:02  SELL 0.05    +8.00 pts  race 1  first
+   2026-03-06  PKT 16:54  NY 06:54  SELL 0.01   +15.50 pts  race -  first
+   2026-03-16  PKT 22:04  NY 13:04  BUY  0.04   +16.25 pts  race 1  first
+   2026-03-31  PKT 00:58  NY 15:58  BUY  0.08    +9.00 pts  race 0  first
+   2026-04-02  PKT 20:10  NY 11:10  BUY  0.08   +14.50 pts  race 1  first
+   2026-04-02  PKT 20:11  NY 11:11  BUY  0.05    +6.25 pts  race 0  same
+   2026-04-06  PKT 20:38  NY 11:38  BUY  0.08   +12.50 pts  race 1  first
+   2026-04-06  PKT 20:44  NY 11:44  SELL 0.01    +7.00 pts  race 1  FLIP
+   2026-04-28  PKT 21:16  NY 12:16  BUY  0.15    +6.25 pts  race 1  first
+   2026-05-05  PKT 20:03  NY 11:03  BUY  0.10   +24.50 pts  race 1  first
+   2026-05-07  PKT 20:07  NY 11:07  SELL 0.06    +1.00 pts  race 1  first
+   2026-05-07  PKT 20:13  NY 11:13  SELL 0.07    +4.50 pts  race 1  same
+   2026-06-05  PKT 20:02  NY 11:02  BUY  0.20    +8.00 pts  race 1  first
+   2026-06-05  PKT 20:04  NY 11:04  BUY  0.20    +8.25 pts  race 1  same
+   2026-06-05  PKT 20:04  NY 11:04  SELL 0.05   +14.50 pts  race 0  FLIP
+   2026-07-01  PKT 20:39  NY 11:39  SELL 0.10    +6.50 pts  race 1  first
+   2026-07-01  PKT 20:40  NY 11:40  SELL 0.10   +15.25 pts  race 1  same
+   2026-07-10  PKT 14:11  NY 05:11  BUY  0.20    +4.25 pts  race -  first
+   2026-07-10  PKT 21:18  NY 12:18  BUY  0.10    +7.00 pts  race 1  first
+   2026-07-24  PKT 23:57  NY 14:57  SELL 0.20    +6.25 pts  race 1  first
+   2026-08-07  PKT 21:59  NY 12:59  BUY  0.15    +8.75 pts  race 0  first
+   2026-08-07  PKT 22:03  NY 13:03  SELL 0.15    +7.00 pts  race 1  FLIP
+   2026-08-10  PKT 03:30  NY 18:30  SELL 0.15   +18.75 pts  race 1  first
+   2026-09-14  PKT 23:14  NY 14:14  BUY  0.15   -31.75 pts  race 1  first
+   2026-09-14  PKT 23:30  NY 14:30  BUY  0.20    +5.25 pts  race 1  same
+   2026-09-14  PKT 23:38  NY 14:38  SELL 0.20    +2.50 pts  race 1  FLIP
+   2026-09-14  PKT 23:46  NY 14:46  SELL 0.20    +8.75 pts  race 1  same
+   2026-09-14  PKT 23:49  NY 14:49  SELL 0.25    +6.75 pts  race 1  same
+   2026-09-14  PKT 00:00  NY 15:00  SELL 0.25    +8.75 pts  race 1  same
+   2026-09-14  PKT 00:02  NY 15:02  SELL 0.25   +17.25 pts  race 1  same
+   PKT 19:45-21:00: 21 trades; PKT 23:00-00:30: 13; elsewhere 12
+
+2-3. RACE WON BY SIZE AND ORDER
+   bigger than his usual    n 23  race won 87%
+   his usual size           n 10  race won 90%
+   smaller than usual       n  6  race won 83%
+   first of a sitting       n 26  race won 88%  mean lots 0.077
+   later, same side         n 10  race won 90%  mean lots 0.162
+   later, FLIPPED           n  5  race won 80%  mean lots 0.092
+
+4. SCRATCHES (|pts| <= 3.5) and OVERLAPPING positions
+   scratch 2026-02-20 10:01 NY  BUY +1.25
+   scratch 2026-02-25 13:51 NY  BUY +3.00
+   scratch 2026-02-27 14:15 NY  BUY +3.50
+   scratch 2026-05-07 11:07 NY  SELL +1.00
+   scratch 2026-09-14 14:38 NY  SELL +2.50
+   while BUY 0.15 from 09-14 14:14:37 NY was open (-31.75): BUY 0.20 at 14:30:13 -> +5.25
+   while BUY 0.15 from 09-14 14:14:37 NY was open (-31.75): SELL 0.20 at 14:38:07 -> +2.50
+   while BUY 0.15 from 09-14 14:14:37 NY was open (-31.75): SELL 0.20 at 14:46:11 -> +8.75
+   while BUY 0.15 from 09-14 14:14:37 NY was open (-31.75): SELL 0.25 at 14:49:02 -> +6.75
+   while BUY 0.15 from 09-14 14:14:37 NY was open (-31.75): SELL 0.25 at 15:00:16 -> +8.75
+   while BUY 0.15 from 09-14 14:14:37 NY was open (-31.75): SELL 0.25 at 15:02:30 -> +17.25

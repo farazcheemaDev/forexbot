@@ -1,0 +1,72 @@
+backtest/es_flow_mended.py, 2026-10-16 00:40 UTC; 27 windows (19.9 h), holdout from 2026-06-04; 1,168,417 ES trades
+
+  side             stop     half  trades    won    p*  net/trade      t  coin won  coin net
+  esflow2             5     tune     569    29%   42%      -1.80   -6.7       29%     -2.04
+  esflow2             5  HOLDOUT     304    27%   42%      -2.08   -5.8       24%     -2.61
+  esflow2             7     tune     454    39%   50%      -1.75   -4.7       37%     -2.17
+  esflow2             7  HOLDOUT     236    36%   50%      -2.12   -4.1       37%     -2.16
+  esflow2            10     tune     354    50%   59%      -1.41   -2.8       48%     -1.97
+  esflow2            10  HOLDOUT     171    51%   59%      -1.19   -1.6       47%     -2.10
+  esflow2            15     tune     281    59%   68%      -2.03   -2.8       55%     -2.86
+  esflow2            15  HOLDOUT     133    62%   68%      -1.15   -1.1       56%     -2.43
+  esflow3             5     tune     496    29%   42%      -1.83   -6.3       29%     -2.04
+  esflow3             5  HOLDOUT     256    20%   42%      -3.19   -9.2       24%     -2.61
+  esflow3             7     tune     397    39%   50%      -1.70   -4.3       37%     -2.17
+  esflow3             7  HOLDOUT     199    29%   50%      -3.32   -6.4       37%     -2.16
+  esflow3            10     tune     316    46%   59%      -2.20   -4.1       48%     -1.97
+  esflow3            10  HOLDOUT     152    42%   59%      -3.09   -4.0       47%     -2.10
+  esflow3            15     tune     254    59%   68%      -1.96   -2.6       55%     -2.86
+  esflow3            15  HOLDOUT     126    55%   68%      -2.92   -2.7       56%     -2.43
+  esflow5             5     tune     619    29%   42%      -1.95   -7.7       29%     -2.04
+  esflow5             5  HOLDOUT     243    27%   42%      -2.14   -5.4       24%     -2.61
+  esflow5             7     tune     492    37%   50%      -2.10   -5.9       37%     -2.17
+  esflow5             7  HOLDOUT     203    37%   50%      -2.10   -3.8       37%     -2.16
+  esflow5            10     tune     403    47%   59%      -2.02   -4.3       48%     -1.97
+  esflow5            10  HOLDOUT     159    44%   59%      -2.68   -3.5       47%     -2.10
+  esflow5            15     tune     317    58%   68%      -2.19   -3.2       55%     -2.86
+  esflow5            15  HOLDOUT     128    55%   68%      -2.88   -2.6       56%     -2.43
+  esflow10            5     tune     667    25%   42%      -2.37   -9.8       29%     -2.04
+  esflow10            5  HOLDOUT     268    25%   42%      -2.49   -6.8       24%     -2.61
+  esflow10            7     tune     555    33%   50%      -2.64   -8.0       37%     -2.17
+  esflow10            7  HOLDOUT     216    35%   50%      -2.48   -4.7       37%     -2.16
+  esflow10           10     tune     443    44%   59%      -2.52   -5.6       48%     -1.97
+  esflow10           10  HOLDOUT     184    45%   59%      -2.58   -3.6       47%     -2.10
+  esflow10           15     tune     329    54%   68%      -3.00   -4.4       55%     -2.86
+  esflow10           15  HOLDOUT     145    54%   68%      -3.17   -3.1       56%     -2.43
+  esflow2 nopb        5     tune    1179    28%   42%      -1.91  -10.1       27%     -2.30
+  esflow2 nopb        5  HOLDOUT     562    26%   42%      -2.32   -8.8       23%     -2.89
+  esflow2 nopb        7     tune     893    35%   50%      -2.41   -9.1       35%     -2.55
+  esflow2 nopb        7  HOLDOUT     396    35%   50%      -2.45   -6.2       32%     -2.99
+  esflow2 nopb       10     tune     679    49%   59%      -1.62   -4.3       46%     -2.42
+  esflow2 nopb       10  HOLDOUT     288    47%   59%      -2.08   -3.6       43%     -2.73
+  esflow2 nopb       15     tune     483    59%   68%      -1.74   -3.1       58%     -2.04
+  esflow2 nopb       15  HOLDOUT     203    57%   68%      -2.26   -2.6       57%     -2.32
+  esflow3 nopb        5     tune    1180    29%   42%      -1.90  -10.0       27%     -2.30
+  esflow3 nopb        5  HOLDOUT     537    26%   42%      -2.28   -8.5       23%     -2.89
+  esflow3 nopb        7     tune     874    36%   50%      -2.17   -8.1       35%     -2.55
+  esflow3 nopb        7  HOLDOUT     402    33%   50%      -2.75   -7.1       32%     -2.99
+  esflow3 nopb       10     tune     678    47%   59%      -1.96   -5.3       46%     -2.42
+  esflow3 nopb       10  HOLDOUT     293    41%   59%      -3.28   -5.8       43%     -2.73
+  esflow3 nopb       15     tune     486    60%   68%      -1.40   -2.5       58%     -2.04
+  esflow3 nopb       15  HOLDOUT     204    53%   68%      -3.38   -3.9       57%     -2.32
+  esflow5 nopb        5     tune    1161    26%   42%      -2.35  -12.7       27%     -2.30
+  esflow5 nopb        5  HOLDOUT     479    29%   42%      -1.87   -6.4       23%     -2.89
+  esflow5 nopb        7     tune     895    33%   50%      -2.66  -10.3       35%     -2.55
+  esflow5 nopb        7  HOLDOUT     356    39%   50%      -1.72   -4.0       32%     -2.99
+  esflow5 nopb       10     tune     661    45%   59%      -2.47   -6.5       46%     -2.42
+  esflow5 nopb       10  HOLDOUT     281    44%   59%      -2.58   -4.5       43%     -2.73
+  esflow5 nopb       15     tune     478    59%   68%      -1.72   -3.1       58%     -2.04
+  esflow5 nopb       15  HOLDOUT     190    56%   68%      -2.70   -3.0       57%     -2.32
+  esflow10 nopb       5     tune    1061    25%   42%      -2.43  -12.7       27%     -2.30
+  esflow10 nopb       5  HOLDOUT     388    24%   42%      -2.61   -8.5       23%     -2.89
+  esflow10 nopb       7     tune     814    34%   50%      -2.55   -9.4       35%     -2.55
+  esflow10 nopb       7  HOLDOUT     304    37%   50%      -2.12   -4.7       32%     -2.99
+  esflow10 nopb      10     tune     613    45%   59%      -2.38   -6.1       46%     -2.42
+  esflow10 nopb      10  HOLDOUT     244    41%   59%      -3.22   -5.2       43%     -2.73
+  esflow10 nopb      15     tune     434    58%   68%      -2.18   -3.7       58%     -2.04
+  esflow10 nopb      15  HOLDOUT     181    48%   68%      -4.51   -4.9       57%     -2.32
+
+REGISTERED PREDICTIONS
+  1 no cell positive on both halves: none -> RIGHT
+  2 win rate over the coin 2-8 points: -9..+7 (median +0.1) -> WRONG
+  LEAD LINE: not hit

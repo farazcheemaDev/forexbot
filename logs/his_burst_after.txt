@@ -1,0 +1,5 @@
+his NASDAQ clicks on tick days: 41
+P1 a 5-s burst starts within 10 s of his click: 22% | his own +-20-min windows: 23% -> ratio 0.94 (RIGHT)
+P2 his side reached +7 (mid) first in 39 of 41; time from click: median 29 s, quartiles 14 / 68 s; within 10 s 18% (WRONG)
+   of his wins, the +7 completed by a 5-s burst his way: 36%
+   baseline (other seconds, whichever side hits 7 first, n=7645): median 33 s, quartiles 14 / 78, within 10 s 18%, completed by a burst 38%

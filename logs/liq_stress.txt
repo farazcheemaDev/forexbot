@@ -1,0 +1,38 @@
+backtest/liq_stress.py, 2026-10-16 01:18 UTC; hourly grid 2020-02-15 .. 2026-09-12; every open position at its coin's worst price of the hour; liquidation line 17% left
+
+  account LEFT in the worst hour (and when), by what is on the account
+
+  ordering 0
+    trend alone                       62%  2025-10-10 21:00   hours under 50%:   0, under the line:  0
+    trend + bids                      47%  2025-10-10 21:00   hours under 50%:   1, under the line:  0
+    trend + bids + daily              41%  2025-10-10 21:00   hours under 50%:   1, under the line:  0
+    FULL, capit2 1x                   41%  2025-10-10 21:00   hours under 50%:   1, under the line:  0
+    FULL, capit2 2x (deployed)        41%  2025-10-10 21:00   hours under 50%:   1, under the line:  0
+    capit2 2x alone                   69%  2024-04-13 20:00   hours under 50%:   0, under the line:  0
+    daily alone                       86%  2021-09-07 15:00   hours under 50%:   0, under the line:  0
+    the 5 worst hours, deployed: 2025-10-10 21:00 41% (trend -38, bids -15, daily -6, capit2 +0), 2024-04-13 20:00 72% (trend +5, bids -2, daily +0, capit2 -31), 2022-11-09 21:00 76% (trend +2, bids -1, daily -2, capit2 -23), 2022-11-09 22:00 78% (trend +2, bids +0, daily -2, capit2 -22), 2022-11-09 23:00 79% (trend +2, bids -0, daily -1, capit2 -21)
+
+  ordering 1
+    trend alone                       88%  2023-07-14 18:00   hours under 50%:   0, under the line:  0
+    trend + bids                      86%  2025-10-10 21:00   hours under 50%:   0, under the line:  0
+    trend + bids + daily              80%  2025-10-10 21:00   hours under 50%:   0, under the line:  0
+    FULL, capit2 1x                   56%  2021-12-04 05:00   hours under 50%:   0, under the line:  0
+    FULL, capit2 2x (deployed)        29%  2021-12-04 05:00   hours under 50%:   2, under the line:  0
+    capit2 2x alone                   32%  2021-05-19 13:00   hours under 50%:   2, under the line:  0
+    daily alone                       86%  2021-12-04 05:00   hours under 50%:   0, under the line:  0
+    the 5 worst hours, deployed: 2021-12-04 05:00 29% (trend +1, bids -4, daily -14, capit2 -54), 2021-05-19 13:00 35% (trend +11, bids +0, daily -8, capit2 -68), 2025-02-03 02:00 59% (trend +9, bids -1, daily +0, capit2 -49), 2025-02-03 01:00 69% (trend +6, bids -3, daily +0, capit2 -35), 2021-12-04 06:00 69% (trend +2, bids +0, daily -8, capit2 -24)
+
+  ordering 2
+    trend alone                       89%  2023-06-28 19:00   hours under 50%:   0, under the line:  0
+    trend + bids                      80%  2025-10-10 21:00   hours under 50%:   0, under the line:  0
+    trend + bids + daily              74%  2025-10-10 21:00   hours under 50%:   0, under the line:  0
+    FULL, capit2 1x                   74%  2025-10-10 21:00   hours under 50%:   0, under the line:  0
+    FULL, capit2 2x (deployed)        50%  2025-02-03 02:00   hours under 50%:   0, under the line:  0
+    capit2 2x alone                   38%  2025-02-03 02:00   hours under 50%:   2, under the line:  0
+    daily alone                       88%  2021-09-07 15:00   hours under 50%:   0, under the line:  0
+    the 5 worst hours, deployed: 2025-02-03 02:00 50% (trend +13, bids -1, daily +0, capit2 -62), 2024-04-13 20:00 51% (trend +6, bids -2, daily +0, capit2 -54), 2025-02-03 01:00 61% (trend +9, bids -3, daily +0, capit2 -45), 2024-04-13 21:00 61% (trend +8, bids +0, daily +0, capit2 -47), 2022-05-12 07:00 61% (trend +7, bids +0, daily -0, capit2 -46)
+
+REGISTERED PREDICTIONS
+  1 worst hour 2025-10-10 21:00 in every ordering: ['2025-10-10 21:00', '2021-12-04 05:00', '2025-02-03 02:00'] -> WRONG
+  2 capit2 2x worse than 1x by < 10 points: [np.float64(0.0), np.float64(27.1), np.float64(23.5)] -> WRONG
+  3 above the line everywhere, under 50% somewhere: [41, 29, 50] -> RIGHT

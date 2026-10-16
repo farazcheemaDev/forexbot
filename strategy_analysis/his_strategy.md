@@ -2231,3 +2231,415 @@ data recorded here. The single input every test has missed is **his own chart**:
 exchange's (§42, §45), so whatever he reads on it — a wick, a spike, a candle shape on VertexPro's feed — has never been
 seen. That is testable with VertexPro's tick history (a demo account on its server, if it is MetaTrader). Otherwise:
 his answer to "what is on your screen", or copying him live (a 5–10 s copy kept his edge, §34/§35e).
+
+## 47. How big can a copy be on $221? Sized by its worst move against you (2026-10-10) - `backtest/his_size.py`
+
+A council ranked copying him live as the repo's best remaining edge and asked the one unmeasured question: he trades
+with NO stop (+7 target, held until hit), so the size a small account can carry is set by how far a copy goes against
+you first. On the 42 of his 46 trades with ticks (corrected clock), at Exness quotes:
+- copies 5 / 10 s late: won 98% / 100%, +6.56 / +7.00 points a trade, median hold ~40 s; deepest adverse move median
+  4-5 points, worst ~41 points;
+- the same rule from 1,603 same-sitting moments (his direction): won 91% (+2.68 points - the structure), 99th percentile
+  adverse move 149 points, worst 315 - his own 42 trades are too few to show that tail.
+Sized so the 99th-percentile adverse move costs 25% of $221: **0.37 lot, about +$14 a month (6.3%)**; sized on the
+worst move: 0.18 lot, ~+$6.5 a month (3%). Both clear the pre-registered kill line (0.10 lot), so size does not kill it.
+It stays worthless without his live signals (a copy must land within ~10 s). Next step is a person, not a test: ask him
+once for a timestamped feed and demo-copy for a month.
+
+
+
+## 48. His latest statement (Sep 1 - Oct 12, 2026): two new trades, both his way within two seconds (2026-10-12)
+
+The user sent the next statement (a PDF from his broker; it carries his name and account number, so its trades are kept in
+`strategy_analysis/his_statement_2026-10_trades.csv`, gitignored, and nowhere else). It repeats the 14-15 September trades
+already in the record (the -$483.75 loss among them) and adds **two new NASDAQ trades on 2026-10-08**, at the statement's
+GMT+5 (= UTC+5 in summer, s35c): a SELL at 22:10:48 (+15.5 points, held 47 s) and a BUY at 22:17:55 (+5.5 points, held 6 s)
+- 13:10 and 13:17 New York.
+
+Scored on Exness's USTECm ticks (out of sample - neither trade existed when the edge was measured):
+- both won the +7 / -7 race on the real market, in **2 s and 1 s** after his click; the market had moved his way
+  +10.2 and +8.0 points within 5 s, then gave it back (-44 and -6 points by 3 minutes);
+- a copy 5 or 10 s late still reached +7 on both (in 10-27 s).
+His out-of-sample race record goes from 36 of 41 to **38 of 43**. The two are the fastest in the record: the move came
+within one or two seconds of his click, in opposite directions seven minutes apart - what someone watching a faster feed
+or a live headline would do, and still nothing that price history could have told him (s36).
+
+
+## 49. The live headline wire - RULED OUT (2026-10-12) - `backtest/his_headlines.py`
+
+The last public source s36 named. Four fast headline channels with second-level timestamps (public Telegram previews,
+fetched through the VM: FinancialJuice, Walter Bloomberg, Breaking Market News, Market News Feed), every one of his 35
+sittings, 89 clicks (48 NASDAQ, 41 gold), against moments of the same sittings:
+- **15 s before his clicks: no more headlines than anywhere else** (1.00x / 0.00x / 0.72x on the three channels in at the
+  first reading; gold below the control on all).
+- 60 s before his NASDAQ clicks headlines are ~2x more common - but **a quarter of his NASDAQ clicks fall in minutes
+  :00-:04 of an hour** (12 of 48 against 8% by chance), when scheduled data and settlements are posted; matched to that
+  minute-of-hour mix the excess is 1.48x, and the headlines themselves (a Trump Q&A, a crypto fear index, Fitch on oil...)
+  do not carry his side.
+So he does not trade the headline wire. Every public input is now tested; what tells him the side is private - a
+platform tool, a room or a person - and only he can say which.
+
+
+## 50. The top of the hour, checked properly (2026-10-12) - `backtest/his_hour.py`
+
+The user, on s49's new fact (a quarter of his NASDAQ clicks fall in minutes :00-:04): "here's your answer but you haven't
+checked it properly". s28 had counted only high-impact releases against the same clock time on other days - a control
+that cancels a top-of-hour habit by design. Checked now with every USD release of any impact, his side against the number
+and against the market's first reaction, and the same ideas as bot rules on 16 years of NASDAQ-100 minute data
+(HistData NSXUSD, clock-checked on payroll days):
+- **The hour is not the release.** Only 3 of his 48 NASDAQ clicks came within 10 minutes after a scheduled US release
+  (6% vs 4.0% same-sitting, 9.0% same clock time other days). His 12 top-of-hour clicks are at 10, 11, 13, 14, 15 and
+  16:00 New York - mostly 11:00, when nothing is released.
+- **A bot following the first reaction to every US release loses** -1.2..-1.7bp a trade, 2010-2026, both halves - the
+  same as at the same minutes on days with no release.
+- **The hourly candle:** 9 of his 12 top-of-hour clicks sided with the hourly candle that had just closed (29 of 48 in
+  all). On 17,036 New York hours the rule wins 49-51% and loses the cost.
+The top of the hour is when he sits down. What tells him the side is still not in any public data.
+
+
+## 51. His clock to the second, his gold, and the burst rule - the council's ideas tested (2026-10-12)
+
+The council (five advisors and five reviewers, asked "if not news, then what?") ranked first: *he reacts to the first
+seconds of a move, and his statement's clock is a few seconds off* - the one reading of him a bot could reproduce on its
+own (the user: "we copy his strategy, not him"). Tested with a kill line set first:
+- **His clock is exact** (`backtest/his_clock_exits.py`). Fitting the shift that makes his points match the market's move
+  between his two stamps: 0 s against both CME 1-second prices and Exness ticks (46 VertexPro trades); trade-by-trade fits
+  scatter with no cluster. (CapitalFX's 2 trades are too few to fit.)
+- **The move comes after him:** at his true second the market had moved his way by a median 0.00 points in the 5 s
+  before (and +0.01 over 15 s) - yet from that second he won the +-7 race 40 of 46. He is not reacting to a burst.
+- **Gold has no edge:** from his 41 gold entries the +-$3.875 race was won 51%, same-sitting moments in his direction 47%.
+  His edge is NASDAQ-only.
+- **The burst rule, without him** (`backtest/ustec_burst.py`): following or fading a 2.5-point / 3-second burst on 181
+  days of Exness ticks wins 34-35% of spread-inclusive +-7 races, the same as random entries (35.4%), and loses ~2 points
+  a trade.
+- With all four headline channels in, the s49 result holds (0.56-0.88x the control in the 15 s before his clicks).
+By the kill line, no bot can reproduce his NASDAQ direction from market data: at his click nothing in the price, the
+tape, the book or the news has moved yet, and the move comes after. What tells him is outside the market - a person, a
+private feed or a judgement he could describe - and the only way to learn it is to ask him.
+
+
+## 52. The burst - seen coming, but not which way; and his trades are not burst trades (2026-10-12)
+
+The user: "we discovered something - the burst in NASDAQ - I think that has something to do with his strategy, we are
+not looking at the right thing". The reframing was sound: his 46 clicks are too few to learn from, but the move his
+trades catch happens thousands of times a day, so whatever precedes it can be learnt from the market alone - his
+strategy as a bot, without him. Predictions registered first in both files.
+- **Bursts CAN be seen coming in time** (`backtest/ustec_burst_anatomy.py`, `logs/ustec_burst_anatomy.txt`). A >= 7-point
+  move inside 5 s is 6.8% of all seconds on 181 days of Exness USTECm ticks; gradient-boosted trees on the seconds
+  before it reach **AUC 0.861** on unseen days. It is volatility clustering: movement and range over the last 30-300 s
+  alone score 0.86-0.89.
+- **Which way, they cannot:** direction AUC **0.513**; no signed feature (moves over 1-300 s, up-minus-down seconds)
+  above 0.508.
+- **The bot that knows WHEN loses:** entering at the top 0.5% / 0.1% of burst scores with the direction model's side,
+  +-7 at the real price: -1.76 / -1.82 points a trade on 26,804 / 14,075 holdout trades - a random side at the same
+  seconds does -1.73 / -1.72.
+- **His clicks are not at bursts:** his click's burst score ranks at a median 59th percentile of his own +-20-minute
+  window (top fifth 24% of clicks, chance 20%), and the direction model agrees with his side 48%.
+- **His moves are ordinary moves** (`backtest/his_burst_after.py`, `logs/his_burst_after.txt`). After his click a burst
+  starts within 10 s 22% of the time vs 23% at his windows' other seconds. His side reached +7 on the mid first in 39
+  of 41, at a median **29 s** (quartiles 14 / 68) - any +-7 move in the same windows takes 33 s (14 / 78); 18% vs 18%
+  inside 10 s; 36% vs 38% completed by a burst.
+
+- **A straddle that needs no direction loses too** (`backtest/ustec_burst_straddle.py`, `logs/ustec_burst_straddle.txt`):
+  a buy-stop and a sell-stop 2-4 points either side at the most volatile seconds (top 0.5% / 2% of av30), the first to
+  trigger raced +-7 at real prices: -1.96..-2.09 points a trade on the holdout, vs -2.07..-2.21 for the same bracket
+  at random seconds (+0.05..+0.16, se 0.06-0.09). A break inside a burst carries on as often as anywhere else.
+
+So the burst is how NASDAQ normally covers 7 points, not his signal. His trades are no faster, no burstier and no more
+often followed by a burst than any other second of his sittings. Everything about them is ordinary except the side,
+which he gets right 95% of the time on the mid - and which nothing measured in the seconds, minutes or hours before
+carries (s36-s51, and now B2's 0.513 on 392,421 bursts).
+
+
+## 53. His record is LIVE (the broker's ticket counter); absorption on the CME book - ruled out (2026-10-12)
+
+The user: "we are getting closer and closer". Two leads from s52, tested the same evening.
+- **Is the record live?** (`backtest/his_tickets.py`, `logs/his_tickets.txt`). s52 left one uncomfortable reading:
+  ordinary moments, nothing before them, ordinary moves after, only the side right - that is also what a record built
+  after the fact would leave, and **s34's proof did not exclude it** (a hindsight record exiting at the first touch of
+  +7 looks exactly like a mechanical target, so s34 proved the exits, not the entries). The closing-deal tickets
+  (s39) can: one broker counter for every client, ~2,700 a day. In all 90 consecutive pairs of his 91 trades the ticket
+  rises with the stamped close time; ticket gaps track time gaps (log-log corr +0.99: 31 min -> 153 tickets, 7 h ->
+  1,666, 3 min -> 5-10 in the evening); no closes 3+ minutes apart carry consecutive tickets. **His trades were closed
+  live, when the statement says, between other clients' orders. The hindsight reading is dead; the edge is a live read.**
+- **Absorption** (`backtest/his_absorb.py`, `logs/his_absorb.txt`): a hidden buyer soaking up selling at a price that
+  will not fall - the footprint of a big order being worked, which would move NASDAQ at the ordinary pace s52 measured.
+  On the cached CME NQ trades + book + mid around his 42 entries: his side agrees with the absorption sign 38-63%
+  (nothing near significance), his moments rank 0.41-0.52 in their sittings, a top-decile absorption rule wins 44-52%
+  of +-7 races. The one cell near p 0.05 (res15 rank 0.41) points AGAINST him and is one of 12. **Ruled out.**
+  (I first motivated it with s38's "thin queue on his side, p 0.019" - that was the tie artifact s44 already corrected
+  to 0.46 / p 0.51.)
+- **The options tape - RULED OUT** (`backtest/his_options.py`, `logs/his_options.txt`; Databento OPRA, $16.04 of the
+  user's credit with their OK). Aggressive 0DTE QQQ options buying forces dealers to hedge in NASDAQ futures over the
+  next tens of seconds - ordinary pace, nothing in NQ beforehand, and never tested here. 297,508 QQQ options trades in
+  the 3.5 minutes around 40 in-session clicks (82% classified by aggressor, 66% 0DTE): the bull-premium sign agrees with
+  his side 38-55% (every p > 0.15), shows no turn his way in the last minute (p > 0.30), and does not predict the next
+  60 s of NASDAQ at all (IC -0.001 0DTE, +0.032 all near expiries).
+
+**Left open after s53:** his own broker's chart (s45 - VertexPro's quote moves differently from the exchange's, so its
+wicks and spikes have never been seen; needs its tick history, e.g. a demo account on its server if it runs
+MetaTrader, opened by the user).
+
+**Correction (2026-10-12): "VertexPro" is the APP, not the broker.** The user: the app is *VertexFX Trader Pro* (Hybrid
+Solutions' white-label platform, not MetaTrader). The statement's own header names the broker: **CapitalFX** - for
+the main statement (Jan - Sep) as for the October one, so `his_clock_exits.py`'s "46 VertexPro / 2 CapitalFX" are ONE
+broker. Every "VertexPro" above means CapitalFX's quote on VertexFX. Consequence for s45: the MT5 route (a demo account
+serving ticks to `copy_ticks_range`) does not exist; CapitalFX's chart can be read in the VertexFX app itself (the
+user has it), by screenshot at his trade times first, and by a recorder or export if the app allows one.
+
+
+## 54. His own chart, seen at last - it IS the market (2026-10-12) - `backtest/his_chart_capfx.py`
+
+The user screenshotted CapitalFX's NASDAQ Dec 1-minute chart in the VertexFX app around his two 2026-10-08 trades (the
+app's clock is UTC+3 and selectable; his statement's is UTC+5 in September-October). Candles read by eye (+-2 points)
+against Exness USTECm for 19:57-20:25 UTC+3: **basis 207.4 points every minute (197-212), 1-minute moves correlate
+0.992.** His screen shows the market plus the December futures premium - no spike, wick or lead of its own at
+1-minute resolution. s45's last lens is closed at that resolution (ticks inside the minute remain unseen; s42 measured
+his fills ~1.75 points outside the real prints, the size of a CFD markup).
+
+What his chart showed him that afternoon (13:00-13:25 New York): a violent range, +-40-55 points a minute between
+30,923 and 31,006. He SOLD at 20:10:48 (30,938.75) as a bounce stalled and took +15.5 at 20:11:35 - at 30,923.25, the
+20:06 low; he BOUGHT at 20:17:55 (30,928.75) on the retest of that low and took +5.5 six seconds later. Neither exit was
+the usual +7. Held three minutes, the sell would have been ~-60 points and the buy ~-80: quick in-and-out scalps between
+levels a few minutes old, inside a range. Swing points of the last 15 bars, the day's levels and round numbers were all
+in his_model.py's 75 features and his_keylevels.py (ordinary at his moments), so this is an illustration, not a new rule.
+
+## 55. Micro-levels (the last 15 minutes' high / low, retests) - a style lean, not an edge (2026-10-12) - `backtest/his_retest.py`
+
+From s54's picture (he sold toward the low of four minutes before, then bought its retest). On 42 entries vs 1,553
+sitting moments: he enters a little nearer the 15-minute level behind him (median 18.3 vs 25.7 points, rank 0.41, p
+0.044) with a little more room ahead (rank 0.59, p 0.10), and on a retest 17% vs 10% (p 0.20) - a pullback-to-a-recent-
+level habit, the same lean s34 saw inside the minute. It does not carry the side: a range-trader's side agrees with
+his 50%, and "buy the retest of the 15-minute low / sell the retest of the high" on all 181 days wins 36.1% / 36.3% of
+spread-inclusive +-7 races (random sides 35.9% / 35.1%), -1.9 points a trade on both halves. Lead line not hit.
+
+## 56. The pattern behind everything, and the one link never checked: his ENTRIES (2026-10-13)
+
+The user: "list what we tested that he sees, then find the pattern that is the key".
+
+**The shape of his edge** (`backtest/his_race_curve42.py`, `logs/his_race_curve42.txt`, all 42 entries): races to +-2 ..
++-15 won 62 / 71 / 74 / 71 / 73 / **88** / 83 / 83 / 88 / 88 / 84%, against 53-59% for his sittings. Against a driftless
+walk with his +-7 outcome: below 7 points his paths look like that walk (62 vs 61%, 74 vs 72%); above 7 they keep going
+(84 vs 68% at +-15). He catches the START of a move that runs 15+ points; its first few points are noise; the market has
+not moved at his click (s51); a copy 10 s late does as well (s47); the move is ordinary in pace (s52) and often reverses
+minutes later (s54).
+
+**The logical step.** Being right about the next minute 95% of the time is far beyond anything public data carries:
+everything tested here - including the CME order book that high-frequency firms trade on - tops out at ~55-60% at his
+moments, and a public 95% would be traded away in milliseconds. So his side is not read off a screen of public data,
+however well. Two explanations fit every fact:
+- **A. A private real-time source** - someone or something that knows of a move before it starts (a caller, a room,
+  another party's order flow). Fits: no trace in any data; ordinary-paced moves that end; clicks at the top of the hour
+  and a few seconds after candle closes (reading a message, then clicking).
+- **B. The entries are not live decisions** - opening times / prices set or adjusted after the fact. Fits: no trace in
+  any data; the side "always" right. s53 proved the CLOSES live (closing tickets on the broker's counter), but the
+  statement prints only closing tickets: **no independent clock has ever checked an ENTRY.** Against B: two real losers,
+  one held 48 minutes; for B: a small white-label broker (VertexFX has a back-office dealing desk).
+Existing data cannot separate them (the small races match a hindsight pick; the large ones favour a real move, or a
+pick of visually big moves).
+
+**The new fact that settles it:** the account the user is logged into in the VertexFX app IS the statement's account
+(its ID is in the statement). So (1) the app's History may show an OPENING ticket or order number per trade - the s53
+counter test then runs on his entries; (2) when he next trades, the Trades tab should show the position live - a
+screenshot with the phone clock against the statement's open time checks the entry directly.
+
+## 57. His ENTRIES were placed live - the opening tickets (2026-10-13) - `backtest/his_open_tickets.py`
+
+s56 left one link unchecked: the entries. The user had sent the app's History screenshots on 2026-09-10 (`Strategy
+video/`); tapped rows show the trade's "ID" (= the statement's closing ticket) AND its "Open Ticket" - never read for
+this until now. 20 expanded trades (15 NASDAQ, 3 silver, 2 gold; all matched to the statement by ID):
+- **All 111 events of the record (91 closes + 20 opens) are in counter order - 0 out of sequence.** Consecutive trades
+  interleave exactly: 2026-08-07, open 13766490 (21:59:59) < close 13766494 (22:02:28) < open 13766500 (22:03:15) <
+  close 13766506 (22:04:39).
+- Every open ticket sits below its own close by the orders placed in between: 1-52 tickets (median 6), growing with the
+  hold and the hour (2 in 3.7 minutes late in the New York evening, 52 in 3 minutes in the New York morning). A position
+  created at its close would sit next to its close ticket every time; 2 of 20 do, on 10-s and 56-s holds.
+**Hypothesis B is refuted: he opened these positions live, when the statement says.** With s53 (closes live) the whole
+record is live. What remains is A: at the moment he clicks he knows the next minutes' direction ~95% of the time, from
+something that is in no public data tested here - a private live source, or a judgement no measurement has captured.
+
+## 58. "Around 10% is safer": he trades to a monthly target, at very large size (2026-10-13) - `backtest/his_monthly_target.py`
+
+The user (who says he trades alone, no group): he has said that around 10% is safer. The statement shows it as a
+**monthly target**: from April every month lands at +7.8..+13.6%, and he stops at or just past 10% - April crossed on its
+7th trade and then nothing; June was three trades on ONE day (+11.1%) and nothing else; July one more trade, September two
+small ones - or just short (May +7.8%, August +9.4%). His size: notional 24x the account in January, ~57x in April-May,
+85-176x from June - a NASDAQ point is 0.2-0.6% of the account, with no stop. Needing only 3-5 wins a month, he can wait
+for the clearest moments: ~5 NASDAQ trades in ~11,000 session minutes. Every earlier test compared his clicks with the
+rest of his sitting or looked for rules that fire often; if his edge is a chart read, it is a RARE setup.
+`backtest/ndx_aplus.py` searches 16 years of minute bars for exactly that.
+
+**The A+ search** (`backtest/ndx_aplus.py`, `logs/ndx_aplus.txt`): gradient-boosted trees on ~45 chart features (moves
+over 1-240 minutes, range positions, day / overnight / yesterday's levels, round numbers, candle shapes, time), fit on
+1.37M minutes 2010-2022, judged on 2025-26 only by their RAREST, most confident calls. TEST AUC 0.506; top 0.1% / 0.05%
+/ 0.01% of calls win ~55-58% with an ambiguous minute as a coin flip (45-47% counting it a loss) - before the spread. His
+45 entries look ordinary to it (median 51st percentile of confidence) and it agrees with his side 40%. **NASDAQ's own
+chart, searched at his rarity over 16 years, holds no setup near his 88-95%.**
+
+**Orders tab (the user, 2026-10-13): empty.** No pending orders - he enters at market, so the entry second IS his
+decision (as s39 inferred indirectly). The limit-order lens is closed; every test above aimed at the right moment.
+
+## 59. Volume profile (POC, value area) - ruled out (2026-10-13) - `backtest/his_volprofile.py`
+
+The last common screen tool never tested on him. From Exness tick counts per 5-point bin (a volume proxy): yesterday's
+and today's developing point of control and value area, and six classic reads (back to the POC, fade the value edge,
+go with acceptance outside value). At his 39 entries after 10:00 the rules agree with his side 41-55% (Holm p 1.00); he
+sits no nearer the levels than the rest of his sitting (rank 0.45); as rules on every minute of 181 days they win within
+noise of a random side and lose 1.2-2.1 points a trade.
+
+## 60. Two ideas from an outside write-up - ruled out (2026-10-13) - `backtest/his_pasted_ideas.py`
+
+(1) "Bots fire in seconds 00-04 of each minute; he reads how that flow is absorbed": CME aggressor flow in those seconds
+agrees with his side 51% (follow) / 49% (fade), rank 0.48, as a rule 51%. (2) "European funds at 11:00 New York; DAX /
+STOXX lead NASDAQ by seconds": Exness DE30m / STOXX50m moves over 3-60 s before his clicks agree with his side 36-53%
+(every p >= 0.16), top-of-hour subsets noise. The write-up's other two ideas were already answered: a CapitalFX
+"smoothing formula" (s42, s54: the real CME moved his way, his chart = market, his edge is at +-7..15 not +-2) and the
+0.7-point pullback / tick speed (timing, not side: s34, s52).
+
+**Three more from a second write-up** (`backtest/his_pasted_ideas2.py`): (1) "copiers pile in after him" - the CME tape in
+the 20 s after his click matches any 7-point move (9.6 vs 10.8 trades a second, median 1 lot, 91% vs 92% small trades,
+same net aggressor share); (2) "a CME iceberg at his price" - not testable (the cached trades / book carry no prices),
+nearest measure s53's absorption, ruled out; (3) "0DTE strike magnet" - his side points toward the nearest 25 / 50 / 100
+level 31-57% (the one outlier, 31% at the cash 100, points AWAY; Holm 0.12). All ruled out.
+
+**A third write-up** (`backtest/his_pasted_ideas3.py`): (1) block trades before his click - >= 10-lot net sign his way 65%
+of 17 (p 0.33), block share a little higher (rank 0.60, p 0.03, not near Holm); traded as a rule the block sign wins
+48-49% of races - a faint lean, no information; (2) "his +7 zone was empty in the last 15 minutes" - 52%, rule 52%;
+(3) "an audio squawk ahead of the text wires" - headlines 1-25 s AFTER his clicks 0.87x the other moments. All ruled out.
+
+**Gold is not a clean control group (2026-10-13).** A pasted write-up argued "his gold trades are a coin flip, so he has
+no intuitive skill, only a signal". But 37 of his 41 gold trades were on ONE day, 2026-02-02 (gold's crash day), plus one
+each on 02-04, 02-18, 04-06 and 09-14; gold appears on only 3 of his NASDAQ days. One binge session cannot separate
+"a reader who is good only at NASDAQ" from "a NASDAQ-only source". His low frequency is equally explained by the ~10%
+monthly target (s58).
+
+## 61. The rare-setup search at TICK level - no tick-rhythm setup (2026-10-13) - `backtest/ndx_aplus_ticks.py`
+
+A pasted write-up's one real gap: a solo reader of tick velocity / deceleration on the pullback, taking only the
+clearest moments. Trees on ustec_burst_anatomy's tick features + range position / distance to the 15-minute high and
+low, every 5 s of 181 days, fit on 60% of days, judged on the rest only by the rarest calls: AUC 0.505; top 1% 58%, top
+0.05% 55%, top 0.01% 46%. The top 0.1% read 70% / +2.79 points - but its 396 calls are 7 episodes on 6 days (two on US
+Labor Day), 6 of 7 won (`backtest/ndx_aplus_ticks_check.py`): a few events counted ~57 times each. His entries look
+ordinary to it (median 27th percentile of confidence) and it agrees with his side 57%.
+
+**The app's "Net Trade" tab (the user, 2026-10-13): empty** - it shows the account's own net open positions, not client
+sentiment or depth. With the Orders tab empty too (s58), nothing in the VertexFX app beyond the chart, quotes and his own
+trades has been found; a broker-sentiment or "pricing quirk" source (pasted write-up 4) is ruled out by s40 / s42 anyway.
+
+## 62. Two new trades, 2026-10-13, seen live in the app - both won (`backtest/his_live_1013.py`)
+
+The user screenshotted the app's History minutes after he traded. The History clock is UTC+5 (at UTC+5 the market's move
+over each hold equals his banked points to the cent; at UTC+3 it does not). Two SELLs at 11:24 and 11:27 New York (his
+11:00 habit): both won the +-7 race, in 30 s and 71 s, each after a small move AGAINST him in the 5 s before his click
+(-0.50, -1.00). Tickets interleave in counter order. **Out-of-sample record: 40 of 45.**
+
+## 63. The FULL CME order book (every resting order) - ruled out (2026-10-15) - `backtest/his_fullbook.py`
+
+The last untested part of his market: deep depth (MBO, $39.09 of the user's Databento credit, rebuilt order by order from
+each day's 00:00 UTC snapshot; 29 of 30 days - one kept timing out). Book imbalance within 5 / 10 / 20 / 40 points and the
+largest resting "wall" ahead of / behind him: agreement with his side 38-56% (every p >= 0.20), ranks in his sittings
+0.44-0.50. Traded as rules they win 54-59% - against 55.1% for simply taking his side at any moment of his sittings (a
+book leaning against him still wins 52.5%). Nothing in the deep book points his way.
+
+## 64. His losers vs his winners; the days he trades; a one-command scorer (2026-10-15) - `backtest/his_winners_days.py`, `his_score_new.py`
+
+Angles never looked at, from the user's "see if we missed something":
+- **Winners vs losers** (36 / 5 races): his 5 losing races came in FAST markets he was CHASING - quote rate and movement
+  1.6-1.8x his winners', the market already ~+44 points his way over 5 minutes and +5 in the last 5 s, price at the top of
+  the last minute's range (0.91 vs 0.34). His winners: calm, flat or slightly against him, mid-range (p 0.03-0.08,
+  nothing survives Holm on 5 losers). Consistent with s34 / s55: his good trades are pullback entries in a quiet tape.
+- **His days lean to trending days** (30 vs 162 weekdays): |open-close| 0.71% vs 0.53%, efficiency 0.56 vs 0.45 (p 0.06),
+  same range. A lean, not proven.
+- **Side per sitting**: his follow-ups repeat the first trade's side 57% (16 follow-ups); 23 buys, 23 sells - no session bias.
+- **`his_score_new.py`** (repo root): new trades from the app's History are scored in one command (Exness keeps its tick
+  history, so no recorder is needed) and kept in `logs/his_new_trades.csv`; the 4 October trades re-scored identically.
+
+## 65. A bot built from all his habits at once - dead (2026-10-16) - `backtest/his_style_bot.py`
+
+The user: "build something of our own taking tips from his strategy". Every habit in one rule - trending day (>= 0.3-0.6%
+from the open, traded in its direction as the stand-in for his side), calm tape, a 3-15 point pullback, not chasing, mid-
+range, +7 target, -30 emergency stop (his worst), 30-minute cap, <= 3 a day - on 181 tick days at the real spread. All 9
+cells lose on both halves (-2.5..-5.1 points a trade, 67-74% won); the same entries with the side FLIPPED lose less. The
+70% win rate is the shape of a small target and a wide stop. His habits are how he enters; the side is what pays.
+
+**Tweaked, 256 ways** (`backtest/his_style_grid.py`, the user: "change it or tweak it"): 16 entries (day move, pullback,
+calm, with or against the trend) x 16 exits (+5..+15 / -7..-30), chosen on the tune days only. The tune-best (+0.76 a
+trade, t +0.7) reads -0.25 on the holdout; 2 of 256 versions are positive on both halves (t <= 1.0) - fewer than luck.
+Every family loses on average (with the trend -2.8 / -3.5, fading -1.7 / -0.7 points a trade).
+
+**SEC filings** (`backtest/his_sec_filings.py`, a pasted "he scrapes EDGAR 8-Ks" idea): of 1,177 filings by AAPL MSFT NVDA
+AMZN GOOGL META AVGO TSLA since December (79 8-Ks), none landed within 10 minutes before any of his 46 clicks, nor near
+his sittings at all - they come after the close. Ruled out. Off-exchange (dark-pool) prints: Databento's Nasdaq Basic
+carries the FINRA/Nasdaq reporting facilities (FINN, FINC); priced at $6.07 for QQQ + the 8 mega-caps over his 31
+windows ($0.62 QQQ alone) - not yet bought.
+
+## 66. Dark-pool prints and NDX index options - ruled out (2026-10-16) - `backtest/his_darkpool.py`, `his_options.py --ndx`
+
+- **Off-exchange prints** (Databento Nasdaq Basic, FINRA/Nasdaq TRF Carteret + Chicago; QQQ + 8 mega-caps; $6.07): 13.5M
+  dark prints ($176bn, 7,594 blocks >= $1M) around his 46 clicks. Dark flow agrees with his side 43-57%. Blocks over the
+  last 2 minutes point AGAINST him (9 of 39 his way, p 0.001) - but signed by the tick rule, that is the price coming back
+  against him: his pullback entry again. At his sittings' other moments, trading with or against big block flow wins
+  49% / 51%. No information about his side.
+- **NDX / NDXP index options** (OPRA, $0.88): 12,314 trades; sign agrees with his side 49-57%, no turn his way before
+  the click, next-minute IC +0.06. Same answer as QQQ (s53).
+
+## 67. The plain-sight details, and his management as a bot (2026-10-16) - `backtest/his_plain.py`, `his_manage_bot.py`
+
+The user: "the missing pieces are hidden in front of us, not fancy stuff". His own trade list, read line by line
+(`logs/his_plain.txt`):
+- **He trades by his own clock.** On Pakistan time (UTC+5, fixed all year) 21 of 46 NASDAQ trades sit in 19:45-21:00 and
+  13 in 23:00-00:30 - 74% in 2.75 hours of his day. In New York terms that is 10:00-10:45 in winter and 11:00-11:45 in
+  summer: **the "11:00 New York" cluster (s49-s50) is his evening routine**; the US clock change moved the market under
+  him, not him. No scheduled market event is his trigger.
+- **2026-09-14, the one sitting where he was stuck:** long 0.15 at 14:14 NY went against him; he ADDED a long 0.20 lower
+  (+5.25 on the add), then SOLD four times (0.20 -> 0.25) while still long, opened the last sell 2 s BEFORE closing the
+  long at -31.75, and the sells paid for it. The only overlapping positions in the record. That losing long WON the +-7
+  race on the mid: even his worst trade started right; the +7 was not banked.
+- **Scratches:** +1.0..+3.5-point exits on 02-20, 02-25, 02-27, 05-07, 09-14 - trades that did not go, closed flat (they
+  count as wins in 44/46; the race scores them honestly, hence 88%).
+- **Size and order carry nothing:** race won bigger than his usual size 87%, usual 90%, smaller 83%; first trade of a
+  sitting 88%, later same side 90%, later FLIPPED 80%. He picks the side equally well every time.
+- **January was different:** 0.01 lots run 38-48 points for 5-13 minutes; from February the fixed ~+7 at larger size.
+- The statement's floating P/L is 0.00: no losers hidden as open positions.
+
+**His management as a bot** (`backtest/his_manage_bot.py`, `logs/his_manage_bot.txt`; the user: "I'm sure we can make
+our own strategy using it"): scratch (+1 after 60 s), average down at -15, hedge at -15 (up to 4 opposite scalps), at his
+evening hours or all day, with the day's trend or a coin flip as the side, 181 tick days at the real spread. **All 16
+cells lose on both halves** (-0.74..-4.30 points a position, 58-83% green); best = his hours + coin + scratch (-1.00 /
+-1.15). Averaging doubles the worst position (-58..-99); hedging caps the tail but pays the spread more often. His
+management is how he survives the rare wrong side; on a side that is right half the time it only reshapes the loss.
+
+**Cutting averaging's tail** (`backtest/his_manage_tail.py`, the user: "how can we eliminate it"): one stop on the combined
+P&L of both units. At -15 the 1-in-100 worst position goes from -53..-63 to -19..-24 points, but green positions fall from
+76-83% to 58-67% and the net stays -1.5..-3.0 a position. The tail can be cut; it comes back as frequent small stops.
+
+## 68. The final loophole audit, and the mended version (2026-10-16) - `his_loopholes.py`, `his_cancel_proxy.py`, `his_mended.py`
+
+The user's /goal: three micro-structure loopholes, then "his architecture with a stop and a measurable side".
+- **ES leading NQ by 1-5 s** (`backtest/his_loopholes.py`, ES and NQ 1-s mids): ES's move agrees with his side 35-49%, ES
+  ahead of NQ 45-59%; ranks 0.43-0.57; trading a big ES lead wins 50-54%. CLOSED for ES's price; ES aggressor flow / ES
+  top of book were not cached (ES trades for his windows: $1.80, priced, not bought).
+- **Spoofing / pulled liquidity** (`backtest/his_cancel_proxy.py`, proxy: 10-level size that left a side without trading,
+  82,187 seconds): 38-60% agreement, ranks 0.47-0.55, rules 45-55%; a top-5% pull came before 7 of his 46 clicks (chance:
+  ~6-7). CLOSED as a proxy; the exact MBO cancel count ($5.55) was priced, not bought.
+- **A latency scanner** (`his_loopholes.py` L3, real NQ prints, ms): the contract moved AGAINST him 2 s before (his
+  pullback), flat in the last second, his way only inside his own second; the 400-ms jump before the click = control
+  (1.25 vs 1.25); his entry fills a median +0.12 vs the live print (s42). No sweep, no stale fills, a 1.3-minute hold.
+  CLOSED.
+- **The mended version** (`backtest/his_mended.py`): +7 target, his 0.7-point pullback entry, hard stops 5-30, sides =
+  Exness quote-flow imbalance (181 days), CME trade-flow imbalance (his windows), a coin. Spread c = 2.16 points. **Every
+  cell loses ~the spread on both halves (-2.1..-2.9 a trade on the large samples); no cell positive on both halves.**
+  The stop moves the win rate (28% -> 73%), not the expectancy. Retail sentiment could not be tested: 14 NAS100
+  snapshots, 30 minutes apart, recorder stopped.
+- **The math**: break-even p* = S / (7 + S); a coin wins (S - c) / (7 + S); for an annual Sharpe of 2 on 500 trades a year
+  a side must win 63% at -10, 72% at -15, 78% at -20 - 17 / 14 / 12 points above a coin. Nothing measured gives more
+  than ~5.
+
+**The exact data, bought for the audit** (`backtest/his_exact.py`, $9.10: ES mbp-1 + NQ mbo for his 31 windows): ES top of
+book 46%, ES aggressor flow 1-10 s 40-48%, NQ cancel imbalance 38-46%, big single cancels on 2-12 entries; ranks 0.40-0.52.
+The one standout (opposite-side cancel ratio over 3 s, 30%, p 0.011) points AGAINST him - bids pulled before his buys,
+his pullback again; not Holm-significant over 22 features. **Loopholes 1 and 2 are closed on the exact data.**
+ES aggressor flow did win NQ's +-7 MID race 55-60% at ordinary moments; through the mended engine at the real spread
+(`backtest/es_flow_mended.py`) every one of 64 cells loses (-1.2..-4.5 a trade), median +0.1 points over the coin.
+**`backtest/mended_harness.py`**: the mended engine with an empty signal slot and the Sharpe-2 gate; the coin control
+fails it at every stop. Any future side is judged there first.

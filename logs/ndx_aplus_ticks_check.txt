@@ -1,0 +1,12 @@
+calls 396 days 6 episodes (>10 min apart) 7
+          day    n  won    net   up
+ep                                 
+4  2026-07-07  119  0.0 -7.000  1.0
+2  2026-06-16  113  1.0  7.000  1.0
+5  2026-07-16   73  1.0  7.000  1.0
+3  2026-06-29   69  1.0  7.000  1.0
+7  2026-09-07   15  1.0  5.094  0.0
+6  2026-09-07    6  1.0  7.000  0.0
+1  2026-06-08    1  1.0  7.000  1.0
+episode-weighted: won 85.7 % net 4.73 | episodes won majority 6 of 7
+first call of each episode: won 85.7 % net 4.48

@@ -1,0 +1,26 @@
+backtest/ndx_aplus.py, 2026-10-12 20:17 UTC; NSXUSD 1m 2010-11 .. 2026-09; race +-0.024% from the next open within 15 min; moments 08:00-16:45 NY
+train 1,366,143 moments (2010-11..2022), validation 220,894 (2023-24), TEST 216,315 (2025-01..2026-09)
+
+validation 2023-24: AUC 0.510 on unambiguous races; up share 0.503; ambiguous 11.7%
+         bucket    calls     won   won excl. ambiguous   (the model's side; ambiguous counted as a loss)
+        top 10%   22,089   44.3%                 51.9%
+         top 1%    2,208   43.8%                 53.9%
+       top 0.1%      220   49.5%                 62.6%
+      top 0.05%      110   47.3%                 62.7%
+      top 0.01%       22   59.1%                 65.0%
+
+TEST 2025-26: AUC 0.506 on unambiguous races; up share 0.500; ambiguous 13.8%
+         bucket    calls     won   won excl. ambiguous   (the model's side; ambiguous counted as a loss)
+        top 10%   21,631   43.5%                 51.6%
+         top 1%    2,163   43.4%                 52.9%
+       top 0.1%      216   45.4%                 56.6%
+      top 0.05%      108   47.2%                 60.0%
+      top 0.01%       21   42.9%                 52.9%
+
+HIS 45 NASDAQ entries (2026, on the bar before his click): model confidence percentile median 51 (top 1%: 7% of his entries); model side agrees with his 40%
+
+REGISTERED PREDICTIONS
+  1 TEST AUC 0.506 <= 0.54 -> RIGHT
+  2 his rarity (top 0.05%) 47.2% <= 62% and no bucket >= 70%: 10% 43.5, 1% 43.4, 0.1% 45.4, 0.05% 47.2, 0.01% 42.9 -> RIGHT
+  3 his confidence percentile 51 <= 70 and agreement 40% <= 60% -> RIGHT
+  LEAD LINE (>= 75% with >= 30 calls on TEST): not hit

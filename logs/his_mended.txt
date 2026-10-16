@@ -1,0 +1,115 @@
+backtest/his_mended.py, 2026-10-15 23:39 UTC; 181 Exness tick days, holdout from 2026-06-04; median spread c = 2.16 points
+
+THE MATH: +7 / -S at spread c
+   stop S  break-even p*  coin p0  edge needed
+        5          41.7%    23.7%       18.0 pts
+        7          50.0%    34.6%       15.4 pts
+       10          58.8%    46.1%       12.7 pts
+       15          68.2%    58.4%        9.8 pts
+       20          74.1%    66.1%        8.0 pts
+       30          81.1%    75.2%        5.8 pts
+
+  side           stop     half  trades    won     p*  net/trade      t
+  cofi120           5     tune     326    29%    42%      -1.92   -5.4
+  cofi120           5  HOLDOUT     141    25%    42%      -2.35   -4.5
+  cofi120           7     tune     267    37%    50%      -1.97   -4.0
+  cofi120           7  HOLDOUT     106    36%    50%      -2.38   -3.1
+  cofi120          10     tune     215    44%    59%      -2.64   -4.0
+  cofi120          10  HOLDOUT      88    41%    59%      -3.28   -3.3
+  cofi120          15     tune     186    56%    68%      -2.44   -2.8
+  cofi120          15  HOLDOUT      69    46%    68%      -5.01   -3.4
+  cofi120          20     tune     161    64%    74%      -2.32   -2.1
+  cofi120          20  HOLDOUT      58    57%    74%      -4.12   -2.2
+  cofi120          30     tune     127    73%    81%      -2.10   -1.3
+  cofi120          30  HOLDOUT      50    76%    81%      -0.79   -0.3
+  cofi30            5     tune     430    30%    42%      -1.66   -5.3
+  cofi30            5  HOLDOUT     215    24%    42%      -2.44   -6.1
+  cofi30            7     tune     351    42%    50%      -1.12   -2.6
+  cofi30            7  HOLDOUT     177    33%    50%      -2.67   -4.6
+  cofi30           10     tune     292    51%    59%      -1.13   -2.0
+  cofi30           10  HOLDOUT     137    47%    59%      -2.03   -2.5
+  cofi30           15     tune     251    61%    68%      -1.18   -1.6
+  cofi30           15  HOLDOUT     121    54%    68%      -2.97   -2.7
+  cofi30           20     tune     199    68%    74%      -1.25   -1.3
+  cofi30           20  HOLDOUT     101    60%    74%      -3.35   -2.3
+  cofi30           30     tune     161    81%    81%      +0.75   +0.6
+  cofi30           30  HOLDOUT      70    71%    81%      -2.73   -1.3
+  cofi60            5     tune     356    28%    42%      -1.91   -5.6
+  cofi60            5  HOLDOUT     170    28%    42%      -1.85   -3.8
+  cofi60            7     tune     288    39%    50%      -1.68   -3.6
+  cofi60            7  HOLDOUT     131    37%    50%      -2.11   -3.1
+  cofi60           10     tune     240    48%    59%      -1.85   -3.0
+  cofi60           10  HOLDOUT     105    49%    59%      -1.85   -2.0
+  cofi60           15     tune     210    60%    68%      -1.43   -1.7
+  cofi60           15  HOLDOUT      90    54%    68%      -3.07   -2.4
+  cofi60           20     tune     174    64%    74%      -2.16   -2.0
+  cofi60           20  HOLDOUT      80    64%    74%      -2.34   -1.5
+  cofi60           30     tune     142    74%    81%      -2.21   -1.5
+  cofi60           30  HOLDOUT      64    75%    81%      -0.59   -0.3
+  coin              5     tune   86121    28%    42%      -2.16  -95.0
+  coin              5  HOLDOUT   80856    27%    42%      -2.50 -102.1
+  coin              7     tune   60320    37%    50%      -2.16  -64.8
+  coin              7  HOLDOUT   57776    35%    50%      -2.48  -69.8
+  coin             10     tune   42205    47%    59%      -2.18  -44.9
+  coin             10  HOLDOUT   41072    46%    59%      -2.34  -45.4
+  coin             15     tune   28126    58%    68%      -2.18  -29.5
+  coin             15  HOLDOUT   28001    57%    68%      -2.31  -29.9
+  coin             20     tune   21451    65%    74%      -2.07  -21.1
+  coin             20  HOLDOUT   21391    64%    74%      -2.21  -21.7
+  coin             30     tune   14409    73%    81%      -2.18  -14.7
+  coin             30  HOLDOUT   14571    73%    81%      -2.16  -14.3
+  coin@windows      5     tune    2150    29%    42%      -2.01  -13.4
+  coin@windows      5  HOLDOUT     699    27%    42%      -2.20   -9.0
+  coin@windows      7     tune    1592    37%    50%      -2.22  -10.6
+  coin@windows      7  HOLDOUT     466    39%    50%      -1.90   -5.0
+  coin@windows     10     tune    1127    45%    59%      -2.51   -8.2
+  coin@windows     10  HOLDOUT     325    47%    59%      -2.04   -3.8
+  coin@windows     15     tune     781    56%    68%      -2.59   -5.7
+  coin@windows     15  HOLDOUT     215    57%    68%      -2.41   -2.9
+  coin@windows     20     tune     598    66%    74%      -1.95   -3.2
+  coin@windows     20  HOLDOUT     169    65%    74%      -1.98   -1.8
+  coin@windows     30     tune     431    71%    81%      -3.17   -3.6
+  coin@windows     30  HOLDOUT     123    75%    81%      -1.54   -1.0
+  qofi120           5     tune   26853    27%    42%      -2.25  -56.2
+  qofi120           5  HOLDOUT   21026    26%    42%      -2.61  -55.8
+  qofi120           7     tune   20985    36%    50%      -2.29  -41.1
+  qofi120           7  HOLDOUT   16491    34%    50%      -2.67  -41.1
+  qofi120          10     tune   16774    46%    59%      -2.33  -30.6
+  qofi120          10  HOLDOUT   13237    44%    59%      -2.77  -31.2
+  qofi120          15     tune   13367    57%    68%      -2.33  -21.8
+  qofi120          15  HOLDOUT   10569    55%    68%      -2.83  -22.7
+  qofi120          20     tune   11509    64%    74%      -2.39  -17.8
+  qofi120          20  HOLDOUT    9137    62%    74%      -2.90  -18.5
+  qofi120          30     tune    9161    73%    81%      -2.14  -11.6
+  qofi120          30  HOLDOUT    7410    72%    81%      -2.81  -13.1
+  qofi30            5     tune   43734    27%    42%      -2.24  -71.8
+  qofi30            5  HOLDOUT   34112    26%    42%      -2.55  -69.5
+  qofi30            7     tune   35001    36%    50%      -2.26  -52.6
+  qofi30            7  HOLDOUT   27791    35%    50%      -2.58  -51.6
+  qofi30           10     tune   27787    46%    59%      -2.31  -38.9
+  qofi30           10  HOLDOUT   22563    44%    59%      -2.67  -39.4
+  qofi30           15     tune   20863    57%    68%      -2.34  -27.4
+  qofi30           15  HOLDOUT   17741    55%    68%      -2.75  -28.7
+  qofi30           20     tune   16765    64%    74%      -2.43  -21.8
+  qofi30           20  HOLDOUT   14698    62%    74%      -2.77  -22.6
+  qofi30           30     tune   12081    73%    81%      -2.23  -13.8
+  qofi30           30  HOLDOUT   11012    71%    81%      -2.83  -16.1
+  qofi60            5     tune   27480    27%    42%      -2.31  -59.0
+  qofi60            5  HOLDOUT   21030    26%    42%      -2.57  -54.2
+  qofi60            7     tune   22477    36%    50%      -2.32  -43.5
+  qofi60            7  HOLDOUT   17149    35%    50%      -2.56  -39.8
+  qofi60           10     tune   18564    46%    59%      -2.30  -31.8
+  qofi60           10  HOLDOUT   14256    44%    59%      -2.67  -31.1
+  qofi60           15     tune   15108    57%    68%      -2.42  -24.2
+  qofi60           15  HOLDOUT   11776    56%    68%      -2.67  -22.7
+  qofi60           20     tune   12805    64%    74%      -2.42  -19.0
+  qofi60           20  HOLDOUT   10259    63%    74%      -2.77  -18.8
+  qofi60           30     tune    9906    73%    81%      -2.42  -13.6
+  qofi60           30  HOLDOUT    8327    72%    81%      -2.54  -12.7
+
+REGISTERED PREDICTIONS
+  1 coin below break-even by 4-15 points: 7.8..15.1 -> WRONG
+  2 no qofi cell positive on both halves: none -> RIGHT
+  3 cofi within 4 points of the coin: -10..+10 -> WRONG
+  positive on both halves: none
+  LEAD LINE: not hit

@@ -1,0 +1,15 @@
+backtest/his_pasted_ideas.py, 2026-10-13 17:20 UTC
+
+IDEA 1 - CME aggressor flow in seconds 00-04 of the minute he clicks in
+   39 of his entries with flow there: his side FOLLOWS it 51%, FADES it 49% (p 1.000)
+   rank of his-side flow among his sittings' moments (same second of the minute): 0.48 (p 0.807, 42 entries)
+   rule at the sittings' moments, top 20% |flow| (304): follow wins 51% of +-7 races, fade 49%
+
+IDEA 2 - DAX / STOXX 50 (Exness ticks) moving his way in the seconds before his NASDAQ click
+   DE30m: 3 s: 53% of 30 (p 0.86); top of hour 67% of 9 | 10 s: 53% of 36 (p 0.87); top of hour 50% of 12 | 30 s: 49% of 41 (p 1.00); top of hour 45% of 11 | 60 s: 51% of 41 (p 1.00); top of hour 55% of 11
+   STOXX50m: 3 s: 43% of 21 (p 0.66); top of hour 56% of 9 | 10 s: 41% of 27 (p 0.44); top of hour 44% of 9 | 30 s: 36% of 33 (p 0.16); top of hour 22% of 9 | 60 s: 50% of 32 (p 1.00); top of hour 67% of 9
+
+REGISTERED PREDICTIONS
+  1 idea 1: agreement 51% within 35-65%, rank 0.48 within 0.40-0.60, rule 51% within 45-58% -> RIGHT
+  2 idea 2: every cell 35-65%: 53, 53, 49, 51, 43, 41, 36, 50 -> RIGHT
+  LEAD LINE: not hit

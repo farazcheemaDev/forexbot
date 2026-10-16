@@ -1,0 +1,18 @@
+backtest/his_darkpool.py, 2026-10-15 20:22 UTC; 17,923,539 prints in 31 windows, 13,522,090 off-exchange (FINN/FINC, 176.5 $bn, 7,594 blocks >= $1M); 46 of his entries, 1763 sitting moments
+baseline: his side at the sittings' moments wins 55.7%
+
+    feature   agree       p    rank       p    rule     n
+     dark15     57%   0.451    0.47   0.521     59%   317   (n 44; any side: WITH the flow 54%, AGAINST 46% of 317)
+    block15     56%   0.701    0.51   0.887     52%   317   (n 27; any side: WITH the flow 55%, AGAINST 45% of 317)
+     dark30     43%   0.451    0.45   0.344     58%   317   (n 44; any side: WITH the flow 57%, AGAINST 43% of 317)
+    block30     44%   0.618    0.46   0.323     57%   317   (n 36; any side: WITH the flow 58%, AGAINST 42% of 317)
+     dark60     45%   0.652    0.42   0.083     57%   317   (n 44; any side: WITH the flow 49%, AGAINST 51% of 317)
+    block60     33%   0.053    0.40   0.020     57%   317   (n 39; any side: WITH the flow 50%, AGAINST 50% of 317)
+    dark120     45%   0.652    0.43   0.078     59%   317   (n 44; any side: WITH the flow 51%, AGAINST 49% of 317)
+   block120     23%   0.001    0.40   0.007     54%   317   (n 39; any side: WITH the flow 49%, AGAINST 51% of 317)
+
+REGISTERED PREDICTIONS
+  1 A within 35-65%: 23..57% -> WRONG
+  2 B within 0.40-0.60: 0.40..0.51 -> WRONG
+  3 C within 5 points of 56%: 52..59% -> RIGHT
+  LEAD LINE: not hit

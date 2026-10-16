@@ -607,6 +607,40 @@ the box was patched before the repo was public.
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
 
+### 2026-10-16 (late) - the sentiment engine: news carries a real coin-level edge (docs/25, docs/26)
+
+- `news/` package: tg_history.py / tg_fast.py (180k messages, 11 public crypto Telegram channels via the VM, 2018-26),
+  enrich.py (event types, coins incl. 950 learned names, de-dup), impact.py (excess over each coin's own drift),
+  veto_test.py (veto on daily / capit2: no effect), news_book.py (short coin / long BTC after bad-for-coin news, with a
+  same-coin CONTROL). Result: exchange listings / Binance adds-products / monitoring tags / new pairs -> the coin lags
+  for days; news book +12..+27%/yr, fall 17-27%, vs control ~0; edge +240..+544bp a trade on both halves. Market-wide
+  news ~0. NOT YET: minute-level entry timing, correlation with the machine, a paper book. Models (FinBERT,
+  CryptoBERT) in strategy_analysis/data/models (gitignored); torch / transformers installed (CPU).
+
+### 2026-10-16 - crypto with room: leverage and slots, liquidation modelled per position
+
+- The user: "run every crypto test with liquidation far away, and the ones capital stopped". Backtests here were always
+  percentage-based - capital limited what could RUN, not what was tested. What was held back was leverage and slot count.
+- **`backtest/no_limits.py`**: the daily trend book wants 1x (holdout +32%/yr; 1.5x +4%, 2x -56%); the capitulation book
+  wants leverage (1-4 liquidations in 455 trades at 3x); more slots trade return for a smaller fall (the pair at 24 slots
+  +31%/yr, fall 17%, vs 8 slots +50%, 37%).
+- **`backtest/capit2_lev.py`**: capit2 at **2x** = +20.0 / +29.9 %/yr (tune / holdout) vs +8.6 / +14.3 at 1x, fall 10 -> 12%,
+  0.6% liquidated; 3x helps the holdout only (fall 33%); 5x loses.
+- **`backtest/final_capit2_lev.py`**: the deployable final machine with capit2 at the full share and 2x: typical $4,098 / $5,494
+  on $300 (deployed $3,400 / $4,735), the SAME -30% worst month, months up 64%. BACKTEST; changing final_books.py is the user's call.
+- **DEPLOYED 2026-10-16 01:05 UTC (commit 1a16c5d, the user's OK)**: `final_books.py` capit2 at K 1.0 x 2x with a -49.4%
+  liquidation-equivalent exit; account gate 10x -> 11.5x (the books' summed peaks - the user: "we can exceed the account
+  cap"; paper only, reconsider before real money). `pair_live.py` retries Bitget network errors / 429s with backoff instead
+  of exiting (212 restarts before). Only combo-bot-final and pair-paper restarted; blend_paper / combo_paper blobs verified
+  unchanged; state backed up to logs/backup_20261016-*/ on the VM; tests 16 + 25 + 8 pass on the VM.
+- **Out of sample, Binance SPOT 2017-08..2019-12** (`backtest/spot_fetch.py` -> strategy_analysis/data/spot1719, 89 coins;
+  `backtest/oos1719.py`, frozen rules, funding 0): PASS - trend +57%/yr (2018 +7%: shorts paid), daily +17% (2018 -27%),
+  MN +3% (traded 2019 only), capit2 2x +1% (2018 -17%; its 2x is NOT supported out of sample), combined +88%/yr, fall
+  48%, 2018 -22%. 2017 barely covered (few USDT pairs). Liquidation: `backtest/liq_stress.py` / `liq_fix.py` (no hour
+  since 2020 under the 17% line; capit2 2x is the tail - 29% left in the worst ordering, 1.5x 43%). `final_confidence.py`.
+- VM read 2026-10-16: final machine dry $268.08 (-10.6% day 7), combo paper $175.74 (-20.5% day 21), crash bids +0.84% / +0.75%
+  a fill, pair 9,870 PKR, demo 180 orders / 0 failures / 2 poll errors, pair-paper restarts 212.
+
 ### 2026-10-15 (evening UTC) - VM check: everything running; the demo's 2 poll errors are network; pair-paper crash-loops
 
 - **Read-only check** (`ssh forexbot-vm`, `deploy/status_digest.sh`): 7 services active, up 31 days, disk 9%, RAM tight
@@ -668,6 +702,16 @@ the detail lives in the numbered docs.*
 - **`backtest/his_style_bot.py`** (s65): a bot from ALL his habits (trend day, calm pullback, +7/-30) - every cell loses on both
   halves (-2.5..-5 pts a trade at 70% wins); the flipped side loses less. Dead.
   `backtest/his_style_grid.py`: 256 tweaks chosen on tune days - the best reads -0.25 on the holdout, 2/256 positive on both. Dead.
+- **`backtest/his_sec_filings.py` / `his_darkpool.py` / `his_options.py --ndx`** (s66): mega-cap SEC filings (none near his clicks), dark-pool
+  prints ($6.07; blocks against him = his pullback, rules 49-51%) and NDX index options ($0.88; 49-57%) - all ruled out.
+- **`backtest/his_plain.py`** (s67, his own list read line by line): 74% of his trades sit in two Pakistan-time evening windows
+  (the '11:00 NY' cluster is his routine); 2026-09-14 he averaged down and hedged a stuck long; size / order carry no confidence.
+  **`backtest/his_manage_bot.py`**: his scratch / average / hedge management at his hours, trend or coin side - 16/16 cells lose. Dead.
+- **s68 final audit**: `his_loopholes.py` (ES 1-5 s lead; a sub-second CME sweep / stale fills) and `his_cancel_proxy.py`
+  (pulled liquidity) - all CLOSED; `his_mended.py` (+7 / pullback / stops 5-30 / quote- and CME-flow sides): every cell
+  loses ~the 2.16-point spread; a side needs 63% at -10 / 72% at -15 for Sharpe 2 on 500 trades a year. Dead.
+  Exact data ($9.10): `his_exact.py` (ES top of book / flow / blocks, NQ cancels) closed; `es_flow_mended.py` (ES flow as the
+  side) dies at the spread. **`backtest/mended_harness.py` = the engine + gate any future signal must pass first.**
 
 ### 2026-10-12 (later) - /goal: thirty years of what DRIVES forex - it explains moves, it predicts none
 

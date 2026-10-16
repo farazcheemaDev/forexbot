@@ -1,0 +1,19 @@
+backtest/fx_news_tone.py, 2026-10-12 08:45 UTC; GDELT DOC API daily tone / volume 2017-01-01 .. 2026-10-10; 507 weeks; relative tone = the economy's minus the US's
+average tone (more negative = gloomier): USD -1.35, EUR -1.45, JPY -1.00, GBP -1.39, AUD -1.02, NZD -0.30, CAD +0.18, CHF -0.35
+
+                                                EUR    JPY    GBP    AUD    NZD    CAD    CHF
+  A same week: tone change                    +0.05  +0.06  +0.03  -0.02  -0.02  -0.06  +0.03
+  B next week: last week's tone change        +0.06  +0.04  -0.03  +0.01  +0.04  +0.02  -0.01
+  B next week: last week's tone level         +0.03  -0.04  -0.03  +0.04  +0.02  +0.02  -0.01
+  B next week: last week's volume z           -0.03  -0.01  -0.05  -0.03  -0.01  -0.03  -0.04
+
+RULES (% a week; EXNESS is the verdict)
+  TONE TREND (follow last week's change)     n  502 | spot -0.001 | EXNESS -0.032 (tune -0.049 t -1.3 / holdout -0.008 t -0.2) | -1.68%/yr
+  TONE EXTREME (fade |z| > 1.5)              n  298 | spot -0.020 | EXNESS -0.053 (tune +0.042 t +0.5 / holdout -0.193 t -2.6) | -2.75%/yr
+  ATTENTION (sell news spikes, buy quiet)    n  242 | spot +0.064 | EXNESS +0.045 (tune +0.110 t +1.1 / holdout -0.053 t -0.5) | +2.32%/yr
+  Holm p: TONE TREND 1.00, TONE EXTREME 1.00, ATTENTION 0.82 | PASS: none
+
+REGISTERED PREDICTIONS
+  N1 same week: EUR +0.05, JPY +0.06, GBP +0.03, AUD -0.02, NZD -0.02, CAD -0.06, CHF +0.03 -> WRONG
+  N2 largest next-week |corr| 0.06 -> RIGHT
+  N3 passes: none -> RIGHT

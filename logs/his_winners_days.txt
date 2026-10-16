@@ -1,0 +1,30 @@
+backtest/his_winners_days.py, 2026-10-15 18:57 UTC
+
+TEST 1 - his 36 winning vs 5 losing +-7 races, at the second of entry (medians)
+   hour        winners     11.50 | losers     11.00 (losers: 10.0, 15.0, 11.0, 11.0, 12.0) | p 0.808, Holm 1.00
+   minute      winners     18.50 | losers     11.00 (losers: 1.0, 58.0, 11.0, 4.0, 59.0) | p 0.952, Holm 1.00
+   sec         winners     15.50 | losers     39.00 (losers: 48.0, 14.0, 16.0, 39.0, 59.0) | p 0.083, Holm 0.66
+   qr30        winners    212.50 | losers    375.00 (losers: 972.0, 375.0, 444.0, 234.0, 173.0) | p 0.063, Holm 0.62
+   qr300       winners   2140.00 | losers   3411.00 (losers: 5230.0, 3840.0, 3411.0, 3225.0, 1969.0) | p 0.042, Holm 0.50
+   av30        winners     26.96 | losers     42.41 (losers: 176.2, 42.4, 63.2, 38.9, 26.2) | p 0.033, Holm 0.47
+   av300       winners    275.83 | losers    493.92 (losers: 857.9, 464.3, 545.6, 493.9, 258.4) | p 0.027, Holm 0.40
+   pull5       winners     -0.02 | losers      5.35 (losers: 20.2, 1.9, 11.4, 5.3, -4.5) | p 0.058, Holm 0.62
+   mv60        winners     -0.98 | losers     24.53 (losers: 148.7, 24.5, 31.9, -17.7, -5.0) | p 0.202, Holm 1.00
+   mv300       winners      0.82 | losers     43.86 (losers: 192.2, 10.1, 52.6, 43.9, -5.8) | p 0.038, Holm 0.50
+   pos60       winners      0.34 | losers      0.91 (losers: 1.0, 0.9, 1.0, 0.3, 0.0) | p 0.240, Holm 1.00
+   dayvol      winners     74.15 | losers    117.39 (losers: 130.6, 79.0, 117.4, 120.1, 92.7) | p 0.057, Holm 0.62
+   spread      winners      1.00 | losers      1.00 (losers: 1.3, 1.0, 1.0, 1.0, 1.0) | p 0.371, Holm 1.00
+   nth         winners      1.00 | losers      1.00 (losers: 1.0, 1.0, 2.0, 3.0, 1.0) | p 0.982, Holm 1.00
+   since_prev  winners    275.50 | losers     40.00 (losers: 41.0, 39.0) | p 0.150, Holm 1.00
+
+TEST 2 - his 30 NASDAQ days vs 162 other weekdays, 2026-01..09 (cash session; % of price)
+   range       his days median 1.350 | other days 1.269 | p 0.443
+   absmove     his days median 0.712 | other days 0.528 | p 0.106
+   trend_eff   his days median 0.563 | other days 0.453 | p 0.059
+   gap         his days median 0.756 | other days 0.531 | p 0.125
+   first_hour  his days median 0.860 | other days 0.746 | p 0.101
+   prev_range  his days median 1.292 | other days 1.276 | p 0.882
+
+REGISTERED PREDICTIONS
+  1 no feature separates losers after Holm: min Holm 0.40 -> RIGHT
+  2 his days ordinary on every measure: min p 0.059 -> RIGHT

@@ -1,0 +1,109 @@
+news/news_book.py, 2026-10-16 16:02 UTC; 1,361 negative coin events; short coin / long BTC at the next hour's open; 12bp a leg + funding; tune/holdout cut 2024-02-14
+
+  type            hold  stop    n    mean   won   worst squeeze p90    tune    hold  control   EDGE edge tune edge hold
+  monitoring_tag   24h     -   68   +255b   60%    -20%        +13%   +295b   +252b     -96b  +351b     +272b     +355b
+  monitoring_tag   24h   25%   68   +192b   59%    -29%        +13%   +295b   +186b     -69b  +262b     +237b     +263b
+  monitoring_tag   24h   50%   68   +153b   59%    -55%        +13%   +295b   +144b     -86b  +240b     +430b     +228b
+  monitoring_tag   72h     -   68   +143b   71%   -184%        +31%   +532b   +119b    -114b  +257b     +740b     +227b
+  monitoring_tag   72h   25%   67   +169b   67%    -34%        +31%   +532b   +146b      -4b  +173b     +479b     +154b
+  monitoring_tag   72h   50%   67   +190b   69%    -65%        +31%   +532b   +169b      -8b  +199b     +486b     +180b
+  monitoring_tag    7d     -   68    +25b   74%   -244%        +44%   +503b     -4b    -116b  +142b     +613b     +112b
+  monitoring_tag    7d   25%   68   +303b   65%    -34%        +44%   +503b   +290b     -74b  +376b     +506b     +368b
+  monitoring_tag    7d   50%   67   +399b   72%    -65%        +45%   +503b   +392b     +93b  +305b     +432b     +297b
+  launchpool       24h     -  106   +185b   62%    -87%        +23%   -114b   +273b     -50b  +235b      -85b     +328b
+  launchpool       24h   25%  109   +260b   61%    -30%        +23%   -114b   +366b     -52b  +312b       -9b     +403b
+  launchpool       24h   50%  110   +241b   63%    -56%        +23%   -114b   +340b     +16b  +226b     -103b     +317b
+  launchpool       72h     -  109   +368b   68%   -138%        +33%   -656b   +657b     -71b  +439b     -588b     +729b
+  launchpool       72h   25%  102   +497b   65%    -30%        +28%   -328b   +752b      +8b  +490b     -256b     +719b
+  launchpool       72h   50%  108   +380b   67%    -56%        +38%   -426b   +610b    -143b  +523b     -194b     +727b
+  launchpool        7d     -  107   +633b   66%   -103%        +49%   -521b   +932b    -140b  +773b     -455b    +1090b
+  launchpool        7d   25%  105   +372b   59%    -30%        +51%   -519b   +608b     -46b  +418b     -476b     +655b
+  launchpool        7d   50%  107   +448b   63%    -56%        +49%   -585b   +715b    -101b  +548b     -446b     +806b
+  seed_tag         24h     -   52   +210b   58%   -115%        +38%   +257b   +206b     -14b  +224b     +603b     +193b
+  seed_tag         24h   25%   53   +252b   58%    -35%        +39%   +257b   +252b     -24b  +276b     +207b     +281b
+  seed_tag         24h   50%   54   +131b   59%    -55%        +39%   +257b   +121b     -95b  +225b     +371b     +214b
+  seed_tag         72h     -   53    +63b   57%   -138%        +78%   +740b     +7b    +141b   -78b    +1224b     -185b
+  seed_tag         72h   25%   54   +525b   59%    -40%        +77%   +740b   +508b    -132b  +657b     +702b     +653b
+  seed_tag         72h   50%   55   +280b   58%    -56%        +76%   +740b   +244b     +84b  +196b    +1307b     +109b
+  seed_tag          7d     -   55   +544b   67%   -164%        +96%  +1047b   +505b     +56b  +488b    +2435b     +335b
+  seed_tag          7d   25%   54   +572b   57%    -40%        +75%  +1047b   +534b     -14b  +586b    +1757b     +493b
+  seed_tag          7d   50%   54   +251b   65%    -61%        +99%  +1047b   +187b     +58b  +192b    +1037b     +125b
+  adds_products    24h     -  187   +180b   61%   -204%        +44%    +75b   +265b     +26b  +154b      +96b     +201b
+  adds_products    24h   25%  190   +254b   59%    -35%        +44%   +139b   +349b     -59b  +313b     +220b     +390b
+  adds_products    24h   50%  188   +228b   61%    -58%        +44%    +71b   +357b     +12b  +216b     +108b     +305b
+  adds_products    72h     -  185   +593b   69%   -147%        +50%   +325b   +817b      +5b  +588b     +339b     +795b
+  adds_products    72h   25%  180   +485b   65%    -35%        +45%   +271b   +665b     +19b  +466b     +324b     +585b
+  adds_products    72h   50%  183   +453b   67%    -64%        +52%   +268b   +607b    +112b  +341b     +272b     +398b
+  adds_products     7d     -  183   +722b   69%   -160%        +77%    +80b  +1266b    +186b  +535b      -98b    +1073b
+  adds_products     7d   25%  185   +471b   59%    -40%        +74%   +152b   +749b     +13b  +459b     +264b     +627b
+  adds_products     7d   50%  188   +556b   67%    -74%        +76%    +31b   +999b     -15b  +572b     +175b     +906b
+  delist           24h     -  172   +134b   58%    -88%        +22%   -117b   +278b     -32b  +166b      -69b     +302b
+  delist           24h   25%  172    +82b   56%    -33%        +22%    -55b   +162b     -47b  +129b      -19b     +215b
+  delist           24h   50%  172    +72b   57%    -62%        +22%    -75b   +158b     +29b   +43b     -111b     +132b
+  delist           72h     -  172     +6b   55%   -443%        +28%    -44b    +35b      -7b   +12b       -7b      +24b
+  delist           72h   25%  171   +124b   52%    -38%        +27%    +71b   +154b     -38b  +162b     +161b     +163b
+  delist           72h   50%  172   +168b   54%    -67%        +28%     +0b   +265b     +52b  +116b      +31b     +166b
+  delist            7d     -  172   -468b   61%  -1752%        +37%    +94b   -793b     +71b  -539b     +109b     -914b
+  delist            7d   25%  170   +274b   54%    -38%        +36%    +65b   +394b     +20b  +255b       -8b     +406b
+  delist            7d   50%  172   +401b   59%    -67%        +37%   +142b   +551b     +89b  +311b     +136b     +413b
+  delist_futures   24h     -   44   -164b   50%   -175%        +38%   +490b   -332b     +21b  -185b     +372b     -328b
+  delist_futures   24h   25%   44     -0b   50%    -35%        +52%   +433b   -112b      -5b    +5b     +384b      -92b
+  delist_futures   24h   50%   44   -212b   50%    -60%        +52%   -122b   -235b     -13b  -199b      -16b     -246b
+  delist_futures   72h     -   46   -130b   48%   -110%        +60%   -497b    -14b    -160b   +30b     -611b     +232b
+  delist_futures   72h   25%   45    +42b   49%    -35%        +61%   +557b   -105b     -13b   +54b     +613b     -105b
+  delist_futures   72h   50%   46   -235b   48%    -60%        +60%    +45b   -323b     +66b  -301b     -145b     -350b
+  delist_futures    7d     -   45   +215b   56%   -110%        +71%  -1721b   +768b     +18b  +197b    -1750b     +753b
+  delist_futures    7d   25%   46   +261b   46%    -35%        +70%   +348b   +234b    +126b  +135b     -130b     +219b
+  delist_futures    7d   50%   46    -82b   50%    -69%        +70%     -5b   -107b     +79b  -161b     -241b     -136b
+  list_futures     24h     -  294    -32b   57%    -95%        +37%   -152b     +1b      -8b   -24b      -54b      -16b
+  list_futures     24h   25%  288    -60b   55%    -35%        +37%   -220b    -14b     -32b   -27b     -162b      +11b
+  list_futures     24h   50%  290    -98b   56%    -60%        +39%    -75b   -104b      +2b  -100b       -7b     -125b
+  list_futures     72h     -  285    +69b   58%   -112%        +57%    -85b   +115b     -14b   +84b     +177b      +56b
+  list_futures     72h   25%  291    -67b   51%    -35%        +58%   -164b    -39b     -53b   -13b      -49b       -4b
+  list_futures     72h   50%  293    -50b   56%    -63%        +56%    -79b    -41b    -105b   +55b      +79b      +49b
+  list_futures      7d     -  290    +23b   63%   -406%        +80%   -137b    +67b    +117b   -95b     -113b      -89b
+  list_futures      7d   25%  293    +35b   51%    -54%        +79%   -287b   +127b     -56b   +91b     -174b     +166b
+  list_futures      7d   50%  288   +164b   59%    -80%        +78%     +1b   +210b     -61b  +225b     +254b     +217b
+  ALL (registered  24h     -  916    +79b   59%   -204%        +34%    -72b   +137b     -20b   +99b      -43b     +153b
+  ALL (registered  24h   25%  926   +102b   57%    -35%        +34%     -9b   +144b     -33b  +135b      +55b     +165b
+  ALL (registered  24h   50%  924    +80b   58%    -62%        +34%    -27b   +121b     -17b   +97b      +17b     +127b
+  ALL (registered  72h     -  924   +182b   61%   -443%        +48%     -6b   +252b      +5b  +176b      +52b     +223b
+  ALL (registered  72h   25%  927   +181b   57%    -40%        +47%    +66b   +224b     -46b  +227b      +98b     +275b
+  ALL (registered  72h   50%  911   +152b   60%    -67%        +47%    +54b   +190b     -10b  +162b      +42b     +207b
+  ALL (registered   7d     -  912   +219b   65%  -1752%        +63%    -76b   +330b     +16b  +203b      -87b     +311b
+  ALL (registered   7d   25%  924   +276b   55%    -54%        +64%    -44b   +395b     -25b  +301b       +9b     +410b
+  ALL (registered   7d   50%  920   +356b   62%    -80%        +64%    -28b   +502b     +27b  +330b      +92b     +420b
+  TUNE-CHOSEN      24h     -  250   +268b   61%   -204%        +36%    +90b   +363b      +4b  +264b     +151b     +324b
+  TUNE-CHOSEN      24h   25%  255   +240b   59%    -34%        +36%   +139b   +294b     -36b  +276b     +225b     +304b
+  TUNE-CHOSEN      24h   50%  253   +246b   61%    -58%        +36%    +72b   +335b     -16b  +262b      +48b     +372b
+  TUNE-CHOSEN      72h     -  253   +434b   69%   -184%        +46%   +306b   +503b     -65b  +499b     +437b     +532b
+  TUNE-CHOSEN      72h   25%  255   +354b   65%    -40%        +46%   +323b   +371b     +60b  +294b     +296b     +293b
+  TUNE-CHOSEN      72h   50%  248   +461b   69%    -65%        +45%   +298b   +548b     -20b  +481b     +437b     +504b
+  TUNE-CHOSEN       7d     -  252   +531b   70%   -244%        +63%    +70b   +782b     +26b  +505b     +259b     +639b
+  TUNE-CHOSEN       7d   25%  247   +400b   60%    -40%        +63%   +145b   +541b    -144b  +544b     +421b     +612b
+  TUNE-CHOSEN       7d   50%  253   +536b   69%    -65%        +63%    +14b   +820b     +38b  +498b      -67b     +805b
+
+  THE BOOKS (1/10 of equity a trade, max 10 open) - news trades vs the SAME trades at ordinary times:
+    ALL (registered)  hold 24h, stop none: news CAGR     +6% fall   40%  | control CAGR     -1% fall   24%
+    ALL (registered)  hold 24h, stop  25%: news CAGR    +12% fall   33%  | control CAGR     -1% fall   21%
+    ALL (registered)  hold 24h, stop  50%: news CAGR     +8% fall   44%  | control CAGR     +2% fall   17%
+    ALL (registered)  hold 72h, stop none: news CAGR    +13% fall   71%  | control CAGR     -0% fall   29%
+    ALL (registered)  hold 72h, stop  25%: news CAGR    +21% fall   34%  | control CAGR    -13% fall   62%
+    ALL (registered)  hold 72h, stop  50%: news CAGR    +15% fall   53%  | control CAGR     +4% fall   33%
+    ALL (registered)  hold  7d, stop none: news CAGR   -100% fall  157%  | control CAGR     -2% fall   71%
+    ALL (registered)  hold  7d, stop  25%: news CAGR    +26% fall   52%  | control CAGR     -7% fall   46%
+    ALL (registered)  hold  7d, stop  50%: news CAGR    +33% fall   61%  | control CAGR     -2% fall   52%
+    TUNE-CHOSEN       hold 24h, stop none: news CAGR    +13% fall   23%  | control CAGR     +1% fall   13%
+    TUNE-CHOSEN       hold 24h, stop  25%: news CAGR    +12% fall   17%  | control CAGR     +1% fall   10%
+    TUNE-CHOSEN       hold 24h, stop  50%: news CAGR    +12% fall   19%  | control CAGR     -2% fall   20%
+    TUNE-CHOSEN       hold 72h, stop none: news CAGR    +22% fall   42%  | control CAGR     +5% fall   13%
+    TUNE-CHOSEN       hold 72h, stop  25%: news CAGR    +18% fall   27%  | control CAGR     +6% fall   10%
+    TUNE-CHOSEN       hold 72h, stop  50%: news CAGR    +24% fall   24%  | control CAGR     +5% fall   15%
+    TUNE-CHOSEN       hold  7d, stop none: news CAGR    +24% fall   44%  | control CAGR     +2% fall   27%
+    TUNE-CHOSEN       hold  7d, stop  25%: news CAGR    +19% fall   27%  | control CAGR     -4% fall   29%
+    TUNE-CHOSEN       hold  7d, stop  50%: news CAGR    +27% fall   27%  | control CAGR     -0% fall   17%
+
+REGISTERED PREDICTIONS
+  N1 monitoring_tag 72h >= +150bp both halves: tune +532 / hold +119
+  N2 launchpool / seed_tag 7d >= +500bp, worst <= -50%: +633bp worst -103%, +544bp worst -164%
+  N3 combined 72h stop 50% positive both halves: tune +54 / hold +190

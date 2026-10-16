@@ -1,0 +1,18 @@
+backtest/his_options.py, 2026-10-15 20:20 UTC; 12,314 NDX.OPT+NDXP.OPT options trades in 31 windows (cost $0.88); 40 of his NASDAQ clicks inside the options session
+
+A = bull premium's sign agrees with HIS side at his click | B = his-side reading at the click minus 60 s earlier
+   feature   agree    n       p  B median $       p
+     d0_15     49%   37   1.000        -980   0.788
+     d0_30     56%   39   0.522       4,530   0.634
+     d0_60     54%   39   0.749        -510   0.756
+     d7_15     54%   37   0.743      -4,482   0.775
+     d7_30     55%   40   0.636       2,085   0.910
+     d7_60     57%   40   0.430     -11,630   0.609
+
+IC (bull premium over 30 s vs the next 60 s on Exness, every 5 s in the windows): d0 +0.063 (n 1300), d7 +0.063 (n 1300)
+
+REGISTERED PREDICTIONS
+  1 A within 50-65%: 49%..57% -> WRONG
+  2 B p > 0.05 everywhere: min p 0.609 -> RIGHT
+  3 |IC| < 0.10: +0.063, +0.063 -> RIGHT
+  LEAD LINE (A >= 70%, p < 0.01): none

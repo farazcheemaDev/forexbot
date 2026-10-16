@@ -1,0 +1,49 @@
+backtest/poly_rescore.py, 2026-10-10 00:53 UTC; logs/poly_snapshots.csv: 2647 markets tracked, 796 resolved; outcomes seen: ['0.0', '1.0']
+
+ALL RESOLVED (as poly_forward --report): 796 markets, 359 events
+  band           n  events  avg price  resolved YES      gap  se (events)
+  0.00-0.05   367     189      0.013         0.005   -0.008        0.002  *
+  0.05-0.15    90      69      0.091         0.056   -0.036        0.032
+  0.15-0.30    64      50      0.220         0.312   +0.092        0.064
+  0.30-0.50    60      52      0.412         0.433   +0.021        0.066
+  0.50-0.65    38      36      0.574         0.553   -0.022        0.083
+  0.65-0.80    43      40      0.726         0.814   +0.088        0.062
+  0.80-0.90    39      36      0.848         0.949   +0.101        0.031  *
+  0.90-1.00    95      73      0.964         0.979   +0.015        0.019
+
+EARLY - resolved > 1 day before the scheduled end: 158 markets, 76 events
+  band           n  events  avg price  resolved YES      gap  se (events)
+  0.00-0.05    67      29      0.012         0.015   +0.003        0.005
+  0.05-0.15    17      14      0.093         0.176   +0.083        0.116
+  0.15-0.30    11      10      0.209         0.545   +0.337        0.160  *
+  0.30-0.50    10       9      0.441         0.800   +0.359        0.123  *
+  0.50-0.65    10      10      0.567         0.900   +0.333        0.097  *
+  0.65-0.80    11       9      0.740         1.000   +0.260        0.016  *
+  0.80-0.90    13      13      0.856         1.000   +0.144        0.008  *
+  0.90-1.00    19      15      0.953         0.947   -0.005        0.064
+
+ON SCHEDULE - resolved at/after the scheduled end (-1 day): 612 markets, 292 events
+  band           n  events  avg price  resolved YES      gap  se (events)
+  0.00-0.05   289     159      0.013         0.003   -0.010        0.002  *
+  0.05-0.15    70      54      0.091         0.029   -0.062        0.026  *
+  0.15-0.30    47      40      0.221         0.277   +0.055        0.072
+  0.30-0.50    47      43      0.404         0.362   -0.043        0.073
+  0.50-0.65    28      27      0.577         0.429   -0.148        0.098
+  0.65-0.80    29      29      0.724         0.724   +0.001        0.082
+  0.80-0.90    26      23      0.844         0.923   +0.079        0.048
+  0.90-1.00    76      61      0.966         0.987   +0.020        0.016
+
+DEADLINE PAST >= 3 days: 657 markets, 617 resolved, 40 still unresolved (disputed / extended / not yet settled - left out)
+DEADLINE PAST - resolved: 617 markets, 298 events
+  band           n  events  avg price  resolved YES      gap  se (events)
+  0.00-0.05   282     158      0.013         0.007   -0.006        0.002  *
+  0.05-0.15    67      52      0.090         0.045   -0.045        0.033
+  0.15-0.30    47      40      0.221         0.319   +0.098        0.071
+  0.30-0.50    50      45      0.406         0.400   -0.006        0.071
+  0.50-0.65    30      28      0.579         0.467   -0.113        0.094
+  0.65-0.80    33      31      0.727         0.818   +0.091        0.070
+  0.80-0.90    27      24      0.845         0.926   +0.081        0.046
+  0.90-1.00    81      66      0.963         0.975   +0.012        0.021
+
+P1 ON SCHEDULE: 80-90c gap +0.079 (se 0.048, 26 markets / 23 events) -> KILL (under +3 points or within 2 se of zero)
+P1 DEADLINE PAST: 80-90c gap +0.081 (se 0.046, 27 markets / 24 events) -> KILL (under +3 points or within 2 se of zero)

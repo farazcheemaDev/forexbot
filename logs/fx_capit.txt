@@ -1,0 +1,109 @@
+backtest/fx_capit.py, 2026-10-11 23:26 UTC; ndx_capit's dip / rally rules on forex, gold and silver, both sides, Exness costs; 2304 cells
+
+BY MARKET: cells passing | median net a trade, ungated / trend-gated (all cells of that market)
+  yahoo  EURUSD 2003-12 .. 2026-09:  12 of 144 pass | net median ungated +0.029%, gated +0.041% | long +0.030%, short +0.054%
+  yahoo  GBPUSD 2003-12 .. 2026-09:  12 of 144 pass | net median ungated -0.011%, gated +0.024% | long -0.018%, short +0.017%
+  yahoo  USDJPY 2003-01 .. 2026-09:  11 of 144 pass | net median ungated +0.029%, gated +0.034% | long +0.079%, short -0.018%
+  yahoo  AUDUSD 2006-05 .. 2026-09:  12 of 144 pass | net median ungated +0.013%, gated +0.053% | long +0.041%, short +0.013%
+  yahoo  NZDUSD 2003-12 .. 2026-09:  11 of 144 pass | net median ungated -0.018%, gated -0.041% | long -0.006%, short -0.045%
+  yahoo  USDCAD 2003-09 .. 2026-09:  11 of 144 pass | net median ungated -0.008%, gated +0.015% | long +0.012%, short -0.008%
+  yahoo  USDCHF 2003-09 .. 2026-09:  11 of 144 pass | net median ungated -0.024%, gated -0.090% | long -0.045%, short -0.043%
+  exness EURUSD 2020-02 .. 2026-09:   0 of 144 pass | net median ungated +0.012%, gated +0.016% | long -0.006%, short +0.046%
+  exness GBPUSD 2020-02 .. 2026-09:   1 of 144 pass | net median ungated +0.033%, gated +0.086% | long +0.072%, short +0.024%
+  exness USDJPY 2020-02 .. 2026-09:   0 of 144 pass | net median ungated -0.003%, gated +0.040% | long +0.083%, short -0.023%
+  exness AUDUSD 2020-03 .. 2026-10:   0 of 144 pass | net median ungated +0.064%, gated +0.003% | long +0.072%, short -0.004%
+  exness NZDUSD 2020-03 .. 2026-10:   0 of 144 pass | net median ungated +0.004%, gated +0.012% | long -0.030%, short +0.076%
+  exness USDCAD 2020-03 .. 2026-10:   0 of 144 pass | net median ungated -0.033%, gated -0.050% | long +0.048%, short -0.076%
+  exness USDCHF 2020-03 .. 2026-10:   0 of 144 pass | net median ungated -0.017%, gated -0.060% | long -0.048%, short -0.021%
+  exness XAUUSD 2020-02 .. 2026-09:   0 of 144 pass | net median ungated -0.129%, gated -0.112% | long +0.031%, short -0.343%
+  exness XAGUSD 2020-02 .. 2026-09:   0 of 144 pass | net median ungated -0.236%, gated -0.334% | long +0.044%, short -0.471%
+
+EVERY PASS (net % a trade at 1x)
+  exness GBPUSD long  bb_low    open  X2 trend n   14 (2.1/yr) won 93% | net +0.37% | tune +0.32% (t +2.0) holdout +0.41% (t +3.3) | CAGR +0.8% fall 0% | on yahoo: -0.14% / +0.31%
+  yahoo  AUDUSD long  ibs20     close X1 -     n  991 (48.7/yr) won 85% | net +0.47% | tune +0.44% (t +12.4) holdout +0.51% (t +21.1) | CAGR +25.7% fall 7% | on exness: -0.06% / +0.03%
+  yahoo  AUDUSD short ibs20     close X1 -     n 1001 (49.2/yr) won 83% | net +0.48% | tune +0.42% (t +13.2) holdout +0.57% (t +20.9) | CAGR +26.4% fall 9% | on exness: +0.02% / -0.03%
+  yahoo  AUDUSD short ibs20     close X1 trend n  489 (24.0/yr) won 86% | net +0.58% | tune +0.56% (t +10.2) holdout +0.61% (t +15.0) | CAGR +14.9% fall 9% | on exness: +0.00% / -0.10%
+  yahoo  AUDUSD short ibs20     close X2 -     n  832 (40.9/yr) won 85% | net +0.51% | tune +0.48% (t +8.9) holdout +0.56% (t +14.5) | CAGR +22.9% fall 18% | on exness: +0.06% / +0.01%
+  yahoo  AUDUSD long  ibs20     close X1 trend n  471 (23.1/yr) won 84% | net +0.41% | tune +0.37% (t +9.0) holdout +0.47% (t +13.8) | CAGR +9.9% fall 6% | on exness: -0.09% / -0.01%
+  yahoo  AUDUSD long  ibs20     close X2 -     n  859 (42.2/yr) won 89% | net +0.49% | tune +0.47% (t +7.7) holdout +0.51% (t +11.5) | CAGR +22.5% fall 27% | on exness: +0.04% / +0.09%
+  yahoo  AUDUSD long  ibs20     close X2 trend n  423 (20.8/yr) won 89% | net +0.47% | tune +0.47% (t +9.3) holdout +0.48% (t +11.0) | CAGR +10.2% fall 5% | on exness: -0.07% / +0.03%
+  yahoo  AUDUSD short ibs20     close X2 trend n  439 (21.6/yr) won 87% | net +0.62% | tune +0.65% (t +8.0) holdout +0.59% (t +10.7) | CAGR +14.2% fall 10% | on exness: +0.00% / -0.03%
+  yahoo  AUDUSD long  ibs20     close X3 -     n  601 (29.5/yr) won 82% | net +0.54% | tune +0.54% (t +5.1) holdout +0.54% (t +7.0) | CAGR +16.7% fall 29% | on exness: -0.26% / +0.19%
+  yahoo  AUDUSD short ibs20     close X3 trend n  327 (16.1/yr) won 83% | net +0.73% | tune +0.81% (t +6.4) holdout +0.64% (t +6.7) | CAGR +12.2% fall 12% | on exness: -0.23% / -0.64%
+  yahoo  AUDUSD short ibs20     close X3 -     n  608 (29.9/yr) won 79% | net +0.54% | tune +0.55% (t +6.5) holdout +0.52% (t +6.6) | CAGR +16.9% fall 23% | on exness: -0.07% / -0.15%
+  yahoo  AUDUSD long  ibs20     close X3 trend n  304 (14.9/yr) won 81% | net +0.47% | tune +0.49% (t +4.4) holdout +0.45% (t +4.4) | CAGR +7.2% fall 11% | on exness: -0.51% / -0.02%
+  yahoo  EURUSD long  ibs20     close X1 -     n 1102 (48.3/yr) won 82% | net +0.35% | tune +0.31% (t +10.8) holdout +0.40% (t +24.6) | CAGR +18.1% fall 15% | on exness: -0.03% / +0.01%
+  yahoo  EURUSD short ibs20     close X1 -     n 1110 (48.6/yr) won 80% | net +0.35% | tune +0.30% (t +11.3) holdout +0.41% (t +24.2) | CAGR +18.2% fall 9% | on exness: +0.00% / -0.03%
+  yahoo  EURUSD long  ibs20     close X1 trend n  579 (25.4/yr) won 81% | net +0.35% | tune +0.33% (t +8.3) holdout +0.40% (t +18.0) | CAGR +9.3% fall 5% | on exness: -0.01% / +0.04%
+  yahoo  EURUSD short ibs20     close X1 trend n  519 (22.7/yr) won 83% | net +0.40% | tune +0.38% (t +8.7) holdout +0.41% (t +18.0) | CAGR +9.3% fall 5% | on exness: +0.07% / -0.10%
+  yahoo  EURUSD long  ibs20     close X2 -     n  937 (41.1/yr) won 86% | net +0.40% | tune +0.38% (t +8.4) holdout +0.44% (t +17.9) | CAGR +17.8% fall 11% | on exness: -0.04% / +0.08%
+  yahoo  EURUSD short ibs20     close X2 -     n  899 (39.4/yr) won 84% | net +0.38% | tune +0.35% (t +8.4) holdout +0.42% (t +17.5) | CAGR +15.9% fall 11% | on exness: +0.07% / +0.02%
+  yahoo  EURUSD long  ibs20     close X2 trend n  508 (22.3/yr) won 88% | net +0.40% | tune +0.38% (t +7.0) holdout +0.45% (t +16.3) | CAGR +9.3% fall 9% | on exness: -0.02% / +0.06%
+  yahoo  EURUSD short ibs20     close X2 trend n  455 (19.9/yr) won 88% | net +0.44% | tune +0.48% (t +8.5) holdout +0.39% (t +12.4) | CAGR +9.2% fall 4% | on exness: +0.08% / -0.05%
+  yahoo  EURUSD long  ibs20     close X3 -     n  649 (28.4/yr) won 79% | net +0.41% | tune +0.33% (t +3.7) holdout +0.52% (t +12.1) | CAGR +12.1% fall 13% | on exness: -0.19% / +0.16%
+  yahoo  EURUSD short ibs20     close X3 -     n  654 (28.7/yr) won 77% | net +0.37% | tune +0.28% (t +3.8) holdout +0.48% (t +10.6) | CAGR +10.9% fall 20% | on exness: +0.00% / -0.12%
+  yahoo  EURUSD long  ibs20     close X3 trend n  352 (15.4/yr) won 82% | net +0.42% | tune +0.33% (t +3.5) holdout +0.54% (t +10.3) | CAGR +6.5% fall 10% | on exness: -0.11% / +0.04%
+  yahoo  EURUSD short ibs20     close X3 trend n  333 (14.6/yr) won 81% | net +0.45% | tune +0.39% (t +3.5) holdout +0.50% (t +7.9) | CAGR +6.6% fall 9% | on exness: +0.06% / -0.18%
+  yahoo  GBPUSD long  ibs20     close X1 -     n 1045 (45.8/yr) won 83% | net +0.36% | tune +0.26% (t +10.5) holdout +0.49% (t +24.2) | CAGR +17.6% fall 23% | on exness: -0.01% / -0.06%
+  yahoo  GBPUSD short ibs20     close X1 -     n 1137 (49.8/yr) won 80% | net +0.36% | tune +0.26% (t +10.4) holdout +0.49% (t +22.5) | CAGR +19.3% fall 10% | on exness: -0.11% / -0.02%
+  yahoo  GBPUSD long  ibs20     close X2 -     n  890 (39.0/yr) won 86% | net +0.37% | tune +0.23% (t +5.4) holdout +0.54% (t +20.1) | CAGR +15.4% fall 33% | on exness: +0.01% / +0.06%
+  yahoo  GBPUSD long  ibs20     close X1 trend n  536 (23.5/yr) won 82% | net +0.33% | tune +0.23% (t +8.4) holdout +0.44% (t +19.1) | CAGR +8.0% fall 5% | on exness: +0.02% / -0.06%
+  yahoo  GBPUSD long  ibs20     close X2 trend n  477 (20.9/yr) won 84% | net +0.35% | tune +0.22% (t +5.5) holdout +0.47% (t +17.8) | CAGR +7.5% fall 5% | on exness: +0.11% / -0.02%
+  yahoo  GBPUSD short ibs20     close X2 -     n  951 (41.7/yr) won 86% | net +0.38% | tune +0.31% (t +7.8) holdout +0.48% (t +14.7) | CAGR +17.1% fall 12% | on exness: -0.03% / -0.04%
+  yahoo  GBPUSD short ibs20     close X1 trend n  526 (23.1/yr) won 79% | net +0.39% | tune +0.29% (t +7.0) holdout +0.56% (t +13.8) | CAGR +9.2% fall 13% | on exness: -0.15% / -0.13%
+  yahoo  GBPUSD short ibs20     close X2 trend n  458 (20.1/yr) won 84% | net +0.41% | tune +0.33% (t +5.7) holdout +0.55% (t +10.5) | CAGR +8.5% fall 10% | on exness: -0.22% / -0.17%
+  yahoo  GBPUSD short ibs20     close X3 -     n  683 (29.9/yr) won 77% | net +0.37% | tune +0.26% (t +3.7) holdout +0.52% (t +9.0) | CAGR +11.5% fall 22% | on exness: -0.00% / -0.17%
+  yahoo  GBPUSD long  ibs20     close X3 -     n  639 (28.0/yr) won 77% | net +0.35% | tune +0.25% (t +3.6) holdout +0.49% (t +8.6) | CAGR +10.2% fall 30% | on exness: -0.09% / +0.10%
+  yahoo  GBPUSD long  ibs20     close X3 trend n  346 (15.2/yr) won 76% | net +0.33% | tune +0.25% (t +3.4) holdout +0.41% (t +6.1) | CAGR +5.1% fall 5% | on exness: +0.17% / +0.02%
+  yahoo  GBPUSD short ibs20     close X3 trend n  338 (14.8/yr) won 77% | net +0.39% | tune +0.27% (t +2.5) holdout +0.55% (t +5.6) | CAGR +5.7% fall 16% | on exness: -0.09% / -0.27%
+  yahoo  NZDUSD short ibs20     close X1 -     n 1125 (49.3/yr) won 80% | net +0.43% | tune +0.30% (t +9.8) holdout +0.61% (t +25.7) | CAGR +23.2% fall 29% | on exness: -0.03% / +0.02%
+  yahoo  NZDUSD long  ibs20     close X1 -     n 1146 (50.2/yr) won 79% | net +0.39% | tune +0.30% (t +9.2) holdout +0.51% (t +23.0) | CAGR +21.3% fall 21% | on exness: -0.05% / -0.02%
+  yahoo  NZDUSD short ibs20     close X2 -     n  909 (39.8/yr) won 85% | net +0.48% | tune +0.35% (t +6.1) holdout +0.63% (t +19.4) | CAGR +20.6% fall 32% | on exness: +0.09% / +0.06%
+  yahoo  NZDUSD short ibs20     close X1 trend n  509 (22.3/yr) won 82% | net +0.45% | tune +0.28% (t +5.2) holdout +0.62% (t +18.5) | CAGR +10.5% fall 23% | on exness: -0.04% / -0.17%
+  yahoo  NZDUSD short ibs20     close X2 trend n  443 (19.4/yr) won 86% | net +0.50% | tune +0.33% (t +3.2) holdout +0.64% (t +15.2) | CAGR +10.0% fall 24% | on exness: +0.04% / -0.32%
+  yahoo  NZDUSD long  ibs20     close X1 trend n  578 (25.3/yr) won 79% | net +0.39% | tune +0.34% (t +8.8) holdout +0.46% (t +14.4) | CAGR +10.2% fall 7% | on exness: -0.01% / +0.00%
+  yahoo  NZDUSD long  ibs20     close X2 -     n  957 (41.9/yr) won 83% | net +0.39% | tune +0.30% (t +5.2) holdout +0.49% (t +12.9) | CAGR +17.3% fall 36% | on exness: -0.08% / -0.01%
+  yahoo  NZDUSD short ibs20     close X3 -     n  675 (29.6/yr) won 78% | net +0.46% | tune +0.32% (t +3.4) holdout +0.64% (t +9.8) | CAGR +14.3% fall 36% | on exness: +0.01% / +0.12%
+  yahoo  NZDUSD long  ibs20     close X2 trend n  506 (22.2/yr) won 82% | net +0.39% | tune +0.36% (t +5.8) holdout +0.43% (t +8.7) | CAGR +8.8% fall 13% | on exness: -0.11% / +0.04%
+  yahoo  NZDUSD long  ibs20     close X3 -     n  664 (29.1/yr) won 77% | net +0.40% | tune +0.36% (t +3.7) holdout +0.45% (t +5.8) | CAGR +11.8% fall 23% | on exness: -0.23% / +0.02%
+  yahoo  NZDUSD long  ibs20     close X3 trend n  365 (16.0/yr) won 76% | net +0.38% | tune +0.37% (t +3.6) holdout +0.38% (t +3.7) | CAGR +6.0% fall 12% | on exness: -0.18% / -0.04%
+  yahoo  USDCAD long  ibs20     close X1 -     n 1106 (48.0/yr) won 79% | net +0.27% | tune +0.23% (t +8.7) holdout +0.34% (t +21.5) | CAGR +14.0% fall 22% | on exness: -0.03% / -0.01%
+  yahoo  USDCAD short ibs20     close X1 -     n 1012 (44.0/yr) won 78% | net +0.29% | tune +0.23% (t +9.4) holdout +0.37% (t +20.4) | CAGR +13.4% fall 12% | on exness: -0.03% / -0.02%
+  yahoo  USDCAD long  ibs20     close X1 trend n  562 (24.4/yr) won 83% | net +0.31% | tune +0.26% (t +6.7) holdout +0.36% (t +17.6) | CAGR +7.8% fall 16% | on exness: -0.08% / -0.02%
+  yahoo  USDCAD long  ibs20     close X2 -     n  921 (40.0/yr) won 83% | net +0.28% | tune +0.23% (t +5.1) holdout +0.35% (t +16.0) | CAGR +11.9% fall 34% | on exness: +0.08% / +0.01%
+  yahoo  USDCAD short ibs20     close X2 -     n  859 (37.3/yr) won 85% | net +0.30% | tune +0.24% (t +4.6) holdout +0.37% (t +15.7) | CAGR +11.5% fall 31% | on exness: +0.03% / -0.09%
+  yahoo  USDCAD long  ibs20     close X2 trend n  508 (22.1/yr) won 86% | net +0.31% | tune +0.26% (t +4.5) holdout +0.37% (t +14.1) | CAGR +7.1% fall 19% | on exness: +0.02% / -0.08%
+  yahoo  USDCAD short ibs20     close X1 trend n  488 (21.2/yr) won 74% | net +0.22% | tune +0.16% (t +5.1) holdout +0.31% (t +11.3) | CAGR +4.7% fall 6% | on exness: -0.07% / -0.04%
+  yahoo  USDCAD long  ibs20     close X3 -     n  676 (29.4/yr) won 78% | net +0.32% | tune +0.26% (t +3.9) holdout +0.38% (t +9.1) | CAGR +9.5% fall 21% | on exness: +0.03% / +0.09%
+  yahoo  USDCAD short ibs20     close X3 -     n  618 (26.8/yr) won 75% | net +0.25% | tune +0.19% (t +2.5) holdout +0.33% (t +6.5) | CAGR +6.7% fall 24% | on exness: -0.25% / -0.03%
+  yahoo  USDCAD long  ibs20     close X3 trend n  382 (16.6/yr) won 77% | net +0.34% | tune +0.32% (t +3.7) holdout +0.37% (t +6.5) | CAGR +5.8% fall 14% | on exness: -0.06% / -0.03%
+  yahoo  USDCAD short ibs20     close X2 trend n  414 (18.0/yr) won 81% | net +0.22% | tune +0.19% (t +3.4) holdout +0.26% (t +6.5) | CAGR +4.0% fall 10% | on exness: -0.14% / -0.25%
+  yahoo  USDCHF long  ibs20     close X1 -     n 1124 (48.8/yr) won 82% | net +0.34% | tune +0.32% (t +9.6) holdout +0.37% (t +23.2) | CAGR +17.9% fall 12% | on exness: -0.07% / -0.02%
+  yahoo  USDCHF short ibs20     close X1 -     n 1051 (45.7/yr) won 81% | net +0.40% | tune +0.37% (t +9.8) holdout +0.45% (t +21.8) | CAGR +19.9% fall 6% | on exness: -0.03% / -0.00%
+  yahoo  USDCHF long  ibs20     close X2 -     n  923 (40.1/yr) won 87% | net +0.39% | tune +0.37% (t +7.5) holdout +0.42% (t +18.8) | CAGR +16.8% fall 13% | on exness: -0.00% / -0.02%
+  yahoo  USDCHF short ibs20     close X2 -     n  883 (38.4/yr) won 84% | net +0.41% | tune +0.37% (t +6.7) holdout +0.45% (t +17.7) | CAGR +16.7% fall 12% | on exness: -0.11% / -0.02%
+  yahoo  USDCHF short ibs20     close X1 trend n  584 (25.4/yr) won 83% | net +0.40% | tune +0.36% (t +10.5) holdout +0.45% (t +16.2) | CAGR +10.5% fall 5% | on exness: +0.05% / +0.02%
+  yahoo  USDCHF short ibs20     close X2 trend n  507 (22.0/yr) won 84% | net +0.39% | tune +0.33% (t +6.1) holdout +0.46% (t +14.3) | CAGR +8.9% fall 10% | on exness: -0.02% / +0.02%
+  yahoo  USDCHF long  ibs20     close X1 trend n  475 (20.6/yr) won 81% | net +0.29% | tune +0.28% (t +6.5) holdout +0.31% (t +13.3) | CAGR +6.1% fall 14% | on exness: -0.13% / -0.17%
+  yahoo  USDCHF long  ibs20     close X2 trend n  418 (18.2/yr) won 84% | net +0.33% | tune +0.32% (t +5.1) holdout +0.35% (t +11.3) | CAGR +6.1% fall 8% | on exness: -0.16% / -0.09%
+  yahoo  USDCHF long  ibs20     close X3 -     n  658 (28.6/yr) won 79% | net +0.45% | tune +0.41% (t +5.3) holdout +0.49% (t +10.8) | CAGR +13.4% fall 12% | on exness: -0.05% / -0.11%
+  yahoo  USDCHF long  ibs20     close X3 trend n  291 (12.6/yr) won 79% | net +0.40% | tune +0.37% (t +3.4) holdout +0.45% (t +7.2) | CAGR +5.1% fall 9% | on exness: -0.28% / -0.38%
+  yahoo  USDCHF short ibs20     close X3 -     n  657 (28.5/yr) won 76% | net +0.29% | tune +0.24% (t +2.6) holdout +0.36% (t +6.6) | CAGR +8.3% fall 15% | on exness: -0.21% / +0.07%
+  yahoo  USDJPY long  ibs20     close X1 -     n 1131 (47.7/yr) won 85% | net +0.40% | tune +0.35% (t +8.5) holdout +0.47% (t +24.4) | CAGR +20.9% fall 25% | on exness: -0.04% / -0.11%
+  yahoo  USDJPY short ibs20     close X1 -     n 1246 (52.5/yr) won 79% | net +0.33% | tune +0.26% (t +11.2) holdout +0.44% (t +20.5) | CAGR +18.9% fall 11% | on exness: -0.13% / +0.09%
+  yahoo  USDJPY long  ibs20     close X1 trend n  609 (25.7/yr) won 88% | net +0.40% | tune +0.33% (t +4.5) holdout +0.46% (t +20.4) | CAGR +10.6% fall 28% | on exness: -0.02% / -0.19%
+  yahoo  USDJPY long  ibs20     close X2 -     n  947 (39.9/yr) won 86% | net +0.44% | tune +0.44% (t +8.1) holdout +0.44% (t +15.3) | CAGR +19.1% fall 14% | on exness: +0.04% / -0.06%
+  yahoo  USDJPY short ibs20     close X1 trend n  574 (24.2/yr) won 76% | net +0.31% | tune +0.25% (t +6.7) holdout +0.42% (t +13.1) | CAGR +7.6% fall 10% | on exness: -0.24% / +0.14%
+  yahoo  USDJPY long  ibs20     close X2 trend n  539 (22.7/yr) won 89% | net +0.40% | tune +0.37% (t +4.1) holdout +0.44% (t +11.9) | CAGR +9.4% fall 32% | on exness: +0.07% / -0.22%
+  yahoo  USDJPY short ibs20     close X2 -     n 1000 (42.1/yr) won 81% | net +0.30% | tune +0.23% (t +5.3) holdout +0.40% (t +11.2) | CAGR +13.2% fall 16% | on exness: -0.30% / -0.01%
+  yahoo  USDJPY short ibs20     close X2 trend n  495 (20.9/yr) won 80% | net +0.29% | tune +0.23% (t +3.7) holdout +0.40% (t +9.1) | CAGR +6.1% fall 12% | on exness: -0.28% / +0.12%
+  yahoo  USDJPY long  ibs20     close X3 -     n  672 (28.3/yr) won 78% | net +0.43% | tune +0.40% (t +4.4) holdout +0.47% (t +9.0) | CAGR +12.8% fall 18% | on exness: +0.16% / -0.14%
+  yahoo  USDJPY short ibs20     close X3 -     n  694 (29.2/yr) won 75% | net +0.26% | tune +0.17% (t +2.3) holdout +0.38% (t +6.0) | CAGR +7.7% fall 20% | on exness: -0.47% / -0.02%
+  yahoo  USDJPY long  rsi2_5    close X3 -     n  169 (7.1/yr) won 75% | net +0.44% | tune +0.51% (t +2.1) holdout +0.34% (t +2.4) | CAGR +3.1% fall 12% | on exness: +0.39% / +0.33%
+
+REGISTERED PREDICTIONS
+  G1 forex on Yahoo: 80 of 1008 cells pass (7.9%); most pairs for one cell: 7 -> WRONG
+  G2 trend gate better a trade in 55% of forex cells; most pairs for one gated passing cell: 7 -> WRONG
+  G3 gold: long passes 0, short passes 0 -> WRONG
+  G4 silver: 0 pass -> RIGHT
+  G5 Yahoo passes positive on both halves of Exness 2020-2026: 11 of 80 -> WRONG

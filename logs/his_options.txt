@@ -1,0 +1,18 @@
+backtest/his_options.py, 2026-10-12 17:56 UTC; 297,508 QQQ options trades in 31 windows (cost $16.04); 40 of his NASDAQ clicks inside the options session
+
+A = bull premium's sign agrees with HIS side at his click | B = his-side reading at the click minus 60 s earlier
+   feature   agree    n       p  B median $       p
+     d0_15     40%   40   0.268      -8,340   0.581
+     d0_30     55%   40   0.636       6,744   0.858
+     d0_60     52%   40   0.875     -11,210   0.307
+     d7_15     38%   40   0.154       4,763   0.931
+     d7_30     50%   40   1.000       1,284   0.995
+     d7_60     48%   40   0.875     -91,948   0.436
+
+IC (bull premium over 30 s vs the next 60 s on Exness, every 5 s in the windows): d0 -0.001 (n 1300), d7 +0.032 (n 1300)
+
+REGISTERED PREDICTIONS
+  1 A within 50-65%: 38%..55% -> WRONG
+  2 B p > 0.05 everywhere: min p 0.307 -> RIGHT
+  3 |IC| < 0.10: -0.001, +0.032 -> RIGHT
+  LEAD LINE (A >= 70%, p < 0.01): none

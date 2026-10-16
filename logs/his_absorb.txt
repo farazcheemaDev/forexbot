@@ -1,0 +1,22 @@
+backtest/his_absorb.py, 2026-10-12 17:42 UTC; 82,217 CME NQ seconds in the cached windows; 42 of his entries, 1553 same-sitting moments
+
+A. DIRECTION - sign agrees with HIS side at his click      B. TIMING - his moment ranked in his sitting      C. RULE - trade with a top-decile reading at the sitting's moments
+   feature   agree       p    rank       p  race won     n
+     sup15     53%   1.000    0.52   0.216       49%    86
+     abs15     43%   0.664    0.49   0.877       49%    96
+     res15     38%   0.164    0.41   0.042       52%   154
+     sup30     63%   0.200    0.52   0.449       49%   118
+     abs30     45%   0.720    0.47   0.517       47%   122
+     res30     45%   0.644    0.46   0.388       51%   154
+     sup60     55%   0.636    0.51   0.759       51%   144
+     abs60     50%   1.000    0.50   0.965       50%   143
+     res60     50%   1.000    0.48   0.726       44%   154
+    sup120     45%   0.644    0.51   0.896       49%   152
+    abs120     50%   1.000    0.52   0.759       50%   151
+    res120     50%   1.000    0.43   0.154       50%   154
+
+REGISTERED PREDICTIONS
+  1 A within 50-62%: range 38%..63% -> WRONG
+  2 B within 0.44-0.58: range 0.41..0.52 -> WRONG
+  3 C within 46-56%: range 44%..52% -> WRONG
+  LEAD LINE (A >= 70%, p < 0.01, B >= 0.62): none

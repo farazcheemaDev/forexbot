@@ -1,0 +1,60 @@
+backtest/cfd_bigtarget.py, 2026-10-11 20:47 UTC; doge_bigtarget.py's test on Exness CFDs, brackets in daily ATRs, net of spread and swap, 1x
+
+== USTECm: 2026-01-01 .. 2026-10-09, holdout from 2026-06-19; 800 rules
+  tgt 0.25 / stop 0.250 daily ATR: rules median win 49.0% vs RANDOM 49.2% | median net   -1.2bp, gross   -0.2bp | RANDOM long   +0.1bp, short   -2.3bp
+  tgt 0.50 / stop 0.250 daily ATR: rules median win 38.8% vs RANDOM 40.4% | median net   -1.0bp, gross   +0.1bp | RANDOM long   +0.7bp, short   -1.6bp
+  tgt 0.50 / stop 0.500 daily ATR: rules median win 48.9% vs RANDOM 49.0% | median net   -1.5bp, gross   -0.1bp | RANDOM long   +0.5bp, short   -3.1bp
+  tgt 0.75 / stop 0.375 daily ATR: rules median win 41.4% vs RANDOM 43.2% | median net   -1.8bp, gross   -0.6bp | RANDOM long   +0.3bp, short   -3.1bp
+  tgt 1.00 / stop 0.500 daily ATR: rules median win 44.5% vs RANDOM 44.7% | median net   -1.6bp, gross   -0.5bp | RANDOM long   -0.4bp, short   -4.5bp
+  RANDOM long, all brackets: tune +2.6bp, holdout -3.2bp a trade
+  BEAT RANDOM by 2 se on BOTH halves: 0 of 800 (0.0%)
+
+== US30m: 2026-01-01 .. 2026-10-09, holdout from 2026-06-19; 800 rules
+  tgt 0.25 / stop 0.250 daily ATR: rules median win 49.5% vs RANDOM 49.4% | median net   -0.7bp, gross   -0.2bp | RANDOM long   +0.3bp, short   -1.8bp
+  tgt 0.50 / stop 0.250 daily ATR: rules median win 39.3% vs RANDOM 40.1% | median net   -0.4bp, gross   +0.2bp | RANDOM long   +0.7bp, short   -2.0bp
+  tgt 0.50 / stop 0.500 daily ATR: rules median win 49.3% vs RANDOM 49.1% | median net   -0.6bp, gross   +0.0bp | RANDOM long   +0.9bp, short   -2.7bp
+  tgt 0.75 / stop 0.375 daily ATR: rules median win 40.4% vs RANDOM 43.7% | median net   -1.0bp, gross   -0.4bp | RANDOM long   +0.7bp, short   -2.1bp
+  tgt 1.00 / stop 0.500 daily ATR: rules median win 43.8% vs RANDOM 45.2% | median net   -1.1bp, gross   -0.5bp | RANDOM long   +0.6bp, short   -2.8bp
+  RANDOM long, all brackets: tune +0.4bp, holdout +0.9bp a trade
+  BEAT RANDOM by 2 se on BOTH halves: 0 of 800 (0.0%)
+
+== XAUUSDm: 2026-01-01 .. 2026-10-09, holdout from 2026-06-19; 810 rules
+  tgt 0.25 / stop 0.250 daily ATR: rules median win 49.2% vs RANDOM 49.5% | median net   -0.6bp, gross   +0.1bp | RANDOM long   -0.6bp, short   -1.0bp
+  tgt 0.50 / stop 0.250 daily ATR: rules median win 40.6% vs RANDOM 41.2% | median net   -0.2bp, gross   +0.6bp | RANDOM long   -0.4bp, short   +0.5bp
+  tgt 0.50 / stop 0.500 daily ATR: rules median win 49.5% vs RANDOM 49.4% | median net   -1.3bp, gross   -0.4bp | RANDOM long   -3.7bp, short   +1.8bp
+  tgt 0.75 / stop 0.375 daily ATR: rules median win 44.9% vs RANDOM 44.0% | median net   -0.5bp, gross   +0.4bp | RANDOM long   -0.5bp, short   +2.3bp
+  tgt 1.00 / stop 0.500 daily ATR: rules median win 46.3% vs RANDOM 46.6% | median net   -0.9bp, gross   +0.1bp | RANDOM long   -1.6bp, short   +1.9bp
+  RANDOM long, all brackets: tune -0.9bp, holdout -2.1bp a trade
+  BEAT RANDOM by 2 se on BOTH halves: 0 of 810 (0.0%)
+
+== EURUSDm: 2026-01-01 .. 2026-10-09, holdout from 2026-06-19; 810 rules
+  tgt 0.25 / stop 0.250 daily ATR: rules median win 49.3% vs RANDOM 48.1% | median net   -0.7bp, gross   +0.1bp | RANDOM long   -1.0bp, short   -0.6bp
+  tgt 0.50 / stop 0.250 daily ATR: rules median win 39.0% vs RANDOM 39.4% | median net   -0.6bp, gross   +0.3bp | RANDOM long   -1.1bp, short   -0.3bp
+  tgt 0.50 / stop 0.500 daily ATR: rules median win 48.4% vs RANDOM 47.6% | median net   -1.0bp, gross   -0.1bp | RANDOM long   -1.2bp, short   -0.6bp
+  tgt 0.75 / stop 0.375 daily ATR: rules median win 41.9% vs RANDOM 41.5% | median net   -0.9bp, gross   -0.0bp | RANDOM long   -1.6bp, short   -0.3bp
+  tgt 1.00 / stop 0.500 daily ATR: rules median win 44.5% vs RANDOM 43.3% | median net   -0.9bp, gross   +0.0bp | RANDOM long   -1.7bp, short   -0.7bp
+  RANDOM long, all brackets: tune -1.0bp, holdout -1.8bp a trade
+  BEAT RANDOM by 2 se on BOTH halves: 0 of 810 (0.0%)
+
+== GBPUSDm: 2026-01-01 .. 2026-10-09, holdout from 2026-06-19; 800 rules
+  tgt 0.25 / stop 0.250 daily ATR: rules median win 49.8% vs RANDOM 48.4% | median net   -0.6bp, gross   +0.2bp | RANDOM long   -1.1bp, short   -0.6bp
+  tgt 0.50 / stop 0.250 daily ATR: rules median win 38.6% vs RANDOM 39.6% | median net   -0.6bp, gross   +0.3bp | RANDOM long   -1.0bp, short   -0.3bp
+  tgt 0.50 / stop 0.500 daily ATR: rules median win 48.7% vs RANDOM 47.9% | median net   -0.7bp, gross   +0.3bp | RANDOM long   -1.0bp, short   -0.8bp
+  tgt 0.75 / stop 0.375 daily ATR: rules median win 41.7% vs RANDOM 42.6% | median net   -0.8bp, gross   +0.2bp | RANDOM long   -0.5bp, short   -0.6bp
+  tgt 1.00 / stop 0.500 daily ATR: rules median win 43.7% vs RANDOM 44.5% | median net   -1.1bp, gross   -0.0bp | RANDOM long   -1.0bp, short   -1.3bp
+  RANDOM long, all brackets: tune -0.6bp, holdout -1.3bp a trade
+  BEAT RANDOM by 2 se on BOTH halves: 0 of 800 (0.0%)
+
+== USDJPYm: 2026-01-01 .. 2026-10-09, holdout from 2026-06-19; 800 rules
+  tgt 0.25 / stop 0.250 daily ATR: rules median win 49.0% vs RANDOM 48.1% | median net   -0.7bp, gross   +0.2bp | RANDOM long   -0.1bp, short   -1.6bp
+  tgt 0.50 / stop 0.250 daily ATR: rules median win 37.9% vs RANDOM 40.2% | median net   -0.9bp, gross   -0.1bp | RANDOM long   +0.3bp, short   -1.3bp
+  tgt 0.50 / stop 0.500 daily ATR: rules median win 47.3% vs RANDOM 47.5% | median net   -0.9bp, gross   -0.0bp | RANDOM long   -0.1bp, short   -1.7bp
+  tgt 0.75 / stop 0.375 daily ATR: rules median win 40.1% vs RANDOM 42.1% | median net   -1.2bp, gross   -0.3bp | RANDOM long   +0.5bp, short   -2.0bp
+  tgt 1.00 / stop 0.500 daily ATR: rules median win 43.4% vs RANDOM 43.8% | median net   -0.8bp, gross   +0.2bp | RANDOM long   +0.4bp, short   -1.5bp
+  RANDOM long, all brackets: tune +0.7bp, holdout -0.4bp a trade
+  BEAT RANDOM by 2 se on BOTH halves: 0 of 800 (0.0%)
+
+REGISTERED PREDICTIONS
+  F1 largest gap between the rules' median win rate and RANDOM's: 3.2 points -> WRONG
+  F2 share beating random on both halves: USTECm 0.0%, US30m 0.0%, XAUUSDm 0.0%, EURUSDm 0.0%, GBPUSDm 0.0%, USDJPYm 0.0%; on more than one instrument: 0 -> RIGHT
+  F3 RANDOM long tune / holdout: USTECm +2.6/-3.2bp, US30m +0.4/+0.9bp, XAUUSDm -0.9/-2.1bp, EURUSDm -1.0/-1.8bp, GBPUSDm -0.6/-1.3bp, USDJPYm +0.7/-0.4bp -> WRONG

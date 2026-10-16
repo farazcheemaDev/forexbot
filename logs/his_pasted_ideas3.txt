@@ -1,0 +1,22 @@
+backtest/his_pasted_ideas3.py, 2026-10-13 17:29 UTC; 42 of his NASDAQ entries, 1553 sitting moments
+
+TEST 1 - CME trades in the 15 s before his click, signed his way
+   1-2 lot trades     net sign his way   48% of 42 (p 0.88)
+   >= 5 lot trades    net sign his way   61% of 31 (p 0.28)
+   >= 10 lot trades   net sign his way   65% of 17 (p 0.33)
+   block share of volume: his median 0.098 vs 0.067; rank 0.60 (p 0.03)
+   the exact pattern (blocks his way AND small lots against him): his 26% vs sittings 21%
+   rule at the sittings' moments: trade WITH the 5+ lot net sign of the last 15 s (1089): wins 48% of +-7 races
+   rule at the sittings' moments: trade WITH the 10+ lot net sign of the last 15 s (352): wins 49% of +-7 races
+
+TEST 2 - the 7-point zone ahead vs behind: candle bodies from the last 15 minutes in each
+   his side points to the emptier zone 52% of 27 (p 1.00); median occupancy ahead 4 vs behind 3
+   rule at the sittings' moments (1232): toward the emptier zone wins 52% of +-7 races
+
+TEST 3 - a headline on the text wires 1-25 s AFTER the click
+   his 26.2% (11 of 42) vs sittings 30.1% -> 0.87x (p 0.74); 2637 headlines in the cache
+
+REGISTERED PREDICTIONS
+  1 sign agreement 48%, 61%, 65% within 35-65%, block rank 0.60 within 0.40-0.60 -> RIGHT
+  2 toward the emptier zone 52% within 35-65%, rule 52% within 45-58% -> RIGHT
+  3 after-click headlines 0.87x within 0.5-2x -> RIGHT

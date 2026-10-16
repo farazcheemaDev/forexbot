@@ -1,0 +1,3 @@
+  worker 2: config 39/216 done (1 by this worker)
+  worker 2: config 43/216 done (2 by this worker)
+  worker 2: config 47/216 done (3 by this worker)

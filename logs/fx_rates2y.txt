@@ -1,0 +1,30 @@
+backtest/fx_rates2y.py, 2026-10-12 07:36 UTC; 2-year yield gaps (foreign - US): EUR (Germany) 1997-, JPY 1996-, CAD 2001-, CHF 1996-2025-07; Fed H.10 noon FX; Exness costs
+
+WEEKS (1605)
+                                         EUR     JPY     CAD     CHF
+  A  moves with (same week)            +0.26   +0.34   +0.27   +0.23
+  B  predicts (next week)              +0.03   +0.06   +0.02   +0.01
+
+MONTHS (370)
+                                         EUR     JPY     CAD     CHF
+  A  moves with (same month)           +0.40   +0.41   +0.31   +0.27
+  B  predicts (next month)             +0.09   +0.04   -0.03   +0.02
+
+TRADING RULES (% a period; EXNESS is the verdict; +CARRY earns the 2y gap)
+  rule                                         n |    SPOT  +CARRY  EXNESS | EXNESS tune (t) / holdout (t) | ann. | worst
+  C CATCH-UP (currency lags its 2y gap)     1264 |  +0.018  +0.017  -0.021 | -0.051 (-1.1) / +0.025 (+0.6) | -1.07%/yr | -6.7%
+                                                 SPOT: tune -0.012 (-0.2) / holdout +0.062 (+1.5)
+  D FAIR VALUE (52-week level model)        1026 |  +0.052  +0.053  +0.025 | -0.016 (-0.3) / +0.086 (+1.7) | +1.28%/yr | -6.2%
+                                                 SPOT: tune +0.014 (+0.2) / holdout +0.109 (+2.2)
+  E RATE TREND (1m 2y-gap change)            366 |  +0.072  +0.079  -0.063 | -0.044 (-0.3) / -0.092 (-0.7) | -0.76%/yr | -7.4%
+                                                 SPOT: tune +0.107 (+0.7) / holdout +0.020 (+0.1)
+  E RATE TREND (3m 2y-gap change)            362 |  +0.119  +0.134  -0.013 | +0.050 (+0.3) / -0.107 (-0.8) | -0.15%/yr | -6.5%
+                                                 SPOT: tune +0.198 (+1.4) / holdout +0.000 (+0.0)
+  Holm p: C CATCH-UP 1.00, D FAIR VALUE 1.00, E RATE TREND 1.00, E RATE TREND 1.00 | PASS: none
+
+REGISTERED PREDICTIONS
+  Y1 same-week correlation EUR +0.26, JPY +0.34, CAD +0.27, CHF +0.23 -> WRONG
+  Y2 largest next-period |corr| 0.09 -> RIGHT
+  Y3 catch-up / fair value positive on a half, neither passes -> RIGHT
+  Y4 rate trend passes: none -> RIGHT
+  Y5 passes: none -> RIGHT
