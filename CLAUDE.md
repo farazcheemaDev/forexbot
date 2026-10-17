@@ -617,6 +617,10 @@ the detail lives in the numbered docs.*
   before the 3h late guard existed (567bbcb); the position stands.
 - Status: `./.venv/bin/python combo_bot.py --mode dry --final --status` (lines "news" / "ndx"). Next: the dashboard on
   Vercel (docs/24, the user chose Vercel), then the scorecard / proposals loop.
+- **Dashboard feed LIVE 2026-10-17 00:47 UTC**: `/etc/forexbot-dash.env` (written by the user via `deploy/dash_env.sh`),
+  `forexbot-dash.timer` pushes `dashboard_push.py`'s snapshot to Upstash every minute (first push verified by read-back).
+  combo-bot-final restarted once at 00:47 for the news headline list (backup logs/backup_20261017-004742). The Vercel
+  app (`dashboard/`, read-only token) is the user's step. Upstash free plan: ~1.2 GB/month feed + ~90 KB per page refresh.
 
 ### 2026-10-17 (last) - all books together (`backtest/all_books.py`); general news is dead even split by tone
 

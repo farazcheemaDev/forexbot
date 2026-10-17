@@ -11,16 +11,18 @@ VM bots (unchanged) -> dashboard_push.py every minute (read-only) -> Upstash Red
 
 1. **Upstash** (free): create a Redis database at upstash.com. From its page copy the **REST URL**, the **REST token**
    (read-write, for the VM) and the **read-only REST token** (for Vercel).
-2. **The VM feed**: on the VM, as root, create `/etc/forexbot-dash.env` with mode 600 containing two lines,
-   `UPSTASH_REDIS_REST_URL=...` and `UPSTASH_REDIS_REST_TOKEN=...` (the read-write token). Then tell Claude it exists:
-   it installs `deploy/forexbot-dash.service` + `.timer` (read-only towards the bots) and checks the first push.
+2. **The VM feed**: from the PC run `ssh -t forexbot-vm "bash /opt/forexbot/deploy/dash_env.sh"` and paste the URL and
+   the read-write token when asked (`deploy/dash_env.sh`: hidden input, re-asks on a bad paste, checks the pair with
+   Upstash, writes `/etc/forexbot-dash.env` mode 600). Then tell Claude it exists: it installs
+   `deploy/forexbot-dash.service` + `.timer` (read-only towards the bots) and checks the first push.
 3. **Vercel** (free, Hobby): "Add New Project" -> import the GitHub repo -> **Root Directory: `dashboard`** -> add these
    Environment Variables, then Deploy:
    - `UPSTASH_REDIS_REST_URL` - the same URL
    - `UPSTASH_REDIS_REST_TOKEN` - the **read-only** token (the page only reads)
    - `DASHBOARD_PASSWORD` - your password for the page (8+ characters)
    - `DASHBOARD_SECRET` - any long random string (32+ characters); it signs the login cookie
-4. Open the Vercel URL, sign in with your password. The page refreshes itself every 30 seconds.
+4. Open the Vercel URL, sign in with your password. The page refreshes itself once a minute while its tab is visible
+   (hidden tabs read nothing - this keeps Upstash's free plan far under its 10 GB a month).
 
 ## Local test (no accounts)
 

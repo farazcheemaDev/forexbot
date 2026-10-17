@@ -2,9 +2,12 @@
 // SNAPSHOT_FILE=path/to/snapshot.json for a test run without any account.
 import { readFile } from "fs/promises";
 
+// Forgiving about how the values were pasted into Vercel: spaces and surrounding quotes are dropped.
+const env = (k) => (process.env[k] || "").trim().replace(/^["']+|["']+$/g, "");
+
 async function upstash(cmd) {
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const tok = process.env.UPSTASH_REDIS_REST_TOKEN;
+  const url = env("UPSTASH_REDIS_REST_URL");
+  const tok = env("UPSTASH_REDIS_REST_TOKEN");
   if (!url || !tok) throw new Error("UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN are not set");
   const r = await fetch(`${url.replace(/\/$/, "")}/${cmd.map(encodeURIComponent).join("/")}`, {
     headers: { Authorization: `Bearer ${tok}` },
