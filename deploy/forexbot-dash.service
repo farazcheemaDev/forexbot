@@ -1,0 +1,19 @@
+[Unit]
+Description=Dashboard feed - dashboard_push.py: one snapshot of every paper book to Upstash (read-only towards the bots)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=__USER__
+WorkingDirectory=__APP_DIR__
+# READ-ONLY: it reads the bots' state / trade / log files and pushes one JSON to Upstash. The Upstash URL and WRITE
+# token live in /etc/forexbot-dash.env (root, 600) - never in the repo, a log or an argument. systemctl is-active /
+# show are read-only calls.
+EnvironmentFile=/etc/forexbot-dash.env
+ExecStart=__APP_DIR__/.venv/bin/python -u dashboard_push.py
+TimeoutStartSec=50
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only

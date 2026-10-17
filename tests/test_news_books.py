@@ -116,6 +116,8 @@ def test_monitoring_tag_takes_its_first_three_coins_and_promos_are_ignored():
     pend = st["fin"]["news"]["pending"]
     assert sorted(k.split(":")[1] for k in pend) == ["A2ZUSDT", "ATAUSDT", "FIOUSDT"], pend
     assert st["fin"]["news"]["seen"] == 2
+    rec = st["fin"]["news"]["recent"]
+    assert [r["id"] for r in rec] == [2, 3] and rec[0]["traded"] and not rec[1]["traded"] and rec[1]["etype"] == "noise"
 
 
 def test_slots_one_per_coin_and_stale_signals():

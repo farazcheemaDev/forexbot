@@ -160,6 +160,10 @@ def news_poll(st: dict, prices: dict, now_ms: int, rec=None, fund=None, read=rea
                     continue
                 nb["seen"] += 1
                 et, cs = classify(text, U)
+                rec_ = nb.setdefault("recent", [])              # the dashboard's news panel (last 30 read)
+                rec_.append(dict(id=mid, ts=int(ts), etype=et, coins=cs, headline=text.split("\n")[0][:160],
+                                 traded=et in NEWS_TYPES and bool(cs)))
+                del rec_[:-30]
                 for c in cs:
                     nb["pending"][f"{mid}:{c}"] = dict(coin=c, etype=et, due_ms=int(ts * 1000) + NEWS_DELAY_MS,
                                                      headline=text.split("\n")[0][:120])
