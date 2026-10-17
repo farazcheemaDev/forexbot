@@ -41,6 +41,7 @@ NEWS_STOP, NEWS_TP = 0.25, 0.20
 NEWS_TYPES = ("adds_products", "monitoring_tag")
 CHANNEL = "binance_announcements"
 K_NDX, NDX_SYM, NDX_RSI, NDX_MAX_DAYS = 1.0, "QQQUSDT", 10.0, 10
+NDX_LATE_MS = 3 * 3_600_000      # buy only within 3h of the US close (a restart must not buy a stale signal; exits always go)
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"}
 NY = ZoneInfo("America/New_York")
 
@@ -255,6 +256,11 @@ def ndx_poll(st: dict, prices: dict, now_ms: int, rec=None, fund=None, get1h=bar
             nd["open"] = None
         return
     r = rsi2(c[-30:])
+    close_ms = int(pd.Timestamp(day + " 16:00", tz=NY).tz_convert("UTC").timestamp() * 1000)
+    if r < NDX_RSI and now_ms - close_ms > NDX_LATE_MS:
+        log(f"NDX: RSI(2) {r:.1f} at the {day} close, but {(now_ms - close_ms) / 3_600_000:.1f}h late - not bought "
+            f"(the backtest buys AT the close)")
+        return
     if r < NDX_RSI:
         usd = K_NDX * st["equity"]
         nd["open"] = dict(qty=usd / px, entry=px, t_ms=now_ms, days=0, rsi=r)

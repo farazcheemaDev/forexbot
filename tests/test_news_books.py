@@ -201,6 +201,21 @@ def test_ndx_ignores_a_calm_market_and_acts_once_per_close():
     assert st["fin"]["ndx"]["last_close_day"] == day
 
 
+def test_ndx_does_not_buy_a_stale_signal():
+    base = list(100 + np.arange(20) * 0.5)
+    closes = base + [base[-1] * 0.97, base[-1] * 0.95]
+    sub = ny_bars(closes)
+    st = account()
+    late = int(sub.t.iloc[-1]) + 3_600_000 + 4 * 3_600_000                      # 4 hours after the close (a literal:
+                                                                                  # reading NDX_LATE_MS made the test move with the rule)
+    nb.ndx_poll(st, {nb.NDX_SYM: closes[-1]}, late, fund=NOFUND, get1h=lambda s: sub)
+    assert st["fin"]["ndx"]["open"] is None and st["fin"]["ndx"]["taken"] == 0
+    st = account()
+    early = int(sub.t.iloc[-1]) + 3_600_000 + 60_000
+    nb.ndx_poll(st, {nb.NDX_SYM: closes[-1]}, early, fund=NOFUND, get1h=lambda s: sub)
+    assert st["fin"]["ndx"]["open"] is not None
+
+
 def test_ndx_max_days_exit():
     base = list(100 + np.arange(20) * 0.5)
     closes = base + [base[-1] * 0.97, base[-1] * 0.95] + [base[-1] * 0.95 * (0.995 ** k) for k in range(1, 12)]
