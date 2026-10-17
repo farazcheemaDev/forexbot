@@ -1,0 +1,43 @@
+backtest/all_books.py, 2026-10-17 00:03 UTC; 2020-02-17 .. 2026-09-13, 10 orderings (machine books); trend gains shrunk, everything else raw
+
+1. EACH BOOK ALONE (its own weight in the machine)
+   trend     CAGR   +186%  fall   60%  months up  41%
+   mn_blend  CAGR    +68%  fall   32%  months up  61%
+   carry     CAGR    +15%  fall   17%  months up  53%
+   sleeve    CAGR    +22%  fall   20%  months up  29%
+   bids      CAGR    +16%  fall    9%  months up  72%
+   daily     CAGR    +49%  fall   35%  months up  51%
+   capit2    CAGR    +25%  fall   12%  months up  27%
+   news      CAGR    +19%  fall   27%  months up  52%
+   ndx_dip   CAGR    +10%  fall    5%  months up  51%
+
+2. MONTHLY CORRELATION (months the news book exists; averaged over orderings)
+               trend mn_blen   carry  sleeve    bids   daily  capit2    news ndx_dip
+   trend       +1.00   +0.14   +0.08   -0.05   +0.38   -0.01   +0.06   +0.01   -0.07
+   mn_blend    +0.14   +1.00   +0.28   -0.12   +0.36   +0.37   -0.23   -0.19   +0.13
+   carry       +0.08   +0.28   +1.00   +0.03   +0.02   +0.22   +0.05   -0.08   +0.15
+   sleeve      -0.05   -0.12   +0.03   +1.00   -0.12   -0.26   +0.17   +0.07   -0.34
+   bids        +0.38   +0.36   +0.02   -0.12   +1.00   +0.16   -0.03   -0.16   -0.04
+   daily       -0.01   +0.37   +0.22   -0.26   +0.16   +1.00   -0.22   -0.23   +0.10
+   capit2      +0.06   -0.23   +0.05   +0.17   -0.03   -0.22   +1.00   +0.22   -0.01
+   news        +0.01   -0.19   -0.08   +0.07   -0.16   -0.23   +0.22   +1.00   -0.15
+   ndx_dip     -0.07   +0.13   +0.15   -0.34   -0.04   +0.10   -0.01   -0.15   +1.00
+
+   average month of each book in the MACHINE'S WORST 20% OF MONTHS:
+   trend -9.2%  mn_blend -2.8%  carry -1.0%  sleeve -0.6%  bids +0.6%  daily -2.2%  capit2 +0.4%  news +1.9%  ndx_dip +1.0%
+
+3. THE MACHINES ($300, 12 months)
+   machine                               half  typical     bad   worst worst mo  fall months up
+   DEPLOYED (7 books)                    tune $  3,774 $   665 $   238   -21.1%   46%       65%
+   DEPLOYED (7 books)                 holdout $  5,494 $ 2,881 $   961   -30.0%   51%       63%
+   + news (w 1)                          tune $  4,170 $   742 $   278   -20.3%   44%       65%
+   + news (w 1)                       holdout $  8,630 $ 4,075 $ 1,107   -31.6%   51%       67%
+   + news + ndx_dip x0.5                 tune $  4,303 $   779 $   293   -19.7%   43%       66%
+   + news + ndx_dip x0.5              holdout $  9,250 $ 4,357 $ 1,192   -31.4%   50%       68%
+   + news + ndx_dip x1                   tune $  4,435 $   817 $   307   -19.2%   42%       67%
+   + news + ndx_dip x1                holdout $  9,838 $ 4,652 $ 1,282   -31.3%   49%       68%
+
+REGISTERED PREDICTIONS
+  A1 trend~daily > +0.3 (-0.01); mn / carry / sleeve / news / ndx within +-0.2 of trend (+0.14, +0.08, -0.05, +0.01, -0.07) -> WRONG
+  A2 news and ndx_dip positive in the machine's worst months (+1.9% / +1.0%) -> RIGHT
+  A3 + news + ndx x0.5: months up +3 points on both halves, worst month no deeper -> WRONG

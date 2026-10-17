@@ -756,6 +756,9 @@ def poll(st: dict, venue, mode: str, caches: tuple, desk=None, prices_fn=None):
         import final_books as fb
         fb.daily_books(st, prices, rec=final_record)
         fb.capit2_poll(st, prices, int(time.time() * 1000), rec=final_record)
+        import news_books as nbk                 # the news and NASDAQ-dip books (2026-10-17)
+        nbk.news_poll(st, prices, int(time.time() * 1000), rec=final_record, fund=fb.funding_sum)
+        nbk.ndx_poll(st, prices, int(time.time() * 1000), rec=final_record, fund=fb.funding_sum)
     cp.trend_poll(st, *caches)
     if desk is not None:
         desk.watch(st)                   # a fill not yet in `hold` would be netted away
@@ -788,6 +791,8 @@ def main():
         st["peak"] = VIRTUAL_EQUITY[args.mode]
     if args.final:
         st.setdefault("fin", fb.fresh())
+        import news_books as nbk
+        nbk.ensure(st)                   # a state saved before the news / NASDAQ books existed gets their keys
     if args.report:
         report(cp.P["state"].parent)
         return

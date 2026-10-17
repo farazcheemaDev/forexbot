@@ -1,0 +1,20 @@
+18,396 symbol-days to fetch
+  1,000 / 18,396  {'ok': 594, 'missing': 397, 'cached': 9}
+  2,000 / 18,396  {'ok': 1398, 'missing': 593, 'cached': 9}
+  3,000 / 18,396  {'ok': 2343, 'missing': 639, 'cached': 18}
+  4,000 / 18,396  {'ok': 3323, 'missing': 650, 'cached': 27}
+  5,000 / 18,396  {'ok': 3990, 'missing': 983, 'cached': 27}
+  6,000 / 18,396  {'ok': 4409, 'missing': 1564, 'cached': 27}
+  7,000 / 18,396  {'ok': 4989, 'missing': 1984, 'cached': 27}
+  8,000 / 18,396  {'ok': 5442, 'missing': 2531, 'cached': 27}
+  9,000 / 18,396  {'ok': 5966, 'missing': 3007, 'cached': 27}
+  10,000 / 18,396  {'ok': 6603, 'missing': 3342, 'cached': 55}
+  11,000 / 18,396  {'ok': 7167, 'missing': 3751, 'cached': 82}
+  12,000 / 18,396  {'ok': 7818, 'missing': 4091, 'cached': 91}
+  13,000 / 18,396  {'ok': 8469, 'missing': 4429, 'cached': 102}
+  14,000 / 18,396  {'ok': 9226, 'missing': 4663, 'cached': 111}
+  15,000 / 18,396  {'ok': 9985, 'missing': 4904, 'cached': 111}
+  16,000 / 18,396  {'ok': 10709, 'missing': 5180, 'cached': 111}
+  17,000 / 18,396  {'ok': 11521, 'missing': 5368, 'cached': 111}
+  18,000 / 18,396  {'ok': 12301, 'missing': 5588, 'cached': 111}
+done: {'ok': 12603, 'missing': 5682, 'cached': 111}

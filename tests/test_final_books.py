@@ -112,17 +112,20 @@ def test_gross_gate_reductions_first_then_opens_until_the_cap():
 
 
 def test_execute_holds_the_account_under_the_gross_cap():
-    """Books that together want 14x: the dry ledger stops at GROSS_CAP (11.5x since 2026-10-16), reductions still go."""
+    """Books that together want 20x: the dry ledger stops at GROSS_CAP (14.5x since 2026-10-17), reductions still go."""
     st = account(100.0)
-    st["fin"]["daily"]["open"] = {f"C{i}USDT": dict(qty=200.0, entry=1.0, t_ms=0) for i in range(7)}
-    px = {f"C{i}USDT": 1.0 for i in range(7)}
+    st["fin"]["daily"]["open"] = {f"C{i}USDT": dict(qty=200.0, entry=1.0, t_ms=0) for i in range(10)}
+    px = {f"C{i}USDT": 1.0 for i in range(10)}
+    fit = int(fb.GROSS_CAP * 100 // 200)
+    assert fit < 10, "the test needs the books to want more than the cap"
     cb.execute(st, None, "dry", px, dry=True)
     led = st["exec"]["virtual_pos"]
-    assert sum(abs(q) for q in led.values()) <= fb.GROSS_CAP * 100.0 + 1e-9 and len(led) == int(fb.GROSS_CAP * 100 // 200)
-    st["fin"]["daily"]["open"].pop("C0USDT")                                      # a close frees room
+    assert sum(abs(q) for q in led.values()) <= fb.GROSS_CAP * 100.0 + 1e-9 and len(led) == fit
+    held = sorted(led)[0]
+    st["fin"]["daily"]["open"].pop(held)                                          # a close frees room
     cb.execute(st, None, "dry", px, dry=True)
     led = st["exec"]["virtual_pos"]
-    assert "C0USDT" not in led and sum(abs(q) for q in led.values()) == 1000.0
+    assert held not in led and len(led) == fit and sum(abs(q) for q in led.values()) == fit * 200.0
 
 
 # ------------------------------------------------------------------ the daily book
@@ -376,7 +379,8 @@ def test_enable_installs_the_blend_and_the_6_25x_trend_guard():
             fb._FETCH_ALL in [c.cell_contents for c in mp.fetch_all.__closure__]
     finally:
         mp.target, mp.fetch_all, mp.perp_universe, cp.bp.MAX_LEVERAGE = saved
-    assert fb.TREND_LEV + 1.0 + fb.K_CARRY + 1.0 + 0.25 + fb.K_DAILY + fb.K_CAPIT2 * fb.CAPIT2_LEV == fb.GROSS_CAP
+    import news_books as nbk
+    assert fb.TREND_LEV + 1.0 + fb.K_CARRY + 1.0 + 0.25 + fb.K_DAILY + fb.K_CAPIT2 * fb.CAPIT2_LEV + 2 * nbk.K_NEWS + nbk.K_NDX == fb.GROSS_CAP
 
 
 if __name__ == "__main__":

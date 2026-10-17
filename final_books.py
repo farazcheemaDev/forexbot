@@ -62,9 +62,10 @@ CAPIT2_LEV = 2.0                  # 2026-10-16 (backtest/capit2_lev.py, final_ca
 LIQ_EQ = 1 / CAPIT2_LEV - 0.0056  # the backtest's isolated liquidation: a capit2 position is closed at this loss
 SLOTS, TOP_N = 8, 40
 TREND_LEV = 6.25                  # 10 - the other books' 3.75x at their peaks (see the docstring)
-GROSS_CAP = 11.5                  # 2026-10-16, the user: "we can exceed the account cap" - the books' summed peaks
-                                  # (trend 6.25 + MN 1 + carry 0.5 + sleeve 1 + bids 0.25 + daily 0.5 + capit2 2), as
-                                  # final_capit2_lev.py backtested. DRY / paper only; reconsider before any real money
+GROSS_CAP = 14.5                  # the books' summed peaks: trend 6.25 + MN 1 + carry 0.5 + sleeve 1 + bids 0.25 + daily
+                                  # 0.5 + capit2 2 (= 11.5, 2026-10-16, the user: "we can exceed the account cap") + news
+                                  # 2 (10 trades x 2 legs x 1/10) + ndx 1 (2026-10-17, news_books.py). DRY / paper only;
+                                  # reconsider before any real money (CLAUDE.md s7: ~10x is where an 8% move closes it)
 EQUITY = 300.0                    # the paper account (dry / demo); final_machine.py's figures are on $300
 CARRY_FRAC, CARRY_WIN_D = 0.20, 7
 BB_N, BB_K, MEAN_N, CAP_D = 30, 1.5, 20, 31
@@ -237,6 +238,9 @@ def targets(st: dict) -> dict:
     for b in ("daily", "capit2"):
         for s, p in fin[b]["open"].items():
             out[s] = out.get(s, 0.0) + p["qty"]
+    import news_books as nbk                       # the news and NASDAQ-dip books (2026-10-17)
+    for s, q in nbk.targets(st).items():
+        out[s] = out.get(s, 0.0) + q
     return out
 
 
@@ -511,3 +515,5 @@ def status(st: dict):
     print(f"    daily   {len(db['open'])} open ({', '.join(s[:-4] for s in db['open'])}), {db['taken']} taken")
     print(f"    capit2  {len(cb['open'])} open, {len(cb['pending'])} pending, limits filled {cb['filled']} of {cb['placed']}"
           f" ({cb['cancelled']} cancelled)")
+    import news_books as nbk
+    nbk.status(st)

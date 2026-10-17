@@ -1,0 +1,37 @@
+news/combo.py, 2026-10-16 22:42 UTC; news book = adds_products, monitoring_tag, 72h, stop 25%; machine = the deployed final machine, 10 orderings; $300; tune < 2024-08-29 <= holdout
+
+  news book alone at 12bp a leg: 259 trades, CAGR +19%, fall 27%
+  news book alone at 50bp a leg: 259 trades, CAGR +14%, fall 30%
+  monthly correlation news vs machine (ordering 0, months the news book exists): -0.05
+
+      k  w |  TUNE typ worst mo  fall |  HOLD typ worst mo  fall |   6y typ
+   0.50  0 | $  1,278   -10.8%   26% | $  1,704   -16.0%   29% | $ 1,448
+   0.50  1 | $  1,451   -10.5%   24% | $  2,329   -18.1%   31% | $ 1,714
+   0.50  2 | $  1,613   -10.8%   26% | $  2,852   -21.7%   41% | $ 1,940
+   0.50  3 | $  1,742   -11.8%   28% | $  3,337   -36.6%   57% | $ 2,217
+   0.50  4 | $  1,887   -13.0%   31% | $  3,663   -51.9%   71% | $ 2,379
+   0.65  0 | $  1,776   -14.0%   33% | $  2,553   -20.4%   36% | $ 2,037
+   0.65  1 | $  2,023   -13.4%   31% | $  3,532   -22.3%   37% | $ 2,539
+   0.65  2 | $  2,281   -13.6%   31% | $  4,368   -24.6%   44% | $ 2,791
+   0.65  3 | $  2,622   -14.3%   33% | $  5,142   -32.7%   57% | $ 3,159
+   0.65  4 | $  2,802   -15.4%   35% | $  5,375   -48.5%   70% | $ 3,468
+   0.80  0 | $  2,476   -17.0%   39% | $  3,665   -24.6%   43% | $ 2,789
+   0.80  1 | $  2,715   -16.4%   36% | $  5,293   -26.4%   43% | $ 3,485
+   0.80  2 | $  3,047   -16.5%   37% | $  6,468   -28.5%   48% | $ 4,070
+   0.80  3 | $  3,543   -17.0%   38% | $  7,290   -32.6%   58% | $ 4,472
+   0.80  4 | $  4,080   -17.8%   40% | $  8,101   -45.2%   70% | $ 4,876
+   1.00  0 | $  3,774   -21.1%   46% | $  5,494   -30.0%   51% | $ 4,098
+   1.00  1 | $  4,170   -20.3%   44% | $  8,630   -31.6%   51% | $ 5,052
+   1.00  2 | $  4,498   -20.3%   44% | $ 10,479   -33.5%   54% | $ 5,944
+   1.00  3 | $  5,005   -20.6%   45% | $ 11,769   -35.7%   61% | $ 6,844
+   1.00  4 | $  5,711   -21.2%   46% | $ 12,847   -43.0%   71% | $ 7,231
+
+  FRONTIER - chosen on the TUNE half, judged on the HOLDOUT:
+    fall <= 30%: machine x0.5, news x3 -> tune $1,742 (fall 28%, worst month -12%) | HOLDOUT $3,337 (fall 57%, worst month -37%)
+    fall <= 50%: machine x1.0, news x4 -> tune $5,711 (fall 46%, worst month -21%) | HOLDOUT $12,847 (fall 71%, worst month -43%)
+    fall <= 70%: machine x1.0, news x4 -> tune $5,711 (fall 46%, worst month -21%) | HOLDOUT $12,847 (fall 71%, worst month -43%)
+
+REGISTERED PREDICTIONS
+  C1 correlation within -0.2..+0.2: -0.05 -> RIGHT
+  C2 w 2 lifts the typical year > 5% on both halves, worst month < 2 points deeper: tune $3,774 -> $4,498, holdout $5,494 -> $10,479; worst month -21.1 -> -20.3 / -30.0 -> -33.5 -> WRONG
+  C3 at 50bp a leg the news book makes money: CAGR +14% -> RIGHT

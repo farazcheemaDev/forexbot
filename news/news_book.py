@@ -20,17 +20,17 @@ REGISTERED BEFORE THE RUN (2026-10-16)
     N2 launchpool + seed_tag, 7 days, no stop: mean net >= +500bp, but the worst trade <= -50% (squeezes).
     N3 the combined book (72h, stop 50%) is positive on both halves, with a fall > 25% at 1/10 a trade.
 
-RESULT (2026-10-16, logs/news_book.txt; FULL history, 180k messages, 11 channels) - THE NEWS CARRIES A REAL EDGE.
-    Every trade has a CONTROL: the identical short-coin / long-BTC trade on the same coin at 4 ordinary hours within
-    +-60 days (shorting an altcoin against BTC earns its drift without any news). EDGE = news trade - control.
-    TUNE-CHOSEN (adds_products, monitoring_tag, list_spot, new_pairs - picked from the impact table's tune half):
-      per trade edge +240..+544bp at every hold / stop, positive on both halves (72h stop 25%: +296 / +293bp;
-      7d stop 25%: +421 / +612bp). Books at 1/10 a trade: news +12..+27%/yr (fall 17-27%) vs control -4..+6%/yr.
-    monitoring_tag alone: edge +142..+376bp, both halves. adds_products: +154..+588bp, both halves.
-    ALL (registered set, incl. launchpool / delist / list_futures): edge +97..+330bp, tune half weaker; its 7-day
-    no-stop book is wiped out by one squeeze (-1752% on one trade, as on the partial data) - the stop is mandatory.
-    Predictions: N1 right (+532 / +119 - the holdout weaker); N2 right (+633 / +544bp, worst -103% / -164%); N3 right.
-    Partial-data CAGRs (+40-50%) did not survive the full history: +24-27% is the number to quote.
+RESULT (2026-10-17, logs/news_book.txt; FULL history) - CORRECTED. The 2026-10-16 RESULT here was wrong: the event
+    filter read TYPES only, so the TUNE-CHOSEN group silently lost list_spot and new_pairs and measured adds_products +
+    monitoring_tag alone (news/combo.py found it). Per type, edge = news trade - the same trade at ordinary times:
+      adds_products   72h +341..+588bp, both halves positive (tune +272..+339 / holdout +398..+795) - STRONG
+      monitoring_tag  72h +173..+257bp, both halves positive (n ~68) - STRONG, small sample
+      list_spot       72h +40..+90bp, 7d +143..+159bp - positive, about the cost of thin coins
+      new_pairs       sign flips with hold / stop - NOISE
+    TUNE-CHOSEN (all four, as registered): books +1..+16%/yr with falls 46-68% - WEAK; list_spot / new_pairs fill the
+    slots. Narrowed to adds_products + monitoring_tag (chosen AFTER the per-type table - a candidate, not a pass):
+    news/combo.py --narrow, +19%/yr, fall 27%; +14% at 50bp a leg.
+    Earlier: N1 right (+532 / +119); N2 right (launchpool / seed_tag 7d +633 / +544bp, worst -103% / -164%); N3 right.
 
     python -m news.news_book
 """
@@ -127,7 +127,9 @@ def book(trades, slots=10, frac=0.10):
 def main():
     Eall = pd.read_parquet(EV)
     cut = Eall.t.sort_values().iloc[int(len(Eall) * 0.6)]
-    E = Eall[Eall.etype.isin(TYPES) & (Eall.coins != "")]
+    # TYPES + TUNE_CHOSEN: until 2026-10-17 this read TYPES only, so the TUNE-CHOSEN group silently lost list_spot and
+    # new_pairs (not in TYPES) and measured adds_products + monitoring_tag alone - found by news/combo.py
+    E = Eall[Eall.etype.isin(TYPES + TUNE_CHOSEN) & (Eall.coins != "")]
     lines = [f"news/news_book.py, {pd.Timestamp.now(tz='UTC'):%Y-%m-%d %H:%M} UTC; {len(E):,} negative coin events; short coin / long "
              f"BTC at the next hour's open; 12bp a leg + funding; tune/holdout cut {cut:%Y-%m-%d}", "",
              f"  {'type':<15}{'hold':>5}{'stop':>6}{'n':>5}{'mean':>8}{'won':>6}{'worst':>8}{'squeeze p90':>12}{'tune':>8}{'hold':>8}"]
@@ -135,7 +137,7 @@ def main():
     R, allt, ctlt = {}, {}, {}
     rng = np.random.default_rng(17)
     day = 86400 * 10**9
-    groups = [(et, (et,)) for et in TYPES] + [("ALL (registered)", TYPES), ("TUNE-CHOSEN", TUNE_CHOSEN)]
+    groups = [(et, (et,)) for et in TYPES + ("list_spot", "new_pairs")] + [("ALL (registered)", TYPES), ("TUNE-CHOSEN", TUNE_CHOSEN)]
     for et, kinds in groups:
         g = E[E.etype.isin(kinds)]
         for hk, hh in HOLDS.items():

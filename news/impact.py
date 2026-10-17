@@ -127,7 +127,7 @@ def observe(E):
         t0 = pd.Timestamp(e.t)
         h0 = t0.floor("h").value
         entry = (t0.floor("h") + pd.Timedelta(hours=1)).value
-        coins = [c for c in e.coins.split(",") if c] or (["BTCUSDT"] if e.etype in MARKET else [])
+        coins = [c for c in e.coins.split(",") if c] or (["BTCUSDT"] if e.etype.split(":")[0] in MARKET else [])
         for c in coins:
             b = bars(c)
             if b is None or px_at(b, entry) is None:
@@ -175,8 +175,25 @@ def table(O):
     return lines, res, ev
 
 
+TONE = ROOT / "strategy_analysis" / "data" / "news" / "tone.parquet"
+
+
+def with_tone(E):
+    """--tone: each market-wide / media type split by its headline's FinBERT tone (news/tone.py): 'etf:pos' (tone >= 0.5),
+    'etf:neg' (<= -0.5), 'etf:neu'. Exchange event types stay whole - their direction is in the event itself."""
+    T = pd.read_parquet(TONE)
+    E = E.join(T, how="left")                      # events not scored yet keep their plain type
+    b = np.where(E.tone >= 0.5, "pos", np.where(E.tone <= -0.5, "neg", "neu"))
+    E["etype"] = np.where(E.etype.isin(MARKET) & E.tone.notna(), E.etype + ":" + b, E.etype)
+    return E
+
+
 def main():
+    global LOG
     E = pd.read_parquet(EV)
+    if "--tone" in sys.argv:
+        E = with_tone(E)
+        LOG = ROOT / "logs" / "news_impact_tone.txt"
     O = observe(E)
     O.to_parquet(OUT)
     lines = [f"news/impact.py, {pd.Timestamp.now(tz='UTC'):%Y-%m-%d %H:%M} UTC; {len(E):,} events, {len(O):,} coin observations "

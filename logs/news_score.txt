@@ -1,0 +1,18 @@
+news/score.py, 2026-10-16 23:40 UTC; cell {'entry': 'I15', 'h': '72h', 'stop': 0.25, 'tp': 0.2}; 102 tune / 211 holdout trades; mean net tune +316bp, holdout +267bp
+
+  ridge weights (standardised): etype -70bp, tone +0bp, n_src -236bp, views -178bp, to_entry -61bp, btc7 -52bp, vol +104bp, age +4bp
+  single-feature rank correlation with net, tune / holdout:
+    etype      +0.02   +0.17
+    tone        +nan    +nan
+    n_src      -0.03   -0.12
+    views      -0.10   +0.13
+    to_entry   -0.08   +0.09
+    btc7       -0.05   +0.04
+    vol        +0.20   +0.24
+    age        -0.15   -0.13
+  ridge   score, HOLDOUT net by tercile (low / mid / high): +171 / +1309 / -90 bp, rank corr +0.09
+  simple  score, HOLDOUT net by tercile (low / mid / high): +192 / +364 / +297 bp, rank corr +0.12
+
+REGISTERED PREDICTIONS
+  S2 neither score separates the holdout -> RIGHT
+  PASS: none - size every news trade the same

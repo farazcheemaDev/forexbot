@@ -1,0 +1,35 @@
+news/entry.py, 2026-10-16 23:39 UTC; 255 events (adds_products, monitoring_tag), 317 coin-events with 1m bars; cut 2024-02-14
+
+  TOP 12 cells by TUNE mean (bp), with their HOLDOUT:
+    entry   hold  stop   tp  n tune    tune  n hold  holdout   won   worst
+    POP6      7d    0%   0%      32   +587b     117   +1106b   70%   -134%
+    POP6      7d    0%  20%      32   +456b     117    +540b   75%   -134%
+    POP3      7d    0%   0%      44   +410b     146    +825b   72%   -214%
+    POP6      7d    0%  10%      32   +366b     117    +220b   85%   -134%
+    POP6     72h    0%   0%      33   +350b     119    +609b   68%   -164%
+    POP6     72h    0%  20%      33   +321b     119    +278b   71%   -164%
+    I1       72h    0%  20%     102   +321b     211    +455b   73%   -180%
+    I5       72h    0%  20%     102   +317b     211    +441b   73%   -180%
+    I15      72h   25%  20%     102   +316b     211    +267b   67%    -36%
+    I15      72h    0%  20%     102   +314b     211    +438b   71%   -180%
+    I1        7d    0%  20%     100   +299b     209    +571b   78%   -223%
+    I1       72h   25%  20%     102   +295b     211    +244b   67%    -36%
+  BY ENTRY (best tune cell of each entry):
+    I1      best tune   +321b (72h, stop 0%, tp 20%) -> holdout   +455b  (n 102 / 211)
+    I5      best tune   +317b (72h, stop 0%, tp 20%) -> holdout   +441b  (n 102 / 211)
+    I15     best tune   +316b (72h, stop 25%, tp 20%) -> holdout   +267b  (n 102 / 211)
+    I60     best tune   +265b (72h, stop 25%, tp 0%) -> holdout   +391b  (n 102 / 211)
+    I240    best tune   +282b (72h, stop 0%, tp 0%) -> holdout   +619b  (n 102 / 211)
+    POP3    best tune   +410b (7d, stop 0%, tp 0%) -> holdout   +825b  (n 44 / 146)
+    POP6    best tune   +587b (7d, stop 0%, tp 0%) -> holdout  +1106b  (n 32 / 117)
+
+  SCORE on the chosen cell (POP6, 7d, stop 0%, tp 0%): ridge weights
+    etype -0.0064, tone +0.0000, n_src -0.0351, views -0.0326, to_entry -0.0935, btc7 +0.0089, vol -0.0202, age +0.0039
+    HOLDOUT net by score tercile (low / mid / high): +730 / +2055 / +273 bp; rank corr -0.11 (n 117)
+
+REGISTERED PREDICTIONS
+  E1 the tune-best entry waits (I15+ or POP): POP6 -> RIGHT
+  E2 a stop in the tune-best cell: 0% -> WRONG
+  E3 holdout positive but below tune: +1106 vs +587bp -> WRONG
+  S1 top tercile beats bottom by >= 200bp, rank corr > 0 -> WRONG
+  PASS (score usable): NO

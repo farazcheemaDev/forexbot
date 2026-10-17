@@ -607,6 +607,32 @@ the box was patched before the repo was public.
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
 
+### 2026-10-17 (last) - all books together (`backtest/all_books.py`); general news is dead even split by tone
+
+- Correlations between all 9 books are low (max +0.38). In the machine's worst months only the trend book really hurts
+  (-9.2%); news (+1.9%) and the NASDAQ dip-buy (+1.0%) pay then. The full set (7 books + news + ndx_dip x1): $300 typical
+  year $4,435 / $9,838 (tune / holdout) vs $3,774 / $5,494 deployed, fall 42 / 49% vs 46 / 51%, months up 67 / 68%.
+- `news/tone.py` + `news/impact.py --tone` + `news/market_minutes.py`: general news (ETF, macro, regulation, hacks...)
+  split by FinBERT tone - good and bad barely differ; BTC does not move even in the headline's minute (+-2bp, = random);
+  nothing at 1 min .. 7 days. ~20 of ~340 type x tone x horizon cells pass t >= 2 - what chance gives. Dead.
+
+### 2026-10-17 (later) - the news trade's entry, exit and score on 1-minute bars (`news/entry.py`, `news/score.py`)
+
+- 1m perp bars around every adds_products / monitoring_tag event (`news/min1_fetch.py`, data.binance.vision daily archive).
+- Entry: shorting a +6% pump with NO stop is best (+587 / +1,106bp) but needs no stop; with a stop it dies. **The trade to
+  use: enter 15 min after the headline, short coin / long BTC, hold <= 72h, stop +25%, take-profit -20%: +316 / +267bp a
+  trade, 67% won, worst -36%** (313 trades). Score: none survives the holdout; liquidity (24h volume) is the one
+  consistent lead. Tone of all 150k headlines is being scored (`news/tone.py`, FinBERT) for the tone split of general news.
+
+### 2026-10-17 - the news book corrected, and connected to the machine (`news/combo.py`)
+
+- **Correction:** 2026-10-16's "news book +12..+27%/yr" measured only adds_products + monitoring_tag (a filter bug in
+  `news_book.py` dropped list_spot / new_pairs from the TUNE-CHOSEN group). All four registered types: +7%/yr, fall 58%,
+  -9% at 50bp a leg - weak. Per type: adds_products and monitoring_tag strong on both halves; list_spot small; new_pairs noise.
+- **Narrowed (adds_products + monitoring_tag, chosen after looking - a CANDIDATE):** +19%/yr, fall 27%, +14% at 50bp a leg,
+  correlation -0.05 with the machine. Added at w 1 (1/10 of equity a trade): typical year +10% tune / +57% holdout, worst
+  month -30 -> -32%. Heavier weights blow the holdout fall out to 57-71%. Forward paper decides; not in any bot.
+
 ### 2026-10-16 (late) - the sentiment engine: news carries a real coin-level edge (docs/25, docs/26)
 
 - `news/` package: tg_history.py / tg_fast.py (180k messages, 11 public crypto Telegram channels via the VM, 2018-26),
