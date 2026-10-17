@@ -40,8 +40,9 @@ ROOT = Path(__file__).resolve().parent
 LOGS = ROOT / "logs"
 CURVES = LOGS / "dashboard"
 ACCOUNTS = [("main", LOGS / "combo_bot_dry_final"), ("fresh", LOGS / "combo_bot_dry_final_fresh")]
-SERVICES = ["combo-bot-final", "combo-bot-fresh", "combo-paper", "blend-paper", "wick-paper", "combo-bot-demo",
-            "pair-paper"]
+SERVICES = ["combo-bot-final", "combo-bot-fresh", "combo-paper", "blend-paper", "wick-paper", "pair-paper"]
+# combo-bot-demo was stopped 2026-10-17 at the user's word: its order-path test was done (191 orders over 16.9 days, all
+# filled and priced, 0 failures; logs/combo_bot_demo/final_report_20261017.txt on the VM)
 START_EQUITY = 300.0
 GROSS_CAP = 14.5
 META_KEY, ACCT_KEY = "forexbot:meta", "forexbot:acct:"

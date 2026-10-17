@@ -626,7 +626,12 @@ the detail lives in the numbered docs.*
   test_combo_bot.py) runs as `combo-bot-fresh.service` beside combo-bot-final. `dashboard_push.py` now sends each account's
   LIVE equity (booked + open P&L since the bot last booked it), Binance-style positions, trade history (trend P&L
   estimated from R - its log has no dollars), P&L by book, curves (own files logs/dashboard/eq_<id>_{m,h}.csv), gzip'd
-  to ~6 KB. VM memory: ~120 MB free before the second bot - watch swap; combo-bot-demo (143 MB) is the user's to stop.
+  to ~6 KB. VM memory: ~120 MB free before the second bot - watch swap.
+- **combo-bot-demo STOPPED and disabled 2026-10-17 01:25 UTC (the user: "if it's not significant then remove")**: the
+  order-path test was done - 191 orders over 16.9 days, all filled and priced, 0 order / stop failures, median slippage
+  +1.3bp, 13 flips; VERDICT stayed NOT YET only for 2 Bitget network blips. Final report on the VM in
+  logs/combo_bot_demo/final_report_20261017.txt. Its DEMO-account positions and disaster stops were left as they were
+  (demo money). Memory free went 110 -> 258 MB.
 
 ### 2026-10-17 (last) - all books together (`backtest/all_books.py`); general news is dead even split by tone
 
