@@ -65,7 +65,7 @@ function Kpis({ a }) {
   return (
     <div className="kpis">
       <div className="kpi hero">
-        <div className="l">Equity (live)</div>
+        <div className="l">Equity: what you would have if everything closed now</div>
         <div className="v">{usd(a.equity)}</div>
         <div className="s">booked {usd(a.booked)} · open <span className={tone(a.unrealized)}>{usd(a.unrealized, { sign: true })}</span></div>
       </div>
@@ -182,13 +182,15 @@ function Positions({ a, local }) {
       <Chips books={books} value={book} set={setBook} />
       <div className="summary">
         <span>Open P&amp;L <b className={tone(sum)}>{usd(sum, { sign: true })}</b></span>
-        <span>Size <b>{usd(rows.reduce((s, r) => s + (r.size || 0), 0), { dp: 0 })}</b></span>
+        <span title="The value of the coins these positions control, most of it with leverage - not money in the account">
+          Position size <b>{usd(rows.reduce((s, r) => s + (r.size || 0), 0), { dp: 0 })}</b> (with leverage, not cash)</span>
         <span><b>{rows.length}</b> positions</span>
+        {book === "all" ? <span>If all closed now: <b>≈ {usd(a.equity - rows.reduce((s, r) => s + (r.size || 0), 0) * 0.0006)}</b></span> : null}
       </div>
       <div className="scroll">
         <table>
           <thead><tr>
-            <th>Symbol</th><th>Side</th><th className="r">Size</th><th className="r">Entry price</th>
+            <th>Symbol</th><th>Side</th><th className="r" title="value of the position, with leverage">Size</th><th className="r">Entry price</th>
             <th className="r">Mark price</th><th className="r">P&amp;L (ROE %)</th><th>Opened</th>
           </tr></thead>
           <tbody>
