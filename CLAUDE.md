@@ -607,6 +607,17 @@ the box was patched before the repo was public.
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
 
+### 2026-10-17 (deploy) - the news book and the NASDAQ-dip book run in the final machine (paper, VM)
+
+- **DEPLOYED 2026-10-17 00:16 / 00:19 UTC (commits 6158110, 567bbcb, the user's OK)**: `news_books.py` + final_books /
+  combo_bot wiring; only combo-bot-final restarted; blend_paper / combo_paper / wick_paper verified unchanged; state
+  backed up (logs/backup_20261017-*); tests on the VM 12 + 16 + 25 pass. GROSS_CAP 14.5x (paper only).
+- First polls: NEWS watching binance_announcements from message 9062 (the live page parses; ~1 tradable notice a week).
+  NDX bought QQQUSDT at 710.40 on the 2026-10-16 signal (RSI(2) 0.7 - QQQ 752 -> 711 in a week) - 4h after the close,
+  before the 3h late guard existed (567bbcb); the position stands.
+- Status: `./.venv/bin/python combo_bot.py --mode dry --final --status` (lines "news" / "ndx"). Next: the dashboard on
+  Vercel (docs/24, the user chose Vercel), then the scorecard / proposals loop.
+
 ### 2026-10-17 (last) - all books together (`backtest/all_books.py`); general news is dead even split by tone
 
 - Correlations between all 9 books are low (max +0.38). In the machine's worst months only the trend book really hurts
