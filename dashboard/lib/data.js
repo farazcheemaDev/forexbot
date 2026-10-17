@@ -1,6 +1,8 @@
-// Reads the snapshot the VM pushes (dashboard_push.py). On Vercel: Upstash REST with a READ-ONLY token. Locally:
-// SNAPSHOT_FILE=path/to/snapshot.json for a test run without any account.
+// Reads what the VM pushes (dashboard_push.py): forexbot:meta + forexbot:acct:<id>, each "gz:" + base64(gzip(json)).
+// On Vercel: Upstash REST with a READ-ONLY token, one MGET per page load. Locally: SNAPSHOT_FILE=path/to/print.json
+// (the output of `python dashboard_push.py --print`) for a test run without any account.
 import { readFile } from "fs/promises";
+import { gunzipSync } from "zlib";
 
 // Forgiving about how the values were pasted into Vercel: spaces and surrounding quotes are dropped.
 const env = (k) => (process.env[k] || "").trim().replace(/^["']+|["']+$/g, "");
@@ -17,17 +19,17 @@ async function upstash(cmd) {
   return (await r.json()).result;
 }
 
-export async function getSnapshot() {
-  if (process.env.SNAPSHOT_FILE) return JSON.parse(await readFile(process.env.SNAPSHOT_FILE, "utf8"));
-  const raw = await upstash(["get", "forexbot:snapshot"]);
-  return raw ? JSON.parse(raw) : null;
+function unpack(raw) {
+  if (!raw) return null;
+  if (raw.startsWith("gz:")) return JSON.parse(gunzipSync(Buffer.from(raw.slice(3), "base64")).toString("utf8"));
+  return JSON.parse(raw);
 }
 
-export async function getEquitySeries() {
-  if (process.env.SNAPSHOT_FILE) return [];
-  const rows = (await upstash(["lrange", "forexbot:eq", "0", "2879"])) || [];
-  return rows
-    .map((s) => s.split(",").map(Number))
-    .filter((p) => p.length === 2 && Number.isFinite(p[0]) && Number.isFinite(p[1]))
-    .reverse();
+export async function getData(acct) {
+  if (process.env.SNAPSHOT_FILE) {
+    const d = JSON.parse(await readFile(process.env.SNAPSHOT_FILE, "utf8"));
+    return { meta: d.meta, acct: d.accounts?.[acct] || null };
+  }
+  const [m, a] = (await upstash(["mget", "forexbot:meta", `forexbot:acct:${acct}`])) || [];
+  return { meta: unpack(m), acct: unpack(a) };
 }

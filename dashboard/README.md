@@ -7,6 +7,12 @@ the bot reads, orders, closed trades, the other paper books and the VM's health.
 VM bots (unchanged) -> dashboard_push.py every minute (read-only) -> Upstash Redis -> this Next.js app on Vercel -> you
 ```
 
+Two paper accounts, switched at the top of the page (`?acct=main` / `?acct=fresh`): the main one ($300 from
+2026-10-09, `combo-bot-final`) and a fresh $300 from 2026-10-17 on the same code (`combo-bot-fresh`, `--account fresh`).
+Each shows live equity (booked + open), the equity curve, daily P&L, P&L by strategy, exposure, open positions with
+entry / mark / P&L, the trade history and the news feed. Keys: `forexbot:meta` and `forexbot:acct:<id>`, gzip+base64
+(`gz:` prefix) - about 6 KB an account. Charts: TradingView lightweight-charts 4.2.3.
+
 ## Setup (you do the account steps; no key ever goes through chat or into the repo)
 
 1. **Upstash** (free): create a Redis database at upstash.com. From its page copy the **REST URL**, the **REST token**

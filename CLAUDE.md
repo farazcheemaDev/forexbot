@@ -621,6 +621,12 @@ the detail lives in the numbered docs.*
   `forexbot-dash.timer` pushes `dashboard_push.py`'s snapshot to Upstash every minute (first push verified by read-back).
   combo-bot-final restarted once at 00:47 for the news headline list (backup logs/backup_20261017-004742). The Vercel
   app (`dashboard/`, read-only token) is the user's step. Upstash free plan: ~1.2 GB/month feed + ~90 KB per page refresh.
+- **Dashboard v2 + a FRESH $300 account (2026-10-17, the user: "a new $300 fresh started from today on the newest
+  version")**: `combo_bot.py --account fresh` (dry only, own state in logs/combo_bot_dry_final_fresh/, test in
+  test_combo_bot.py) runs as `combo-bot-fresh.service` beside combo-bot-final. `dashboard_push.py` now sends each account's
+  LIVE equity (booked + open P&L since the bot last booked it), Binance-style positions, trade history (trend P&L
+  estimated from R - its log has no dollars), P&L by book, curves (own files logs/dashboard/eq_<id>_{m,h}.csv), gzip'd
+  to ~6 KB. VM memory: ~120 MB free before the second bot - watch swap; combo-bot-demo (143 MB) is the user's to stop.
 
 ### 2026-10-17 (last) - all books together (`backtest/all_books.py`); general news is dead even split by tone
 

@@ -447,6 +447,18 @@ def test_mn_exit_fires_only_on_shorts_and_only_past_the_level():
     assert "XRPUSDT" not in st["mn"]["weights"]
     assert abs(st["cum"]["mn"] - 100.0 * -0.1 * (3.0 / 2.8 - 1)) < 1e-9    # P&L only since the last mark
 
+def test_a_second_paper_account_gets_its_own_state_dir_and_never_a_real_one():
+    main = cb.state_dir("dry", True)
+    fresh = cb.state_dir("dry", True, "fresh")
+    assert main.name == "combo_bot_dry_final" and fresh.name == "combo_bot_dry_final_fresh"
+    assert fresh != main and fresh.parent == main.parent
+    for bad in (("demo", True, "fresh"), ("live", True, "fresh"), ("dry", True, "../x"), ("dry", True, "Fresh")):
+        try:
+            cb.state_dir(*bad)
+        except SystemExit:
+            continue
+        raise AssertionError(f"state_dir{bad} should refuse")
+
 
 if __name__ == "__main__":
     tests = [v for k, v in dict(globals()).items() if k.startswith("test_")]

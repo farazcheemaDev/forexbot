@@ -765,6 +765,18 @@ def poll(st: dict, venue, mode: str, caches: tuple, desk=None, prices_fn=None):
     execute(st, venue, mode, (prices_fn or binance_prices)(), dry=(mode == "dry"))
 
 
+def state_dir(mode: str, final: bool, account: str = "") -> Path:
+    """logs/combo_bot_<mode>[_final][_<account>]. --account runs a SEPARATE paper account beside the main one (the
+    user, 2026-10-17: "a new $300 fresh started from today on the newest version") - its own state, logs and lock,
+    so it can never write into the main record. DRY only: a second process on a real account would double every order."""
+    if account:
+        if mode != "dry":
+            raise SystemExit("--account is for --mode dry only (one account, one bot)")
+        if not account.isalnum() or not account.islower():
+            raise SystemExit("--account must be lowercase letters / digits, e.g. --account fresh")
+    return ROOT / "logs" / f"combo_bot_{mode}{'_final' if final else ''}{'_' + account if account else ''}"
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--mode", choices=["demo", "dry", "live"], required=True)
@@ -778,8 +790,9 @@ def main():
     ap.add_argument("--final", action="store_true",
                     help="THE FINAL MACHINE (final_books.py): + MN blend, carry, daily book, capit2, 10x account cap; "
                          "its own state in logs/combo_bot_<mode>_final")
+    ap.add_argument("--account", default="", help="a separate DRY paper account (own state, logs/combo_bot_dry_final_<name>)")
     args = ap.parse_args()
-    cp.set_dir(ROOT / "logs" / f"combo_bot_{args.mode}{'_final' if args.final else ''}")
+    cp.set_dir(state_dir(args.mode, args.final, args.account))
     if args.final:
         import final_books as fb
         fb.enable(cp)                    # after set_dir, which sets the trend guard to 9x: this lowers it to 6.25x

@@ -1,0 +1,25 @@
+[Unit]
+Description=THE FINAL MACHINE, FRESH paper account from 2026-10-17 - combo_bot.py --mode dry --final --account fresh ($300 virtual, NO orders, no keys)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__USER__
+WorkingDirectory=__APP_DIR__
+# The same code as combo-bot-final, a SEPARATE $300 record started on 2026-10-17 (the user: "a new $300 fresh started
+# from today on the newest version"). Its own state in logs/combo_bot_dry_final_fresh/ - it never touches the main
+# record. DRY: public data only, no orders, no keys (guard_one_bot ignores --mode dry).
+ExecStart=__APP_DIR__/.venv/bin/python -u combo_bot.py --mode dry --final --account fresh
+Restart=always
+RestartSec=120
+StandardOutput=journal
+StandardError=journal
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+ReadWritePaths=__APP_DIR__/logs
+
+[Install]
+WantedBy=multi-user.target
