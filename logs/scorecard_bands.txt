@@ -1,0 +1,59 @@
+backtest/scorecard_bands.py, 2026-10-18 00:53 UTC; 2020-02-17 .. 2026-09-13; news from 2021-11-27
+wrote dashboard_bands.json (81 KB)
+
+MEDIAN / 5th / 25th / 75th / 95th percentile of a stretch, % of the account; idle = share with no P&L
+  1 days
+    trend    median   -0.11   5%   -1.91   25%   -0.50   75%   +0.00   95%   +1.42   idle   18%
+    mn       median   +0.00   5%   -0.97   25%   +0.00   75%   +0.00   95%   +2.17   idle   86%
+    carry    median   +0.00   5%   -0.36   25%   +0.00   75%   +0.00   95%   +0.70   idle   86%
+    sleeve   median   +0.00   5%   -0.90   25%   +0.00   75%   +0.00   95%   +1.36   idle   73%
+    daily    median   +0.00   5%   -2.36   25%   -0.50   75%   +0.68   95%   +2.80   idle   14%
+    capit2   median   +0.00   5%   +0.00   25%   +0.00   75%   +0.00   95%   +0.00   idle   98%
+    news     median   +0.00   5%   +0.00   25%   +0.00   75%   +0.00   95%   +0.91   idle   90%
+    ndx      median   +0.00   5%   +0.00   25%   +0.00   75%   +0.00   95%   +0.00   idle   97%
+    ACCOUNT  median   +0.00   5%   -4.74   25%   -1.21   75%   +1.51   95%   +7.86   idle    1%
+  7 days
+    trend    median   -1.06   5%   -9.54   25%   -3.22   75%   +0.39   95%  +24.61   idle    2%
+    mn       median   +0.41   5%   -7.46   25%   -2.21   75%   +3.57   95%  +12.06   idle    2%
+    carry    median   +0.15   5%   -2.46   25%   -0.78   75%   +1.12   95%   +3.42   idle    2%
+    sleeve   median   +0.00   5%   -2.02   25%   +0.00   75%   +0.00   95%   +5.36   idle   68%
+    daily    median   +0.00   5%   -5.32   25%   -1.67   75%   +2.62   95%   +9.77   idle    7%
+    capit2   median   +0.00   5%   +0.00   25%   +0.00   75%   +0.00   95%   +3.72   idle   91%
+    news     median   +0.00   5%   -3.34   25%   +0.00   75%   +0.54   95%   +4.31   idle   51%
+    ndx      median   +0.00   5%   -0.22   25%   +0.00   75%   +0.00   95%   +1.95   idle   78%
+    ACCOUNT  median   +1.14   5%  -12.85   25%   -4.14   75%   +9.44   95%  +38.30   idle    0%
+  30 days
+    trend    median   -2.70   5%  -21.61   25%   -9.64   75%   +9.83   95% +179.23   idle    0%
+    mn       median   +2.40   5%  -12.85   25%   -3.80   75%  +12.28   95%  +35.10   idle    1%
+    carry    median   +0.61   5%   -5.43   25%   -1.46   75%   +3.50   95%  +13.46   idle    1%
+    sleeve   median   +0.00   5%   -4.27   25%   +0.00   75%   +0.37   95%  +16.16   idle   56%
+    daily    median   +0.06   5%   -9.86   25%   -4.38   75%   +9.87   95%  +29.22   idle    1%
+    capit2   median   +0.00   5%   +0.00   25%   +0.00   75%   +1.53   95%  +13.58   idle   69%
+    news     median   +0.23   5%   -7.88   25%   -0.70   75%   +2.66   95%  +17.15   idle   13%
+    ndx      median   +0.42   5%   -2.46   25%   +0.00   75%   +1.93   95%   +4.88   idle   33%
+    ACCOUNT  median   +9.72   5%  -21.33   25%   -4.78   75%  +40.95   95% +204.83   idle    0%
+  90 days
+    trend    median   -0.62   5%  -32.92   25%  -16.26   75% +109.66   95% +486.38   idle    0%
+    mn       median  +11.71   5%  -18.58   25%   -1.74   75%  +33.74   95% +152.21   idle    0%
+    carry    median   +2.59   5%  -11.69   25%   -2.24   75%  +11.09   95%  +63.22   idle    0%
+    sleeve   median   +0.00   5%   -5.08   25%   +0.00   75%   +9.31   95%  +39.92   idle   35%
+    daily    median   +4.80   5%  -24.46   25%   -7.14   75%  +27.27   95% +123.11   idle    0%
+    capit2   median   +3.70   5%   +0.00   25%   +0.00   75%  +15.53   95%  +41.99   idle   34%
+    news     median   +3.28   5%  -14.42   25%   -1.50   75%   +9.38   95%  +77.16   idle    3%
+    ndx      median   +3.47   5%   -3.50   25%   +0.57   75%   +6.49   95%  +14.14   idle    5%
+    ACCOUNT  median  +54.36   5%  -19.72   25%   +7.42   75% +216.14   95% +820.66   idle    0%
+  365 days
+    trend    median +313.57   5% -147.61   25%  -11.04   75% +1826.31   95% +11242.98   idle    0%
+    mn       median +216.59   5%  -87.38   25%  +20.80   75% +924.27   95% +7799.02   idle    0%
+    carry    median  +14.72   5% -104.58   25%  -10.00   75% +275.48   95% +2853.01   idle    0%
+    sleeve   median  +46.83   5%  -65.21   25%   +3.99   75% +248.74   95% +2905.32   idle    6%
+    daily    median  +23.10   5% -263.71   25%  -47.27   75% +725.40   95% +5237.85   idle    0%
+    capit2   median +152.20   5%   +1.96   25%  +31.05   75% +456.62   95% +2294.54   idle    1%
+    news     median +104.25   5%   -2.47   25%  +17.22   75% +228.34   95% +1157.88   idle    0%
+    ndx      median  +62.53   5%  -42.97   25%  +12.13   75% +183.12   95% +877.77   idle    0%
+    ACCOUNT  median +1687.32   5%  +51.11   25% +435.48   75% +4556.59   95% +33279.38   idle    0%
+
+REGISTERED PREDICTIONS (main account at 8 days)
+  S1 account -7.1% -> percentile 16.2 (3..15) -> WRONG
+  S2 trend -2.81% -> 30.7 (< 25); carry -2.35% -> 6.3 (< 10) -> WRONG
+  S3 idle share of 8-day stretches: sleeve 68%, capit2 90%, news 48% (>= 30% each) -> RIGHT

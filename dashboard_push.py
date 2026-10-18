@@ -47,6 +47,9 @@ START_EQUITY = 300.0
 GROSS_CAP = 14.5
 META_KEY, ACCT_KEY = "forexbot:meta", "forexbot:acct:"
 CLOSED_KEEP, NEWS_KEEP = 120, 30
+BANDS = ROOT / "dashboard_bands.json"           # backtest/scorecard_bands.py: each book's normal N-day range
+SCORE_MIN_DAYS = 7                              # the backtest books MN / carry weekly: shorter stretches do not compare
+SCORE_BOOKS = ("trend", "mn", "carry", "sleeve", "daily", "capit2", "news", "ndx")
 
 
 # ------------------------------------------------------------------ small readers
@@ -261,9 +264,71 @@ def curves(m: list, h: list, eq_hist: list, now: int, live_eq: float, start: flo
     return dict(d=d5, h=hourly, daily=bars[-120:])
 
 
+# ------------------------------------------------------------------ the scorecard: live vs the backtest's range
+
+def pctile(v: float, levels: list, q: list) -> float:
+    """Where v sits in the stored quantiles (ties: the middle of the tied range) - scorecard_bands.pctile's twin."""
+    if v < q[0]:
+        return 0.0
+    if v > q[-1]:
+        return 100.0
+    eq = [i for i, x in enumerate(q) if abs(x - v) < 1e-12]
+    if eq:
+        return (levels[eq[0]] + levels[eq[-1]]) / 2
+    i = max(j for j, x in enumerate(q) if x < v)
+    return levels[i] + (levels[i + 1] - levels[i]) * (v - q[i]) / (q[i + 1] - q[i])
+
+
+def band_at(b: dict, lengths: list, n: float) -> tuple:
+    """The quantiles and idle share for a stretch of n days, linear between the stored lengths."""
+    n = min(max(n, lengths[0]), lengths[-1])
+    lo = max(x for x in lengths if x <= n)
+    hi = min(x for x in lengths if x >= n)
+    w = 0.0 if hi == lo else (n - lo) / (hi - lo)
+    a, z = b[str(lo)], b[str(hi)]
+    return [x + (y - x) * w for x, y in zip(a["q"], z["q"])], a["idle"] + (z["idle"] - a["idle"]) * w
+
+
+def status(p: float, live_idle: bool, idle_share: float) -> str:
+    if live_idle and idle_share >= 0.2:
+        return "idle"                              # no trade yet, and the backtest is often idle this long
+    return "worse" if p < 5 else "below" if p < 25 else "ok" if p <= 75 else "above"
+
+
+def scorecard(started: str | None, now: int, books: dict, equity: float, start: float, bands: dict | None) -> dict:
+    if not bands or not started:
+        return dict(ready=False, why="no yardstick")
+    days = (now - datetime.strptime(started[:19], "%Y-%m-%d %H:%M:%S").replace(tzinfo=timezone.utc).timestamp()) / 86400
+    if days < SCORE_MIN_DAYS:
+        return dict(ready=False, days=round(days, 2), min_days=SCORE_MIN_DAYS, why="under a week old")
+    L, lengths = bands["levels"], bands["lengths"]
+
+    def q_at(q, lv):                               # the quantile at any level, linear between the stored ones
+        i = max(j for j, x in enumerate(L) if x <= lv)
+        return q[i] if L[i] == lv else q[i] + (q[i + 1] - q[i]) * (lv - L[i]) / (L[i + 1] - L[i])
+
+    pick = lambda q: {k: round(q_at(q, lv) * start, 2) for k, lv in (("p5", 5), ("p25", 25), ("p50", 50),  # noqa: E731
+                                                                       ("p75", 75), ("p95", 95))}
+    rows = []
+    for bk in SCORE_BOOKS:
+        if bk not in bands["books"]:
+            continue
+        usd = books[bk]["booked"] + books[bk]["open"]
+        q, idle = band_at(bands["books"][bk], lengths, days)
+        p = pctile(usd / start, L, q)
+        rows.append(dict(book=bk, usd=round(usd, 2), pctile=round(p, 1), status=status(p, abs(usd) < 0.01, idle),
+                         idle_share=round(idle, 3), **pick(q)))
+    q, _ = band_at(bands["total"], lengths, days)
+    v = equity / start - 1
+    p = pctile(v, L, q)
+    return dict(ready=True, days=round(days, 2), capped=days > lengths[-1], span=bands.get("span"), made=bands.get("made"),
+                total=dict(usd=round(equity - start, 2), ret=round(v, 5), pctile=round(p, 1), status=status(p, False, 0),
+                           **{k: round(x / start, 5) for k, x in pick(q).items()}), books=rows)
+
+
 # ------------------------------------------------------------------ one account
 
-def account(acct: str, d: Path, prices: dict, now: int, write: bool) -> dict | None:
+def account(acct: str, d: Path, prices: dict, now: int, write: bool, bands: dict | None = None) -> dict | None:
     st = jload(d / "combo_state.json")
     if not st:
         return None
@@ -298,6 +363,7 @@ def account(acct: str, d: Path, prices: dict, now: int, write: bool) -> dict | N
         exposure=dict(long=round(lng, 2), short=round(sht, 2), lev=round((lng + sht) / live, 2) if live > 0 else None,
                       cap=GROSS_CAP),
         open=pos, closed=closed[:CLOSED_KEEP], stats=trade_stats(closed), curve=cv,
+        score=scorecard(st.get("started"), now, books, live, START_EQUITY, bands),
         pending=dict(capit2=len((fin.get("capit2", {}) or {}).get("pending", {}) or {}),
                      news=len(news.get("pending", {}) or {})),
         news=dict(recent=list(reversed((news.get("recent") or [])[-NEWS_KEEP:])), seen=news.get("seen", 0),
@@ -346,9 +412,10 @@ def build(write: bool = False) -> tuple:
     if not prices:
         raise SystemExit("no Binance prices - nothing pushed this minute")
     now = int(time.time())
+    bands = jload(BANDS)
     accts = {}
     for acct, d in ACCOUNTS:
-        a = account(acct, d, prices, now, write)
+        a = account(acct, d, prices, now, write, bands)
         if a:
             accts[acct] = a
     meta = dict(generated=now, btc=prices.get("BTCUSDT"), health=health(), others=others(),

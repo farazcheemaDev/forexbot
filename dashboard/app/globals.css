@@ -70,6 +70,32 @@ main { max-width: 1400px; margin: 0 auto; padding: 16px; }
 .tabs button { background: none; border: 0; color: var(--muted); padding: 4px 9px; border-radius: 6px; cursor: pointer; font-size: 12px; }
 .tabs button.on { background: var(--panel2); color: var(--ink); }
 
+/* ---------- scorecard */
+.score { margin-bottom: 14px; }
+.score-total { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; padding: 4px 0 14px;
+  border-bottom: 1px solid var(--line); margin-bottom: 8px; }
+.score-total .big { font-size: 24px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.score-total .big .small { font-size: 15px; font-weight: 600; }
+.score-dial { flex: 1; min-width: 220px; max-width: 420px; }
+.dial-lab { display: flex; justify-content: space-between; font-size: 11px; color: var(--faint); margin-top: 4px; }
+.dial-lab span:nth-child(2) { color: var(--ink); font-weight: 600; }
+.dial { position: relative; height: 8px; border-radius: 4px; background: var(--panel2); margin: 6px 0 2px; }
+.dial .zone { position: absolute; top: 0; bottom: 0; border-radius: 4px; }
+.dial .z90 { left: 5%; right: 5%; background: rgba(132, 142, 156, .16); }
+.dial .z50 { left: 25%; right: 25%; background: rgba(132, 142, 156, .32); }
+.dial .mark50 { position: absolute; left: 50%; top: -3px; bottom: -3px; width: 1px; background: var(--muted); }
+.dial .pin { position: absolute; top: 50%; width: 13px; height: 13px; margin: -6.5px 0 0 -6.5px; border-radius: 50%;
+  border: 2px solid var(--panel); background: var(--muted); }
+.dial .pin.good { background: var(--up); }
+.dial .pin.warn { background: var(--warn); }
+.dial .pin.bad { background: var(--down); }
+.badge { font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+.badge.good { color: var(--up); background: var(--up-bg); }
+.badge.warn { color: var(--warn); background: rgba(240, 163, 58, .13); }
+.badge.bad { color: var(--down); background: var(--down-bg); }
+.badge.idle { color: var(--muted); background: var(--panel2); }
+.warn-pill { background: rgba(240, 163, 58, .13); color: var(--warn); }
+
 /* ---------- P&L by strategy */
 .books { display: flex; flex-direction: column; gap: 10px; }
 .book .top { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; }
@@ -151,4 +177,8 @@ th.r, td.r { text-align: right; }
   .live .btc { display: none; }
   .bar { position: static; }
   .book .desc { display: none; }
+  .score th:nth-child(3), .score td:nth-child(3), .score th:nth-child(4), .score td:nth-child(4),
+  .score td:first-child .note { display: none; }
+  .score td, .score th { padding-left: 6px; padding-right: 6px; }
+  .score-total { gap: 12px; }
 }

@@ -40,6 +40,24 @@ function useChart(build) {
 
 const RANGES = [["1D", 86400], ["1W", 7 * 86400], ["1M", 30 * 86400], ["All", Infinity]];
 
+// lightweight-charts spaces POINTS evenly, not time: 8 daily marks next to a day of hourly points would squeeze the
+// days into a sliver. Put the line on an even time grid (straight lines between the real points, as a time axis
+// would draw them), keeping the last real point.
+function uniform(pts, maxPoints = 400) {
+  if (pts.length < 3) return pts;
+  const t0 = pts[0][0], t1 = pts[pts.length - 1][0];
+  const step = Math.max(300, Math.ceil((t1 - t0) / maxPoints / 300) * 300);
+  const out = [];
+  let j = 0;
+  for (let t = t0; t < t1; t += step) {
+    while (j < pts.length - 2 && pts[j + 1][0] <= t) j++;
+    const [ta, va] = pts[j], [tb, vb] = pts[j + 1];
+    out.push([t, tb > ta ? va + ((vb - va) * (t - ta)) / (tb - ta) : vb]);
+  }
+  out.push(pts[pts.length - 1]);
+  return out;
+}
+
 export function EquityChart({ curve, start }) {
   const [range, setRange] = useState("All");
   const [box, api, ready] = useChart((chart) => {
@@ -56,8 +74,13 @@ export function EquityChart({ curve, start }) {
     const src = range === "1D" ? curve?.d || [] : curve?.h || [];
     const last = src.length ? src[src.length - 1][0] : 0;
     const seen = new Set();
-    const pts = src.filter((p) => p[0] >= last - secs).map(([t, v]) => ({ time: t + tz, value: v }))
-      .filter((p) => (seen.has(p.time) ? false : (seen.add(p.time), true))).sort((a, b) => a.time - b.time);
+    const clean = [...src].sort((a, b) => a[0] - b[0])
+      .filter((p) => (seen.has(p[0]) ? false : (seen.add(p[0]), true)));
+    const cut = clean.filter((p) => p[0] >= last - secs);
+    // a range that starts between two real points begins on the line between them, not at the next point
+    const k = clean.findIndex((p) => p[0] >= last - secs);
+    if (k > 0 && Number.isFinite(secs) && cut.length && cut[0][0] > last - secs) cut.unshift(clean[k - 1]);
+    const pts = uniform(cut).map(([t, v]) => ({ time: Math.round(t) + tz, value: Math.round(v * 100) / 100 }));
     const up = pts.length ? pts[pts.length - 1].value >= start : true;
     const c = up ? UP : DOWN;
     api.current.series.applyOptions({ lineColor: c, topColor: up ? "rgba(14,203,129,.28)" : "rgba(246,70,93,.28)",

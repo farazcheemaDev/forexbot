@@ -98,6 +98,87 @@ function Kpis({ a }) {
   );
 }
 
+// ------------------------------------------------------------------ scorecard: live vs the backtest's normal range
+
+const STATUS = {
+  worse: ["Worse than expected", "bad"], below: ["Below typical", "warn"], ok: ["On track", "good"],
+  above: ["Better than typical", "good"], idle: ["No trades yet (normal)", "idle"],
+};
+
+function Dial({ p, status }) {
+  return (
+    <div className="dial" title={`${Math.round(p)}th percentile of the backtest`}>
+      <span className="zone z90" /><span className="zone z50" /><span className="mark50" />
+      <i className={`pin ${STATUS[status]?.[1] || ""}`} style={{ left: `${Math.min(100, Math.max(0, p))}%` }} />
+    </div>
+  );
+}
+
+function ordinal(n) {
+  const r = Math.round(n), s = ["th", "st", "nd", "rd"], v = r % 100;
+  return r + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
+function Scorecard({ a }) {
+  const sc = a.score;
+  if (!sc?.ready) {
+    return (
+      <section className="card score">
+        <div className="card-h"><div><h2>Scorecard: live vs backtest</h2>
+          <div className="sub">Starts once the account is {sc?.min_days || 7} days old
+            {sc?.days !== undefined ? ` - now ${sc.days < 1 ? `${Math.round(sc.days * 24)} hours` : `${sc.days.toFixed(1)} days`}` : ""}.
+            Some strategies settle weekly, so a shorter stretch can not be compared fairly.</div></div></div>
+      </section>
+    );
+  }
+  const t = sc.total;
+  const days = sc.days < 2 ? `${sc.days.toFixed(1)} days` : `${Math.round(sc.days)} days`;
+  return (
+    <section className="card score">
+      <div className="card-h">
+        <div><h2>Scorecard: live vs backtest</h2>
+          <div className="sub">Each result placed among every {Math.round(sc.days)}-day stretch of the backtest ({sc.span}). 50th = as good as the backtest.</div></div>
+        {sc.days < 30 ? <span className="pill warn-pill">early read - {days} in</span> : null}
+      </div>
+      <div className="score-total">
+        <div>
+          <div className="muted" style={{ fontSize: 12 }}>Whole account after {days}</div>
+          <div className="big"><span className={tone(t.usd)}>{usd(t.usd, { sign: true })}</span>
+            <span className={`small ${tone(t.ret)}`}> {pct(t.ret)}</span></div>
+          <div className="muted" style={{ fontSize: 12 }}>backtest typical {pct(t.p25)} to {pct(t.p75)} · median {pct(t.p50)}</div>
+        </div>
+        <div className="score-dial">
+          <Dial p={t.pctile} status={t.status} />
+          <div className="dial-lab"><span>worst</span><span>{ordinal(t.pctile)} percentile</span><span>best</span></div>
+        </div>
+        <span className={`badge ${STATUS[t.status][1]}`}>{STATUS[t.status][0]}</span>
+      </div>
+      <div className="scroll">
+        <table>
+          <thead><tr><th>Strategy</th><th className="r">Live</th><th className="r">Backtest typical</th>
+            <th style={{ minWidth: 170 }}>Where it sits</th><th>Status</th></tr></thead>
+          <tbody>
+            {sc.books.map((r) => (
+              <tr key={r.book}>
+                <td><div className="sym">{bookName(r.book)}</div><div className="note">{BOOKS[r.book]?.desc}</div></td>
+                <td className={`r ${tone(r.usd)}`}>{usd(r.usd, { sign: true })}</td>
+                <td className="r muted">{usd(r.p25, { sign: true })} to {usd(r.p75, { sign: true })}</td>
+                <td><Dial p={r.pctile} status={r.status} /><div className="note">{r.status === "idle"
+                  ? `idle in ${Math.round(r.idle_share * 100)}% of ${Math.round(sc.days)}-day stretches` : `${ordinal(r.pctile)} percentile`}</div></td>
+                <td><span className={`badge ${STATUS[r.status][1]}`}>{STATUS[r.status][0]}</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="note" style={{ marginTop: 10, whiteSpace: "normal" }}>
+        Below the 5th percentile for weeks means a strategy is not doing what its backtest did. In the first month the
+        percentiles swing a lot - read them as an early warning, not a verdict. The backtest itself is optimistic.
+      </p>
+    </section>
+  );
+}
+
 // ------------------------------------------------------------------ P&L by strategy
 
 function BookBars({ a }) {
@@ -313,6 +394,7 @@ export default function Dashboard({ meta, acct, want }) {
         ) : (
           <>
             <Kpis a={acct} />
+            <Scorecard a={acct} />
             <div className="row">
               <EquityChart curve={acct.curve} start={acct.start} />
               <BookBars a={acct} />

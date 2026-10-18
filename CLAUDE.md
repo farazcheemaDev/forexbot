@@ -632,6 +632,15 @@ the detail lives in the numbered docs.*
   +1.3bp, 13 flips; VERDICT stayed NOT YET only for 2 Bitget network blips. Final report on the VM in
   logs/combo_bot_demo/final_report_20261017.txt. Its DEMO-account positions and disaster stops were left as they were
   (demo money). Memory free went 110 -> 258 MB.
+- **The SCORECARD (2026-10-18; docs/24 phase 2, the user: "yes" to building it)**: `backtest/scorecard_bands.py` writes
+  `dashboard_bands.json` - each book's (and the account's) backtest range for every N-day stretch, N 1..365, as quantiles,
+  books in DOLLARS of the stretch's starting account (they add up to the account, asserted). `dashboard_push.py` places
+  each account's live result for its age in that range (percentile -> worse < 5 / below < 25 / on track / better > 75,
+  or idle) from day 7 on (MN / carry are booked weekly in the backtest). First read, main account at 9.0 days, -4.5%:
+  account 25th percentile; carry 5.9th (-$7.75); the rest on track or idle. Three runs - run 1 summed daily returns
+  (wrong once equity grows), run 2 died on a 2,401 vs 2,400-day calendar mismatch between orderings (all_books.py has
+  the same latent one-NaN-day issue, tiny, unmeasured). tests/test_dashboard_push.py (5 tests, 2 mutations caught).
+  The equity chart is drawn on an even time grid (lightweight-charts spaces points, not time).
 
 ### 2026-10-17 (last) - all books together (`backtest/all_books.py`); general news is dead even split by tone
 
