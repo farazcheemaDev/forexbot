@@ -1,0 +1,12 @@
+backtest/chop_revert.py, 2026-10-18 01:27 UTC; PIT top-40, daily closes, 2020-01-01 .. 2026-09-21; z 2.0 of a 20-day mean, out at the mean / 10 days / 10% stop; next-close fill; 12bp + funding; 10 slots, 1x
+
+   gate      tune CAGR  fall Sharpe  hold CAGR  fall Sharpe   avg month: bull    chop    bear   days in market
+   NONE         -53.8%   98%  -0.97     -40.9%   71%  -0.64          -6.02%  -2.72%  -2.88%            95%
+   MARKET       -32.5%   87%  -0.62     -18.1%   46%  -0.23          -2.19%  -1.71%  -1.82%            75%
+   COIN         -23.8%   83%  -0.28     -23.3%   54%  -0.42          -1.55%  -2.53%  +0.75%            91%
+   BOTH         -13.0%   61%  -0.12     -20.8%   47%  -0.46          -1.03%  -2.04%  +1.04%            71%
+
+REGISTERED PREDICTIONS
+  R1 ungated loses on both halves (-53.8% / -40.9%) -> RIGHT
+  R2 no gate positive on both halves -> RIGHT (none)
+  R3 BOTH-gated sideways average month -2.04% above ungated -2.72% -> RIGHT

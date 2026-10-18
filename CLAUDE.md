@@ -607,6 +607,20 @@ the box was patched before the repo was public.
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
 
+### 2026-10-18 - the sideways gap: the 9-book machine measured; 4 ideas dead; the lever is the trend book's size
+
+- `backtest/chop_gap.py`: 9-book machine, typical sideways month **-2.1%** (v2 -4.5%); without the trend book +7.8% -
+  the gap is the trend book (-7.3% typical in sideways months). C1-C3 right.
+- Dead (doc 02's last entry): trend-entry switches (`chop_switch.py`; month_regime.py's 2017-19 win was its booked-return
+  attribution - at entry it flips between halves; the efficiency-ratio meter is below the bet-smaller line), the
+  Binance-Bybit-Bitget funding gap (`funding_spread.py` + `funding_spread_fetch.py`, +0.1%/yr), chop-gated mean reversion
+  (`chop_revert.py`), RSI in sideways markets (`rsi_chop.py`: the RSI dip-buy LOSES in BTC-chop, earns outside it).
+- `backtest/trend_size.py`: trend book 0.8x -> typical sideways month 0.0%, 0.7x -> +1.1%, typical year ~unchanged, falls
+  ~7 points shallower; costs the top of a 2021-type bull (0.7x on 2020-24: good year -25%, average -38%; 2024-26 ~0).
+  A size choice for the user - DECIDED: the trend book stays at 1.0x (the user: "I can't miss on big gains").
+- Also 2026-10-18: the dashboard SCORECARD (below, 2026-10-17 entry) - and month_regime.py's "losing months 48% -> 12% on
+  2017-19" is retracted as a bot result (booked-return attribution).
+
 ### 2026-10-17 (deploy) - the news book and the NASDAQ-dip book run in the final machine (paper, VM)
 
 - **DEPLOYED 2026-10-17 00:16 / 00:19 UTC (commits 6158110, 567bbcb, the user's OK)**: `news_books.py` + final_books /

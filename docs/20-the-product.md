@@ -78,6 +78,12 @@ grids, mean reversion, option premium, carry. Each is priced: by the market make
 funding that went to ~0 once the carry was crowded. A trend book is the opposite position (it BUYS volatility), and the
 premium it pays in chop is what buys its bull months. Nothing here finds that premium for free.
 
+**2026-10-18 - the 9-BOOK machine, re-measured** (`chop_gap.py`, `trend_size.py`; doc 02's last entry): the running
+machine's typical sideways month is **-2.1%** (v2's -4.5%), 44% of sideways months up; every book except the trend book
+earns in them (without it: +7.8% typical). Four more ideas died (trend-entry switches, cross-exchange funding gaps, chop-
+gated mean reversion, RSI - which LOSES in sideways markets). The one lever that moves it: the trend book's size - 0.8x
+reads 0.0%, 0.7x +1.1% a typical sideways month, at the cost of the top of a 2021-type bull.
+
 ## 4. So what the product is, stated exactly
 
 **A bot that makes large gains in rising markets, makes money in falling markets, and roughly breaks even on average

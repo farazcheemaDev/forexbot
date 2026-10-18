@@ -1,0 +1,20 @@
+backtest/trend_size.py, 2026-10-18 01:35 UTC; the 9-book machine, the trend book at a constant size; $300, 12-month windows, 10 orderings pooled; trend gains shrunk, the rest raw
+
+   size      half  bad 25%  typical  good 75%  great 90%  AVERAGE   typical month: bull   chop   bear
+   x0.5      tune $    873 $  3,475 $  12,662 $   32,589 $ 11,788              +29.5%  +3.6%  +8.5%
+   x0.5   holdout $  4,634 $  9,159 $  13,905 $   30,453 $ 13,479              +29.5%  +3.6%  +8.5%
+   x0.6      tune $    877 $  3,575 $  14,682 $   40,438 $ 14,346              +29.5%  +2.3%  +8.0%
+   x0.6   holdout $  4,790 $  9,498 $  14,670 $   34,750 $ 14,820              +29.5%  +2.3%  +8.0%
+   x0.7      tune $    836 $  3,701 $  16,608 $   48,646 $ 17,177              +29.5%  +1.1%  +7.5%
+   x0.7   holdout $  4,831 $  9,666 $  14,699 $   38,291 $ 15,739              +29.5%  +1.1%  +7.5%
+   x0.8      tune $    820 $  3,767 $  18,036 $   57,120 $ 20,295              +31.2%  +0.0%  +7.3%
+   x0.8   holdout $  4,693 $  9,486 $  14,329 $   41,054 $ 16,176              +31.2%  +0.0%  +7.3%
+   x0.9      tune $    791 $  3,894 $  19,961 $   66,326 $ 23,826              +32.3%  -1.1%  +7.1%
+   x0.9   holdout $  4,388 $  9,620 $  13,853 $   43,432 $ 16,237              +32.3%  -1.1%  +7.1%
+   x1.0      tune $    762 $  3,927 $  22,281 $   77,740 $ 27,658              +34.7%  -2.1%  +6.7%
+   x1.0   holdout $  4,251 $  9,416 $  13,740 $   45,720 $ 16,222              +34.7%  -2.1%  +6.7%
+
+REGISTERED PREDICTIONS
+  Z1 0.7x typical sideways month +1.1% (>= -0.5) -> RIGHT
+  Z2 0.7x 75th-percentile year vs 1.0x: tune -25%, holdout +7% (<= -15% both) -> WRONG
+  Z3 0.7x average year vs 1.0x: tune -38%, holdout -3% (<= -20% both) -> WRONG

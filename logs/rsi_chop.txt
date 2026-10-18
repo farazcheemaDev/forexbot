@@ -1,0 +1,32 @@
+backtest/rsi_chop.py, 2026-10-18 01:30 UTC
+
+PART 1 - rsi_only's 115,312 trades; chop by BTC regime (CHOP-R) on 35% of trades, by efficiency ratio (CHOP-E) on 64%
+
+   the CLASSIC long (L 30, +2% target, no stop), per trade net, by market at entry (avg / win rate / n):
+      15m tune     chop -0.266% / 84% / 591   not chop +0.282% / 87% / 1460
+      15m holdout  chop -0.997% / 76% / 525   not chop +0.230% / 81% / 587
+       1h tune     chop -0.674% / 80% / 265   not chop +0.528% / 87% / 738
+       1h holdout  chop -2.272% / 66% / 238   not chop +0.428% / 84% / 328
+       4h tune     chop -0.663% / 80% / 92   not chop +0.553% / 89% / 283
+       4h holdout  chop -1.170% / 74% / 138   not chop +1.043% / 93% / 108
+
+   EVERY config inside chop (CHOP-R and CHOP-E): those positive on BOTH halves, with day-clustered t:
+     long  L25 tp1       4h chopE: tune +0.411% (t +1.2, n 150)  holdout +0.118% (t -0.1, n 116)
+     long  L25 tp2       4h chopE: tune +0.688% (t +1.4, n 127)  holdout +0.483% (t +0.9, n 108)
+     (2 of 120 config x meter cells positive on both halves inside chop; 0 with t >= 2 on both)
+
+PART 2 - RSI reversals on the PIT top-40 DAILY book (chop_revert.py's harness)
+   signal gate      tune CAGR  fall  hold CAGR  fall  chop avg mo
+   rsi14  NONE         -38.9%   93%     -29.6%   61%       +0.05%
+   rsi14  MARKET       -12.0%   77%     -23.4%   63%       +1.04%
+   rsi14  COIN          -9.3%   41%     -10.5%   31%       -0.89%
+   rsi14  BOTH          -5.5%   31%      +4.0%   14%       -0.62%
+   rsi2   NONE         -53.8%   97%     -24.0%   63%       -2.83%
+   rsi2   MARKET       -35.8%   89%     -13.8%   63%       +0.74%
+   rsi2   COIN         -36.0%   88%     +11.9%   63%       -0.94%
+   rsi2   BOTH         -29.9%   81%     +16.8%   57%       +2.55%
+
+REGISTERED PREDICTIONS
+  Q1 classic long better inside chop than outside on both halves (all timeframes pooled) -> WRONG
+  Q2 no config positive inside chop on both halves with t >= 2 on each -> RIGHT (0)
+  Q3 no gated daily RSI book positive on both halves -> RIGHT (none)

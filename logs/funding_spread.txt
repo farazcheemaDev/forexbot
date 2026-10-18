@@ -1,0 +1,34 @@
+backtest/funding_spread.py, 2026-10-18 01:19 UTC; 92 crypto coins on both Binance and Bybit (top 120 by volume today); fees taker both legs; 2x a leg
+
+1. BINANCE - BYBIT, 2022-01-01 .. 2026-10-18, 91 coins
+   the gap itself: median coin-day |gap| 1.00 bp/day; mean of the day's 10 widest 8.5 bp/day (fees: 21 bp a round trip)
+     K theta   N  tune CAGR  fall Sharpe  hold CAGR  fall Sharpe  held  fees/yr
+     3     2   5     -10.0%   24%  -9.04     -11.1%   22%  -4.37   4.8    25.4%
+     3     2  10      -7.6%   19% -11.40     -10.7%   21%  -7.68   8.5    20.0%
+     3     5   5      -2.3%    7%  -2.42      -7.3%   15%  -2.82   2.9    15.9%
+     3     5  10      -1.2%    4%  -2.58      -5.3%   11%  -3.94   4.0    10.1%
+     3    10   5      +0.5%    2%   0.63      -2.9%    7%  -1.13   1.3     7.5%
+     3    10  10      +0.3%    1%   0.67      -1.7%    4%  -1.29   1.4     3.9%
+     7     2   5      -0.6%    7%  -0.55      -2.0%    6%  -0.79   4.7    14.3%
+     7     2  10      -0.5%    5%  -0.86      -2.7%    6%  -1.95   8.0    10.7%
+     7     5   5      +2.1%    2%   2.10      +0.5%    4%   0.21   2.5     7.9%
+     7     5  10      +1.1%    1%   2.22      +0.1%    3%   0.06   3.2     4.7%
+     7    10   5      +1.6%    1%   1.96      +0.8%    3%   0.36   0.9     3.2%
+     7    10  10      +0.8%    0%   1.97      +0.3%    1%   0.25   1.0     1.6%
+
+   TUNE-CHOSEN cell K 7 theta 5 N 10: holdout CAGR +0.1%, Sharpe 0.06
+   by market (month = the BTC regime most of its days carried): average / typical month, months up
+     bull   18 months   +0.02% /  -0.04%  up  39%
+     chop   21 months   +0.13% /  +0.02%  up  62%
+     bear   17 months   +0.01% /  -0.02%  up  47%
+   by year: 2022 +1.7%  2023 -0.6%  2024 +2.1%  2025 +1.5%  2026 -1.4%
+
+2. THE LAST ~90 DAYS (Bitget's whole API history): mean |gap| of the day's 10 widest coins, bp/day; and the tune-chosen rule on each pair
+    binance-bybit    91 coins  top-10 |gap|  18.6 bp/day   rule: +0.09% over 89 days (+0%/yr)
+    binance-bitget   86 coins  top-10 |gap|  13.5 bp/day   rule: +1.95% over 89 days (+8%/yr)
+      bybit-bitget   86 coins  top-10 |gap|  18.4 bp/day   rule: +0.98% over 89 days (+4%/yr)
+
+REGISTERED PREDICTIONS
+  F1 tune-chosen holdout CAGR +0.1% (< +10) -> RIGHT
+  F2 bull +0.02% vs sideways +0.13% a month; sideways < +0.5% -> WRONG
+  F3 Bitget-Binance gap 13.5 > Bybit-Binance 18.6 bp/day -> WRONG

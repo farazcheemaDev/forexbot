@@ -4315,3 +4315,29 @@ minute later only +0.8bp is left: `fx_surprises_1m.py`). Measured on Exness's ow
 Trading that is latency arbitrage against the broker - against retail brokers' terms (trades voided, accounts closed),
 countered by last-look and slippage this test cannot see, and it needs the number within ~0.5 s, which free sources do not
 deliver from Pakistan. Not a legitimate or durable forex bot.
+
+## The sideways gap on the 9-book machine: four attempts dead, one size trade-off (2026-10-18)
+
+**Why tested:** the user - "we don't have a bot for choppy markets ... try everything, we need to fill this gap too" -
+and, mid-way, "in choppy markets using RSI should work I guess". Doc 20's -4.5% typical sideways month was machine v2's.
+- **Measured first** (`chop_gap.py`): the running 9-book machine's typical sideways month is **-2.1%** (44% up); without the
+  trend book **+7.8%**. Every other book averages >= 0 in sideways months; the trend book's typical one is -7.3%. The gap
+  is the trend book, and its worst sideways months came right before bull runs.
+- **Trend-entry switches** (`chop_switch.py`, applied AT ENTRY inside the machine): 0 of 5 pass. `month_regime.py`'s
+  month-start BTC switch, which held on 2017-19, FLIPS between halves once applied at entry (tune $1,457 vs $3,927, holdout
+  $13,315 vs $9,416) - its 2017-19 win was the booked-return attribution its own LIMIT note warned about. Kaufman's
+  efficiency-ratio chop meter at half size is the best-looking (sideways month -2.1 -> +3.1%, fall -6 points) and sits
+  BELOW the bet-smaller line on both halves (--control).
+- **Cross-exchange funding gap** (`funding_spread.py`, Binance-Bybit 2022-26, 91 coins; Bitget's 90 days): the median gap
+  is 1 bp a day, the widest 10 average 8.5 bp, fees 21 bp a round trip, and wide gaps flip within days: +0.1%/yr holdout.
+- **Mean reversion gated by the chop meter** (`chop_revert.py`, PIT top-40 daily): -13..-54%/yr tune, -18..-41% holdout;
+  still -2.0% a sideways month at best. Stretched coins keep going.
+- **RSI in sideways markets** (`rsi_chop.py`): the retail RSI dip-buy (rsi_only.py's 115,312 trades) LOSES inside BTC-chop
+  on every timeframe and both halves (-0.27..-2.27% a trade) and earns outside it - it is a rising-market trade. RSI(14) /
+  RSI(2) daily reversals, gated: none positive on both halves.
+- **What does fill it: a smaller trend book** (`trend_size.py`): at 0.8x the typical sideways month is 0.0%, at 0.7x +1.1%,
+  with the typical year about unchanged and falls ~7 points shallower - paid for in the TOP of a 2021-type bull (0.7x on
+  2020-24: good year -25%, average -38%; on 2024-26: good +7%, average -3%). Not a new edge - a size choice.
+**Reading:** doc 20's "chop is closed at retail" stands for new books; the sideways gap is the trend book's bleed, and the
+only lever that moves it is the trend book's SIZE. Choosing it is choosing between 2021-type upside and steadier sideways
+months.

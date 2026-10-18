@@ -25,6 +25,9 @@ REGISTERED BEFORE THE RUN (2026-10-16)
     3. No rule makes losing months fewer than 40% on 2017-19.
 
 RESULT: see logs/month_regime.txt (filled in after the run).
+RETRACTED AS A BOT RESULT (2026-10-18, backtest/chop_switch.py): the 2017-19 win ("btc_ma, 1x good / out bad": losing
+months 48% -> 12%) came from the LIMIT above - scaling each month's booked returns. Applied at ENTRY to the trend book
+inside the 9-book machine, the same month switch flips between halves (tune $1,457 vs $3,927, holdout $13,315 vs $9,416).
 
     python -m backtest.month_regime --dump-in && python -m backtest.month_regime --dump-oos && python -m backtest.month_regime --fit
 """
