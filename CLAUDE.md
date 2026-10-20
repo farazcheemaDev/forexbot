@@ -618,6 +618,9 @@ the detail lives in the numbered docs.*
   gamma from QQQ open interest. He leans to negative-gamma (trending) days (40% vs 61%) and clicks far from the gamma walls
   (rank 0.61, survives a window and an after-a-move check) - style; his side vs the magnet 51%, vs the nearer wall 49% -
   no direction. The scalper toolkit is now fully tested on him (his_strategy s69-70).
+- `backtest/his_combine.py` (s71): every per-trade outcome x every condition on record, 98 tests - only volatility survives
+  Holm (tick rate before -> bigger adverse swing); his side from all conditions together 51% leave-one-out. Suggestive:
+  he wins more against a big session move (-0.42 raw).
 - TradingView launch note: the Store build gives spawn EPERM; start the local copy with --remote-debugging-port=9222
   (it worked from PowerShell); the chart was restored to the user's BINANCE:BTCUSDT 1-minute afterwards.
 

@@ -1,0 +1,36 @@
+backtest/his_combine.py, 2026-10-20 17:36 UTC; 48 NASDAQ trades on the corrected clock (Exness mid ticks); race +-7 won 88%
+
+(a) WHICH CONDITIONS GO WITH HIS BETTER TRADES - Spearman, Holm across every pair
+                      race7    mfe60    mae60   mfe300   mae300       t7      pts
+   gamma_pos          +0.01    -0.14    +0.14    -0.09    -0.01    +0.18    +0.06
+   dwall              -0.27    +0.33    -0.04    +0.31    +0.13    -0.27    +0.09
+   r_wall             -0.09    +0.31    +0.21    +0.30    +0.23    -0.26    +0.12
+   dflip              +0.02    +0.10    -0.22    -0.09    +0.11    -0.08    +0.01
+   r_flip             +0.10    +0.01    -0.16    +0.02    -0.06    -0.00    -0.01
+   toward_magnet      +0.14    -0.03    -0.21    -0.17    -0.11    -0.00    -0.10
+   vxn                -0.20    +0.08    +0.19    +0.10    +0.09    +0.03    -0.01
+   day_move_his       -0.42    -0.01    +0.34    +0.12    +0.11    +0.14    -0.10
+   with_day           -0.24    -0.15    +0.20    +0.01    -0.03    +0.21    -0.05
+   hour_ny            +0.11    -0.22    -0.05    -0.38    -0.04    +0.31    -0.08
+   follow_up          +0.00    -0.00    +0.07    -0.30    +0.24    +0.05    -0.00
+   pre30              -0.18    +0.25    -0.16    +0.13    -0.07    -0.32    +0.15
+   pre300             -0.31    -0.12    +0.38    -0.03    +0.04    +0.19    -0.04
+   rate60             -0.15    +0.33    +0.19    +0.17    +0.56    -0.26    +0.14
+
+   98 tests; the smallest p-values (raw -> Holm):
+     rate60         x mae300  rho +0.56  n 48  p 0.0000 -> Holm 0.004
+     day_move_his   x race7   rho -0.42  n 43  p 0.0049 -> Holm 0.480
+     pre300         x mae60   rho +0.38  n 48  p 0.0077 -> Holm 0.742
+     hour_ny        x mfe300  rho -0.38  n 48  p 0.0079 -> Holm 0.755
+     rate60         x mfe60   rho +0.33  n 48  p 0.0238 -> Holm 1.000
+     dwall          x mfe60   rho +0.33  n 47  p 0.0247 -> Holm 1.000
+
+(b) DO THE CONDITIONS TOGETHER PREDICT HIS SIDE?
+   logistic regression on 43 trades, leave-one-out accuracy 51% (always the majority side: 51%)
+   the single rule 'trade with the session's move from the open': 47% of 43 trades
+   his side with the 30-s move before him: 44% (the 'dip' he buys: against it 52%)
+
+REGISTERED PREDICTIONS
+  R1 no correlation survives Holm -> WRONG (1 survive)
+  R2 positive gamma x mfe300 negative: -0.09 -> RIGHT
+  R3 side predicted at <= 60% leave-one-out: 51% -> RIGHT
