@@ -621,6 +621,9 @@ the detail lives in the numbered docs.*
 - `backtest/his_combine.py` (s71): every per-trade outcome x every condition on record, 98 tests - only volatility survives
   Holm (tick rate before -> bigger adverse swing); his side from all conditions together 51% leave-one-out. Suggestive:
   he wins more against a big session move (-0.42 raw).
+- `news/signal_channels.py` + `backtest/his_signals.py` (s72): 18 public NASDAQ / gold signal channels on Telegram (71
+  public of ~350 probed names), ~32,000 messages - 0 of his 89 entries had a call in the 10 minutes before. Public NASDAQ
+  calls barely exist; a private feed is untestable.
 - TradingView launch note: the Store build gives spawn EPERM; start the local copy with --remote-debugging-port=9222
   (it worked from PowerShell); the chart was restored to the user's BINANCE:BTCUSDT 1-minute afterwards.
 

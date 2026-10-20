@@ -2672,3 +2672,12 @@ and 5-minute move before him, tick rate). 98 tests: **one survives Holm and it i
 click goes with a bigger adverse swing after it (rho +0.56). Suggestive only: he wins MORE often when trading against a
 big session move (-0.42 raw), and runs further in the first minute when far from gamma walls. **His side: 51%
 leave-one-out from all conditions together** - the direction is still in none of it.
+
+## 72. Public signal channels - none calls his trades (2026-10-20) - `news/signal_channels.py`, `backtest/his_signals.py`
+
+The likeliest unseen source of his side is a live signal feed. ~350 likely Telegram usernames probed from the VM, 71
+public, 18 active in 2026 with NASDAQ or gold calls; ~32,000 messages downloaded. **0 of his 89 entries (48 NASDAQ, 41
+gold) had a call on his instrument in the 10 minutes before.** Public NASDAQ calls barely exist (39 in all; the
+NASDAQ-named channels post gold, crypto and "VIP" pitches); gold calls are plentiful and still none came within 51 minutes
+of his 37-entry gold burst on 2026-02-02. A public channel is ruled out; a private or paid one cannot be tested from
+outside.

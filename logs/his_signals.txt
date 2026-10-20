@@ -1,0 +1,28 @@
+backtest/his_signals.py, 2026-10-20 18:52 UTC; his 89 entries (48 NASDAQ, 41 gold) vs 18 public Telegram signal channels; a match = a call on his instrument 10 min before .. 1 min after his entry
+
+   channel                  msgs  calls NAS/GOLD                     span   any  same side   chance      p
+   GoldNAS100Signals         863       5 / 372      2026-03-02..2026-06-08     0          0      0.0  1.000
+   US100_signals            3930       1 / 1908     2025-12-19..2026-10-20     0          0      0.1  1.000
+   nas100us30official       1085       5 / 581      2025-12-19..2026-10-20     0          0      0.9  1.000
+   NASDAQ_FREE_SIGNALS      9204           0 / 0
+   Nas100trader             1272       1 / 86       2025-12-22..2026-10-02     0          0      0.0  1.000
+   NASDAQ100_SIGNALS          80           0 / 0
+   anthonys_forex            540      26 / 32       2025-12-17..2026-10-15     0          0      0.0  1.000
+   gold_signals             1740       0 / 1186     2025-12-18..2026-10-20     0          0      0.1  1.000
+   royal_gold_signals       2300       0 / 1854     2025-12-18..2026-10-20     0          0      0.7  1.000
+   GoldSignals_official      517       0 / 414      2025-12-19..2026-08-04     0          0      0.0  1.000
+   GoldXAUUSDSignals        2028       0 / 7        2026-05-10..2026-05-26     0          0      0.0  1.000
+   goldpips                  556       0 / 318      2026-01-12..2026-10-08     0          0      0.0  1.000
+   ForexGold_Scalper         206       0 / 108      2026-08-12..2026-10-08     0          0      0.0  1.000
+   MetatraderGoldSignals    4133       0 / 1309     2026-05-05..2026-07-23     0          0      0.0  1.000
+   goldsignals              1874       0 / 380      2025-12-15..2026-10-16     0          0      0.2  1.000
+   forexsignals             1419       2 / 265      2025-11-03..2026-10-16     0          0      0.0  1.000
+   Fx_Canli                  150       1 / 3        2026-01-05..2026-10-20     0          0      0.0  1.000
+   forexgdp                  460       0 / 22       2025-12-21..2026-10-02     0          0      0.0  1.000
+
+   most same-side matches: GoldNAS100Signals with 0 of 89 entries (chance 0.0)
+   smallest Holm p: 1.000 (GoldNAS100Signals)
+
+REGISTERED PREDICTIONS
+  P1 no channel same-side within 10 min before more than 5 entries: best 0 -> RIGHT
+  P2 no channel beats chance at Holm p < 0.01 -> RIGHT
