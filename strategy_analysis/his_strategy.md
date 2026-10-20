@@ -2643,3 +2643,23 @@ ES aggressor flow did win NQ's +-7 MID race 55-60% at ordinary moments; through 
 (`backtest/es_flow_mended.py`) every one of 64 cells loses (-1.2..-4.5 a trade), median +0.1 points over the coin.
 **`backtest/mended_harness.py`**: the mended engine with an empty signal slot and the Sharpe-2 gate; the coin control
 fails it at every stop. Any future side is judged there first.
+
+## 69. The market's TICK at his clicks - the last untested scalper tool (2026-10-20) - `backtest/his_tick.py`
+
+The user asked what NASDAQ and forex scalpers watch. Against s1-s68 the whole toolkit had been tested (order flow,
+delta, the full book, VWAP, opening range, volume profile, levels, bonds / ES / dollar, options and dark-pool flow, news,
+ICT) except MARKET INTERNALS. NASDAQ TICK (USI:TICKQ) through the user's TradingView: its plan keeps ~5,000 bars, so
+1-minute TICK covers only his last 2 trades and 5-minute TICK 12. On those 12 (5 sittings): the TICK extreme against his
+side ranks 0.59 among the session's other moments (ordinary); he traded WITH the last 5-minute TICK 9 of 12 (p ~0.15) -
+the same "with the last move" lean s36 found, which wins ~57% of races, not his 88%. **TICK at 5 minutes does not carry
+his edge.** A 1-minute test needs TICK recorded forward (the account keeps ~3 weeks of 1-minute bars) and his next trades.
+Dealer gamma (GEX) remains untested - it needs paid options open-interest history.
+
+## 70. Dealer gamma (GEX) at his clicks - style, not edge (2026-10-20) - `backtest/his_gex.py`
+
+QQQ option open interest before each session (Databento OPRA, $7.03 with the user's OK; the full-year pull was quoted at
+~$310 and refused), flat IV from VXN, his 47 NASDAQ trades on 30 days against 31 random other days. **He leans to
+negative-gamma (trending) sessions** (40% of his days positive vs 61%, p ~0.13) and **clicks farther from the day's big
+gamma strikes than the session's other moments** (rank 0.61 vs 0.49 for random moments in the same window; not
+explained by a prior move) - he trades in open space with room ahead, as s55 hinted. **But gamma says nothing about his
+side:** toward the magnet strike 51%, away from the nearer wall 49%. His direction is still not in any market data.

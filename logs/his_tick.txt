@@ -1,0 +1,22 @@
+backtest/his_tick.py, 2026-10-20 UTC; TradingView USI:TICKQ 5-minute bars (history 2026-07-20 .. 2026-10-19, 5,193 bars)
+his NASDAQ entries since 2026-07-20: 13; inside TICK data 12 (2026-08-10 21:10 UTC outside cash hours)
+
+  entry (UTC)        side   X (TICK extreme against)  rank X   C (-side x last close)  rank C   against last TICK?
+  2026-07-24 18:57   short          304               0.967          -255              0.400        no
+  2026-08-07 16:59   long            89               0.767          -173              0.600        no
+  2026-08-07 17:03   short          531               0.833           101              0.200        yes
+  2026-09-14 18:14   long           282               0.500           141              0.733        yes
+  2026-09-14 18:30   long           360               0.967            40              0.367        yes
+  2026-09-14 18:38   short          210               0.633           -86              0.400        no
+  2026-09-14 18:46   short          177               0.533           -88              0.400        no
+  2026-09-14 18:49   short          177               0.533           -88              0.400        no
+  2026-09-14 19:00   short          172               0.433          -150              0.200        no
+  2026-09-14 19:02   short          172               0.433          -150              0.200        no
+  2026-10-08 17:10   short          264               0.333           -44              0.667        no
+  2026-10-08 17:17   long           334               0.133          -258              0.067        no
+
+  mean rank X 0.589 (null 0.5, se ~0.08)   mean rank C 0.386   traded against the last bar's TICK: 3 of 12 (25%)
+
+REGISTERED PREDICTIONS
+  T1 mean rank of X in 0.40..0.60: 0.589 -> RIGHT
+  T2 against the last TICK 30..70%: 25% -> WRONG (he went WITH the last 5-minute TICK 9 of 12; ~5 sittings; p ~0.15)

@@ -607,6 +607,20 @@ the box was patched before the repo was public.
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
 
+### 2026-10-20 (last) - the trader: the scalper toolkit cross-checked; NASDAQ TICK tested (his_strategy s69)
+
+- Web research on what NASDAQ / forex scalpers watch: everything was already tested on him except market internals and
+  dealer gamma. `backtest/his_tick.py`: NASDAQ TICK (USI:TICKQ) via the user's TradingView - the plan keeps ~5,000 bars,
+  so 1-minute TICK reaches only 2026-09-28, 5-minute 2026-07-20 (12 of his trades). TICK extremes rank 0.59 at his clicks
+  (ordinary); he went WITH the last 5-minute TICK 9 of 12 (p ~0.15, = s36's "with the last move"). Not his edge at this
+  resolution. Open: a forward 1-minute TICK record for his next trades; GEX needs paid options open interest.
+- `backtest/his_gex.py` (+ `his_gex_fetch.py` / `his_gex_fetch_fast.py`; Databento $7.03, the user approved $15): dealer
+  gamma from QQQ open interest. He leans to negative-gamma (trending) days (40% vs 61%) and clicks far from the gamma walls
+  (rank 0.61, survives a window and an after-a-move check) - style; his side vs the magnet 51%, vs the nearer wall 49% -
+  no direction. The scalper toolkit is now fully tested on him (his_strategy s69-70).
+- TradingView launch note: the Store build gives spawn EPERM; start the local copy with --remote-debugging-port=9222
+  (it worked from PowerShell); the chart was restored to the user's BINANCE:BTCUSDT 1-minute afterwards.
+
 ### 2026-10-20 (later) - outside research tested: nothing beats the machine; the Deflated Sharpe as a yardstick
 
 - `backtest/research_ideas.py`: the published Donchian ensemble (Zarattini et al. 2025) - Sharpe 0.85 / 0.38 on our PIT

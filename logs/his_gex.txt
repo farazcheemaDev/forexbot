@@ -1,0 +1,18 @@
+backtest/his_gex.py, 2026-10-20 17:19 UTC; QQQ options open interest (Databento), flat IV = VXN's previous close; his NASDAQ trades vs control days
+
+1. THE SESSION'S REGIME AT THE OPEN (positive = dealers long gamma: dips bought, rallies sold)
+   his days:     12 of 30 positive (40%)
+   control days: 19 of 31 positive (61%)
+   days without data: 2026-01-19
+
+2. AT HIS CLICKS (ranks among the same session's moments every 5 minutes, 0.5 = ordinary)
+   trades with data 47 of 47; in a positive-gamma moment 34%
+   distance to the nearest wall: median 0.47% of price, mean rank 0.611
+   distance to the gamma flip:   median 0.70%, mean rank 0.526 (flip found on 100%)
+   his side TOWARD the magnet strike: 24 of 47 (51%, p 1.00)
+   (a mean rank's standard error with 47 trades: ~0.042)
+
+REGISTERED PREDICTIONS
+  G1 positive-gamma share his days 40% vs control 61%, within 20 points -> WRONG
+  G2 wall / flip ranks within 0.40-0.60: 0.611 / 0.526 -> WRONG
+  G3 toward the magnet 40-60%: 51% -> RIGHT
