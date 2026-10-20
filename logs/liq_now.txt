@@ -1,0 +1,40 @@
+backtest/liq_now.py, 2026-10-18 02:02 UTC; hourly grid 2020-02-15 .. 2026-09-12; every open position at its worst price of the hour; liquidation line 21.75% left at the 14.5x cap (17% at 11.5x)
+  news: 259 trades taken (first 10 open); NASDAQ dip: 78 trades in the window, its worst point inside a trade -12.7% of the account
+  MN / carry squeeze bound: the largest 1-hour spike of a top-60 coin since 2020 is +452% (LUNAUSDT, 2022-05-11 13:00); at the most one coin can be shorted (10.4% of the account) that is 47.1% of the account
+
+  account LEFT in the worst hour (and when)
+
+  ordering 0
+    OLD FULL (liq_stress: + bids, no news/ndx)     41%  2025-10-10 21:00   under 50%:   1 h, under the line:  0 h
+    RUNNING NOW (no bids, + news + ndx)            55%  2025-10-10 21:00   under 50%:   0 h, under the line:  0 h
+    running now + crash bids                       39%  2025-10-10 21:00   under 50%:   1 h, under the line:  0 h
+    running now, capit2 at 1x                      55%  2025-10-10 21:00   under 50%:   0 h, under the line:  0 h
+    news alone                                     78%  2025-09-08 13:00   under 50%:   0 h, under the line:  0 h
+    NASDAQ dip alone                               87%  2020-03-13 02:00   under 50%:   0 h, under the line:  0 h
+    the 5 worst hours, running now: 2025-10-10 21:00 55% (trend -38, daily -6, capit2 +0, news -1, ndx +0), 2024-04-13 20:00 74% (trend +5, daily +0, capit2 -31, news +0, ndx +0), 2022-11-09 21:00 77% (trend +2, daily -2, capit2 -23, news +0, ndx +0), 2022-05-12 17:00 78% (trend +7, daily -0, capit2 -25, news +0, ndx -4), 2022-05-12 18:00 78% (trend +7, daily -0, capit2 -25, news +0, ndx -4)
+    + the squeeze bound on top of the worst hour (a stacked worst case): 8% left
+
+  ordering 1
+    OLD FULL (liq_stress: + bids, no news/ndx)     29%  2021-12-04 05:00   under 50%:   2 h, under the line:  0 h
+    RUNNING NOW (no bids, + news + ndx)            32%  2021-12-04 05:00   under 50%:   2 h, under the line:  0 h
+    running now + crash bids                       28%  2021-12-04 05:00   under 50%:   2 h, under the line:  0 h
+    running now, capit2 at 1x                      59%  2021-12-04 05:00   under 50%:   0 h, under the line:  0 h
+    news alone                                     78%  2025-09-08 13:00   under 50%:   0 h, under the line:  0 h
+    NASDAQ dip alone                               87%  2020-03-13 02:00   under 50%:   0 h, under the line:  0 h
+    the 5 worst hours, running now: 2021-12-04 05:00 32% (trend +1, daily -14, capit2 -54, news -1, ndx +0), 2021-05-19 13:00 35% (trend +11, daily -8, capit2 -68, news +0, ndx +0), 2025-02-03 02:00 60% (trend +9, daily +0, capit2 -49, news +0, ndx +0), 2021-12-04 06:00 69% (trend +2, daily -8, capit2 -24, news +0, ndx +0), 2021-12-04 07:00 71% (trend +1, daily -8, capit2 -22, news +0, ndx +0)
+    + the squeeze bound on top of the worst hour (a stacked worst case): -15% left
+
+  ordering 2
+    OLD FULL (liq_stress: + bids, no news/ndx)     50%  2025-02-03 02:00   under 50%:   0 h, under the line:  0 h
+    RUNNING NOW (no bids, + news + ndx)            51%  2025-02-03 02:00   under 50%:   0 h, under the line:  0 h
+    running now + crash bids                       50%  2025-02-03 02:00   under 50%:   0 h, under the line:  0 h
+    running now, capit2 at 1x                      80%  2024-04-13 20:00   under 50%:   0 h, under the line:  0 h
+    news alone                                     78%  2025-09-08 13:00   under 50%:   0 h, under the line:  0 h
+    NASDAQ dip alone                               87%  2020-03-13 02:00   under 50%:   0 h, under the line:  0 h
+    the 5 worst hours, running now: 2025-02-03 02:00 51% (trend +13, daily +0, capit2 -62, news +0, ndx +0), 2024-04-13 20:00 53% (trend +6, daily +0, capit2 -54, news +0, ndx +0), 2022-05-12 07:00 58% (trend +7, daily -0, capit2 -46, news +0, ndx -3), 2024-04-13 21:00 61% (trend +8, daily +0, capit2 -47, news +0, ndx +0), 2025-02-03 01:00 63% (trend +9, daily +0, capit2 -45, news +0, ndx +0)
+    + the squeeze bound on top of the worst hour (a stacked worst case): 4% left
+
+REGISTERED PREDICTIONS
+  L1 running now above 21.8% everywhere and within 5 points of 41 / 29 / 50%: [55, 32, 51] -> RIGHT
+  L2 NASDAQ dip alone loses < 15% in its worst hour: 12.7% -> RIGHT
+  L3 squeeze bound < 10% of the account: 47.1% -> WRONG

@@ -1,0 +1,32 @@
+backtest/research_ideas.py, 2026-10-20 12:15 UTC
+
+A. THE DONCHIAN ENSEMBLE (alone, 1x of its own sizing)
+   universe    tune CAGR  fall Sharpe  hold CAGR  fall Sharpe
+   top-20          +5.4%   13%   0.85      +1.7%    8%   0.38
+   top-40          +4.5%   10%   0.82      +0.2%    8%   0.06
+   deployed daily book at 1x (median of orderings): tune +118.6%, holdout +73.2%, Sharpe 1.56 / 1.05
+
+   machine ($300, 12 months)                   tune  holdout     fall  worst mo
+   deployed machine                        $  3,927 $  9,416   45/49   -20/-31 
+   daily book REPLACED by ensemble top-20 x0.5$  2,942 $  4,725   45/45   -22/-30 
+   ensemble top-20 x0.5 ADDED              $  3,956 $  9,323   45/50   -21/-31 
+   daily book REPLACED by ensemble top-40 x0.5$  2,926 $  4,697   45/45   -22/-30 
+   ensemble top-40 x0.5 ADDED              $  3,969 $  9,283   45/50   -21/-31 
+
+B. VOLATILITY-MANAGED MARKET-NEUTRAL BOOK
+   machine ($300, 12 months)                   tune  holdout     fall  worst mo  MN worst wk    MN CAGR t/h
+   MN as deployed                          $  3,927 $  9,416   45/49   -20/-31       -21.1%     +48%/+130 %
+   vol-managed, cap 1.0 (only smaller)     $  3,896 $  7,630   45/47   -20/-29       -19.0%     +45%/+92  %
+   vol-managed, cap 2.0                    $  4,337 $  7,947   47/48   -23/-29       -19.0%     +48%/+104 %
+
+C. BITCOIN'S EVENING HOURS (long 21:00 -> 23:00 UTC open, every day)
+   tune     gross +8.3bp, net -3.7bp a day (t -1.7, 1702 days)
+   holdout  gross +5.1bp, net -6.9bp a day (t -3.1, 753 days)
+   Fridays only, gross +7.3bp (351 days)
+
+REGISTERED PREDICTIONS
+  E1 ensemble top-20 positive both halves, below the daily book's holdout (+73%): +5% / +2% -> RIGHT
+  E2 replacing the daily book does not beat the machine on both halves -> RIGHT
+  E3 adding it raises the typical year on at most one half -> RIGHT
+  V1 vol-managed MN (cap 1): machine typical year -0.8% / -19.0% (> -5% both) - see the MN worst week above
+  S1 BTC evening trade loses after fees on both halves -> RIGHT

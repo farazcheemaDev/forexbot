@@ -4341,3 +4341,36 @@ and, mid-way, "in choppy markets using RSI should work I guess". Doc 20's -4.5% 
 **Reading:** doc 20's "chop is closed at retail" stands for new books; the sideways gap is the trend book's bleed, and the
 only lever that moves it is the trend book's SIZE. Choosing it is choosing between 2021-type upside and steadier sideways
 months.
+
+## Taking the unusual profit early, and a per-coin cap (2026-10-20)
+
+**Why tested:** the user, after BTW (held long by three books) ran +46% then fell 19% in a day and the MN book gave back a
++$3.83 week-to-date: "for unusual profits we should take profit and exit early, they can bear fast"; and the per-coin
+limit proposed after the liquidation test.
+- **Daily book take-profit / protect-the-profit** (`profit_take.py`, both books reproduced exactly first): TP +30 / +50 /
+  +100%, or a trail armed at +30% / +50% - every version lowers the machine's typical year on both halves (holdout $9,416 ->
+  $6,271..$8,050), falls unchanged. The early exit sells the pumps that KEPT going, which pay for the book.
+- **MN basket take-profit** (+2 / +3 / +5 / +8% within the week, or give-back +3% -> +1.5%): all worse on both halves;
+  +2% softens the worst week (-21% -> -16%) for 40% of the holdout's typical year.
+- **Per-coin cap** (`coin_cap.py`; run 1 wrongly capped BTC, the news book's hedge leg): stacking is common (a coin over 15%
+  of the account on 42% of days) but the machine's big losses are market-wide - a 15% cap costs 12% of the holdout's
+  typical year and moves the worst month by under a point; 25% costs ~0 and rarely binds.
+**Reading:** hold-to-rule stays; the profit comes from the runs that keep going. A 25% per-coin cap is free insurance for
+real money, not a return lever.
+
+## What the outside world suggests, tested on our data (2026-10-20) - `research_ideas.py`, `dsr_check.py`
+
+**Why tested:** the user: "search the web / research what algorithmic traders and repos do, and include what improves our
+bots". Read: Zarattini, Pagani & Barbon 2025 ("Catching Crypto Trends", Donchian ensemble + vol sizing, Sharpe ~1.58
+2015-25); Grobys et al. 2025 (volatility-managed crypto momentum); Barroso & Santa-Clara 2015; Quantpedia's Bitcoin
+hour-of-day study; Bailey & Lopez de Prado's Deflated Sharpe Ratio; Carver's multi-speed trend + buffering; freqtrade's
+lookahead checks. Most of the practice is ALREADY here (three trend speeds, causality checks, point-in-time universes with
+dead coins, pre-registration, netting that skips small adjustments).
+- **Donchian ensemble, as published:** Sharpe 0.85 / 0.38 (tune / holdout) on our PIT top-20 vs the daily book's 1.56 /
+  1.05; replacing the daily book halves the holdout, adding it moves nothing.
+- **Vol-managed MN:** -19% of the holdout's typical year for 2 points of worst week (cap 1), or flips (cap 2). Dead.
+- **BTC 21:00-23:00 UTC:** +5..+8bp gross, -4..-7bp after 12bp. Dead.
+- **Deflated Sharpe:** the machine's 1.72 survives ~1,000 tried ideas over 2020-26 (DSR 0.99; 0.85 at 10,000); the 2024-26
+  half alone does not (0.44 at 100).
+**Reading:** the published state of the art did not beat what this repo built; its most useful import is a measuring
+stick - the DSR says the backtest is suggestive, not proof, which is what the paper record is for.

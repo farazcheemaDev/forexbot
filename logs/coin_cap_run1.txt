@@ -1,0 +1,21 @@
+backtest/coin_cap.py, 2026-10-20 11:53 UTC; per-coin net exposure across MN, carry, daily, capit2 (2x) and news; the 9-book machine (no crash bids), $300, 12 months, 10 orderings
+
+1. HOW OFTEN ONE COIN CARRIES A LOT (days with any position; median over orderings)
+   > 10% of the account on 96% of days   > 15% of the account on 47% of days   > 25% of the account on 9% of days
+   the largest single-coin exposure: median 66% of the account; e.g. 66% BTCUSDT 2025-07-10; 66% BTCUSDT 2025-07-10; 66% BTCUSDT 2025-07-10
+
+2. THE MACHINE WITH A PER-COIN CAP
+   cap           half  typical     bad   worst worst mo  fall   up
+   none          tune $  3,927 $   762 $   284   -20.1%   45%  65%
+   none       holdout $  9,416 $ 4,251 $ 1,206   -30.7%   49%  68%
+   15%           tune $  3,910 $   750 $   295   -20.2%   45%  64%
+   15%        holdout $  8,201 $ 3,798 $ 1,063   -30.5%   48%  68%
+   25%           tune $  3,961 $   767 $   288   -20.2%   45%  65%
+   25%        holdout $  9,142 $ 4,119 $ 1,192   -30.9%   50%  68%
+   35%           tune $  3,933 $   762 $   284   -20.2%   45%  65%
+   35%        holdout $  9,247 $ 4,160 $ 1,202   -30.7%   50%  68%
+
+REGISTERED PREDICTIONS
+  K1 a coin over 15% on >= 10% of days: 47% -> RIGHT
+  K2 15% cap moves the typical year < 5% on both halves: tune -0.4%, holdout -12.9% -> WRONG
+  K3 15% cap improves the worst month >= 1 point on a half: tune -0.0, holdout +0.2 -> WRONG

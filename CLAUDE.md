@@ -607,6 +607,26 @@ the box was patched before the repo was public.
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
 
+### 2026-10-20 (later) - outside research tested: nothing beats the machine; the Deflated Sharpe as a yardstick
+
+- `backtest/research_ideas.py`: the published Donchian ensemble (Zarattini et al. 2025) - Sharpe 0.85 / 0.38 on our PIT
+  data vs the daily book's 1.56 / 1.05; vol-managed MN (Grobys et al. 2025) - costs 19% of the holdout; BTC 21-23 UTC -
+  real gross (+5..+8bp) and below the fee. Most outside best practice is already in the repo.
+- `backtest/dsr_check.py`: the machine's Sharpe 1.72 has a Deflated Sharpe of 0.99 over 2020-26 at 1,000 tried ideas
+  (0.85 at 10,000) but only 0.44 on the 2024-26 half at 100 - the formal case for waiting on the paper record.
+
+### 2026-10-20 - full VM check; profit-taking and a per-coin cap tested (doc 02's last entry)
+
+- VM check (user: "check all the things"): all services up, 0 restarts, one network blip since 10-14; protections firing
+  (fresh account's MN dropped BR at +52%); 3 sub-$5 orders correctly refused. The MN book has no take-profit by design:
+  it holds a weekly basket and books daily, so +$3.83 (10-19) -> -$3.43 (10-20) was BTW -18.8% and two shorts bouncing.
+  Open item before real money: 1000SHIB / 1000PEPE / RAYSOL are UNMAPPED on Bitget (the paper books count their P&L, a
+  live account could not place them) - a symbol-mapping fix; and BTW sat long in three books at once.
+- `backtest/profit_take.py` (+ `daily_combos.gen` cfg tp / ptrail, off by default): every daily-book take-profit /
+  protect-the-profit and every MN basket take-profit lowers the machine on both halves. Hold-to-rule stays.
+- `backtest/coin_cap.py`: a coin is over 15% of the account on 42% of days; a 15% cap costs 12% of the holdout and does not
+  move the worst month; 25% ~free, rarely binds - insurance for real money, not a return lever.
+
 ### 2026-10-18 - the sideways gap: the 9-book machine measured; 4 ideas dead; the lever is the trend book's size
 
 - `backtest/chop_gap.py`: 9-book machine, typical sideways month **-2.1%** (v2 -4.5%); without the trend book +7.8% -
@@ -618,6 +638,12 @@ the detail lives in the numbered docs.*
 - `backtest/trend_size.py`: trend book 0.8x -> typical sideways month 0.0%, 0.7x -> +1.1%, typical year ~unchanged, falls
   ~7 points shallower; costs the top of a 2021-type bull (0.7x on 2020-24: good year -25%, average -38%; 2024-26 ~0).
   A size choice for the user - DECIDED: the trend book stays at 1.0x (the user: "I can't miss on big gains").
+- `backtest/liq_now.py` (the user: "I just want to know I won't be liquidated"): the RUNNING machine (no crash bids,
+  + news + NASDAQ, 14.5x cap -> line 21.75% left), every position at its hour's worst price: worst hour 55 / 32 / 51% left
+  (orderings 0 / 1 / 2) - never under the line since 2020; capit2 at 2x is the tail (at 1x: 55 / 59 / 80%). A shorted
+  small coin squeezing is the other tail: LUNA +452% in one hour (2022-05-11), 12 coins > +100% in an hour since 2020;
+  at the max one-coin short (MN + carry 10.4%) -47% before the live 30% exchange stops / +50% short exits. Before real
+  money: consider capit2 1x and a per-coin short cap (untested).
 - Also 2026-10-18: the dashboard SCORECARD (below, 2026-10-17 entry) - and month_regime.py's "losing months 48% -> 12% on
   2017-19" is retracted as a bot result (booked-return attribution).
 

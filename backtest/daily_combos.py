@@ -167,7 +167,14 @@ def gen(off, cfg):
             best, worst, be_on = c[i + 1], 0.0, False
             stop_lv = e - cfg["stop"] * atr[i] if cfg["stop"] else None
             jo, x, t_out, why = None, None, None, "cap"
+            tp_lv = e * (1 + cfg["tp"]) if cfg.get("tp") else None      # profit_take.py: a resting take-profit
+            armed = False                                                 # profit_take.py: protect-the-profit trail
             for j in range(i + 1, j_end + 1):
+                if tp_lv is not None and h[j] >= tp_lv:                   # fills inside the bar, at the open if it gaps over
+                    x = max(o[j], tp_lv)
+                    worst = max(worst, sum(1 - l[j] / eu for ju, eu in units if ju <= j))
+                    jo, t_out, why = j, t[j] + DAY, "tp"
+                    break
                 if stop_lv is not None and l[j] <= stop_lv:
                     x = min(o[j], stop_lv)
                     worst = max(worst, sum(1 - l[j] / eu for ju, eu in units if ju <= j))
@@ -188,6 +195,10 @@ def gen(off, cfg):
                         hit = "be"
                 if cfg["btc_exit"] and F["btc_c"][j] < F["btc_m20"][j]:
                     hit = "btc"
+                if cfg.get("ptrail"):                                     # (arm at +A, out B under the best close)
+                    armed = armed or c[j] >= e * (1 + cfg["ptrail"][0])
+                    if armed and c[j] < best * (1 - cfg["ptrail"][1]):
+                        hit = "ptrail"
                 if hit:
                     jo, why = j + 1, hit
                     x, t_out = o[jo], t[jo]

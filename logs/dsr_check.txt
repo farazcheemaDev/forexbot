@@ -1,0 +1,14 @@
+backtest/dsr_check.py, 2026-10-20 12:19 UTC; the 9-book machine's daily returns (no crash bids), median over 10 orderings; V = 1/T
+
+   span        days Sharpe/yr   skew   kurt            N=10           N=100          N=1000         N=10000
+                                                (bar / DSR)     (bar / DSR)     (bar / DSR)     (bar / DSR)
+   full        2399      1.72  20.22  527.8     0.61 / 1.00     0.99 / 1.00     1.27 / 0.99     1.51 / 0.85
+   tune        1654      1.72  19.47  493.5     0.74 / 1.00     1.19 / 0.99     1.53 / 0.79     1.81 / 0.34
+   holdout      745      1.72  17.24  370.3     1.10 / 0.98     1.77 / 0.44     2.28 / 0.03     2.70 / 0.00
+
+   bar = the Sharpe a year the best of N skill-less trials would show by luck alone; DSR = the probability the
+   true Sharpe is above zero after paying for the search (0.95+ = significant)
+
+REGISTERED PREDICTIONS
+  Z1 holdout DSR at N = 1,000 below 0.95: 0.03 -> RIGHT
+  Z2 full-span DSR at N = 100 above 0.95: 1.00 -> RIGHT

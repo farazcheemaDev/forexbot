@@ -1,0 +1,27 @@
+backtest/profit_take.py, 2026-10-20 11:52 UTC; the 9-book machine, $300, 12 months, 10 orderings; trend gains shrunk, the rest raw
+
+PART A - THE DAILY BOOK
+   rule                       machine typ tune  holdout    fall  worst mo    book alone CAGR tune  holdout   exits by the rule
+   deployed (20-day mean)    $          3,927 $  9,416  45/49   -20/-31                   +56%     +43%                0%
+   TP +30%                   $          3,672 $  6,271  44/48   -20/-32                   +44%     +14%               34%
+   TP +50%                   $          3,620 $  7,007  45/47   -19/-31                   +46%     +25%               20%
+   TP +100%                  $          3,635 $  8,050  45/49   -20/-30                   +49%     +30%                8%
+   PROTECT +30% / 15%        $          3,495 $  7,276  45/51   -19/-31                   +48%     +26%               17%
+   PROTECT +50% / 20%        $          3,685 $  7,741  44/50   -20/-31                   +49%     +31%                7%
+
+PART B - THE MARKET-NEUTRAL BOOK
+   rule                       machine typ tune  holdout    fall  worst mo    book alone CAGR tune  holdout worst wk   weeks closed early
+   deployed (hold the week)  $          3,927 $  9,416  45/49   -20/-31                   +48%    +130%   -21.1%                 0%
+   TP +2%                    $          3,614 $  5,665  44/47   -21/-29                   +23%     +60%   -15.6%                52%
+   TP +3%                    $          3,677 $  6,265  45/49   -21/-29                   +26%     +91%   -20.0%                40%
+   TP +5%                    $          3,692 $  6,405  46/50   -21/-29                   +37%     +84%   -20.0%                24%
+   TP +8%                    $          3,911 $  6,556  45/50   -21/-31                   +42%     +90%   -21.1%                12%
+   GIVE-BACK +3% -> +1.5%    $          3,907 $  8,884  45/50   -20/-31                   +50%    +118%   -20.0%                10%
+
+   PASSED (typical year >= deployed on both halves, no deeper fall): daily none; MN none
+
+REGISTERED PREDICTIONS
+  D1 no fixed take-profit improves the daily book's machine on both halves -> RIGHT
+  D2 protect-the-profit improves at most one half -> RIGHT
+  N1 no MN take-profit passes -> RIGHT (none)
+  N2 MN worst week moves < 2 points: deployed (hold the week) -21.1%, TP +2% -15.6%, TP +3% -20.0%, TP +5% -20.0%, TP +8% -21.1%, GIVE-BACK +3% -> +1.5% -20.0% -> WRONG
