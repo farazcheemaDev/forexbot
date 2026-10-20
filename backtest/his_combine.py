@@ -20,6 +20,16 @@ REGISTERED BEFORE THE RUN (2026-10-20)
     R2 negative-gamma moments go with larger 5-minute runs his way (Spearman of 'positive gamma' with mfe300 < 0).
     R3 the conditions together predict his side at <= 60% leave-one-out.
 
+RESULT (2026-10-20, logs/his_combine.txt; 48 trades, race won 88%) - no direction; one trivial and two suggestive links.
+    (a) 98 condition x outcome tests: ONE survives Holm - the 60-s tick rate before his click x the worst adverse move in
+        5 minutes (rho +0.56, Holm 0.004): busy markets move more both ways (rate60 x mfe60 +0.33 too) - volatility, not
+        skill; it only says a copier's stop must widen in fast markets. Suggestive, not surviving: he wins the race LESS
+        when trading WITH a big session move (day_move_his x race7 -0.42, p 0.005 raw, Holm 0.48); farther from the gamma
+        walls -> a bigger first-minute run (+0.33, p 0.02); later in the day -> smaller 5-minute runs (-0.38, p 0.008).
+    (b) All conditions together predict his SIDE at 51% leave-one-out (majority side 51%); 'with the session's move' 47%;
+        'with the 30-s move' 44% (he buys the dip 52%).
+    R1 WRONG (the volatility link), R2 RIGHT (-0.09, tiny), R3 RIGHT (51%).
+
     python -m backtest.his_combine
 """
 from __future__ import annotations

@@ -2663,3 +2663,12 @@ negative-gamma (trending) sessions** (40% of his days positive vs 61%, p ~0.13) 
 gamma strikes than the session's other moments** (rank 0.61 vs 0.49 for random moments in the same window; not
 explained by a prior move) - he trades in open space with room ahead, as s55 hinted. **But gamma says nothing about his
 side:** toward the magnet strike 51%, away from the nearer wall 49%. His direction is still not in any market data.
+
+## 71. Everything together - any correlation? (2026-10-20) - `backtest/his_combine.py`
+
+Every NASDAQ trade (48, corrected clock, Exness ticks) with its outcomes (race, 1- and 5-minute best / worst move, time
+to +7, his points) against every condition on record (gamma, VXN, the session's move, hour, follow-up trades, the 30-s
+and 5-minute move before him, tick rate). 98 tests: **one survives Holm and it is volatility** - a busy market before his
+click goes with a bigger adverse swing after it (rho +0.56). Suggestive only: he wins MORE often when trading against a
+big session move (-0.42 raw), and runs further in the first minute when far from gamma walls. **His side: 51%
+leave-one-out from all conditions together** - the direction is still in none of it.
