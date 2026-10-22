@@ -37,13 +37,15 @@ than predicted), S2 WRONG (trend 30.5, carry 6.1), S3 RIGHT (68 / 90 / 48%). Two
 RUN 2 died: the orderings' calendars differ by a day at the ends, and news / NASDAQ indexed on ordering 0's days made a
 2,401-day total beside 2,400-day books (every ordering is now on its own calendar, asserted). all_books.py adds news the
 same way - one NaN day in those orderings' totals, skipped by cumprod; tiny, not re-measured.
-RUN 3 (2026-10-18 00:53 UTC, logs/scorecard_bands.txt - the one dashboard_bands.json holds): the books' dollar stretches
+RUN 3 (2026-10-18 00:53 UTC, logs/scorecard_bands.txt until run 4): the books' dollar stretches
 add up to the account's (asserted). 7- and 30-day bands barely move from run 1; 365-day book bands are far wider (the
 account compounds). Predictions unchanged: S1 WRONG (16.2), S2 WRONG (trend 30.7, carry 6.3), S3 RIGHT.
 First live read (dashboard_push.py, 2026-10-18, main account 9.0 days, -4.5%): account 25th percentile; carry 5.9th
 (-$7.75); NASDAQ 5.6th (one open trade -$0.76 where the backtest is usually idle); the rest 38th-65th or idle.
 
     python -m backtest.scorecard_bands
+RUN 4 (2026-10-22 20:34 UTC, logs/scorecard_bands.txt - the one dashboard_bands.json holds): run 3 + the crash bids
+    as a 9th book (final_books.bids_poll); the self-checks pass; bids' 8-day band median +$59.67 on $300-scale windows.
 """
 from __future__ import annotations
 
