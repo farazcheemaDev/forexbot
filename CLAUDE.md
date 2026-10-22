@@ -607,6 +607,14 @@ the box was patched before the repo was public.
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
 
+### 2026-10-22 (very last) - the live bot checked against the backtest code, trade by trade (`backtest/live_check.py`)
+
+- The user: "how can we make the verdict soon" -> check what does not need time. On the final machine's 13 live days:
+  every trend entry is a real signal at the backtest's price; 32 / 37 exits are the rule's - the 5 others all SHORTS (a
+  live short-exit difference, open); the daily book's rule is identical, its universe is rebuilt daily from today's
+  volume (open); MN 67-89% name overlap; capit2 / sleeve / NDX exact. Replays of the same days lose what the live book
+  lost: the -13% is the market. Fixes not made yet (the user's call).
+
 ### 2026-10-22 (last) - the running bot made to match its backtest: capit2 resting limits + the crash bids (DEPLOYED)
 
 - The user: "eliminate losses / make it more profitable". Loss brakes were all tested dead before; what was missing is

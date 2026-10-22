@@ -1,0 +1,76 @@
+backtest/live_check.py, 2026-10-22 21:03 UTC; live = combo-bot-final since 2026-10-09 00:04:42 UTC (logs copied read-only from the VM); backtest code on fresh Binance / Yahoo data
+
+TREND (the triple): 37 live trades closed 10-10..10-22
+  matched 18 of 37 (49%); entry engine vs live median +3.4bp, within 20bp on 10; R live -8.58 vs engine -9.63, within 0.25R on 14; units agree on 18
+  engine trades entered and closed in the window that the live book does not have: 109 (R -100.41) - slots, the 6.25x guard, and restarts' warm start skip some by design
+    LIVE ONLY   ADAUSDT  4h  short  out 10-10 05:00 -1.02R
+    LIVE ONLY   SUIUSDT  4h  short  out 10-10 09:00 -1.02R
+    LIVE ONLY   ADAUSDT  1h  long   out 10-11 00:01 -1.04R
+    LIVE ONLY   LINKUSDT 4h  short  out 10-11 17:00 -1.02R
+    LIVE ONLY   AVAXUSDT 4h  short  out 10-11 17:00 -1.02R
+    LIVE ONLY   WLDUSDT  1h  long   out 10-11 22:01 -1.03R
+    LIVE ONLY   AVAXUSDT 12h short  out 10-12 01:01 -1.01R
+    LIVE ONLY   ARBUSDT  1h  long   out 10-12 12:00 -1.03R
+    LIVE ONLY   ENAUSDT  1h  long   out 10-12 13:01 -1.03R
+    LIVE ONLY   LTCUSDT  1h  long   out 10-12 14:00 -1.09R
+    LIVE ONLY   AVAXUSDT 1h  long   out 10-12 15:01 -1.06R
+    LIVE ONLY   NEARUSDT 1h  long   out 10-12 17:01 -1.03R
+    LIVE ONLY   WLDUSDT  1h  long   out 10-16 10:01 -1.03R
+    LIVE ONLY   ARBUSDT  1h  long   out 10-17 11:00 -1.03R
+    LIVE ONLY   SUIUSDT  1h  short  out 10-19 00:01 -0.18R
+    LIVE ONLY   XRPUSDT  4h  short  out 10-20 17:01 +0.64R
+    LIVE ONLY   LTCUSDT  4h  short  out 10-21 01:00 +0.68R
+    LIVE ONLY   WLDUSDT  4h  long   out 10-22 09:01 -1.02R
+    LIVE ONLY   XRPUSDT  1h  long   out 10-22 19:01 -4.13R
+    ENGINE ONLY DOTUSDT  1h  long   in 10-09 02:00 out 10-13 00:00 -2.06R
+    ENGINE ONLY NEARUSDT 12h short  in 10-09 12:00 out 10-10 12:00 -1.01R
+    ENGINE ONLY SHIBUSDT 1h  long   in 10-09 22:00 out 10-11 03:00 -1.06R
+    ENGINE ONLY WLDUSDT  1h  long   in 10-09 22:00 out 10-12 21:00 -6.12R
+    ENGINE ONLY NEARUSDT 1h  long   in 10-09 23:00 out 10-13 00:00 -6.08R
+    ENGINE ONLY ADAUSDT  1h  long   in 10-10 00:00 out 10-12 23:00 -4.10R
+    ENGINE ONLY ARBUSDT  1h  long   in 10-10 00:00 out 10-12 21:00 -2.09R
+    ENGINE ONLY ENAUSDT  1h  long   in 10-10 02:00 out 10-12 16:00 -2.08R
+    ENGINE ONLY SUIUSDT  1h  long   in 10-10 02:00 out 10-12 19:00 -1.05R
+    ENGINE ONLY XRPUSDT  1h  long   in 10-10 02:00 out 10-12 12:00 -1.08R
+    ENGINE ONLY LINKUSDT 1h  long   in 10-10 06:00 out 10-12 23:00 -4.16R
+    ENGINE ONLY DOTUSDT  4h  long   in 10-10 08:00 out 10-13 00:00 -1.02R
+  THE FAIR REPLAY (slot_retry.simulate: the live position model, flat from 10-09 00:04): 36 trades closed in the window
+  matched 20 of 37 live (54%); entry within 20bp on 16; R within 0.25 on 18; units agree on 1; replay-only 16 (R -12.75)
+    REPLAY ONLY XRPUSDT  1h  long   in 10-10 05:00 out 10-11 03:00 -1.09R
+    REPLAY ONLY SUIUSDT  1h  long   in 10-10 09:00 out 10-11 03:00 -1.05R
+    REPLAY ONLY AVAXUSDT 1h  short  in 10-11 04:00 out 10-11 06:00 -1.08R
+    REPLAY ONLY ARBUSDT  1h  long   in 10-11 07:00 out 10-12 12:00 -1.04R
+    REPLAY ONLY XRPUSDT  1h  long   in 10-11 17:00 out 10-11 18:00 -1.11R
+    REPLAY ONLY SUIUSDT  1h  long   in 10-11 17:00 out 10-11 21:00 -1.06R
+    REPLAY ONLY LINKUSDT 1h  long   in 10-11 17:00 out 10-11 21:00 -1.08R
+    REPLAY ONLY SUIUSDT  1h  short  in 10-12 15:00 out 10-13 05:00 +0.49R
+    REPLAY ONLY ADAUSDT  1h  short  in 10-12 16:00 out 10-13 05:00 +0.44R
+    REPLAY ONLY DOTUSDT  1h  short  in 10-14 09:00 out 10-15 18:00 +0.25R
+  PER TRADE, given the live entry: entry bar found for 37 of 37; open within 50bp of the live entry on 37; a signal on the bar (or the one before) on 37; the rule's exit within 0.25R of the live one on 32 -> all three on 32 of 37
+    DIFFERS AVAXUSDT 12h short  entry +0bp, signal yes, live -1.01R out 10-12 01:01 | rule +0.90R out 10-23 01:00
+    DIFFERS WLDUSDT  1h  short  entry +0bp, signal yes, live +0.86R out 10-13 05:00 | rule +1.19R out 10-13 04:00
+    DIFFERS LTCUSDT  1h  short  entry +2bp, signal yes, live +1.41R out 10-14 03:00 | rule +0.85R out 10-13 08:00
+    DIFFERS DOTUSDT  1h  short  entry -8bp, signal yes, live +1.92R out 10-15 22:01 | rule +0.28R out 10-13 06:00
+    DIFFERS XRPUSDT  1h  short  entry +0bp, signal yes, live +0.68R out 10-16 06:01 | rule +0.17R out 10-15 16:00
+
+DAILY BOOK: 6 live entries since 10-09; the backtest rule on the same universe and bars: 11 trades open in the window (3 flat bars are appended so signals on the last closes show; their entry price is a copy)
+    NEARUSDT       live in 5.93  = backtest in 5.894 on 10-12
+    FILUSDT        live in 1.2285  the backtest was ALREADY IN since 10-06 (before the live start); the live book, flat at the start, bought the next signal
+    BTWUSDT        live in 1.5788  the backtest was ALREADY IN since 09-12 (before the live start); the live book, flat at the start, bought the next signal
+    WLDUSDT        live in 0.5872  = backtest in 0.5872 on 10-21
+    1000PEPEUSDT   live in 0.0046366  = backtest in 0.0045602 on 10-22
+    IOSTUSDT       live in 0.0009666  a day LATE: backtest in 10-21 at 0.0010522; live bought 10-22 00:02 at 0.0009666 - the coin was not in the live universe the day before (rebuilt daily from today's volume)
+
+MN BLEND (backtest ranking on the live eligible universe as of each rebalance close)
+  2026-10-09: eligible live 60 / here 60; longs 6 of 9 the backtest's (LSK MUBARAK ONE not), shorts 8 of 9 (UAI not)
+  2026-10-16: eligible live 60 / here 60; longs 7 of 9 the backtest's (MUBARAK ZRO not), shorts 6 of 9 (DASH LSK XLM not)
+
+CAPIT2: backtest signals in the window: 0 (none); live placed 0
+SLEEVE: BTC labels since 10-09: {'bull': 13}; live sleeve trades 0
+NDX: RSI(2) < 10 closes since 10-09: ['10-14', '10-15', '10-16']; first close above the 5-day average after: 10-21 | live: bought 710.4, sold 2026-10-21 20:00:32 (above_sma5)
+
+REGISTERED PREDICTIONS
+  V1 trend: >= 90% matched, entries within 20bp on >= 90%, R within 0.25 on >= 80% -> WRONG
+  V2 daily: every live entry a backtest signal, <= 2 unexplained extras -> RIGHT
+  V3 MN: >= 80% of live longs and shorts the backtest's on each rebalance -> WRONG
+  V4 capit2 / sleeve / NDX agree -> RIGHT
