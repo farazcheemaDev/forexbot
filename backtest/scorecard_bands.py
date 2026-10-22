@@ -45,7 +45,7 @@ First live read (dashboard_push.py, 2026-10-18, main account 9.0 days, -4.5%): a
 
     python -m backtest.scorecard_bands
 RUN 4 (2026-10-22 20:34 UTC, logs/scorecard_bands.txt - the one dashboard_bands.json holds): run 3 + the crash bids
-    as a 9th book (final_books.bids_poll); the self-checks pass; bids' 8-day band median +$59.67 on $300-scale windows.
+    as a 9th book (final_books.bids_poll); the self-checks pass; bids' 365-day band median +$59.67 on $300.
 """
 from __future__ import annotations
 
