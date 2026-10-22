@@ -1,4 +1,4 @@
-backtest/machine_fixes.py, 2026-10-22 20:26 UTC; 10 orderings; trend gains shrunk, the rest raw; the 12bp rebuild of MN + carry reproduces all_books' series to 0.0e+00
+backtest/machine_fixes.py, 2026-10-22 20:44 UTC; 10 orderings; trend gains shrunk, the rest raw; the 12bp rebuild of MN + carry reproduces all_books' series to 0.0e+00
 
    machine ($300, 12 months)             half  typical     bad   worst worst mo  fall  mo up        vs RUNNING, paired
    RUNNING                               tune $  3,783 $   725 $   282   -19.8%   45%    64%                          
@@ -12,6 +12,9 @@ backtest/machine_fixes.py, 2026-10-22 20:26 UTC; 10 orderings; trend gains shrun
 
    F3 MN + carry at limit fees           tune $  3,878 $   743 $   289   -19.6%   44%    65%       +2.5% +- 0.0, 10/10
    F3 MN + carry at limit fees        holdout $  9,282 $ 4,210 $ 1,172   -30.5%   49%    67%       +2.4% +- 0.0, 10/10
+
+   F1 + F2 (deployed 2026-10-22)         tune $  4,435 $   817 $   307   -19.2%   42%    67%      +19.2% +- 0.8, 10/10
+   F1 + F2 (deployed 2026-10-22)      holdout $  9,838 $ 4,652 $ 1,282   -31.3%   49%    68%      +11.6% +- 0.5, 10/10
 
    ALL                                   tune $  4,546 $   837 $   314   -19.0%   42%    68%      +22.2% +- 0.8, 10/10
    ALL                                holdout $ 10,069 $ 4,764 $ 1,314   -31.2%   49%    68%      +14.2% +- 0.5, 10/10

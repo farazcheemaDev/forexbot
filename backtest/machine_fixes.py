@@ -12,6 +12,7 @@ make the RUNNING bot (combo-bot-final, `--mode dry --final`, no `--wick`) do wha
   F2    the crash bids switched ON (`--wick`): in every backtest the machine is quoted from, not in the running bot
   F3    the market-neutral blend and the carry book rebalanced with post-only LIMIT orders: 6bp a round trip (Bitget maker
         2bp a side + 1bp of adverse fill each side) instead of 12bp; recomputed with mn_combos.FEE
+  F1+F2 the two built and deployed 2026-10-22
   ALL   F1 + F2 + F3
 Each against the RUNNING machine on the SAME ordering (paired): $300 typical year, worst month, fall, months up - tune
 (before 2024-08-29) and holdout.
@@ -29,8 +30,11 @@ RESULT (2026-10-22, logs/machine_fixes.txt; BACKTEST) - three fixes, each 10/10 
   moves months up by 4 points on the tune half). First run: my MN rebuild added the momentum and RSI halves with
   Series.add(fill_value=0) and did not reproduce all_books (0.28 a day apart on 336 days); combined as machine_books does
   (each reindexed first) it reproduces to 0.0 - now asserted.
+  F1 + F2 together (deployed): +19.2% / +11.6%, 10/10 - $300 typical year $4,435 / $9,838 (RUNNING $3,783 / $9,067),
+  bad year $817 / $4,652, worst month -19.2% / -31.3%, fall 42% / 49%, months up 67% / 68%.
   Built 2026-10-22: F1 (final_books.capit2_poll fills at the limit on 1-minute lows) and F2 (final_books.bids_poll, the
-  crash bids as a ledger inside the dry account). F3 needs a real post-only order path - not built.
+  crash bids as a ledger inside the dry account), DEPLOYED to combo-bot-final / -fresh 2026-10-22 20:36 UTC. F3 needs
+  a real post-only order path - not built.
 
     python -m backtest.machine_fixes
 """
@@ -86,7 +90,8 @@ def main():
     news, ndx = news_book(), ndx_dip()
     mk12, mk6 = maker_books(12.0 / 1e4), maker_books(6.0 / 1e4)
     from backtest import machine_combos as mc
-    V = {k: [] for k in ("RUNNING", "F1 capit2 as a resting limit", "F2 crash bids on", "F3 MN + carry at limit fees", "ALL")}
+    V = {k: [] for k in ("RUNNING", "F1 capit2 as a resting limit", "F2 crash bids on", "F3 MN + carry at limit fees",
+                         "F1 + F2 (deployed 2026-10-22)", "ALL")}
     chk = []
     for sd, x in zip(mc.SEEDS, M):
         idx = x.index
@@ -101,6 +106,7 @@ def main():
         V["F1 capit2 as a resting limit"].append(common + mn12 + ca12 + x.capit2)
         V["F2 crash bids on"].append(run + x.bids)
         V["F3 MN + carry at limit fees"].append(common + mn6 + ca6 + POLL * x.capit2)
+        V["F1 + F2 (deployed 2026-10-22)"].append(common + mn12 + ca12 + x.capit2 + x.bids)
         V["ALL"].append(common + mn6 + ca6 + x.capit2 + x.bids)
     assert max(chk) < 1e-9, f"the 12bp rebuild does not reproduce all_books' MN / carry ({max(chk):.2e})"
     L = [f"backtest/machine_fixes.py, {pd.Timestamp.now(tz='UTC'):%Y-%m-%d %H:%M} UTC; 10 orderings; trend gains shrunk, the rest raw; "

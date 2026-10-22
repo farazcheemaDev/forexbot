@@ -607,7 +607,7 @@ the box was patched before the repo was public.
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
 
-### 2026-10-22 (last) - the running bot made to match its backtest: capit2 resting limits + the crash bids (CODE, not deployed)
+### 2026-10-22 (last) - the running bot made to match its backtest: capit2 resting limits + the crash bids (DEPLOYED)
 
 - The user: "eliminate losses / make it more profitable". Loss brakes were all tested dead before; what was missing is
   the bot doing what its yardstick does. `backtest/machine_fixes.py` (paired, 10/10 orderings, both halves): capit2 as a
@@ -617,8 +617,15 @@ the detail lives in the numbered docs.*
 - Built and tested locally: `final_books.capit2_poll` fills a limit AT the limit from closed 1-minute lows since the last
   poll (fallback: the poll's price); `final_books.bids_poll` = wick_paper's rule booked into the dry account each hour
   (book "bids"), called by combo_bot.poll when no real desk runs. tests/test_final_books.py 18 (3 mutations caught),
-  test_combo_bot.py 26. Dashboard + scorecard bands now include "bids" (bands rebuilt). NOT DEPLOYED - the user's call
-  (restart combo-bot-final and combo-bot-fresh). A real account would still need the capit2 limit and the desk on the venue.
+  test_combo_bot.py 26. Dashboard + scorecard bands now include "bids" (bands rebuilt, run 4).
+- **DEPLOYED 2026-10-22 20:36 UTC (the user's yes, commit 59f2412)**: pulled on the VM, blend_paper / combo_paper /
+  wick_paper / pair_live / mn_paper / news_books blob-identical, tests 18 + 26 + 5 pass on the VM, state backed up to
+  logs/backup_20261022-203627/, only combo-bot-final and combo-bot-fresh restarted; "BIDS: crash-bid ledger on" logged.
+  Deployed pair in machine_fixes.py: +19% / +12% typical year. A real account would still need the capit2 limit and
+  the desk ON the venue (`--wick`), and the status line does not show the bids book yet (dashboard does).
+- Readings at deploy: final $261.02 booked (-13.0%, day 13), fresh $267.19 (-10.9%, day 5); combo_paper (v2) $166.65
+  (-24.6%, day 28) = 4.1th percentile of BULL-start 28-day windows (`combo_window.py --days 28`; under doc 22's 5th
+  line, which applies from month 3); crash-bid paper Bitget +1.20% a fill on 54 (expected +0.8..+1.0).
 
 ### 2026-10-22 (later) - the forex search, "every possible thing": one CANDIDATE, NASDAQ intraday noise momentum
 
