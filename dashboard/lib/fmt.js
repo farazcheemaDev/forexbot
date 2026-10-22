@@ -7,6 +7,7 @@ export const BOOKS = {
   sleeve: { name: "Bear sleeve", desc: "Trades only in bear markets" },
   daily: { name: "Daily breakout", desc: "Daily Bollinger breakouts on the top 40 coins" },
   capit2: { name: "Crash buys", desc: "Buys a coin after a 10% crash" },
+  bids: { name: "Crash bids", desc: "Resting buys 10% under the price, sold at the hour's close" },
   news: { name: "News shorts", desc: "Shorts a coin after a bad Binance notice" },
   ndx: { name: "NASDAQ dip", desc: "Buys QQQ after a sharp NASDAQ drop" },
 };

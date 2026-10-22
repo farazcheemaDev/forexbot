@@ -7,11 +7,11 @@ dashboard_push.py (VM) puts each account's LIVE result for its age into that dis
 
     books      trend / mn / carry / sleeve / daily / capit2 / news / ndx - the final machine as deployed
                (all_books.machine_books: trend guard 6.25x with gains shrunk for hindsight, MN blend, carry x0.5,
-               sleeve, daily x0.5, capit2 1.0 x 2x; news 1/10 a trade; NASDAQ dip x1). The crash bids are not in the
-               running final bot (no --wick), so they are not in its yardstick either.
+               sleeve, daily x0.5, capit2 1.0 x 2x; news 1/10 a trade; NASDAQ dip x1) + the crash bids since
+               2026-10-22 (final_books.bids_poll books them inside the dry account; machine_fixes.py).
     a book's   the SUM of its daily returns over the stretch = its P&L as a share of the account at the start of the
     result     stretch (the live side: the book's booked + open P&L / the account's start)
-    account    the compounded sum of the 8 books
+    account    the compounded sum of the 9 books
     windows    every start day, all 10 orderings pooled (news and NASDAQ: the same in every ordering, counted once,
                and only from the first day the news book has data)
     stored     33 quantile levels per (book, N), the share of stretches with no P&L at all (idle), and the median
@@ -65,7 +65,7 @@ LEVELS = [0, 0.5, 1, 2, 3, 5, 7.5, 10, 12.5, 15, 20, 25, 30, 35, 40, 45, 50, 55,
 LENGTHS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 17, 21, 25, 30, 35, 42, 50, 60, 75, 90, 105, 120, 150, 180, 240, 300,
            365]
 NAMES = {"trend": "trend", "mn_blend": "mn", "carry": "carry", "sleeve": "sleeve", "daily": "daily",
-         "capit2": "capit2"}
+         "capit2": "capit2", "bids": "bids"}
 
 
 def windows(r: pd.Series, n: int, compound: bool = False) -> np.ndarray:

@@ -13,7 +13,8 @@ The running bot (machine v2: trend triple + market-neutral + bear sleeve + crash
                after 31 days. 8 slots of half the account (machine_combos.parts: "daily" = 0.5 x the 8-slot book).
     CAPIT2     the improved capitulation buy: a 4h close where RSI(14) crosses under 20 on > 2x its 20-bar quote volume,
                once >= 5 of the top-40 have done so within 24h, on a coin down >= 10% over those 24h -> a buy 2% under
-               the signal close, live for the next 4h bar only and taken only once the price trades 0.3% THROUGH it;
+               the signal close, live for the next 4h bar only and taken only once the price trades 0.3% THROUGH it
+               (filled AT the limit from 1-minute lows since 2026-10-22: a resting order, as backtested - capit2_poll);
                +5% target, out once a close 24+ bars after the signal is not above the entry, 43-bar cap. 8 slots of
                the WHOLE account at 2x since 2026-10-16 (was half at 1x): backtest/capit2_lev.py (+20.0 / +29.9 %/yr
                tune / holdout vs +8.6 / +14.3 at 1x, fall 10 -> 12%) and final_capit2_lev.py (the machine's typical
@@ -410,8 +411,28 @@ def daily_books(st: dict, prices: dict, rec=None, fund=funding_sum, fetch=None, 
     fin["last_day"] = day
 
 
-def capit2_poll(st: dict, prices: dict, now_ms: int, rec=None, fund=funding_sum, get4=bars4h):
-    """Every poll: targets and limits on the live price; on a new closed 4h bar, the bar-based exits and new signals."""
+def bars1m(sym: str, start_ms: int, end_ms: int) -> "pd.DataFrame | None":
+    """Closed 1-minute klines opening in [start_ms, end_ms) (t = bar open, ms; l = low); None if they cannot be read."""
+    try:
+        k = mp.get(f"{FAPI}/fapi/v1/klines?symbol={sym}&interval=1m&startTime={start_ms}&endTime={end_ms - 1}&limit=1000")
+    except Exception:
+        return None
+    if k is None:
+        return None
+    d = pd.DataFrame([[int(x[0]), float(x[3])] for x in k], columns=["t", "l"])
+    return d[d.t + 60_000 <= end_ms].reset_index(drop=True)
+
+
+def capit2_poll(st: dict, prices: dict, now_ms: int, rec=None, fund=funding_sum, get4=bars4h, get1m=bars1m):
+    """Every poll: targets on the live price, limits on the minutes since the last poll; on a new closed 4h bar, the
+    bar-based exits and new signals.
+
+    THE LIMIT RESTS (2026-10-22, backtest/capit2_exec.py): a 2-minute poll at market misses the fastest wick-and-bounce
+    fills, which are the best trades (94% won), and earned +1.76% a signal against the backtested resting limit's +2.15%.
+    So a limit is filled AT the limit as soon as any closed 1-minute low since the last check traded 0.3% through it,
+    as the backtest fills it; only if the minutes cannot be read does the poll's live price decide (filled at that
+    price, as before). In dry mode this is the ledger of a resting post-only order. A REAL account needs that order on
+    the venue itself (wick_live.py's machinery) - not built: ALLOW_REAL is False."""
     fin = st["fin"]
     cb = fin["capit2"]
     for s, p in list(cb["open"].items()):                    # target, on the live price
@@ -420,19 +441,33 @@ def capit2_poll(st: dict, prices: dict, now_ms: int, rec=None, fund=funding_sum,
             _close(st, "capit2", s, px, "target", now_ms, fund, rec)
         elif px and px <= p["entry"] * (1 - LIQ_EQ):         # at 2x the backtest lost this slot's margin here
             _close(st, "capit2", s, px, "liquidation_eq", now_ms, fund, rec)
-    for s, r in list(cb["pending"].items()):                 # limits: live for the bar after the signal bar
+    for s, r in list(cb["pending"].items()):                 # limits: resting for the bar after the signal bar
         px = prices.get(s)
-        if now_ms >= r["signal_t"] + 2 * H4:
+        live_end = r["signal_t"] + 2 * H4
+        seen = r.get("seen", r["signal_t"] + H4)
+        end = min(now_ms, live_end)
+        m1 = get1m(s, seen, end) if end > seen else None
+        hit = None
+        if m1 is not None:
+            if len(m1):
+                r["seen"] = int(m1.t.iloc[-1]) + 60_000
+            th = m1[m1.l <= r["lim"] * (1 - THROUGH)]
+            if len(th):
+                hit = (r["lim"], int(th.t.iloc[0]) + 60_000)
+        elif now_ms < live_end and px and px <= r["lim"] * (1 - THROUGH):
+            hit = (px, now_ms)
+        if hit:
+            cb["pending"].pop(s)
+            if _open(st, "capit2", s, hit[0], dict(signal_t=r["signal_t"]), hit[1]):
+                cb["filled"] += 1
+                log(f"CAPIT2 BUY {s} at {hit[0]:.6g} (limit {r['lim']:.6g}, traded through); target "
+                    f"{hit[0] * (1 + TARGET):.6g}")
+            else:
+                log(f"CAPIT2 {s} traded through its limit but all {SLOTS} slots are full - not taken")
+        elif now_ms >= live_end:
             cb["pending"].pop(s)
             cb["cancelled"] += 1
             log(f"CAPIT2 limit {s} {r['lim']:.6g} not reached in its bar - cancelled")
-        elif px and px <= r["lim"] * (1 - THROUGH):
-            cb["pending"].pop(s)
-            if _open(st, "capit2", s, px, dict(signal_t=r["signal_t"]), now_ms):
-                cb["filled"] += 1
-                log(f"CAPIT2 BUY {s} at {px:.6g} (limit {r['lim']:.6g}, traded through); target {px * (1 + TARGET):.6g}")
-            else:
-                log(f"CAPIT2 {s} traded through its limit but all {SLOTS} slots are full - not taken")
     last4 = (now_ms // H4) * H4 - H4                         # the last CLOSED 4h bar's open
     if last4 == fin["last_4h"]:
         return
@@ -471,6 +506,78 @@ def capit2_poll(st: dict, prices: dict, now_ms: int, rec=None, fund=funding_sum,
         log(f"CAPIT2 SIGNAL {s}: {len(breadth)} coins capitulated in 24h, down {dr:.0%}; buys at or under "
             f"{c * (1 - LIMIT) * (1 - THROUGH):.6g} until this bar closes")
     fin["last_4h"] = last4
+
+
+def bids_poll(st: dict, now_ms: int, rec=None, fetch=None, listed_fn=None, label_fn=None, universe_fn=None,
+              per_call: int = 3) -> int:
+    """THE CRASH BIDS as a paper ledger inside this account (2026-10-22). Every backtest the final machine is judged
+    against counts them (final_machine.py's DEPLOYABLE line, all_books.py, machine_fixes.py: +15% / +7% of the typical
+    year, tune / holdout, 10 of 10 orderings), but the running dry bot had no desk - and wick_live's dry desk places
+    no fills. So each closed hour, 3 minutes after it closes: wick_paper.py's rule on Bitget's 1-minute candles - a bid
+    10% under the previous close on each of the top-40 (1/40 of THIS account's equity each), filled once the low trades
+    0.1% through it, the first 10 fills of the hour kept, sold at the hour's close; none on BEAR days; costs
+    wick_paper.COST. Booked straight into the account (book "bids"); a real account needs combo_bot --wick instead.
+    Starts from the hour it is first called (no back-fill); catches up at most wick_paper.CATCHUP_H hours, `per_call`
+    an hour-poll so a long outage does not stall the other books (40 candle reads an hour). A failed
+    label or universe read leaves the hour for the next poll. Returns the hours processed."""
+    import wick_paper as wp
+    fetch = fetch or wp.minutes
+    b = st["fin"].setdefault("bids", dict(last_h=None, hours=0, bear_hours=0, fills=0, kept=0, labels={}, universes={},
+                                          listed=None))
+    due = (now_ms - wp.DELAY_S * 1000) // wp.HOUR_MS * wp.HOUR_MS - wp.HOUR_MS     # the last hour closed 3+ min ago
+    if b["last_h"] is None:
+        b["last_h"] = due
+        log(f"BIDS: crash-bid ledger on from the hour after {datetime.fromtimestamp(due / 1000, timezone.utc):%Y-%m-%d %H:00}")
+        return 0
+    hours = list(range(max(b["last_h"] + wp.HOUR_MS, due - (wp.CATCHUP_H - 1) * wp.HOUR_MS), due + 1, wp.HOUR_MS))[:per_call]
+    done = 0
+    for H in hours:
+        ts = datetime.fromtimestamp(H / 1000, timezone.utc)
+        month, day, hour = f"{ts:%Y-%m}", f"{ts:%Y-%m-%d}", f"{ts:%Y-%m-%d %H:00}"
+        try:
+            if day not in b["labels"]:
+                b["labels"] = {day: (label_fn or wp.label)(day)}
+            if b["labels"][day] == "bear":
+                b["bear_hours"] += 1
+                b["last_h"], done = H, done + 1
+                continue
+            if month not in b["universes"]:
+                b["universes"] = {month: list((universe_fn or wp.universe)(month))}
+                b["listed"] = sorted((listed_fn or wp.bitget_listed)())
+        except Exception as e:  # noqa: BLE001 - an unread label / universe: try this hour again next poll
+            log(f"BIDS {hour}: {str(e)[:120]} - retrying next poll")
+            break
+        size = st["equity"] / wp.TOP_N
+        found = []
+        if size >= wp.MIN_ORDER:
+            listed = set(b["listed"] or [])
+            for s in b["universes"][month]:
+                name = wp.bitget_name(s, listed) if listed else s
+                if name is None:
+                    continue
+                bars = fetch("bitget", name, H - wp.MIN_MS, 61)
+                if bars is None:
+                    continue
+                r = wp.fill_of(bars[1:], bars[0][4])
+                if r:
+                    j, f, _, exit_px = r
+                    found.append(dict(sym=name, minute=j, fill=f, exit=exit_px))
+        kept = wp.cap(found)
+        for x in kept:
+            gross = size * (x["exit"] / x["fill"] - 1)
+            _book(st, "bids", gross, size * wp.COST)
+            if rec:
+                rec(dict(ts=f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M:%S}", book="bids", symbol=x["sym"],
+                         entry=f"{x['fill']:.8g}", exit=f"{x['exit']:.8g}", ret=f"{wp.net(x['exit'], x['fill']):.5f}",
+                         pnl=f"{gross - size * wp.COST:.4f}", why="hour_close", equity=f"{st['equity']:.4f}"))
+        if found:
+            log(f"BIDS {hour}: {len(found)} filled, {len(kept)} kept ({' '.join(x['sym'][:-4] for x in kept)}) -> "
+                f"account {st['equity']:.2f}")
+        b["hours"] += 1
+        b["fills"] += len(found)
+        b["kept"] += len(kept)
+        b["last_h"], done = H, done + 1
+    return done
 
 
 def carry_squeeze_exits(st: dict, prices: dict, short_exit: float = 0.50, rec=None) -> list:

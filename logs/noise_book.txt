@@ -1,0 +1,31 @@
+backtest/noise_book.py, 2026-10-22 19:48 UTC; NASDAQ NOISE at Exness costs, $300 start, $300 after 12 months over every monthly start; constant leverage of equity
+
+   THE MINIMUM, in today's prices: USTECm 0.05 lot = $1,500 of NASDAQ at 30,000 -> on $300 the smallest position is x5.0; x3 needs $500, x1 $1,500
+
+2010-2026
+   sizing                            typical     bad   worst    CAGR   fall worst moworst day  mo up Sharpe
+   x1                                $   312 $   301 $   274   +5.1%    14%    -4.4%    -2.7%    54%   0.74
+   x2                                $   323 $   301 $   249   +9.8%    26%    -8.6%    -5.5%    54%   0.74
+   x3                                $   333 $   300 $   225  +14.2%    37%   -12.7%    -8.2%    53%   0.74
+   x4                                $   340 $   298 $   203  +18.1%    47%   -16.6%   -10.9%    53%   0.74
+   x5                                $   346 $   296 $   183  +21.6%    56%   -20.3%   -13.7%    53%   0.74
+   VOL (paper: min(4, 2%/vol14))     $   325 $   299 $   225   +7.5%    31%   -12.1%    -4.5%    54%   0.61
+   x3 + FED                          $   343 $   300 $   220  +18.9%    42%   -11.8%    -8.2%    55%   0.90
+   x3, HIS monthly stop at +10%      $   334 $   299 $   225  +13.7%    37%   -12.7%    -8.2%    53%   0.73
+
+holdout (2019-12 on)
+   sizing                            typical     bad   worst    CAGR   fall worst moworst day  mo up Sharpe
+   x1                                $   312 $   306 $   274   +6.1%    11%    -4.4%    -2.4%    58%   0.83
+   x2                                $   323 $   310 $   250  +11.8%    20%    -8.6%    -4.8%    57%   0.83
+   x3                                $   333 $   313 $   227  +17.1%    29%   -12.7%    -7.2%    56%   0.83
+   x4                                $   340 $   315 $   205  +22.0%    37%   -16.6%    -9.6%    56%   0.83
+   x5                                $   345 $   314 $   185  +26.2%    45%   -20.3%   -12.1%    54%   0.83
+   VOL (paper: min(4, 2%/vol14))     $   324 $   311 $   237   +8.3%    24%   -12.1%    -4.2%    56%   0.74
+   x3 + FED                          $   352 $   330 $   227  +27.1%    30%   -11.8%    -7.3%    58%   1.14
+   x3, HIS monthly stop at +10%      $   334 $   312 $   227  +15.3%    28%   -12.7%    -7.2%    56%   0.77
+
+REGISTERED PREDICTIONS
+  B1 x3 typical year +10..+25%, fall 25-40% ($333, 37%) -> RIGHT
+  B2 VOL Sharpe <= x3's (0.61 vs 0.74) -> RIGHT
+  B3 + FED adds 1-3 points to the typical year at the same fall -> WRONG
+  B4 his monthly stop lowers the typical year -> WRONG

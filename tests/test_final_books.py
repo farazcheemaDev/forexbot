@@ -24,6 +24,7 @@ import mn_paper as mp  # noqa: E402
 cp.set_dir(Path(tempfile.mkdtemp()))
 H4 = fb.H4
 NOFUND = lambda s, a, b: 0.0  # noqa: E731
+NO1M = lambda s, a, b: None  # noqa: E731   the minutes cannot be read: the poll's live price decides
 ON_TIME = lambda day: int(pd.Timestamp(day).timestamp() * 1000) + 600_000  # noqa: E731   10 minutes after the close
 
 
@@ -316,25 +317,99 @@ def test_capit2_fills_only_through_the_limit_and_takes_the_target():
     last4 = 1_790_000_000_000 // H4 * H4
     now = last4 + H4 + 60_000
     st, get4, data = capit_state(5, last4)
-    fb.capit2_poll(st, {}, now, fund=NOFUND, get4=get4)
+    fb.capit2_poll(st, {}, now, fund=NOFUND, get4=get4, get1m=NO1M)
     lim = st["fin"]["capit2"]["pending"]["K0USDT"]["lim"]
     assert abs(lim - data["K0USDT"].c.iloc[-1] * 0.98) < 1e-9
     px = {f"K{i}USDT": lim * 0.999 for i in range(5)}                            # AT the limit, not 0.3% through
-    fb.capit2_poll(st, px, now + 60_000, fund=NOFUND, get4=get4)
+    fb.capit2_poll(st, px, now + 60_000, fund=NOFUND, get4=get4, get1m=NO1M)
     assert not st["fin"]["capit2"]["open"] and len(st["fin"]["capit2"]["pending"]) == 5
     px["K0USDT"] = lim * 0.996                                                   # through: filled at that price
-    fb.capit2_poll(st, px, now + 120_000, fund=NOFUND, get4=get4)
+    fb.capit2_poll(st, px, now + 120_000, fund=NOFUND, get4=get4, get1m=NO1M)
     p = st["fin"]["capit2"]["open"]["K0USDT"]
     assert p["entry"] == lim * 0.996 and abs(p["qty"] * p["entry"] - fb.K_CAPIT2 * fb.CAPIT2_LEV * 300.0 / fb.SLOTS) < 1e-9
     assert cb.book_targets(st)["K0USDT"] == p["qty"]
-    fb.capit2_poll(st, {"K0USDT": p["entry"] * 1.049}, now + 180_000, fund=NOFUND, get4=get4)
+    fb.capit2_poll(st, {"K0USDT": p["entry"] * 1.049}, now + 180_000, fund=NOFUND, get4=get4, get1m=NO1M)
     assert "K0USDT" in st["fin"]["capit2"]["open"]
     eq = st["equity"]
-    fb.capit2_poll(st, {"K0USDT": p["entry"] * 1.05}, now + 240_000, fund=NOFUND, get4=get4)
+    fb.capit2_poll(st, {"K0USDT": p["entry"] * 1.05}, now + 240_000, fund=NOFUND, get4=get4, get1m=NO1M)
     assert "K0USDT" not in st["fin"]["capit2"]["open"]
     assert abs(st["equity"] - (eq + p["qty"] * p["entry"] * 0.05 - p["qty"] * p["entry"] * 1.05 * fb.SIDE_FEE)) < 1e-9
-    fb.capit2_poll(st, {}, last4 + 2 * H4, fund=NOFUND, get4=get4)               # the limit's bar is over
+    fb.capit2_poll(st, {}, last4 + 2 * H4, fund=NOFUND, get4=get4, get1m=NO1M)               # the limit's bar is over
     assert not st["fin"]["capit2"]["pending"] and st["fin"]["capit2"]["cancelled"] == 4
+
+
+def test_capit2_limit_rests_and_fills_at_the_limit_on_a_minute_low():
+    """capit2_exec.py: the poll misses the fastest wicks. A closed 1-minute low 0.3% through the limit fills AT the
+    limit even when every poll's price was above it; a low only AT the limit does not; a low after the bar is over
+    does not, but a late poll still reads the minutes up to the end of the limit's bar."""
+    last4 = 1_790_000_000_000 // H4 * H4
+    now = last4 + H4 + 60_000
+    st, get4, data = capit_state(5, last4)
+    fb.capit2_poll(st, {}, now, fund=NOFUND, get4=get4, get1m=NO1M)
+    cb = st["fin"]["capit2"]
+    lim = {s: r["lim"] for s, r in cb["pending"].items()}
+    t0 = last4 + H4
+    lows = {"K0USDT": (t0 + 7 * 60_000, lim["K0USDT"] * 0.996),            # through: fills at the limit
+            "K1USDT": (t0 + 7 * 60_000, lim["K1USDT"] * 0.999),            # at the limit, not through
+            "K2USDT": (last4 + 2 * H4 + 60_000, lim["K2USDT"] * 0.99),     # after its bar is over
+            "K3USDT": (last4 + 2 * H4 - 120_000, lim["K3USDT"] * 0.99)}    # 2 minutes before the end, seen late
+
+    def get1m(s, a, b):
+        t, low = lows.get(s, (None, None))
+        mins = np.arange(a, b, 60_000)
+        lo = np.array([low if (t is not None and m == t) else lim[s] * 1.01 for m in mins])
+        return pd.DataFrame(dict(t=mins.astype("int64"), l=lo))
+
+    px = {s: lim[s] * 1.01 for s in lim}                                    # every poll above every limit
+    fb.capit2_poll(st, px, t0 + 10 * 60_000, fund=NOFUND, get4=get4, get1m=get1m)
+    p = cb["open"]["K0USDT"]
+    assert p["entry"] == lim["K0USDT"] and p["t_ms"] == t0 + 8 * 60_000
+    assert set(cb["pending"]) == {"K1USDT", "K2USDT", "K3USDT", "K4USDT"}
+    assert cb["pending"]["K1USDT"]["seen"] == t0 + 10 * 60_000
+    fb.capit2_poll(st, px, last4 + 2 * H4 + 5 * 60_000, fund=NOFUND, get4=get4, get1m=get1m)   # a late poll
+    assert cb["open"]["K3USDT"]["entry"] == lim["K3USDT"]
+    assert "K2USDT" not in cb["open"] and not cb["pending"] and cb["cancelled"] == 3
+
+
+def test_bids_poll_books_the_first_10_fills_and_skips_bear_days():
+    """fb.bids_poll: wick_paper's rule as a ledger in this account. The first 10 fills of the hour by minute are kept
+    and sold at the hour's close, 1/40 of equity each; a bear day books nothing; an unread label retries the hour."""
+    import wick_paper as wp
+    H0 = 1_790_000_000_000 // wp.HOUR_MS * wp.HOUR_MS
+    now = H0 + wp.HOUR_MS + wp.DELAY_S * 1000 + 1                                 # hour H0 closed 3+ minutes ago
+    coins = [f"C{i}USDT" for i in range(12)]
+
+    def fetch(v, name, t0, n):                                                   # coin i wicks through at minute i
+        i = int(name[1:-4])
+        bars = [[t0, 100.0, 100.0, 100.0, 100.0]]
+        for k in range(60):
+            low = 89.8 if k == i else 99.0
+            bars.append([t0 + (k + 1) * 60_000, 100.0 if k != i else 92.0, 100.0, low, 95.0 if k == 59 else 99.5])
+        return bars
+    kw = dict(fetch=fetch, listed_fn=lambda: set(coins), universe_fn=lambda m: coins)
+    st = account()
+    assert fb.bids_poll(st, now - wp.HOUR_MS, label_fn=lambda d: "bull", **kw) == 0      # first call: starts here
+    assert fb.bids_poll(st, now, label_fn=lambda d: "bull", **kw) == 1
+    b = st["fin"]["bids"]
+    assert b["fills"] == 12 and b["kept"] == 10
+    size = 300.0 / wp.TOP_N
+    want = 300.0 + 10 * size * (95.0 / 90.0 - 1 - wp.COST)                       # filled AT the bid (90 < the open 92)
+    assert abs(st["equity"] - want) < 1e-9 and abs(st["cum"]["bids"] - 10 * size * (95.0 / 90.0 - 1)) < 1e-9
+    st2 = account()
+    fb.bids_poll(st2, now - wp.HOUR_MS, label_fn=lambda d: "bear", **kw)
+    assert fb.bids_poll(st2, now, label_fn=lambda d: "bear", **kw) == 1 and st2["equity"] == 300.0
+    assert st2["fin"]["bids"]["bear_hours"] == 1
+    st3 = account()
+    fb.bids_poll(st3, now - wp.HOUR_MS, label_fn=lambda d: "bull", **kw)
+    last = st3["fin"]["bids"]["last_h"]
+
+    def boom(d):
+        raise RuntimeError("BTC daily closes unavailable")
+    assert fb.bids_poll(st3, now, label_fn=boom, **kw) == 0 and st3["fin"]["bids"]["last_h"] == last
+    st4 = account(150.0)                                                         # $3.75 a bid: under the $5 minimum
+    fb.bids_poll(st4, now - wp.HOUR_MS, label_fn=lambda d: "bull", **kw)
+    fb.bids_poll(st4, now, label_fn=lambda d: "bull", **kw)
+    assert st4["equity"] == 150.0 and st4["fin"]["bids"]["kept"] == 0
 
 
 def test_capit2_is_full_share_at_2x_and_closed_at_the_liquidation_equivalent():

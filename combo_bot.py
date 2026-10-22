@@ -756,6 +756,8 @@ def poll(st: dict, venue, mode: str, caches: tuple, desk=None, prices_fn=None):
         import final_books as fb
         fb.daily_books(st, prices, rec=final_record)
         fb.capit2_poll(st, prices, int(time.time() * 1000), rec=final_record)
+        if desk is None:                         # no real desk: the crash bids as a ledger (fb.bids_poll)
+            fb.bids_poll(st, int(time.time() * 1000), rec=final_record)
         import news_books as nbk                 # the news and NASDAQ-dip books (2026-10-17)
         nbk.news_poll(st, prices, int(time.time() * 1000), rec=final_record, fund=fb.funding_sum)
         nbk.ndx_poll(st, prices, int(time.time() * 1000), rec=final_record, fund=fb.funding_sum)

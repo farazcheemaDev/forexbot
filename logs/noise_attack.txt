@@ -1,0 +1,51 @@
+backtest/noise_attack.py, 2026-10-22 19:39 UTC; NASDAQ HistData 2010-11-15..2026-09-30, 3686 days; net a day, cost 1.27bp a round trip
+
+   base              +2.25bp t +2.83 | tune  +1.83 t +1.99 | hold  +2.87 t +2.01 | Sharpe 0.74
+
+A1 DECISION PHASE (minutes added to :00 / :30)
+   + 0 min          +2.25bp t +2.83 | tune  +1.83 t +1.99 | hold  +2.87 t +2.01 | Sharpe 0.74
+   + 5 min          +1.69bp t +2.07 | tune  +1.40 t +1.51 | hold  +2.11 t +1.41 | Sharpe 0.54
+   +10 min          +2.29bp t +2.79 | tune  +1.78 t +1.92 | hold  +3.07 t +2.03 | Sharpe 0.73
+   +15 min          +1.92bp t +2.40 | tune  +1.88 t +2.07 | hold  +1.98 t +1.35 | Sharpe 0.63
+   +20 min          +2.31bp t +2.97 | tune  +1.83 t +2.06 | hold  +3.04 t +2.13 | Sharpe 0.78
+   +25 min          +2.37bp t +3.10 | tune  +1.47 t +1.72 | hold  +3.70 t +2.64 | Sharpe 0.81
+
+A2 LOOKBACK (days in sigma)
+    7 days          +2.10bp t +2.61 | tune  +1.70 t +1.84 | hold  +2.68 t +1.85 | Sharpe 0.68
+   10 days          +1.65bp t +2.05 | tune  +1.35 t +1.47 | hold  +2.09 t +1.43 | Sharpe 0.54
+   14 days          +2.25bp t +2.83 | tune  +1.83 t +1.99 | hold  +2.87 t +2.01 | Sharpe 0.74
+   20 days          +2.37bp t +2.99 | tune  +1.76 t +1.90 | hold  +3.30 t +2.33 | Sharpe 0.78
+   30 days          +2.39bp t +2.99 | tune  +2.09 t +2.27 | hold  +2.84 t +1.96 | Sharpe 0.78
+
+A3 COSTS x2
+   2.54bp          +1.20bp t +1.50 | tune  +0.78 t +0.85 | hold  +1.81 t +1.27 | Sharpe 0.39
+
+A4 LATE FILL (minutes after the decision)
+   1 min            +2.25bp t +2.83 | tune  +1.83 t +1.99 | hold  +2.87 t +2.01 | Sharpe 0.74
+   2 min            +2.12bp t +2.67 | tune  +1.87 t +2.04 | hold  +2.50 t +1.75 | Sharpe 0.70
+   5 min            +2.18bp t +2.75 | tune  +2.03 t +2.22 | hold  +2.40 t +1.68 | Sharpe 0.72
+
+A5 THE BROKER: Exness USTECm 1m bars (2026), its median cash-session spread 0.82bp a round trip (+0.5bp)
+   Exness 155 days: +3.14bp a day (t +0.91); HistData same days +1.68bp; daily correlation +0.93
+
+A6 LEGS
+   longs only       +1.45bp t +2.87 | tune  +1.23 t +2.26 | hold  +1.76 t +1.84 | Sharpe 0.75
+   shorts only      +0.80bp t +1.30 | tune  +0.60 t +0.80 | hold  +1.11 t +1.05 | Sharpe 0.34
+
+A7 NOT JUST DRIFT: NOISE net = alpha + beta x the session's return
+   alpha +2.37bp a day, t +2.99; beta -0.041; correlation -0.09
+
+A8 HIS HELP
+   no entries after 12:00 NY     +1.34bp t +1.97 | tune  +1.93 t +2.31 | hold  +0.47 t +0.41 | Sharpe 0.51
+   only when VXN > 1y median     +2.21bp t +3.24 | tune  +2.08 t +2.68 | hold  +2.41 t +1.93 | Sharpe 0.85   (49% of days)
+   the other days (VXN low)      +0.03bp t +0.08 | tune  -0.25 t -0.51 | hold  +0.46 t +0.66 | Sharpe 0.02
+
+REGISTERED PREDICTIONS
+  N1 positive in all 6 phases, t >= 2 in >= 4 (6) -> RIGHT
+  N2 positive at every lookback -> RIGHT
+  N3 costs x2 positive, t < 2 -> RIGHT
+  N4 a 5-minute late fill keeps >= half -> RIGHT
+  N5 Exness vs HistData daily correlation >= 0.8 (+0.93) -> RIGHT
+  N6 both legs positive -> RIGHT
+  N7 alpha over drift t >= 2 (+2.99) -> RIGHT
+  N8 morning-only and high-VXN each earn less than the base -> RIGHT

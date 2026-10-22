@@ -1,0 +1,74 @@
+backtest/fx_daily_families.py, 2026-10-22 19:42 UTC
+
+D1-D3 CURRENCY FACTORS (monthly, % a month; 7 currencies vs USD, long top 2 / short bottom 2)
+                                               n    mean      t    tune     t    hold     t Sharpe
+   D1 XS-MOM 12-1, swap-free                 268   -0.01  -0.14   -0.02 -0.10   -0.01 -0.11  -0.03
+   D1 XS-MOM 12-1, with Exness swap          268   -0.12  -1.14   -0.12 -0.76   -0.13 -1.00  -0.24
+                                           since 2010: +0.00%/mo t +0.04
+   D2 XS-VALUE 5-year reversal, swap-free    263   +0.07  +0.67   +0.16 +1.03   -0.06 -0.45   0.14
+   D2 XS-VALUE 5-year reversal, with Exness swap  263   -0.01  -0.11   +0.08 +0.53   -0.15 -1.16  -0.02
+                                           since 2010: -0.03%/mo t -0.33
+   D3 VAL+MOM, swap-free                     258   -0.04  -0.40   +0.00 +0.02   -0.11 -0.90  -0.09
+   D3 VAL+MOM, with Exness swap              258   -0.13  -1.23   -0.08 -0.50   -0.21 -1.69  -0.27
+                                           since 2010: -0.03%/mo t -0.27
+
+D4 PRE-FED DRIFT (NASDAQ, % a trade, 24h before the statement -> 5 min before)
+                                               n    mean      t    tune     t    hold     t Sharpe
+   D4 pre-FOMC, swap-free                    128   +0.25  +3.14   +0.12 +1.51   +0.44 +2.84   0.79
+   D4 pre-FOMC, with one night's swap        128   +0.23  +2.89   +0.10 +1.26   +0.42 +2.71   0.72
+   control: same window, other weekdays     4056   +0.05  +2.85   +0.05 +2.49   +0.05 +1.54   0.71
+   before 2016   41 events +0.037% t +0.35, won 44%
+   2016 on       87 events +0.350% t +3.35, won 63%
+
+D5 CROSSES MEAN REVERSION (% a trade; fade |z20| > 2, out inside 0.5 or after 10 days)
+                                               n    mean      t    tune     t    hold     t Sharpe
+   D5 AUDNZD, swap-free                      208   -0.03  -0.44   -0.03 -0.28   -0.03 -0.38  -0.10
+   D5 AUDNZD, with swap 0.5bp a night        208   -0.09  -1.18   -0.09 -0.79   -0.09 -0.99  -0.28
+   D5 EURGBP, swap-free                      210   +0.03  +0.25   -0.13 -0.87   +0.25 +2.24   0.06
+   D5 EURGBP, with swap 0.5bp a night        210   -0.03  -0.25   -0.18 -1.21   +0.20 +1.78  -0.06
+   D5 EURCHF, swap-free                      200   +0.07  +0.97   +0.08 +0.75   +0.05 +0.64   0.22
+   D5 EURCHF, with swap 0.5bp a night        200   +0.02  +0.24   +0.03 +0.26   +0.00 +0.02   0.06
+
+D6 WEEKEND GAP FADE (% a trade; gap > 0.15%, in 5 min after the open at 3x spread, out at the fill or Mon 12:00 NY)
+                                               n    mean      t    tune     t    hold     t Sharpe
+   D6 EURUSD                                 210   +0.02  +0.68   +0.04 +1.01   -0.01 -0.30   0.26   filled 69% won
+   D6 GBPUSD                                 212   -0.06  -1.74   -0.10 -1.90   -0.01 -0.25  -0.65   filled 67% won
+   D6 USDJPY                                 247   -0.03  -0.81   +0.01 +0.35   -0.09 -1.77  -0.28   filled 67% won
+   D6 AUDUSD                                 335   -0.02  -0.44   -0.08 -1.42   +0.08 +2.63  -0.13   filled 73% won
+
+D7 TREND BOOK (daily returns, % a day; scaled to 10% vol on the tune half)
+                                               n    mean      t    tune     t    hold     t Sharpe
+   12-month, 16 markets (fx_tsmom.py), swap-free 5927   +0.02  +2.71   +0.02 +2.02   +0.02 +1.81   0.56   +5.4%/yr, fall 23%
+   12-month, 16 markets (fx_tsmom.py), with swap 5927   -0.01  -0.81   -0.01 -0.53   -0.01 -0.64  -0.17
+   3-speed, 16 markets, swap-free           5927   +0.01  +1.77   +0.02 +1.46   +0.01 +1.01   0.37   +3.6%/yr, fall 23%
+   3-speed, 16 markets, with swap           5927   -0.01  -1.25   -0.01 -0.75   -0.01 -1.07  -0.26
+   12-month, 23 markets, swap-free          5927   +0.02  +2.75   +0.02 +2.31   +0.02 +1.49   0.57   +5.4%/yr, fall 25%
+   12-month, 23 markets, with swap          5927   -0.01  -1.25   -0.01 -0.53   -0.02 -1.41  -0.26
+   3-speed, 23 markets, swap-free           5927   +0.02  +1.96   +0.02 +1.94   +0.01 +0.71   0.40   +4.0%/yr, fall 23%
+   3-speed, 23 markets, with swap           5927   -0.01  -1.49   -0.01 -0.59   -0.02 -1.64  -0.31
+
+PRIMARY CELLS (swap-free; Holm across all)
+   D1 XS-MOM 12-1                             t -0.14  tune t -0.10  holdout t -0.11  Holm 1.000  -> fail
+   D2 XS-VALUE 5-year reversal                t +0.67  tune t +1.03  holdout t -0.45  Holm 1.000  -> fail
+   D3 VAL+MOM                                 t -0.40  tune t +0.02  holdout t -0.90  Holm 1.000  -> fail
+   D4 pre-FOMC                                t +3.14  tune t +1.51  holdout t +2.84  Holm 0.025  -> fail
+   D5 AUDNZD                                  t -0.44  tune t -0.28  holdout t -0.38  Holm 1.000  -> fail
+   D5 EURGBP                                  t +0.25  tune t -0.87  holdout t +2.24  Holm 1.000  -> fail
+   D5 EURCHF                                  t +0.97  tune t +0.75  holdout t +0.64  Holm 1.000  -> fail
+   D6 EURUSD                                  t +0.68  tune t +1.01  holdout t -0.30  Holm 1.000  -> fail
+   D6 GBPUSD                                  t -1.74  tune t -1.90  holdout t -0.25  Holm 0.843  -> fail
+   D6 USDJPY                                  t -0.81  tune t +0.35  holdout t -1.77  Holm 1.000  -> fail
+   D6 AUDUSD                                  t -0.44  tune t -1.42  holdout t +2.63  Holm 1.000  -> fail
+   D7 12-month, 16 markets (fx_tsmom.py)      t +2.71  tune t +2.02  holdout t +1.81  Holm 0.089  -> fail
+   D7 3-speed, 16 markets                     t +1.77  tune t +1.46  holdout t +1.01  Holm 0.843  -> fail
+   D7 12-month, 23 markets                    t +2.75  tune t +2.31  holdout t +1.49  Holm 0.084  -> fail
+   D7 3-speed, 23 markets                     t +1.96  tune t +1.94  holdout t +0.71  Holm 0.601  -> fail
+
+REGISTERED PREDICTIONS
+  E1 XS-MOM fails a half -> RIGHT
+  E2 XS-VALUE positive, t < 2 on a half -> RIGHT
+  E3 pre-FOMC fails -> RIGHT
+  E4 no cross passes -> RIGHT
+  E5 weekend gap dead -> RIGHT
+  E6 3-speed and 23 markets each beat the 12-month 16-market book's Sharpe on both halves -> WRONG
+  E7 nothing outside the trend book passes -> RIGHT

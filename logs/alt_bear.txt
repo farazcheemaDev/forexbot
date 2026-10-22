@@ -1,0 +1,90 @@
+backtest/alt_bear.py, 2026-10-22 19:13 UTC; perp panel 2020-03-01 .. 2026-09-21; ALT label = btc_regime's rule on the PIT top-40 alt index
+
+1. HOW OFTEN, AND WHAT HAPPENS IN IT (days since 2020-03; %/30 days, simple mean of daily returns x 30)
+   BTC-bear    614 days (25.6%)   alt index  -1.26%   BTC  +4.02%
+   ALT-ONLY    356 days (14.9%)   alt index  -4.37%   BTC  -0.46%
+   rest       1426 days (59.5%)   alt index  +6.62%   BTC  +5.82%
+   of the 614 BTC-bear days, 570 are also ALT-bear
+
+   ALT-ONLY episodes (gaps <= 3 days merged): 36; days median 8, max 47
+   start       end          days  alt index      BTC  then BTC-bear?
+   2020-03-15  2020-03-15      1      +4.4%    +3.7% yes, within 30d
+   2020-10-09  2020-11-08     31      +3.3%   +41.7%                
+   2021-07-26  2021-07-28      3      +6.6%   +13.1%                
+   2022-02-08  2022-02-17     10     -15.3%    -7.6% yes, within 30d
+   2022-03-01  2022-03-04      4     -10.4%    -9.3% yes, within 30d
+   2022-03-10  2022-03-10      1      -5.1%    -6.0% yes, within 30d
+   2022-03-15  2022-03-22      8     +15.1%    +6.8%                
+   2022-05-06  2022-05-09      4     -25.8%   -17.7% yes, within 30d
+   2022-10-05  2022-10-05      1      -0.0%    -0.9% yes, within 30d
+   2022-10-26  2022-10-29      4      +7.7%    +3.6% yes, within 30d
+   2022-11-09  2022-11-17      9     -10.7%   -10.0% yes, within 30d
+   2022-12-27  2022-12-27      1      -1.1%    -1.3% yes, within 30d
+   2023-01-05  2023-01-09      5      +9.7%    +1.9%                
+   2023-03-27  2023-04-04      9      +4.2%    +0.7%                
+   2023-04-09  2023-04-09      1      +1.1%    +1.4%                
+   2023-05-13  2023-06-03     22      +6.7%    +1.0% yes, within 30d
+   2023-06-21  2023-07-13     23     +15.7%   +11.1%                
+   2023-09-20  2023-09-20      1      -0.2%    -0.3% yes, within 30d
+   2023-10-10  2023-10-19     10      -2.9%    +4.1%                
+   2024-05-01  2024-05-07      7      +6.7%    +2.7% yes, within 30d
+   2024-05-16  2024-05-20      5     +10.5%    +8.0%                
+   2024-06-08  2024-06-08      1      -2.3%    -0.0%                
+   2024-06-24  2024-07-10     17      -7.2%    -8.7% yes, within 30d
+   2024-07-16  2024-08-04     20     -26.0%   -10.1% yes, within 30d
+   2024-08-27  2024-09-18     23      -3.1%    -1.7%                
+   2025-01-21  2025-03-08     47     -42.5%   -15.7% yes, within 30d
+   2025-04-13  2025-04-22     10      +5.8%    +9.6%                
+   2025-06-25  2025-07-09     15     +10.1%    +4.9%                
+   2025-10-22  2025-11-10     20      +5.1%    -2.1% yes, within 30d
+   2026-01-03  2026-01-03      1      +0.2%    +0.7%                
+   2026-01-10  2026-01-13      4      +4.9%    +5.3% yes, within 30d
+   2026-01-20  2026-02-05     17     -35.2%   -32.1% yes, within 30d
+   2026-03-16  2026-03-25     10      -1.0%    -2.0% yes, within 30d
+   2026-04-06  2026-04-07      2      +5.4%    +4.2%                
+   2026-06-08  2026-06-11      4      -2.2%    +0.5% yes, within 30d
+   2026-07-15  2026-08-19     36      +0.2%    +6.6%                
+
+2. THE SLEEVE'S RULE ON EACH DAY GROUP (lag 1, 7-day ladder, 12bp + funding + 1bp/day)
+                                                        CAGR  TUNE/yr  HOLD/yr    DD worst wk Sharpe in mkt boot t
+  BTC-bear  expanding thirds  alt index               +27.0%   +31.0%   +18.7%   20%    -9.5%   1.24    25%  +2.49
+  BTC-bear  expanding thirds  top-10                  +25.4%   +31.3%   +13.4%   21%    -9.1%   1.20    25%  +2.23
+  BTC-bear  frozen 10.0/28.8  alt index               +28.7%   +32.4%   +21.0%   30%   -10.7%   1.07    29%  +2.82
+  BTC-bear  frozen 10.0/28.8  top-10                  +23.5%   +28.3%   +13.7%   30%   -12.0%   0.95    29%  +2.40
+
+  ALT-ONLY  expanding thirds  alt index               -12.5%    -2.2%   -31.4%   59%   -14.7%  -0.66    18%  -1.88
+  ALT-ONLY  expanding thirds  top-10                  -11.5%    +0.4%   -32.8%   61%   -15.6%  -0.59    18%  -1.54
+  ALT-ONLY  frozen 10.0/28.8  alt index                -9.1%    -2.3%   -22.2%   62%   -15.7%  -0.45    23%  -1.16
+  ALT-ONLY  frozen 10.0/28.8  top-10                  -10.1%    -4.6%   -21.0%   62%   -24.8%  -0.49    23%  -1.16
+
+  ALT-bear  expanding thirds  alt index               +10.4%   +18.0%    -4.5%   37%   -15.0%   0.49    38%  +1.32
+  ALT-bear  expanding thirds  top-10                   +6.8%   +14.4%    -8.0%   45%   -25.2%   0.37    38%  +0.94
+  ALT-bear  frozen 10.0/28.8  alt index               +15.9%   +27.5%    -5.9%   38%   -15.8%   0.63    41%  +1.56
+  ALT-bear  frozen 10.0/28.8  top-10                  +11.0%   +22.4%   -10.2%   46%   -25.2%   0.49    41%  +1.15
+
+  UNION     expanding thirds  alt index               +14.6%   +23.4%    -2.6%   38%   -15.0%   0.59    39%  +1.61
+  UNION     expanding thirds  top-10                  +10.4%   +19.1%    -6.4%   44%   -25.2%   0.48    39%  +1.19
+  UNION     frozen 10.0/28.8  alt index               +16.6%   +28.7%    -5.9%   38%   -15.8%   0.63    43%  +1.62
+  UNION     frozen 10.0/28.8  top-10                  +10.7%   +21.8%   -10.2%   46%   -25.2%   0.47    43%  +1.15
+
+   controls on ALT-ONLY days (alt index):
+  long every ALT-ONLY day                              -7.0%    -2.1%   -16.8%   59%   -28.6%  -0.11    25%  -0.31
+  short every ALT-ONLY day                             -2.9%    -4.6%    +0.7%   44%   -13.9%   0.04    25%  +0.11
+  short every ALT-bear day                            -18.3%   -22.9%    -7.1%   78%   -17.4%  -0.17    45%  -0.57
+   breadth20 on ALT-ONLY days: thirds 15.0% / 43.3% (BTC-bear days: 10.0% / 28.8%)
+
+3. OUT OF SAMPLE, 2017-07..2019-12 spot, frozen 10.0/28.8, no funding (shorting alts was not possible then)
+   days: BTC-bear 277, ALT-ONLY 127 of 903
+                                               CAGR    DD in mkt   2018    2019
+   BTC-bear alt index                        +21.7%   42%    35%   +31.9%  +23.4%
+   BTC-bear top-10                           +20.9%   40%    35%   +18.2%  +35.3%
+   ALT-ONLY alt index                        +24.9%   37%    18%   +33.2%  +30.2%
+   ALT-ONLY top-10                           +21.7%   31%    18%   +25.0%  +29.9%
+   UNION alt index                           +52.1%   42%    47%   +75.6%  +60.6%
+   UNION top-10                              +46.9%   42%    47%   +47.5%  +75.7%
+
+REGISTERED PREDICTIONS
+  P1 ALT-ONLY 5-15% of days: 14.9% -> RIGHT
+  P2 sleeve on ALT-ONLY does not pass both halves (top-10, either threshold) -> RIGHT
+  P3 UNION Sharpe below BTC-bear's (top-10, expanding): 0.48 vs 1.20 -> RIGHT
+  P4 short every ALT-ONLY day loses on a half: -4.6 / +0.7 -> RIGHT

@@ -1,0 +1,43 @@
+backtest/gold_focus.py, 2026-10-22 19:52 UTC; HistData XAUUSD 2010-01-03..2026-09-30 (New York clock); first 60% = tune
+
+G1 SESSIONS - long gold in each slice, every day (bp a day; net of 1.72bp)
+                                                    n    mean      t    tune     t    hold     t Sharpe
+   Asia 18:00-03:00, gross                       2351   +4.21  +4.20   +3.09 +2.85   +5.88 +3.08   1.37  PASS
+   London 03:00-08:20, gross                     4266   -1.00  -1.41   -2.03 -2.38   +0.55 +0.45  -0.34  fail
+   COMEX 08:20-13:30, gross                      4153   -0.22  -0.21   -0.04 -0.03   -0.49 -0.28  -0.05  fail
+   late 13:30-17:00, gross                       3943   +0.02  +0.03   +0.13 +0.20   -0.15 -0.18   0.01  fail
+   NIGHT 18:00 -> 08:20, gross                   2325   +2.81  +1.93   +0.49 +0.29   +6.28 +2.42   0.64  fail
+   NIGHT, net                                    2325   +1.09  +0.75   -1.23 -0.72   +4.56 +1.75   0.25  fail
+   short COMEX, net                              4153   -1.50  -1.42   -1.68 -1.27   -1.23 -0.70  -0.35  fail
+
+G2 US DATA SURPRISES -> GOLD (741 releases with |score| >= 1; bp a trade; follow-on trades net of 2.94bp)
+                                                    n    mean      t    tune     t    hold     t Sharpe
+   jump -1 -> +5 min (gross, not tradable)        722  +17.30 +16.92  +15.65+12.83  +19.77+11.13   6.90  PASS   right way 75%
+   follow +1 -> +15 min, net                      727   -0.48  -0.53   +0.35 +0.32   -1.73 -1.09  -0.21  fail
+   follow +5 -> +65 min, net                      714   -2.20  -1.61   -2.25 -1.29   -2.12 -0.97  -0.66  fail
+   follow +5 -> +245 min, net                     721   -2.61  -1.11   -4.49 -1.54   +0.20 +0.05  -0.45  fail
+
+G3 GOLD DAILY TREND (Yahoo GC=F 2001-2026; % a day x 100 = bp)
+                                                    n    mean      t    tune     t    hold     t Sharpe
+   buy and hold, swap-free                       5962   +4.90  +3.29   +4.31 +2.15   +5.78 +2.62   0.68  PASS   +12.3%/yr, fall 44%
+   buy and hold, with swap                       5962   +3.08  +2.07   +2.49 +1.24   +3.97 +1.80   0.42  fail   +7.8%/yr
+   12-month momentum (long/short), swap-free     5962   +3.47  +2.38   +3.93 +2.03   +2.78 +1.26   0.49  fail   +8.7%/yr, fall 44%
+   12-month momentum (long/short), with swap     5962   +1.74  +1.19   +2.25 +1.16   +0.97 +0.44   0.24  fail   +4.4%/yr
+   long above the 200-day average, swap-free     5962   +3.32  +2.72   +2.76 +1.78   +4.16 +2.10   0.56  fail   +8.4%/yr, fall 39%
+   long above the 200-day average, with swap     5962   +2.09  +1.71   +1.61 +1.04   +2.80 +1.41   0.35  fail   +5.3%/yr
+   Donchian 55 / 20 (long/short), swap-free      5962   -0.05  -0.04   -0.49 -0.32   +0.62 +0.33  -0.01  fail   -0.1%/yr, fall 50%
+   Donchian 55 / 20 (long/short), with swap      5962   -1.12  -0.95   -1.50 -0.99   -0.54 -0.29  -0.19  fail   -2.8%/yr
+
+   trend rules beating buy-and-hold's Sharpe on BOTH halves (swap-free): none
+
+G4 NOISE ON TWO OTHER GOLD DAYS (bp a day, net of 1.72bp a round trip)
+                                                    n    mean      t    tune     t    hold     t Sharpe
+   gold London 03:00-13:30                       4194   -1.43  -1.80   -1.60 -1.66   -1.17 -0.86  -0.44  fail
+   gold 00:00-17:00                              4047   -1.94  -2.08   -2.88 -2.52   -0.52 -0.33  -0.52  fail
+
+REGISTERED PREDICTIONS
+  H1 NIGHT gross + on both halves, COMEX gross -, NIGHT net fails a half -> RIGHT
+  H2 the jump goes the surprise's way >= 60% and no follow-on trade passes -> RIGHT
+  H3 trend ~ buy-and-hold swap-free, none beats it on both halves; with swap the 200-day rule beats it -> WRONG
+  H4 no NOISE anchor passes -> RIGHT
+  H5 nothing passes -> RIGHT (0)

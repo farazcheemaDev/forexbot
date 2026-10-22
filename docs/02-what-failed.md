@@ -4374,3 +4374,71 @@ dead coins, pre-registration, netting that skips small adjustments).
   half alone does not (0.44 at 100).
 **Reading:** the published state of the art did not beat what this repo built; its most useful import is a measuring
 stick - the DSR says the backtest is suggestive, not proof, which is what the paper record is for.
+
+## Dead: a book for alt bears the BTC label misses (2026-10-22) - `backtest/alt_bear.py`
+
+**Why tested:** two weeks of falling big alts with BTC flat; both paper accounts down 10-12%; the bear sleeve idle because
+it reads only BTC's 50-day trend. The user: "can we do something about it for bears like this". The ALT label is the same
+rule on the PIT top-40 alt index; ALT-ONLY = alt bear while BTC is not (14.9% of days since 2020-03, 36 episodes, median 8
+days; half were followed by a BTC bear within 30 days).
+- **The sleeve's breadth rule on ALT-ONLY days:** -9..-12%/yr, holdout -21..-33%, fall ~60% (`logs/alt_bear.txt`). On all
+  alt-bear days, or BTC-bear OR alt-bear, it is tune-only. Out of sample (2017-19 spot, frozen) the ALT-ONLY rule made
+  +22..+25%/yr - the sign flips between eras, like the sleeve's chop placebo. Dead.
+- **Shorting alts when they trend down:** -2.9%/yr on ALT-ONLY days, -18%/yr on every alt-bear day. Dead.
+- **Defence - the trend book's longs x0.5 on alt-bear days, at entry:** below the bet-smaller line on the holdout in all 4
+  bar phases; no longs at all: fall 67% vs 50% (`logs/alt_bear_defence.txt`). Dead.
+- **What the machine already does there** (`logs/alt_bear_books.txt`, descriptive): +4.0% per 30 days - trend -9.1%, MN
+  +4.9%, daily +4.2%, capit2 +2.3%.
+**Reading:** these markets are covered by the books that do not need a trend; the trend book loses there, as in sideways
+months, and the only lever on it is its size (`trend_size.py`, declined 2026-10-18).
+
+## The forex search, "every possible thing" (2026-10-22): dead except one CANDIDATE - NASDAQ's intraday "noise" momentum
+
+**Why tested:** the user: "test every possible thing or strategy you have, his strategy's help also and all the other info -
+I want a crazy good strategy" (Exness). The intraday tests so far had 9 months (Exness ticks) or 2.5 years (NQ 1h) - no
+power for a 1-3bp-a-day edge - so this reopens NASDAQ intraday ON PURPOSE (the 2026-10-12 kill line) on HistData's free
+minute bars: FX 2007-2026, NASDAQ / S&P / DAX / gold 2010-2026. Exness spreads + 0.5bp slippage throughout.
+- **Published intraday rules** (`fx_intraday_pub.py`): the 5-minute opening-range breakout (Zarattini & Aziz 2023) and the
+  "noise area" momentum (Zarattini, Aziz & Barbon 2024) on 7 instruments. FX majors, gold, DAX: every rule loses, every
+  year. S&P: same sign as NASDAQ, weaker. **NASDAQ NOISE: +2.25bp a day net, t +2.83, Sharpe 0.74 at 1x, 13 of 17 years up;
+  tune t +1.99 / holdout +2.01 - a hundredth under the line.**
+- **Attacked** (`noise_attack.py`): positive in all 6 decision phases and every lookback, survives a 5-minute late fill,
+  Exness's own 2026 bars agree (daily corr 0.93), alpha over the session drift t +2.99. Weak: double costs (t 1.5), the
+  short leg, and ALL of it sits on days VXN is above its 1-year median (found after looking).
+- **Slower families** (`fx_daily_families.py`): currency momentum / value / both (spot, swap-free) ~0; crosses (AUDNZD,
+  EURGBP, EURCHF) mean reversion dead; weekend gaps fill 67-73% of the time and still lose; the trend book reproduces
+  (+5.4%/yr swap-free) and 3-speed / 23 markets do not improve it. **Pre-FOMC drift on NASDAQ: +0.25% an event, t +3.14,
+  tune t +1.51 - a lead, all of it after 2016.**
+- **Machine learning across 10 markets** (`fx_ml_leadlag.py`, ridge + trees, 2011-18 -> 2019-26): IC under 0.03, gross
+  under 1.4bp, 0 of 10 net positive with t > 0.2.
+- **His help:** his sittings (NY morning only) weaken it; his lean to wild days matches where NOISE earns (VXN filter,
+  post-hoc); his +10%-a-month stop changes nothing (`noise_book.py`).
+- **As a $300 account** (`noise_book.py`, BACKTEST): Exness's USTECm minimum (0.05 lot ~ $1,500) makes $300 run it at x5:
+  +21.6%/yr 2010-26 / +26.2% holdout, fall 56% / 45%, worst month -20%, worst day -13.7%. x3 (needs $500): +14% / +17%,
+  fall 37% / 29%. + pre-FOMC at x3: +18.9% / +27.1%, Sharpe 0.90 / 1.14.
+- **Gold alone, 2010-2026 minute bars** (`gold_focus.py`, the user: "gold and NASDAQ only"): long gold in Asian hours
+  (18:00 -> 03:00 NY) +4.2bp a day gross, t +4.2 - partly a bid-only artifact of the wide 18:00 reopen spread; from 19:00
+  +2.7bp, ~+1bp net, i.e. gold's own rise. The first 6 minutes after a US data surprise go its way 75% (+17bp) and are gone
+  before a retail order; following later loses. No trend rule beats holding gold (swap-free +12%/yr 2001-26, fall 44%).
+  NOISE on two more gold sessions: dead. Gold has no edge here beyond going up.
+- **What was missed: the SWAP** (`ndx_swapfree.py`, the user: "there must be something you are not looking at"). Every
+  NASDAQ / gold hold died on Exness's overnight swap (~2.2bp a night on longs; 0 on shorts on the user's demo). Swap-free:
+  NASDAQ's overnight session nets +3.7bp a night (t +2.5); 3x buy-and-hold 2006-26 +33%/yr vs +7% with swap. A crash filter
+  (above the 200-day AND VIX below VIX3M) at 2x: +20%/yr, fall 49% (2006-26) - beats 1x holding at matched fall but not on
+  Sharpe, and 1999-2026 the 200-day exit did not save a levered book from the dot-com crash (fall 85%). That core at 2x +
+  NOISE at 2x: +32%/yr, fall 33%, Sharpe 1.1 (2010-26, BACKTEST). Mostly NASDAQ's own rise, levered; needs a swap-free
+  account on USTEC and ~$750+.
+**Reading:** forex itself has nothing at retail cost - every currency rule at every horizon from minutes to months is dead
+here. The one thing that holds is a US-index intraday effect (consistent with dealer-gamma and leveraged-ETF hedging flows
+into the close), worth a Sharpe of ~0.75-0.9: a good book, not a crazy one. A CANDIDATE for an Exness demo record, not money.
+
+## Not a kill - the running bot made to match its own backtest (2026-10-22) - `backtest/machine_fixes.py`
+
+**Why:** the user: "how can we eliminate losses from our current bot and make it more profitable". Every loss brake has
+been tested dead (worst_month.py's 16 brakes, profit_take.py, coin_cap.py, alt_bear.py, chop_switch.py). What had not
+been done was making combo-bot-final do what its yardstick does. Paired against the RUNNING machine on the same 10
+orderings, typical year tune / holdout: **capit2 as a resting limit +3.4% / +3.9%** (the live 2-minute poll misses the
+fastest wicks, capit2_exec.py), **the crash bids switched on +15.4% / +7.4%** (counted in every final-machine backtest,
+missing from the running dry bot), MN + carry at maker fees +2.5% / +2.4% (needs a real order path). All three:
++22% / +14%, worst month and fall unchanged within a point. The first two are built (final_books.capit2_poll,
+final_books.bids_poll), tested, and await the user's word to deploy.

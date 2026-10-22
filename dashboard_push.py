@@ -49,7 +49,7 @@ META_KEY, ACCT_KEY = "forexbot:meta", "forexbot:acct:"
 CLOSED_KEEP, NEWS_KEEP = 120, 30
 BANDS = ROOT / "dashboard_bands.json"           # backtest/scorecard_bands.py: each book's normal N-day range
 SCORE_MIN_DAYS = 7                              # the backtest books MN / carry weekly: shorter stretches do not compare
-SCORE_BOOKS = ("trend", "mn", "carry", "sleeve", "daily", "capit2", "news", "ndx")
+SCORE_BOOKS = ("trend", "mn", "carry", "sleeve", "daily", "capit2", "bids", "news", "ndx")
 
 
 # ------------------------------------------------------------------ small readers
@@ -345,7 +345,7 @@ def account(acct: str, d: Path, prices: dict, now: int, write: bool, bands: dict
     for r in pos:
         by_book[r["book"]] = by_book.get(r["book"], 0.0) + (r["upnl"] or 0.0)
     books = {b: dict(booked=round(cum.get(b, 0.0), 2), open=round(by_book.get(b, 0.0), 2))
-             for b in ("trend", "mn", "carry", "sleeve", "daily", "capit2", "news", "ndx")}
+             for b in ("trend", "mn", "carry", "sleeve", "daily", "capit2", "bids", "news", "ndx")}
     led = (st.get("exec", {}) or {}).get("virtual_pos", {}) or {}
     lng = sht = 0.0
     for s, q in led.items():

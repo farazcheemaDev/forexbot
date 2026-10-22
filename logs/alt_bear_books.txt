@@ -1,0 +1,8 @@
+backtest/alt_bear.py --books, 2026-10-22 19:21 UTC; all_books.machine_books, 10 orderings; mean %/30 days of each book by day group (trend gains shrunk, the rest raw). DESCRIPTIVE: trend / daily / capit2 are booked at close
+
+   group       days     trend  mn_blend     carry    sleeve      bids     daily    capit2   MACHINE
+   BTC-bear     614    -4.02%    +2.98%    +0.80%    +6.76%    +0.00%    -1.04%    +3.18%    +8.65%
+   ALT-ONLY     356    -9.11%    +4.93%    +0.44%    +0.41%    +0.85%    +4.15%    +2.30%    +3.98%
+   rest        1417   +34.22%    +6.13%    +1.70%    +0.10%    +1.91%    +5.82%    +1.27%   +51.16%
+
+  P5 trend the biggest loser on ALT-ONLY days, MN within +-1%/30d: worst trend -9.11%, MN +4.93% -> WRONG

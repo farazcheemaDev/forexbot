@@ -1,0 +1,71 @@
+backtest/ndx_swapfree.py, 2026-10-22 20:00 UTC; ^NDX daily 1999-01-04..2026-09-24; first 60% of days = tune
+
+1999-2026 (R2 / R3 start when VIX3M does, 2006-07)
+   rule                     lev  swap    CAGR  fall Sharpe worst mo worst day tune Sh hold Sh in mkt
+   R0 buy and hold           1x  free  +10.6%   83%   0.51   -26.4%    -12.2%    0.33    0.88   100%
+   R0 buy and hold           1x   yes   +2.7%   89%   0.23   -26.8%    -12.3%    0.08    0.55   100%
+   R0 buy and hold           2x  free  +13.0%   99%   0.50   -47.2%    -24.4%    0.32    0.87   100%
+   R0 buy and hold           2x   yes   -2.7%  100%   0.22   -47.8%    -24.5%    0.07    0.53   100%
+   R0 buy and hold           3x  free   +7.2%  100%   0.50   -63.1%    -36.6%    0.32    0.87   100%
+   R0 buy and hold           3x   yes  -14.3%  100%   0.22   -63.8%    -36.8%    0.07    0.53   100%
+   R1 above the 200-day      1x  free   +9.1%   59%   0.60   -19.3%     -9.7%    0.38    0.94    71%
+   R1 above the 200-day      1x   yes   +3.4%   63%   0.29   -19.6%     -9.8%    0.10    0.58    71%
+   R1 above the 200-day      2x  free  +15.2%   85%   0.59   -36.1%    -19.5%    0.37    0.93    71%
+   R1 above the 200-day      2x   yes   +3.6%   90%   0.27   -36.6%    -19.5%    0.09    0.56    71%
+   R1 above the 200-day      3x  free  +18.4%   95%   0.59   -50.4%    -29.2%    0.37    0.93    71%
+   R1 above the 200-day      3x   yes   +1.0%   98%   0.27   -51.1%    -29.3%    0.09    0.56    71%
+   R2 VIX below VIX3M        1x  free  +13.5%   41%   0.82   -13.3%     -5.5%    0.90    0.74    89%
+   R2 VIX below VIX3M        1x   yes   +6.2%   45%   0.43   -13.8%     -5.6%    0.48    0.39    89%
+   R2 VIX below VIX3M        2x  free  +24.4%   69%   0.80   -25.7%    -11.1%    0.88    0.73    89%
+   R2 VIX below VIX3M        2x   yes   +8.9%   73%   0.42   -26.5%    -11.1%    0.46    0.38    89%
+   R2 VIX below VIX3M        3x  free  +32.6%   85%   0.80   -36.9%    -16.6%    0.88    0.73    89%
+   R2 VIX below VIX3M        3x   yes   +8.6%   88%   0.42   -38.0%    -16.7%    0.46    0.38    89%
+   R3 both                   1x  free  +11.1%   28%   0.81   -10.0%     -5.2%    0.70    0.95    75%
+   R3 both                   1x   yes   +5.0%   30%   0.41   -10.3%     -5.2%    0.27    0.60    75%
+   R3 both                   2x  free  +20.4%   49%   0.79   -19.3%    -10.5%    0.68    0.94    75%
+   R3 both                   2x   yes   +7.6%   52%   0.40   -19.8%    -10.5%    0.25    0.58    75%
+   R3 both                   3x  free  +28.1%   65%   0.79   -27.8%    -15.7%    0.68    0.94    75%
+   R3 both                   3x   yes   +8.2%   68%   0.40   -28.5%    -15.7%    0.25    0.58    75%
+
+2006-07 on (all four comparable)
+   rule                     lev  swap    CAGR  fall Sharpe worst mo worst day tune Sh hold Sh in mkt
+   R0 buy and hold           1x  free  +16.1%   54%   0.78   -16.3%    -12.2%    0.73    0.84   100%
+   R0 buy and hold           1x   yes   +7.8%   58%   0.45   -16.8%    -12.3%    0.38    0.53   100%
+   R0 buy and hold           2x  free  +27.5%   83%   0.77   -33.7%    -24.4%    0.72    0.83   100%
+   R0 buy and hold           2x   yes   +9.9%   86%   0.44   -34.5%    -24.5%    0.37    0.52   100%
+   R0 buy and hold           3x  free  +33.3%   95%   0.77   -50.2%    -36.6%    0.72    0.83   100%
+   R0 buy and hold           3x   yes   +6.6%   96%   0.44   -51.2%    -36.8%    0.37    0.52   100%
+   R1 above the 200-day      1x  free  +12.2%   28%   0.82   -13.4%     -6.8%    0.72    0.94    80%
+   R1 above the 200-day      1x   yes   +5.7%   30%   0.43   -13.8%     -6.9%    0.30    0.60    80%
+   R1 above the 200-day      2x  free  +22.3%   49%   0.80   -25.5%    -13.7%    0.71    0.93    80%
+   R1 above the 200-day      2x   yes   +8.5%   52%   0.42   -26.3%    -13.8%    0.29    0.59    80%
+   R1 above the 200-day      3x  free  +30.3%   65%   0.80   -36.4%    -20.5%    0.71    0.93    80%
+   R1 above the 200-day      3x   yes   +8.9%   72%   0.42   -37.4%    -20.7%    0.29    0.59    80%
+   R2 VIX below VIX3M        1x  free  +13.5%   41%   0.82   -13.3%     -5.5%    0.90    0.74    89%
+   R2 VIX below VIX3M        1x   yes   +6.2%   45%   0.43   -13.8%     -5.6%    0.48    0.39    89%
+   R2 VIX below VIX3M        2x  free  +24.5%   69%   0.80   -25.7%    -11.1%    0.88    0.72    89%
+   R2 VIX below VIX3M        2x   yes   +8.9%   73%   0.42   -26.5%    -11.1%    0.46    0.38    89%
+   R2 VIX below VIX3M        3x  free  +32.6%   85%   0.80   -36.9%    -16.6%    0.88    0.72    89%
+   R2 VIX below VIX3M        3x   yes   +8.6%   88%   0.42   -38.0%    -16.7%    0.46    0.38    89%
+   R3 both                   1x  free  +11.1%   28%   0.81   -10.0%     -5.2%    0.70    0.95    75%
+   R3 both                   1x   yes   +5.0%   30%   0.41   -10.3%     -5.2%    0.27    0.59    75%
+   R3 both                   2x  free  +20.4%   49%   0.80   -19.3%    -10.5%    0.69    0.94    75%
+   R3 both                   2x   yes   +7.6%   52%   0.40   -19.8%    -10.5%    0.25    0.58    75%
+   R3 both                   3x  free  +28.1%   65%   0.80   -27.8%    -15.7%    0.69    0.94    75%
+   R3 both                   3x   yes   +8.2%   68%   0.40   -28.5%    -15.7%    0.25    0.58    75%
+
+OVERNIGHT, NASDAQ 16:00 -> 09:30 (HistData minutes; net of 0.77 + 0.5bp, swap-free)
+   gross +5.00bp a night, net +3.73bp t +2.53 | tune +3.33 t +2.44 | hold +4.33 t +1.41; with swap +0.52bp
+
+CORE (R3 at 2x, swap-free) + NOISE (intraday), 2010-12-08..2026-09-24; daily correlation -0.09
+   book                                  CAGR  fall Sharpe worst mo worst day
+   core 2x                             +19.8%   47%   0.82   -19.3%    -10.5%
+   NOISE 2x                             +9.9%   26%   0.74    -8.6%     -5.5%
+   core 2x + NOISE 2x                  +32.2%   33%   1.11   -18.4%     -9.5%
+   core 2x + NOISE 3x                  +37.8%   36%   1.16   -20.8%     -9.5%
+
+REGISTERED PREDICTIONS
+  S1 overnight swap-free t >= 2, both halves positive -> RIGHT
+  S2 R1 beats buy-and-hold Sharpe on both halves, fall <= 60% of hold's (1999-2026, 1x) -> WRONG
+  S3 R2 beats hold on both halves and R3 has the best Sharpe (2006 on, 1x) -> WRONG
+  S4 swap costs 3x hold >= 12 points a year; swap-free 3x R1 >= +25%/yr with fall <= 60% -> WRONG (swap cost 26.7 pts; 3x R1 +18.4%, fall 95%)

@@ -607,6 +607,44 @@ the box was patched before the repo was public.
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
 
+### 2026-10-22 (last) - the running bot made to match its backtest: capit2 resting limits + the crash bids (CODE, not deployed)
+
+- The user: "eliminate losses / make it more profitable". Loss brakes were all tested dead before; what was missing is
+  the bot doing what its yardstick does. `backtest/machine_fixes.py` (paired, 10/10 orderings, both halves): capit2 as a
+  resting limit +3.4% / +3.9% of the typical year; the crash bids on +15.4% / +7.4% (the final machine's backtests all
+  count them; combo-bot-final ran without them, and wick_live's DRY desk fills nothing); MN + carry at maker fees +2.5%
+  (needs a real post-only path - not built). All: +22% / +14%, worst month / fall unchanged.
+- Built and tested locally: `final_books.capit2_poll` fills a limit AT the limit from closed 1-minute lows since the last
+  poll (fallback: the poll's price); `final_books.bids_poll` = wick_paper's rule booked into the dry account each hour
+  (book "bids"), called by combo_bot.poll when no real desk runs. tests/test_final_books.py 18 (3 mutations caught),
+  test_combo_bot.py 26. Dashboard + scorecard bands now include "bids" (bands rebuilt). NOT DEPLOYED - the user's call
+  (restart combo-bot-final and combo-bot-fresh). A real account would still need the capit2 limit and the desk on the venue.
+
+### 2026-10-22 (later) - the forex search, "every possible thing": one CANDIDATE, NASDAQ intraday noise momentum
+
+- HistData minute bars added: gold (XAUUSD), S&P (SPXUSD), DAX (GRXEUR) 2010-2026, beside the 7 FX majors and NASDAQ.
+- `fx_intraday_pub.py` (opening-range breakout, "noise area" momentum) / `noise_attack.py` / `fx_daily_families.py` (currency
+  momentum / value, pre-FOMC, crosses, weekend gaps, trend book variants) / `fx_ml_leadlag.py` (ridge + trees, 10 markets)
+  / `noise_book.py` ($300 account). Every forex rule dead; NASDAQ NOISE +2.25bp a day net, Sharpe 0.74 at 1x, survives
+  phases / lookbacks / late fills / Exness's own bars, tune t 1.99 (a hundredth short). Pre-FOMC drift a lead (+0.25% an
+  event). At $300 Exness's 0.05-lot minimum forces x5: +22%/yr, fall 56% (BACKTEST). Reopened NASDAQ intraday on purpose:
+  the 2026-10-12 kill line was set on 9 months / 2.5 years of data. Doc 02's last entry.
+- Gold alone (`gold_focus.py`, 2010-2026 minutes): no edge beyond gold rising - the Asian-hours "gain" was partly a bid-only
+  reopen artifact (HistData is bid-only: check any session that starts at a reopen); news jumps are over in 6 minutes.
+- `ndx_swapfree.py`: what every NASDAQ hold died on was the SWAP. Swap-free, a crash-filtered (200-day + VIX curve) NASDAQ
+  core at 2x + NOISE at 2x = +32%/yr, fall 33% (2010-26 BACKTEST, mostly NASDAQ beta). The user's MT5 is an Exness DEMO
+  (Trial16, 1:200): USTECm longs pay ~2.2bp a night, shorts 0; the real account's swap-free status is unknown.
+
+### 2026-10-22 - accounts down 10-12% in an alt sell-off; a book for alt bears tested: dead (doc 02's last entry)
+
+- Dashboard read 18:56 UTC: main $262.46 (-12.5%, 13.8 days, account at the 10th percentile of its backtest band - "below
+  typical", not under the 5th), fresh $269.88 (-10%); trend, MN, daily and carry all losing, NASDAQ dip +$5.87. Feed and
+  services healthy. Bear sleeve idle: BTC's label stayed BULL (10-21 close 2.9% over its 50-day average, rising +5.2%).
+- `backtest/alt_bear.py`: the sleeve's rule on ALT-ONLY bear days (alt index in a 50-day downtrend, BTC not) loses in
+  2020-26 and wins in 2017-19 - flips; shorting alts in their downtrends loses; trend longs x0.5 in alt bears fails the
+  bet-smaller line in all 4 phases. On such days the machine historically made +4% per 30 days (MN and daily carry it).
+  Today is not even ALT-ONLY by the rule: big alts -10..-18% in 30 days, small coins pumping - chop.
+
 ### 2026-10-20 (last) - the trader: the scalper toolkit cross-checked; NASDAQ TICK tested (his_strategy s69)
 
 - Web research on what NASDAQ / forex scalpers watch: everything was already tested on him except market internals and
