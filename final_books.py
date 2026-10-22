@@ -283,8 +283,92 @@ def enable(cp):
     cp.mp.target = mn_blend_target
     cp.mp.fetch_all = remember(_FETCH_ALL, "bars")
     cp.mp.perp_universe = remember(_UNIVERSE, "universe")
+    cp.mp.candidates = month_pool
+    cp.bp.atr = wilder_atr
+    cp.bp.manage = manage_bt
     cp.bp.MAX_LEVERAGE = TREND_LEV
     cp.START_EQ = EQUITY                     # status reads its change from the $300 this account starts with
+    _CP[0] = cp
+
+
+_CP: list = [None]
+_CANDIDATES = mp.candidates
+
+
+def wilder_atr(df: pd.DataFrame, n: int = 14) -> pd.Series:
+    """THE BACKTEST'S ATR (bot.core.indicators.atr: Wilder's smoothing, alpha 1/n) for the trend book's stops.
+    blend_paper.atr is a 14-bar SIMPLE mean, so the live stops and trails were not the backtest's: replaying the
+    final machine's first 13 days with the live formula and trail bar reproduced 37 of 37 live trend exits, with the
+    backtest's only 32 - all 5 misses shorts, whose 5xATR trail is the tightest (backtest/live_check.py, 2026-10-22)."""
+    from bot.core.indicators import atr as _wilder
+    return _wilder(df, n)
+
+
+def manage_bt(st, key, rec, bar, hi, lo, a, **kw):
+    """blend_paper.manage with the BACKTEST's trail bar: walk() / the short trail move the stop off the ATR of the bar
+    BEFORE the one being judged (a[k-1]); blend_paper passes the bar just closed (a[k]). The ATR of the previous call is
+    kept on the position (a_bt, saved with the state); on a position's first bar it is the entry's own ATR (risk /
+    SL_MULT), which is what the backtest uses there too."""
+    import blend_paper as bp
+    prev = rec.get("a_bt")
+    if prev is None:
+        prev = rec["risk"] / bp.SL_MULT if rec.get("risk") else a
+    rec["a_bt"] = a
+    return _ORIG_MANAGE(st, key, rec, bar, hi, lo, prev, **kw)
+
+
+def _orig_manage():
+    import blend_paper as bp
+    return bp.manage
+
+
+_ORIG_MANAGE = _orig_manage()
+
+
+def month_pool(syms: list, fetch=None, now=None) -> list:
+    """THE BACKTEST'S UNIVERSE, live (2026-10-22, backtest/live_check.py). mn_paper picks its candidate pool as the top
+    CAND_N perps by TODAY's 24h volume (its caveat 1), so the universe changed day to day: a coin whose volume surged
+    joined the daily book a day late (IOST, 10-22), and the MN baskets shared only 67-89% of their names with the
+    backtest's. The backtest ranks EVERY perp by the PRIOR calendar month's quote volume and keeps that list for the
+    month (wide_book.eligibility). This does the same: once a month, every listed USDT perp's daily bars, the top CAND_N
+    by last month's quote volume (listed >= MIN_AGE_D), saved beside the state and reused all month; mp.eligible then
+    takes the top 60 / 40 from it as before. If under 90% of the perps can be read, today falls back to the 24h pool
+    (logged) and the month is tried again on the next call. Only the process that called enable() uses it."""
+    import json
+    import time as _t
+    now = now or datetime.now(timezone.utc)
+    month = f"{now:%Y-%m}"
+    prev = (pd.Timestamp(month + "-01") - pd.Timedelta(days=1)).strftime("%Y-%m")
+    cp = _CP[0]
+    f = cp.P["state"].parent / "month_pool.json" if cp is not None and cp.P.get("state") else None
+    saved = {}
+    if f is not None and f.exists():
+        try:
+            saved = json.loads(f.read_text())
+        except Exception:  # noqa: BLE001
+            saved = {}
+    if month not in saved:
+        vol, ok = {}, 0
+        for s in syms:
+            d = (fetch or mp.daily)(s, limit=mp.NEED_BARS)
+            if d is not None and len(d):
+                ok += 1
+                age = (d.time.iloc[-1] - d.time.iloc[0]).days
+                m = d[d.time.dt.strftime("%Y-%m") == prev]
+                if age >= mp.MIN_AGE_D and len(m):
+                    vol[s] = float(m.qvol.sum())
+            if fetch is None:
+                _t.sleep(0.05)
+        if ok < 0.9 * len(syms):
+            log(f"UNIVERSE {month}: read {ok} of {len(syms)} perps - today uses the 24h-volume pool, retrying next call")
+            return _CANDIDATES(syms)
+        saved = {month: sorted(vol, key=lambda s: -vol[s])[:mp.CAND_N]}
+        if f is not None:
+            f.write_text(json.dumps(saved))
+        log(f"UNIVERSE {month}: top {len(saved[month])} of {ok} perps by {prev} quote volume (the backtest's rule), "
+            f"fixed for the month")
+    listed = set(syms)
+    return [s for s in saved[month] if s in listed]
 
 
 # ---------------------------------------------------------------- the books

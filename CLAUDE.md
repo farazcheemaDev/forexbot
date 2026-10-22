@@ -613,7 +613,14 @@ the detail lives in the numbered docs.*
   every trend entry is a real signal at the backtest's price; 32 / 37 exits are the rule's - the 5 others all SHORTS (a
   live short-exit difference, open); the daily book's rule is identical, its universe is rebuilt daily from today's
   volume (open); MN 67-89% name overlap; capit2 / sleeve / NDX exact. Replays of the same days lose what the live book
-  lost: the -13% is the market. Fixes not made yet (the user's call).
+  lost: the -13% is the market.
+- **The cause of the trend differences, found exactly**: blend_paper's ATR is a 14-bar SIMPLE mean (the backtest: Wilder,
+  bot.core.indicators.atr) and its trail moves off the bar just closed (the backtest: the bar before). With both, the
+  replay reproduces 37 of 37 live exits (32 with the backtest's). FIXED IN THE FINAL BOTS ONLY (final_books.enable:
+  bp.atr = wilder_atr, bp.manage = manage_bt); blend_paper.py and the seven paper books are untouched - they keep the
+  simple-mean ATR, a known offset from every backtest. Universe: final_books.month_pool = every listed perp ranked by
+  the PRIOR month's volume, fixed for the month (520 perps read in ~4 min, once a month; 37 of 120 names differ from
+  the 24h pool; IOST ranks 42nd). Tests 20 / 26 / 5, three mutations caught.
 
 ### 2026-10-22 (last) - the running bot made to match its backtest: capit2 resting limits + the crash bids (DEPLOYED)
 

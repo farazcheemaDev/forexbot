@@ -39,7 +39,8 @@ RESULT (2026-10-22 21:03 UTC, logs/live_check.txt) - the bot runs the strategy; 
     volume, fixed for the month). V2 RIGHT.
   MN: 67-89% of the long / short names the backtest's (part of it the same universe rule; the live bot does not log its
     candidate pool, so not separable). V3 WRONG. CAPIT2 / SLEEVE / NDX exact. V4 RIGHT.
-  To fix (the user's call, a VM deploy): the live short exit; the universe built from the prior month's volume.
+  CAUSE (2026-10-22, same day): blend_paper's 14-bar simple-mean ATR and its trail off the bar just closed - with both
+    in the replay, 37 of 37 live exits match. Fixed in the final bots (final_books.wilder_atr / manage_bt / month_pool).
 
     python -m backtest.live_check <folder with the copied live logs>
 """

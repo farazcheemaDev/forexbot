@@ -444,16 +444,69 @@ def test_capit2_not_working_after_24_bars_and_the_cap():
     assert "K0USDT" not in st["fin"]["capit2"]["open"]
 
 
+def test_trend_stops_use_the_backtests_atr_and_the_previous_bar():
+    """live_check.py: blend_paper's 14-bar simple-mean ATR, and its trail off the bar just closed, reproduced 37 of 37
+    live trend exits; the backtest's (Wilder ATR, the bar before) only 32. The final books use the backtest's."""
+    from bot.core.indicators import atr as wilder
+    rng = np.random.default_rng(3)
+    c = 100 * np.exp(np.cumsum(rng.normal(0, 0.02, 60)))
+    df = pd.DataFrame(dict(high=c * 1.01, low=c * 0.99, close=c))
+    assert np.allclose(fb.wilder_atr(df).to_numpy(), wilder(df, 14).to_numpy())
+    assert not np.allclose(fb.wilder_atr(df).to_numpy()[20:], cp.bp.atr(df).to_numpy()[20:])
+    got = []
+    saved = fb._ORIG_MANAGE
+    fb._ORIG_MANAGE = lambda st, key, rec, bar, hi, lo, a, **kw: got.append(a)
+    try:
+        rec = dict(risk=4.0)                                   # entered on an ATR of 2.0 (SL_MULT 2)
+        for bar, a in (("b1", 3.0), ("b2", 5.0), ("b3", 7.0)):
+            fb.manage_bt({}, "K", rec, bar, 1.0, 1.0, a)
+    finally:
+        fb._ORIG_MANAGE = saved
+    assert got == [2.0, 3.0, 5.0] and rec["a_bt"] == 7.0
+
+
+def test_month_pool_ranks_every_perp_by_last_months_volume_and_keeps_it():
+    import tempfile
+    from pathlib import Path as _P
+    d0 = pd.date_range("2026-08-01", "2026-10-20", freq="D")
+
+    def bars(vol, start="2026-08-01"):
+        t = d0[d0 >= start]
+        return pd.DataFrame(dict(time=t, close=np.ones(len(t)),
+                                 qvol=np.where(t.strftime("%Y-%m") == "2026-09", vol, 1e12)))
+    data = {f"C{i}USDT": bars(float(i + 1)) for i in range(10)}
+    data["NEWUSDT"] = bars(1e9, start="2026-09-25")           # big September volume, but listed 25 days: out
+    data["OLDUSDT"] = bars(0.5)
+    syms = list(data)
+    now = pd.Timestamp("2026-10-22 12:00", tz="UTC")
+    with tempfile.TemporaryDirectory() as td:
+        saved = (fb._CP[0], fb._CANDIDATES)
+        fb._CP[0] = type("CP", (), {"P": {"state": _P(td) / "combo_state.json"}})()
+        fb._CANDIDATES = lambda s: ["FALLBACK"]
+        try:
+            pool = fb.month_pool(syms, fetch=lambda s, limit: data[s], now=now)
+            assert pool[:3] == ["C9USDT", "C8USDT", "C7USDT"] and "NEWUSDT" not in pool and pool[-1] == "OLDUSDT"
+            again = fb.month_pool([s for s in syms if s != "OLDUSDT"], fetch=lambda s, limit: 1 / 0, now=now)
+            assert again == [s for s in pool if s != "OLDUSDT"]                        # cached all month; delisted out
+            (_P(td) / "month_pool.json").unlink()
+            assert fb.month_pool(syms, fetch=lambda s, limit: None, now=now) == ["FALLBACK"]   # unread: the 24h pool
+        finally:
+            fb._CP[0], fb._CANDIDATES = saved
+
+
 def test_enable_installs_the_blend_and_the_6_25x_trend_guard():
-    saved = (mp.target, mp.fetch_all, mp.perp_universe, cp.bp.MAX_LEVERAGE)
+    saved = (mp.target, mp.fetch_all, mp.perp_universe, mp.candidates, cp.bp.MAX_LEVERAGE, cp.bp.atr, cp.bp.manage)
     try:
         fb.enable(cp)
         assert mp.target is fb.mn_blend_target and cp.bp.MAX_LEVERAGE == 6.25
+        assert mp.candidates is fb.month_pool and cp.bp.atr is fb.wilder_atr and cp.bp.manage is fb.manage_bt
         fb.enable(cp)                                                              # twice: still one wrapper deep
         assert mp.fetch_all.__closure__[0].cell_contents is fb._FETCH_ALL or \
             fb._FETCH_ALL in [c.cell_contents for c in mp.fetch_all.__closure__]
+        assert fb._ORIG_MANAGE is not fb.manage_bt and fb._CANDIDATES is not fb.month_pool
     finally:
-        mp.target, mp.fetch_all, mp.perp_universe, cp.bp.MAX_LEVERAGE = saved
+        (mp.target, mp.fetch_all, mp.perp_universe, mp.candidates, cp.bp.MAX_LEVERAGE, cp.bp.atr,
+         cp.bp.manage) = saved
     import news_books as nbk
     assert fb.TREND_LEV + 1.0 + fb.K_CARRY + 1.0 + 0.25 + fb.K_DAILY + fb.K_CAPIT2 * fb.CAPIT2_LEV + 2 * nbk.K_NEWS + nbk.K_NDX == fb.GROSS_CAP
 
