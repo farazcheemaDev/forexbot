@@ -1,0 +1,49 @@
+news/crowd_fast.py, 2026-10-23 18:21 UTC; the crowd-squeeze book judged without waiting for April
+
+A  UNSEEN WEEKS: 2026-09-14 .. 2026-10-23 (5.6 weeks), crowd_paper's own code on Binance's archive crowd
+   half  week                       longs shorts    gross    fee      net
+   mon   2026-09-14 -> 2026-09-21       9     10   +1.54%  0.12%   +1.42%
+   thu   2026-09-17 -> 2026-09-24       9     10   +6.90%  0.12%   +6.78%
+   mon   2026-09-21 -> 2026-09-28       9     10   +3.43%  0.05%   +3.38%
+   thu   2026-09-24 -> 2026-10-01       9     10   +5.04%  0.05%   +4.99%
+   mon   2026-09-28 -> 2026-10-05       9     10   -2.20%  0.05%   -2.25%
+   thu   2026-10-01 -> 2026-10-08      10     11   -1.59%  0.12%   -1.71%
+   mon   2026-10-05 -> 2026-10-12      10     11   +1.94%  0.12%   +1.82%
+   thu   2026-10-08 -> 2026-10-15      10     11   +2.54%  0.05%   +2.49%
+   mon   2026-10-12 -> 2026-10-19      10     11   +0.12%  0.06%   +0.07%
+   thu   2026-10-15 -> 2026-10-22      10     11   +0.21%  0.08%   +0.13%
+   mon   open week, marked at 2026-10-23 00:00: $158.28 on $156.62
+   thu   open week, marked at 2026-10-23 00:00: $170.52 on $169.63
+   long legs' best weeks: AKE +113%, BTW +83%, BTW +63%, BTW +48%, PUMP +48% | worst: BTW -31%, USELESS -29%, BR -29%
+   short legs' worst (rose most): SUI +41%, ONDO +36%, SUI +35%
+   $300 -> $328.80 (+9.60%): the 77th percentile of the backtest's 5.6-week stretches (p10 -6.5%, median +3.2%, p90 +13.8%)
+
+D  HOW FAST A PAPER RECORD CAN TELL (contiguous windows of the 2022-26 weeks)
+    weeks  line (p10)  P(kill | works)  P(kill | dead)  right, 50/50 prior
+        4       -5.8%              10%             20%                 56%
+        8       -7.0%              10%             27%                 62%
+       13       -7.6%              10%             29%                 66%
+       26       -6.3%              10%             38%                 74%
+       52       -6.3%              10%             55%                 79%
+
+C  BYBIT'S CROWD (long account share, last 4h row before the anchor), Binance prices, same rule
+   Monday    2021 (unseen):  26 weeks   +22.4%/yr t +0.66 (16+ coins from 2021-07-05) | 2022-24 +16.0%/yr t +1.42 | 2024-26 +90.9%/yr t +2.55
+   Thursday  2021 (unseen):  27 weeks    +1.7%/yr t +0.16 (16+ coins from 2021-07-01) | 2022-24 +23.3%/yr t +1.94 | 2024-26 +106.5%/yr t +1.85
+   Binance vs Bybit crowd ranks, same dates: mean rank correlation +0.68 over 490 dates
+
+B  SEVEN ANCHOR WEEKDAYS, 2022-26 (Binance crowd; the book as positioning_hist.book runs it)
+   weekday     weeks     %/yr     tune     hold  t tune  t hold
+   Monday        242   +37.1%   +22.8%   +61.6%   +1.85   +2.00
+   Tuesday       242   +35.1%    +7.0%   +91.3%   +0.70   +1.79
+   Wednesday     242   +32.9%   +16.9%   +61.1%   +1.42   +1.54
+   Thursday      243   +48.1%   +22.5%   +96.2%   +1.78   +1.87
+   Friday        242   +53.4%   +35.3%   +85.1%   +2.79   +1.98
+   Saturday      242   +47.4%   +36.9%   +64.7%   +2.64   +1.63
+   Sunday        242   +35.6%   +20.0%   +62.8%   +1.55   +1.84
+
+REGISTERED PREDICTIONS
+  F1 unseen weeks inside p10..p90: 77th -> RIGHT
+  F2 positive on >= 6 of 7 weekdays (7), t >= 2 both halves on <= 2 (0) -> RIGHT
+  F3 Bybit ranks agree (>= 0.6: +0.68) and its book is positive on both halves -> RIGHT
+  F4 2021 positive with t < 2 on both weekdays -> RIGHT
+  F5 a 13-week record kills a dead book under half the time (29%) -> RIGHT

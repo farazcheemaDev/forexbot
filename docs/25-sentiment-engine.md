@@ -153,3 +153,8 @@ crowd book at 0.5 / 1.0 of the account, on the same dates. $300 typical 12 month
 $1,519; 2024-08..2026-09 $9,838 -> $12,914 / $16,045 - 10/10 orderings, worst month and fall within 1.5 points at 0.5,
 and better than the machine scaled up to the same fall on both spans (correlation +0.09 daily). Picked from this same
 data, so the paper record decides; at $300 the 0.5 size puts legs under Bitget's $5 minimum.
+
+**Judged sooner** (`news/crowd_fast.py`, `logs/crowd_fast.txt`; the user: "can't wait till April"): the 6 unseen weeks
+since the data ended +9.6% through the paper book's own code; positive on all 7 anchor weekdays; Bybit's crowd gives the
+same book, and 2021 (never seen) is positive but weak; a forward record alone is slow (66% right at 13 weeks). The paper
+book now has a kill checkpoint on 2027-01-25 and its verdict on 2027-04-09, the machine's own date.

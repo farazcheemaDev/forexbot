@@ -77,12 +77,12 @@ def one(sym: str, day: str):
                 oi=float(last.sum_open_interest_value))
 
 
-def plan():
+def plan(days=(0, 3)):
     from backtest.market_neutral import drop_non_crypto
     from backtest.wide_book import eligibility
     el = drop_non_crypto(eligibility(40))
     anchors = pd.date_range("2022-01-03", "2026-09-10", freq="D")
-    anchors = anchors[anchors.dayofweek.isin([0, 3])]
+    anchors = anchors[anchors.dayofweek.isin(list(days))]
     jobs = []
     for a in anchors:
         m = a.strftime("%Y-%m")
@@ -110,9 +110,9 @@ def fetch(jobs):
     return out
 
 
-def inputs():
+def inputs(days=(0, 3)):
     from backtest.market_neutral import load_panel
-    anchors, el, jobs = plan()
+    anchors, el, jobs = plan(days)
     F = fetch(jobs)
     C, Fd, first = load_panel()
     C.index = C.index.astype("datetime64[ns]")

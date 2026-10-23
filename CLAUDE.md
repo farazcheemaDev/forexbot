@@ -641,6 +641,12 @@ the detail lives in the numbered docs.*
   $1,177 -> $1,362 / $1,519; 2024-08..2026-09: $9,838 -> $12,914 / $16,045; 10/10 orderings, worst month and fall within
   1.5 points at x0.5, beats the machine scaled to the same fall on both spans. Picked from the same data; paper decides.
   At $300, x0.5 legs (~$3.75) are under Bitget's $5 minimum - x1.0 or more capital.
+- **"Can't wait till April" - the crowd book judged without waiting** (`news/crowd_fast.py`, F1-F5 all right): the 6
+  unseen weeks since the data ended, through crowd_paper's own code, +9.6% (77th percentile; the machine lost ~13% then);
+  positive on all 7 anchor weekdays (+33..+53%/yr); Bybit's crowd gives the same book (rank corr +0.68), 2021 (never seen)
+  positive but weak; a forward record alone is slow (66% right at 13 weeks, 74% at 26). Registered before the first live
+  anchor: KILL checkpoint 2027-01-25 (< -7.8%), verdict moved to 2027-04-09 with the machine's (dead < -6.6%, held up
+  >= +16.8%). Data: the positioning cache now holds all 7 weekdays; Bybit 4h ratios in strategy_analysis/data/news/.
 
 ### 2026-10-23 - the day-45 checkpoint written into doc 22 (s3b), before its data
 

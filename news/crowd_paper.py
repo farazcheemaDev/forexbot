@@ -36,6 +36,15 @@ N-week stretch of 2022-01 .. 2026-09 (positioning_hist.py --band):
   C3 at least one long-leg coin rises 50% or more in its week within the 26 weeks (the squeezes are the engine).
   A month swings -6% .. +11% in the backtest: read the first two months as noise. The dashboard places the live result
   in the backtest's range from week 4.
+AMENDED 2026-10-23, BEFORE THE FIRST LIVE ANCHOR (the user: "can't wait till April"; news/crowd_fast.py's checks, all
+  five registered predictions right). The final machine's own money verdict is 2027-04-09 (doc 22 s1), so this book is
+  judged ON THAT DAY instead of 2027-04-26, with an early kill before it (lines from crowd_bands.json, the record from
+  2026-10-26 only - the replayed unseen weeks are evidence, not part of the record):
+    CHECKPOINT 2027-01-25 00:00 UTC (13 weeks): under -7.8% (the backtest's 10th percentile) -> DEAD, stop it
+    VERDICT    2027-04-09 (23.6 weeks): under -6.6% (p10) -> dead; -6.6% .. +16.8% (under the median) -> not shown, it
+               runs on to 52 weeks while the machine's decision goes ahead without it; +16.8% or more -> held up, it may
+               join the machine (x1.0 at $300 - x0.5 puts legs under Bitget's $5 - or x0.5 from ~$450), under doc 22 s2
+  C1-C3 above are read on the same day.
 
     python -m news.crowd_paper            one cycle: the mood snapshot, any due week close / open, the daily mark
     python -m news.crowd_paper --status

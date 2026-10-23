@@ -409,8 +409,9 @@ function CrowdBook({ c }) {
               <div className="dial-lab"><span>worst</span><span>{ordinal(sc.pctile)} percentile of {Math.round(sc.weeks)}-week stretches</span><span>best</span></div>
             </div>
           ) : (
-            <div className="muted" style={{ fontSize: 12, maxWidth: 420 }}>Verdict at 26 weeks: dead under −6.5%, held up at
-              +18.4% or more (the backtest's 10th percentile and median). A month swings −6% to +11% in the backtest.</div>
+            <div className="muted" style={{ fontSize: 12, maxWidth: 420 }}>Checkpoint 25 Jan 2027: stopped if under −7.8%.
+              Verdict 9 Apr 2027, with the bot's own: dead under −6.6%, held up at +16.8% or more (the backtest's 10th
+              percentile and median). A month swings −6% to +11% in the backtest.</div>
           )}
         </div>
         {legs.length ? (
