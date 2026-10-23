@@ -31,8 +31,10 @@ lose); the monthly kill line below is the only early exit.
    cost written down (P2P spread, fees, days, any bank flag). That cost is subtracted from the book's expected return.
 5. **No open bug** in CLAUDE.md s7b touches the book.
 
-Then, if the user chooses: fund at **x0.65 size** (backtest worst month -20% instead of -30%), and the user sets
-`ALLOW_REAL = True` by hand.
+Then, if the user chooses: fund, and the user sets `ALLOW_REAL = True` by hand. **Size: x1.0 - the user's decision on
+2026-10-24** ("0.65 will hurt gains"). x0.65 was the pre-set suggestion: backtest worst month -20% instead of -30%, at
+about half the typical year ($1,806 vs $3,400 on $300, `final_books.py`'s docstring). At x1.0 plan on falls of 40-60%
+along the way - the backtest's deepest - and a worst month near -30%.
 
 ## 3. KILL and EXTEND
 
@@ -69,10 +71,15 @@ the booked equity is written down beside it.
 - **At or over $261.30: CONTINUE.** Only ~2 times as likely from a working machine - a weak yes. It does NOT meet §2;
   the month-3 check (below the 5th percentile of same-regime windows kills) and the verdict date stand.
 - **If the user still chooses to fund after a day-45 CONTINUE** (pre-set now, so it is not decided in a good week): §2's
-  conditions 3-5 must hold (tradable at the capital, the PKR money path tested, no open bug touching the book; plus the
-  venue pieces still paper-only: capit2's resting limit and the crash desk on the exchange, the 1000SHIB / 1000PEPE /
-  RAYSOL mapping); size x0.65; a stake the user can lose entirely; withdrawals only above the starting stake; and the
-  month-3 kill line applies to the real account as it does to paper. Only the user sets `ALLOW_REAL`.
+  conditions 3-5 must hold (tradable at the capital, the PKR money path tested, no open bug touching the book); size
+  x1.0 (the user's decision, 2026-10-24 - see s2); a stake sized so a 40-60% fall, the backtest's deepest, can be sat
+  through; withdrawals only above the starting stake; and the month-3 kill line applies to the real account as it does
+  to paper. Only the user sets `ALLOW_REAL`. **The venue pieces are built (2026-10-24):** capit2's limit rests on the
+  venue as a post-only order (`final_books.capit2_orders`), `--final --mode live` always runs the real crash desk
+  (`combo_bot.wants_desk`), and the coin map converts names and units (`combo_bot.Venue.mapped`: 1000SHIB / 1000PEPE /
+  1000FLOKI / 1000LUNC / 1000CHEEMS / RAYSOL; 651 more same-named; checked against live prices, none off by > 0.2%).
+  Tested offline (`tests/test_live_orders.py`, 10 tests, 8 mutations caught); not yet seen on a real account - the
+  demo lists only SBTC / SETH / SXRP.
 
 **What this checkpoint cannot see.** The first 13 days ran the code before the 2026-10-22 fixes (capit2 as a poll, no
 crash bids, the simple-mean ATR, the daily 24h-volume universe); their -13% counts in the reading as it is. The older

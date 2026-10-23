@@ -100,6 +100,10 @@ def price(prices: dict, sym: str):
         return prices["1000" + sym] / 1000
     if sym.startswith("1000") and sym[4:] in prices:
         return prices[sym[4:]] * 1000
+    if sym.startswith("1M") and "1000" + sym[2:] in prices:          # Bitget's 1MCHEEMS = 1,000 x Binance's 1000CHEEMS
+        return prices["1000" + sym[2:]] * 1000
+    if sym == "RAYUSDT" and "RAYSOLUSDT" in prices:                  # Bitget's RAY is Binance's RAYSOL (combo_bot.ALIASES)
+        return prices["RAYSOLUSDT"]
     return None
 
 

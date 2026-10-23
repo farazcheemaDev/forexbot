@@ -39,9 +39,11 @@ on it what it makes on the tune half; the MN blend, the carry book and the 20-da
 mined holdout. Forward paper decides - this file is how it runs forward.
 
 LIVE vs BACKTEST, stated so it can be subtracted later
-    1. capit2's entry is a LIMIT in the backtest (filled at the limit whenever the bar traded 0.3% through it). Here the
-       bot works in market orders: each 2-minute poll, if the live price is at or under limit x 0.997 the book buys at
-       that price. Fewer fills (a dip between polls is missed), each slightly better. Its target is taken whenever the
+    1. capit2's entry is a LIMIT in the backtest (filled at the limit whenever the bar traded 0.3% through it). Dry mode
+       fills it AT the limit from closed 1-minute lows (2026-10-22); a real / demo account places a post-only order at
+       the limit on the venue (capit2_orders, 2026-10-24), which can also fill on a touch the backtest did not count.
+       Where no order can rest (unlisted, under the minimum, price already through), the poll buys at market as it
+       did before 2026-10-22: fewer fills (a dip between polls is missed), each slightly better. Its target is taken whenever the
        live price is at +5% - also inside the fill bar, which the backtest excluded only because bar data cannot order
        events; a target crossed between polls is taken at the next poll's price ("target_late").
     2. Same-day signals beyond the free slots are taken in volume order, not random order.
@@ -515,8 +517,8 @@ def capit2_poll(st: dict, prices: dict, now_ms: int, rec=None, fund=funding_sum,
     fills, which are the best trades (94% won), and earned +1.76% a signal against the backtested resting limit's +2.15%.
     So a limit is filled AT the limit as soon as any closed 1-minute low since the last check traded 0.3% through it,
     as the backtest fills it; only if the minutes cannot be read does the poll's live price decide (filled at that
-    price, as before). In dry mode this is the ledger of a resting post-only order. A REAL account needs that order on
-    the venue itself (wick_live.py's machinery) - not built: ALLOW_REAL is False."""
+    price, as before). In dry mode this is the ledger of a resting post-only order. On a real or demo account the order
+    rests ON THE VENUE (capit2_orders, 2026-10-24) and this loop leaves it alone."""
     fin = st["fin"]
     cb = fin["capit2"]
     for s, p in list(cb["open"].items()):                    # target, on the live price
@@ -526,6 +528,8 @@ def capit2_poll(st: dict, prices: dict, now_ms: int, rec=None, fund=funding_sum,
         elif px and px <= p["entry"] * (1 - LIQ_EQ):         # at 2x the backtest lost this slot's margin here
             _close(st, "capit2", s, px, "liquidation_eq", now_ms, fund, rec)
     for s, r in list(cb["pending"].items()):                 # limits: resting for the bar after the signal bar
+        if r.get("oid"):
+            continue                                         # a REAL order rests on the venue: capit2_orders owns it
         px = prices.get(s)
         live_end = r["signal_t"] + 2 * H4
         seen = r.get("seen", r["signal_t"] + H4)
@@ -590,6 +594,109 @@ def capit2_poll(st: dict, prices: dict, now_ms: int, rec=None, fund=funding_sum,
         log(f"CAPIT2 SIGNAL {s}: {len(breadth)} coins capitulated in 24h, down {dr:.0%}; buys at or under "
             f"{c * (1 - LIMIT) * (1 - THROUGH):.6g} until this bar closes")
     fin["last_4h"] = last4
+
+
+def _fill(st: dict, s: str, r: dict, add: float, now_ms: int):
+    """A real fill of capit2's resting order: the position, AT the limit, in the book's units (part fills add up)."""
+    op = st["fin"]["capit2"]["open"]
+    if s not in op:
+        op[s] = dict(qty=0.0, entry=r["lim"], t_ms=now_ms, signal_t=r["signal_t"])
+        log(f"CAPIT2 BUY {s} at {r['lim']:.6g} (resting order filled); target {r['lim'] * (1 + TARGET):.6g}")
+    op[s]["qty"] += add
+    _book(st, "capit2", 0.0, add * r["lim"] * SIDE_FEE)
+
+
+def capit2_orders(st: dict, venue, now_ms: int):
+    """LIVE / DEMO ONLY: capit2's limit as a REAL resting post-only order on the venue (2026-10-24, the user's yes;
+    doc 22 s4 names it - "a resting post-only limit (the crash desk's machinery) is the fix"). combo_bot.execute() calls
+    this BEFORE every netting, so a fill is in the book's targets before the netting looks; a fill it did not know about
+    would be sold straight back (wick_live.watch has the same rule).
+      place   a pending signal without an order gets one while a slot is free (open positions + resting orders <
+              SLOTS): a post-only BUY at its limit for the size _open takes, in venue units (Venue.mapped). A coin the
+              venue does not list, an order under its minimum, a price already under the limit (a post-only bid there
+              would cross and be refused) or a refused order falls back to the paper fill - the poll, as before - logged
+      fills   read from the venue's open-order list / the order itself; the filled part is the position, AT the limit
+      expiry  at the end of the bar after the signal the rest is cancelled and what filled stays; an order gone with
+              nothing filled before then was refused - the paper fill takes over
+    capit2_poll leaves a limit with a venue order alone. Dry mode never calls this (it keeps the 1-minute ledger)."""
+    cb = st["fin"]["capit2"]
+    pend = None
+    for s, r in list(cb["pending"].items()):
+        live_end = r["signal_t"] + 2 * H4
+        if r.get("paper"):
+            continue
+        if not r.get("oid"):
+            if now_ms >= live_end:
+                continue                                     # never placed: capit2_poll expires it
+            busy = len(cb["open"]) + sum(1 for x in cb["pending"].values() if x.get("oid"))
+            if busy >= SLOTS:
+                continue                                     # no slot yet; placed if one frees before the bar ends
+            vs, k = venue.mapped(s)
+            why = None
+            if vs is None:
+                why = "not listed on the venue"
+            else:
+                px_v = r["lim"] / k
+                n = venue.contracts(vs, K_CAPIT2 * CAPIT2_LEV * st["equity"] / SLOTS / r["lim"] * k)
+                why = venue.refusal(vs, n, px_v, False)
+                if why is None:
+                    try:
+                        if venue.last(vs) <= px_v:
+                            why = "the price is already under the limit"
+                    except Exception as e:  # noqa: BLE001
+                        why = f"no venue price ({str(e)[:60]})"
+            if why is None:
+                try:
+                    venue.settings(vs)
+                    o = venue.limit_buy(vs, n, px_v)
+                    r.update(oid=str(o.get("id")), vs=vs, k=k, n=n, filled=0.0)
+                    log(f"CAPIT2 ORDER {s}: post-only buy {n:g} {vs} at {px_v:.6g}, resting until "
+                        f"{datetime.fromtimestamp(live_end / 1000, timezone.utc):%H:%M} UTC")
+                    continue
+                except Exception as e:  # noqa: BLE001
+                    why = f"order refused ({str(e)[:80]})"
+            r["paper"] = True
+            log(f"CAPIT2 {s}: no resting order - {why}; the poll fills it at the live price instead")
+            continue
+        if pend is None:
+            try:
+                pend = venue.pending()
+            except Exception as e:  # noqa: BLE001
+                log(f"CAPIT2: cannot read open orders ({str(e)[:100]}) - fills read next time")
+                return
+        gone = r["oid"] not in pend
+        try:
+            f = venue.filled(r["vs"], r["oid"]) if gone else pend[r["oid"]]
+        except Exception as e:  # noqa: BLE001
+            log(f"CAPIT2 {s}: cannot read order {r['oid']} ({str(e)[:80]})")
+            continue
+        if not gone and now_ms >= live_end:                  # the bar is over: cancel the rest, keep what filled
+            try:
+                venue.cancel_limit(r["vs"], r["oid"])
+            except Exception as e:  # noqa: BLE001 - filled or gone in between
+                log(f"CAPIT2 {s}: cancel note {str(e)[:100]}")
+            try:
+                f = venue.filled(r["vs"], r["oid"])
+            except Exception:  # noqa: BLE001
+                pass
+            gone = True
+        if f > r["filled"] + 1e-12:
+            _fill(st, s, r, (f - r["filled"]) * venue.coin_size(r["vs"]) / r["k"], now_ms)
+            r["filled"] = f
+        if not gone:
+            continue
+        cb["pending"].pop(s)
+        if r["filled"] > 0:
+            cb["filled"] += 1
+        elif now_ms < live_end:                              # refused by the venue, not expired: the poll takes over
+            for key in ("oid", "vs", "k", "n", "filled"):
+                r.pop(key, None)
+            r["paper"] = True
+            cb["pending"][s] = r
+            log(f"CAPIT2 {s}: the resting order went with nothing filled - the poll fills it instead")
+        else:
+            cb["cancelled"] += 1
+            log(f"CAPIT2 limit {s} {r['lim']:.6g} not reached in its bar - cancelled on the venue")
 
 
 def bids_poll(st: dict, now_ms: int, rec=None, fetch=None, listed_fn=None, label_fn=None, universe_fn=None,

@@ -29,7 +29,8 @@ WHAT IT CANNOT PROTECT AGAINST, stated so nobody assumes otherwise
 
 AT $300 (checked against Bitget's real market list, 2026-09-25): $7.50 a bid is under Bitget's minimum
 size for BTC, ETH, SOL, LINK, UNI, NEAR, AAVE and LIT, so about 30 of the 40 coins get bids; the desk
-logs which. 1000PEPE / 1000SHIB are not mapped (Bitget prices single PEPE / SHIB) and are skipped.
+logs which. 1000PEPE / 1000SHIB / RAYSOL are mapped since 2026-10-24 (combo_bot.Venue.mapped: Bitget's PEPE / SHIB in
+1/1000 units, RAY); a fill is converted back to the book's units before it joins `hold`.
 """
 from __future__ import annotations
 
@@ -182,7 +183,8 @@ class WickDesk:
                     continue
                 o["status"] = "done"
             if filled > o["filled"] + 1e-12:
-                coins = (filled - o["filled"]) * self.venue.coin_size(o["s"])
+                # in the BOOK's units: Bitget's SHIB fills are 1/1000 of Binance's 1000SHIB (combo_bot.Venue.mapped)
+                coins = (filled - o["filled"]) * self.venue.coin_size(o["s"]) / getattr(self.venue, "scale", lambda x: 1.0)(o["sym"])
                 w["hold"][o["sym"]] = w["hold"].get(o["sym"], 0.0) + coins
                 o["filled"] = filled
                 if not o["counted"]:

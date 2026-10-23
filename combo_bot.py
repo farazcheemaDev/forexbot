@@ -91,6 +91,20 @@ PRICE_TOL = 0.03
 MARGIN_MODE, LEVERAGE = "cross", 20
 POLL_S = 120
 FAPI = "https://fapi.binance.com"
+# THE COIN-NAME MAP (2026-10-24). The books trade Binance's symbols; Bitget names some coins differently or in other
+# units: Binance 1000SHIB = 1,000 Bitget SHIB, 1000PEPE = 1,000 PEPE, 1000CHEEMS = 0.001 of Bitget's 1MCHEEMS, and
+# Binance's RAYSOL is Bitget's RAY. Venue.mapped() strips a unit prefix on both sides and converts quantities and prices
+# by the ratio; ALIASES covers renamed tokens. A wrong match is caught by execute()'s 3% price check against Binance.
+UNIT_PREFIX = (("1000000", 1e6), ("1M", 1e6), ("10000", 1e4), ("1000", 1e3), ("100", 1e2))
+ALIASES = {"RAYSOL": "RAY"}
+
+
+def unit(base: str) -> tuple:
+    """('SHIB', 1000.0) for '1000SHIB': the token, and how many of it one unit of this symbol is."""
+    for p, m in UNIT_PREFIX:
+        if base.startswith(p) and len(base) > len(p) and base[len(p)].isalpha():
+            return base[len(p):], m
+    return base, 1.0
 
 
 def log(m: str):
@@ -252,11 +266,43 @@ class Venue:
     def __init__(self, ex, mode: str):
         self.ex, self.mode, self.v = ex, mode, VENUE[mode]
         self.set_done: set = set()
+        self._map: dict = {}
+        self._tokens: "dict | None" = None
+
+    def _name(self, base: str) -> str:
+        return f"{self.v['prefix']}{base}/{self.v['quote']}:{self.v['quote']}"
+
+    def mapped(self, sym: str) -> tuple:
+        """(venue symbol, venue units per ONE unit of the book's symbol) - or (None, 1.0) if the venue does not list it."""
+        if sym in self._map:
+            return self._map[sym]
+        base = sym[:-4]
+        out = (None, 1.0)
+        if self._name(base) in self.ex.markets:
+            out = (self._name(base), 1.0)
+        elif base in ALIASES and self._name(ALIASES[base]) in self.ex.markets:
+            out = (self._name(ALIASES[base]), 1.0)
+        else:
+            if self._tokens is None:                   # {token: [(venue base, its unit)]}, built once
+                self._tokens, head, tail = {}, self.v["prefix"], f"/{self.v['quote']}:{self.v['quote']}"
+                for k in self.ex.markets:
+                    if k.startswith(head) and k.endswith(tail):
+                        vb = k[len(head):-len(tail)]
+                        tok, m = unit(vb)
+                        self._tokens.setdefault(tok, []).append((vb, m))
+            tok, m = unit(base)
+            hits = self._tokens.get(tok, [])
+            if len(hits) == 1:                         # one candidate only: two would be a guess
+                out = (self._name(hits[0][0]), m / hits[0][1])
+        self._map[sym] = out
+        return out
 
     def symbol(self, sym: str) -> "str | None":
-        base = sym[:-4]
-        s = f"{self.v['prefix']}{base}/{self.v['quote']}:{self.v['quote']}"
-        return s if s in self.ex.markets else None
+        return self.mapped(sym)[0]
+
+    def scale(self, sym: str) -> float:
+        """Venue units per unit of the book's symbol (1000 for 1000SHIB -> SHIB)."""
+        return self.mapped(sym)[1]
 
     def rules(self, s: str) -> tuple:
         """(amount step, minimum amount, minimum order value) for s, from the venue's OWN market
@@ -429,20 +475,22 @@ def execute(st: dict, venue: "Venue | None", mode: str, prices: dict, dry: bool)
     if st.get("fin"):
         import final_books as fb
         fb.carry_squeeze_exits(st, prices, MN_SHORT_EXIT, rec=final_record)
+        if venue is not None and not dry:
+            fb.capit2_orders(st, venue, int(time.time() * 1000))   # its fills into the targets BEFORE the netting
     tgt = book_targets(st)
     if mode == "demo":
         tgt = route_demo(tgt, prices)
     # translate to venue symbols; unmappable coins are skipped, and said so once each
     vt, vp, skipped = {}, {}, ex_state.setdefault("unmapped", [])
     for sym, q in tgt.items():
-        s = venue.symbol(sym) if venue else sym
+        s, k = venue.mapped(sym) if venue else (sym, 1.0)
         if s is None:
             if sym not in skipped:
                 skipped.append(sym)
                 log(f"EXEC: {sym} is not listed on this venue - that book's {q:+.6g} is not traded")
             continue
-        vt[s] = vt.get(s, 0.0) + q
-        vp[s] = prices.get(sym)
+        vt[s] = vt.get(s, 0.0) + q * k                  # venue units (1000SHIB -> SHIB: x1000)
+        vp[s] = prices[sym] / k if prices.get(sym) else None
     actual = dict(ex_state.get("virtual_pos", {})) if (dry or venue is None) else venue.positions()
     # a held coin no book wants any more needs a price too, or it is never closed. Until 2026-10-09 only the venue
     # branch looked these up, so the DRY ledger kept every position its books had exited (tests/test_final_books.py)
@@ -450,7 +498,8 @@ def execute(st: dict, venue: "Venue | None", mode: str, prices: dict, dry: bool)
         if actual else {}
     for s in actual:
         if s not in vp and s in by_venue:
-            vp[s] = prices.get(by_venue[s])
+            b = by_venue[s]
+            vp[s] = prices[b] / (venue.scale(b) if venue else 1.0) if prices.get(b) else None
     sent = []
     refused = ex_state.setdefault("refused", {})
     orders = plan_orders(vt, actual, vp)
@@ -767,6 +816,12 @@ def poll(st: dict, venue, mode: str, caches: tuple, desk=None, prices_fn=None):
     execute(st, venue, mode, (prices_fn or binance_prices)(), dry=(mode == "dry"))
 
 
+def wants_desk(args) -> bool:
+    """The crash bids are one of the final machine's books. Dry runs them as a ledger (final_books.bids_poll); on a
+    REAL account a ledger would book money that was never made, so --final --mode live always runs the real desk."""
+    return bool(args.wick or (args.final and args.mode == "live"))
+
+
 def state_dir(mode: str, final: bool, account: str = "") -> Path:
     """logs/combo_bot_<mode>[_final][_<account>]. --account runs a SEPARATE paper account beside the main one (the
     user, 2026-10-17: "a new $300 fresh started from today on the newest version") - its own state, logs and lock,
@@ -794,6 +849,7 @@ def main():
                          "its own state in logs/combo_bot_<mode>_final")
     ap.add_argument("--account", default="", help="a separate DRY paper account (own state, logs/combo_bot_dry_final_<name>)")
     args = ap.parse_args()
+    args.wick = wants_desk(args)
     cp.set_dir(state_dir(args.mode, args.final, args.account))
     if args.final:
         import final_books as fb

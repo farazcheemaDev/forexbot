@@ -652,6 +652,15 @@ the detail lives in the numbered docs.*
   shorts squeezed. `backtest/crowd_filter.py`: crowd filters on each book's entries, whole machine, 2022-26 - none passes
   both spans; trend longs off crowd-long coins -35% of the 2024-26 year. Dead (doc 02). The working lever stays: the
   crowd book as its own book (+9.6% over the same weeks the machine lost ~13%).
+- **The real-order pieces built (the user: "yes")**, so nothing technical stands before a real account: the COIN MAP
+  (`combo_bot.Venue.mapped` / `scale`: Bitget's names and units - 1000SHIB = 1,000 SHIB, 1000PEPE, 1000FLOKI, 1000LUNC,
+  1000CHEEMS = 0.001 1MCHEEMS, RAYSOL = RAY; checked on live prices, 657 of Binance's perps map, 0 off by > 0.2%, 91 not
+  listed on Bitget; quantities and prices converted in execute(), crash-desk fills converted back in wick_live.watch);
+  CAPIT2'S LIMIT ON THE VENUE (`final_books.capit2_orders`, called at the top of every execute(): post-only buy at the
+  limit while a slot is free, fills read before the netting, the rest cancelled when the bar ends, paper fallback where
+  no order can rest); `--final --mode live` always runs the real crash desk (`wants_desk`). tests/test_live_orders.py
+  10 tests, 8 mutations caught; all other suites pass. Doc 22: the user chose FULL size (x1.0) for real money, not x0.65.
+  Not deployed to the paper bots (dry mode uses none of it except the map in its ledger).
 
 ### 2026-10-23 - the day-45 checkpoint written into doc 22 (s3b), before its data
 

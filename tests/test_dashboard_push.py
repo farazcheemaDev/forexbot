@@ -87,6 +87,13 @@ def test_crowd_book_is_marked_live_like_the_books_own_mark_and_scored_from_week_
     assert 0 <= c5["score"]["pctile"] <= 100 and c5["score"]["status"] in ("worse", "below", "ok", "above")
 
 
+def test_venue_symbols_find_binances_price_in_the_same_units():
+    p = {"1000SHIBUSDT": 0.012, "1000CHEEMSUSDT": 0.002, "RAYSOLUSDT": 2.5, "SOLUSDT": 190.0}
+    assert abs(dp.price(p, "SHIBUSDT") - 0.000012) < 1e-15                    # Bitget's SHIB
+    assert abs(dp.price(p, "1MCHEEMSUSDT") - 2.0) < 1e-12                     # Bitget's 1MCHEEMS
+    assert dp.price(p, "RAYUSDT") == 2.5 and dp.price(p, "SOLUSDT") == 190.0 and dp.price(p, "NOPEUSDT") is None
+
+
 def test_mood_and_crowd_absent_until_their_files_exist():
     import tempfile
     old = dp.MOOD, dp.CROWD
