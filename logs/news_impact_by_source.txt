@@ -1,0 +1,35 @@
+news/impact_by_source.py, 2026-10-23 15:14 UTC; 1,446 exchange notices with a coin and a perp bar; excess move vs BTC over the coin's own drift (bp); tune before 2025-06-11
+
+   source                type               n     24h     72h     t      7d     t   72h tune/hold    7d tune/hold
+   BWEnews               delist            25    -481    +244  +0.2   +5072  +0.8   +1822/-809     +14925/-1497  
+   BWEnews               delist_futures    17     +25    -388  -0.7   -1335  -1.9    +465/-744        +11/-1895  
+   BWEnews               launchpool        30    -480    -635  -0.7   -1530  -2.1   -1316/-343      -3049/-879   
+   BWEnews               list_futures      82    -138    -263  -0.9     -91  -0.2    -171/-334       -393/+145   
+   BWEnews               list_spot        106     -37    -180  -0.8    -539  -2.5     -17/-419       -173/-1074  
+   BWEnews               monitoring_tag    21    -192    -372  -1.2    -397  -0.9   -1008/-54       -1473/+142   
+   BWEnews               seed_tag          24     +80    -398  -0.7    -265  -0.3    -678/-305       -269/-264   
+   BWEnews               unlock            28     -50    -153  -1.7    -170  -1.2    -139/-332       -185/+24    
+   Bitget_Announcements  list_spot         74     -96    -298  -1.7    -348  -1.3    -352/-204       -451/-165   
+   Bitget_Announcements  unlock           210     -30     -75  -1.8     -40  -0.7    -117/-1         -101/+68    
+   Bybit_Announcements   delist            22     +64    +324  +1.2    +363  +1.2    +747/+31        +893/-3     
+   Bybit_Announcements   list_futures      90    +156    -105  -0.3    -157  -0.2    +176/-191       -220/-138   
+   Bybit_Announcements   list_spot         37    -146    -197  -0.9    -410  -1.7     -20/-429       -538/-241   
+   Bybit_Announcements   unlock           186     -33     -58  -1.9     -69  -1.4     -46/-73         -81/-55    
+   OKXAnnouncements      list_futures      23    +347    +150  +0.5     -96  -0.3    +150/+nan        -96/+nan   
+   OKXAnnouncements      list_spot         15     +29     +25  +0.0    -456  -1.0    -468/+589       -659/-186   
+   OKXAnnouncements      unlock            62     -22     -58  -1.1    -106  -1.3     -40/-102       -139/-28    
+   binance_announcements adds_products    158    -333    -721  -3.3    -952  -3.5    -620/-861       -697/-1309  
+   binance_announcements delist_pairs      17    -111     -96  -1.2     -85  -0.4     -96/+nan        -85/+nan   
+   binance_announcements new_pairs        115     +24     -77  -0.9    -402  -3.1     -77/+nan       -402/+nan   
+
+USABLE (|mean| >= 24bp, t >= 2, same sign on both halves):
+   ('BWEnews', 'launchpool', '7d', -1530, np.float64(-2.1))
+   ('BWEnews', 'list_spot', '7d', -539, np.float64(-2.5))
+   ('binance_announcements', 'adds_products', '72h', -721, np.float64(-3.3))
+   ('binance_announcements', 'adds_products', '7d', -952, np.float64(-3.5))
+
+REGISTERED PREDICTIONS
+  S1 list_spot <= -150bp at 7d with t <= -2 on >= 2 exchanges: ['BWEnews'] -> WRONG
+  S2 no delisting cell usable at 7d: [] -> RIGHT
+  S3 unlock |7d| < 100bp everywhere: [-170, -40, -69, -106] -> WRONG
+  S4 <= 4 usable cells: 4 -> RIGHT

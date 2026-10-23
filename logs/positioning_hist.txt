@@ -1,0 +1,23 @@
+news/positioning_hist.py, 2026-10-23 15:24 UTC; Binance metrics archive, PIT top-40, 19,243 coin-days with data; next 7 days vs BTC, funding charged
+
+MONDAY anchors: 245 weeks, tune before 2024-10-28
+   measure        IC      t  IC tune  IC hold  book %/yr    tune    hold  t tune  t hold
+   crowd      +0.005  +0.40   -0.029   +0.056     +37.1%  +22.9%  +61.0%   +1.84   +2.00
+   top_acc    +0.031  +1.99   -0.000   +0.063     +34.4%  +13.8%  +59.8%   +0.96   +1.84
+   top_pos    +0.025  +1.84   +0.007   +0.043     -18.3%  -18.7%  -18.0%   -1.42   -0.59
+   taker      +0.062  +4.34   +0.066   +0.058      -7.5%  -14.4%   +2.5%   -0.94   +0.31
+   oi7        +0.022  +1.72   +0.002   +0.052     -35.9%  -25.7%  -48.8%   -2.49   -2.09
+
+THURSDAY anchors: 245 weeks, tune before 2024-10-31
+   measure        IC      t  IC tune  IC hold  book %/yr    tune    hold  t tune  t hold
+   crowd      -0.002  -0.16   -0.024   +0.030     +48.1%  +22.5%  +96.2%   +1.78   +1.87
+   top_acc    +0.021  +1.42   +0.004   +0.040     +53.4%  +31.5%  +80.1%   +1.90   +1.66
+   top_pos    +0.015  +1.06   +0.008   +0.023      -8.0%   -1.5%  -14.4%   +0.02   -0.57
+   taker      +0.046  +3.64   +0.064   +0.022     -21.3%  -25.6%  -15.3%   -2.09   -0.67
+   oi7        +0.006  +0.46   -0.015   +0.039     -12.1%   -5.3%  -21.5%   -0.29   -0.73
+
+REGISTERED PREDICTIONS
+  Q1 crowd contrarian, IC <= -0.02 both halves both anchors -> WRONG
+  Q2 top_pos follows, 0 < IC < 0.02 -> WRONG
+  Q3 oi7 -0.03..-0.01, taker |IC| < 0.01 -> WRONG
+  Q4 no book passes on both anchors -> RIGHT ([])
