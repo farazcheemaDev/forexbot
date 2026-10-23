@@ -1,0 +1,19 @@
+[Unit]
+Description=Crowd-squeeze paper book + market-mood snapshot (news/crowd_paper.py) - paper only, public Binance data
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=__USER__
+WorkingDirectory=__APP_DIR__
+# PAPER ONLY: public Binance endpoints, no keys, no orders. Writes logs/crowd_paper/ and logs/mood/mood.json, which
+# dashboard_push.py reads. Standard library only; capped and niced so it can never crowd out the bots (~50 MB free).
+ExecStart=__APP_DIR__/.venv/bin/python -u -m news.crowd_paper
+TimeoutStartSec=900
+Nice=10
+MemoryMax=150M
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only

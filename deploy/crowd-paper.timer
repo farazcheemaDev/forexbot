@@ -1,0 +1,10 @@
+[Unit]
+Description=Run the crowd-squeeze paper book and the market-mood snapshot every hour (at :03, so the 00:00 UTC close exists)
+
+[Timer]
+OnCalendar=*-*-* *:03:00
+Persistent=true
+AccuracySec=30s
+
+[Install]
+WantedBy=timers.target

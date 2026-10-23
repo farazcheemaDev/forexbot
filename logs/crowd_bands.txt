@@ -1,0 +1,13 @@
+news/positioning_hist.py --band, 2026-10-23 16:25 UTC; the crowd book as crowd_paper runs it (Monday + Thursday sleeves, half each), every N-week stretch 2022-01-24..2026-09-07
+
+   weeks stretches      p5     p10     p25     p50     p75     p90     p95  share up
+       1       242   -4.6%   -2.8%   -1.1%   +0.4%   +2.2%   +4.7%   +5.4%       58%
+       2       241   -6.8%   -4.7%   -1.4%   +1.3%   +3.7%   +6.7%  +10.4%       61%
+       4       239  -10.2%   -5.8%   -1.7%   +2.3%   +6.5%  +11.1%  +15.7%       63%
+       8       235   -9.1%   -7.0%   -2.5%   +4.4%  +12.2%  +18.9%  +33.9%       67%
+      13       230  -12.2%   -7.8%   -1.6%   +9.4%  +17.0%  +28.2%  +45.6%       72%
+      26       217  -12.9%   -6.5%   +4.6%  +18.4%  +27.1%  +72.5%  +92.1%       80%
+      39       204  -11.5%   -6.0%   +7.0%  +22.7%  +40.5% +105.1% +120.1%       82%
+      52       191  -10.5%   -7.0%  +14.3%  +32.0%  +46.8% +121.3% +154.0%       83%
+
+   per sleeve, mean week: Monday +0.68%, Thursday +0.89%; weeks 242 / 243; correlation of the two sleeves' weeks (Thursday 3 days later) +0.40

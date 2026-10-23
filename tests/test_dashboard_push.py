@@ -58,6 +58,45 @@ def test_scorecard_waits_a_week_and_then_places_every_book():
     assert dp.scorecard(old, now, books, 291.0, 300.0, None)["ready"] is False                      # no yardstick
 
 
+def test_crowd_book_is_marked_live_like_the_books_own_mark_and_scored_from_week_4():
+    import json
+    import tempfile
+    from news import crowd_paper as cp
+    d = Path(tempfile.mkdtemp())
+    st = cp.fresh()
+    sl = st["sleeves"]["mon"]
+    sl.update(equity=160.0, fee=0.0012, opened="2026-10-26",
+              pos=[dict(sym="AUSDT", side=1, w=0.25, entry=10.0, mark=11.0, fund=0.002),
+                   dict(sym="CUSDT", side=1, w=0.25, entry=2.0, mark=2.2, fund=0.0),
+                   dict(sym="BUSDT", side=-1, w=0.5, entry=4.0, mark=3.0, fund=-0.001)])
+    (d / "state.json").write_text(json.dumps(st))
+    bands = dict(levels=[5, 10, 25, 50, 75, 90, 95], lengths=[1, 52], span="x",
+                 total={"1": dict(q=[-0.05, -0.03, -0.01, 0.0, 0.02, 0.05, 0.06], idle=0.0),
+                        "52": dict(q=[-0.1, -0.07, 0.14, 0.32, 0.47, 1.2, 1.5], idle=0.0)})
+    old = dp.CROWD
+    dp.CROWD = d
+    try:
+        first = dp.day_ts(st["first"])
+        c = dp.crowd({"AUSDT": 11.0, "BUSDT": 3.0}, first + 3 * 7 * 86400, bands)    # CUSDT has no price: its mark
+        c5 = dp.crowd({"AUSDT": 11.0, "BUSDT": 3.0}, first + 5 * 7 * 86400, bands)
+    finally:
+        dp.CROWD = old
+    assert abs(c["equity"] - round(cp.sleeve_now(sl) + 150.0, 2)) < 0.006
+    assert len(c["legs"]) == 3 and {r["side"] for r in c["legs"]} == {"long", "short"}
+    assert c["score"]["ready"] is False and c5["score"]["ready"] is True
+    assert 0 <= c5["score"]["pctile"] <= 100 and c5["score"]["status"] in ("worse", "below", "ok", "above")
+
+
+def test_mood_and_crowd_absent_until_their_files_exist():
+    import tempfile
+    old = dp.MOOD, dp.CROWD
+    dp.MOOD, dp.CROWD = Path(tempfile.mkdtemp()) / "none.json", Path(tempfile.mkdtemp())
+    try:
+        assert dp.mood() is None and dp.crowd({}, int(time.time()), None) is None
+    finally:
+        dp.MOOD, dp.CROWD = old
+
+
 if __name__ == "__main__":
     tests = [v for k, v in dict(globals()).items() if k.startswith("test_")]
     for fn in tests:

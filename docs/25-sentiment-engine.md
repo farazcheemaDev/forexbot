@@ -140,3 +140,9 @@ the crowd book needs its own paper record before it could be one.
 **Not built, waiting on the user:** the AI headline reader (needs the user's own Anthropic key in an environment
 variable and a model choice); the readout on the dashboard (a VM change: dashboard_push.py would call
 `mood_now.snapshot()` hourly, not every minute - ~120 Binance calls a read).
+
+**Update, same day (the user: "do 2 3"):** the readout is on the dashboard (a "Market mood" card, refreshed hourly) and
+the crowd book runs as a PAPER record - `news/crowd_paper.py`, its own $300, Monday + Thursday halves from 2026-10-26 /
+10-29, hourly on the VM (`deploy/crowd-paper.*`), with its own dashboard card and scorecard against `crowd_bands.json`
+(the same book over every N-week stretch of 2022-26). Verdict 2027-04-26: dead under -6.5% at 26 weeks, held up at
++18.4% or more. Doc 22 s4 records the override.

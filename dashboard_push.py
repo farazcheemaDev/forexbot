@@ -13,6 +13,8 @@ PER ACCOUNT equity LIVE = the bot's booked equity + every open position's P&L si
             open positions (Binance style: side, size, entry, mark, P&L), closed trades, P&L by book (booked + open),
             the netted account's long / short exposure, daily P&L, the equity curve (5-min for 24h, hourly since start),
             the news the bot read
+MOOD / CROWD (2026-10-23) meta.mood = news/crowd_paper.py's hourly market-mood snapshot; meta.crowd = the crowd-squeeze
+            paper book (logs/crowd_paper/), live-marked here, placed in crowd_bands.json from week 4
 KEYS        forexbot:meta (accounts, health, the other paper books), forexbot:acct:<id> - values "gz:" + base64(gzip(json))
 CURVES      logs/dashboard/eq_<id>_m.csv (one point a minute, last 2 days) and eq_<id>_h.csv (last point of each hour)
 SECRETS     UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN from the environment only (the service's EnvironmentFile,
@@ -40,7 +42,8 @@ ROOT = Path(__file__).resolve().parent
 LOGS = ROOT / "logs"
 CURVES = LOGS / "dashboard"
 ACCOUNTS = [("main", LOGS / "combo_bot_dry_final"), ("fresh", LOGS / "combo_bot_dry_final_fresh")]
-SERVICES = ["combo-bot-final", "combo-bot-fresh", "combo-paper", "blend-paper", "wick-paper", "pair-paper"]
+SERVICES = ["combo-bot-final", "combo-bot-fresh", "combo-paper", "blend-paper", "wick-paper", "pair-paper",
+            "crowd-paper.timer"]
 # combo-bot-demo was stopped 2026-10-17 at the user's word: its order-path test was done (191 orders over 16.9 days, all
 # filled and priced, 0 failures; logs/combo_bot_demo/final_report_20261017.txt on the VM)
 START_EQUITY = 300.0
@@ -50,6 +53,10 @@ CLOSED_KEEP, NEWS_KEEP = 120, 30
 BANDS = ROOT / "dashboard_bands.json"           # backtest/scorecard_bands.py: each book's normal N-day range
 SCORE_MIN_DAYS = 7                              # the backtest books MN / carry weekly: shorter stretches do not compare
 SCORE_BOOKS = ("trend", "mn", "carry", "sleeve", "daily", "capit2", "bids", "news", "ndx")
+MOOD = LOGS / "mood" / "mood.json"              # news/crowd_paper.py writes it hourly (news/mood_now.snapshot)
+CROWD = LOGS / "crowd_paper"                    # the crowd-squeeze paper book's state / marks / weeks
+CROWD_BANDS = ROOT / "crowd_bands.json"         # positioning_hist.py --band: that book's normal N-week range
+CROWD_MIN_WEEKS = 4
 
 
 # ------------------------------------------------------------------ small readers
@@ -372,6 +379,59 @@ def account(acct: str, d: Path, prices: dict, now: int, write: bool, bands: dict
 
 # ------------------------------------------------------------------ everything else (meta)
 
+def mood() -> dict | None:
+    """news/crowd_paper.py's hourly market-mood snapshot (news/mood_now.py), trimmed for the page."""
+    m = jload(MOOD)
+    if not m:
+        return None
+    keep = ("sym", "long_share", "crowd_pct", "fund_yr", "taker", "oi7", "flag")
+    rd = lambda v: round(v, 4) if isinstance(v, float) else v  # noqa: E731
+    return dict(t=m.get("t"), market={k: rd(v) for k, v in (m.get("market") or {}).items()},
+                coins=[{k: rd(r.get(k)) for k in keep} for r in m.get("coins") or []])
+
+
+def crowd(prices: dict, now: int, bands: dict | None) -> dict | None:
+    """The crowd-squeeze paper book (news/crowd_paper.py): live equity = each sleeve's opening equity x (1 + its legs'
+    moves since entry at Binance's price now - the funding counted at the last daily mark - the week's fee), the legs,
+    the daily marks, the closed weeks, and its place in the backtest's range (crowd_bands.json) from week 4."""
+    st = jload(CROWD / "state.json")
+    if not st:
+        return None
+    sleeves, legs, tot = [], [], 0.0
+    for k, sl in st["sleeves"].items():
+        pos, g = sl.get("pos") or [], 0.0
+        for p in pos:
+            mk = prices.get(p["sym"]) or p.get("mark") or p["entry"]
+            r, f = mk / p["entry"] - 1, p.get("fund", 0.0)
+            g += p["side"] * p["w"] * (r - f)
+            legs.append(dict(sleeve=k, sym=p["sym"], side="long" if p["side"] > 0 else "short", entry=p["entry"], mark=mk,
+                             pct=round(r, 5), size=round(sl["equity"] * p["w"], 2),
+                             upnl=round(sl["equity"] * p["side"] * p["w"] * (r - f), 2)))
+        eq = sl["equity"] * (1 + g - (sl.get("fee", 0.0) if pos else 0.0))
+        tot += eq
+        sleeves.append(dict(id=k, equity=round(eq, 2), booked=round(sl["equity"], 2), weeks=sl.get("weeks", 0),
+                            next=sl.get("next"), opened=sl.get("opened"), funding=round(sl.get("fund_usd", 0.0), 2)))
+    start = st.get("start", 300.0)
+    marks = [(day_ts(r["day"]), fnum(r.get("total"))) for r in read_csv(CROWD / "marks.csv")]
+    h = [[t, round(e, 2)] for t, e in marks if e is not None][-400:] + [[now, round(tot, 2)]]
+    weeks = [dict(sleeve=r["sleeve"], opened=r["opened"], closed=r["closed"], net=fnum(r["net"]),
+                  usd=round(fnum(r["equity_after"], 0.0) - fnum(r["equity_before"], 0.0), 2))
+             for r in read_csv(CROWD / "sleeves.csv")][-30:][::-1]
+    score = dict(ready=False, min_weeks=CROWD_MIN_WEEKS)
+    first = st.get("first")
+    if first and bands:
+        wk = (now - day_ts(first)) / (7 * 86400)
+        score["weeks"] = round(wk, 2)
+        if wk >= CROWD_MIN_WEEKS:
+            q, _ = band_at(bands["total"], bands["lengths"], wk)
+            v = tot / start - 1
+            p = pctile(v, bands["levels"], q)
+            score = dict(ready=True, weeks=round(wk, 2), ret=round(v, 5), pctile=round(p, 1), status=status(p, False, 0),
+                         p10=q[1], p50=q[3], span=bands.get("span"))
+    return dict(started=st.get("started"), first=first, start=start, equity=round(tot, 2), sleeves=sleeves, legs=legs,
+                curve=dict(d=h[-2:], h=h), weeks=weeks, score=score)
+
+
 def others() -> list:
     out = []
     c = jload(LOGS / "combo_state.json")
@@ -418,7 +478,10 @@ def build(write: bool = False) -> tuple:
         a = account(acct, d, prices, now, write, bands)
         if a:
             accts[acct] = a
-    meta = dict(generated=now, btc=prices.get("BTCUSDT"), health=health(), others=others(),
+    cr = crowd(prices, now, jload(CROWD_BANDS))
+    oth = others() + ([dict(name="Crowd squeeze paper", equity=cr["equity"], start=cr["start"], started=cr["started"])]
+                      if cr else [])
+    meta = dict(generated=now, btc=prices.get("BTCUSDT"), health=health(), others=oth, mood=mood(), crowd=cr,
                 accounts=[dict(id=a["id"], started=a["started"], equity=a["equity"], start=a["start"])
                           for a in accts.values()])
     return meta, accts

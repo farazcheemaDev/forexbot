@@ -374,6 +374,152 @@ function Panel({ a, local }) {
   );
 }
 
+// ------------------------------------------------------------------ the crowd-squeeze paper book (news/crowd_paper.py)
+
+const SLEEVE = { mon: "Monday", thu: "Thursday" };
+
+function CrowdBook({ c }) {
+  if (!c) return null;
+  const total = c.equity - c.start;
+  const sc = c.score || {};
+  const legs = c.legs || [];
+  const sum = legs.reduce((s, r) => s + (r.upnl || 0), 0);
+  return (
+    <>
+      <section className="card score">
+        <div className="card-h">
+          <div><h2>Crowd-squeeze book · paper, its own {usd(c.start, { dp: 0 })}</h2>
+            <div className="sub">Long the quarter of coins the crowd is most short, short the most-long quarter, held a week
+              (half from Monday, half from Thursday). Backtest 2022-26: +37% to +48% a year, not proven. Not part of the
+              bot's account.</div></div>
+          {sc.ready ? <span className={`badge ${STATUS[sc.status][1]}`}>{STATUS[sc.status][0]}</span>
+            : <span className="pill warn-pill">{legs.length || (c.weeks || []).length ? `scored from week ${sc.min_weeks || 4}`
+              : `first trades ${dayLabel(c.first)} 00:00 UTC`}</span>}
+        </div>
+        <div className="score-total">
+          <div>
+            <div className="muted" style={{ fontSize: 12 }}>Equity now (open legs at live prices)</div>
+            <div className="big">{usd(c.equity)} <span className={`small ${tone(total)}`}>{pct(total / c.start)}</span></div>
+            <div className="muted" style={{ fontSize: 12 }}>{(c.sleeves || []).map((s) =>
+              `${SLEEVE[s.id] || s.id} ${usd(s.equity)} · ${s.weeks} weeks closed · funding ${usd(s.funding, { sign: true })}`).join("  |  ")}</div>
+          </div>
+          {sc.ready ? (
+            <div className="score-dial">
+              <Dial p={sc.pctile} status={sc.status} />
+              <div className="dial-lab"><span>worst</span><span>{ordinal(sc.pctile)} percentile of {Math.round(sc.weeks)}-week stretches</span><span>best</span></div>
+            </div>
+          ) : (
+            <div className="muted" style={{ fontSize: 12, maxWidth: 420 }}>Verdict at 26 weeks: dead under −6.5%, held up at
+              +18.4% or more (the backtest's 10th percentile and median). A month swings −6% to +11% in the backtest.</div>
+          )}
+        </div>
+        {legs.length ? (
+          <>
+            <div className="summary">
+              <span>Open P&amp;L <b className={tone(sum)}>{usd(sum, { sign: true })}</b></span>
+              <span><b>{legs.filter((r) => r.side === "long").length}</b> long · <b>{legs.filter((r) => r.side === "short").length}</b> short</span>
+            </div>
+            <div className="scroll">
+              <table>
+                <thead><tr><th>Symbol</th><th>Side</th><th className="r">Size</th><th className="r">Entry</th>
+                  <th className="r">Mark</th><th className="r">P&amp;L</th></tr></thead>
+                <tbody>
+                  {legs.map((r, i) => (
+                    <tr key={`${r.sleeve}-${r.sym}-${i}`}>
+                      <td><div className="sym">{r.sym.replace(/USDT$/, "")}<span className="faint">/USDT</span></div>
+                        <span className="tag">{SLEEVE[r.sleeve] || r.sleeve}</span></td>
+                      <td><span className={`side ${r.side}`}>{r.side === "long" ? "Long" : "Short"}</span></td>
+                      <td className="r">{usd(r.size)}</td>
+                      <td className="r">{priceFmt(r.entry)}</td>
+                      <td className="r">{priceFmt(r.mark)}</td>
+                      <td className={`r ${tone(r.upnl)}`}><div>{usd(r.upnl, { sign: true })}</div><div className="note">{pct(r.pct)}</div></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        ) : <div className="empty">No positions yet. The Monday half opens {dayLabel(c.first)} at 00:00 UTC, the Thursday half three days later.</div>}
+      </section>
+      <div className="row">
+        <EquityChart curve={c.curve} start={c.start} title="Crowd book equity" sub="daily marks, and now at live prices" />
+        <section className="card">
+          <div className="card-h"><div><h2>Closed weeks</h2><div className="sub">each half's week, after funding and fees</div></div></div>
+          {(c.weeks || []).length ? (
+            <div className="scroll">
+              <table>
+                <thead><tr><th>Week</th><th>Half</th><th className="r">Result</th><th className="r">P&amp;L</th></tr></thead>
+                <tbody>
+                  {c.weeks.map((w, i) => (
+                    <tr key={i}><td>{dayLabel(w.opened)} → {dayLabel(w.closed)}</td><td>{SLEEVE[w.sleeve] || w.sleeve}</td>
+                      <td className={`r ${tone(w.net)}`}>{pct(w.net)}</td><td className={`r ${tone(w.usd)}`}>{usd(w.usd, { sign: true })}</td></tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : <div className="empty">No week closed yet.</div>}
+        </section>
+      </div>
+    </>
+  );
+}
+
+// ------------------------------------------------------------------ market mood (news/mood_now.py, hourly)
+
+const FLAG = { "SQUEEZE WATCH": ["Squeeze watch", "warn"], "crowd long": ["Crowd long", "idle"] };
+
+function Mood({ m }) {
+  const [all, setAll] = useState(false);
+  if (!m) return null;
+  const k = m.market || {};
+  const coins = m.coins || [];
+  const rows = all ? coins : coins.filter((r) => r.flag);
+  const num = (v, dp) => (v === null || v === undefined ? "–" : (+v).toFixed(dp));
+  return (
+    <section className="card">
+      <div className="card-h">
+        <div><h2>Market mood</h2>
+          <div className="sub">Binance crowd positioning on the top {coins.length} coins · updated {m.t} · information, not a trade signal</div></div>
+        <div className="tabs">
+          <button className={!all ? "on" : ""} onClick={() => setAll(false)}>Flagged</button>
+          <button className={all ? "on" : ""} onClick={() => setAll(true)}>All {coins.length}</button>
+        </div>
+      </div>
+      <div className="summary">
+        <span>Fear &amp; Greed <b>{k.fear_greed ?? "–"}</b> {k.fear_greed_txt}</span>
+        <span>Median coin: <b>{pct(k.median_long_share, { dp: 0, sign: false })}</b> of accounts long</span>
+        <span><b>{pct(k.share_neg_funding, { dp: 0, sign: false })}</b> of coins pay shorts</span>
+        <span>BTC crowd long/short <b>{num(k.btc_crowd, 2)}</b></span>
+      </div>
+      <div className="scroll">
+        <table>
+          <thead><tr><th>Coin</th><th className="r">Accounts long</th><th className="r">Crowd rank</th>
+            <th className="r">Funding a year</th><th className="r">Buy / sell flow</th><th className="r">Open interest 7d</th><th>Flag</th></tr></thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr key={r.sym}>
+                <td><div className="sym">{r.sym.replace(/USDT$/, "")}</div></td>
+                <td className="r">{pct(r.long_share, { dp: 0, sign: false })}</td>
+                <td className="r">{r.crowd_pct === null || r.crowd_pct === undefined ? "–" : Math.round(r.crowd_pct * 100)}</td>
+                <td className="r">{r.fund_yr === null || r.fund_yr === undefined ? "–" : `${num(r.fund_yr, 1).replace("-", "−")}%`}</td>
+                <td className="r">{num(r.taker, 2)}</td>
+                <td className={`r ${tone(r.oi7)}`}>{pct(r.oi7, { dp: 0 })}</td>
+                <td>{FLAG[r.flag] ? <span className={`badge ${FLAG[r.flag][1]}`}>{FLAG[r.flag][0]}</span> : null}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="note" style={{ marginTop: 10, whiteSpace: "normal" }}>
+        Crowd rank 0 = the coin the crowd is most short, 100 = most long. Squeeze watch is the most-short quarter - the long
+        side of the crowd-squeeze book above. Funding: positive = longs pay shorts. Buy / sell flow over 1 = more aggressive
+        buying in the last 24h. Tested on 2022-26: crowd positioning is a lead; buy / sell flow, open interest, top traders,
+        Bluesky chatter and news tone predicted nothing.
+      </p>
+    </section>
+  );
+}
+
 // ------------------------------------------------------------------ the page
 
 export default function Dashboard({ meta, acct, want }) {
@@ -410,6 +556,8 @@ export default function Dashboard({ meta, acct, want }) {
             <Panel a={acct} local={local} />
           </>
         )}
+        <CrowdBook c={meta?.crowd} />
+        <Mood m={meta?.mood} />
         <div className="foot">
           <span>Other paper books:</span>
           {(meta?.others || []).map((o) => (

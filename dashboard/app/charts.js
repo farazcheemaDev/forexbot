@@ -58,7 +58,7 @@ function uniform(pts, maxPoints = 400) {
   return out;
 }
 
-export function EquityChart({ curve, start }) {
+export function EquityChart({ curve, start, title = "Equity", sub = "live: booked + open positions" }) {
   const [range, setRange] = useState("All");
   const [box, api, ready] = useChart((chart) => {
     const series = chart.addAreaSeries({ lineWidth: 2, priceFormat: { type: "price", precision: 2, minMove: 0.01 },
@@ -91,7 +91,7 @@ export function EquityChart({ curve, start }) {
   return (
     <section className="card">
       <div className="card-h">
-        <div><h2>Equity</h2><div className="sub">live: booked + open positions</div></div>
+        <div><h2>{title}</h2><div className="sub">{sub}</div></div>
         <div className="tabs">
           {RANGES.map(([r]) => <button key={r} className={r === range ? "on" : ""} onClick={() => setRange(r)}>{r}</button>)}
         </div>

@@ -110,68 +110,133 @@ def fetch(jobs):
     return out
 
 
-def main():
-    from scipy.stats import spearmanr
+def inputs():
     from backtest.market_neutral import load_panel
     anchors, el, jobs = plan()
     F = fetch(jobs)
     C, Fd, first = load_panel()
     C.index = C.index.astype("datetime64[ns]")
     Fd = Fd.reindex(C.index).fillna(0.0)
-    cff = C.ffill()
     F["day"] = pd.to_datetime(F.day)
     piv = {f: F.pivot_table(index="day", columns="sym", values=f) for f in FEATS}
+    return anchors, el, F, C, Fd, C.ffill(), piv
+
+
+def panel(wd, anchors, el, C, Fd, cff, piv) -> pd.DataFrame:
+    """One row per (anchor on weekday wd, coin of that month's universe): the measures as of the anchor, the next 7 days."""
+    rows = []
+    for a in anchors[anchors.dayofweek == wd]:
+        d0 = a - pd.Timedelta(days=1)                     # the bar that closes at the anchor
+        d1 = a + pd.Timedelta(days=6)                     # the bar that closes 7 days later
+        if d1 > C.index[-1] or d0 not in C.index:
+            continue
+        m = a.strftime("%Y-%m")
+        names = [s for s, ms in el.items() if m in ms and s in C.columns]
+        btc = cff.at[d1, "BTCUSDT"] / C.at[d0, "BTCUSDT"] - 1
+        prev = d0 - pd.Timedelta(days=7)
+        for s in names:
+            p0 = C.at[d0, s]
+            if not np.isfinite(p0):
+                continue
+            p1 = cff.at[d1, s]
+            fwd = p1 / p0 - 1 - btc
+            fund = Fd.loc[(Fd.index > d0) & (Fd.index <= d1), s].sum() if s in Fd else 0.0
+            r = dict(a=a, s=s, fwd=fwd, fund=fund)
+            for f in FEATS:
+                r[f] = piv[f].at[d0, s] if (d0 in piv[f].index and s in piv[f].columns) else np.nan
+            o0 = piv["oi"].at[prev, s] if (prev in piv["oi"].index and s in piv["oi"].columns) else np.nan
+            o1 = piv["oi"].at[d0, s] if (d0 in piv["oi"].index and s in piv["oi"].columns) else np.nan
+            r["oi7"] = o1 / o0 - 1 if (np.isfinite(o0) and o0 > 0 and np.isfinite(o1)) else np.nan
+            rows.append(r)
+    return pd.DataFrame(rows)
+
+
+def quarters(v: pd.Series):
+    """The book's two sides on one date: the coins in the bottom and the top quarter of the ranking (pct rank, ties
+    averaged). news/crowd_paper.py picks its legs with the same rule (tests/test_crowd_paper.py checks every week)."""
+    q = v.rank(pct=True)
+    return set(v.index[q <= 0.25]), set(v.index[q >= 0.75])
+
+
+def turnover_fee(prev_l: set, prev_s: set, ln: set, sn: set) -> float:
+    ch = (len(ln ^ prev_l) + len(sn ^ prev_s)) / max(2 * (len(ln) + len(sn)), 1)
+    return FEE * min(ch * 2, 1.0)
+
+
+def book(D: pd.DataFrame, f: str, sg: int):
+    """Per date: the rank IC, and the book's net week (long the registered side's quarter, short the other, 0.5 a side)."""
+    from scipy.stats import spearmanr
+    ics, bk, prev_l, prev_s = [], [], set(), set()
+    for a, g in D.groupby("a"):
+        g = g.dropna(subset=[f]).set_index("s")
+        if len(g) < 16:
+            continue
+        ics.append((a, spearmanr(g[f], g.fwd).correlation))
+        lo, hi = quarters(g[f])
+        ln, sn = (hi, lo) if sg > 0 else (lo, hi)                          # long the registered side
+        L_, S_ = g.loc[sorted(ln)], g.loc[sorted(sn)]
+        gross = 0.5 * (L_.fwd - L_.fund).mean() - 0.5 * (S_.fwd - S_.fund).mean()
+        bk.append((a, gross - turnover_fee(prev_l, prev_s, ln, sn)))
+        prev_l, prev_s = ln, sn
+    return pd.Series(dict(ics)), pd.Series(dict(bk))
+
+
+def band():
+    """--band: the crowd book as news/crowd_paper.py runs it - a Monday sleeve and a Thursday sleeve, half the account
+    each - over every N-week stretch of 2022-26 (N 1..52), as quantiles; written to crowd_bands.json for the paper book's
+    scorecard and verdict, and summarised in logs/crowd_bands.txt."""
+    import json
+    anchors, el, F, C, Fd, cff, piv = inputs()
+    S = {k: book(panel(wd, anchors, el, C, Fd, cff, piv), "crowd", SIGN["crowd"])[1] for wd, k in ((0, "mon"), (3, "thu"))}
+    m, t = S["mon"], S["thu"]
+    levels = [5, 10, 25, 50, 75, 90, 95]
+    out, up, n_w = {}, {}, {}
+    for N in range(1, 53):
+        rets = []
+        for i in range(len(m) - N + 1):
+            mw = m.iloc[i:i + N]
+            a = mw.index[0]
+            if mw.index[-1] != a + pd.Timedelta(weeks=N - 1):              # contiguous weeks only
+                continue
+            tw = t.reindex([a + pd.Timedelta(days=3 + 7 * k) for k in range(N)])
+            if tw.isna().any():
+                continue
+            rets.append(0.5 * ((1 + mw).prod() - 1) + 0.5 * ((1 + tw).prod() - 1))
+        out[N] = [round(float(x), 5) for x in np.percentile(rets, levels)]
+        up[N], n_w[N] = round(float(np.mean(np.array(rets) > 0)), 3), len(rets)
+    span = f"{m.index[0]:%Y-%m-%d}..{m.index[-1]:%Y-%m-%d}"
+    # dashboard_push's band format (band_at / pctile): lengths in WEEKS, the whole book as "total"
+    (ROOT / "crowd_bands.json").write_text(json.dumps(dict(
+        made=f"{pd.Timestamp.now(tz='UTC'):%Y-%m-%d}", span=span, levels=levels, lengths=list(out),
+        total={str(N): dict(q=q, idle=0.0) for N, q in out.items()}, share_up={str(N): v for N, v in up.items()})))
+    L = [f"news/positioning_hist.py --band, {pd.Timestamp.now(tz='UTC'):%Y-%m-%d %H:%M} UTC; the crowd book as crowd_paper runs it"
+         f" (Monday + Thursday sleeves, half each), every N-week stretch {span}", "",
+         f"   {'weeks':>5}{'stretches':>10}" + "".join(f"{f'p{q}':>8}" for q in levels) + f"{'share up':>10}"]
+    for N in (1, 2, 4, 8, 13, 26, 39, 52):
+        L.append(f"   {N:>5}{n_w[N]:>10}" + "".join(f"{x * 100:>+7.1f}%" for x in out[N]) + f"{up[N] * 100:>9.0f}%")
+    L += ["", f"   per sleeve, mean week: Monday {m.mean() * 100:+.2f}%, Thursday {t.mean() * 100:+.2f}%; "
+              f"weeks {len(m)} / {len(t)}; correlation of the two sleeves' weeks (Thursday 3 days later) "
+              f"{np.corrcoef(m.to_numpy()[:min(len(m), len(t))], t.to_numpy()[:min(len(m), len(t))])[0, 1]:+.2f}"]
+    txt = "\n".join(L)
+    (ROOT / "logs" / "crowd_bands.txt").write_text(txt + "\n", encoding="utf-8")
+    print(txt)
+
+
+def main():
+    if "--band" in sys.argv:
+        return band()
+    anchors, el, F, C, Fd, cff, piv = inputs()
     L = [f"news/positioning_hist.py, {pd.Timestamp.now(tz='UTC'):%Y-%m-%d %H:%M} UTC; Binance metrics archive, PIT top-40, "
          f"{F[FEATS[0]].notna().sum():,} coin-days with data; next 7 days vs BTC, funding charged", ""]
     res = {}
     for wd, name in ((0, "MONDAY"), (3, "THURSDAY")):
-        A = anchors[anchors.dayofweek == wd]
-        rows = []
-        for a in A:
-            d0 = a - pd.Timedelta(days=1)                     # the bar that closes at the anchor
-            d1 = a + pd.Timedelta(days=6)                     # the bar that closes 7 days later
-            if d1 > C.index[-1] or d0 not in C.index:
-                continue
-            m = a.strftime("%Y-%m")
-            names = [s for s, ms in el.items() if m in ms and s in C.columns]
-            btc = cff.at[d1, "BTCUSDT"] / C.at[d0, "BTCUSDT"] - 1
-            prev = d0 - pd.Timedelta(days=7)
-            for s in names:
-                p0 = C.at[d0, s]
-                if not np.isfinite(p0):
-                    continue
-                p1 = cff.at[d1, s]
-                fwd = p1 / p0 - 1 - btc
-                fund = Fd.loc[(Fd.index > d0) & (Fd.index <= d1), s].sum() if s in Fd else 0.0
-                r = dict(a=a, s=s, fwd=fwd, fund=fund)
-                for f in FEATS:
-                    r[f] = piv[f].at[d0, s] if (d0 in piv[f].index and s in piv[f].columns) else np.nan
-                o0 = piv["oi"].at[prev, s] if (prev in piv["oi"].index and s in piv["oi"].columns) else np.nan
-                o1 = piv["oi"].at[d0, s] if (d0 in piv["oi"].index and s in piv["oi"].columns) else np.nan
-                r["oi7"] = o1 / o0 - 1 if (np.isfinite(o0) and o0 > 0 and np.isfinite(o1)) else np.nan
-                rows.append(r)
-        D = pd.DataFrame(rows)
+        D = panel(wd, anchors, el, C, Fd, cff, piv)
         dates = sorted(D.a.unique())
         cut = dates[int(len(dates) * TUNE)]
         L += [f"{name} anchors: {len(dates)} weeks, tune before {pd.Timestamp(cut):%Y-%m-%d}",
               f"   {'measure':<9}{'IC':>8}{'t':>7}{'IC tune':>9}{'IC hold':>9}{'book %/yr':>11}{'tune':>8}{'hold':>8}{'t tune':>8}{'t hold':>8}"]
         for f, sg in (SIGN if not POST else {"taker": +1}).items():
-            ics, book, prev_l, prev_s = [], [], set(), set()
-            for a, g in D.groupby("a"):
-                g = g.dropna(subset=[f])
-                if len(g) < 16:
-                    continue
-                ics.append((a, spearmanr(g[f], g.fwd).correlation))
-                q = g[f].rank(pct=True)
-                hi, lo = g[q >= 0.75], g[q <= 0.25]
-                L_, S_ = (hi, lo) if sg > 0 else (lo, hi)                     # long the registered side
-                gross = 0.5 * (L_.fwd - L_.fund).mean() - 0.5 * (S_.fwd - S_.fund).mean()
-                ln, sn = set(L_.s), set(S_.s)
-                ch = (len(ln ^ prev_l) + len(sn ^ prev_s)) / max(2 * (len(ln) + len(sn)), 1)
-                book.append((a, gross - FEE * min(ch * 2, 1.0)))
-                prev_l, prev_s = ln, sn
-            ic = pd.Series(dict(ics))
-            bk = pd.Series(dict(book))
+            ic, bk = book(D, f, sg)
             t = lambda x: x.mean() / (x.std(ddof=1) / np.sqrt(len(x))) if len(x) > 2 and x.std(ddof=1) > 0 else 0.0  # noqa: E731
             ta, ha = bk[bk.index < cut], bk[bk.index >= cut]
             yr = lambda x: ((1 + x).prod() ** (52 / max(len(x), 1)) - 1) * 100  # noqa: E731

@@ -232,6 +232,10 @@ wick_paper.py      THE CRASH BIDS (doc 16 s7), pre-registered: top-40 bids 10% u
 xs_paper.py        an EARLIER pre-registered XS test (21 coins, daily). Frozen — do not edit
 news/mood_now.py   2026-10-23: LIVE crypto mood, read-only - crowd positioning / funding / taker / OI per coin, the crowd
                      book's quarters flagged (doc 25 s7: positioning a lead, chatter dead). python -m news.mood_now
+news/crowd_paper.py  2026-10-23: THE CROWD-SQUEEZE PAPER BOOK (doc 22 s4 override): long the crowd's most-short quarter,
+                     short the most-long, Monday + Thursday halves, own $300; hourly on the VM (crowd-paper.timer), also
+                     writes logs/mood/mood.json for the dashboard. Verdict 2027-04-26 (dead < -6.5%, crowd_bands.json).
+                     Standard library only. --status. tests/test_crowd_paper.py checks it against positioning_hist's code
 sentiment_rec.py   2026-10-12: retail long/short ratios (Myfxbook, OANDA, + 7 brokers via FXSSI) every 30 min, record
                      only (no history is free); predictions R1-R3 in its docstring
 doge_live.py / book_rec.py / liq_rec.py   2026-10-09: DOGE live forward test (frozen rules + logged calls, --call to
@@ -619,8 +623,15 @@ the detail lives in the numbered docs.*
 - **`news/mood_now.py`**: live read-only readout - crowd long %, rank, funding, taker, OI per coin of the backtest's
   universe (top 40 by PRIOR month's volume, cached monthly in strategy_analysis/data/news/mood_pool.json), the crowd
   book's quarters flagged. Live endpoints checked against the archive. `tests/test_mood_now.py` (run as a script: no
-  pytest on this PC) 3 tests, 3 mutations caught. Not on the VM / dashboard (user's call); the AI headline reader waits
-  on the user's own Anthropic key and a model choice.
+  pytest on this PC) 3 tests, 3 mutations caught. The AI headline reader waits on the user's own Anthropic key and a
+  model choice.
+- **The user: "do 2 3" - the mood readout on the dashboard and the crowd book on paper.** `news/crowd_paper.py` (doc 22
+  s4 override, outside the final machine; verdict 2027-04-26, lines in its docstring before the first trade, first
+  anchors Mon 2026-10-26 / Thu 10-29), `crowd_bands.json` (positioning_hist.py --band: 26 weeks p10 -6.5%, median +18.4%,
+  80% of stretches up), mood_now rewritten standard-library only (the VM had 55 MB free). positioning_hist refactored
+  (quarters / turnover_fee / book shared; both logs reproduced exactly). dashboard_push.py: meta.mood + meta.crowd;
+  Dashboard.js: two cards. Tests: crowd_paper 8 (every archived date's legs = the backtest's; one live week = the
+  backtest's week), mood_now 5, dashboard_push 7; 9 mutations caught.
 
 ### 2026-10-23 - the day-45 checkpoint written into doc 22 (s3b), before its data
 

@@ -1,17 +1,18 @@
 """news/mood_now.py offline: a fake Binance, no network."""
 import json
+import random
 import sys
 import tempfile
+from datetime import datetime, timezone
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from news import mood_now as mn  # noqa: E402
 
-NOW = pd.Timestamp("2026-10-23 12:00", tz="UTC")
+NOW = datetime(2026, 10, 23, 12, tzinfo=timezone.utc)
 MS = lambda s: int(pd.Timestamp(s, tz="UTC").value // 10**6)  # noqa: E731
 
 
@@ -45,27 +46,42 @@ class Patch:
             setattr(mn, k, v)
 
 
-def test_universe_ranks_last_month_volume_old_enough_and_caches():
+def test_copies_match_the_backtests_constants():
+    from backtest.market_neutral import NON_CRYPTO
+    from backtest.wide_book import MIN_AGE_D
+    assert mn.NON_CRYPTO == NON_CRYPTO and mn.MIN_AGE_D == MIN_AGE_D
+
+
+def test_universe_ranks_last_month_volume_old_enough_then_drops_stables_and_caches():
     listed = {"AAAUSDT": ("2024-01-01", 5e6, 1e6), "BBBUSDT": ("2024-01-01", 1e6, 9e9),   # BBB: big TODAY, small in Sept
               "NEWUSDT": ("2026-09-15", 9e9, 9e9),                                         # listed 16 days before Oct 1
               "USDCUSDT": ("2024-01-01", 9e9, 9e9), "CCCUSDT": ("2024-01-01", 3e6, 1e6)}
     pool = Path(tempfile.mkdtemp()) / "pool.json"
-    with Patch(POOL=pool, get=fake_binance(listed)):
-        assert mn.universe(2, now=NOW) == ["AAAUSDT", "CCCUSDT"]
+    with Patch(POOL=pool, get=fake_binance(listed)):                 # top 3 = USDC, AAA, CCC; USDC then dropped
+        assert mn.universe(3, now=NOW) == ["AAAUSDT", "CCCUSDT"]
     assert json.loads(pool.read_text()) == {"2026-10": ["AAAUSDT", "CCCUSDT"]}
     with Patch(POOL=pool, get=lambda u: (_ for _ in ()).throw(AssertionError("cached month must not refetch"))):
-        assert mn.universe(2, now=NOW) == ["AAAUSDT", "CCCUSDT"]
+        assert mn.universe(3, now=NOW) == ["AAAUSDT", "CCCUSDT"]
+
+
+def test_pct_rank_is_pandas_rank_pct_ties_included():
+    rnd = random.Random(5)
+    for _ in range(300):
+        v = {f"C{i}": float(rnd.randint(1, 8)) for i in range(rnd.randint(1, 45))}
+        want = pd.Series(v).rank(pct=True).to_dict()
+        got = mn.pct_rank(v)
+        assert got.keys() == want.keys() and all(abs(got[k] - want[k]) < 1e-12 for k in v)
 
 
 def test_rank_flags_the_crowd_books_quarters():
     rows = [dict(sym=f"C{i}USDT", crowd=float(i), long_share=i / 10, taker=1.0, oi7=0.0) for i in range(1, 9)]
-    rows.append(dict(sym="NANUSDT", crowd=np.nan, long_share=np.nan, taker=np.nan, oi7=np.nan))
-    D = mn.rank(rows, {"C1USDT": -50.0})
-    flags = dict(zip(D.sym, D.flag))
+    rows.append(dict(sym="NANUSDT", crowd=None, long_share=None, taker=None, oi7=None))
+    R = mn.rank(rows, {"C1USDT": -50.0})
+    flags = {r["sym"]: r["flag"] for r in R}
     assert flags["C1USDT"] == flags["C2USDT"] == "SQUEEZE WATCH"           # most short = lowest long / short ratio
     assert flags["C7USDT"] == flags["C8USDT"] == "crowd long"
     assert flags["C4USDT"] == "" and flags["NANUSDT"] == ""
-    assert D.sym.iloc[0] == "C1USDT" and D.fund_yr.iloc[0] == -50.0
+    assert R[0]["sym"] == "C1USDT" and R[0]["fund_yr"] == -50.0 and R[-1]["sym"] == "NANUSDT"
 
 
 def test_funding_annualises_by_each_coins_interval():

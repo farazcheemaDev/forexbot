@@ -87,6 +87,12 @@ No new books, no parameter changes, no new sweeps of the mined holdout. Allowed,
   (the crash desk's machinery) is the fix, applied only if the user agrees;
 - bug fixes, deployment fixes, the demo restart that picks up the sub-step order fix (s7b).
 
+**Override, 2026-10-23 (the user: "do 2 3"):** one new PAPER book, the crowd-squeeze book (`news/crowd_paper.py`, its
+own $300, its own files, hourly timer on the VM). It is outside the final machine: combo_bot, final_books and every
+running book are untouched, and s3b's checkpoint reads the machine alone. Its verdict lines were written before its
+first trade (crowd_paper.py's docstring): at 26 weeks (2027-04-26) dead under -6.5%, held up at +18.4% or more. Real
+money in it would still need s2's conditions.
+
 ## 5. The research stops on 2026-12-31
 
 What the 2026-10-10 councils asked to test is done:
