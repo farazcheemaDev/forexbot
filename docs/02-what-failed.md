@@ -4459,3 +4459,9 @@ from X". Predictions registered in each file before its run. Full table in doc 2
 - **X:** no free legal source; not scraped.
 **Kept:** the readout `news/mood_now.py` (crowd, funding, taker, OI per coin, the crowd book's quarters flagged) -
 information, not a book.
+- **Headline keywords** (`news/keywords.py`, `logs/news_keywords.txt`; the user: "avoid API cost - check how each type of
+  news or keyword affected the market"): 18,886 coin events and 42,918 market hours, 1,493 / 2,526 words and pairs. Words
+  pass at the rate shifted (random) outcomes give; a word score learned on 2020-24 has holdout IC -0.005 outside the
+  known exchange types and loses -156bp a trade. The coherent cluster ('margin', 'convert', 'add') is adds_products,
+  already the news book. The free regex classifier (news/enrich.py) holds what the text carries; no case for a paid
+  AI reader unless it finds a new event type.

@@ -125,6 +125,7 @@ positioning carry information; chatter, tone and general news do not.**
 | top traders' accounts / positions, OI change | same | nothing that passes (top_acc rides the crowd's lead; top_pos and OI lose) |
 | aggressive (taker) flow | same + `logs/positioning_taker_follow.txt` | real but small IC (+0.05..+0.06, momentum); no book either way (-10..+7%/yr) |
 | Bluesky chatter and tone, 25 coins | `news/bsky_hist.py`, `logs/bsky_hist.txt` | dead - attention IC -0.007, tone flips between halves, crypto-wide attention vs BTC -0.03 |
+| headline WORDS (a keyword table instead of an AI reader) | `news/keywords.py`, `logs/news_keywords.txt` | dead - words pass at chance (coin 3 / 10 / 27 vs 4 / 9 / 32 on shifted outcomes; market at chance); a word score learned on 2020-24 has no holdout value; the one real cluster is the adds_products type already traded |
 | X / Twitter | - | no free legal feed: the official API is paid, LunarCrush's social data ~$90/month; scraping refused. Bluesky's null makes paying for X hard to justify |
 | Fear & Greed, Wikipedia attention | `sentiment.py` era, doc 02 2026-10-05 | weekly momentum, but lowers Sharpe as a size dial |
 

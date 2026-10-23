@@ -632,6 +632,10 @@ the detail lives in the numbered docs.*
   (quarters / turnover_fee / book shared; both logs reproduced exactly). dashboard_push.py: meta.mood + meta.crowd;
   Dashboard.js: two cards. Tests: crowd_paper 8 (every archived date's legs = the backtest's; one live week = the
   backtest's week), mood_now 5, dashboard_push 7; 9 mutations caught.
+- **Headline keywords instead of a paid AI reader** (the user: "avoid API cost"): `news/keywords.py` - words pass at
+  chance on coins and on BTC; a tune-learned word score has no holdout value. The event types already hold it; the AI
+  reader is not worth paying for unless it finds a new event type. DEPLOYED the same day: crowd-paper.timer on the VM
+  (commits 4059523, 09937ab; bot files blob-identical; first run failed on a missing folder - fixed, tested, re-run).
 
 ### 2026-10-23 - the day-45 checkpoint written into doc 22 (s3b), before its data
 

@@ -1,0 +1,61 @@
+news/keywords.py, 2026-10-23 16:41 UTC; impact_obs.parquet (news/impact.py), 905 tickers / coin names dropped as words; PASS = t >= 2 on both halves, same sign
+
+COIN: 18,886 events 2020-01 .. 2026-09, 1,493 words / pairs tested, holdout from 2025-01-09
+    24h:    3 words pass (chance: 4.0 on average, 95th pct 9); of their events 1% are known exchange types
+         'confirmed' n    92     -186bp  tune   -136 (t -3.0) / hold   -236 (t -2.7)
+         'too' n    45     -165bp  tune   -156 (t -2.9) / hold   -191 (t -2.3)
+         'tesla' n    75     -118bp  tune   -123 (t -2.1) / hold   -113 (t -2.0)
+    72h:   10 words pass (chance: 9.4 on average, 95th pct 15); of their events 8% are known exchange types
+         'million tokens' n    44     -433bp  tune   -399 (t -2.5) / hold   -460 (t -3.5)
+         'outage' n    40     -349bp  tune   -280 (t -2.4) / hold   -585 (t -3.2)
+         'free' n    72     -223bp  tune   -234 (t -2.3) / hold   -199 (t -2.6)
+         'exploited' n    65     -281bp  tune   -282 (t -2.2) / hold   -280 (t -2.2)
+         'block' n   234     -137bp  tune   -118 (t -2.1) / hold   -165 (t -3.4)
+         'market maker' n    47     -319bp  tune   -277 (t -2.1) / hold   -380 (t -2.4)
+         'account' n   203     -214bp  tune   -186 (t -2.1) / hold   -259 (t -2.8)
+         'supply' n   326     -220bp  tune   -338 (t -3.3) / hold   -131 (t -2.1)
+         'available' n   264     -298bp  tune   -220 (t -2.4) / hold   -487 (t -2.0)
+         'money' n   151     -193bp  tune   -237 (t -2.7) / hold   -135 (t -2.0)
+   the word SCORE, learned on the tune half (72h):
+      all holdout                  n  7,525  IC +0.025 | top-10% long   -127bp, bottom-10% short    +24bp, both net    -63bp (t -0.97)
+      holdout, not a known type    n  6,918  IC -0.005 | top-10% long   -112bp, bottom-10% short   -176bp, both net   -156bp (t -2.49)
+      the tune half's strongest words (shrunk bp): 'temporarily' -603, 'york' +574, 'suspended' -564, 'utc details' +487, 'mainstream' +469, 'leverage along' +463, 'trading maximum' +463, 'along support' +463, 'support futures' +458, 'details bitget' +452, 'bots bitget' +448, 'launched futures' +436
+     7d:   27 words pass (chance: 32.2 on average, 95th pct 42); of their events 18% are known exchange types
+         'tokens' n   908     -193bp  tune   -184 (t -2.8) / hold   -205 (t -3.0)
+         'whales' n    63     -534bp  tune   -566 (t -2.9) / hold   -468 (t -2.7)
+         'while' n   707     -151bp  tune   -225 (t -2.5) / hold   -111 (t -2.5)
+         'convert' n   155    -1066bp  tune   -594 (t -2.5) / hold  -1194 (t -3.7)
+         'margin' n   291     -727bp  tune   -351 (t -2.4) / hold  -1336 (t -3.9)
+         'both' n   186     -279bp  tune   -217 (t -2.4) / hold   -356 (t -2.7)
+         'pleased' n    42     -925bp  tune   -585 (t -2.4) / hold  -5346 (t -2.4)
+         'account' n   203     -305bp  tune   -293 (t -2.4) / hold   -324 (t -2.5)
+         'cointelegraph' n   567     -262bp  tune   -205 (t -2.3) / hold   -294 (t -5.5)
+         'speed' n    45     -365bp  tune   -316 (t -2.3) / hold   -463 (t -2.4)
+         'binance completed' n    69     -549bp  tune   -550 (t -3.0) / hold   -548 (t -2.3)
+         'jan' n   168     -369bp  tune   -291 (t -3.1) / hold   -654 (t -2.3)
+         'within' n   346     -204bp  tune   -204 (t -2.3) / hold   -205 (t -2.3)
+         'add' n   236     -764bp  tune   -307 (t -2.3) / hold  -1031 (t -3.9)
+         'surge' n   176     -451bp  tune   -397 (t -2.7) / hold   -561 (t -2.3)
+
+MARKET: 42,918 hours 2020-01 .. 2026-09, 2,526 words / pairs tested, holdout from 2024-02-24
+     1h:    4 words pass (chance: 2.5 on average, 95th pct 4); of their events 0% are known exchange types
+         'short term' n   472      +10bp  tune    +11 (t +2.6) / hold     +9 (t +2.4)
+         'magazine' n   153      -18bp  tune    -20 (t -2.5) / hold    -14 (t -2.2)
+         'debate' n   185      +12bp  tune    +14 (t +2.1) / hold    +10 (t +2.1)
+         'upside' n   203      -11bp  tune    -14 (t -2.1) / hold     -9 (t -2.3)
+     4h:    5 words pass (chance: 3.0 on average, 95th pct 6); of their events 0% are known exchange types
+         'discord channel' n   296      +25bp  tune    +80 (t +2.8) / hold    +23 (t +3.0)
+         'liquid' n   346      -22bp  tune    -22 (t -2.5) / hold    -22 (t -2.2)
+         'p2p' n   504      +16bp  tune    +14 (t +2.2) / hold    +19 (t +2.2)
+         'views10' n   692      +15bp  tune    +14 (t +2.2) / hold    +77 (t +2.1)
+         'charges' n   453      +14bp  tune    +14 (t +2.0) / hold    +13 (t +2.1)
+    24h:    3 words pass (chance: 5.2 on average, 95th pct 9); of their events 0% are known exchange types
+         'attempt' n   159      +92bp  tune    +87 (t +2.6) / hold   +104 (t +2.6)
+         'creation' n   216      -68bp  tune    -74 (t -2.9) / hold    -60 (t -2.3)
+         'crackdown' n   217      +66bp  tune    +64 (t +2.2) / hold    +73 (t +2.1)
+
+REGISTERED PREDICTIONS
+  K1 COIN passes <= 2x chance at every horizon: [('24h', 3, 4.0), ('72h', 10, 9.4), ('7d', 27, 32.2)] -> RIGHT
+  K2 COIN passing words mostly known exchange types (>= 50% of their events): [1, 8, 18]% -> WRONG
+  K3 COIN score holdout IC outside the known types |IC| < 0.02: -0.005 -> RIGHT
+  K4 MARKET passes inside the null's 95th pct: [('1h', 4, 4.100000000000001), ('4h', 5, 5.500000000000007), ('24h', 3, 9.150000000000002)] -> RIGHT
