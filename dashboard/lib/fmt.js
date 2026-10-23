@@ -61,4 +61,4 @@ export function dayLabel(t) {
   return d ? d.toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" }) : "";
 }
 
-export const ACCOUNT_NAMES = { main: "Main account", fresh: "Fresh $300" };
+export const ACCOUNT_NAMES = { main: "Main account", fresh: "Fresh $300", crowd: "Crowd squeeze", mood: "Market mood" };

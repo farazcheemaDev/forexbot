@@ -43,6 +43,17 @@ function TopBar({ meta, want }) {
               <small className={tone(a.equity - a.start)}>{pct(a.equity / a.start - 1, { dp: 1 })}</small>
             </a>
           ))}
+          {meta?.crowd ? (
+            <a href="/?acct=crowd" className={want === "crowd" ? "on" : ""}>
+              {ACCOUNT_NAMES.crowd}
+              <small className={tone(meta.crowd.equity - meta.crowd.start)}>{pct(meta.crowd.equity / meta.crowd.start - 1, { dp: 1 })}</small>
+            </a>
+          ) : null}
+          {meta?.mood ? (
+            <a href="/?acct=mood" className={want === "mood" ? "on" : ""}>
+              {ACCOUNT_NAMES.mood}<small>F&amp;G {meta.mood.market?.fear_greed ?? "–"}</small>
+            </a>
+          ) : null}
         </nav>
         <div className="spacer" />
         <div className="live">
@@ -470,7 +481,7 @@ function CrowdBook({ c }) {
 const FLAG = { "SQUEEZE WATCH": ["Squeeze watch", "warn"], "crowd long": ["Crowd long", "idle"] };
 
 function Mood({ m }) {
-  const [all, setAll] = useState(false);
+  const [all, setAll] = useState(true);
   if (!m) return null;
   const k = m.market || {};
   const coins = m.coins || [];
@@ -533,7 +544,11 @@ export default function Dashboard({ meta, acct, want }) {
       <TopBar meta={meta} want={want} />
       <main>
         {down.length ? <div className="alert">Not running on the VM: {down.join(", ")}</div> : null}
-        {!acct ? (
+        {want === "crowd" ? (meta?.crowd ? <CrowdBook c={meta.crowd} />
+          : <div className="alert info">The crowd-squeeze book has not reported yet - it runs hourly on the VM.</div>)
+        : want === "mood" ? (meta?.mood ? <Mood m={meta.mood} />
+          : <div className="alert info">No market-mood snapshot yet - it is written hourly on the VM.</div>)
+        : !acct ? (
           <div className="alert info">
             {want === "fresh" ? "The fresh $300 account has not reported yet - it appears within a minute or two of starting." :
               "This account has not reported yet."}
@@ -557,8 +572,6 @@ export default function Dashboard({ meta, acct, want }) {
             <Panel a={acct} local={local} />
           </>
         )}
-        <CrowdBook c={meta?.crowd} />
-        <Mood m={meta?.mood} />
         <div className="foot">
           <span>Other paper books:</span>
           {(meta?.others || []).map((o) => (

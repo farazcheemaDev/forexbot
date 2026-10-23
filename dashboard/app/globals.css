@@ -173,7 +173,8 @@ th.r, td.r { text-align: right; }
   .kpi .v, .kpi.hero .v { font-size: 19px; }
   .chart { height: 240px; }
   .seg { width: 100%; }
-  .seg a { flex: 1; justify-content: center; padding: 6px 8px; }
+  .seg a { flex: 1; justify-content: center; padding: 6px 4px; flex-direction: column; align-items: center; gap: 1px;
+           font-size: 12px; white-space: normal; text-align: center; line-height: 1.2; }
   .live .btc { display: none; }
   .bar { position: static; }
   .book .desc { display: none; }
