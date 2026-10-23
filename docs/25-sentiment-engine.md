@@ -109,3 +109,34 @@ run, `oos1719.py`'s method):
 
 X itself is not scraped (its terms forbid it, and the working tools need logged-in accounts and get around its bot
 protection); its mood comes in through Santiment / LunarCrush, which license it.
+
+## 7. What the engine found, 2026-10-16 .. 2026-10-23 (the record; every number names its file)
+
+The user, 2026-10-23: "we need to make better sentiment analysis tool ... add all the good stuff, also work on getting
+news from X". Everything free was measured on history first. In one line: **coin-specific exchange news and the crowd's
+positioning carry information; chatter, tone and general news do not.**
+
+| source | file / log | verdict |
+|---|---|---|
+| Binance adds_products + monitoring tags | `news/impact.py`, `news/combo.py` | **the edge** - short the coin / long BTC, +267..+316bp a trade; running as the news book on the VM (paper) |
+| the same notices, split by exchange | `news/impact_by_source.py`, `logs/news_impact_by_source.txt` | little new: Binance adds_products strongest (-952bp at 7d); new SPOT listings drift down on every venue (-350..-540bp at 7d, one usable: BWEnews) but only cover a thin coin's cost; delistings and unlocks nothing |
+| general news by FinBERT tone | `news/tone.py`, `news/market_minutes.py` | dead - good and bad news barely differ; BTC does not move even in the headline's minute |
+| crowd positioning (long / short accounts) | `news/positioning_hist.py`, `logs/positioning_hist.txt` | **a LEAD** - long the coins the crowd is most short, short the most long: +37% / +48%/yr (Monday / Thursday), t 1.8-2.0, under the bar; ~40% funding, the rest squeezes; mostly 2025-26; corr +0.19 with carry |
+| top traders' accounts / positions, OI change | same | nothing that passes (top_acc rides the crowd's lead; top_pos and OI lose) |
+| aggressive (taker) flow | same + `logs/positioning_taker_follow.txt` | real but small IC (+0.05..+0.06, momentum); no book either way (-10..+7%/yr) |
+| Bluesky chatter and tone, 25 coins | `news/bsky_hist.py`, `logs/bsky_hist.txt` | dead - attention IC -0.007, tone flips between halves, crypto-wide attention vs BTC -0.03 |
+| X / Twitter | - | no free legal feed: the official API is paid, LunarCrush's social data ~$90/month; scraping refused. Bluesky's null makes paying for X hard to justify |
+| Fear & Greed, Wikipedia attention | `sentiment.py` era, doc 02 2026-10-05 | weekly momentum, but lowers Sharpe as a size dial |
+
+**The live readout: `news/mood_now.py`** (read-only, public Binance endpoints, ~10 s; once a month ~30 s to rebuild the
+universe). Per coin of the backtest's universe (the top 40 by the prior month's volume, listed >= 30 days - the crowd
+book's own universe, `wide_book.eligibility`): crowd long %, its rank, funding annualised, taker buy / sell, OI 7d, and the
+crowd book's quarters flagged (SQUEEZE WATCH = most short; crowd long = most long). Market line: Fear & Greed, the median
+coin's long share, the share of coins paying shorts, BTC's crowd ratio. The live endpoints were checked against the
+archive the backtest used (BTC crowd 1.0239 vs 1.0237 at 2026-10-21 23:50; SOL taker 1.0812 vs 1.0812).
+`tests/test_mood_now.py`: 3 tests, 3 mutations caught. **Information, not a trade signal** - doc 22 freezes new books;
+the crowd book needs its own paper record before it could be one.
+
+**Not built, waiting on the user:** the AI headline reader (needs the user's own Anthropic key in an environment
+variable and a model choice); the readout on the dashboard (a VM change: dashboard_push.py would call
+`mood_now.snapshot()` hourly, not every minute - ~120 Binance calls a read).

@@ -4442,3 +4442,20 @@ fastest wicks, capit2_exec.py), **the crash bids switched on +15.4% / +7.4%** (c
 missing from the running dry bot), MN + carry at maker fees +2.5% / +2.4% (needs a real order path). All three:
 +22% / +14%, worst month and fall unchanged within a point. The first two are built (final_books.capit2_poll,
 final_books.bids_poll), tested, and await the user's word to deploy.
+
+## The sentiment engine, "all the good stuff" (2026-10-23) - `news/impact_by_source.py`, `news/positioning_hist.py`, `news/bsky_hist.py`
+
+**Why:** the user: "we need to make better sentiment analysis tool ... add all the good stuff, also work on getting news
+from X". Predictions registered in each file before its run. Full table in doc 25 s7.
+- **Exchange notices by source** (`logs/news_impact_by_source.txt`, 1,446 notices): Binance adds_products stays the one
+  strong type (already the news book). New spot listings drift down 7 days on every venue but only cover a thin coin's
+  cost. Delistings, unlocks: nothing. S2 / S4 right; S1 (direction right, t short) and S3 wrong.
+- **Positioning** (`logs/positioning_hist.txt`, Binance metrics archive 2022-26, PIT top-40, Monday and Thursday): no
+  pass (Q4 right; Q1-Q3 wrong). A LEAD: the crowd-contrarian book +37% / +48%/yr, t 1.8-2.0 - funding (+0.32%/wk) plus
+  squeezes in heavily shorted small coins (MYX, SIREN, AIA +200-300% weeks), mostly 2025-26. Taker flow: IC +0.06
+  (momentum), no book either way (post-hoc follow run, `logs/positioning_taker_follow.txt`: -9.8% / +6.7%/yr).
+- **Bluesky** (`logs/bsky_hist.txt`, 25 coins, 17,075 coin-days, 2024-11 .. 2026-09): attention IC -0.007, tone +0.062
+  tune / -0.019 holdout, crypto-wide attention vs BTC -0.03. Dead (B2-B4 right, B1 wrong).
+- **X:** no free legal source; not scraped.
+**Kept:** the readout `news/mood_now.py` (crowd, funding, taker, OI per coin, the crowd book's quarters flagged) -
+information, not a book.

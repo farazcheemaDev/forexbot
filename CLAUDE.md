@@ -230,6 +230,8 @@ wick_paper.py      THE CRASH BIDS (doc 16 s7), pre-registered: top-40 bids 10% u
                      No orders, no keys. For the VM: deploy/install_wick.sh (pulls, verifies, installs
                      wick-paper.service). Verdict at 6 months with 60+ Bitget fills, else 12
 xs_paper.py        an EARLIER pre-registered XS test (21 coins, daily). Frozen — do not edit
+news/mood_now.py   2026-10-23: LIVE crypto mood, read-only - crowd positioning / funding / taker / OI per coin, the crowd
+                     book's quarters flagged (doc 25 s7: positioning a lead, chatter dead). python -m news.mood_now
 sentiment_rec.py   2026-10-12: retail long/short ratios (Myfxbook, OANDA, + 7 brokers via FXSSI) every 30 min, record
                      only (no history is free); predictions R1-R3 in its docstring
 doge_live.py / book_rec.py / liq_rec.py   2026-10-09: DOGE live forward test (frozen rules + logged calls, --call to
@@ -606,6 +608,19 @@ the box was patched before the repo was public.
 
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
+
+### 2026-10-23 (later) - the sentiment engine finished: one lead (crowd positioning), chatter dead; a live readout
+
+- The user: "better sentiment analysis tool - add all the good stuff, also get news from X". Doc 25 s7 has the table.
+  `news/impact_by_source.py`: other exchanges' notices add little to Binance adds_products. `news/positioning_hist.py`
+  (Binance metrics archive 2022-26): crowd-contrarian book +37 / +48%/yr, t 1.8-2.0 - a LEAD (funding + squeezes, mostly
+  2025-26), no pass; taker flow IC +0.06, no book either way. `news/bsky_hist.py`: Bluesky chatter and tone, 25 coins -
+  dead. X: no free legal source (official API / LunarCrush paid); not scraped.
+- **`news/mood_now.py`**: live read-only readout - crowd long %, rank, funding, taker, OI per coin of the backtest's
+  universe (top 40 by PRIOR month's volume, cached monthly in strategy_analysis/data/news/mood_pool.json), the crowd
+  book's quarters flagged. Live endpoints checked against the archive. `tests/test_mood_now.py` (run as a script: no
+  pytest on this PC) 3 tests, 3 mutations caught. Not on the VM / dashboard (user's call); the AI headline reader waits
+  on the user's own Anthropic key and a model choice.
 
 ### 2026-10-23 - the day-45 checkpoint written into doc 22 (s3b), before its data
 

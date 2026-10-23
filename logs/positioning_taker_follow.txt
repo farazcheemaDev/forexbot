@@ -1,0 +1,10 @@
+news/positioning_hist.py, 2026-10-23 16:08 UTC; Binance metrics archive, PIT top-40, 19,243 coin-days with data; next 7 days vs BTC, funding charged
+
+MONDAY anchors: 245 weeks, tune before 2024-10-28
+   measure        IC      t  IC tune  IC hold  book %/yr    tune    hold  t tune  t hold
+   taker      +0.062  +4.34   +0.066   +0.058      -9.8%   -1.0%  -20.1%   +0.10   -0.86
+
+THURSDAY anchors: 245 weeks, tune before 2024-10-31
+   measure        IC      t  IC tune  IC hold  book %/yr    tune    hold  t tune  t hold
+   taker      +0.046  +3.64   +0.064   +0.022      +6.7%  +14.3%   -2.5%   +1.19   +0.05
+

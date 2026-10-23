@@ -30,6 +30,9 @@ RESULT (2026-10-23, logs/positioning_hist.txt; 19,243 coin-days, 245 weeks per a
   quartile had 39 weeks over +50%, the high one 12). Without its best 5 weeks +0.46%/wk; correlation with the running
   carry book +0.19. Mostly 2025-26 (holdout +61% / +96% vs tune +23%). A lead for a paper record (doc 22: a new book is
   the user's call), not an edge on this evidence.
+  POST-HOC (--taker-follow, logs/positioning_taker_follow.txt): taker's IC came out positive, so its book was re-run
+  FOLLOWING the flow: -9.8% / +6.7%/yr (Monday / Thursday), t -0.86..+1.19. The IC lives in the middle of the ranking,
+  not in the quarters a book trades. Dead both ways.
 
     python -m news.positioning_hist           (downloads ~20k small daily files once, cached as features)
 """
@@ -55,6 +58,8 @@ FEATS = ["crowd", "top_acc", "top_pos", "taker", "oi"]
 SIGN = {"crowd": -1, "top_acc": -1, "top_pos": +1, "taker": -1, "oi7": -1}    # the registered direction of each book
 FEE = 12.0 / 1e4
 TUNE = 0.60
+POST = "--taker-follow" in sys.argv     # POST-HOC: taker's IC came out positive, so its book is re-run FOLLOWING the flow
+LOG_POST = ROOT / "logs" / "positioning_taker_follow.txt"
 
 
 def one(sym: str, day: str):
@@ -150,7 +155,7 @@ def main():
         cut = dates[int(len(dates) * TUNE)]
         L += [f"{name} anchors: {len(dates)} weeks, tune before {pd.Timestamp(cut):%Y-%m-%d}",
               f"   {'measure':<9}{'IC':>8}{'t':>7}{'IC tune':>9}{'IC hold':>9}{'book %/yr':>11}{'tune':>8}{'hold':>8}{'t tune':>8}{'t hold':>8}"]
-        for f, sg in SIGN.items():
+        for f, sg in (SIGN if not POST else {"taker": +1}).items():
             ics, book, prev_l, prev_s = [], [], set(), set()
             for a, g in D.groupby("a"):
                 g = g.dropna(subset=[f])
@@ -175,6 +180,11 @@ def main():
             L.append(f"   {f:<9}{ic.mean():>+8.3f}{t(ic):>+7.2f}{ic[ic.index < cut].mean():>+9.3f}{ic[ic.index >= cut].mean():>+9.3f}"
                      f"{yr(bk):>+10.1f}%{yr(ta):>+7.1f}%{yr(ha):>+7.1f}%{t(ta):>+8.2f}{t(ha):>+8.2f}")
         L.append("")
+    if POST:
+        txt = "\n".join(L)
+        LOG_POST.write_text(txt + "\n", encoding="utf-8")
+        print(txt)
+        return
     r = res
     q1 = all(r[(n, "crowd")]["ic"] <= -0.02 and r[(n, "crowd")]["ict"] < 0 and r[(n, "crowd")]["ich"] < 0 for n in ("MONDAY", "THURSDAY"))
     q2 = all(0 < r[(n, "top_pos")]["ic"] < 0.02 for n in ("MONDAY", "THURSDAY"))

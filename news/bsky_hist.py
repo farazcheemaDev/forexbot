@@ -18,6 +18,13 @@ REGISTERED BEFORE THE RUN (2026-10-23)
   B3 crypto-wide attention -> BTC's next week: correlation between -0.15 and +0.15 (too few weeks to pass anything).
   B4 nothing passes (t >= 2 on both halves).
 
+RESULT (2026-10-23, logs/bsky_hist.txt; 17,075 coin-days, all read; 94 Mondays) - DEAD. B2-B4 RIGHT, B1 WRONG.
+  Attention (a coin talked about more than its usual) IC -0.007 (t -0.32), tune +0.007 / holdout -0.027 - not even the
+  contrarian lean registered. Tone IC +0.029, tune +0.062 (t +2.39) / holdout -0.019 (t -0.59): flips between halves.
+  Crypto-wide attention vs BTC's next week -0.03. Volumes are real (bitcoin ~1,900 posts a day, solana ~240, worldcoin 4)
+  - the crowd's chatter carries no information about next week here. X would need its paid API; nothing suggests it
+  would differ enough to pay for.
+
     python -m news.bsky_hist            (fetches ~17k coin-days once, politely; then tests)
 """
 from __future__ import annotations
