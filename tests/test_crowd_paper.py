@@ -149,6 +149,17 @@ def test_missed_anchors_run_in_time_order():
     assert abs(st["sleeves"]["mon"]["equity"] - 150 * (1 - cp.FEE)) < 1e-9          # flat prices: the first fee only
 
 
+def test_the_first_cycle_starts_from_no_folder():
+    """On the VM the first run marked the day before anything had created logs/crowd_paper/ (2026-10-23)."""
+    import shutil
+    with Files() as d:
+        shutil.rmtree(d)
+        st = cp.fresh()
+        cp.mark(st, datetime(2026, 10, 23, 17, tzinfo=timezone.utc))
+        cp.save(st)
+        assert (d / "m.csv").read_text().splitlines()[1].startswith("2026-10-23,150.0,150.0,300.0")
+
+
 def test_nothing_happens_before_the_first_anchor():
     with Files():
         st = cp.fresh()

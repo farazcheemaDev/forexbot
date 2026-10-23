@@ -144,6 +144,7 @@ def save(st: dict):
 
 
 def append(p: Path, row: dict):
+    p.parent.mkdir(parents=True, exist_ok=True)       # the first daily mark can come before the first save
     new = not p.exists()
     with p.open("a", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=list(row))
