@@ -661,6 +661,11 @@ the detail lives in the numbered docs.*
   no order can rest); `--final --mode live` always runs the real crash desk (`wants_desk`). tests/test_live_orders.py
   10 tests, 8 mutations caught; all other suites pass. Doc 22: the user chose FULL size (x1.0) for real money, not x0.65.
   Not deployed to the paper bots (dry mode uses none of it except the map in its ledger).
+- **Bitget's smaller coin list** (`backtest/bitget_coverage.py`): the books choose from Binance; 91 Binance perps are not on
+  Bitget. Trend 0% affected; news shorts 32% of trades; MN 15-21% of slots. The whole machine restricted to Bitget-listed
+  coins: -8.8% (2020-24) / +16.5% (2024-26) on the typical year - no consistent cost. The user: decide the exchange
+  later, after the bot performs. Binance: all coins, fees 0.05% vs 0.06%, a testnet with real coins, but $20 minimums on
+  ETH / LINK / LTC / BCH and $50 on BTC.
 
 ### 2026-10-23 - the day-45 checkpoint written into doc 22 (s3b), before its data
 
