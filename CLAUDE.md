@@ -607,6 +607,14 @@ the box was patched before the repo was public.
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
 
+### 2026-10-23 - the day-45 checkpoint written into doc 22 (s3b), before its data
+
+- The user: "I want the verdict soon". `backtest/verdict_power.py`: the record separates the backtested machine from a
+  zero-edge one at 65% (2 weeks), 69% (1 month), 74% (45 days) and no better after (73% at 6 months) - the machine's months
+  cluster by regime. **Doc 22 s3b: main account KILL if live equity < $261.30 (-12.9%) at 2026-11-23 00:04 UTC** (fresh
+  read beside it on 2026-12-01); over it = a weak yes that does not meet s2; a pre-set small-stake option if the user
+  funds anyway. Reading at 2026-10-23 10:23 UTC: main $254.26 live. VM verified on the latest bot code (7148366), 0 errors.
+
 ### 2026-10-22 (very last) - the live bot checked against the backtest code, trade by trade (`backtest/live_check.py`)
 
 - The user: "how can we make the verdict soon" -> check what does not need time. On the final machine's 13 live days:

@@ -13,7 +13,8 @@ the record worthless - the same rule as every pre-registered prediction in this 
 | capit2 shadow book in `pair_live.py` | 2026-10-08 | 30 closed trades or **2027-10-08** | H1-H3 in its docstring |
 | `wick_paper.py` - crash bids | 2026-09-25 | 6 months with 60+ Bitget fills, else 12 | H1-H4 in its docstring |
 
-No verdict earlier. A bad month is not a verdict (the books make their year in one or two months, and ~4 months in 10
+**Added 2026-10-23: the final machine also has a day-45 KILL checkpoint on 2026-11-23 00:04 UTC (§3b).** Otherwise no
+verdict earlier. A bad month is not a verdict (the books make their year in one or two months, and ~4 months in 10
 lose); the monthly kill line below is the only early exit.
 
 ## 2. FUND - every condition must hold on the verdict date
@@ -38,6 +39,45 @@ Then, if the user chooses: fund at **x0.65 size** (backtest worst month -20% ins
 - **Kill** a book at its verdict if it sits below the **5th percentile** of same-regime windows - or at any monthly
   check from month 3 on. Record it in doc 02. Kills are permanent unless the measurement was broken.
 - **Extend** once, by 3 months, if it lands between the 5th and 25th percentiles.
+
+## 3b. The day-45 checkpoint - the final machine (added 2026-10-23, BEFORE its day-45 data)
+
+*Asked for by the user ("I want the verdict soon, can't wait 3 months"). Written on 2026-10-23, 14 days into the main
+account's record and 22 days before its checkpoint. It ADDS an earlier kill and a pre-set small-stake option; it does
+not loosen §2's FUND rule.*
+
+**Why day 45.** `backtest/verdict_power.py` (`logs/verdict_power.txt`): how often the running final machine, as
+backtested, looks like a machine with no edge (the same daily returns with their growth removed). Best-cut accuracy:
+2 weeks 65%, 1 month 69%, **45 days 74%**, 3 months 74%, 6 months 73%. It stops improving after ~45 days, because the
+machine's months cluster by regime and the year is made in one or two months. So day 45 says about as much as day 180.
+
+**The line: the account down 12.9% at day 45** (the best cut at 45 days, taken from the backtest's two distributions -
+not fitted to the live reading). A working machine ends under it 10% of the time, a dead one 58%.
+
+| Account | Started (UTC) | Day 45 (UTC) | KILL if its equity is under |
+|---|---|---|---|
+| **main** (`combo-bot-final`) - decides | 2026-10-09 00:04 | **2026-11-23 00:04** | **$261.30** |
+| fresh (`combo-bot-fresh`) - read beside it | 2026-10-17 01:15 | 2026-12-01 01:15 | $261.30 |
+
+**What is read.** The dashboard's LIVE equity (booked + open) at that hour, from `logs/dashboard/eq_main_h.csv` on the VM;
+the booked equity is written down beside it.
+
+**The outcomes:**
+- **Under $261.30: KILL.** About 6 times as likely from a machine with no edge as from the one backtested. No real money
+  for this machine; record it in doc 02 with this paragraph's numbers. The paper bot may keep running for the record,
+  but the funding question is closed until a NEW pre-registered test reopens it.
+- **At or over $261.30: CONTINUE.** Only ~2 times as likely from a working machine - a weak yes. It does NOT meet §2;
+  the month-3 check (below the 5th percentile of same-regime windows kills) and the verdict date stand.
+- **If the user still chooses to fund after a day-45 CONTINUE** (pre-set now, so it is not decided in a good week): §2's
+  conditions 3-5 must hold (tradable at the capital, the PKR money path tested, no open bug touching the book; plus the
+  venue pieces still paper-only: capit2's resting limit and the crash desk on the exchange, the 1000SHIB / 1000PEPE /
+  RAYSOL mapping); size x0.65; a stake the user can lose entirely; withdrawals only above the starting stake; and the
+  month-3 kill line applies to the real account as it does to paper. Only the user sets `ALLOW_REAL`.
+
+**What this checkpoint cannot see.** The first 13 days ran the code before the 2026-10-22 fixes (capit2 as a poll, no
+crash bids, the simple-mean ATR, the daily 24h-volume universe); their -13% counts in the reading as it is. The older
+machine (`combo_paper.py`, v2) is a different set of books and is NOT judged by this line - its own month-3 check stands
+(at day 28 it sat at the 4.1th percentile of BULL-start windows, `combo_window.py --days 28`).
 
 ## 4. Code freeze until 2027-04-09
 
