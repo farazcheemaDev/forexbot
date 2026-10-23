@@ -647,6 +647,11 @@ the detail lives in the numbered docs.*
   positive but weak; a forward record alone is slow (66% right at 13 weeks, 74% at 26). Registered before the first live
   anchor: KILL checkpoint 2027-01-25 (< -7.8%), verdict moved to 2027-04-09 with the machine's (dead < -6.6%, held up
   >= +16.8%). Data: the positioning cache now holds all 7 weekdays; Bybit 4h ratios in strategy_analysis/data/news/.
+- **Why the accounts are down, and the crowd as a filter** (the user: "learn from it without butchering gains"): live, the
+  alt sell-off - longs lost in every crowd bucket; trend breakouts on big coins (SUI XRP LINK LTC ADA DOT ARB) and MN
+  shorts squeezed. `backtest/crowd_filter.py`: crowd filters on each book's entries, whole machine, 2022-26 - none passes
+  both spans; trend longs off crowd-long coins -35% of the 2024-26 year. Dead (doc 02). The working lever stays: the
+  crowd book as its own book (+9.6% over the same weeks the machine lost ~13%).
 
 ### 2026-10-23 - the day-45 checkpoint written into doc 22 (s3b), before its data
 

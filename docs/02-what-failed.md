@@ -4465,3 +4465,12 @@ information, not a book.
   known exchange types and loses -156bp a trade. The coherent cluster ('margin', 'convert', 'add') is adds_products,
   already the news book. The free regex classifier (news/enrich.py) holds what the text carries; no case for a paid
   AI reader unless it finds a new event type.
+
+## Dead: the crowd as a filter on the machine's entries (2026-10-23) - `backtest/crowd_filter.py`
+
+**Why:** the user: "learn why the accounts are down and do something without butchering our gains". Live (194 positions,
+both accounts): longs lost in every crowd bucket (the alt sell-off); shorts on crowd-short coins lost, shorts on
+crowd-long coins made money; trend longs on crowd-long coins -$16. Tested on the whole deployed machine, 2022-26, one
+book filtered at a time (trend longs / shorts, daily longs, MN shorts / longs, all): **nothing passes on both spans**.
+Keeping the trend book out of crowd-long coins costs -35% of the 2024-26 typical year (0/10) - the crowded-long coins are
+the bull runners. MN short filter +1.3% / -3.3%. The crowd pays as its own balanced book (crowd_combo.py), not as a veto.
