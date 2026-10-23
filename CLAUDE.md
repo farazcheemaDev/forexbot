@@ -636,6 +636,11 @@ the detail lives in the numbered docs.*
   chance on coins and on BTC; a tune-learned word score has no holdout value. The event types already hold it; the AI
   reader is not worth paying for unless it finds a new event type. DEPLOYED the same day: crowd-paper.timer on the VM
   (commits 4059523, 09937ab; bot files blob-identical; first run failed on a missing folder - fixed, tested, re-run).
+- **The whole recipe + the crowd book** (`backtest/crowd_combo.py`, the user: "we will add it later - tell me the numbers
+  combined"): deployed machine + crowd x0.5 / x1.0 on the same dates. Typical 12 months on $300, 2022-01..2024-08:
+  $1,177 -> $1,362 / $1,519; 2024-08..2026-09: $9,838 -> $12,914 / $16,045; 10/10 orderings, worst month and fall within
+  1.5 points at x0.5, beats the machine scaled to the same fall on both spans. Picked from the same data; paper decides.
+  At $300, x0.5 legs (~$3.75) are under Bitget's $5 minimum - x1.0 or more capital.
 
 ### 2026-10-23 - the day-45 checkpoint written into doc 22 (s3b), before its data
 

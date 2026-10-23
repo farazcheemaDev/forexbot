@@ -147,3 +147,9 @@ the crowd book runs as a PAPER record - `news/crowd_paper.py`, its own $300, Mon
 10-29, hourly on the VM (`deploy/crowd-paper.*`), with its own dashboard card and scorecard against `crowd_bands.json`
 (the same book over every N-week stretch of 2022-26). Verdict 2027-04-26: dead under -6.5% at 26 weeks, held up at
 +18.4% or more. Doc 22 s4 records the override.
+
+**Inside the whole machine** (`backtest/crowd_combo.py`, `logs/crowd_combo.txt`, BACKTEST): the deployed machine plus the
+crowd book at 0.5 / 1.0 of the account, on the same dates. $300 typical 12 months: 2022-01..2024-08 $1,177 -> $1,362 /
+$1,519; 2024-08..2026-09 $9,838 -> $12,914 / $16,045 - 10/10 orderings, worst month and fall within 1.5 points at 0.5,
+and better than the machine scaled up to the same fall on both spans (correlation +0.09 daily). Picked from this same
+data, so the paper record decides; at $300 the 0.5 size puts legs under Bitget's $5 minimum.
