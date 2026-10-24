@@ -1,10 +1,14 @@
 # CLAUDE.md — read this first, every session
 
-*Last updated 2026-10-12. Dated history in §10.*
+*Last updated 2026-10-25. Dated history in §10.*
 
 This file is the orientation for a new session. It is deliberately short. It tells you the
 goal, the rules that keep the numbers honest, where everything is, and the traps that have
 already produced wrong answers in this project more than once.
+
+**WHAT IS RUNNING, ON WHICH CODE, WITH WHAT RESULT AND UNDER WHICH GATE: [`docs/STATUS.md`](docs/STATUS.md)** (verified
+2026-10-24; re-check in 30 seconds with `bash deploy/verify_status.sh`). It is the single source of truth for current
+state and it supersedes the dated pointers below and in docs 00 and 09. **If you change what runs, update it.**
 
 **A LOCAL session on the PC (MT5 open)? There is a task list waiting: [`docs/LOCAL_MT5_TASKS.md`](docs/LOCAL_MT5_TASKS.md).**
 
@@ -12,8 +16,8 @@ already produced wrong answers in this project more than once.
 
 **2026-10-10: [`docs/22-decision-rule.md`](docs/22-decision-rule.md) fixes when real money may go in, the code freeze to 2027-04-09 and the research stop date (2026-12-31) - read it before proposing any new book.**
 
-**Read this file, then [`docs/09-pick-up-here.md`](docs/09-pick-up-here.md) for live state,
-then [`docs/02-what-failed.md`](docs/02-what-failed.md) before proposing any strategy.**
+**Read this file, then [`docs/STATUS.md`](docs/STATUS.md) for live state (and [`docs/09-pick-up-here.md`](docs/09-pick-up-here.md)
+for the machine names and the 2026-10-08 narrative), then [`docs/02-what-failed.md`](docs/02-what-failed.md) before proposing any strategy.**
 
 **[§10, the session log](#10-session-log), is what changed most recently and why** - read it
 before trusting a number you find elsewhere in the repo, because three engine bugs on
@@ -280,7 +284,7 @@ backtest/wick_better.py, wick_5m.py, joint_worst_hour.py, worst_month.py   the c
                      which rule, what happens inside the hour, the account's worst hour, the worst
                      month and recovery. wick_replay.py replays wick_paper.py on past crash hours.
                      Candidate only - nothing in combo_bot.py
-docs/              00-21 + README. DOC 21 = the graveyard audit (every kill rated, thin ones re-tested). Doc 02 is the graveyard; read it before proposing.
+docs/              STATUS.md (CURRENT STATE, read first) + 00-26 + README (the index). DOC 21 = the graveyard audit (every kill rated, thin ones re-tested). Doc 02 is the graveyard; read it before proposing.
                      DOC 20 = THE PRODUCT: what combo_bot is, what it earns per market, and the
                      sideways gap with every test that tried to close it.
                      DOC 17 = THE MACHINE v2: all four books, the evidence, every risk in one table.
@@ -605,6 +609,9 @@ the box was patched before the repo was public.
   and the regime dependence every time.
 - When a result looks good, the next move is to look for the bug that made it look good.
   Every large improvement in this repo's history was a bug until proven otherwise.
+- **Keep `docs/STATUS.md` true.** Deploy, restart, start, stop or retire anything, or let a gate date pass, and the same
+  session updates it and re-stamps "Verified" (`bash deploy/verify_status.sh` gives the facts). Put a headline return
+  next to its paper result, its drawdown and its gate - never alone.
 
 ---
 
@@ -612,6 +619,29 @@ the box was patched before the repo was public.
 
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
+
+### 2026-10-25 - one status page (`docs/STATUS.md`): a documentation review checked, and the stale pages fixed
+
+- The user pasted a review of the documentation (not of code or the VM): rigorous research record, but the "what do I
+  trust now" pages disagreed. Checked and TRUE: `docs/00` was stamped 2026-09-23 and still described `longtrend_bot`
+  as the live system; `docs/09` stopped at 10-09 and listed `combo-bot-demo` as running (stopped 10-17); the root
+  README still carried the scaffold checklist (risk manager, strategies, backtester "unfinished"); `docs/README.md`
+  listed 23-26 outside its reading order; this file's stamp said 10-12 over entries to 10-23.
+- **Fixed:** `docs/STATUS.md` (what runs where, code identity, paper result beside its backtest, drawdown and gate, the
+  dates, what waits on the user, how to read the numbers); `deploy/verify_status.sh` (read-only, one command, prints the
+  facts the page quotes); the root README rewritten; banners on docs 00, 09 and 24 pointing at STATUS; the docs index
+  regrouped with 23-26 in the main path. Everything on the page was verified against the VM, not copied from older docs.
+- **Found while verifying (all on STATUS.md):** the main final-machine account's LIVE equity was $260.44 on day 15,
+  $0.86 under the day-45 KILL line ($261.30, read 2026-11-23 00:04 UTC - not before); machine v2 (`combo_paper`) is at
+  -30.2% on day 30 = the **1.6th percentile** of BULL-start 30-day windows (`backtest/combo_window.py --days 30 --live
+  -0.3022`, `logs/combo_window_30d.txt`; registered guess 1st-2nd, right), so it is already under the 5th-percentile
+  line that applies from month 3 (~2026-12-24); the pair's daily book is 0 for 6 closed trades (-20.5% avg).
+- **Trap, new:** file modification times on the VM are useless for "did the process load the current code": a `reset
+  --hard` on 2026-10-17 rewrote them without changing content, and a first version of the script raised four false
+  "restart pending" warnings. The check now asks git what each service's files held at its start time (the HEAD reflog)
+  and compares with now. Verified result: all six long-running services run the code now on disk; the VM (`dd5eaaf`) is
+  four commits behind origin/main (`d5e1fb4`), and the only bot files that differ are the 10-24 real-order pieces.
+- Nothing was deployed or restarted; every VM command was read-only.
 
 ### 2026-10-23 (later) - the sentiment engine finished: one lead (crowd positioning), chatter dead; a live readout
 

@@ -1,5 +1,10 @@
 # Pick up here
 
+> **A dated narrative (2026-10-08 / 10-09). The current state is in [`STATUS.md`](STATUS.md).** Since this was written:
+> `combo-bot-demo` was stopped (2026-10-17), the "What is running" table below is out of date (the final machine now has a
+> fresh-account twin, a crowd-squeeze book and a dashboard feed run beside it), and the day-45 kill line (doc 22 s3b)
+> and the 2026-10-22 execution fixes were added. The names (v2 / v3 / MIX B / E) and the 2026-10-08 findings below are still right.
+
 *Rewritten 2026-10-08 ~19:00 UTC; top sections added 2026-10-09. State verified the same hour: `systemctl list-units` on the VM over `ssh forexbot-vm`
 (read-only), and `python health.py` on the PC.*
 

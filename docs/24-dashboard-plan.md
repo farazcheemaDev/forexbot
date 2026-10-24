@@ -1,5 +1,9 @@
 # 24 - The live dashboard: implementation plan
 
+> **Built since this was written (see CLAUDE.md s10, 2026-10-17 onward).** The design changed: instead of a PC-hosted page
+> fed over ssh, `dashboard_push.py` runs on the VM (`forexbot-dash.timer`, every minute) and feeds a web app in
+> `dashboard/`. What is running is in [`STATUS.md`](STATUS.md); the text below is the original plan.
+
 *Written 2026-10-16. A plan, not built yet. What it is for: watching the bots work live - every trade, every book, every
 day - plus a sentiment panel and a "how well is it doing against what we expected" scorecard.*
 

@@ -1,0 +1,2 @@
+# verify_status.sh runs under Git Bash on the PC: a CRLF checkout (core.autocrlf=true) would break it.
+deploy/verify_status.sh text eol=lf

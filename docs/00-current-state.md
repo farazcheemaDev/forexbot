@@ -1,5 +1,11 @@
 # Where we stand
 
+> **A dated snapshot from 2026-09-23 - not the current state.** For what is running now, on which code, with what
+> result and under which gate, read [`STATUS.md`](STATUS.md). In particular: the "What's running right now" section
+> below (six processes around `longtrend_bot.py`) is long gone, and the planning figures here ($316 after 12 months,
+> +58%, +10.7% a month) were superseded the same day by `backtest/expectations_honest.py` - main $241, tight $285
+> (CLAUDE.md s6). The reasoning below (why capital changes dollars, not the rate; why 57% of months lose) still stands.
+
 *Last updated 2026-09-23.*
 
 ## The short version
