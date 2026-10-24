@@ -22,7 +22,7 @@ NASDAQ dip-buy and a crash-bid ledger, netted on one virtual $300 account. No or
 | | |
 |---|---|
 | **BACKTEST** (`backtest/final_machine.py`, DEPLOYABLE line) | A typical 12 months turns $300 into **$3,400** (6 years) / **$4,735** (last 2 years). **Worst month -30%, deepest fall 60% / 51%, about 4 months in 10 lose.** Trend gains are shrunk 3x for hindsight and its losses kept whole; the holdout is mined (CLAUDE.md s2); it earns little in sideways markets. The 2026-10-22 execution fixes add roughly +19% / +12% to the typical year (`machine_fixes.py`); the news and NASDAQ books came after this line was drawn and are not in it. |
-| **PAPER, main account** (since 2026-10-09 00:04 UTC, **day 15**) | **$260.44 live (-13.2%)**, $251.05 booked (-16.3%), biggest fall so far 15.0% (booked). Booked P&L: trend -$25.76, market-neutral -$12.82, carry -$7.08, daily -$8.66, NASDAQ dip +$5.87, fees -$1.43. The first 13 days ran the code from before the 10-22 fixes. |
+| **PAPER, main account** (since 2026-10-09 00:04 UTC, **day 15**) | **$260.44 live (-13.2%)**, $251.05 booked (-16.3%), biggest fall so far 15.0% (booked). Booked P&L: trend -$25.76, market-neutral -$12.82, carry -$7.08, daily -$8.66, NASDAQ dip +$5.87 (one closed trade: QQQ 710.39 -> 726.15), fees -$1.43. The first 13 days ran the code from before the 10-22 fixes. |
 | **PAPER, fresh account** (since 2026-10-17 01:15 UTC, day 7, current code) | **$276.21 live (-7.9%)**, $270.07 booked (-10.0%), biggest fall 12.3% (booked). |
 | **Gate that applies** | **Day-45 KILL line (doc 22 s3b): the main account's live equity under $261.30 at 2026-11-23 00:04 UTC.** Today's $260.44 is $0.86 under it; the rule reads that one moment, 29 days from now, so today is not the verdict, and it is not above the line either. The fund decision is 2027-04-09 (section 4). |
 
@@ -79,7 +79,12 @@ Vercel lives outside this repo's runtime and was not checked.
 - **Three bot files differ, on purpose:** `combo_bot.py`, `final_books.py`, `wick_live.py`. The four newer commits
   add the **real-order pieces built on 2026-10-24** (the Bitget coin map, capit2's limit resting on the venue, the
   crash desk always on in live mode; `tests/test_live_orders.py`), dashboard changes, two backtest scripts and docs.
-  The bot changes are **not deployed**: dry mode uses almost none of them.
+  Those bot changes are **not deployed**: dry mode uses almost none of them.
+- **Do not read that as "the execution improvements are not running".** The 2026-10-22 ones **are**, on both final-machine
+  bots: capit2 filled as a resting limit against the 1-minute lows (`capit2_poll`) and the crash-bid ledger (`bids_poll`,
+  a "BIDS ..." line every hour in the bot's log) since 2026-10-22 20:36 UTC, and Wilder ATR with the prior-month coin
+  universe since 21:53 UTC. What does not exist on the VM is the *venue* path (`capit2_orders`, the real crash desk, the
+  coin map): a paper bot has no use for it, a real account would. Checked on the VM, 2026-10-25.
 - **Each long-running service is running the code now on disk** (the script asks git what the files it runs held at the
   service's start time and compares with now; file times lie after a `reset --hard`). The two timers start a fresh
   process on every run, so they always use the current files.
