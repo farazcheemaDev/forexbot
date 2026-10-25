@@ -10,6 +10,7 @@ export const BOOKS = {
   bids: { name: "Crash bids", desc: "Resting buys 10% under the price, sold at the hour's close" },
   news: { name: "News shorts", desc: "Shorts a coin after a bad Binance notice" },
   ndx: { name: "NASDAQ dip", desc: "Buys QQQ after a sharp NASDAQ drop" },
+  crowd: { name: "Crowd squeeze", desc: "Long the coins the crowd is most short, short the most long, weekly" },
 };
 export const bookName = (b) => BOOKS[b]?.name || b;
 

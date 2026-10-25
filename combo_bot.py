@@ -810,6 +810,8 @@ def poll(st: dict, venue, mode: str, caches: tuple, desk=None, prices_fn=None):
         import news_books as nbk                 # the news and NASDAQ-dip books (2026-10-17)
         nbk.news_poll(st, prices, int(time.time() * 1000), rec=final_record, fund=fb.funding_sum)
         nbk.ndx_poll(st, prices, int(time.time() * 1000), rec=final_record, fund=fb.funding_sum)
+        import crowd_book as crb                 # the crowd-squeeze book, --crowd only (2026-10-25); a no-op without it
+        crb.poll(st, prices, int(time.time() * 1000), rec=final_record, fund=fb.funding_sum)
     cp.trend_poll(st, *caches)
     if desk is not None:
         desk.watch(st)                   # a fill not yet in `hold` would be netted away
@@ -848,6 +850,8 @@ def main():
                     help="THE FINAL MACHINE (final_books.py): + MN blend, carry, daily book, capit2, 10x account cap; "
                          "its own state in logs/combo_bot_<mode>_final")
     ap.add_argument("--account", default="", help="a separate DRY paper account (own state, logs/combo_bot_dry_final_<name>)")
+    ap.add_argument("--crowd", action="store_true",
+                    help="with --final: the crowd-squeeze book inside the account at x1.0 (crowd_book.py; the fresh account)")
     args = ap.parse_args()
     args.wick = wants_desk(args)
     cp.set_dir(state_dir(args.mode, args.final, args.account))
@@ -864,6 +868,8 @@ def main():
         st.setdefault("fin", fb.fresh())
         import news_books as nbk
         nbk.ensure(st)                   # a state saved before the news / NASDAQ books existed gets their keys
+        import crowd_book as crb
+        crb.ensure(st, args.crowd)       # --crowd: the crowd-squeeze book's keys, once; nothing without the flag
     if args.report:
         report(cp.P["state"].parent)
         return
@@ -876,6 +882,8 @@ def main():
         if st.get("fin"):
             import final_books as fb
             fb.status(st)
+            import crowd_book as crb
+            crb.status(st)
         wk = st.get("wick")
         if wk:
             print(f"  crash desk: hour {wk['hour']}, {len(wk['orders'])} bids, {wk['fills']} fills this hour, "

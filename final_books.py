@@ -244,6 +244,9 @@ def targets(st: dict) -> dict:
     import news_books as nbk                       # the news and NASDAQ-dip books (2026-10-17)
     for s, q in nbk.targets(st).items():
         out[s] = out.get(s, 0.0) + q
+    import crowd_book as crb                       # the crowd-squeeze book, --crowd only (2026-10-25)
+    for s, q in crb.targets(st).items():
+        out[s] = out.get(s, 0.0) + q
     return out
 
 

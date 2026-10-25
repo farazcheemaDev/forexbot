@@ -172,6 +172,12 @@ def open_positions(st: dict, prices: dict) -> list:
         m = price(prices, "QQQUSDT")
         add("ndx", "QQQUSDT", nd["qty"], nd["entry"], m, nd["qty"] * (m - nd["entry"]) if m else None,
             ms_utc(nd.get("t_ms")), f"NASDAQ dip buy, {nd.get('days', 0)} closes held")
+    for k, sl in ((fin.get("crowd", {}) or {}).get("sleeves", {}) or {}).items():     # --crowd (crowd_book.py)
+        for p in sl.get("pos", []) or []:
+            m = price(prices, p["sym"])
+            add("crowd", p["sym"], p["qty"], p["entry"], m, p["qty"] * (m - p["entry"]) if m else None,
+                ms_utc(p.get("t_ms")), f"{'Monday' if k == 'mon' else 'Thursday'} half, "
+                f"crowd most {'short' if p['side'] > 0 else 'long'}")
     rows.sort(key=lambda r: -abs(r["upnl"] or 0.0))
     return rows
 
@@ -182,8 +188,9 @@ def closed_trades(d: Path) -> list:
     out = []
     for r in read_csv(d / "combo_final_trades.csv"):
         entry, exit_, ret, pnl = fnum(r.get("entry")), fnum(r.get("exit")), fnum(r.get("ret")), fnum(r.get("pnl"))
+        short = r.get("book") == "news" or (r.get("book") == "crowd" and str(r.get("why", "")).endswith("short"))
         out.append(dict(ts=r.get("ts"), book=r.get("book"), sym=r.get("symbol"),
-                        side="short" if r.get("book") == "news" else "long", entry=entry, exit=exit_, pct=ret,
+                        side="short" if short else "long", entry=entry, exit=exit_, pct=ret,
                         pnl=pnl, why=r.get("why"), approx=False))
     for r in read_csv(d / "trades_combo_trend.csv"):
         entry, exit_, R = fnum(r.get("entry")), fnum(r.get("exit")), fnum(r.get("R"), 0.0)
@@ -357,6 +364,11 @@ def account(acct: str, d: Path, prices: dict, now: int, write: bool, bands: dict
         by_book[r["book"]] = by_book.get(r["book"], 0.0) + (r["upnl"] or 0.0)
     books = {b: dict(booked=round(cum.get(b, 0.0), 2), open=round(by_book.get(b, 0.0), 2))
              for b in ("trend", "mn", "carry", "sleeve", "daily", "capit2", "bids", "news", "ndx")}
+    has_crowd = "crowd" in (st.get("fin", {}) or {})
+    if has_crowd:                                   # --crowd (the fresh account): its own bar, NOT in the scorecard
+        books["crowd"] = dict(booked=round(cum.get("crowd", 0.0), 2), open=round(by_book.get("crowd", 0.0), 2))
+    # the scorecard's bands are the machine WITHOUT the crowd book: compare the account without it (P&L, open, fees)
+    live_ex = live - (cum.get("crowd", 0.0) + by_book.get("crowd", 0.0) - cum.get("crowd_fees", 0.0)) if has_crowd else live
     led = (st.get("exec", {}) or {}).get("virtual_pos", {}) or {}
     lng = sht = 0.0
     for s, q in led.items():
@@ -374,7 +386,7 @@ def account(acct: str, d: Path, prices: dict, now: int, write: bool, bands: dict
         exposure=dict(long=round(lng, 2), short=round(sht, 2), lev=round((lng + sht) / live, 2) if live > 0 else None,
                       cap=GROSS_CAP),
         open=pos, closed=closed[:CLOSED_KEEP], stats=trade_stats(closed), curve=cv,
-        score=scorecard(st.get("started"), now, books, live, START_EQUITY, bands),
+        score=scorecard(st.get("started"), now, books, live_ex, START_EQUITY, bands),
         pending=dict(capit2=len((fin.get("capit2", {}) or {}).get("pending", {}) or {}),
                      news=len(news.get("pending", {}) or {})),
         news=dict(recent=list(reversed((news.get("recent") or [])[-NEWS_KEEP:])), seen=news.get("seen", 0),

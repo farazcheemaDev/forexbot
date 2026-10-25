@@ -193,7 +193,7 @@ function Scorecard({ a }) {
 // ------------------------------------------------------------------ P&L by strategy
 
 function BookBars({ a }) {
-  const rows = Object.keys(BOOKS).map((k) => {
+  const rows = Object.keys(BOOKS).filter((k) => k !== "crowd" || a.books?.crowd).map((k) => {
     const b = a.books?.[k] || { booked: 0, open: 0 };
     return { k, booked: b.booked, open: b.open, total: b.booked + b.open };
   }).sort((x, y) => y.total - x.total);

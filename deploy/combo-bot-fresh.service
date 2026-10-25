@@ -10,7 +10,8 @@ WorkingDirectory=__APP_DIR__
 # The same code as combo-bot-final, a SEPARATE $300 record started on 2026-10-17 (the user: "a new $300 fresh started
 # from today on the newest version"). Its own state in logs/combo_bot_dry_final_fresh/ - it never touches the main
 # record. DRY: public data only, no orders, no keys (guard_one_bot ignores --mode dry).
-ExecStart=__APP_DIR__/.venv/bin/python -u combo_bot.py --mode dry --final --account fresh
+# --crowd (2026-10-25, the user: "add to fresh only"): the crowd-squeeze book inside this account (crowd_book.py).
+ExecStart=__APP_DIR__/.venv/bin/python -u combo_bot.py --mode dry --final --account fresh --crowd
 Restart=always
 RestartSec=120
 StandardOutput=journal
