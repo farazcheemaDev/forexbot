@@ -620,6 +620,15 @@ the box was patched before the repo was public.
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
 
+### 2026-10-25 (later) - "this kind of market": common, usually survived (`backtest/market_now.py`)
+
+- The user (dashboard, fresh account): "is it going good, and how often does this kind of market come?" Live 10-25 16:40
+  UTC: fresh $275.90 (-8.0%, 8.6 days, 14th percentile), main $259.05 (-13.7%, 16.7 days, 10th; $2.25 under the day-45
+  line). The market since 10-09: BTC's label BULL 14 of 17 days but BTC -2.5%; top-40 alts' median -9.8% (30 days -19.8%,
+  15.6% behind BTC). Such 17-day stretches (BTC-BULL label, alts >= 5% behind BTC): 16% of all windows, 34 months of
+  2020-26; the machine's median in them +7.1%, 39% down; the live -13.7% = their 16th percentile; after them the machine
+  was up over the next 90 days 73-100% of the time in every period (sizes are bull-run backtest numbers). M2 wrong.
+
 ### 2026-10-25 - one status page (`docs/STATUS.md`): a documentation review checked, and the stale pages fixed
 
 - The user pasted a review of the documentation (not of code or the VM): rigorous research record, but the "what do I

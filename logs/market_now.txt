@@ -1,0 +1,26 @@
+backtest/market_now.py, 2026-10-25 16:44 UTC; 17-day windows 2020-04 .. 2026-09; the deployed machine (10 orderings, $300); BACKTEST
+
+   all 17-day windows: 2,340; BTC-BULL most days: 37%
+   LIKE NOW (BTC-BULL most days AND top-40 alts >= 5% behind BTC): 375 windows = 16.0% of all, in 34 distinct months
+
+   the machine over 17 days            all windows        like now
+      median                            +5.5%             +7.1%
+      10th / 25th percentile      -13.5% /   -5.4%     -17.8% /   -8.1%
+      share of windows down              38%               39%
+   the main account's live -13.7%: the 10th percentile of all windows, the 16th of windows like now
+
+   AFTER a window like now (machine, median of the orderings): next 30 days up in 78% (median +26.4%), next 90 days up in 88% (median +242.8%)
+   after ANY window: next 30 days up 69% (median +10.8%), 90 days up 83% (median +56.5%)
+
+   AFTER a window like now, by period (is the recovery only the big bulls?):
+      2020-21: 123 windows | machine in them +24.6% | next 30 days up 100% (median +61.8%) | next 90 up 100% (median +252.1%)
+      2022-23:  79 windows | machine in them -2.7% | next 30 days up 61% (median +3.8%) | next 90 up 86% (median +22.9%)
+      2024: 107 windows | machine in them +15.6% | next 30 days up 77% (median +32.5%) | next 90 up 73% (median +71.8%)
+      2025-26:  66 windows | machine in them +0.6% | next 30 days up 58% (median +20.8%) | next 90 up 94% (median +354.8%)
+
+   when it happened (start months, windows): 2020-04 3, 2020-05 4, 2020-08 10, 2020-10 13, 2020-11 11, 2020-12 26, 2021-02 22, 2021-03 8, 2021-08 2, 2021-09 14, 2021-10 10, 2022-03 1, 2022-04 2, 2023-02 17, 2023-03 14, 2023-04 20, 2023-07 3, 2023-10 2, 2023-11 6, 2023-12 14, 2024-01 2, 2024-02 20, 2024-03 26, 2024-04 4, 2024-10 25, 2024-11 13, 2024-12 17, 2025-05 23, 2025-06 15, 2025-07 9, 2025-08 2, 2026-04 9, 2026-05 4, 2026-08 4
+
+REGISTERED PREDICTIONS
+  M1 8-20% of windows: 16.0% -> RIGHT
+  M2 median negative and the live -13.7% above their 10th percentile -> WRONG
+  M3 up over the next 90 days in >= 60% -> RIGHT
