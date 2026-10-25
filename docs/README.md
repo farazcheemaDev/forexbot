@@ -52,7 +52,7 @@ must not skip - then STATUS, then the rest in the order below.
 | 19 | [All-weather](19-all-weather.md) | Another session's MN 1.5x / sleeve 1.5x weights for sideways months. **Not adopted** - CLAUDE.md s10 (2026-09-29) says why. |
 | 05 | [VSA](05-vsa.md) | The one open question, and how it got settled. |
 | 07 | [The $5–10 account](07-micro-account.md) | The go-for-broke bet: 29.7% chance of 5×, 70% chance of zero. The odds, and why two of my predictions about it were wrong. (Re-measured 2026-10-06: `backtest/micro_honest.py`.) |
-| 08 | [Polymarket](08-polymarket.md) | A +25% apparent edge, **four** artifacts found inside the same test, and why $5 buys worse evidence than the free collector. (Weather markets and the 80-90c favourites were tested later and killed: doc 22 s5.) |
+| 08 | [Polymarket](08-polymarket.md) | A +25% apparent edge, **four** artifacts found inside the same test, and why $5 buys worse evidence than the free collector. (Weather markets and the 80-90c favourites were tested later and killed: doc 22 s5. The sum-gap structure scan was killed 2026-10-26: doc 02, last entry.) |
 
 ## 5. Dated snapshots - do not use for current state
 

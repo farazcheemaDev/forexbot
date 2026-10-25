@@ -1,0 +1,126 @@
+census 2026-10-25 20:26:01 UTC - reading events...
+  events 2100, neg-risk 1216 (augmented 614), markets in neg-risk 21788
+  priced 1160 baskets from 27086 books; mirror check |NO ask-(1-YES bid)| median 0.0000, max 0.0000 over 8420 markets
+
+no_basket: 671 priced | top-of-book net>0: 0 | executable and >= $0.10: 0 | total executable profit $0.00, at the $221 cap $0.00
+  kind       legs gross_top  net_top   shares  capital   profit   roi%   %/yr exec  title
+  no_basket     2   -0.0010  -0.0010      0.0     0.00     0.00   0.00    nan    0  New York Governor Election Winner
+  no_basket     4   -0.0020  -0.0020      0.0     0.00     0.00   0.00    nan    0  US economic state at the end of 2026?
+  no_basket     2   -0.0020  -0.0020      0.0     0.00     0.00   0.00    nan    0  Tennessee Senate Election Winner
+  no_basket    11   -0.0030  -0.0030      0.0     0.00     0.00   0.00    nan    0  Republican Senate seats after the 2026 mid
+  no_basket     2   -0.0030  -0.0030      0.0     0.00     0.00   0.00    nan    0  Vermont Governor Election Winner
+  no_basket     5   -0.0040  -0.0040      0.0     0.00     0.00   0.00    nan    0  Fed Decision in December?
+  no_basket    15   -0.0040  -0.0040      0.0     0.00     0.00   0.00    nan    0  NBA: 2027 Western Conference Champion
+  no_basket     2   -0.0040  -0.0040      0.0     0.00     0.00   0.00    nan    0  Tennessee Governor Election Winner
+
+yes_basket: 489 priced | top-of-book net>0: 8 | executable and >= $0.10: 3 | total executable profit $12.73, at the $221 cap $9.15
+  kind       legs gross_top  net_top   shares  capital   profit   roi%   %/yr exec  title
+  yes_basket    5    0.0660   0.0660      1.0     0.93     0.07   7.07   59.0    0  AutoZone Q1 domestic same store sales grow
+  yes_basket    7    0.0310   0.0310    822.2   815.55     6.65   0.81    0.7    1  OpenAI IPO Closing Market Cap
+  yes_basket    5    0.0270   0.0270    284.7   278.71     5.98   2.15    1.8    1  Maduro Prison Time?
+  yes_basket    5    0.0170   0.0170      0.5     0.50     0.01   1.73   16.9    0  Lowest Mississippi level at St. Louis by N
+  yes_basket    4    0.0120   0.0120     21.7    21.62     0.11   0.51    1.2    1  Who will be the top-selling artist by tota
+  yes_basket    5    0.0050   0.0050     18.9    18.81     0.09   0.50   29.0    1  Avg. # of ships transiting Bab el-Mandeb S
+  yes_basket    5    0.0040   0.0040      0.5     0.46     0.00   0.40   15.7    0  Reserve Bank of Australia Decision in Nove
+  yes_basket    7    0.0040   0.0040      4.0     3.98     0.02   0.40   15.7    0  How many Senate and Governor elections wil
+
+watching 222 near-break-even events for 30 min, every 20 s
+  20:26:57 tick 1: positive now 3, open episodes 3, closed 0
+  20:27:17 tick 2: positive now 3, open episodes 3, closed 0
+  20:27:37 tick 3: positive now 3, open episodes 3, closed 0
+  20:27:57 tick 4: positive now 3, open episodes 3, closed 0
+  20:28:17 tick 5: positive now 3, open episodes 3, closed 0
+  20:28:37 tick 6: positive now 3, open episodes 3, closed 0
+  20:28:57 tick 7: positive now 3, open episodes 3, closed 0
+  20:29:17 tick 8: positive now 3, open episodes 3, closed 0
+  20:29:37 tick 9: positive now 3, open episodes 3, closed 0
+  20:29:57 tick 10: positive now 3, open episodes 3, closed 0
+  20:30:17 tick 11: positive now 3, open episodes 3, closed 0
+  20:30:37 tick 12: positive now 3, open episodes 3, closed 0
+  20:30:57 tick 13: positive now 3, open episodes 3, closed 0
+  20:31:17 tick 14: positive now 3, open episodes 3, closed 0
+  20:31:37 tick 15: positive now 3, open episodes 3, closed 0
+  20:31:57 tick 16: positive now 3, open episodes 3, closed 0
+  20:32:17 tick 17: positive now 3, open episodes 3, closed 0
+  20:32:37 tick 18: positive now 3, open episodes 3, closed 0
+  20:32:57 tick 19: positive now 2, open episodes 2, closed 1
+  20:33:17 tick 20: positive now 2, open episodes 2, closed 1
+  20:33:37 tick 21: positive now 2, open episodes 2, closed 1
+  20:33:57 tick 22: positive now 2, open episodes 2, closed 1
+  20:34:17 tick 23: positive now 2, open episodes 2, closed 1
+  20:34:37 tick 24: positive now 2, open episodes 2, closed 1
+  20:34:57 tick 25: positive now 2, open episodes 2, closed 1
+  20:35:17 tick 26: positive now 2, open episodes 2, closed 1
+  20:35:37 tick 27: positive now 3, open episodes 3, closed 1
+  20:35:57 tick 28: positive now 3, open episodes 3, closed 1
+  20:36:17 tick 29: positive now 3, open episodes 3, closed 1
+  tick failed: https://clob.polymarket.com/books: <urlopen error [Errno 11001] getaddrinfo failed>
+  20:37:12 tick 30: positive now 3, open episodes 3, closed 1
+  20:37:32 tick 31: positive now 3, open episodes 3, closed 1
+  20:37:52 tick 32: positive now 3, open episodes 3, closed 1
+  20:38:12 tick 33: positive now 3, open episodes 3, closed 1
+  20:38:32 tick 34: positive now 3, open episodes 3, closed 1
+  20:38:52 tick 35: positive now 3, open episodes 3, closed 1
+  20:39:12 tick 36: positive now 3, open episodes 3, closed 1
+  20:39:32 tick 37: positive now 3, open episodes 3, closed 1
+  20:39:52 tick 38: positive now 3, open episodes 3, closed 1
+  20:40:12 tick 39: positive now 3, open episodes 3, closed 1
+  20:40:32 tick 40: positive now 3, open episodes 3, closed 1
+  20:40:52 tick 41: positive now 3, open episodes 3, closed 1
+  20:41:12 tick 42: positive now 3, open episodes 3, closed 1
+  20:41:32 tick 43: positive now 3, open episodes 3, closed 1
+  20:41:52 tick 44: positive now 3, open episodes 3, closed 1
+  20:42:12 tick 45: positive now 3, open episodes 3, closed 1
+  20:42:32 tick 46: positive now 3, open episodes 3, closed 1
+  20:42:52 tick 47: positive now 3, open episodes 3, closed 1
+  20:43:12 tick 48: positive now 3, open episodes 3, closed 1
+  20:43:32 tick 49: positive now 3, open episodes 3, closed 1
+  20:43:52 tick 50: positive now 3, open episodes 3, closed 1
+  20:44:12 tick 51: positive now 3, open episodes 3, closed 1
+  20:44:32 tick 52: positive now 3, open episodes 3, closed 1
+  20:44:52 tick 53: positive now 3, open episodes 3, closed 1
+  20:45:12 tick 54: positive now 3, open episodes 3, closed 1
+  20:45:32 tick 55: positive now 2, open episodes 2, closed 2
+  20:45:52 tick 56: positive now 2, open episodes 2, closed 2
+  20:46:12 tick 57: positive now 2, open episodes 2, closed 2
+  20:46:32 tick 58: positive now 2, open episodes 2, closed 2
+  20:46:52 tick 59: positive now 2, open episodes 2, closed 2
+  20:47:12 tick 60: positive now 2, open episodes 2, closed 2
+  20:47:32 tick 61: positive now 2, open episodes 2, closed 2
+  20:47:52 tick 62: positive now 2, open episodes 2, closed 2
+  20:48:12 tick 63: positive now 2, open episodes 2, closed 2
+  20:48:32 tick 64: positive now 2, open episodes 2, closed 2
+  20:48:52 tick 65: positive now 2, open episodes 2, closed 2
+  20:49:12 tick 66: positive now 2, open episodes 2, closed 2
+  20:49:32 tick 67: positive now 2, open episodes 2, closed 2
+  20:49:52 tick 68: positive now 2, open episodes 2, closed 2
+  20:50:12 tick 69: positive now 2, open episodes 2, closed 2
+  20:50:32 tick 70: positive now 2, open episodes 2, closed 2
+  20:50:52 tick 71: positive now 2, open episodes 2, closed 2
+  20:51:12 tick 72: positive now 2, open episodes 2, closed 2
+  20:51:32 tick 73: positive now 2, open episodes 2, closed 2
+  20:51:52 tick 74: positive now 2, open episodes 2, closed 2
+  20:52:12 tick 75: positive now 2, open episodes 2, closed 2
+  20:52:32 tick 76: positive now 2, open episodes 2, closed 2
+  20:52:52 tick 77: positive now 2, open episodes 2, closed 2
+  20:53:12 tick 78: positive now 2, open episodes 2, closed 2
+  20:53:32 tick 79: positive now 2, open episodes 2, closed 2
+  20:53:52 tick 80: positive now 2, open episodes 2, closed 2
+  20:54:12 tick 81: positive now 2, open episodes 2, closed 2
+  20:54:32 tick 82: positive now 2, open episodes 2, closed 2
+  20:54:52 tick 83: positive now 2, open episodes 2, closed 2
+  20:55:12 tick 84: positive now 2, open episodes 2, closed 2
+  20:55:32 tick 85: positive now 2, open episodes 2, closed 2
+  20:55:52 tick 86: positive now 2, open episodes 2, closed 2
+  20:56:12 tick 87: positive now 2, open episodes 2, closed 2
+  20:56:32 tick 88: positive now 2, open episodes 2, closed 2
+  20:56:52 tick 89: positive now 3, open episodes 3, closed 2
+
+episodes: 5 positive runs (sampling every 20 s; duration 0 = under one sample)
+  duration median 575 s, max 1795 s; censored (still open at the end) 3
+  worth taking (NO basket >= 0.5% / YES basket >= 15% a year, on capital >= $50): 0
+  yes_basket dur  1795s n= 89 peak profit $   7.21 roi  1.46% (  1.2%/yr) cap $ 961.22  OpenAI IPO Closing Market Cap
+  yes_basket dur  1795s n= 89 peak profit $   6.63 roi  2.39% (  2.0%/yr) cap $ 278.71  Maduro Prison Time?
+  yes_basket dur     0s n=  1 peak profit $   0.15 roi  0.36% (  2.9%/yr) cap $  41.10  Swiss National Bank decision in De
+  yes_basket dur   340s n= 18 peak profit $   0.11 roi  0.51% (  1.2%/yr) cap $  21.62  Who will be the top-selling artist
+  yes_basket dur   575s n= 28 peak profit $   0.11 roi  0.51% (  1.2%/yr) cap $  21.62  Who will be the top-selling artist

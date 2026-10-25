@@ -1,0 +1,25 @@
+census 2026-10-25 20:22:37 UTC - reading events...
+  events 2100, neg-risk 1216 (augmented 614), markets in neg-risk 21788
+  priced 1158 baskets from 27098 books; mirror check |NO ask-(1-YES bid)| median 0.0000, max 0.0000 over 8420 markets
+
+no_basket: 669 priced | top-of-book net>0: 0 | executable and >= $0.10: 0 | total executable profit $0.00, at the $221 cap $0.00
+  kind       legs gross_top  net_top   shares  capital   profit   roi% exec  title
+  no_basket     2   -0.0010  -0.0010      0.0     0.00     0.00   0.00    0  New York Governor Election Winner
+  no_basket     4   -0.0020  -0.0020      0.0     0.00     0.00   0.00    0  US economic state at the end of 2026?
+  no_basket     2   -0.0020  -0.0020      0.0     0.00     0.00   0.00    0  Tennessee Senate Election Winner
+  no_basket     2   -0.0030  -0.0030      0.0     0.00     0.00   0.00    0  Brazil Presidential Election
+  no_basket    11   -0.0030  -0.0030      0.0     0.00     0.00   0.00    0  Republican Senate seats after the 2026 midterm
+  no_basket    15   -0.0030  -0.0030      0.0     0.00     0.00   0.00    0  NBA: 2027 Western Conference Champion
+  no_basket     2   -0.0030  -0.0030      0.0     0.00     0.00   0.00    0  Vermont Governor Election Winner
+  no_basket     5   -0.0040  -0.0040      0.0     0.00     0.00   0.00    0  Fed Decision in December?
+
+yes_basket: 489 priced | top-of-book net>0: 8 | executable and >= $0.10: 3 | total executable profit $13.27, at the $221 cap $9.45
+  kind       legs gross_top  net_top   shares  capital   profit   roi% exec  title
+  yes_basket    5    0.0570   0.0570      0.5     0.48     0.03   6.04    0  Lowest Mississippi level at St. Louis by Novem
+  yes_basket    5    0.0560   0.0560      1.0     0.94     0.06   5.93    0  AutoZone Q1 domestic same store sales growth?
+  yes_basket    7    0.0310   0.0310    881.4   874.55     6.88   0.79    1  OpenAI IPO Closing Market Cap
+  yes_basket    5    0.0270   0.0270    284.7   278.41     6.28   2.25    1  Maduro Prison Time?
+  yes_basket    4    0.0120   0.0120     21.7    21.62     0.11   0.51    1  Who will be the top-selling artist by total au
+  yes_basket    5    0.0050   0.0050     18.9    18.81     0.09   0.50    1  Avg. # of ships transiting Bab el-Mandeb Strai
+  yes_basket    5    0.0040   0.0040      0.5     0.46     0.00   0.40    0  Reserve Bank of Australia Decision in November
+  yes_basket    7    0.0040   0.0040      4.0     3.98     0.02   0.40    0  How many Senate and Governor elections will Re

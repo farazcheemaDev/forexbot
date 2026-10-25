@@ -1,6 +1,6 @@
 # CLAUDE.md — read this first, every session
 
-*Last updated 2026-10-25. Dated history in §10.*
+*Last updated 2026-10-26. Dated history in §10.*
 
 This file is the orientation for a new session. It is deliberately short. It tells you the
 goal, the rules that keep the numbers honest, where everything is, and the traps that have
@@ -241,6 +241,8 @@ news/crowd_paper.py  2026-10-23: THE CROWD-SQUEEZE PAPER BOOK (doc 22 s4 overrid
                      short the most-long, Monday + Thursday halves, own $300; hourly on the VM (crowd-paper.timer), also
                      writes logs/mood/mood.json for the dashboard. Verdict 2027-04-26 (dead < -6.5%, crowd_bands.json).
                      Standard library only. --status. tests/test_crowd_paper.py checks it against positioning_hist's code
+poly_structure.py  2026-10-26: READ-ONLY Polymarket structure scan (neg-risk sum gaps net of the docs' fee formula, how long gaps live,
+                     reward-market yield). No orders. tests/test_poly_structure.py 20 tests, 17 mutations caught. Result: dead (doc 02, last entry)
 sentiment_rec.py   2026-10-12: retail long/short ratios (Myfxbook, OANDA, + 7 brokers via FXSSI) every 30 min, record
                      only (no history is free); predictions R1-R3 in its docstring
 doge_live.py / book_rec.py / liq_rec.py   2026-10-09: DOGE live forward test (frozen rules + logged calls, --call to
@@ -620,6 +622,25 @@ the box was patched before the repo was public.
 
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
+
+### 2026-10-26 - Polymarket structure scan (`poly_structure.py`): sum gaps dead, reward quoting unproven
+
+- The user asked for other markets to run bots on ("niche trading markets"); picked Polymarket STRUCTURE (identities, not
+  predictions - every directional test there is dead). Read-only; fee = shares x rate x p(1-p), taker only (docs); depth
+  walked; venue minimum respected. Predictions and verdict rules in the file's docstring BEFORE the first run.
+- **NO basket (instant, via neg-risk conversion): 669 priced, 0 positive after fees, closest -0.1 cent; 30-minute watch of
+  222 near-break-even events: 1 sample in 9,212 positive, 0 episodes. YES basket: 3 executable, all 1.2-2.0% a YEAR (432-day
+  and 157-day bonds), held unchanged for the whole watch = time value, not a gap. 0 episodes worth taking** (rule amended
+  after the census, before the watch: YES baskets must clear 15% a year). NO books are exact mirrors of YES books.
+- **Rewards: upper bound looks large (median 1.12% a day, 0.60% contested) but the median pool pays $0.17 a day to a
+  minimum-size quote, and a rough touch cost on a random 150 markets gives net -0.80% a day.** The registered rule passes on
+  4 of the top 8 (picked on pool size); the random sample does not. Unproven; needs a forward PAPER quoter on the trade tape.
+- Predictions: P1 half right, P2 wrong (median episode 575 s - the long ones are the bonds), P3 wrong on the upper bound,
+  P4 right for sum gaps. Nothing deployed, nothing running, no orders; STATUS.md unchanged. Raw data in
+  strategy_analysis/data/poly_structure/ (gitignored); summaries in logs/poly_structure_{census,watch,rewards}.txt.
+- Same day, in chat: collectables / "no-capital" ideas and whether the repo is a product (answer: not the bot as a money
+  machine - no verified record, repo is public with no LICENSE; sellable as a validation/audit service, content, custom bot
+  work, and later the forward record).
 
 ### 2026-10-25 (last) - the crowd book INSIDE the fresh account (`crowd_book.py`, `--crowd`, x1.0) - DEPLOYED
 

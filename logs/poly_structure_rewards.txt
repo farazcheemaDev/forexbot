@@ -1,0 +1,26 @@
+reward markets...
+  14120 markets pay rewards; 5994 are live, have a window, and a minimum order of <= 300 shares
+
+tight quotes (25% of the max spread), minimum size, two-sided: 5917 markets | yield per day: median 1.123%, p90 24.500%, max 938.389% | >=0.5%/day: 3814 | >=1%/day: 3101
+
+wide quotes (60% of the max spread), minimum size, two-sided: 5917 markets | yield per day: median 0.373%, p90 16.666%, max 958.157% | >=0.5%/day: 2681 | >=1%/day: 2145
+
+uncontested today (our quote alone would take over half the pool): 1338 of 5917 - day-one pools or empty books; their yield is not believable
+contested (4579): yield per day median 0.604%, p90 5.791%, >=0.5%/day 2489
+
+top 8 CONTESTED by upper-bound yield, with a rough 1-day touch cost (a print through the quote fills it, no bounce back credited):
+    $/day   cap $  yld%/d  share fills  lost $  net%/d  market
+   196.22   145.1 135.205   0.43    43  143.59  36.264  Next Prime Minister of Serbia? | Will Dejan ?o?ki? be the next Prime Mi
+   186.61   145.1 128.588   0.32    34   51.38  93.188  Brazil Presidential Election Secon | Will Fl?vio Bolsonaro win the second r
+    23.21    19.6 118.698   0.44    14    2.95 103.608  Highest temperature in Chongqing o | Will the highest temperature in Chongq
+    19.99    19.6 102.250   0.19    67   45.43-130.103  When will the next GPT Terra model | Will the next GPT Terra model (5.7+) b
+    19.12    19.6  97.795   0.38    43   19.53  -2.077  Highest temperature in Los Angeles | Will the highest temperature in Los An
+    18.53    19.6  94.785   0.39    15    4.23  73.174  Highest temperature in Chongqing o | Will the highest temperature in Chongq
+    17.18    19.6  87.872   0.23    28   38.30-108.036  CZ # posts October 23 - October 30 | Will CZ post 20-39 posts from October 
+   124.14   145.1  85.540   0.30    25   47.81  52.594  Brazil Presidential Election Secon | Will Fl?vio Bolsonaro win the second r
+
+RANDOM sample of 150 contested markets (seed 7, not picked by yield): touch cost vs reward
+  net per day on the quote's capital: median -0.795%, mean -73.443%, positive in 70 of 150; lost/reward median 1.66
+  $221 fits ~11 such markets: mean net $-194.66 a day (median market $-2.88); the touch cost is a floor on adverse selection only if prices never bounce back
+
+REWARD CANDIDATE test as registered (>=3 markets with yield >= 0.5%/day and touch cost under half of it): 4 of the top 8 contested

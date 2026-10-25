@@ -4474,3 +4474,50 @@ crowd-long coins made money; trend longs on crowd-long coins -$16. Tested on the
 book filtered at a time (trend longs / shorts, daily longs, MN shorts / longs, all): **nothing passes on both spans**.
 Keeping the trend book out of crowd-long coins costs -35% of the 2024-26 typical year (0/10) - the crowded-long coins are
 the bull runners. MN short filter +1.3% / -3.3%. The crowd pays as its own balanced book (crowd_combo.py), not as a veto.
+
+## Dead: Polymarket sum gaps; reward quoting left unproven (2026-10-26) - `poly_structure.py`, `tests/test_poly_structure.py`
+
+**Why:** the user asked what niche markets are left beyond the crypto machine. Every DIRECTIONAL Polymarket test here is
+dead (doc 08, `poly_weather.py`, `poly_rescore.py`); STRUCTURE - prices that must obey an identity whatever happens - had
+never been measured. Read-only, standard library, no keys, no orders. Predictions and verdict rules were written into the
+file's docstring before the first run (one amendment, below, made after the census and before any watch).
+
+**Method.** Fees are the docs' formula, `fee = shares x rate x p(1-p)`, taker only, rate from each market's own
+`feeSchedule` (docs.polymarket.com/trading/fees). Books are depth-walked, so a gap counts only as far as shares can be
+bought and only if every leg meets the venue's minimum order. NO basket = buy NO on every named outcome of a neg-risk
+event: at most one outcome wins, so it pays at least k-1, and converting the No shares is atomic (the docs' words), so
+the cash is back at once. YES basket = buy YES on every outcome of a standard (non-augmented) event: paid at resolution.
+Rewards use the docs' quadratic score; fills cannot be seen read-only.
+
+**Results (2026-10-25 20:22-20:56 UTC; `logs/poly_structure_census.txt`, `_watch.txt`, `_rewards.txt`):**
+- Census: 2,100 active events, 1,216 neg-risk (614 augmented), 21,788 markets, ~27,000 books. The NO books are exact
+  mirrors of the YES books (|NO ask - (1 - YES bid)| = 0.0000 on 8,420 markets).
+- **NO basket: 669 priced, 0 with a positive top of book after fees; the closest is -0.1 cent a set.** Watched 30
+  minutes, 89 ticks, 222 near-break-even events: 1 sample in 9,212 was positive (+0.2 cent, never executable), 0 episodes.
+- **YES basket: 3 executable, none an arbitrage.** OpenAI IPO market cap +0.8-1.5% and Maduro prison time +2.3% over 432
+  days, top-selling artist +0.5% over 157 days = **1.2-2.0% a year**: the time value of a complete set. The first two sat
+  unchanged for the whole 30 minutes. The verdict rule was amended before the watch (YES baskets must clear 15% a year);
+  **0 episodes were worth taking.**
+- Rewards: 14,120 markets pay; 5,994 are live with a window and a minimum order of <= 300 shares. Upper-bound yield on a
+  minimum-size two-sided quote at 25% of the max spread: median 1.12% a day, but 1,338 of 5,917 are uncontested (our
+  quote alone would take over half the pool: day-one pools and empty books, not believable). Contested: median 0.60% a
+  day, and the median pool pays **$0.17 a day** to a minimum-size quote. A rough touch cost (a 1-minute print through the
+  quote fills it, no bounce back credited) on a RANDOM 150 contested markets: lost/reward median 1.66, net median
+  **-0.80% a day**, positive in 70 of 150. The rule as registered (>= 3 markets with yield >= 0.5% a day and touch cost
+  under half of it) passes on 4 of the top 8 contested - markets picked on the very pool size it then rewards.
+
+**Predictions:** P1 right on the count (3 executable), wrong on size (2.4% against 1.5% - but over 432 days). P2 wrong:
+the median episode lasted 575 s, because the long ones are the time-value gaps; the only short ones were $0.11 baskets.
+P3 wrong on the upper bound (median 1.12% a day, predicted < 0.3%), right that the touch cost removes most of it. P4 right
+for the sum gaps; for rewards the registered rule says CANDIDATE and a random sample says negative, so it is reported as
+**unproven, not a book**.
+
+**Not seen, and each can only make it worse:** latency (a gap could be gone before an order lands), gas or relayer cost of
+the conversion, a voided or 50-50 event (a cancelled match pays 0.5 a leg, below the k-1 bound), UMA dispute risk, and
+adverse selection on real fills. Polymarket's own geoblock endpoint says this PC (PK) is not blocked - that is not a
+legal answer for the user's case. Polymarket does not pay reward amounts under $1.
+
+**What it means.** A retail account cannot take Polymarket's sum gaps: bots close them before a human sees them, and the
+ones left are bonds at 1-2% a year. The only live question is reward quoting, and it needs a forward PAPER quoter on the
+trade tape (trade-through fills and 1 / 10 / 60-minute mark-outs), not another read-only scan. Under doc 22 (research
+stop 2026-12-31, code freeze to 2027-04-09) that is an override like the crowd book; nothing was started.
