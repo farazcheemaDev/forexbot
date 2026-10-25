@@ -236,6 +236,7 @@ wick_paper.py      THE CRASH BIDS (doc 16 s7), pre-registered: top-40 bids 10% u
 xs_paper.py        an EARLIER pre-registered XS test (21 coins, daily). Frozen — do not edit
 news/mood_now.py   2026-10-23: LIVE crypto mood, read-only - crowd positioning / funding / taker / OI per coin, the crowd
                      book's quarters flagged (doc 25 s7: positioning a lead, chatter dead). python -m news.mood_now
+crowd_book.py      2026-10-25: the crowd book INSIDE the fresh final-machine account (combo_bot.py --crowd, x1.0); main has none
 news/crowd_paper.py  2026-10-23: THE CROWD-SQUEEZE PAPER BOOK (doc 22 s4 override): long the crowd's most-short quarter,
                      short the most-long, Monday + Thursday halves, own $300; hourly on the VM (crowd-paper.timer), also
                      writes logs/mood/mood.json for the dashboard. Verdict 2027-04-26 (dead < -6.5%, crowd_bands.json).
@@ -619,6 +620,19 @@ the box was patched before the repo was public.
 
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
+
+### 2026-10-25 (last) - the crowd book INSIDE the fresh account (`crowd_book.py`, `--crowd`, x1.0) - DEPLOYED
+
+- The user: "add the crowd book to the machine now ... fresh only, full size". `crowd_book.py` = news/crowd_paper.py's
+  rule as one more book of the netted account (Monday + Thursday halves, K 1.0 x account equity / 2 per half, the
+  backtest's fee, funding at the close, live prices at the first poll after the anchor; > a week down -> only the latest
+  anchor). Without `--crowd` nothing exists (main untouched). Dashboard: its own bar and positions; the scorecard leaves
+  it out (cum crowd / crowd_fees). tests/test_crowd_book.py 8 tests, 7 mutations caught; all other suites pass.
+- **DEPLOYED 2026-10-25 16:59 UTC (commit a0da49c)**: VM pulled, paper-book files blob-identical, tests pass on the VM,
+  fresh state backed up (logs/backup_20261025-165930), deploy/combo-bot-fresh.service + `--crowd`, ONLY combo-bot-fresh
+  restarted ("CROWD: book added", first anchors 10-26 / 10-29, 0 poll errors). Main NOT restarted, on purpose: it runs
+  10-22's code (verify_status.sh's "restart pending" for it is expected). Fresh now also runs the 10-24 coin map (PEPE /
+  RAY entered its ledger). Doc 22 s3b: fresh's 12-01 read is taken without the crowd book. STATUS.md updated.
 
 ### 2026-10-25 (later) - "this kind of market": common, usually survived (`backtest/market_now.py`)
 

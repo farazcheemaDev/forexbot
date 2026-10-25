@@ -59,7 +59,12 @@ not fitted to the live reading). A working machine ends under it 10% of the time
 | Account | Started (UTC) | Day 45 (UTC) | KILL if its equity is under |
 |---|---|---|---|
 | **main** (`combo-bot-final`) - decides | 2026-10-09 00:04 | **2026-11-23 00:04** | **$261.30** |
-| fresh (`combo-bot-fresh`) - read beside it | 2026-10-17 01:15 | 2026-12-01 01:15 | $261.30 |
+| fresh (`combo-bot-fresh`) - read beside it | 2026-10-17 01:15 | 2026-12-01 01:15 | $261.30, read WITHOUT its crowd book (below) |
+
+*Added 2026-10-25, before either reading:* the fresh account carries the crowd-squeeze book inside it since 2026-10-25
+16:59 UTC (`crowd_book.py`, the user's choice: "add to fresh only"). Its line is read on its equity MINUS that book's
+booked P&L, open P&L and fees - the figure the dashboard's scorecard uses - so the comparison stays the machine's. The
+main account has no crowd book and is read as written.
 
 **What is read.** The dashboard's LIVE equity (booked + open) at that hour, from `logs/dashboard/eq_main_h.csv` on the VM;
 the booked equity is written down beside it.
