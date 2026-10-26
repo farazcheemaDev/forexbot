@@ -653,9 +653,10 @@ the detail lives in the numbered docs.*
   still scored as a prediction but takes no paper money ("not booked").
 - Tests: `tests/test_analyst.py` 13 (the survivor of 14 mutations is an equivalent mutant), `tests/test_dashboard_push.py` +3 (10 of 10 mutations of `analyst_view` caught);
   checked in the local preview harness (desktop and 375px phone width, no overflow) on live Binance levels plus sample calls. `.gitignore`: `logs/analyst/`, `logs/desk/`.
-- **Built, NOT committed, NOT deployed** - a new systemd timer on the VM and a push to the public repo wait for the user's word. Deploy recipe: worktree on origin/main, push,
-  VM `git fetch && git merge --ff-only`, install the two units (`__USER__` / `__APP_DIR__` filled in as for crowd-paper), `systemctl enable --now analyst-paper.timer`, check
-  `./.venv/bin/python analyst.py --status` and the feed payload, then Vercel redeploys from the push. Update `docs/STATUS.md` when it runs.
+- **DEPLOYED 2026-10-27 22:45 UTC at the user's word ("deploy it"; commit `ae96a46`, committed directly on main because local = origin).** VM fast-forwarded from `a100fa2`, tests 24 + 13 + 14 pass
+  there, every bot / paper-book file byte-identical, no service restarted; `analyst-paper.service` run once by hand (0 calls, book $300), `analyst-paper.timer` enabled (hourly :07); the feed
+  payload carries `meta.analyst` (5.1 KB gzipped meta in all); Vercel "Deployment has completed". The same pull brought the two older commits (the Polymarket scan, the dashboard's carry
+  short-exit label fix). `verify_status.sh`: all services active, code identity matches, the one 'restart pending' (main, 10-22 code) is the documented one. STATUS.md updated.
 
 - **Leverage and capital, replayed (the user: "10x 20x 30x, capital $20 / $50 / $100 / $300 - how would that result in"; then "deploy it").** `analyst.scenario / grid / leveraged_result`
   (the whole account on each call, one position at a time, liquidation from each call's worst move `mae`, fee 12bp x leverage) + `backtest/analyst_replay.py` (the same rules over 4.7
