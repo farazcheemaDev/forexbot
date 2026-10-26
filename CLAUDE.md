@@ -638,6 +638,12 @@ the detail lives in the numbered docs.*
 - Predictions: P1 half right, P2 wrong (median episode 575 s - the long ones are the bonds), P3 wrong on the upper bound,
   P4 right for sum gaps. Nothing deployed, nothing running, no orders; STATUS.md unchanged. Raw data in
   strategy_analysis/data/poly_structure/ (gitignored); summaries in logs/poly_structure_{census,watch,rewards}.txt.
+- **Dashboard label bug, FIXED IN THE CODE, NOT DEPLOYED (2026-10-26):** `dashboard_push.closed_trades` showed the carry
+  book's +50% squeeze exits (`why="short_exit"`, always shorts) as "long" - today's BULLA exit (-55%, -$2.12) and 10-14's
+  BTW. The log has no side column and only news / crowd shorts were recognised. P&L and % were always right. Fixed in
+  `dashboard_push.py` (reads `why == "short_exit"`), `test_closed_trades_label_every_short_a_short` fails on the old code
+  (9 tests pass); checked against the VM's real log (both carry exits now read short). The VM's `forexbot-dash.timer` picks
+  it up on its next `git pull` - the user said not to deploy yet. (MN's own short-leg exit writes no trade row.)
 - Same day, in chat: collectables / "no-capital" ideas and whether the repo is a product (answer: not the bot as a money
   machine - no verified record, repo is public with no LICENSE; sellable as a validation/audit service, content, custom bot
   work, and later the forward record).

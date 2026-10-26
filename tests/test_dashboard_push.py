@@ -121,6 +121,30 @@ def test_mood_and_crowd_absent_until_their_files_exist():
         dp.MOOD, dp.CROWD = old
 
 
+def test_closed_trades_label_every_short_a_short():
+    """The trade log has no side column. 2026-10-26: the carry book's +50% squeeze exit on BULLA (a short, -55%, -$2.12)
+    showed as a LONG on the dashboard. Every short the log can hold must say short; everything else long."""
+    import tempfile
+    d = Path(tempfile.mkdtemp())
+    rows = [
+        "ts,book,symbol,entry,exit,ret,pnl,why,equity",
+        "2026-10-26 10:01:27,carry,BULLAUSDT,0.08185,0.1272,-0.55406,-2.1191,short_exit,253.2",
+        "2026-10-26 09:00:00,news,ABCUSDT,1.0,0.9,0.1,0.5,take_profit,254.0",
+        "2026-10-26 08:00:00,crowd,AAVEUSDT,100,90,-0.1,-0.7,\"mon week, short\",254.0",
+        "2026-10-26 07:00:00,crowd,BTWUSDT,1.6,1.4,-0.12,-0.9,\"mon week, long\",254.0",
+        "2026-10-26 06:00:00,daily,AKEUSDT,0.039,0.0316,-0.19,-3.0,mean exit,254.0",
+        "2026-10-26 05:00:00,ndx,QQQUSDT,700,710,0.014,0.9,above_sma5,254.0",
+        "2026-10-26 04:00:00,bids,SOLUSDT,100,101,0.01,0.1,hour_close,254.0",
+    ]
+    (d / "combo_final_trades.csv").write_text("\n".join(rows) + "\n")
+    got = {(r["book"], r["sym"]): r["side"] for r in dp.closed_trades(d)}
+    assert got == {("carry", "BULLAUSDT"): "short", ("news", "ABCUSDT"): "short", ("crowd", "AAVEUSDT"): "short",
+                   ("crowd", "BTWUSDT"): "long", ("daily", "AKEUSDT"): "long", ("ndx", "QQQUSDT"): "long",
+                   ("bids", "SOLUSDT"): "long"}, got
+    carry = [r for r in dp.closed_trades(d) if r["book"] == "carry"][0]
+    assert carry["pct"] == -0.55406 and carry["pnl"] == -2.1191            # the numbers were always right
+
+
 if __name__ == "__main__":
     tests = [v for k, v in dict(globals()).items() if k.startswith("test_")]
     for fn in tests:

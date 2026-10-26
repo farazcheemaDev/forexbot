@@ -188,7 +188,10 @@ def closed_trades(d: Path) -> list:
     out = []
     for r in read_csv(d / "combo_final_trades.csv"):
         entry, exit_, ret, pnl = fnum(r.get("entry")), fnum(r.get("exit")), fnum(r.get("ret")), fnum(r.get("pnl"))
-        short = r.get("book") == "news" or (r.get("book") == "crowd" and str(r.get("why", "")).endswith("short"))
+        # the log has no side column: the news book and the carry book's "short_exit" are always shorts, the crowd
+        # book says so in its reason, everything else (daily, capit2, bids, ndx) is long
+        short = (r.get("book") == "news" or r.get("why") == "short_exit"
+                 or (r.get("book") == "crowd" and str(r.get("why", "")).endswith("short")))
         out.append(dict(ts=r.get("ts"), book=r.get("book"), sym=r.get("symbol"),
                         side="short" if short else "long", entry=entry, exit=exit_, pct=ret,
                         pnl=pnl, why=r.get("why"), approx=False))
