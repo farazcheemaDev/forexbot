@@ -1,0 +1,21 @@
+backtest/fx_ml_leadlag.py, 2026-10-22 19:45 UTC; 5-minute grid 2011-01-02..2026-09-30, 1,162,052 bars, 44 features (EURUSD, GBPUSD, USDJPY, AUDUSD, USDCAD, USDCHF, NZDUSD, XAUUSD, NSXUSD, SPXUSD); train < 2019, test after
+
+   target  model   IC test  trades gross bp  net bp      t 2019-22 bp     t 2023-26 bp     t   won
+   EURUSD  ridge    +0.012    9357    +0.12   -1.77 -14.47      -1.84-11.01      -1.66 -9.43   51%
+   EURUSD  trees    +0.008    5945    +0.24   -1.65  -9.35      -1.92 -7.94      -1.31 -5.09   51%
+   (EURUSD ridge's biggest weights: GBPUSD_r12, USDCHF_r12, EURUSD_r1, NSXUSD_r12, USDCAD_r48)
+   USDJPY  ridge    -0.007   10745    -0.08   -1.87 -13.26      -2.03-10.80      -1.71 -8.09   50%
+   USDJPY  trees    +0.011   10311    +0.03   -1.76 -14.34      -1.77-10.80      -1.75 -9.46   50%
+   AUDUSD  ridge    +0.023    8787    +0.90   -1.20  -6.37      -1.51 -5.31      -0.85 -3.55   52%
+   AUDUSD  trees    +0.001    7404    +0.56   -1.54  -7.98      -1.69 -6.03      -1.38 -5.24   52%
+   XAUUSD  ridge    +0.010    8484    +0.21   -1.51  -4.77      -1.07 -2.57      -1.93 -4.07   51%
+   XAUUSD  trees    +0.019    3717    +1.10   -0.62  -1.08      -1.19 -1.63      -0.08 -0.09   52%
+   NSXUSD  ridge    +0.026    8330    +1.33   +0.06  +0.13      +0.32 +0.47      -0.30 -0.50   51%
+   NSXUSD  trees    +0.028    5497    +0.80   -0.47  -0.70      -0.17 -0.18      -0.93 -1.13   51%
+
+   passes: 0 of 10
+
+REGISTERED PREDICTIONS
+  M1 IC positive everywhere, under 0.03 -> see the IC column
+  M2 forex targets lose net at every model -> RIGHT
+  M3 nothing passes -> RIGHT

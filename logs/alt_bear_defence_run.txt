@@ -1,0 +1,48 @@
+  phase 0 ordering 0 done
+  phase 0 ordering 1 done
+  phase 0 ordering 2 done
+  phase 0 ordering 3 done
+  phase 0 ordering 4 done
+  phase 0 ordering 5 done
+  phase 0 ordering 6 done
+  phase 0 ordering 7 done
+  phase 0 ordering 8 done
+  phase 0 ordering 9 done
+  phase 1 ordering 0 done
+  phase 1 ordering 1 done
+  phase 1 ordering 2 done
+  phase 1 ordering 3 done
+  phase 1 ordering 4 done
+  phase 1 ordering 5 done
+  phase 1 ordering 6 done
+  phase 1 ordering 7 done
+  phase 1 ordering 8 done
+  phase 1 ordering 9 done
+  phase 2 ordering 0 done
+  phase 2 ordering 1 done
+  phase 2 ordering 2 done
+  phase 2 ordering 3 done
+  phase 2 ordering 4 done
+  phase 2 ordering 5 done
+  phase 2 ordering 6 done
+  phase 2 ordering 7 done
+  phase 2 ordering 8 done
+  phase 2 ordering 9 done
+  phase 3 ordering 0 done
+  phase 3 ordering 1 done
+  phase 3 ordering 2 done
+  phase 3 ordering 3 done
+  phase 3 ordering 4 done
+  phase 3 ordering 5 done
+  phase 3 ordering 6 done
+  phase 3 ordering 7 done
+  phase 3 ordering 8 done
+  phase 3 ordering 9 done
+backtest/alt_bear.py --defence, 2026-10-22 19:21 UTC; the triple, RAW, 4 bar phases x 10 orderings; holdout from 2024-04-07 (trend_combos' split); cached line re-checked (gap 0.0e+00)
+   ALT-bear days in the panel: 38%
+
+  trend longs x0.5 on ALT-bear days    tune +651% hold +391% fall 44% | vs line by phase -17/-44  -96/-107  -1/-55  +12/-42 -> fail
+  no trend longs on ALT-bear days      tune +393% hold +156% fall 67% | vs line by phase -369/-357  -514/-440  -702/-423  -572/-315 -> fail
+  base (x1.0)                          tune +788% hold +498% fall 50%
+
+  P6 neither gate passes in all 4 phases -> RIGHT (0 pass)

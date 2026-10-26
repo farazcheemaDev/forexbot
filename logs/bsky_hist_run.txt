@@ -1,0 +1,48 @@
+bluesky: 16,075 coin-days to fetch
+  500 / 16,075
+  1,000 / 16,075
+  1,500 / 16,075
+  2,000 / 16,075
+  2,500 / 16,075
+  3,000 / 16,075
+  3,500 / 16,075
+  4,000 / 16,075
+  4,500 / 16,075
+  5,000 / 16,075
+  5,500 / 16,075
+  6,000 / 16,075
+  6,500 / 16,075
+  7,000 / 16,075
+  7,500 / 16,075
+  8,000 / 16,075
+  8,500 / 16,075
+  9,000 / 16,075
+  9,500 / 16,075
+  10,000 / 16,075
+  10,500 / 16,075
+  11,000 / 16,075
+  11,500 / 16,075
+  12,000 / 16,075
+  12,500 / 16,075
+  13,000 / 16,075
+  13,500 / 16,075
+  14,000 / 16,075
+  14,500 / 16,075
+  15,000 / 16,075
+  15,500 / 16,075
+  16,000 / 16,075
+news/bsky_hist.py, 2026-10-23 16:06 UTC; Bluesky public search, 25 coins, 17,075 coin-days (2024-11-01..2026-09-14); 94 Mondays, tune before 2025-12-29
+
+   posts naming a coin a day (median): bitcoin 1866, ethereum 482, solana 243, dogecoin 122, cardano 61, chainlink 39, polkadot 25, litecoin 35
+
+ACROSS COINS (next 7 days vs BTC): mean IC, t, tune / holdout
+   att   IC -0.007 t -0.32 | tune +0.007 (t +0.24) | holdout -0.027 (t -0.90) | 94 weeks
+   tone  IC +0.029 t +1.40 | tune +0.062 (t +2.39) | holdout -0.019 (t -0.59) | 94 weeks
+
+BTC ALONE: crypto-wide attention (mean over coins) vs BTC's next 7 days: correlation -0.03 over 94 weeks
+
+REGISTERED PREDICTIONS
+  B1 attention contrarian, IC <= -0.03, both halves negative -> WRONG
+  B2 tone |IC| < 0.03 -> RIGHT
+  B3 crypto-wide attention vs BTC within +-0.15 (-0.03) -> RIGHT
+  B4 nothing at |t| >= 2 on both halves -> RIGHT

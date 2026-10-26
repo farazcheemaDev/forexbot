@@ -1,0 +1,19 @@
+positioning: 19,549 coin-days needed, 19,549 to download
+  2,000 / 19,549
+  4,000 / 19,549
+  6,000 / 19,549
+  8,000 / 19,549
+  10,000 / 19,549
+  12,000 / 19,549
+  14,000 / 19,549
+  16,000 / 19,549
+  18,000 / 19,549
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\forexbot\news\positioning_hist.py", line 184, in <module>
+    main()
+  File "D:\forexbot\news\positioning_hist.py", line 134, in main
+    r["oi7"] = (piv["oi"].at[d0, s] / piv["oi"].at[prev, s] - 1) if (prev in piv["oi"].index and s in piv["oi"].columns
+                ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+ZeroDivisionError: float division by zero

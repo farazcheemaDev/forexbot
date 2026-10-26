@@ -1,0 +1,400 @@
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: divide by zero encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: divide by zero encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: divide by zero encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: divide by zero encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: divide by zero encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: divide by zero encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: divide by zero encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: divide by zero encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: divide by zero encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: divide by zero encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: divide by zero encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: divide by zero encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+D:\forexbot\backtest\daily_combos.py:134: RuntimeWarning: invalid value encountered in divide
+  vr=P["v"] / P["vavg"], atrp=P["atr"] / c, ema200=P["ema200"],
+backtest/scorecard_bands.py, 2026-10-22 20:34 UTC; 2020-02-17 .. 2026-09-13; news from 2021-11-27
+wrote dashboard_bands.json (90 KB)
+
+MEDIAN / 5th / 25th / 75th / 95th percentile of a stretch, % of the account; idle = share with no P&L
+  1 days
+    trend    median   -0.11   5%   -1.91   25%   -0.50   75%   +0.00   95%   +1.42   idle   18%
+    mn       median   +0.00   5%   -0.97   25%   +0.00   75%   +0.00   95%   +2.17   idle   86%
+    carry    median   +0.00   5%   -0.36   25%   +0.00   75%   +0.00   95%   +0.70   idle   86%
+    sleeve   median   +0.00   5%   -0.90   25%   +0.00   75%   +0.00   95%   +1.36   idle   73%
+    daily    median   +0.00   5%   -2.36   25%   -0.50   75%   +0.68   95%   +2.80   idle   14%
+    capit2   median   +0.00   5%   +0.00   25%   +0.00   75%   +0.00   95%   +0.00   idle   98%
+    bids     median   +0.00   5%   -0.02   25%   +0.00   75%   +0.00   95%   +0.28   idle   79%
+    news     median   +0.00   5%   +0.00   25%   +0.00   75%   +0.00   95%   +0.91   idle   90%
+    ndx      median   +0.00   5%   +0.00   25%   +0.00   75%   +0.00   95%   +0.00   idle   97%
+    ACCOUNT  median   +0.02   5%   -4.71   25%   -1.18   75%   +1.54   95%   +7.94   idle    0%
+  7 days
+    trend    median   -1.06   5%   -9.55   25%   -3.23   75%   +0.39   95%  +24.71   idle    2%
+    mn       median   +0.42   5%   -7.47   25%   -2.21   75%   +3.58   95%  +12.08   idle    2%
+    carry    median   +0.15   5%   -2.47   25%   -0.78   75%   +1.12   95%   +3.43   idle    2%
+    sleeve   median   +0.00   5%   -2.02   25%   +0.00   75%   +0.00   95%   +5.36   idle   68%
+    daily    median   +0.00   5%   -5.33   25%   -1.67   75%   +2.61   95%   +9.78   idle    7%
+    capit2   median   +0.00   5%   +0.00   25%   +0.00   75%   +0.00   95%   +3.75   idle   91%
+    bids     median   +0.00   5%   -0.24   25%   +0.00   75%   +0.26   95%   +1.82   idle   44%
+    news     median   +0.00   5%   -3.36   25%   +0.00   75%   +0.54   95%   +4.32   idle   51%
+    ndx      median   +0.00   5%   -0.22   25%   +0.00   75%   +0.00   95%   +1.95   idle   78%
+    ACCOUNT  median   +1.29   5%  -12.62   25%   -3.96   75%   +9.81   95%  +39.39   idle    0%
+  30 days
+    trend    median   -2.71   5%  -21.73   25%   -9.64   75%   +9.87   95% +181.32   idle    0%
+    mn       median   +2.40   5%  -12.85   25%   -3.82   75%  +12.34   95%  +35.76   idle    1%
+    carry    median   +0.62   5%   -5.45   25%   -1.46   75%   +3.51   95%  +13.65   idle    1%
+    sleeve   median   +0.00   5%   -4.27   25%   +0.00   75%   +0.37   95%  +16.16   idle   56%
+    daily    median   +0.04   5%   -9.97   25%   -4.40   75%   +9.89   95%  +29.61   idle    1%
+    capit2   median   +0.00   5%   +0.00   25%   +0.00   75%   +1.53   95%  +13.71   idle   69%
+    bids     median   +0.41   5%   -0.68   25%   +0.00   75%   +1.93   95%   +7.15   idle   16%
+    news     median   +0.23   5%   -7.91   25%   -0.70   75%   +2.66   95%  +17.28   idle   13%
+    ndx      median   +0.42   5%   -2.48   25%   +0.00   75%   +1.95   95%   +4.92   idle   33%
+    ACCOUNT  median  +10.52   5%  -20.78   25%   -4.18   75%  +42.69   95% +212.72   idle    0%
+  90 days
+    trend    median   -0.73   5%  -33.30   25%  -16.39   75% +111.83   95% +508.83   idle    0%
+    mn       median  +11.83   5%  -18.95   25%   -1.80   75%  +34.61   95% +165.43   idle    0%
+    carry    median   +2.61   5%  -11.94   25%   -2.28   75%  +11.26   95%  +67.05   idle    0%
+    sleeve   median   +0.00   5%   -5.11   25%   +0.00   75%   +9.28   95%  +40.60   idle   35%
+    daily    median   +4.76   5%  -25.09   25%   -7.25   75%  +27.48   95% +130.71   idle    0%
+    capit2   median   +3.72   5%   +0.00   25%   +0.00   75%  +15.80   95%  +45.45   idle   34%
+    bids     median   +2.91   5%   -0.74   25%   +1.04   75%   +9.38   95%  +37.62   idle    2%
+    news     median   +3.33   5%  -14.13   25%   -1.51   75%   +9.40   95%  +79.33   idle    3%
+    ndx      median   +3.50   5%   -3.57   25%   +0.57   75%   +6.57   95%  +14.61   idle    5%
+    ACCOUNT  median  +56.67   5%  -18.14   25%   +8.45   75% +236.68   95% +907.46   idle    0%
+  365 days
+    trend    median +324.51   5% -177.10   25%  -14.33   75% +2039.43   95% +15973.50   idle    0%
+    mn       median +229.09   5% -107.71   25%  +20.97   75% +1027.41   95% +11234.21   idle    0%
+    carry    median  +15.08   5% -121.58   25%  -11.01   75% +297.92   95% +4051.84   idle    0%
+    sleeve   median  +47.71   5%  -74.01   25%   +3.87   75% +267.67   95% +4088.33   idle    6%
+    daily    median  +21.77   5% -322.20   25%  -54.36   75% +773.66   95% +7085.52   idle    0%
+    capit2   median +161.78   5%   +0.72   25%  +32.83   75% +509.60   95% +3339.63   idle    1%
+    bids     median  +59.67   5%   +4.01   25%  +14.90   75% +192.78   95% +3571.35   idle    0%
+    news     median +109.65   5%   -2.92   25%  +17.98   75% +246.48   95% +1233.18   idle    0%
+    ndx      median  +69.51   5%  -66.51   25%  +12.62   75% +199.58   95% +1270.65   idle    0%
+    ACCOUNT  median +1903.26   5%  +60.93   25% +489.66   75% +5423.45   95% +50899.82   idle    0%
+
+REGISTERED PREDICTIONS (main account at 8 days)
+  S1 account -7.1% -> percentile 15.7 (3..15) -> WRONG
+  S2 trend -2.81% -> 30.7 (< 25); carry -2.35% -> 6.3 (< 10) -> WRONG
+  S3 idle share of 8-day stretches: sleeve 68%, capit2 90%, news 48% (>= 30% each) -> RIGHT

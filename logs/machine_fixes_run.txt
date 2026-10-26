@@ -1,0 +1,23 @@
+backtest/machine_fixes.py, 2026-10-22 20:26 UTC; 10 orderings; trend gains shrunk, the rest raw; the 12bp rebuild of MN + carry reproduces all_books' series to 0.0e+00
+
+   machine ($300, 12 months)             half  typical     bad   worst worst mo  fall  mo up        vs RUNNING, paired
+   RUNNING                               tune $  3,783 $   725 $   282   -19.8%   45%    64%                          
+   RUNNING                            holdout $  9,067 $ 4,112 $ 1,144   -30.7%   49%    67%                          
+
+   F1 capit2 as a resting limit          tune $  3,927 $   762 $   284   -20.1%   45%    65%       +3.4% +- 0.5, 10/10
+   F1 capit2 as a resting limit       holdout $  9,416 $ 4,251 $ 1,206   -30.7%   49%    68%       +3.9% +- 0.1, 10/10
+
+   F2 crash bids on                      tune $  4,212 $   772 $   304   -18.9%   42%    66%      +15.4% +- 0.8, 10/10
+   F2 crash bids on                   holdout $  9,523 $ 4,467 $ 1,215   -31.3%   49%    68%       +7.4% +- 0.5, 10/10
+
+   F3 MN + carry at limit fees           tune $  3,878 $   743 $   289   -19.6%   44%    65%       +2.5% +- 0.0, 10/10
+   F3 MN + carry at limit fees        holdout $  9,282 $ 4,210 $ 1,172   -30.5%   49%    67%       +2.4% +- 0.0, 10/10
+
+   ALL                                   tune $  4,546 $   837 $   314   -19.0%   42%    68%      +22.2% +- 0.8, 10/10
+   ALL                                holdout $ 10,069 $ 4,764 $ 1,314   -31.2%   49%    68%      +14.2% +- 0.5, 10/10
+
+REGISTERED PREDICTIONS
+  X1 crash bids raise the typical year on both halves, worst month within 2 points -> RIGHT
+  X2 capit2 limit adds 3-8% on both halves -> RIGHT
+  X3 MN + carry at limit fees add 2-6% on both halves -> RIGHT
+  X4 no fix moves months up by more than 3 points -> WRONG
