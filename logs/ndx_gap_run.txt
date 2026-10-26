@@ -1,0 +1,30 @@
+backtest/ndx_gap.py, 2026-10-26 20:16 UTC; NASDAQ cash sessions 2010-11-15 .. 2026-09-30 (3686 days), tune = first 2211; cost 1.27bp a trade
+
+  gap-size bins (z = |gap| / 14-day ATR%): [0.3,0.6) 28% of days  [0.6,1) 14% of days  [1,99) 6% of days
+
+  cell                         trades trig % |  gross bp   net bp      t |   tune net bp (t)   holdout net bp (t) | Holm p
+  CONT bin1 N=5                   842    81% |      +3.6     +2.3   +1.1 |      +3.2 (+1.3)         +1.0 (+0.3) | 1.00
+  FADE bin1 N=5                   840    81% |      +1.4     +0.1   +0.1 |      +0.9 (+0.4)         -1.2 (-0.3) | 1.00
+  CONT bin1 N=15                  757    73% |      +3.2     +2.0   +0.8 |      +5.4 (+2.0)         -3.3 (-0.8) | 1.00
+  FADE bin1 N=15                  751    72% |      +2.7     +1.5   +0.6 |      +1.7 (+0.6)         +1.1 (+0.2) | 1.00
+  CONT bin1 N=30                  700    67% |      +2.0     +0.7   +0.3 |      +4.3 (+1.5)         -4.9 (-1.1) | 1.00
+  FADE bin1 N=30                  695    67% |      +0.1     -1.2   -0.4 |      -1.0 (-0.3)         -1.4 (-0.3) | 1.00
+  CONT bin2 N=5                   398    79% |      +3.0     +1.8   +0.6 |      +2.0 (+0.5)         +1.5 (+0.3) | 1.00
+  FADE bin2 N=5                   409    81% |      +5.2     +4.0   +1.2 |      +5.4 (+1.3)         +2.1 (+0.4) | 1.00
+  CONT bin2 N=15                  364    72% |      +4.2     +2.9   +0.8 |      -0.5 (-0.1)         +7.8 (+1.3) | 1.00
+  FADE bin2 N=15                  367    73% |      +8.4     +7.2   +1.8 |      +8.0 (+1.6)         +6.1 (+0.9) | 0.49
+  CONT bin2 N=30                  332    66% |      +3.4     +2.1   +0.6 |      -0.7 (-0.1)         +6.1 (+1.0) | 1.00
+  FADE bin2 N=30                  333    66% |      +9.9     +8.6   +2.0 |      +6.5 (+1.3)        +11.6 (+1.6) | 0.32
+  CONT bin3 N=5                   157    75% |     +16.7    +15.4   +2.3 |      +8.3 (+1.1)        +22.2 (+2.0) | 0.18
+  FADE bin3 N=5                   177    85% |      +1.5     +0.3   +0.0 |     -13.0 (-2.5)        +12.3 (+1.0) | 1.00
+  CONT bin3 N=15                  144    69% |     +24.0    +22.7   +3.1 |     +20.1 (+2.2)        +25.4 (+2.2) | 0.02
+  FADE bin3 N=15                  151    72% |      +3.5     +2.2   +0.3 |     -23.0 (-3.5)        +25.2 (+1.7) | 1.00
+  CONT bin3 N=30                  132    63% |     +27.0    +25.7   +3.5 |     +19.9 (+2.1)        +32.1 (+2.8) | 0.00
+  FADE bin3 N=30                  138    66% |      +2.4     +1.1   +0.1 |     -18.9 (-2.5)        +18.9 (+1.3) | 1.00
+
+  PASS (both halves t >= 2, Holm < 0.05): ['CONT bin3 N=15', 'CONT bin3 N=30']
+
+REGISTERED PREDICTIONS
+  G1 no cell passes -> WRONG
+  G2 continuation and fade have opposite gross signs (or ~0) in every bin and length -> WRONG
+  G3 fewer than 20% of the bin's days trigger in every cell -> WRONG (max 85%)

@@ -1,0 +1,14 @@
+backtest/crypto_regime_score.py, 2026-10-26 20:21 UTC; composite from 5 of the skill's 6 components (dominance has no history), 72 months 2020-09 .. 2026-08; score at month-end -> next month
+  score: mean 59, min 19, max 90; months RISK_ON 21% / NEUTRAL 53% / RISK_OFF 26%
+
+  V1 tune     n 43: Spearman(score, machine next month) +0.32 | (score, BTC next month) +0.17
+  V1 holdout  n 29: Spearman(score, machine next month) +0.15 | (score, BTC next month) -0.19
+
+  V2 tune     dial (RISK_OFF x0.5; avg exposure 90%): log growth +305%/yr, worst month -13.8% | matched constant: +289%/yr, -12.4% | unscaled machine: +311%/yr, -13.8%
+  V2 holdout  dial (RISK_OFF x0.5; avg exposure 83%): log growth +218%/yr, worst month -14.2% | matched constant: +200%/yr, -23.5% | unscaled machine: +225%/yr, -28.4%
+
+REGISTERED PREDICTIONS
+  W1 |Spearman| < 0.25 on at least one half -> RIGHT
+  W2 RISK_OFF under 20% of months (26%) -> WRONG
+  W3 the dial does not beat the matched constant on both log growth and worst month on both halves -> RIGHT
+  VERDICT: NO SIGNAL

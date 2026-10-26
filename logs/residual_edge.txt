@@ -1,0 +1,35 @@
+backtest/residual_edge.py, 2026-10-26 20:11 UTC; 78 months 2020-03 .. 2026-08; returns are monthly, mean of 10 orderings; trend gains shrunk 3x (alpha understated)
+
+-- baseline BTC: mean monthly +4.5%, sd 18.3%
+   book      mean mo   beta   t(b)  alpha/yr   t(a)    R2 | alpha by regime (%/mo): bull / chop / bear
+   trend     +21.34%   0.50    1.6   +229.4%    2.5  0.01 | +36.37 / -23.95 / -21.41
+   mn         +6.30%   0.12    1.7    +69.0%    3.8  0.03 |  +2.97 /  -1.45 /  -2.29
+   carry      +1.98%   0.06    1.3    +20.8%    2.5  0.03 |  +1.52 /  -0.96 /  -0.93
+   sleeve     +1.99%  -0.12   -1.5    +30.2%    2.3  0.06 |  -1.03 /  -3.06 /  +4.67
+   daily      +3.72%   0.37    5.4    +25.0%    1.7  0.29 |  +0.22 /  +0.78 /  -1.14
+   capit2     +2.51%  -0.10   -4.2    +35.7%    4.9  0.12 |  +0.01 /  -0.53 /  +0.56
+   news       +1.66%  -0.04   -1.2    +21.9%    1.6  0.00 |  +0.43 /  +0.57 /  -1.18
+   ndx        +0.99%  -0.00   -0.2    +12.0%    3.5  0.00 |  +0.00 /  +0.43 /  -0.47
+   account   +40.49%   0.78    1.9   +443.9%    3.8  0.02 | +40.48 / -28.17 / -22.19
+
+-- baseline EW12: mean monthly +7.1%, sd 33.0%
+   book      mean mo   beta   t(b)  alpha/yr   t(a)    R2 | alpha by regime (%/mo): bull / chop / bear
+   trend     +21.34%   0.71    2.2   +195.7%    2.3  0.09 | +25.72 / -18.27 / -13.70
+   mn         +6.30%   0.09    2.6    +68.2%    3.9  0.04 |  +2.16 /  -0.91 /  -1.82
+   carry      +1.98%   0.06    3.7    +19.1%    2.4  0.10 |  +0.82 /  -0.56 /  -0.46
+   sleeve     +1.99%  -0.05   -2.1    +28.0%    2.3  0.03 |  -0.97 /  -3.23 /  +4.78
+   daily      +3.72%   0.27   12.1    +21.4%    1.6  0.53 |  -2.46 /  +2.52 /  +0.48
+   capit2     +2.51%  -0.06   -4.4    +34.9%    4.7  0.12 |  +0.33 /  -0.81 /  +0.45
+   news       +1.66%  -0.04   -1.4    +23.3%    1.7  0.02 |  +0.96 /  +0.27 /  -1.55
+   ndx        +0.99%  -0.00   -0.7    +12.2%    3.6  0.00 |  +0.06 /  +0.40 /  -0.51
+   account   +40.49%   0.98    2.7   +402.8%    3.8  0.12 | +26.62 / -20.60 / -12.33
+
+-- account over BTC, by ordering: alpha/yr +381.9% .. +477.4% (mean +443.9%), t(alpha) +3.2 .. +4.1, beta 0.64 .. 1.02
+-- rolling 24-month alpha/yr over BTC: min +95.8%  median +533.3%  max +798.8%  share of windows > 0: 100%
+
+REGISTERED PREDICTIONS
+  Z1 account beta over BTC 0.2-0.8 and R2 < 0.5 (beta 0.78, R2 0.02) -> RIGHT
+  Z2 alpha positive, HAC t < 2 (alpha +443.9%/yr, t +3.8) -> WRONG
+  Z3 trend has the largest beta and R2; mn/carry/news/capit2 |beta| < 0.2 -> WRONG (betas: trend +0.50, mn +0.12, carry +0.06, sleeve -0.12, daily +0.37, capit2 -0.10, news -0.04, ndx -0.00)
+  Z4 alpha concentrated in bull months (bull +40.48 / chop -28.17 / bear -22.19 %/mo) -> RIGHT
+  Z5 same alpha sign over the 12-coin equal-weight baseline -> RIGHT

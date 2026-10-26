@@ -1,0 +1,34 @@
+backtest/cot_shapiro_more.py, 2026-10-26 20:06 UTC; 13 CFTC futures markets 1996-01-02 .. 2026-09-28; steps 1 + 3 only; net shown with and without swap
+
+-- THE SIX NEW MARKETS: GOLD, SILVER, WTI, SP500, NASDAQ, NOTE10
+  variant trades median wks | per TRADE spot   net(swap)  net(swap-free) win | per ACTIVE WEEK, swap-free: all (t)      tune (t)       holdout (t)
+  S         122        7.0 | spot  +1.21%   +0.10%      +1.18%    34% |  +0.090% (t +0.7)  +0.013% (+0.1)  +0.203% (+0.9)
+  C1        324        4.0 | spot  +0.84%   -0.04%      +0.81%    34% |  +0.162% (t +2.1)  +0.133% (+1.4)  +0.204% (+1.5)
+  C2        627        5.1 | spot  -0.42%   -1.03%      -0.45%    33% |  -0.162% (t -2.0)  -0.210% (-1.9)  -0.090% (-0.8)
+  S8         99        8.0 | spot  +0.52%   -0.45%      +0.49%    46% |  +0.072% (t +0.6)  +0.130% (+0.8)  -0.015% (-0.1)
+  F8         99        8.0 | spot  -0.52%   -1.48%      -0.55%    54% |  -0.078% (t -0.6)  -0.136% (-0.8)  +0.010% (+0.0)
+  C1_8      250        8.0 | spot  +0.67%   -0.25%      +0.64%    52% |  +0.166% (t +1.9)  +0.180% (+1.6)  +0.146% (+1.0)
+  C2_8      461        8.0 | spot  -1.09%   -2.06%      -1.11%    41% |  -0.128% (t -1.6)  -0.177% (-1.6)  -0.053% (-0.5)
+
+-- POOLED, ALL 13: EUR, JPY, GBP, AUD, NZD, CAD, CHF, GOLD, SILVER, WTI, SP500, NASDAQ, NOTE10
+  variant trades median wks | per TRADE spot   net(swap)  net(swap-free) win | per ACTIVE WEEK, swap-free: all (t)      tune (t)       holdout (t)
+  S         324        6.0 | spot  +0.67%   +0.14%      +0.65%    39% |  +0.039% (t +0.7)  -0.001% (-0.0)  +0.099% (+1.1)
+  C1        950        3.0 | spot  +0.30%   -0.08%      +0.29%    34% |  +0.049% (t +1.4)  +0.015% (+0.3)  +0.101% (+1.9)
+  C2       1372        6.1 | spot  -0.24%   -0.59%      -0.26%    37% |  -0.082% (t -1.9)  -0.105% (-1.8)  -0.046% (-0.8)
+  S8        267        8.0 | spot  +0.40%   -0.07%      +0.38%    52% |  +0.031% (t +0.5)  +0.012% (+0.1)  +0.059% (+0.6)
+  F8        267        8.0 | spot  -0.40%   -0.89%      -0.42%    47% |  -0.035% (t -0.6)  -0.016% (-0.2)  -0.065% (-0.7)
+  C1_8      609        8.0 | spot  +0.19%   -0.30%      +0.17%    52% |  +0.050% (t +1.1)  +0.034% (+0.5)  +0.074% (+1.3)
+  C2_8     1056        8.0 | spot  -0.53%   -1.07%      -0.55%    46% |  -0.077% (t -1.9)  -0.102% (-1.9)  -0.039% (-0.7)
+
+  S in GOLD   :  26 trades, spot -0.65%, net swap-free -0.67%
+  S in SILVER :  19 trades, spot +2.69%, net swap-free +2.59%
+  S in WTI    :  23 trades, spot +2.76%, net swap-free +2.73%
+  S in SP500  :  19 trades, spot +0.85%, net swap-free +0.84%
+  S in NASDAQ :  27 trades, spot +1.14%, net swap-free +1.13%
+  S in NOTE10 :   8 trades, spot +0.33%, net swap-free +0.31%
+
+REGISTERED PREDICTIONS (swap-free weekly series)
+  X1 the new markets alone do not pass both halves (t >= 2) -> RIGHT
+  X2 pooled S does not PASS -> RIGHT
+  X4 F8 pooled not positive: net -0.89% a trade -> RIGHT
+  VERDICT: NO PASS

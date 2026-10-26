@@ -1,0 +1,27 @@
+backtest/stockbee_crypto.py, 2026-10-26 20:24 UTC; 360 PIT-top-40 perps, daily 2020-01..2026-09; tune < 2024-01-01; costs 12bp + 3bp/day on longs
+
+  A    all  n  2494 net  -0.30% win  28% t  -0.5 per day   -9.4bp
+       tune n  1599 net  +0.12% win  30% t  +0.7 per day   +3.9bp
+       hold n   895 net  -1.05% win  25% t  -2.1 per day  -33.6bp
+  A_U  all  n   854 net  -0.15% win  33% t  +0.2 per day   -4.3bp
+       tune n   525 net  +0.15% win  35% t  +0.6 per day   +4.2bp
+       hold n   329 net  -0.62% win  30% t  -0.4 per day  -18.0bp
+  C1   all  n  6353 net  -0.05% win  30% t  -0.2 per day   -1.5bp
+       tune n  3974 net  +0.22% win  31% t  +1.4 per day   +6.8bp
+       hold n  2379 net  -0.51% win  29% t  -2.5 per day  -15.0bp
+  C2   all  n 24658 net  -0.08% win  24% t  -2.0 per day   -3.0bp
+       tune n 14014 net  +0.25% win  26% t  +0.4 per day   +8.8bp
+       hold n 10644 net  -0.51% win  22% t  -4.0 per day  -19.2bp
+  B_L  all  n  1389 net  +0.56% win  45% t  +0.9 per day  +20.6bp
+       tune n   845 net  +0.79% win  47% t  +0.7 per day  +29.3bp
+       hold n   544 net  +0.20% win  41% t  +0.6 per day   +7.4bp
+  B_S  all  n  1439 net  -0.34% win  13% t  -1.7 per day  -24.3bp
+       tune n   881 net  -0.60% win  10% t  -1.6 per day  -44.9bp
+       hold n   558 net  +0.08% win  16% t  -0.6 per day   +5.4bp
+
+Holm p (4 variants): A 1.00, A_U 1.00, B_L 0.78, B_S 1.00 | PASS: none
+
+REGISTERED PREDICTIONS
+  H1 A and A_U do not pass -> RIGHT
+  H2 B_L loses on the holdout and B_S is not positive on both halves -> WRONG
+  H3 A beats C1 by under 0.3% a trade (-0.25%) -> RIGHT

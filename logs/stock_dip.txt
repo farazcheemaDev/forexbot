@@ -1,0 +1,61 @@
+rule: RSI(2) < 10 at the close, out > 5-day mean or day 10; costs 12bp + 3bp/day; tune < 2015-08-01
+
+== D1  broad ETFs, one by one
+  SPY   tune n   274 ( 274 dates) net  +0.36% win  67% t  +2.4 | per day  +10.1bp vs ctl  -6.5bp (x nan)
+        hold n   127 ( 127 dates) net  +0.25% win  71% t  +1.1 | per day   +7.3bp vs ctl  -2.1bp (x nan)   -
+  QQQ   tune n   210 ( 210 dates) net  +0.60% win  67% t  +2.5 | per day  +16.1bp vs ctl  -8.3bp (x nan)
+        hold n   123 ( 123 dates) net  +0.31% win  66% t  +1.6 | per day   +8.6bp vs ctl  -0.9bp (x nan)   -
+  EWJ   tune n   264 ( 264 dates) net  +0.30% win  63% t  +2.0 | per day   +8.1bp vs ctl  -3.9bp (x nan)
+        hold n   128 ( 128 dates) net  -0.09% win  62% t  -0.4 | per day   -2.3bp vs ctl  -8.5bp (x nan)   -
+  EWY   tune n   180 ( 180 dates) net  +0.39% win  64% t  +1.3 | per day   +9.8bp vs ctl  -4.0bp (x nan)
+        hold n   129 ( 129 dates) net  -0.22% win  62% t  -0.6 | per day   -5.1bp vs ctl  -3.8bp (x nan)   -
+  0 of 4 pass both halves
+
+== D3  commodities, one by one
+  GLD   tune n   127 ( 127 dates) net  -0.18% win  60% t  -0.8 | per day   -4.1bp vs ctl  -4.7bp (x nan)
+        hold n   119 ( 119 dates) net  -0.12% win  57% t  -0.6 | per day   -2.6bp vs ctl  -4.8bp (x nan)   -
+  SLV   tune n   115 ( 115 dates) net  -0.47% win  61% t  -1.1 | per day  -10.9bp vs ctl  -2.4bp (x nan)
+        hold n   127 ( 127 dates) net  -0.58% win  57% t  -1.7 | per day  -13.7bp vs ctl  -3.0bp (x nan)   -
+  PPLT  tune n    72 (  72 dates) net  -0.64% win  53% t  -1.9 | per day  -14.0bp vs ctl -15.6bp (x nan)
+        hold n   146 ( 146 dates) net  -0.13% win  58% t  -0.5 | per day   -3.1bp vs ctl  -6.1bp (x nan)   -
+  PALL  tune n    69 (  69 dates) net  -0.27% win  62% t  -0.5 | per day   -6.2bp vs ctl -10.5bp (x nan)
+        hold n   126 ( 126 dates) net  -0.27% win  59% t  -0.6 | per day   -6.1bp vs ctl  -6.0bp (x nan)   -
+  CPER  tune n    60 (  60 dates) net  +0.10% win  58% t  +0.3 | per day   +2.2bp vs ctl -20.6bp (x nan)
+        hold n   125 ( 125 dates) net  -0.18% win  64% t  -0.6 | per day   -4.4bp vs ctl  -3.9bp (x nan)   -
+  USO   tune n   119 ( 119 dates) net  -0.72% win  57% t  -1.6 | per day  -15.9bp vs ctl  -7.7bp (x nan)
+        hold n   129 ( 129 dates) net  -0.74% win  56% t  -1.3 | per day  -17.0bp vs ctl  -6.5bp (x nan)   -
+  BNO   tune n    59 (  59 dates) net  -0.61% win  63% t  -1.1 | per day  -15.3bp vs ctl  -5.9bp (x nan)
+        hold n   132 ( 132 dates) net  -0.04% win  66% t  -0.1 | per day   -1.0bp vs ctl  -2.6bp (x nan)   -
+  UNG   tune n   119 ( 119 dates) net  -0.75% win  54% t  -1.4 | per day  -16.0bp vs ctl -15.0bp (x nan)
+        hold n   162 ( 162 dates) net  -0.07% win  65% t  -0.1 | per day   -1.6bp vs ctl -10.3bp (x nan)   -
+  0 of 8 pass both halves
+
+== BROAD ETFs pooled (4 series)
+  all    n  1435 (1021 dates) net  +0.28% win  65% t  +3.4 | per day   +7.5bp vs ctl  -5.0bp (x nan)
+  tune   n   928 ( 678 dates) net  +0.40% win  65% t  +3.4 | per day  +10.8bp vs ctl  -5.7bp (x nan)
+  hold   n   507 ( 343 dates) net  +0.06% win  65% t  +0.9 | per day   +1.6bp vs ctl  -3.9bp (x nan)
+  2010+  n   774 ( 525 dates) net  +0.07% win  64% t  +0.7 | per day   +1.8bp vs ctl  -4.5bp (x nan)
+
+== COMMODITY / METAL ETFs pooled (8 series)
+  all    n  1806 (1252 dates) net  -0.34% win  60% t  -3.0 | per day   -8.0bp vs ctl  -6.9bp (x nan)
+  tune   n   740 ( 528 dates) net  -0.47% win  58% t  -2.8 | per day  -10.6bp vs ctl  -9.1bp (x nan)
+  hold   n  1066 ( 724 dates) net  -0.26% win  60% t  -1.6 | per day   -6.1bp vs ctl  -5.4bp (x nan)
+  2010+  n  1619 (1098 dates) net  -0.35% win  59% t  -2.9 | per day   -8.3bp vs ctl  -7.1bp (x nan)
+
+== SINGLE STOCKS pooled (survivor-biased upper bound) (69 series)
+  all    n 34223 (10510 dates) net  +0.18% win  63% t  +2.3 | per day   +4.6bp vs ctl  -2.8bp (x nan)
+  tune   n 25423 (8444 dates) net  +0.17% win  62% t  +2.2 | per day   +4.3bp vs ctl  -3.8bp (x nan)
+  hold   n  8800 (2066 dates) net  +0.22% win  63% t  +0.8 | per day   +5.6bp vs ctl  +0.1bp (x62.7)
+  2010+  n 12747 (2998 dates) net  +0.22% win  64% t  +1.8 | per day   +5.7bp vs ctl  -0.7bp (x nan)
+
+== D4  single stocks passing both halves (>= 20 trades a half): 4 of 58 = 7%
+
+== EVERYTHING pooled (81 series)
+  all    n 37464 (10811 dates) net  +0.16% win  63% t  +1.5 | per day   +4.1bp vs ctl  -3.1bp (x nan)
+  tune   n 27091 (8604 dates) net  +0.16% win  62% t  +1.8 | per day   +4.0bp vs ctl  -4.0bp (x nan)
+  hold   n 10373 (2207 dates) net  +0.17% win  63% t  -0.2 | per day   +4.1bp vs ctl  -0.7bp (x nan)
+  2010+  n 15140 (3237 dates) net  +0.15% win  63% t  +0.2 | per day   +3.9bp vs ctl  -1.6bp (x nan)
+
+== VERDICT LINES
+  everything pooled: holdout net +0.17%, per-day edge xinf / xinf -> NEITHER
+  D5: pre-2010 net +0.17% (22324 trades) vs 2010+ +0.15% (15140)

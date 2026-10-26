@@ -1,0 +1,38 @@
+backtest/convexity.py, 2026-10-26 20:38 UTC; machine daily account series, 10 orderings, 2020-02-17 .. 2026-09-13
+
+1  LUMPINESS (daily account return, 10 orderings)
+   best 5% of days carry 126% of the total log growth; best 10% of months 53%
+   share of days the account sits below its previous peak 88%; longest stretch without a new high 248 days (orderings 223..287); typical gap between highs 5 days
+
+2  WAITING: from a random start day, the share of stretches that have reached +X% by day N (any time up to N)
+   +20% : within 90 days   83%   180 days   95%   365 days  100%
+   +50% : within 90 days   61%   180 days   88%   365 days   99%
+   +100% : within 90 days   43%   180 days   73%   365 days   95%
+
+3  THE DAY-45 LINE (KILL if under -12.9% at day 45), priced on the backtest's own windows
+   windows: 20355 (68 distinct start-months); under the line at day 45: 1786 (38 months, 9%)
+   UNDER -12.9% at day 45 (a KILL)    above their start by day 90:  45%   180:  73%   365:  99%   median day-365 return +1351%
+   OVER the line (continue)           above their start by day 90:  87%   180:  96%   365: 100%   median day-365 return +1992%
+   TODAY'S ANALOGUE: windows 13-18% down at day 17 (main is -15.1%): 1095 windows from 47 start-months: over the line at day 45: 67%; above start by day 90 63%, 180 87%, 365 100%; median day-365 return +1956%
+      the analogues' start-months: 2020-03, 2020-04, 2020-05, 2020-07, 2020-08, 2020-09, 2020-10, 2020-11, 2021-02, 2021-05, 2021-06, 2021-10, 2021-11, 2022-01, 2022-03, 2022-04, 2022-05, 2022-06, 2022-07, 2022-08, 2022-10, 2022-11, 2022-12, 2023-02
+
+4  TIMING: Spearman of the state variable with the trend book's month (72 months, split at the 60% month)
+   variable     SAME month tune/hold   NEXT month tune/hold   (account, next: tune/hold)
+   disp            +0.28 / -0.12        +0.20 / +0.26      (+0.21 / +0.14)
+   runners         +0.29 / +0.05        +0.35 / +0.46      (+0.28 / +0.19)
+   breadth         +0.25 / +0.30        +0.12 / +0.15      (+0.25 / +0.01)
+   med             +0.19 / -0.10        +0.23 / +0.61      (+0.18 / +0.19)
+
+5  LIVE (2026-10-26 20:38 UTC; 39 of today's top-40 by prior-month volume, 30-day returns to the last closed day)
+   disp     now +0.223   2020-2026 median +0.306   today's percentile 34
+   runners  now +0.051   2020-2026 median +0.132   today's percentile 18
+   med      now -0.193   2020-2026 median -0.044   today's percentile 23
+   biggest 30-day movers now: QNT +93%, BTW +24%, PUMP +1%, 1000PEPE -5%, AKE -5%, BNB -5% | weakest: LIT -35%, USELESS -43%, BR -44%, ONE -47%, LSK -53%
+
+REGISTERED PREDICTIONS
+  C1 lumpiness (best 5% of days > 80%, best 10% of months > 60%) -> WRONG
+  C2 +20% within 90 days 20-40%, within 365 days > 85% -> WRONG
+  C3 a KILL gives up a machine that mostly recovers (>= 50% above start by 180, >= 70% by 365) -> RIGHT
+  C4 the line is still informative (>= 15 points better at day 180 over the line) -> RIGHT
+  C5 dispersion explains the same month (>= 0.4) but not the next (|rho| < 0.25 on one half) -> WRONG
+  C6 live dispersion above its median -> WRONG

@@ -1,0 +1,12 @@
+backtest/alt_rotation_gate.py, 2026-10-26 20:26 UTC; the triple, RAW, 4 bar phases x 10 orderings; holdout from 2024-04-07; cached line re-checked (gap 0.0e+00)
+   gate = breadth(PIT top-40 beating BTC over 30d) < 0.35: on 49% of days since 2020-03; inside BTC-bull labels 35%, inside BTC-bear 64%
+
+  trend longs x0.5 on low-breadth days     tune +458% hold +367% fall 41% | vs line by phase -118/-42  -193/-98  -153/-38  -133/-21 -> fail
+  no trend longs on low-breadth days       tune +101% hold +46% fall 85% | vs line by phase -677/-469  -801/-572  -987/-524  -861/-408 -> fail
+  base (x1.0)                              tune +788% hold +498% fall 50%
+
+REGISTERED PREDICTIONS
+  R1 gate on 20-45% of days (49%) -> WRONG
+  R2 neither variant passes all 4 phases -> RIGHT
+  R3 low breadth more common in BTC-bull (35%) than BTC-bear (64%) -> WRONG
+  VERDICT: NO GATE

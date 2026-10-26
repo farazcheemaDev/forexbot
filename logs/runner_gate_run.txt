@@ -1,0 +1,53 @@
+  phase 0 ordering 0 done
+  phase 0 ordering 1 done
+  phase 0 ordering 2 done
+  phase 0 ordering 3 done
+  phase 0 ordering 4 done
+  phase 0 ordering 5 done
+  phase 0 ordering 6 done
+  phase 0 ordering 7 done
+  phase 0 ordering 8 done
+  phase 0 ordering 9 done
+  phase 1 ordering 0 done
+  phase 1 ordering 1 done
+  phase 1 ordering 2 done
+  phase 1 ordering 3 done
+  phase 1 ordering 4 done
+  phase 1 ordering 5 done
+  phase 1 ordering 6 done
+  phase 1 ordering 7 done
+  phase 1 ordering 8 done
+  phase 1 ordering 9 done
+  phase 2 ordering 0 done
+  phase 2 ordering 1 done
+  phase 2 ordering 2 done
+  phase 2 ordering 3 done
+  phase 2 ordering 4 done
+  phase 2 ordering 5 done
+  phase 2 ordering 6 done
+  phase 2 ordering 7 done
+  phase 2 ordering 8 done
+  phase 2 ordering 9 done
+  phase 3 ordering 0 done
+  phase 3 ordering 1 done
+  phase 3 ordering 2 done
+  phase 3 ordering 3 done
+  phase 3 ordering 4 done
+  phase 3 ordering 5 done
+  phase 3 ordering 6 done
+  phase 3 ordering 7 done
+  phase 3 ordering 8 done
+  phase 3 ordering 9 done
+backtest/runner_gate.py, 2026-10-26 20:50 UTC; the triple, RAW, 4 bar phases x 10 orderings; holdout from 2024-04-07; cached line re-checked (gap 0.0e+00)
+   runner share (top-40 up > 20% in 30 days): median 0.13; LOW (below the expanding 33rd pct) on 33% of days since 2020-09, HIGH on 25%; latest reading 0.238 on 2026-09-21 (LOW: False, HIGH: False)
+
+  trend longs x0.5 when few coins are running    tune +591% hold +527% fall 45% | vs line by phase -88/+60  -164/+58  -82/+90  -69/+63 -> fail
+  trend longs x1.5 when many coins are running   tune +757% hold +500% fall 54% | vs line by phase -99/-23  -148/-74  -180/+6  -99/-23 -> fail
+  base (x1.0)                                    tune +788% hold +498% fall 50%
+
+REGISTERED PREDICTIONS
+  T1 the defensive gate does not clear the line in all 4 phases -> RIGHT
+  T2 the upside dial does not clear it either -> RIGHT
+  T3 LOW on 25-40% of days (33%) -> RIGHT
+  T4 today is inside LOW -> WRONG (panel ends 2026-09-21)
+  VERDICT: NO GATE - the fuel is something to read, not to trade

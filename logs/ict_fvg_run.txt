@@ -1,0 +1,17 @@
+backtest/ict_fvg.py, 2026-10-26 20:27 UTC; FVG = 3-candle gap, strong impulse, retest limit, 24-bar expiry; control = same ATR-geometry at random bars (3 per FVG)
+
+== CRYPTO 1h, 8 coins, split 2024-02-08
+  longs  FVG touch   83% | tune n  6085 net  -0.04% t  -2.9 | hold n  4123 net  -0.15% t  -5.3   || CTL touch   82% | tune  -0.15% | hold  -0.15%
+  shorts FVG touch   84% | tune n  6132 net  -0.10% t  -3.7 | hold n  4204 net  -0.11% t  -4.3   || CTL touch   83% | tune  -0.16% | hold  -0.13%
+  both   FVG touch   83% | tune n 12217 net  -0.07% t  -1.4 | hold n  8327 net  -0.13% t  -4.0   || CTL touch   82% | tune  -0.16% | hold  -0.14%
+== NASDAQ 5m (cash session, zones form and die inside a day), split 2019-12-09
+  longs  FVG touch   77% | tune n  2453 net  -0.01% t  -4.5 | hold n  1180 net  -0.01% t  -2.6   || CTL touch   74% | tune  -0.01% | hold  +0.00%
+  shorts FVG touch   79% | tune n  2830 net  -0.01% t  -5.4 | hold n  1448 net  -0.01% t  -2.9   || CTL touch   72% | tune  -0.00% | hold  -0.00%
+  both   FVG touch   78% | tune n  5283 net  -0.01% t  -5.4 | hold n  2628 net  -0.01% t  -2.8   || CTL touch   73% | tune  -0.01% | hold  +0.00%
+
+  PASS: none
+
+REGISTERED PREDICTIONS
+  F1 FVG does not beat its control by >= 0.2% on both halves anywhere -> RIGHT
+  F2 no FVG set positive with t >= 2 on both halves -> RIGHT
+  F3 touch rates within 10 points of the control's (crypto 83 vs 82; NASDAQ 78 vs 73) -> RIGHT
