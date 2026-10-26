@@ -60,6 +60,12 @@ function TopBar({ meta, want }) {
           <span className={`dot ${stale ? "stale" : ""}`} />
           <span>{age === null ? "Live" : stale ? `No update for ${ago(age)}` : `Live · updated ${ago(age)}`}</span>
           <span className="btc">· BTC {usd(meta?.btc, { dp: 0 })}</span>
+          {meta?.mood?.market?.fuel ? (
+            <a className="fuel" href="/?acct=mood"
+               title="Trend-book fuel: how many of the top coins are already running. The trend book earns after months with many runners. Tap for detail.">
+              · Fuel <b>{meta.mood.market.fuel.state ?? "–"}</b>
+            </a>
+          ) : null}
         </div>
         <form method="post" action="/api/logout"><button className="btn" type="submit">Sign out</button></form>
       </div>
