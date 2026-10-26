@@ -157,6 +157,40 @@ def fear_greed():
         return None, "unavailable"
 
 
+FUEL_BANDS = ROOT / "news" / "fuel_bands.json"       # 2020-09..2026-09 history of the three readings (backtest/convexity.py --bands)
+RUNNER_UP = 0.20                                      # "running" = up more than 20% over 30 days
+
+
+def pct_in(value: float, q: list) -> float:
+    """Share of the stored 0..100 quantile grid strictly below value, in percent (0 = lowest ever seen, 100 = highest)."""
+    return 100.0 * sum(1 for x in q if x < value) / len(q)
+
+
+def fuel(syms: list[str], bands: dict | None = None) -> dict | None:
+    """THE TREND BOOK'S FUEL (backtest/convexity.py, doc 02 2026-10-27): the machine's profit comes in a few explosive alt
+    months, and the trend book earns after months when many coins were already running - by the previous month-end's tercile of
+    the RUNNER SHARE its next month averaged -0.5% (lowest third), +3.0%, +69.4% (highest third). Read-only; information, not a signal.
+    runners = share of the coins (BTC out) up more than 20% over 30 days to the last CLOSED day; med = their median 30-day move;
+    disp = the spread (population sd) of the 30-day moves. The `_pct` fields place each in the 2020-2026 history."""
+    def one(s):
+        k = get(f"{FAPI}/fapi/v1/klines?symbol={s}&interval=1d&limit=35")
+        return float(k[-2][4]) / float(k[-32][4]) - 1 if len(k) >= 32 else None
+    todo = [s for s in syms if s != "BTCUSDT"]
+    with ThreadPoolExecutor(8) as ex:
+        r30 = [r for r in ex.map(one, todo) if r is not None and math.isfinite(r)]
+    if len(r30) < 8:
+        return None
+    out = dict(n=len(r30), runners=sum(r > RUNNER_UP for r in r30) / len(r30), med=statistics.median(r30), disp=statistics.pstdev(r30))
+    if bands is None and FUEL_BANDS.exists():
+        bands = json.loads(FUEL_BANDS.read_text())
+    if bands:
+        for k in ("runners", "med", "disp"):
+            out[k + "_pct"] = round(pct_in(out[k], bands["q"][k]), 0)
+        lo, hi = bands["q"]["runners"][33], bands["q"]["runners"][67]
+        out["state"] = "LOW" if out["runners"] <= lo else "HIGH" if out["runners"] > hi else "MID"
+    return out
+
+
 def snapshot(n: int = TOP_N) -> dict:
     syms = universe(n)
     fund = funding()
@@ -167,8 +201,12 @@ def snapshot(n: int = TOP_N) -> dict:
     ls = [r["long_share"] for r in R if r["long_share"] is not None]
     fy = [r["fund_yr"] for r in R if r["fund_yr"] is not None]
     btc = next((r["crowd"] for r in R if r["sym"] == "BTCUSDT"), None)
+    try:
+        fl = fuel(syms)
+    except Exception:  # noqa: BLE001 - the gauge is context; the mood readout must still come out
+        fl = None
     mkt = dict(fear_greed=fg, fear_greed_txt=fg_txt, median_long_share=statistics.median(ls) if ls else None,
-               share_neg_funding=sum(f < 0 for f in fy) / len(fy) if fy else None, btc_crowd=btc)
+               share_neg_funding=sum(f < 0 for f in fy) / len(fy) if fy else None, btc_crowd=btc, fuel=fl)
     return dict(t=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), market=mkt, coins=R)
 
 
@@ -178,8 +216,15 @@ def show(S: dict) -> str:
     L = [f"MARKET MOOD  {S['t']}  (Binance perps, top {len(S['coins'])} by last month's volume; information, not a trade signal)", "",
          f"   Fear & Greed {m['fear_greed']} ({m['fear_greed_txt']}) | median coin: {f(m['median_long_share'], '.0f', 100)}% of accounts"
          f" long | {f(m['share_neg_funding'], '.0f', 100)}% of coins pay shorts (negative funding)"
-         + (f" | BTC crowd long/short {m['btc_crowd']:.2f}" if m["btc_crowd"] else ""), "",
-         f"   {'coin':<14}{'long %':>7}{'crowd rank':>11}{'funding %/yr':>13}{'taker b/s':>10}{'OI 7d':>8}   flag"]
+         + (f" | BTC crowd long/short {m['btc_crowd']:.2f}" if m["btc_crowd"] else ""), ""]
+    fl = m.get("fuel")
+    if fl:
+        L += [f"   TREND-BOOK FUEL {fl.get('state', '-')}: {fl['runners'] * 100:.0f}% of the coins are up >20% in 30 days"
+              + (f" (percentile {fl['runners_pct']:.0f} of 2020-26)" if "runners_pct" in fl else "")
+              + f", the median coin {fl['med'] * 100:+.0f}%"
+              + (f" (percentile {fl['med_pct']:.0f})" if "med_pct" in fl else "")
+              + ". The machine's explosive months follow months with many runners (convexity.py).", ""]
+    L += [f"   {'coin':<14}{'long %':>7}{'crowd rank':>11}{'funding %/yr':>13}{'taker b/s':>10}{'OI 7d':>8}   flag"]
     for r in S["coins"]:
         L.append(f"   {r['sym'][:-4]:<14}{f(r['long_share'], '>7.0f', 100)}{f(r['crowd_pct'], '>11.0f', 100)}"
                  f"{f(r['fund_yr'], '>+13.1f')}{f(r['taker'], '>10.2f')}{f(r['oi7'], '>+7.0f', 100)}%   {r['flag']}")

@@ -502,6 +502,12 @@ function Mood({ m }) {
         <span>Median coin: <b>{pct(k.median_long_share, { dp: 0, sign: false })}</b> of accounts long</span>
         <span><b>{pct(k.share_neg_funding, { dp: 0, sign: false })}</b> of coins pay shorts</span>
         <span>BTC crowd long/short <b>{num(k.btc_crowd, 2)}</b></span>
+        {k.fuel ? (
+          <span title="The machine's profit comes in a few explosive alt months, and the trend book earns after months when many coins were already running. Information, not a signal.">
+            Trend-book fuel <b>{k.fuel.state ?? "–"}</b>: {pct(k.fuel.runners, { dp: 0, sign: false })} of coins up over 20% in 30 days
+            (percentile {num(k.fuel.runners_pct, 0)}), median coin {pct(k.fuel.med, { dp: 0 })}
+          </span>
+        ) : null}
       </div>
       <div className="scroll">
         <table>

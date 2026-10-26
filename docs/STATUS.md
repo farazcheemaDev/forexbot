@@ -54,7 +54,7 @@ status command prints.
 | `blend-paper` | the seven trend books | 2026-09-23 20:47 |
 | `wick-paper` | crash bids, Bitget + Binance | 2026-09-25 05:17 |
 | `pair-paper` | the pair + capit2 shadow, hourly | 2026-10-16 01:05 |
-| `crowd-paper.timer` | crowd-squeeze book, hourly | deployed 2026-10-23 (book from 16:38) |
+| `crowd-paper.timer` | crowd-squeeze book, hourly; since 2026-10-27 its mood snapshot also carries the trend-book FUEL gauge (`news/mood_now.fuel`, display only; the dashboard's mood card shows it) | deployed 2026-10-23 (book from 16:38) |
 | `forexbot-dash.timer` | dashboard snapshot, every minute | 2026-10-17 |
 | `status-server` | small HTTP status page | 2026-09-13 |
 

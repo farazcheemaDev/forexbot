@@ -61,11 +61,12 @@ def test_without_the_flag_nothing_exists_and_nothing_changes():
 
 
 def test_the_first_anchors_are_the_next_monday_and_thursday():
-    st = account(crowd=False)
-    crb.ensure(st, True)
-    s = st["fin"]["crowd"]["sleeves"]
+    s = crb.fresh(datetime(2026, 10, 25, 17, tzinfo=timezone.utc))["sleeves"]       # a fixed clock: ensure() reads the real one
     assert s["mon"]["next"] == "2026-10-26" and s["thu"]["next"] == "2026-10-29"
     assert crb.fresh(datetime(2026, 10, 26, 5, tzinfo=timezone.utc))["sleeves"]["mon"]["next"] == "2026-11-02"
+    st = account(crowd=False)
+    crb.ensure(st, True)                                                              # the real clock: only that it adds a book
+    assert set(st["fin"]["crowd"]["sleeves"]) == {"mon", "thu"} and st["fin"]["crowd"]["on"]
 
 
 def test_at_the_anchor_the_half_opens_the_papers_legs_on_half_the_account():

@@ -94,6 +94,23 @@ def test_venue_symbols_find_binances_price_in_the_same_units():
     assert dp.price(p, "RAYUSDT") == 2.5 and dp.price(p, "SOLUSDT") == 190.0 and dp.price(p, "NOPEUSDT") is None
 
 
+def test_the_fuel_gauge_reaches_the_page_inside_the_mood_market():
+    import json
+    import tempfile
+    from pathlib import Path
+    snap = dict(t="2026-10-26 20:00 UTC", coins=[], market=dict(fear_greed=50, fuel=dict(
+        n=39, runners=0.0513, med=-0.1926, disp=0.2228, runners_pct=28.0, med_pct=23.0, disp_pct=35.0, state="LOW")))
+    f = Path(tempfile.mkdtemp()) / "mood.json"
+    f.write_text(json.dumps(snap))
+    old = dp.MOOD
+    dp.MOOD = f
+    try:
+        m = dp.mood()
+    finally:
+        dp.MOOD = old
+    assert m["market"]["fuel"]["state"] == "LOW" and abs(m["market"]["fuel"]["runners"] - 0.0513) < 1e-9
+
+
 def test_mood_and_crowd_absent_until_their_files_exist():
     import tempfile
     old = dp.MOOD, dp.CROWD

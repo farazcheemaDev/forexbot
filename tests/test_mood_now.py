@@ -94,6 +94,54 @@ def test_funding_annualises_by_each_coins_interval():
     assert abs(f["EIGHTUSDT"] - 10.95) < 1e-9 and abs(f["FOURUSDT"] - 21.9) < 1e-9
 
 
+def fuel_klines(moves):
+    """35 daily rows per coin: the close 31 rows before the last CLOSED one is 100, the last closed close is 100*(1+move); the
+    forming (last) row is a decoy at 1e6 so a gauge that reads the OPEN day lands far away."""
+    def get(u):
+        s = u.split("symbol=")[1].split("&")[0]
+        k = [[0, 0, 0, 0, "100", 0] for _ in range(35)]
+        k[-32] = [0, 0, 0, 0, "100", 0]
+        k[-2] = [0, 0, 0, 0, str(100 * (1 + moves[s])), 0]
+        k[-1] = [0, 0, 0, 0, "1000000", 0]
+        return k
+    return get
+
+
+def test_fuel_counts_coins_running_over_30_days_to_the_last_closed_day_with_btc_out():
+    moves = {f"C{i}USDT": m for i, m in enumerate([0.25, 0.21, 0.19, 0.0, -0.1, -0.3, -0.5, 0.05, 0.10, 0.5])}
+    moves["BTCUSDT"] = 3.0                                              # BTC must not count
+    bands = {"q": {k: [i / 100 for i in range(101)] for k in ("runners", "med", "disp")}}
+    with Patch(get=fuel_klines(moves)):
+        f = mn.fuel(list(moves), bands)
+    assert f["n"] == 10, f                                              # BTC dropped
+    assert abs(f["runners"] - 0.3) < 1e-9, f                            # 0.25, 0.21, 0.5 are above +20%; 0.19 is not
+    assert abs(f["med"] - 0.075) < 1e-9, f                              # median of the ten moves: (0.05 + 0.10) / 2
+    assert f["runners_pct"] == 30.0 and f["state"] == "LOW"             # 30 of the 101 grid points are below 0.3; 0.3 <= the 33rd (0.33)
+
+
+def test_fuel_state_low_mid_high_from_the_historic_terciles_and_none_when_too_few_coins():
+    bands = {"q": {k: [i / 100 for i in range(101)] for k in ("runners", "med", "disp")}}
+    for share, want in ((0.10, "LOW"), (0.50, "MID"), (0.90, "HIGH")):
+        n_run = round(share * 10)
+        moves = {f"C{i}USDT": (0.3 if i < n_run else 0.0) for i in range(10)}
+        with Patch(get=fuel_klines(moves)):
+            assert mn.fuel(list(moves), bands)["state"] == want, (share, want)
+    few = {f"C{i}USDT": 0.3 for i in range(5)}
+    with Patch(get=fuel_klines(few)):
+        assert mn.fuel(list(few), bands) is None                        # under 8 usable coins -> no reading
+
+
+def test_the_mood_snapshot_survives_a_failing_gauge():
+    def boom(syms, bands=None):
+        raise RuntimeError("klines down")
+    stubs = dict(universe=lambda n: ["AUSDT", "BUSDT"], funding=lambda: {"AUSDT": 1.0},
+                 coin=lambda s: dict(sym=s, crowd=1.0, long_share=0.5, taker=1.0, oi7=0.0),
+                 fear_greed=lambda: (50, "Neutral"), fuel=boom)
+    with Patch(**stubs):
+        S = mn.snapshot(2)
+    assert S["market"]["fuel"] is None and S["market"]["fear_greed"] == 50 and len(S["coins"]) == 2   # the readout still comes out
+
+
 if __name__ == "__main__":
     tests = [v for k, v in dict(globals()).items() if k.startswith("test_")]
     for fn in tests:
