@@ -75,11 +75,12 @@ Vercel lives outside this repo's runtime and was not checked.
 
 ## 3. Code identity
 
-- **The VM is at `a100fa2`; origin/main is `9873966`** (the one commit after it changes only two dashboard files - the top-bar "Fuel" label - which run
-  on Vercel, not on the VM, so the VM needs nothing). The VM pulled `a100fa2` 2026-10-27 02:01 Pakistan = 21:01 UTC on 10-26, no modified tracked files. That commit is the
+- **The VM is at `a100fa2`; origin/main is newer** (`9873966` changed only two dashboard files, the top-bar "Fuel" label, which run on Vercel; the commits
+  after it are research, docs and logs, plus the two older ones below - none of them is a bot or paper-book file, so the VM needs nothing except the label fix). The VM pulled `a100fa2` 2026-10-27 02:01 Pakistan = 21:01 UTC on 10-26, no modified tracked files. That commit is the
   trend-book fuel gauge only (`news/mood_now.py`, `news/fuel_bands.json`, a line in `dashboard/app/Dashboard.js`, tests, `backtest/convexity.py`):
-  every bot and paper-book file was byte-identical before and after (checked blob by blob), no service was restarted. Two OLDER commits are in the
-  local repo and NOT pushed (the Polymarket scan and the dashboard's short-exit label fix, the user's earlier "not yet"), so the VM does not have them.
+  every bot and paper-book file was byte-identical before and after (checked blob by blob), no service was restarted. Two OLDER commits (the Polymarket scan and
+  the dashboard's short-exit label fix, the user's earlier "not yet") were pushed to GitHub on 2026-10-27 with everything else, but the VM was NOT pulled to
+  them: it does not have `dashboard_push.py`'s label fix until the next `git pull` there (the user's call; nothing auto-pulls).
 - **The paper-book files were byte-identical before and after that pull:** `blend_paper.py`, `combo_paper.py`,
   `wick_paper.py`, `pair_live.py`, `news_books.py`, `news/crowd_paper.py`. So the pre-registered books are unchanged.
 - **The two final-machine bots now run DIFFERENT code, on purpose.** `combo-bot-fresh` was restarted on `a0da49c`: the
