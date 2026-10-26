@@ -1,7 +1,8 @@
 # STATUS - what is true right now
 
-**Verified 2026-10-25 17:01 UTC** (22:01 in Pakistan) with `bash deploy/verify_status.sh` (read-only: the VM over ssh,
-plus local git), right after the fresh account got the crowd book (section 2). v2's percentile is from 2026-10-24
+**Verified 2026-10-26 21:05 UTC** (2026-10-27 02:05 in Pakistan) with `bash deploy/verify_status.sh` (read-only: the VM over ssh,
+plus local git), the day after the fresh account got the crowd book (section 2); section 1's account numbers were refreshed
+from the dashboard feed (`dashboard_push.py --print`) at 14:23 UTC; at 21:05 UTC main was $248.77 live (-17.1%), fresh $272.31 (-9.2%). v2's percentile is from 2026-10-24
 (`backtest/combo_window.py --days 30`).
 **This is the one page that says what is running, on which code, with what result and under which gate. Where another
 page disagrees with it, this one wins.** It goes stale the day something is deployed, started, stopped or a date below
@@ -23,9 +24,9 @@ NASDAQ dip-buy and a crash-bid ledger, netted on one virtual $300 account. No or
 | | |
 |---|---|
 | **BACKTEST** (`backtest/final_machine.py`, DEPLOYABLE line) | A typical 12 months turns $300 into **$3,400** (6 years) / **$4,735** (last 2 years). **Worst month -30%, deepest fall 60% / 51%, about 4 months in 10 lose.** Trend gains are shrunk 3x for hindsight and its losses kept whole; the holdout is mined (CLAUDE.md s2); it earns little in sideways markets. The 2026-10-22 execution fixes add roughly +19% / +12% to the typical year (`machine_fixes.py`); the news and NASDAQ books came after this line was drawn and are not in it. |
-| **PAPER, main account** (since 2026-10-09 00:04 UTC, **day 16**) | **$259.31 live (-13.6%)**, $255.42 booked (-14.9%), biggest fall so far 15.2% (booked). Booked P&L: trend -$25.57, market-neutral -$8.73, carry -$6.99, daily -$8.66, NASDAQ dip +$5.87 (one closed trade: QQQ 710.39 -> 726.15), fees -$1.43. The first 13 days ran the code from before the 10-22 fixes. **The machine alone - no crowd book** (kept so on purpose: the day-45 line was set for it). |
-| **PAPER, fresh account** (since 2026-10-17 01:15 UTC, day 8) | **$276.22 live (-7.9%)**, $274.84 booked (-8.4%), biggest fall 12.3% (booked). **Since 2026-10-25 16:59 UTC it also carries the crowd-squeeze book at x1.0** (`crowd_book.py`, `--crowd`; the user: "add to fresh only"), first legs at the 10-26 / 10-29 anchors. Its dashboard scorecard leaves that book out, so it still compares like-for-like with the machine's bands. |
-| **Gate that applies** | **Day-45 KILL line (doc 22 s3b): the main account's live equity under $261.30 at 2026-11-23 00:04 UTC.** Today's $259.31 is $1.99 under it; the rule reads that one moment, 29 days from now, so today is not the verdict, and it is not above the line either. The fund decision is 2027-04-09 (section 4). |
+| **PAPER, main account** (since 2026-10-09 00:04 UTC, **day 17**) | **$254.82 live (-15.1%, 8.4th percentile of the backtest range = "below")**, $253.20 booked (-15.6%), biggest fall so far 15.2% (booked). Booked P&L: trend -$25.91, market-neutral -$9.00, carry -$8.59, daily -$8.66, crash-bid ledger +$0.92, NASDAQ dip +$5.87 (one closed trade: QQQ 710.39 -> 726.15), fees -$1.44. The first 13 days ran the code from before the 10-22 fixes. **The machine alone - no crowd book** (kept so on purpose: the day-45 line was set for it). |
+| **PAPER, fresh account** (since 2026-10-17 01:15 UTC, day 9) | **$279.97 live (-6.7%, 18.8th percentile = "below")**, $278.48 booked (-7.2%), biggest fall 12.3% (booked). **Since 2026-10-25 16:59 UTC it also carries the crowd-squeeze book at x1.0** (`crowd_book.py`, `--crowd`; the user: "add to fresh only"), its first week opened at the 10-26 00:00 anchor (21 legs, identical to the standalone book's; the 10-29 anchor is next). Its dashboard scorecard leaves that book out, so it still compares like-for-like with the machine's bands. |
+| **Gate that applies** | **Day-45 KILL line (doc 22 s3b): the main account's live equity under $261.30 at 2026-11-23 00:04 UTC.** On 2026-10-26 the live $254.82 is $6.48 under it; the rule reads that one moment, 28 days from now, so today is not the verdict, and it is not above the line either. The fund decision is 2027-04-09 (section 4). |
 
 "Live" is booked equity plus open P&L (the dashboard's number, and the one the day-45 rule reads); "booked" is what the
 status command prints.
@@ -34,17 +35,17 @@ status command prints.
 
 | Book | Since | Paper result today | What the BACKTEST says | Judged |
 |---|---|---|---|---|
-| **Machine v2** (`combo_paper.py`, $221) | 2026-09-24 | day 31: **$158.74 (-28.2%)**, biggest fall 28.5%; trend -$44.48, market-neutral -$17.23. Day 30: $154.22 (-30.2%) = **1.6th percentile of the backtest's BULL-start 30-day windows** (`logs/combo_window_30d.txt`; registered guess 1st-2nd, right) | typical 12 months $1,210 (6 yrs) / $1,125 (last 2) on $221, deepest fall 59% / 45% (`max_mix.py`, CLAUDE.md s6) | month-3 check about 2026-12-24 (the 5th-percentile kill line applies from then, and it is already under it); verdict 2027-03-24 |
+| **Machine v2** (`combo_paper.py`, $221) | 2026-09-24 | day 32: **$158.75 (-28.2%)**, biggest fall 28.5%; trend -$44.48, market-neutral -$17.23. Day 30: $154.22 (-30.2%) = **1.6th percentile of the backtest's BULL-start 30-day windows** (`logs/combo_window_30d.txt`; registered guess 1st-2nd, right) | typical 12 months $1,210 (6 yrs) / $1,125 (last 2) on $221, deepest fall 59% / 45% (`max_mix.py`, CLAUDE.md s6) | month-3 check about 2026-12-24 (the 5th-percentile kill line applies from then, and it is already under it); verdict 2027-03-24 |
 | **Crash bids** (`wick_paper.py`, two $300 ledgers) | 2026-09-25 | Bitget +1.90%, 63 fills at +1.21% each (expected +0.8..+1.0); Binance +1.61% on 60 | +16%/yr alone (docs 16-17) | 6 months (2027-03-25) *and* 60+ Bitget fills: the fills are in, the time is not |
-| **The pair + capit2 shadow** (`pair_live.py`, PKR) | 2026-10-08 | 8,639 of 10,000 PKR (-13.6%; 10-24: 8,835). Capitulation: 9 closed, 67% won, +2.58% avg. **Daily book: 6 closed, 0 won, -20.5% avg**, 5 open. capit2 shadow: no signal yet | +51%/yr median, falls 25-34% (`pair_books.py`) | capit2 shadow: 30 closed trades or 2027-10-08 |
-| **Crowd-squeeze** (`news/crowd_paper.py`, $300) | 2026-10-23 | $300.00, no week closed yet (first anchors Mon 10-26, Thu 10-29) | +37% / +48%/yr, t 1.8-2.0: a lead, not a pass (`news/positioning_hist.py`); 26-week band p10 -6.5%, median +18.4% | KILL checkpoint 2027-01-25 (under -7.8%); verdict 2027-04-09 (dead under -6.6%, held up at +16.8% or more) |
+| **The pair + capit2 shadow** (`pair_live.py`, PKR) | 2026-10-08 | 8,775 of 10,000 PKR (-12.3% at 21:05 UTC on 10-26; 14:23: 8,426; 10-25: 8,639; 10-24: 8,835). Capitulation: 9 closed, 67% won, +2.58% avg. **Daily book: 6 closed, 0 won, -20.5% avg**, 5 open. capit2 shadow: no signal yet | +51%/yr median, falls 25-34% (`pair_books.py`) | capit2 shadow: 30 closed trades or 2027-10-08 |
+| **Crowd-squeeze** (`news/crowd_paper.py`, $300) | 2026-10-23 | $299.24, its first week (21 legs) opened at the Mon 10-26 anchor, none closed yet (Thu 10-29 next) | +37% / +48%/yr, t 1.8-2.0: a lead, not a pass (`news/positioning_hist.py`); 26-week band p10 -6.5%, median +18.4% | KILL checkpoint 2027-01-25 (under -7.8%); verdict 2027-04-09 (dead under -6.6%, held up at +16.8% or more) |
 | **Seven trend books** (`blend_paper.py`, from $221) | 2026-09 | CORRECTED equity: main $383.75, tight $416.82, sized $363.50, short-boost $383.75, tstop $421.89, units $457.68, triple $463.48 (`rebuild_equity.py`, every self-check MATCH) | triple +10.43%/mo holdout with the 10x guard, hindsight-shrunk, on a mined holdout (CLAUDE.md s2) | research books, no verdict date. **Compare them only by CORRECTED equity** (s7) |
 
 ---
 
 ## 2. What is running where
 
-**Azure VM** (`/opt/forexbot`, up 5 weeks 6 days, disk 10%, memory tight: ~76 MB free of 896). All checked active.
+**Azure VM** (`/opt/forexbot`, up 5 weeks 6 days, disk 9%, memory tight: ~160 MB available of 896 at 14:00 UTC on 10-26, ~76 MB free on 10-25). All checked active.
 
 | Unit | What | Started (UTC) |
 |---|---|---|
@@ -74,7 +75,11 @@ Vercel lives outside this repo's runtime and was not checked.
 
 ## 3. Code identity
 
-- **origin/main and the VM are both `a0da49c`** (pulled 2026-10-25 16:59), no modified tracked files.
+- **The VM is at `a100fa2`; origin/main is `9873966`** (the one commit after it changes only two dashboard files - the top-bar "Fuel" label - which run
+  on Vercel, not on the VM, so the VM needs nothing). The VM pulled `a100fa2` 2026-10-27 02:01 Pakistan = 21:01 UTC on 10-26, no modified tracked files. That commit is the
+  trend-book fuel gauge only (`news/mood_now.py`, `news/fuel_bands.json`, a line in `dashboard/app/Dashboard.js`, tests, `backtest/convexity.py`):
+  every bot and paper-book file was byte-identical before and after (checked blob by blob), no service was restarted. Two OLDER commits are in the
+  local repo and NOT pushed (the Polymarket scan and the dashboard's short-exit label fix, the user's earlier "not yet"), so the VM does not have them.
 - **The paper-book files were byte-identical before and after that pull:** `blend_paper.py`, `combo_paper.py`,
   `wick_paper.py`, `pair_live.py`, `news_books.py`, `news/crowd_paper.py`. So the pre-registered books are unchanged.
 - **The two final-machine bots now run DIFFERENT code, on purpose.** `combo-bot-fresh` was restarted on `a0da49c`: the
@@ -119,7 +124,7 @@ stake, and the month-3 kill line applied to the real account (doc 22 s3b).
 
 | Date (UTC) | What | Source |
 |---|---|---|
-| 2026-10-26, 10-29 | crowd book's first Monday / Thursday anchors - the standalone book and the one inside fresh | `news/crowd_paper.py`, `crowd_book.py` |
+| 2026-10-26 (opened, 21 legs each), 10-29 | crowd book's first Monday / Thursday anchors - the standalone book and the one inside fresh | `news/crowd_paper.py`, `crowd_book.py` |
 | **2026-11-23 00:04** | **main account day-45 KILL read: live equity under $261.30 = kill** | doc 22 s3b |
 | 2026-12-01 01:15 | fresh account read beside it (does not decide) - read WITHOUT its crowd book (equity minus the book's P&L, open P&L and fees; the dashboard's scorecard figure) | doc 22 s3b |
 | about 2026-12-24 / 2027-01-09 | month 3 of v2 / of the final machine (derived): 5th-percentile kill line starts | doc 22 s3 |
@@ -143,6 +148,12 @@ book is the one logged override).
 - **Which exchange**, Bitget or Binance, if it ever funds: deferred until the bot performs (Binance lists every coin the
   books use but has $20-$50 minimums on BTC, ETH, LINK, LTC and BCH; Bitget lists 91 fewer coins and has a $5 minimum).
 - **The P2P / fee figures** for doc 22 condition 4, whenever the user wants that item closed.
+- **The trend-book fuel gauge is LIVE** (deployed 2026-10-27 at the user's word: VM pulled to `a100fa2`, tests pass on the VM, one mood snapshot
+  written and seen in the feed payload, Vercel reported "Deployment has completed" for the commit). Display only; no book reads it. It reads
+  LOW (5% of the top-40 running, median coin -19% in 30 days). **Where to see it:** a "Fuel LOW" label in the top bar of EVERY tab (next to the BTC
+  price; added in `9873966` after the first version showed it only on the Mood tab, which the user did not find) and the full line on the Mood tab.
+  The trend book has no fuel for an explosive month, which the machine's backtest
+  says is normal and lasts a while (doc 02, last entry). It does not change the day-45 line.
 - Nothing else waits on the user until 2026-11-23.
 
 ---

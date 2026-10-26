@@ -4521,3 +4521,120 @@ legal answer for the user's case. Polymarket does not pay reward amounts under $
 ones left are bonds at 1-2% a year. The only live question is reward quoting, and it needs a forward PAPER quoter on the
 trade tape (trade-through fills and 1 / 10 / 60-minute mark-outs), not another read-only scan. Under doc 22 (research
 stop 2026-12-31, code freeze to 2027-04-09) that is an override like the crowd book; nothing was started.
+
+
+## Dead: the NASDAQ dip-buy on 81 other tradfi series (2026-10-26) — `backtest/stock_dip.py`, `logs/stock_dip.txt`
+
+The running QQQ book (RSI(2) < 10 at the close, out at the first close above the 5-day mean, max 10 days) was applied
+UNCHANGED to the 81 daily series in `strategy_analysis/data/tradfi` (4 broad ETFs, 8 commodity/metal ETFs, 69 stocks), all of
+which Binance lists as perps. Costs 12bp + 3bp a calendar day; tune < 2015-08; t by ENTRY DATE (a crash day is one bet).
+Predictions and the kill line were written in the file before the first run.
+
+- **Broad ETFs: 0 of 4 pass both halves.** SPY +0.36% (t 2.4) / +0.25% (t 1.1); **QQQ +0.60% (t 2.5) / +0.31% (t 1.6)**;
+  EWJ +0.30% / -0.09%; EWY +0.39% / -0.22%. Under these costs the running NDX book is worth about 12 trades a year at +0.3% on
+  the holdout = **~+4% a year at 1x**, not the +0.95% a trade of `ndx_capit.py` (that was the ^NDX index, swap 2.3bp a night).
+- **Commodity/metal ETFs: 0 of 8; pooled -0.34% a trade, t -3.0** (the dip keeps falling).
+- **69 single stocks pooled (34,223 trades, survivor-biased so flattering): +0.18% a trade, tune t 2.2 / holdout t 0.8;
+  4 of 58 individual series (7%) pass both halves = chance.** Everything pooled: tune t 1.8 / holdout t -0.2. **No lead.**
+
+**Predictions:** D1 right (0 of 4), D2 right (+0.18%, family fail), D3 right (0 of 8), D4 right (7%), D5 wrong (no decay
+after 2010: +0.17% before, +0.15% after). **What it means:** the forced-selling bounce is an INDEX effect (QQQ, a little SPY);
+single stocks fall for reasons and keep falling. No book on the other tradfi perps. The control's per-day return is negative
+after costs, so the "x2 the control" line is met trivially and the t-lines decide.
+
+## A lottery unless there is no time limit: the funded-account ("prop firm") route — `backtest/prop_pass.py`, `logs/prop_pass.txt`
+
+The user asked to "try forex again - huge potential". The repo had tested forex only as a way to GROW a $221-300 account.
+Never tested: pay a fee, trade a firm's 10,000-100,000 USD under loss limits, keep ~80% of the profit. This measures how
+often NASDAQ NOISE's real daily history (`noise_book.py`, 2010-2026, 3,686 days, +2.25bp a day, Exness costs, intraday so no
+swap) passes the commonly published TWO-STEP rules (+10% then +5%, 10% static max loss, 5% daily loss), against a ZERO-EDGE
+CONTROL (the same days with the mean removed). Rolling start on every day; k = constant leverage. BACKTEST; the firm, its
+fine print and its payouts are NOT tested and cannot be from here.
+
+| both phases passed | x1 | x2 | x3 | x4 | x5 |
+|---|---|---|---|---|---|
+| no time limit: book / control | 66% / 45% | 58% / 23% | 41% / 17% | 37% / 15% | 36% / 14% |
+| median days to pass (book) | 432 | 199 | 112 | 76 | 53 |
+| 42 trading days a phase: book / control | 0.3% / 0% | 5.9% / 3.9% | 9.6% / 6.8% | 12.8% / 8.7% | 17.9% / 10.7% |
+| 21 trading days a phase: book / control | 0% / 0% | 1.8% / 1.4% | 3.8% / 3.1% | 7.0% / 5.0% | 10.1% / 7.2% |
+
+- **With a time limit it is a lottery that leverage sets, not the edge:** the edge adds +0.3 to +7 points; the pass rate rises
+  with k only because variance reaches the target; the same rises for the zero-edge control. At 21 days nothing is above 10%.
+- **With NO time limit the edge matters (+17 to +46 points at k >= 2, both halves) but it takes months to a year and a half**
+  (199 days at x2). At x1 the holdout edge is -3.6 points (the halves disagree), at x2 +28.5 tune / +45.6 holdout.
+- **A random walk with no time limit passes both phases ~1 time in 3-4 by structure alone** (control 14-45%, theory 33% at
+  zero drift) - which is why firms add time limits, consistency rules and payout conditions. Sources found 2026-10-26: reported
+  pass rates 5-14% per attempt, ~7% of all traders ever paid, only ~45% of the people who pass paid
+  (<https://track360.io/blog/prop-trading-industry-statistics-2026>, <https://www.financemagnates.com/forex/only-1-in-20-traders-pass-prop-firm-challenges-reports-the-funded-trader/>);
+  FTMO's published 2-step numbers match the rules used, but its fee and 1-step limits conflict between sources
+  (<https://backtrex.com/en/prop-firms/ftmo>).
+- Funded year after passing (no limit; 80% of profit paid every 21 days): x1 pays 7.4% of the account, 88% get a payout, 0%
+  blown (the control 1.6% / 22% blown); x2 pays 14.7%, 25% blown; **x3 is blown 85% of the time.** With an ASSUMED fee of 1.2%
+  of the account: x1 4.1x the fee, x2 7.1x, x3 3.8x - and 1.9x / 3.2x / 1.7x after halving for the payout friction.
+- Optimistic by construction: close-to-close days miss an intraday touch of the 5% daily limit; commissions, data-feed
+  differences, news-trading and consistency rules are not charged; the overlapping starts share one history (the control's
+  halves read 37% and 66%), so the effective sample is a handful of paths.
+
+**Predictions:** Q1 right, Q2 wrong (the edge added 21-46 points with no limit), Q3 right, Q4 right, Q5 wrong (x2's
+holdout is 13 points above tune). **What it means:** the funded route is the one way found in this repo for a $221 stake to
+trade a large forex/index account, but it only rewards an edge at a firm with NO time limit (a rare term, read on the firm's
+own page); everywhere else it is a bought ticket at 1-10%. NOISE is itself a candidate (tune t 1.99) with no forward record.
+Nothing was bought, started or deployed; the decision and the firm checks are the user's.
+
+
+## The Claude trading skills, checked and tested (2026-10-27) — two repos, three plugin pages, nine tests
+
+The user: "check all of them and see if we can take something from them, and do not assume that because we tested something
+already it is certified wrong." Sources, read as UNTRUSTED data (shallow copies in a scratch folder, nothing run from them):
+[tradermonty/claude-trading-skills](https://github.com/tradermonty/claude-trading-skills) (74 skills, mostly US-equity screeners)
+and [SKE-Labs/agent-trading-skills](https://github.com/SKE-Labs/agent-trading-skills) (56 skills; its "day-trading" set is the one the
+user remembered). SKE's v4 skills are frameworks, not recipes: each says to freeze thresholds, charge costs, hold out data, expire
+zones and count unfilled ones - this repo's own protocol - and none gives a rule with an edge. Every rule below was implemented as
+the skill's code / text states it, with predictions and a kill line in the file BEFORE the first run.
+
+| Skill (repo) | Test | Result |
+|---|---|---|
+| COT contrarian chain: `cot-contrarian-detector` (156-week COT Index, crowded >= 90 / <= 10) + `technical-analyst` weekly detectors (key reversal, failed extreme, failed breakout, continuation veto) + exit at index 50 / swing stop (tradermonty) | `cot_shapiro.py` (7 currency futures 1996-2026), `cot_shapiro_more.py` (+ gold, silver, WTI, S&P, Nasdaq-100, 10-year note: CFTC legacy reports, Yahoo prices), steps 1 + 3 only (step 2, news failure, is manual in the skills) | **NO PASS.** FX: 202 trades, +0.35% spot / +0.17% net a trade, mirror F8 -0.33%; tune -0.02% a week (t -0.4), holdout +0.12% (t +2.1); circular-shift null p 0.26 (trade mean) / 0.04 (holdout week). Pooled 13 markets: 324 trades, +0.67% spot, **tune 0.00% / holdout +0.10% a week (t 1.1)**, null p 0.10 / 0.17; the confirmation adds nothing over crowding alone (C1: +0.05% a week, t 1.4; on the six new markets +0.16% a week, t 2.1 swap-free, -0.04% a trade with swap). Predictions: S1, S4, X1-X4 right; S2, S3 wrong |
+| IBD distribution days: `ibd-distribution-day-monitor` (tradermonty) | `dist_days.py`: QQQ, SPY 1993-2026 and BTC 2020-2026, the skill's counting reproduced against its tracker code; exposure map NORMAL/CAUTION 100%, HIGH 75%, SEVERE 50% | **NO RULE.** The thresholds are loose: 23% of QQQ days are raw distribution days, so HIGH/SEVERE sit on 65% of days (average exposure 73%). No return information (next 20 days HIGH+SEVERE +0.48% vs NORMAL +0.90% tune, +1.48% vs +1.37% holdout). Tune half: Sharpe 0.28 vs hold 0.33, timing as good as the rule in 48% of shifted series. Holdout (2015-): Sharpe 0.99 vs 0.91, fall 24% vs 35% (matched constant 26%), only 3% of shifts as good; BTC holdout fall 37% vs 53%. Recent decade only. Y2-Y4 right, Y1 wrong |
+| `residual-edge-analyzer` (tradermonty), a method | `residual_edge.py` on `chop_gap_months.pkl` (the machine's monthly books, 78 months) | **Insight, not a rule.** The machine is not BTC beta: beta 0.78 but **R2 0.02**; its biggest months came with BTC flat or down (2024-12: machine +524%, BTC -2.9%; 2025-10: +112%, BTC -3.9%). Alpha t +3.8 (HAC) is not a reliable measure with returns this heavy-tailed: drop the best 3 of 78 months and the average month falls +40% -> +25% (the t-stats of those trimmed fits were not kept: the trimmed months were re-sorted, which scrambles the HAC lag order); median month +7.8% (BTC +2.7%), 69% of months up. Z1, Z4, Z5 right; Z2, Z3 wrong |
+| `crypto-regime-analyzer` (tradermonty), 5 of its 6 components (dominance has no history) | `crypto_regime_score.py`: the composite vs the machine's next month, and as a dial | **NO SIGNAL.** Spearman +0.32 tune / +0.15 holdout; RISK_OFF in 26% of months; the x0.5 dial avoids the holdout's worst month (-14% vs -28%) but is slightly worse than the matched constant on the tune half (worst month -13.8% vs -12.4%). The skill's own VALIDATION.md says the bands are untested. W1, W3 right; W2 wrong |
+| `altcoin-rotation` breadth gate (SKE): share of the PIT top-40 beating BTC over 30 days < 0.35 | `alt_rotation_gate.py` through `alt_bear.py --defence`'s machinery (triple trend book, 4 phases x 10 orderings, decided at entry) | **NO GATE.** On 49% of days (64% inside BTC-bear labels, 35% inside BTC-bull); trend longs x0.5 there: tune +458% vs base +788%, fall 41% vs 50%, below the bet-smaller line in all 4 phases (-118/-42 ... -133/-21). R2 right; R1, R3 wrong |
+| `stockbee-exhaustion-hammer-screener`, `stockbee-momentum-burst-screener` (tradermonty), skill defaults | `stockbee_crypto.py`: 360 PIT-top-40 perps, daily, 2020-2026 | **NONE PASS.** Hammer A -0.30% a trade (holdout -1.05%, t -2.1), A_U -0.15%, its no-candle context C1 -0.05%: the candle adds nothing (-0.25%). Burst long B_L +0.56% (tune +0.79 / holdout +0.20, **t 0.9**, Holm 0.78), mirror short -0.34%. H1, H3 right; H2 wrong |
+| `fair-value-gaps` (SKE, ICT) | `ict_fvg.py`: 8 coins 1h + NASDAQ 5m, retest limit, 24-bar expiry, 3 matched random-time controls per zone | **DEAD.** Crypto -0.07% tune / -0.13% holdout vs control -0.16% / -0.14%; NASDAQ -0.01% vs 0.00%; zones touched 83% vs 82% (crypto), 78% vs 73% (NASDAQ): not magnets. F1-F3 right |
+| `gap-trading` (SKE) | `ndx_gap.py` (18 registered cells: three gap sizes x opening ranges 5/15/30 x continuation/fade, Holm over 18) then `ndx_gap_check.py` | **A real but small CANDIDATE that is mostly NOISE.** NASDAQ gap >= 1 x 14-day ATR, continuation after a 15 / 30-minute opening range: **+22.7 / +25.7bp a trade net, t 3.1 / 3.5, tune t 2.2 / 2.1, holdout t 2.2 / 2.8, Holm 0.02 / 0.00; 132-144 trades in 16 years (8.3 a year).** Checks: 14 of 16 years positive, all 10 neighbours positive on both halves, S&P positive (+7bp, t 1.4) and DAX not, gap-ups +20bp / gap-downs +31bp, placebo mean +1.0bp (real above its 99th percentile), +23bp at triple cost. **But** NOISE earns +16.8bp on the same days (daily correlation +0.68), and NOISE's profit sits there: +10bp a day on the 6% biggest-gap days against +1.5bp on quiet days, 26% of its total. Worth +2.1% a year at 1x (+11% at x5, worst trade -8% of the account). G1-G3 wrong (my predicted null did not hold); K4 yes |
+
+Read and NOT run, with the reason: `drawdown-circuit-breaker` (2% day / 5% week / 8% month halts) blocks only NEW entries, which a
+booked-at-close series cannot test (CLAUDE.md s3); its monthly line would trip in 12% of the machine's months (trend book alone
+28%); the 16 earlier account brakes failed against betting smaller (`worst_month.py`). CANSLIM, VCP, PEAD, earnings, dividend,
+13F and market-top screeners need US-equity fundamentals / constituent data this repo does not have and Bitget / Binance /
+Exness do not trade. `pair-trade-screener`: only a survivor-biased stock list is on disk, and crypto pairs died 6 of 6.
+`mt5-robot-tester`, the edge-pipeline and journal skills: process tools (selection from mass backtests is the thing this repo
+guards against). The three plugin pages: TradingCalc is a free-tier crypto-futures calculator (PnL, liquidation, sizing: the
+bot already computes these); TradeOS AI turns MACD / RSI / ATR rules into alert agents behind a sign-in; "Crypto Spot Futures
+Analyzer" has no vendor page to inspect - description only. None adds an edge; none was installed.
+
+**What can be taken:** nothing as a new return stream. Methods: the circular-shift null for event rules (`cot_shapiro.py`), the
+residual-edge view (the machine's return is alt breakout convexity, not BTC), and the NOISE finding above (size NOISE up on
+big-gap days if it is ever run). Faint leads, none a pass: COT crowding alone in non-currency futures (swap-free only), the
+momentum-burst long in crypto (t 0.9), distribution-day timing in the last decade. Data added: `strategy_analysis/data/fx_macro/cot_more.csv`.
+
+
+## The machine is a convex payoff: what that does to waiting and to the day-45 line; the "fuel" state is readable but not tradable (2026-10-27) — `backtest/convexity.py`, `backtest/runner_gate.py`
+
+The user: "do something about the most useful finding" (`residual_edge.py`: the machine's backtest return is not BTC exposure, it is a few explosive alt months). It changes no rule - the lines in doc 22 are not moved - but it changes how the record must be READ, so it was priced on the machine's own 10-ordering DAILY account series (`scorecard_bands.py`'s construction, cached to `logs/daily_combos_cache/machine_account_daily.pkl`, 2020-02..2026-09). All figures are the BACKTEST, hindsight-shrunk trend book, "if the machine works as backtested"; 10 orderings share one market path and windows overlap, so the counts of distinct start-months are printed beside them. Predictions in both files before the first run.
+
+| | |
+|---|---|
+| **Lumpiness** | the best 5% of days carry 126% of the total log growth (the rest net negative); the best 10% of months 53%. The account sits below its previous peak 88% of days; the longest stretch without a new high is 248 days (223-287 across orderings) |
+| **Waiting, from a random start** | +20% reached by day 90 / 180 / 365: 83% / 95% / 100%; +50%: 61% / 88% / 99%; +100%: 43% / 73% / 95% (the backtest compounds ~+1,000%+ a year, so even its quiet stretches look fast - another reason to read the live record against the percentile bands, not against these) |
+| **The day-45 line (doc 22 s3b: KILL under -12.9%)** | 20,355 windows from 68 start-months; **9% of windows are under the line at day 45** (38 months). Under it: above their start by day 90 45%, day 180 **73%**, day 365 **99%**. Over it: 87% / 96% / 100%. So a working machine is killed ~1 time in 11, and what a KILL then gives up recovers within half a year 3 times in 4 - the trade doc 22 chose (a dead machine is killed 58% of the time, `verdict_power.py`). The line stays as written |
+| **Today's analogue** (13-18% down at day 17; main is -15.1%) | 1,095 windows from 47 start-months: 67% were over the line at day 45; above start by day 90 63%, day 180 87%, day 365 100% |
+| **What is NEW: the fuel at the time** | the killed windows split by the share of the top-40 already running (see below) at day 45: **LOW fuel 625 windows / 26 months: above start by day 180 only 57% (median +10%), 365 99%; MID 914 windows: 78% / 100%; HIGH 247 windows: 94% / 100%.** A kill zone with low fuel is a longer drought, not a different outcome. Descriptive sub-split of the kill set, not a rule |
+
+**The fuel** (`convexity.py` part 4, 72 months, Spearman with the trend book's NEXT month, tune / holdout): share of the point-in-time top-40 (BTC out) up more than 20% over 30 days **+0.35 / +0.46**; the median coin's 30-day move +0.23 / +0.61; cross-sectional dispersion +0.20 / +0.26; alt breadth +0.12 / +0.15. By tercile of the runner share at the previous month-end (split 5.1% / 20.5%): **LOW: trend book next month mean -0.5%, median -5.2%, up 18% of months (account +12.6% mean, +3.9% median); MID +3.0% / -3.7% / 36%; HIGH +69.4% mean, +25.1% median, up 70% of months (account +95.4%, worst month -12.6%).** Not all big months follow a high reading: 2025-07 (+143%) followed 5%. The SAME-month relation is weak at monthly resolution (dispersion +0.28 / -0.12).
+**Live, 2026-10-26 20:38 UTC:** 5.1% of the top-40 running (percentile 18-28 of 2020-26), the median coin -19% in 30 days (23rd), dispersion 34th; only QNT +93% and BTW +24% are up; LSK -53%, ONE -47%, BR -44%, USELESS -43%, LIT -35%. Both live trend books are net SHORT the 12 large caps (main 8 of 11 positions short, fresh 9 of 12; the shorts are +1-13% each, +$6.28 / +$1.32 open) and hold no long runner. That is the LOW state: the fuel for an explosive month is absent, the book earns small on the decline, and a drought is the expected experience, not a malfunction.
+
+**`runner_gate.py` - can the state be TRADED?** At entry, the trend book's LONGS x0.5 when the runner share is below its expanding 33rd percentile (on 33% of days), x1.5 above the expanding 67th; the alt_bear.defence machinery (4 bar phases x 10 orderings, the cached bet-smaller line re-checked): **NO GATE.** LOW x0.5: tune +591% vs the base +788%, holdout +527% vs +498%, fall 45% vs 50%; against the line, **tune -88 / -164 / -82 / -69 points, holdout +60 / +58 / +90 / +63** across the four phases. That is the mined-holdout signature (CLAUDE.md s2: "helps holdout, costs tune"), not a pass. HIGH x1.5: tune +757%, holdout +500%, fall 54%; -99/-23, -148/-74, -180/+6, -99/-23. Predictions: T1, T2, T3 right; T4 wrong (the cached panel ends 2026-09-21, before the October decline; the live gauge says LOW).
+Predictions in `convexity.py`: C3, C4 right; C1, C2, C5, C6 wrong (the best 10% of months carry 53%, not 60%; the backtest is far faster than I guessed; dispersion does not explain the same month at 0.4; live dispersion is below its median).
+
+**What was built:** `news/mood_now.fuel()` + `news/fuel_bands.json` (the 2020-26 history, written by `convexity.py --bands`) - the dashboard's mood card gets a "Trend-book fuel" line (state, share running, percentile, median coin). Standard library only; `tests/test_mood_now.py` 8 tests (3 new, 4 mutations caught), `tests/test_dashboard_push.py` 10; the Next.js app compiles. **Deployed 2026-10-27 at the user's word** (commit `a100fa2` on top of `a773935`, gauge only; VM tests pass, a mood snapshot carried `fuel` into the feed payload, every bot and paper-book file byte-identical, nothing restarted; Vercel "Deployment has completed"): display only, no book reads it.
