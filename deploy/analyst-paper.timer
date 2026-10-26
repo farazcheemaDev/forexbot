@@ -1,0 +1,10 @@
+[Unit]
+Description=Run the Analyst desk every hour (at :07, after the hour bar has closed and the crowd job has run)
+
+[Timer]
+OnCalendar=*-*-* *:07:00
+Persistent=true
+AccuracySec=30s
+
+[Install]
+WantedBy=timers.target

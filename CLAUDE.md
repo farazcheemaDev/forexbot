@@ -216,6 +216,17 @@ backtest/scalp_1m.py  1-minute BTC/DOGE scalping at 30-40x, every retail rule + 
 odds_now.py        "if I go long/short this coin NOW, how often does take-profit hit first?" - a read-only MANUAL
                      trade checker: live Bitget cell (RSI/momentum/range/BTC gate) vs the same cell in history,
                      against the same-regime baseline. Answer is almost always NO EDGE (doc 02, 2026-10-06)
+desk.py            2026-10-27: THE DESK - a manual trade plan (entry / stop / target) priced and logged as a PAPER call BEFORE its outcome, scored on
+                     real 1-minute bars; `python desk.py plan|score|stats|list`. Size, fees in R, break-even win rate, liquidation distance, and the
+                     RANDOM-ENTRY BASELINE for the same stop % / target % / hours. Verdict only after 30 filled calls (D1-D3 predicted none). Crypto and
+                     Binance's TradFi perps (XAUUSDT, QQQUSDT ...); no keys, no orders. tests/test_desk.py 12 tests, 10 mutations caught
+analyst.py         2026-10-27: THE ANALYST DESK - desk.py automated: hourly it draws support / resistance, a Fibonacci retracement and unfilled gaps on 7
+                     markets (BTC ETH SOL XRP BNB gold QQQ), three fixed rules (SR bounce, FIB pullback, SMC sweep) log CALLS with stop / target / the random-entry
+                     odds BEFORE the outcome, scored on 1-minute bars; a separate $300 PAPER book (0.5% risk a call, 3x cap). Dashboard tab "Analyst desk"
+                     (`dashboard_push.analyst_view`). A1-A4 registered in its docstring (expected: no edge); review at 100 resolved calls or 2027-01-31.
+                     deploy/analyst-paper.service + .timer (hourly :07). tests/test_analyst.py 13 tests (13 of 14 mutations caught, 1 equivalent)
+backtest/analyst_replay.py / analyst_replay_1m.py   2026-10-27: the Analyst desk's three rules replayed over 4.7 years of 1h candles (10,580 calls) and the whole
+                     account at 10x / 20x / 30x (`analyst.scenario`): wiped out at every leverage, the desk's own book -3.3% a week; the 1-minute re-score agrees (doc 02, last entry)
 btc_regime_now.py  LIVE read-only readout: 1000h gate, 4h break level, momentum, Coinbase
                      premium, funding. Public endpoints, no keys. (doc 12)
 blend_paper.py     THE LIVE PAPER BOOKS — seven in one process. main / tight / sized /
@@ -629,6 +640,40 @@ the box was patched before the repo was public.
 
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
+
+### 2026-10-27 (night, last) - the Analyst desk built: levels and predictions on the dashboard, a separate paper book (NOT DEPLOYED yet)
+
+- The user: "show it on the dashboard in real time - support / resistance and expected movement per the analysis - the bot first predicts, then records how many
+  times it was right and how much it would have made on paper, a separate book from fresh and main". Built as `analyst.py` (the engine) + `dashboard_push.analyst_view`
+  (the feed) + a dashboard tab "Analyst desk" + `deploy/analyst-paper.{service,timer}` (hourly at :07, stdlib only, MemoryMax 120M). Everything is registered in the
+  file's docstring before the first call: three fixed rules, A1-A4 (expected: no edge at 12bp - the repo's own tests of these ideas are all dead, doc 02), review at 100
+  resolved calls or 2027-01-31, retired if average R <= 0 or p >= 0.05; never real money. Not part of main or fresh; touches no bot (doc 22 override, same kind as the crowd book).
+- Honest framing on the page itself: "expected movement" = the nearest levels and a typical day's size (1 sd of 14 daily moves) - context, not a forecast; each open call
+  shows the odds a random entry with the same stop / target / hours would have, and the break-even hit rate. A call that would push open notional past 3x the book is
+  still scored as a prediction but takes no paper money ("not booked").
+- Tests: `tests/test_analyst.py` 13 (the survivor of 14 mutations is an equivalent mutant), `tests/test_dashboard_push.py` +3 (10 of 10 mutations of `analyst_view` caught);
+  checked in the local preview harness (desktop and 375px phone width, no overflow) on live Binance levels plus sample calls. `.gitignore`: `logs/analyst/`, `logs/desk/`.
+- **Built, NOT committed, NOT deployed** - a new systemd timer on the VM and a push to the public repo wait for the user's word. Deploy recipe: worktree on origin/main, push,
+  VM `git fetch && git merge --ff-only`, install the two units (`__USER__` / `__APP_DIR__` filled in as for crowd-paper), `systemctl enable --now analyst-paper.timer`, check
+  `./.venv/bin/python analyst.py --status` and the feed payload, then Vercel redeploys from the push. Update `docs/STATUS.md` when it runs.
+
+- **Leverage and capital, replayed (the user: "10x 20x 30x, capital $20 / $50 / $100 / $300 - how would that result in"; then "deploy it").** `analyst.scenario / grid / leveraged_result`
+  (the whole account on each call, one position at a time, liquidation from each call's worst move `mae`, fee 12bp x leverage) + `backtest/analyst_replay.py` (the same rules over 4.7
+  years of 1h candles: **10,580 calls, 18.0% right vs 30.8% needed, -0.20R each; 10x / 20x / 30x all wiped out; 1x a typical 0.39x year; the desk's own 0.5%-risk book -3.3% a week**) +
+  `analyst_replay_1m.py` (the same calls on 1-minute candles: +0.4 points - not a scoring artifact). Dashboard: a "What if the whole account went on every call?" card (live record
+  and history replay tabs). **Two bugs of mine found and fixed first:** a BTC cache left by a `--sample` run (BTC covered 2025 only) and a baseline measured on hourly bars while the calls
+  are scored on minutes (`desk.minute_baseline`). Wrong predictions kept in doc 02: A8, M1, A4's top end. tests/test_analyst.py 24 (incl. 18 of 18 mutations of the leverage code
+  caught), test_desk 13, test_dashboard_push 14. **DEPLOYED 2026-10-27 at the user's word ("deploy it")** - see STATUS.md for the commit and the first run.
+
+### 2026-10-27 (night) - the desk: chart-reading calls, planned in advance and scored
+
+- The user (bot aside): "sit and analyse the charts - support / resistance, Fibonacci, smart money - and when it clicks open a trade, with the loss level and the profit level
+  calculated". The repo's evidence is that none of those carries an edge after costs on its own (doc 02; `ict_fvg.py` today, `odds_now.py`, `his_ta.py`). What can be
+  done honestly is the PROCESS and its measurement: `desk.py` prices a plan (size for the risk chosen, fee in R, break-even win rate, liquidation distance vs the stop,
+  the stop in hourly ranges) and the BASELINE (how often a random entry with the same stop % / target % / hours hit the target first on the coin's last ~21 days -
+  e.g. 7% for a BTC long with a 1.5% stop and 3% target over 48h on 2026-10-27), logs it as a PAPER call, and `score` resolves it on public 1-minute bars with
+  pessimistic rules (a bar touching both = loss, gaps exit at the open, expiry, no-fill). Verdict only after 30 filled calls; D1-D3 (none clears it, average R
+  negative, 2R+ calls below break-even) registered in the file. No keys, no orders, ALLOW_REAL untouched; not advice - a record. Forex majors are not on Binance (MT5 later).
 
 ### 2026-10-27 (later) - the convexity finding acted on: waiting priced, the day-45 line priced, the "fuel" readable but not tradable, a gauge built (not deployed)
 

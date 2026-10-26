@@ -39,6 +39,7 @@ status command prints.
 | **Crash bids** (`wick_paper.py`, two $300 ledgers) | 2026-09-25 | Bitget +1.90%, 63 fills at +1.21% each (expected +0.8..+1.0); Binance +1.61% on 60 | +16%/yr alone (docs 16-17) | 6 months (2027-03-25) *and* 60+ Bitget fills: the fills are in, the time is not |
 | **The pair + capit2 shadow** (`pair_live.py`, PKR) | 2026-10-08 | 8,775 of 10,000 PKR (-12.3% at 21:05 UTC on 10-26; 14:23: 8,426; 10-25: 8,639; 10-24: 8,835). Capitulation: 9 closed, 67% won, +2.58% avg. **Daily book: 6 closed, 0 won, -20.5% avg**, 5 open. capit2 shadow: no signal yet | +51%/yr median, falls 25-34% (`pair_books.py`) | capit2 shadow: 30 closed trades or 2027-10-08 |
 | **Crowd-squeeze** (`news/crowd_paper.py`, $300) | 2026-10-23 | $299.24, its first week (21 legs) opened at the Mon 10-26 anchor, none closed yet (Thu 10-29 next) | +37% / +48%/yr, t 1.8-2.0: a lead, not a pass (`news/positioning_hist.py`); 26-week band p10 -6.5%, median +18.4% | KILL checkpoint 2027-01-25 (under -7.8%); verdict 2027-04-09 (dead under -6.6%, held up at +16.8% or more) |
+| **Analyst desk** (`analyst.py`, $300) | built 2026-10-27, **NOT DEPLOYED** (waits for the user's go-ahead) | no calls yet | none expected: every chart-rule test in doc 02 is dead after fees; the desk is the user's idea measured forward | 100 resolved calls or 2027-01-31 (`analyst.py` docstring, doc 22 override) |
 | **Seven trend books** (`blend_paper.py`, from $221) | 2026-09 | CORRECTED equity: main $383.75, tight $416.82, sized $363.50, short-boost $383.75, tstop $421.89, units $457.68, triple $463.48 (`rebuild_equity.py`, every self-check MATCH) | triple +10.43%/mo holdout with the 10x guard, hindsight-shrunk, on a mined holdout (CLAUDE.md s2) | research books, no verdict date. **Compare them only by CORRECTED equity** (s7) |
 
 ---
@@ -56,6 +57,7 @@ status command prints.
 | `wick-paper` | crash bids, Bitget + Binance | 2026-09-25 05:17 |
 | `pair-paper` | the pair + capit2 shadow, hourly | 2026-10-16 01:05 |
 | `crowd-paper.timer` | crowd-squeeze book, hourly; since 2026-10-27 its mood snapshot also carries the trend-book FUEL gauge (`news/mood_now.fuel`, display only; the dashboard's mood card shows it) | deployed 2026-10-23 (book from 16:38) |
+| `analyst-paper.timer` | **NOT INSTALLED YET** - the Analyst desk (hourly :07), units are in `deploy/`, waiting for the user's go-ahead | - |
 | `forexbot-dash.timer` | dashboard snapshot, every minute | 2026-10-17 |
 | `status-server` | small HTTP status page | 2026-09-13 |
 

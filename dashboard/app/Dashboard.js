@@ -49,6 +49,12 @@ function TopBar({ meta, want }) {
               <small className={tone(meta.crowd.equity - meta.crowd.start)}>{pct(meta.crowd.equity / meta.crowd.start - 1, { dp: 1 })}</small>
             </a>
           ) : null}
+          {meta?.analyst ? (
+            <a href="/?acct=analyst" className={want === "analyst" ? "on" : ""}>
+              {ACCOUNT_NAMES.analyst}
+              <small className={tone(meta.analyst.equity - meta.analyst.start)}>{pct(meta.analyst.equity / meta.analyst.start - 1, { dp: 1 })}</small>
+            </a>
+          ) : null}
           {meta?.mood ? (
             <a href="/?acct=mood" className={want === "mood" ? "on" : ""}>
               {ACCOUNT_NAMES.mood}<small>F&amp;G {meta.mood.market?.fear_greed ?? "–"}</small>
@@ -544,6 +550,314 @@ function Mood({ m }) {
   );
 }
 
+// ------------------------------------------------------------------ the analyst desk (analyst.py, hourly)
+
+const METHOD = { SR: "Support / resistance", FIB: "Fibonacci", SMC: "Liquidity sweep" };
+const AN_VERDICT = { "NOT ENOUGH CALLS": ["Too early to judge", "warn"], "NO EDGE PROVEN": ["No edge proven", "idle"], EDGE: ["Beats chance", "good"] };
+const RESULT = { WIN: ["Target hit", "good"], LOSS: ["Stopped out", "bad"], EXPIRED: ["Timed out", "idle"] };
+const sym0 = (s) => (s || "").replace(/USDT$/, "");
+
+// every line a chart reader would draw for one symbol, highest price first, each with its distance from the live price
+function ladderRows(s, calls) {
+  const rows = [];
+  (s.resistance || []).slice(0, 2).forEach((x) => rows.push({ k: "res", p: x.price, label: x.touches >= 3 ? "Resistance · strong" : "Resistance", note: `${x.touches} touches` }));
+  (s.support || []).slice(0, 2).forEach((x) => rows.push({ k: "sup", p: x.price, label: x.touches >= 3 ? "Support · strong" : "Support", note: `${x.touches} touches` }));
+  if (s.fib?.levels) {
+    ["0.5", "0.618", "0.786"].forEach((r) => s.fib.levels[r] !== undefined &&
+      rows.push({ k: "fib", p: s.fib.levels[r], label: `Fibonacci ${(+r * 100).toFixed(1).replace(".0", "")}%`, note: `${s.fib.trend} swing` }));
+  }
+  (s.gaps || []).slice(0, 1).forEach((g) => rows.push({ k: "gap", p: (g.lo + g.hi) / 2, label: g.side === "bull" ? "Unfilled gap · bullish" : "Unfilled gap · bearish", note: `${priceFmt(g.lo)} – ${priceFmt(g.hi)}` }));
+  if (s.typical) {
+    rows.push({ k: "typ", p: s.typical[1], label: "Typical day, high end", note: "1 sd of recent days" });
+    rows.push({ k: "typ", p: s.typical[0], label: "Typical day, low end", note: "1 sd of recent days" });
+  }
+  (calls || []).forEach((c) => {
+    rows.push({ k: "tgt", p: c.target, label: `Target · ${c.side} call #${c.id}`, note: METHOD[c.method] });
+    rows.push({ k: "stp", p: c.stop, label: `Stop · ${c.side} call #${c.id}`, note: METHOD[c.method] });
+  });
+  rows.push({ k: "now", p: s.price, label: "Price now", note: "live" });
+  return rows.sort((x, y) => y.p - x.p);
+}
+
+// the same calls, the whole account on each one at 10x / 20x / 30x: from the live record, and from the same rules replayed over history
+function WhatIf({ w, n }) {
+  const rep = w?.replay;
+  const [src, setSrc] = useState(rep ? "replay" : "live");
+  if (!w) return null;
+  const cells = src === "replay" ? rep?.grid?.all : w.live;
+  const at = (c, l) => (cells || []).find((x) => x.capital === c && x.lev === l);
+  const caps = [20, 50, 100, 300], levs = [10, 20, 30];
+  const live = src === "live";
+  const any = (cells || []).some((x) => x.taken > 0);
+  const mult = (v) => (v === null || v === undefined ? "–" : v < 0.005 ? "0×" : `${v.toFixed(2)}×`);
+  return (
+    <section className="card" style={{ marginBottom: 14 }}>
+      <div className="card-h">
+        <div><h2>What if the whole account went on every call?</h2>
+          <div className="sub">$20 / $50 / $100 / $300 at 10× / 20× / 30×, one position at a time, stop and target as logged. Each trade costs 0.12% × leverage of the
+            account in fees, and the exchange closes it if price moves about 1 ÷ leverage against you.</div></div>
+        <div className="tabs">
+          {rep ? <button className={src === "replay" ? "on" : ""} onClick={() => setSrc("replay")}>History replay</button> : null}
+          <button className={src === "live" ? "on" : ""} onClick={() => setSrc("live")}>Live record</button>
+        </div>
+      </div>
+      {live && !any ? <div className="empty">No call has resolved yet, so there is nothing to replay at leverage. {rep ? "The History replay tab shows the same rules over past years." : ""}</div> : (
+        <div className="scroll">
+          <table>
+            <thead><tr><th>Start with</th>{levs.map((l) => <th key={l} className="r">{l}× leverage</th>)}</tr></thead>
+            <tbody>
+              {caps.map((c) => (
+                <tr key={c}>
+                  <td><div className="sym">{usd(c, { dp: 0 })}</div></td>
+                  {levs.map((l) => {
+                    const x = at(c, l);
+                    if (!x) return <td key={l} className="r">–</td>;
+                    return (
+                      <td key={l} className={`r ${tone(x.ret)}`}>
+                        <div>{x.ruined ? "wiped out" : usd(x.equity)}</div>
+                        <div className="note">{x.ruined ? `ended ${usd(x.equity)}` : pct(x.ret, { dp: 0 })} · {x.taken} trades · {x.liquidated} liquidated</div>
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+      <p className="note" style={{ marginTop: 10, whiteSpace: "normal" }}>
+        {live ? `Live record: ${n || 0} resolved calls so far; calls made while an earlier one is still open are left out until it ends. ` :
+          `History replay: the desk's three rules, unchanged, over ${rep.years} years of hourly candles (${rep.span?.[0]} to ${rep.span?.[1]}), ${rep.calls} calls, ${rep.taken} taken one at a time. A bar that touches both stop and target counts as a loss. Nothing was tuned; it is a replay, not a forecast. `}
+        Capital only scales the dollars - $20 and $300 make the same percentage; the $5 minimum order is why a wiped-out account stops trading.
+      </p>
+      {!live && rep?.boot?.length ? (
+        <>
+          <div className="card-h" style={{ marginTop: 14 }}><div><h3 style={{ fontSize: 13, margin: 0 }}>A year of these calls, drawn 20,000 ways</h3>
+            <div className="sub">the replay's calls resampled in random order, {rep.per_year} a year; start = 1×</div></div></div>
+          <div className="scroll">
+            <table>
+              <thead><tr><th>Leverage</th><th className="r">Typical year</th><th className="r">Bad year (1 in 10)</th><th className="r">Good year (1 in 10)</th>
+                <th className="r">Ends under start</th><th className="r">Loses 90% on the way</th></tr></thead>
+              <tbody>
+                {rep.boot.map((b) => (
+                  <tr key={b.lev}>
+                    <td><div className="sym">{b.lev}×</div></td>
+                    <td className={`r ${tone(b.median - 1)}`}>{mult(b.median)}</td>
+                    <td className="r">{mult(b.p10)}</td><td className="r">{mult(b.p90)}</td>
+                    <td className="r">{pct(b.below_start, { dp: 0, sign: false })}</td>
+                    <td className={`r ${b.ruin > 0.5 ? "down" : ""}`}>{pct(b.ruin, { dp: 0, sign: false })}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {rep.paper_book ? (
+            <p className="note" style={{ marginTop: 10, whiteSpace: "normal" }}>
+              The desk's own book (its 0.5%-risk sizing, not all-in) over the same calls: {usd(300, { dp: 0 })} would have ended at <b className={tone(rep.paper_book.final - 300)}>{usd(rep.paper_book.final)}</b>,
+              with a deepest fall of {pct(rep.paper_book.maxdd, { dp: 0, sign: false })} and about {pct(rep.paper_book.weekly, { dp: 1 })} a week on average.
+              {rep.paper_book.final < 300 ? " The live book above is measuring whether the same drift shows up forward." : ""}
+            </p>
+          ) : null}
+          {rep.stats?.all?.hit !== undefined ? (
+            <p className="note" style={{ marginTop: 10, whiteSpace: "normal" }}>
+              In the replay the rules were right {pct(rep.stats.all.hit, { dp: 1, sign: false })} of the time (target first); a random entry with the same stop and target was
+              right {pct(rep.stats.all.baseline, { dp: 1, sign: false })}; covering the fees needs {pct(rep.stats.all.breakeven, { dp: 1, sign: false })}.
+              Average per call {rep.stats.all.avg_r > 0 ? "+" : "−"}{Math.abs(rep.stats.all.avg_r).toFixed(2)}R after fees. Leverage multiplies that average, it does not change its sign.
+              {rep.check_1m?.s1m ? ` Scoring is not what makes them lose: the last ${rep.check_1m.days} days' ${rep.check_1m.calls} calls re-scored on 1-minute candles were right ${pct(rep.check_1m.s1m.hit, { dp: 1, sign: false })} of the time (${pct(rep.check_1m.s1h.hit, { dp: 1, sign: false })} on hourly bars).` : ""}
+            </p>
+          ) : null}
+        </>
+      ) : null}
+    </section>
+  );
+}
+
+function AnalystDesk({ a }) {
+  const local = useMounted();
+  const syms = Object.keys(a.symbols || {});
+  const [pick, setPick] = useState(null);
+  const sel = a.symbols?.[pick] ? pick : syms[0];
+  const s = a.stats || {};
+  const total = a.equity - a.start;
+  const open = a.open || [];
+  const selCalls = open.filter((c) => c.symbol === sel);
+  const verdict = AN_VERDICT[s.verdict] || (s.resolved ? AN_VERDICT["NOT ENOUGH CALLS"] : ["No calls resolved yet", "warn"]);
+  const cur = sel ? a.symbols[sel] : null;
+  const nr = cur?.resistance?.[0], ns = cur?.support?.[0];
+  return (
+    <>
+      <section className="card score">
+        <div className="card-h">
+          <div><h2>Analyst desk · paper, its own {usd(a.start, { dp: 0 })}</h2>
+            <div className="sub">Three fixed chart rules (support / resistance bounce, Fibonacci pullback, liquidity sweep) read 7 markets every hour.
+              Each call is written down BEFORE it plays out - entry, stop, target and the odds a random entry would have - then scored on
+              1-minute candles. Not part of either account. The repo's own tests expect no edge after fees: this measures it.</div></div>
+          <span className={`badge ${verdict[1]}`}>{verdict[0]}</span>
+        </div>
+        <div className="score-total">
+          <div>
+            <div className="muted" style={{ fontSize: 12 }}>Paper book now (open calls at live prices)</div>
+            <div className="big">{usd(a.equity)} <span className={`small ${tone(total)}`}>{pct(total / a.start)}</span></div>
+            <div className="muted" style={{ fontSize: 12 }}>booked {usd(a.booked)} · each call risks {a.cfg?.risk_pct}% of the book · fee 0.12% a round trip</div>
+          </div>
+          <div className="muted" style={{ fontSize: 12, maxWidth: 440 }}>
+            {s.resolved ? `${s.resolved} of ${s.min_resolved} resolved calls needed for a verdict. ` : `No call has resolved yet; a verdict needs ${s.min_resolved}. `}
+            Review at 100 resolved calls or 31 Jan 2027: retired if the average result after fees is not above zero or the hit rate is no better than chance.
+          </div>
+        </div>
+        <div className="summary">
+          <span>Calls <b>{s.calls ?? 0}</b> · open <b>{s.open ?? 0}</b> · resolved <b>{s.resolved ?? 0}</b> (<span className="up">{s.wins ?? 0} target</span> · <span className="down">{s.losses ?? 0} stopped</span> · {s.expired ?? 0} timed out)</span>
+          {s.resolved ? (
+            <>
+              <span>Right (target first) <b>{pct(s.hit, { dp: 0, sign: false })}</b></span>
+              <span title="The share of calls that would have hit target first if the same stop, target and hours had been entered at a random moment on the same chart.">Random entry <b>{pct(s.baseline, { dp: 0, sign: false })}</b></span>
+              <span title="The hit rate needed to cover the fees at these stop / target sizes.">Break-even <b>{pct(s.breakeven, { dp: 0, sign: false })}</b></span>
+              <span>Average per call <b className={tone(s.avg_r)}>{s.avg_r > 0 ? "+" : s.avg_r < 0 ? "−" : ""}{Math.abs(s.avg_r).toFixed(2)}R</b></span>
+              <span>Booked P&amp;L <b className={tone(s.pnl)}>{usd(s.pnl, { sign: true })}</b></span>
+            </>
+          ) : null}
+        </div>
+      </section>
+
+      <div className="row">
+        <section className="card">
+          <div className="card-h"><div><h2>Levels and expected movement</h2>
+            <div className="sub">levels from closed candles · distance from the live price · updated {a.levels_t || "–"} UTC · tap a market</div></div></div>
+          <div className="scroll">
+            <table>
+              <thead><tr><th>Market</th><th className="r">Price</th><th className="r">Next resistance</th><th className="r">Next support</th>
+                <th className="r">Typical day</th><th>Prediction</th></tr></thead>
+              <tbody>
+                {syms.map((k) => {
+                  const v = a.symbols[k], r = v.resistance?.[0], sp = v.support?.[0];
+                  const mine = open.filter((c) => c.symbol === k);
+                  return (
+                    <tr key={k} className={k === sel ? "pick" : ""} onClick={() => setPick(k)} style={{ cursor: "pointer" }}>
+                      <td><div className="sym">{sym0(k)}<span className="faint">/USDT</span></div></td>
+                      <td className="r">{priceFmt(v.price)}</td>
+                      <td className="r">{r ? <><div className="up">{pct(r.dist)}</div><div className="note">{priceFmt(r.price)} · {r.touches}×</div></> : "–"}</td>
+                      <td className="r">{sp ? <><div className="down">{pct(sp.dist)}</div><div className="note">{priceFmt(sp.price)} · {sp.touches}×</div></> : "–"}</td>
+                      <td className="r">±{pct(v.typical_move_pct, { dp: 1, sign: false })}</td>
+                      <td>{mine.length ? mine.map((c) => <span key={c.id} className={`side ${c.side}`} style={{ marginRight: 4 }}>{c.side === "long" ? "Long" : "Short"} · {c.method}</span>)
+                        : <span className="faint">waiting</span>}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          <p className="note" style={{ marginTop: 10, whiteSpace: "normal" }}>
+            Typical day = one standard deviation of the last 14 daily moves: the size of an ordinary day, not a forecast of its direction.
+            "Waiting" means none of the three rules is triggered right now - which is most of the time.
+          </p>
+        </section>
+        <section className="card">
+          <div className="card-h"><div><h2>{cur ? `${sym0(sel)} ladder` : "Ladder"}</h2>
+            <div className="sub">every line the desk draws, with its distance from the price</div></div></div>
+          {cur ? (
+            <>
+              <div className="ladder">
+                {ladderRows(cur, selCalls).map((r, i) => (
+                  <div key={i} className={`lad lad-${r.k}`}>
+                    <span className="lab">{r.label}<span className="note"> {r.note}</span></span>
+                    <span className="px">{priceFmt(r.p)}</span>
+                    <span className={`d ${r.k === "now" ? "" : tone(r.p - cur.price)}`}>{r.k === "now" ? "" : pct(r.p / cur.price - 1)}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="note" style={{ marginTop: 10, whiteSpace: "normal" }}>
+                {nr && ns ? `Room above: ${pct(nr.dist)} to the next resistance. Room below: ${pct(ns.dist)} to the next support. ` : ""}
+                {cur.fib ? `Price has retraced ${pct(cur.fib.retraced, { dp: 0, sign: false })} of the ${cur.fib.trend} swing ${priceFmt(cur.fib.lo)} – ${priceFmt(cur.fib.hi)}. ` : ""}
+                {selCalls.length ? "A rule has fired: its prediction is in the table below." : "No rule has fired on this market, so the desk makes no prediction."}
+              </p>
+            </>
+          ) : <div className="empty">No levels yet - the desk runs hourly on the VM.</div>}
+        </section>
+      </div>
+
+      <section className="card" style={{ marginBottom: 14 }}>
+        <div className="card-h"><div><h2>Open predictions</h2>
+          <div className="sub">written down before the outcome · marked at live prices · "random" = the odds the same trade has when entered at a random moment</div></div></div>
+        {open.length ? (
+          <div className="scroll">
+            <table>
+              <thead><tr><th>Market</th><th>Rule</th><th className="r">Entry</th><th className="r">Target</th><th className="r">Stop</th><th className="r">Now</th>
+                <th className="r">Result so far</th><th className="r">Odds</th><th className="r">Time left</th></tr></thead>
+              <tbody>
+                {open.map((c) => (
+                  <tr key={c.id}>
+                    <td><div className="sym">{sym0(c.symbol)}<span className="faint">/USDT</span></div>
+                      <span className={`side ${c.side}`}>{c.side === "long" ? "Long" : "Short"}</span> <span className="note">#{c.id} · {when(c.made, local)}</span></td>
+                    <td><div>{METHOD[c.method] || c.method}</div><div className="note" style={{ whiteSpace: "normal" }}>{c.why}</div></td>
+                    <td className="r">{priceFmt(c.entry)}</td>
+                    <td className="r"><div>{priceFmt(c.target)}</div><div className="note">{pct(c.target / c.entry - 1)}</div></td>
+                    <td className="r"><div>{priceFmt(c.stop)}</div><div className="note">{pct(c.stop / c.entry - 1)}</div></td>
+                    <td className="r">{priceFmt(c.mark)}</td>
+                    <td className={`r ${tone(c.r)}`}>{c.booked ? <div>{usd(c.upnl, { sign: true })}</div> : <div className="note">not booked</div>}
+                      <div className="note">{c.r === null || c.r === undefined ? "–" : `${c.r > 0 ? "+" : c.r < 0 ? "−" : ""}${Math.abs(c.r).toFixed(2)}R`}</div></td>
+                    <td className="r"><div>random {pct(c.base_p, { dp: 0, sign: false })}</div><div className="note">needs {pct(c.be_p, { dp: 0, sign: false })} · pays {c.rr?.toFixed(1)}R</div></td>
+                    <td className="r">{c.left_h > 0 ? `${c.left_h.toFixed(0)} h` : "closing"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : <div className="empty">No open prediction. The rules are strict, so most hours nothing fires.</div>}
+      </section>
+
+      <WhatIf w={a.what_if} n={s.resolved} />
+
+      <div className="row">
+        <EquityChart curve={a.curve} start={a.start} title="Analyst book equity" sub="daily marks, and now at live prices" />
+        <section className="card">
+          <div className="card-h"><div><h2>Record by rule</h2><div className="sub">resolved calls, against random entries</div></div></div>
+          {Object.keys(s.by_method || {}).length ? (
+            <div className="scroll">
+              <table>
+                <thead><tr><th>Rule</th><th className="r">Calls</th><th className="r">Right</th><th className="r">Random</th><th className="r">Avg</th><th className="r">P&amp;L</th></tr></thead>
+                <tbody>
+                  {Object.entries(s.by_method).map(([m, g]) => (
+                    <tr key={m}><td>{METHOD[m] || m}</td><td className="r">{g.n}</td>
+                      <td className="r">{pct(g.wins / g.n, { dp: 0, sign: false })}</td><td className="r">{pct(g.baseline, { dp: 0, sign: false })}</td>
+                      <td className={`r ${tone(g.avg_r)}`}>{g.avg_r > 0 ? "+" : g.avg_r < 0 ? "−" : ""}{Math.abs(g.avg_r).toFixed(2)}R</td>
+                      <td className={`r ${tone(g.pnl)}`}>{usd(g.pnl, { sign: true })}</td></tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : <div className="empty">No call has resolved yet.</div>}
+        </section>
+      </div>
+
+      <section className="card" style={{ marginBottom: 14 }}>
+        <div className="card-h"><div><h2>Recent calls</h2><div className="sub">scored on public 1-minute candles: a bar touching both stop and target counts as stopped</div></div></div>
+        {(a.recent || []).length ? (
+          <div className="scroll">
+            <table>
+              <thead><tr><th>Market</th><th>Rule</th><th>Result</th><th className="r">Entry → exit</th><th className="r">After fees</th><th className="r">Book P&amp;L</th><th className="r">Random</th></tr></thead>
+              <tbody>
+                {a.recent.map((c) => (
+                  <tr key={c.id}>
+                    <td><div className="sym">{sym0(c.symbol)}<span className="faint">/USDT</span></div>
+                      <span className={`side ${c.side}`}>{c.side === "long" ? "Long" : "Short"}</span> <span className="note">#{c.id}</span></td>
+                    <td>{METHOD[c.method] || c.method}</td>
+                    <td><span className={`badge ${RESULT[c.status]?.[1] || "idle"}`}>{RESULT[c.status]?.[0] || c.status}</span>
+                      <div className="note">{when(c.closed, local)}</div></td>
+                    <td className="r">{priceFmt(c.entry)} → {priceFmt(c.exit)}</td>
+                    <td className={`r ${tone(c.r)}`}>{c.r > 0 ? "+" : c.r < 0 ? "−" : ""}{Math.abs(c.r).toFixed(2)}R</td>
+                    <td className={`r ${tone(c.usd)}`}>{c.booked ? usd(c.usd, { sign: true }) : <span className="note">not booked</span>}</td>
+                    <td className="r">{pct(c.base_p, { dp: 0, sign: false })}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : <div className="empty">No call has resolved yet.</div>}
+      </section>
+    </>
+  );
+}
+
 // ------------------------------------------------------------------ the page
 
 export default function Dashboard({ meta, acct, want }) {
@@ -558,6 +872,8 @@ export default function Dashboard({ meta, acct, want }) {
         {down.length ? <div className="alert">Not running on the VM: {down.join(", ")}</div> : null}
         {want === "crowd" ? (meta?.crowd ? <CrowdBook c={meta.crowd} />
           : <div className="alert info">The crowd-squeeze book has not reported yet - it runs hourly on the VM.</div>)
+        : want === "analyst" ? (meta?.analyst ? <AnalystDesk a={meta.analyst} />
+          : <div className="alert info">The analyst desk has not reported yet - it runs hourly on the VM.</div>)
         : want === "mood" ? (meta?.mood ? <Mood m={meta.mood} />
           : <div className="alert info">No market-mood snapshot yet - it is written hourly on the VM.</div>)
         : !acct ? (

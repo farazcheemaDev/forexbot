@@ -1,0 +1,61 @@
+ANALYST DESK REPLAY, 2026-10-26 22:27 UTC, 1h bars, fee 12bp, 1 position per symbol and rule
+  BTCUSDT: 42238 hourly bars from 2022-01-01 00:00, 1973 calls (155s)
+  ETHUSDT: 42238 hourly bars from 2022-01-01 00:00, 1938 calls (119s)
+  SOLUSDT: 42238 hourly bars from 2022-01-01 00:00, 2064 calls (119s)
+  XRPUSDT: 42238 hourly bars from 2022-01-01 00:00, 1998 calls (124s)
+  BNBUSDT: 42238 hourly bars from 2022-01-01 00:00, 2108 calls (123s)
+  XAUUSDT: 7670 hourly bars from 2025-12-11 08:00, 295 calls (19s)
+  QQQUSDT: 4881 hourly bars from 2026-04-06 13:00, 204 calls (11s)
+
+10580 calls over 4.70 years (2022-02-10 .. 2026-10-25), 43.2 a week; split at 2024-12-07
+
+THE RULES (hit rate = target first; break-even includes the 12bp fee; random = same stop / target / hours at a random hour)
+  all rules, whole span: 10580 calls, hit 18.0% vs random 19.4% vs break-even 30.8%, avg -0.197R after fees, one-sided p 1.000
+  all rules, tune: 5934 calls, hit 18.8% vs random 19.5% vs break-even 30.6%, avg -0.160R after fees, one-sided p 0.910
+  all rules, holdout: 4646 calls, hit 17.1% vs random 19.2% vs break-even 31.0%, avg -0.245R after fees, one-sided p 1.000
+  SR whole: 4646 calls, hit 26.2% vs random 27.2% vs break-even 36.0%, avg -0.216R after fees, one-sided p 0.934
+  SR tune: 2614 calls, hit 27.4% vs random 27.1% vs break-even 35.8%, avg -0.171R after fees, one-sided p 0.376
+  SR hold: 2032 calls, hit 24.7% vs random 27.2% vs break-even 36.4%, avg -0.275R after fees, one-sided p 0.996
+  FIB whole: 1078 calls, hit 5.8% vs random 8.4% vs break-even 26.7%, avg -0.030R after fees, one-sided p 0.999
+  FIB tune: 615 calls, hit 5.4% vs random 8.2% vs break-even 26.4%, avg -0.072R after fees, one-sided p 0.997
+  FIB hold: 463 calls, hit 6.5% vs random 8.6% vs break-even 27.1%, avg +0.026R after fees, one-sided p 0.953
+  SMC whole: 4856 calls, hit 13.0% vs random 14.4% vs break-even 26.7%, avg -0.216R after fees, one-sided p 0.998
+  SMC tune: 2705 calls, hit 13.6% vs random 14.7% vs break-even 26.7%, avg -0.170R after fees, one-sided p 0.947
+  SMC hold: 2151 calls, hit 12.1% vs random 14.0% vs break-even 26.7%, avg -0.274R after fees, one-sided p 0.995
+  A5 (no rule beats break-even on both halves): rules that DO: none
+
+THE WHOLE ACCOUNT ON EACH CALL, one position at a time (the same calls for every leverage; final account in dollars from each capital)
+  whole span
+    capital  10x: end $ / taken / liq / maxdd  20x: end $ / taken / liq / maxdd  30x: end $ / taken / liq / maxdd
+    $20           0.00 /  82 /  1 / 100%       0.00 /  20 /  1 / 100%       0.00 /   2 /  1 / 100%
+    $50           0.00 /  82 /  1 / 100%       0.00 /  20 /  1 / 100%       0.00 /   2 /  1 / 100%
+    $100          0.00 /  82 /  1 / 100%       0.00 /  20 /  1 / 100%       0.00 /   2 /  1 / 100%
+    $300          0.00 /  82 /  1 / 100%       0.00 /  20 /  1 / 100%       0.00 /   2 /  1 / 100%
+  tune half
+    capital  10x: end $ / taken / liq / maxdd  20x: end $ / taken / liq / maxdd  30x: end $ / taken / liq / maxdd
+    $20           0.00 /  82 /  1 / 100%       0.00 /  20 /  1 / 100%       0.00 /   2 /  1 / 100%
+    $50           0.00 /  82 /  1 / 100%       0.00 /  20 /  1 / 100%       0.00 /   2 /  1 / 100%
+    $100          0.00 /  82 /  1 / 100%       0.00 /  20 /  1 / 100%       0.00 /   2 /  1 / 100%
+    $300          0.00 /  82 /  1 / 100%       0.00 /  20 /  1 / 100%       0.00 /   2 /  1 / 100%
+  holdout half
+    capital  10x: end $ / taken / liq / maxdd  20x: end $ / taken / liq / maxdd  30x: end $ / taken / liq / maxdd
+    $20           0.46 / 187 /  0 /  99%       0.00 /  17 /  1 / 100%       0.00 /   7 /  1 / 100%
+    $50           0.47 / 235 /  0 /  99%       0.00 /  17 /  1 / 100%       0.00 /   7 /  1 / 100%
+    $100          0.35 / 248 /  0 / 100%       0.00 /  17 /  1 / 100%       0.00 /   7 /  1 / 100%
+    $300          0.49 / 272 /  0 / 100%       0.00 /  17 /  1 / 100%       0.00 /   7 /  1 / 100%
+  A7: after the first 8 calls $20 stands at 0.8726x and $300 at 0.8726x at 10x (same); over the whole span the small accounts stop trading earlier only because a wiped-out account falls under the $5 minimum order (at 10x, under $0.50)
+
+THE DESK'S OWN PAPER BOOK over the same calls ($300, 0.5% of the booked equity a call, open notional capped at 3x):
+  ends $0.09 (-100.0%), deepest fall 100%, 9409 calls booked, 1171 over the cap; -3.26% a week on average; by year 2022 -72%, 2023 -66%, 2024 -87%, 2025 -83%, 2026 -86%
+
+RESAMPLED YEARS: 2673 calls taken one at a time over 4.70 years = 568 a year; 20000 paths of 568 calls drawn with replacement
+  leverage  median  10th pct  90th pct  mean   under start  doubled  ruin(<=10%)  liquidations/yr
+      1x    0.39x     0.20x     0.81x   0.46x         95%       0%          1%      0.00
+      3x    0.03x     0.00x     0.21x   0.10x         99%       0%         87%      0.00
+      5x    0.00x     0.00x     0.01x   0.02x        100%       0%         99%      0.21
+     10x    0.00x     0.00x     0.00x   0.00x        100%       0%        100%      1.68
+     20x    0.00x     0.00x     0.00x   0.00x        100%       0%        100%     21.25
+     30x    0.00x     0.00x     0.00x   0.00x        100%       0%        100%     67.37
+  A6 median under the start at 10x / 20x / 30x: True / True / True; ruin at 30x 100% (>= 20%: True), rising with leverage: True
+  A8 best case up and median down with leverage (10x -> 30x): p90 0.00x -> 0.00x, median 0.00x -> 0.00x
+  A9 1x median 0.39x vs 10x 0.00x: 1x loses less

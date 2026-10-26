@@ -91,6 +91,11 @@ logs/tv_indicators_trades.csv.gz
 # committed copy would be restored over it by the VM's git reset --hard (its state already matches *_state.json).
 logs/pair_paper_trades.csv
 
+# The analyst desk (analyst.py) and the manual paper desk (desk.py) keep their calls / state here: machine-local records, like the
+# other paper books - a committed copy would be restored over the VM's record by a hard reset.
+logs/analyst/
+logs/desk/
+
 # local MCP config: the TradingView bridge lives in D:/TRADING/tradingview-mcp (this machine only)
 .mcp.json
 

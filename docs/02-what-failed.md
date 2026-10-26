@@ -4638,3 +4638,41 @@ The user: "do something about the most useful finding" (`residual_edge.py`: the 
 Predictions in `convexity.py`: C3, C4 right; C1, C2, C5, C6 wrong (the best 10% of months carry 53%, not 60%; the backtest is far faster than I guessed; dispersion does not explain the same month at 0.4; live dispersion is below its median).
 
 **What was built:** `news/mood_now.fuel()` + `news/fuel_bands.json` (the 2020-26 history, written by `convexity.py --bands`) - the dashboard's mood card gets a "Trend-book fuel" line (state, share running, percentile, median coin). Standard library only; `tests/test_mood_now.py` 8 tests (3 new, 4 mutations caught), `tests/test_dashboard_push.py` 10; the Next.js app compiles. **Deployed 2026-10-27 at the user's word** (commit `a100fa2` on top of `a773935`, gauge only; VM tests pass, a mood snapshot carried `fuel` into the feed payload, every bot and paper-book file byte-identical, nothing restarted; Vercel "Deployment has completed"): display only, no book reads it.
+
+## The Analyst desk's three chart rules replayed over 4.7 years, and the whole account at 10x / 20x / 30x (2026-10-27) — `backtest/analyst_replay.py`, `backtest/analyst_replay_1m.py`, `logs/analyst_replay.txt`
+
+**The question** (the user, before the desk went live): "10x 20x 30x leverage, capital $20 / $50 / $100 / $300 - how would that result in". The desk (`analyst.py`: support / resistance bounce, Fibonacci pullback, liquidity sweep, written before any history was read) has no record, so its own `signals()` were replayed unchanged on Binance perp 1-hour candles (BTC ETH SOL XRP BNB from 2022-01-01, gold and QQQ from their listings), entry at the next hour's open, scoring with `desk.resolve` (a bar touching both stop and target = a loss), one open call per symbol and rule, 6 hours of cooldown. `analyst.scenario` then takes the same calls with the WHOLE account on each, one position at a time, 12bp of notional as the fee (= 12bp x leverage of the account), liquidation at 1/leverage - 0.5% against the position at any moment (each call's worst move from the same bars).
+
+**Result (10,580 calls, 2022-02-10 .. 2026-10-25, 43 a week; split at 2024-12-07):**
+
+| | calls | hit (target first) | random entry, same stop / target | break-even | average after 12bp |
+|---|---|---|---|---|---|
+| all rules, tune / holdout | 5,934 / 4,646 | 18.8% / 17.1% | 19.5% / 19.2% | 30.6% / 31.0% | -0.160R / -0.245R |
+| support / resistance | 4,646 | 26.2% | 27.2% | 36.0% | -0.216R |
+| Fibonacci | 1,078 | 5.8% | 8.4% | 26.7% | -0.030R (holdout +0.026R, tune -0.072R) |
+| liquidity sweep | 4,856 | 13.0% | 14.4% | 26.7% | -0.216R |
+
+The rules are right a little LESS often than a random entry with the same stop and target, and far less often than the fee needs. **No rule beats break-even on both halves.**
+
+**The whole account, one position at a time** (the same calls for every leverage): 10x, 20x and 30x end wiped out on the whole span, on the tune half and on the holdout, for $20, $50, $100 and $300 alike (a wiped-out account falls under Bitget's $5 minimum order and stops trading; $300 ends at the same percentage as $20). One year of calls drawn 20,000 ways (568 calls a year taken one at a time, start = 1x):
+
+| leverage | typical year | 10th / 90th percentile | ends under start | loses 90% on the way | liquidations a year |
+|---|---|---|---|---|---|
+| 1x | 0.39x | 0.20x / 0.81x | 95% | 1% | 0 |
+| 3x | 0.03x | 0.00x / 0.21x | 99% | 87% | 0 |
+| 5x | 0.00x | 0.00x / 0.01x | 100% | 99% | 0.2 |
+| 10x | 0.00x | 0.00x / 0.00x | 100% | 100% | 1.7 |
+| 20x | 0.00x | - | 100% | 100% | 21 |
+| 30x | 0.00x | - | 100% | 100% | 67 |
+
+The arithmetic is the whole story: 568 trades a year at 12bp of notional is 68% of the account a year in fees at 1x, 680% at 10x, before the average call loses 0.2R. Leverage multiplies the average and cannot change its sign (`scalp_1m.py --kelly` said the same about 1-minute scalping).
+
+**The desk's own book** (0.5% risk a call, open notional capped at 3x - what the dashboard's Analyst tab will show live): over the same calls $300 would have ended at $0.09 (-3.26% a week; 2022 -72%, 2023 -66%, 2024 -87%, 2025 -83%, 2026 -86%; 9,409 calls booked, 1,171 over the cap). **Expect the live book to bleed about 3% a week; 100 resolved calls arrive in about two and a half weeks, so its registered review (A1-A3) will be quick.**
+
+**Is it the 1-hour scoring?** `analyst_replay_1m.py` re-scored the last 90 days' 720 calls on 1-MINUTE candles (which can tell which end was hit first): hit 19.2% -> 19.6%, average -0.249R -> -0.236R, every leverage outcome on that slice identical. The replay is not an artifact of coarse bars.
+
+**Predictions** (registered in the files' docstrings before the first run): A5 right; A6 right (median 0.00x at 10x / 20x / 30x, ruin 100%); A7 right ($20 and $300 stand at the same multiple until a wiped-out account hits the $5 minimum); **A8 wrong** (the best case does not rise with leverage - the 90th percentile falls from 0.81x at 1x to 0.00x at 10x: with a negative average, leverage worsens every percentile); A9 right (1x loses less than 10x). **A4 wrong at the top** (43 calls a week against "5 to 40"). M1 wrong (I expected +2 to +8 hit-rate points from minute scoring; it was +0.4), M2 right, M3 half right (the worst move matches within 0.05 points on 61% of calls; its mean is 0.87% on hours and 0.70% on minutes).
+
+**Two bugs found on the way, both mine, both fixed before any number was quoted:** (1) the first full run reused a BTC cache left by the quick `--sample` run (BTC from 2025, not 2022) - `history()` now back-fills a cache that starts later than asked; (2) the live desk's random-entry baseline was measured on 1-HOUR bars while its calls are scored on 1-MINUTE bars, which understates what chance does and flatters the call - `desk.minute_baseline` now reads 14 days of 1-minute candles on the scoring grid (hourly fallback for a listing under three horizons old). Both have tests that fail on the old code.
+
+**What it means.** Nothing to deploy as a way to make money: the chart rules lose at every leverage, and the fee at leverage is what ends the account. The desk stays what it was built as - a forward MEASUREMENT of the user's idea (paper only, no orders, no keys), retired at its review. Caveats: a replay, not a forecast; overlapping calls make the p-values approximate; the replay's calls are the desk's rules unchanged but the desk's 3x cap and sizing are applied only in the paper-book line.

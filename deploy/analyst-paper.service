@@ -1,0 +1,19 @@
+[Unit]
+Description=Analyst desk paper book (analyst.py) - chart rules predict first, are scored on real candles - paper only, public Binance data
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=__USER__
+WorkingDirectory=__APP_DIR__
+# PAPER ONLY: public Binance futures candles, no keys, no orders. Writes logs/analyst/ (state, calls, levels, marks), which
+# dashboard_push.py reads. Standard library only; capped and niced so it can never crowd out the bots (~50 MB free).
+ExecStart=__APP_DIR__/.venv/bin/python -u analyst.py
+TimeoutStartSec=600
+Nice=10
+MemoryMax=120M
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only

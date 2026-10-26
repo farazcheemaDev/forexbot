@@ -16,7 +16,7 @@ echo "VM time       $(date -u +%FT%TZ)"
 echo "VM HEAD       $(git log -1 --format='%h %cI') | modified tracked files: $(git status --short | grep -vc '^??')"
 echo "SERVICES"
 for s in blend-paper combo-paper combo-bot-final combo-bot-fresh wick-paper pair-paper status-server \
-         forexbot-dash.timer crowd-paper.timer combo-bot-demo; do
+         forexbot-dash.timer crowd-paper.timer analyst-paper.timer combo-bot-demo; do
   printf "  %-20s %s\n" $s "$(systemctl is-active $s)"
 done
 chk() { s=$1; shift   # file mtimes lie (a reset --hard rewrites them unchanged), so ask git what HEAD held at the start

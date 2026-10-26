@@ -15,6 +15,9 @@ PER ACCOUNT equity LIVE = the bot's booked equity + every open position's P&L si
             the news the bot read
 MOOD / CROWD (2026-10-23) meta.mood = news/crowd_paper.py's hourly market-mood snapshot; meta.crowd = the crowd-squeeze
             paper book (logs/crowd_paper/), live-marked here, placed in crowd_bands.json from week 4
+ANALYST (2026-10-27) meta.analyst = the Analyst desk (analyst.py, logs/analyst/): the levels it draws on 7 symbols with their
+            distance from the LIVE price, its open predictions with live marks, its hit rate against the random baseline,
+            and a separate $300 paper book (booked P&L + open calls at live prices). A paper book outside both accounts.
 KEYS        forexbot:meta (accounts, health, the other paper books), forexbot:acct:<id> - values "gz:" + base64(gzip(json))
 CURVES      logs/dashboard/eq_<id>_m.csv (one point a minute, last 2 days) and eq_<id>_h.csv (last point of each hour)
 SECRETS     UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN from the environment only (the service's EnvironmentFile,
@@ -43,7 +46,7 @@ LOGS = ROOT / "logs"
 CURVES = LOGS / "dashboard"
 ACCOUNTS = [("main", LOGS / "combo_bot_dry_final"), ("fresh", LOGS / "combo_bot_dry_final_fresh")]
 SERVICES = ["combo-bot-final", "combo-bot-fresh", "combo-paper", "blend-paper", "wick-paper", "pair-paper",
-            "crowd-paper.timer"]
+            "crowd-paper.timer", "analyst-paper.timer"]
 # combo-bot-demo was stopped 2026-10-17 at the user's word: its order-path test was done (191 orders over 16.9 days, all
 # filled and priced, 0 failures; logs/combo_bot_demo/final_report_20261017.txt on the VM)
 START_EQUITY = 300.0
@@ -57,6 +60,9 @@ MOOD = LOGS / "mood" / "mood.json"              # news/crowd_paper.py writes it 
 CROWD = LOGS / "crowd_paper"                    # the crowd-squeeze paper book's state / marks / weeks
 CROWD_BANDS = ROOT / "crowd_bands.json"         # positioning_hist.py --band: that book's normal N-week range
 CROWD_MIN_WEEKS = 4
+ANALYST = LOGS / "analyst"                      # analyst.py's state / calls / levels / marks (hourly, analyst-paper.timer)
+ANALYST_KEEP = 40
+ANALYST_REPLAY = ROOT / "analyst_replay.json"   # backtest/analyst_replay.py: the same rules over history, with the leverage grid
 
 
 # ------------------------------------------------------------------ small readers
@@ -451,6 +457,92 @@ def crowd(prices: dict, now: int, bands: dict | None) -> dict | None:
                 curve=dict(d=h[-2:], h=h), weeks=weeks, score=score)
 
 
+def slim_grid(g: list) -> list:
+    keep = ("capital", "lev", "equity", "ret", "taken", "wins", "liquidated", "skipped_busy", "pending", "worst", "maxdd", "ruined")
+    return [{k: (round(c[k], 4) if isinstance(c[k], float) else c[k]) for k in keep} for c in g]
+
+
+def replay_view(r: dict | None) -> dict | None:
+    """backtest/analyst_replay.py's result, trimmed for the page: the grid on the whole span and the holdout, the resampled years, the rule table."""
+    if not r or not r.get("grid"):
+        return None
+    rd = lambda v: round(v, 4) if isinstance(v, float) else v  # noqa: E731
+    return dict(made=r.get("made"), span=r.get("span"), years=r.get("years"), calls=r.get("calls"), taken=r.get("taken"), per_year=r.get("per_year"),
+                stats={k: {a: rd(b) for a, b in (v or {}).items()} for k, v in (r.get("stats") or {}).items()},
+                by_method={m: dict(n=v["n"], hold=v["hold"], tune=v["tune"]) for m, v in (r.get("by_method") or {}).items()},
+                grid=dict(all=slim_grid(r["grid"]["all"]), hold=slim_grid(r["grid"]["hold"])),
+                boot=[{k: rd(v) for k, v in b.items()} for b in r.get("boot") or []],
+                paper_book={k: (rd(v) if not isinstance(v, dict) else {a: rd(b) for a, b in v.items()}) for k, v in (r.get("paper_book") or {}).items()} or None,
+                check_1m={k: ({a: rd(b) for a, b in v.items()} if isinstance(v, dict) else v) for k, v in (r.get("check_1m") or {}).items()} or None)
+
+
+def analyst_view(prices: dict, now: int) -> dict | None:
+    """The Analyst desk (analyst.py): its levels against the LIVE price, its open predictions marked live, its record against
+    the random baseline, and its own $300 paper book (booked P&L + every open booked call at the live price, fee included)."""
+    st = jload(ANALYST / "state.json")
+    if not st:
+        return None
+    try:
+        import analyst as an
+    except Exception:                                   # the desk's module must never break the rest of the feed
+        return None
+    rows = read_csv(ANALYST / "calls.csv")
+    lv = jload(ANALYST / "levels.json") or {}
+    fee = an.desk.FEE
+    marks, up_tot = {}, 0.0
+    open_calls = []
+    for r in rows:
+        if r.get("status") != "open":
+            continue
+        px = price(prices, r["symbol"])
+        side = 1 if r["side"] == "long" else -1
+        entry, sp, risk = fnum(r["entry"]), fnum(r["stop_pct"]), fnum(r["risk_usd"], 0.0)
+        pct = side * (px / entry - 1) if px and entry else None
+        rr = (pct - fee) / sp if pct is not None and sp else None
+        booked = r.get("nobook") != "1"
+        upnl = round(rr * risk, 2) if rr is not None and booked else None
+        up_tot += upnl or 0.0
+        open_calls.append(dict(id=int(r["id"]), symbol=r["symbol"], side=r["side"], method=r["method"], why=r.get("why") or r.get("note"),
+                               made=r["made_utc"], entry=entry, stop=fnum(r["stop"]), target=fnum(r["target"]), mark=px,
+                               pct=None if pct is None else round(pct, 5), r=None if rr is None else round(rr, 3), upnl=upnl,
+                               booked=booked, base_p=fnum(r["base_p"]), be_p=fnum(r["be_p"]), rr=fnum(r["rr"]),
+                               left_h=round((fnum(r["expires_ms"], 0.0) - now * 1000) / 3_600_000, 1), size=fnum(r["notional"])))
+    closed = [r for r in rows if r.get("status") in ("WIN", "LOSS", "EXPIRED")]
+    closed.sort(key=lambda r: fnum(r.get("exit_ms"), 0.0), reverse=True)
+    recent = [dict(id=int(r["id"]), symbol=r["symbol"], side=r["side"], method=r["method"], status=r["status"], made=r["made_utc"],
+                   entry=fnum(r["entry"]), exit=fnum(r.get("exit_price")), r=round(fnum(r["r_net"], 0.0), 3), base_p=fnum(r["base_p"]),
+                   usd=fnum(r.get("pnl_usd")) if r.get("booked") == "1" else None, booked=r.get("booked") == "1",
+                   closed=ms_utc(fnum(r.get("exit_ms"))))
+              for r in closed[:ANALYST_KEEP]]
+    symbols = {}
+    for sym, d in (lv.get("symbols") or {}).items():
+        px = price(prices, sym) or d.get("price")
+        if not px:
+            continue
+        sd = d.get("typical_move_pct") or 0.0
+        sw = d.get("fib")
+        if sw and sw.get("hi") and sw.get("lo") and sw["hi"] > sw["lo"]:
+            ret = (sw["hi"] - px) / (sw["hi"] - sw["lo"]) if sw["trend"] == "up" else (px - sw["lo"]) / (sw["hi"] - sw["lo"])
+            sw = dict(sw, retraced=round(ret, 3))
+        lvl = lambda xs: [dict(price=x["price"], touches=x["touches"], dist=round(x["price"] / px - 1, 5)) for x in xs]  # noqa: E731
+        symbols[sym] = dict(price=px, atr1_pct=d.get("atr1_pct"), typical_move_pct=sd,
+                            typical=[round(px * (1 - sd), 8), round(px * (1 + sd), 8)],
+                            support=lvl(d.get("support") or []), resistance=lvl(d.get("resistance") or []), fib=sw,
+                            gaps=d.get("gaps") or [], calls=[c["id"] for c in open_calls if c["symbol"] == sym])
+    start, booked_eq = st.get("start", 300.0), st["equity"]
+    live = booked_eq + up_tot
+    h = [[day_ts(r["day"]), round(fnum(r["equity"]), 2)] for r in read_csv(ANALYST / "marks.csv") if fnum(r.get("equity")) is not None][-400:]
+    if not h:
+        h = [[int(st.get("started_ms", now * 1000) / 1000), round(start, 2)]]
+    h = h + [[now, round(live, 2)]]
+    s = an.stats(rows)
+    s["min_resolved"] = an.MIN_RESOLVED
+    return dict(started=st.get("started"), start=start, equity=round(live, 2), booked=round(booked_eq, 2), peak=round(st.get("peak", start), 2),
+                levels_t=lv.get("made"), symbols=symbols, open=open_calls, recent=recent, stats=s, curve=dict(d=h[-2:], h=h),
+                what_if=dict(live=slim_grid(an.grid(rows)), replay=replay_view(jload(ANALYST_REPLAY))),
+                cfg=dict(watch=an.WATCH, risk_pct=an.RISK_PCT, max_gross=an.MAX_GROSS, hours=an.HOURS, review=dict(resolved=100, date="2027-01-31")))
+
+
 def others() -> list:
     out = []
     c = jload(LOGS / "combo_state.json")
@@ -498,9 +590,11 @@ def build(write: bool = False) -> tuple:
         if a:
             accts[acct] = a
     cr = crowd(prices, now, jload(CROWD_BANDS))
+    an = analyst_view(prices, now)
     oth = others() + ([dict(name="Crowd squeeze paper", equity=cr["equity"], start=cr["start"], started=cr["started"])]
-                      if cr else [])
-    meta = dict(generated=now, btc=prices.get("BTCUSDT"), health=health(), others=oth, mood=mood(), crowd=cr,
+                      if cr else []) + ([dict(name="Analyst desk paper", equity=an["equity"], start=an["start"], started=an["started"])]
+                                        if an else [])
+    meta = dict(generated=now, btc=prices.get("BTCUSDT"), health=health(), others=oth, mood=mood(), crowd=cr, analyst=an,
                 accounts=[dict(id=a["id"], started=a["started"], equity=a["equity"], start=a["start"])
                           for a in accts.values()])
     return meta, accts

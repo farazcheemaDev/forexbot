@@ -106,6 +106,11 @@ trade (crowd_paper.py's docstring, amended the same day after `news/crowd_fast.p
 2027-01-25 (under -7.8%), and its verdict on **2027-04-09, the machine's own date**: dead under -6.6%, held up at +16.8%
 or more - then it may join the machine. Real money in it would still need s2's conditions.
 
+**Override, 2026-10-27 (the user: "show it on the dashboard ... the bot first predicts, then records how many times it was right ... a separate book"):** one more PAPER
+book, the Analyst desk (`analyst.py`, its own $300, its own files, hourly timer). Outside the machine like the crowd book: no bot is touched and s3b reads the machine alone. Its
+lines are in the file's docstring before its first call: no edge expected (A1-A4); review at 100 resolved calls or 2027-01-31; retired if the average result after fees is
+not above zero or the hit rate does not beat the random-entry baseline (p < 0.05). It never trades real money and cannot qualify for s2.
+
 ## 5. The research stops on 2026-12-31
 
 What the 2026-10-10 councils asked to test is done:

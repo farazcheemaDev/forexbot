@@ -145,8 +145,113 @@ def test_closed_trades_label_every_short_a_short():
     assert carry["pct"] == -0.55406 and carry["pnl"] == -2.1191            # the numbers were always right
 
 
+def _analyst_world():
+    """A temp logs/analyst with 4 calls (open booked long, open NOT-booked short, a booked win, an unbooked loss), a book at $303 and one set of levels."""
+    import json
+    import tempfile
+    import analyst as an
+    d = Path(tempfile.mkdtemp())
+    call = lambda **k: dict(made_utc="2026-10-27 10:00:00", made_ms=1, expires_ms=int(time.time() * 1000) + 10 * 3_600_000, method="SR", why="w",  # noqa: E731
+                            rr=2.0, be_p=0.4, base_p=0.35, **k)
+    rows = [
+        call(id=1, symbol="BTCUSDT", side="long", entry=100.0, stop=98.0, target=106.0, stop_pct=0.02, risk_usd=1.5, notional=75.0, status="open", nobook=0),
+        call(id=2, symbol="ETHUSDT", side="short", entry=50.0, stop=51.0, target=47.0, stop_pct=0.02, risk_usd=1.5, notional=75.0, status="open", nobook=1),
+        call(id=3, symbol="SOLUSDT", side="long", entry=10.0, stop=9.8, target=10.6, stop_pct=0.02, risk_usd=1.5, notional=75.0, status="WIN", nobook=0,
+             exit_ms=2_000, exit_price=10.6, r_net=2.0, booked=1, pnl_usd=3.0),
+        call(id=4, symbol="XRPUSDT", side="short", entry=2.0, stop=2.04, target=1.9, stop_pct=0.02, risk_usd=1.5, notional=75.0, status="LOSS", nobook=1,
+             exit_ms=3_000, exit_price=2.04, r_net=-1.06, booked=0, pnl_usd=""),
+    ]
+    old = (an.D, an.CALLS)
+    an.D, an.CALLS = d, d / "calls.csv"
+    try:
+        an.save_calls(rows)
+    finally:
+        an.D, an.CALLS = old
+    (d / "state.json").write_text(json.dumps(dict(started="2026-10-27 09:00:00", started_ms=1_800_000_000_000, start=300.0, equity=303.0, peak=303.0)))
+    (d / "marks.csv").write_text("day,equity\n2026-10-27,300.0\n")
+    (d / "levels.json").write_text(json.dumps(dict(t=5, made="2026-10-27 12:07:00", symbols={"BTCUSDT": dict(
+        symbol="BTCUSDT", price=100.0, atr1_pct=0.004, typical_move_pct=0.02, support=[dict(price=95.0, touches=3)],
+        resistance=[dict(price=105.0, touches=4)], fib=dict(trend="up", hi=110.0, lo=90.0, levels={}, retraced=0.5), gaps=[])})))
+    return d
+
+
+def test_the_analyst_desk_is_marked_live_and_only_booked_calls_move_its_book():
+    d = _analyst_world()
+    old = dp.ANALYST
+    dp.ANALYST = d
+    try:
+        a = dp.analyst_view({"BTCUSDT": 101.0, "ETHUSDT": 55.0}, int(time.time()))
+    finally:
+        dp.ANALYST = old
+    one = [c for c in a["open"] if c["id"] == 1][0]
+    two = [c for c in a["open"] if c["id"] == 2][0]
+    assert abs(one["r"] - (0.01 - 0.0012) / 0.02) < 1e-3 and abs(one["upnl"] - 0.66) < 0.006        # +1% on a 2% stop, fee in
+    assert two["upnl"] is None and two["booked"] is False and two["r"] < -2                          # a short that went against it, not booked
+    assert abs(a["equity"] - 303.66) < 0.006 and a["booked"] == 303.0                              # only the booked call is in the book
+    assert a["curve"]["h"][-1][1] == a["equity"] and a["curve"]["h"][0][1] == 300.0
+
+
+def test_the_analyst_desk_levels_are_measured_from_the_live_price_and_the_record_is_complete():
+    import json
+    d = _analyst_world()
+    old = dp.ANALYST
+    dp.ANALYST = d
+    try:
+        a = dp.analyst_view({"BTCUSDT": 101.0}, int(time.time()))
+    finally:
+        dp.ANALYST = old
+    s = a["symbols"]["BTCUSDT"]
+    assert s["price"] == 101.0 and s["calls"] == [1]                                                # live price, not the logged 100
+    assert abs(s["support"][0]["dist"] - (95 / 101 - 1)) < 1e-4 and s["support"][0]["dist"] < 0 < s["resistance"][0]["dist"]
+    assert abs(s["fib"]["retraced"] - 0.45) < 1e-3                                                  # (110 - 101) / 20
+    assert s["typical"] == [round(101 * 0.98, 8), round(101 * 1.02, 8)]
+    assert [r["id"] for r in a["recent"]] == [4, 3] and a["recent"][0]["usd"] is None and a["recent"][1]["usd"] == 3.0
+    assert a["stats"]["resolved"] == 2 and a["stats"]["wins"] == 1 and a["stats"]["min_resolved"] == 30
+    json.dumps(a, allow_nan=False)                                                                  # the page parses it: no NaN / Infinity
+
+
+def test_the_leverage_grid_is_built_from_the_logged_calls_and_the_replay_file_is_optional():
+    import json
+    import tempfile
+    d = _analyst_world()
+    old = dp.ANALYST, dp.ANALYST_REPLAY
+    dp.ANALYST, dp.ANALYST_REPLAY = d, Path(tempfile.mkdtemp()) / "none.json"
+    try:
+        a = dp.analyst_view({"BTCUSDT": 101.0}, int(time.time()))
+        gone = a["what_if"]
+        rf = Path(tempfile.mkdtemp()) / "replay.json"
+        cell = dict(capital=100, lev=10, equity=1.0, ret=-0.99, taken=5, wins=1, liquidated=0, skipped_busy=2, pending=0, worst=-0.3, maxdd=0.99, ruined=True,
+                    skipped_small=3, extra="dropped")
+        rf.write_text(json.dumps(dict(made="x", span=["a", "b"], years=4.8, calls=10, taken=7, per_year=2, symbols={"BTCUSDT": {}}, grid=dict(all=[cell], tune=[cell], hold=[cell]),
+                                      stats=dict(all=dict(hit=0.15, avg_r=-0.3)), by_method=dict(SR=dict(n=3, hold=dict(n=1), tune=dict(n=2), junk=1)),
+                                      boot=[dict(lev=10, median=0.0, ruin=1.0)], check_1m=dict(days=90, calls=720, s1h=dict(hit=0.19), s1m=dict(hit=0.2)),
+                                      paper_book=dict(final=12.3456789, maxdd=0.97, booked=5, skipped=1, weekly=-0.02, by_year={"2022": -0.5}))))
+        dp.ANALYST_REPLAY = rf
+        b = dp.analyst_view({"BTCUSDT": 101.0}, int(time.time()))["what_if"]
+    finally:
+        dp.ANALYST, dp.ANALYST_REPLAY = old
+    assert gone["replay"] is None and len(gone["live"]) == 12                     # 4 capitals x 3 leverages
+    assert {(c["capital"], c["lev"]) for c in gone["live"]} == {(c, x) for c in (20, 50, 100, 300) for x in (10, 20, 30)}
+    assert all(c["taken"] == 0 and c["pending"] == 2 for c in gone["live"])        # both resolved calls were made no earlier than the first open one: left pending
+    assert b["replay"]["grid"]["hold"][0]["equity"] == 1.0 and "extra" not in b["replay"]["grid"]["all"][0] and "skipped_small" not in b["replay"]["grid"]["all"][0]
+    assert b["replay"]["check_1m"]["s1m"]["hit"] == 0.2 and gone["replay"] is None
+    assert b["replay"]["paper_book"]["final"] == 12.3457 and b["replay"]["paper_book"]["by_year"]["2022"] == -0.5
+    assert b["replay"]["boot"][0]["ruin"] == 1.0 and set(b["replay"]["by_method"]["SR"]) == {"n", "hold", "tune"} and "symbols" not in b["replay"]
+    json.dumps(b, allow_nan=False)
+
+
+def test_the_analyst_desk_is_absent_until_it_has_run():
+    import tempfile
+    old = dp.ANALYST
+    dp.ANALYST = Path(tempfile.mkdtemp())
+    try:
+        assert dp.analyst_view({"BTCUSDT": 1.0}, int(time.time())) is None
+    finally:
+        dp.ANALYST = old
+
+
 if __name__ == "__main__":
-    tests = [v for k, v in dict(globals()).items() if k.startswith("test_")]
+    tests =[v for k, v in dict(globals()).items() if k.startswith("test_")]
     for fn in tests:
         fn()
         print(f"PASS {fn.__name__}")

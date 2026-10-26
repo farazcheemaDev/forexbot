@@ -162,6 +162,24 @@ th.r, td.r { text-align: right; }
 .login button { width: 100%; margin-top: 10px; padding: 10px; border-radius: 8px; border: 0; background: var(--accent);
   color: #0b0e11; font-weight: 700; cursor: pointer; }
 
+/* ---------- analyst desk: the level ladder */
+tr.pick td { background: rgba(240, 185, 11, .07); }
+.ladder { display: flex; flex-direction: column; gap: 2px; }
+.lad { display: grid; grid-template-columns: minmax(0, 1fr) auto 64px; gap: 8px; align-items: center; font-size: 12.5px;
+  padding: 5px 8px; border-left: 3px solid var(--line); border-radius: 4px; background: var(--panel2);
+  font-variant-numeric: tabular-nums; }
+.lad .lab { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lad .px { text-align: right; }
+.lad .d { text-align: right; color: var(--muted); }
+.lad-res { border-left-color: var(--down); }
+.lad-sup { border-left-color: var(--up); }
+.lad-fib { border-left-color: #8b7bd8; }
+.lad-gap { border-left-color: #4aa3c9; }
+.lad-typ { border-left-style: dashed; opacity: .8; }
+.lad-tgt { border-left-color: var(--up); border-left-style: dotted; }
+.lad-stp { border-left-color: var(--down); border-left-style: dotted; }
+.lad-now { border-left-color: var(--accent); background: rgba(240, 185, 11, .12); font-weight: 650; }
+
 /* ---------- small screens */
 @media (max-width: 1100px) {
   .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
