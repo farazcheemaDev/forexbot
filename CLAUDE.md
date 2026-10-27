@@ -227,6 +227,8 @@ analyst.py         2026-10-27: THE ANALYST DESK - desk.py automated: hourly it d
                      deploy/analyst-paper.service + .timer (hourly :07). tests/test_analyst.py 13 tests (13 of 14 mutations caught, 1 equivalent)
 backtest/analyst_replay.py / analyst_replay_1m.py   2026-10-27: the Analyst desk's three rules replayed over 4.7 years of 1h candles (10,580 calls) and the whole
                      account at 10x / 20x / 30x (`analyst.scenario`): wiped out at every leverage, the desk's own book -3.3% a week; the 1-minute re-score agrees (doc 02, last entry)
+backtest/pit_years.py   2026-10-27: the main account's machine by calendar year (fixed $300) with the trend book on the point-in-time top-12 alts
+                     instead of the hindsight list: total ~unchanged (+$8,645 vs +$8,385), 2024 down, 2025 up - mostly MYX (doc 02, last entry)
 btc_regime_now.py  LIVE read-only readout: 1000h gate, 4h break level, momentum, Coinbase
                      premium, funding. Public endpoints, no keys. (doc 12)
 blend_paper.py     THE LIVE PAPER BOOKS — seven in one process. main / tight / sized /
@@ -640,6 +642,17 @@ the box was patched before the repo was public.
 
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
+
+### 2026-10-27 (evening) - the machine's years without the hindsight coin list (`backtest/pit_years.py`)
+
+- The user asked for the machine's year-by-year results, then: "are these really the current strategy on previous years?" and "re-run with
+  coins chosen point-in-time". The published yearly series (all_books, fixed $300: 2020 +875, 2021 +2,386, 2022 +232, 2023 +780, 2024 +2,208,
+  2025 +1,287, 2026 to Sep +632) trades the trend book on blend.BOOK (picked in 2026) with gains shrunk 3x. Compounded, the same series reads
+  $300 -> 197 million x over 2020-26 - arithmetic with no capacity limit; quote fixed-stake years, never that.
+- **Point-in-time** (each month the 12 most-traded alts by the prior month's volume, today's rules, no shrink; check: the hindsight coins
+  through the same pipeline reproduce the published trend book within 4%): machine 2020 +723, 2021 +2,939, 2022 +365, 2023 +915, **2024 +834**,
+  **2025 +2,228**, 2026 +566 - total +8,645 vs +8,385. The total survives; the years move: 2024's money was hindsight coins (SUI / ENA / WLD),
+  and 2025's is mostly MYX (76% of that year's winning long R; without it 2025 +1,558). Y4 / Y6 wrong. Doc 02's last entry.
 
 ### 2026-10-27 (afternoon) - the Analyst desk's verdict test amended: same-day, same-direction calls are one bet
 

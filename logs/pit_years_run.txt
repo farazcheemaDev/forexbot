@@ -1,0 +1,38 @@
+rows for 149 coins (159,874 positions), 13s
+machine books built, 170s
+backtest/pit_years.py, 2026-10-27 18:31 UTC; the main account's machine, profit a year on a FIXED $300 (no compounding), median of 10 orderings; 2020-02-17 .. 2026-09-13 (2020 from Feb, 2026 to Sep)
+
+CHECK - the 12 hindsight coins through this pipeline vs all_books' trend book (both shrunk, slot at the label)
+                                       2020     2021     2022     2023     2024     2025     2026   2020-26
+  all_books trend (published)          +342   +1,217     -125     +344   +1,863     +315     +290    +4,282
+  this pipeline, same 12 coins         +575   +1,092     -198     +571   +2,060     +298      +87    +4,468
+  total within 15%: True; same sign every year: True
+
+THE TREND BOOK ALONE
+                                       2020     2021     2022     2023     2024     2025     2026   2020-26
+  HINDSIGHT (published, shrunk)        +342   +1,217     -125     +344   +1,863     +315     +290    +4,282
+  PIT ALTS                             +170   +1,700      -75     +638     +233   +1,232     +372    +4,131
+  PIT ALTS + CLOSE                     +216   +1,703      -16     +510     +470   +1,334     +212    +4,545
+  PIT TOP-12 + CLOSE                   +394   +1,206       -0     +689     +302   +1,225      -16    +4,187
+  PIT ALTS + CLOSE, NO MYX             +216   +1,703      -16     +510     +470     +639     +236    +3,877
+
+THE WHOLE MACHINE (trend + the 8 other books, unchanged)
+                                       2020     2021     2022     2023     2024     2025     2026   2020-26
+  HINDSIGHT (published)                +875   +2,386     +232     +780   +2,208   +1,287     +632    +8,385
+  PIT ALTS                             +684   +2,821     +263   +1,072     +549   +2,227     +693    +8,282
+  PIT ALTS + CLOSE                     +723   +2,939     +365     +915     +834   +2,228     +566    +8,645
+  PIT TOP-12 + CLOSE                   +895   +2,380     +371   +1,121     +667   +2,175     +253    +8,363
+  PIT ALTS + CLOSE, NO MYX             +723   +2,939     +365     +915     +834   +1,558     +568    +7,977
+  range of the honest line over the 10 orderings, by year: 2020 +545..+1,031, 2021 +1,919..+3,498, 2022 +172..+539, 2023 +655..+1,217, 2024 +628..+1,384, 2025 +1,935..+2,441, 2026 +125..+709
+  the other 8 books alone:      +502   +1,188     +369     +415     +362     +963     +302  total +4,135
+  slot at the close minus at the label, PAIRED on each ordering (trend, 2020-26): mean +10 se 185, the close better in 6/10
+
+REGISTERED PREDICTIONS
+  Y1 PIT trend 2024 under half of +$1,863: +470 -> RIGHT
+  Y2 PIT trend 2021 >= hindsight +$1,217: +1,703 -> RIGHT
+  Y3 PIT trend loses in 2022: -16 -> RIGHT
+  Y4 machine 2020-26 on the honest line $4,200-$6,720: +8,645 -> WRONG
+  Y5 every year positive on the honest line: +723, +2,939, +365, +915, +834, +2,228, +566 -> RIGHT
+  Y6 slot at the close cuts the PIT trend total 5-20%: -10.0% -> WRONG
+
+coins in the PIT alts universe over the span: 144; run 385s
