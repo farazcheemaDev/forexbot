@@ -666,7 +666,7 @@ the detail lives in the numbered docs.*
   still scored as a prediction but takes no paper money ("not booked").
 - Tests: `tests/test_analyst.py` 13 (the survivor of 14 mutations is an equivalent mutant), `tests/test_dashboard_push.py` +3 (10 of 10 mutations of `analyst_view` caught);
   checked in the local preview harness (desktop and 375px phone width, no overflow) on live Binance levels plus sample calls. `.gitignore`: `logs/analyst/`, `logs/desk/`.
-- **DEPLOYED 2026-10-27 22:45 UTC at the user's word ("deploy it"; commit `ae96a46`, committed directly on main because local = origin).** VM fast-forwarded from `a100fa2`, tests 24 + 13 + 14 pass
+- **DEPLOYED 2026-10-26 22:45 UTC at the user's word ("deploy it"; commit `ae96a46`, committed directly on main because local = origin).** VM fast-forwarded from `a100fa2`, tests 24 + 13 + 14 pass
   there, every bot / paper-book file byte-identical, no service restarted; `analyst-paper.service` run once by hand (0 calls, book $300), `analyst-paper.timer` enabled (hourly :07); the feed
   payload carries `meta.analyst` (5.1 KB gzipped meta in all); Vercel "Deployment has completed". The same pull brought the two older commits (the Polymarket scan, the dashboard's carry
   short-exit label fix). `verify_status.sh`: all services active, code identity matches, the one 'restart pending' (main, 10-22 code) is the documented one. STATUS.md updated.
