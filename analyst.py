@@ -37,6 +37,13 @@ REGISTERED BEFORE THE FIRST CALL (2026-10-27)
   A2  The paper book is below its $300 start after its first 100 resolved calls and the average R after fees is negative.
   A3  The three rules are not distinguishable: no rule beats its own baseline at p < 0.05 with 30 resolved calls.
   A4  The watchlist produces 5 to 40 calls a week.
+AMENDED 2026-10-27 13:56 UTC, with 6 of the 30 calls resolved - BEFORE the verdict, at the user's word. A1's test (and A3's, rule by rule) no
+  longer counts each call as an independent bet. The calls MADE on the same UTC day in the same direction are ONE bet: the 7 markets move
+  together, and on 2026-10-27 one move stopped four shorts (XRP, gold, ETH, SOL) within 21 minutes. Counted as four, they would make the
+  test more certain than it is, in either direction. Each bet scores its calls' hit rate minus their average random baseline, and every
+  bet counts once. p = one-sided Student's t over the bets (`day_bets`, `bet_p`; stats()['p'], which the verdict and the REVIEW read).
+  The old per-call z-test stays on the record as stats()['p_calls']. The 30-call gate, the 0.05 line, avg R > 0, A2, A4-A8 and the
+  review are unchanged. backtest/analyst_replay.py's logged p values predate this (per call); none was under 0.37, every rule lost.
 WHAT IF YOU TRADED THESE CALLS WITH LEVERAGE (added 2026-10-27, the user: "10x 20x 30x, capital 20 / 50 / 100 / 300 - how would that result in")
   The same calls, taken by a trader who puts the WHOLE account on each one at 10x / 20x / 30x (isolated margin, one position at a time: a call that
   appears while one is open is skipped), the stop and target as logged, 12bp of the NOTIONAL as the round-trip fee (= 12bp x leverage of the account).
@@ -48,7 +55,8 @@ WHAT IF YOU TRADED THESE CALLS WITH LEVERAGE (added 2026-10-27, the user: "10x 2
       the chance of losing 90% of the account is >= 20% at 30x and rises with leverage.
   A7  Capital changes dollars, not percentages: $20 and $300 end at the same multiple (the $5 minimum does not bind all-in).
   A8  More leverage raises the best case and lowers the median (the pattern of scalp_1m.py --kelly: leverage cannot rescue a thin edge).
-REVIEW  at 100 resolved calls or 2027-01-31, whichever comes first: if the average R after fees is <= 0 or p >= 0.05 the book is retired
+REVIEW  at 100 resolved calls or 2027-01-31, whichever comes first: if the average R after fees is <= 0 or p >= 0.05 (p over day-and-direction
+  bets, as amended above) the book is retired
   (kept as a record); it never trades real money. Doc 22's freeze is respected: nothing here touches a bot; the book is the user's
   explicit override (2026-10-27), like the crowd book.
 
@@ -377,6 +385,64 @@ def cycle(now: int | None = None, fetch=desk.klines, watch=WATCH) -> dict:
     return st
 
 
+def _betacf(a: float, b: float, x: float) -> float:
+    """The continued fraction of the incomplete beta function (Numerical Recipes' betacf, modified Lentz)."""
+    tiny = 1e-300
+    c, d = 1.0, 1.0 - (a + b) * x / (a + 1.0)
+    d = 1.0 / (d if abs(d) > tiny else tiny)
+    h = d
+    for m in range(1, 300):
+        m2 = 2 * m
+        for aa in (m * (b - m) * x / ((a - 1.0 + m2) * (a + m2)), -(a + m) * (a + b + m) * x / ((a + m2) * (a + 1.0 + m2))):
+            d = 1.0 + aa * d
+            d = 1.0 / (d if abs(d) > tiny else tiny)
+            c = 1.0 + aa / c
+            c = c if abs(c) > tiny else tiny
+            h *= d * c
+        if abs(d * c - 1.0) < 3e-14:
+            break
+    return h
+
+
+def betai(a: float, b: float, x: float) -> float:
+    """The regularized incomplete beta function I_x(a, b)."""
+    if x <= 0.0:
+        return 0.0
+    if x >= 1.0:
+        return 1.0
+    front = math.exp(math.lgamma(a + b) - math.lgamma(a) - math.lgamma(b) + a * math.log(x) + b * math.log(1.0 - x))
+    if x < (a + 1.0) / (a + b + 2.0):
+        return front * _betacf(a, b, x) / a
+    return 1.0 - front * _betacf(b, a, 1.0 - x) / b
+
+
+def t_upper(t: float, df: int) -> float:
+    """P(T > t) for Student's t with df degrees of freedom (standard library only: the VM has no scipy)."""
+    tail = 0.5 * betai(df / 2.0, 0.5, df / (df + t * t))
+    return tail if t > 0 else 1.0 - tail
+
+
+def day_bets(done: list) -> list:
+    """A1's unit since the 2026-10-27 amendment: the calls MADE on the same UTC day in the same direction are ONE bet, because one market move
+    settles them together (four shorts on XRP, gold, ETH and SOL were stopped within 21 minutes on 2026-10-27). A bet scores its calls' hit
+    rate minus their average random baseline, so every bet counts once however many calls it holds."""
+    g = {}
+    for r in done:
+        g.setdefault((int(_f(r["made_ms"])) // D1, r["side"]), []).append((r["status"] == "WIN") - _f(r["base_p"]))
+    return [sum(v) / len(v) for v in g.values()]
+
+
+def bet_p(bets: list) -> float:
+    """One-sided p that the bets beat their random baselines on average (Student's t over the bets). 1.0 when it cannot be measured:
+    fewer than 2 bets, or every bet the same."""
+    k = len(bets)
+    if k < 2:
+        return 1.0
+    m = sum(bets) / k
+    sd = math.sqrt(sum((x - m) ** 2 for x in bets) / (k - 1))
+    return t_upper(m / (sd / math.sqrt(k)), k - 1) if sd > 0 else 1.0
+
+
 def stats(rows: list) -> dict:
     done = [r for r in rows if r["status"] in ("WIN", "LOSS", "EXPIRED")]
     out = dict(calls=len(rows), open=sum(r["status"] == "open" for r in rows), resolved=len(done), wins=sum(r["status"] == "WIN" for r in done),
@@ -387,14 +453,18 @@ def stats(rows: list) -> dict:
                    breakeven=sum(float(r["be_p"]) for r in done) / len(done), pnl=sum(float(r["pnl_usd"] or 0) for r in done))
         var = sum(float(r["base_p"]) * (1 - float(r["base_p"])) for r in done)
         z = (out["wins"] - sum(float(r["base_p"]) for r in done)) / math.sqrt(var) if var > 0 else 0.0
-        out["p"] = 1 - 0.5 * (1 + math.erf(z / math.sqrt(2)))
+        out["p_calls"] = 1 - 0.5 * (1 + math.erf(z / math.sqrt(2)))       # every call as an independent bet: the rule before the amendment
+        bets = day_bets(done)
+        out["bets"], out["p"] = len(bets), bet_p(bets)                          # the verdict's p (amended 2026-10-27, see the docstring)
         out["verdict"] = ("NOT ENOUGH CALLS" if len(done) < MIN_RESOLVED else "EDGE" if (out["avg_r"] > 0 and out["p"] < 0.05) else "NO EDGE PROVEN")
         by = {}
         for m in ("SR", "FIB", "SMC"):
             g = [r for r in done if r["method"] == m]
             if g:
+                gb = day_bets(g)
                 by[m] = dict(n=len(g), wins=sum(r["status"] == "WIN" for r in g), avg_r=sum(float(r["r_net"]) for r in g) / len(g),
-                             baseline=sum(float(r["base_p"]) for r in g) / len(g), pnl=sum(float(r["pnl_usd"] or 0) for r in g))
+                             baseline=sum(float(r["base_p"]) for r in g) / len(g), pnl=sum(float(r["pnl_usd"] or 0) for r in g),
+                             bets=len(gb), p=bet_p(gb))
         out["by_method"] = by
     return out
 
@@ -466,9 +536,11 @@ def status() -> str:
          f"  calls {s['calls']}: open {s['open']}, resolved {s['resolved']} (wins {s['wins']}, losses {s['losses']}, expired {s['expired']})"]
     if s["resolved"]:
         L.append(f"  hit rate {s['hit'] * 100:.0f}% vs random baseline {s['baseline'] * 100:.0f}% vs break-even {s['breakeven'] * 100:.0f}%; average {s['avg_r']:+.2f}R after fees; "
-                 f"book P&L ${s['pnl']:+.2f}; one-sided p {s['p']:.3f}; {s['verdict']} (needs {MIN_RESOLVED})")
+                 f"book P&L ${s['pnl']:+.2f}; one-sided p {s['p']:.3f} over {s['bets']} day-and-direction bets (each call alone: {s['p_calls']:.3f}); "
+                 f"{s['verdict']} (needs {MIN_RESOLVED} calls)")
         for m, g in s.get("by_method", {}).items():
-            L.append(f"    {m:<4} n {g['n']:3d}  hit {g['wins'] / g['n'] * 100:3.0f}% vs baseline {g['baseline'] * 100:3.0f}%  avg {g['avg_r']:+.2f}R  P&L ${g['pnl']:+.2f}")
+            L.append(f"    {m:<4} n {g['n']:3d}  hit {g['wins'] / g['n'] * 100:3.0f}% vs baseline {g['baseline'] * 100:3.0f}%  avg {g['avg_r']:+.2f}R  P&L ${g['pnl']:+.2f}"
+                     f"  ({g['bets']} bets, p {g['p']:.3f})")
         L.append("  what if the whole account went on each call (one at a time), starting $100:")
         for sc in (scenario(rows, 100, x) for x in LEVERAGES):
             L.append(f"    {sc['lev']:>2.0f}x  ${sc['equity']:8.2f} ({sc['ret'] * 100:+6.1f}%)  taken {sc['taken']}, liquidated {sc['liquidated']}, skipped (busy) {sc['skipped_busy']}, "

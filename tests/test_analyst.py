@@ -252,8 +252,9 @@ def test_the_gross_cap_scores_a_call_but_takes_no_paper_money():
 
 
 def test_stats_hit_rate_baseline_and_the_30_call_gate():
-    def row(i, status, r, base=0.4, m="SR"):
-        return dict(id=i, symbol="X", method=m, status=status, r_net=r, base_p=base, be_p=0.35, pnl_usd=r * 1.5, risk_usd=1.5)
+    def row(i, status, r, base=0.4, m="SR"):                                # one call a day: every call is its own bet
+        return dict(id=i, symbol="X", method=m, side="long", made_ms=NOW + i * D1, status=status, r_net=r, base_p=base, be_p=0.35,
+                    pnl_usd=r * 1.5, risk_usd=1.5)
     few = an.stats([row(i, "WIN" if i < 3 else "LOSS", 1.9 if i < 3 else -1.1) for i in range(10)])
     assert few["verdict"] == "NOT ENOUGH CALLS" and few["wins"] == 3 and abs(few["baseline"] - 0.4) < 1e-9
     good = an.stats([row(i, "WIN" if i < 24 else "LOSS", 1.9 if i < 24 else -1.1) for i in range(30)])
@@ -262,6 +263,37 @@ def test_stats_hit_rate_baseline_and_the_30_call_gate():
     assert bad["verdict"] == "NO EDGE PROVEN" and bad["avg_r"] < 0.2
     mixed = an.stats([row(i, "WIN", 1.0, m="FIB") for i in range(3)] + [row(9, "LOSS", -1.0, m="SMC")])
     assert set(mixed["by_method"]) == {"FIB", "SMC"} and mixed["by_method"]["FIB"]["n"] == 3
+
+
+def test_student_t_tail_matches_reference_values():
+    # scipy.stats.t.sf, computed once on the PC (the VM has no scipy)
+    for t, df, ref in ((2.015048, 5, 0.05000002381745778), (1.0, 1, 0.25), (1.5, 10, 0.08225366322272007), (-1.5, 10, 0.9177463367772799),
+                       (3.0, 30, 0.0026949820328259727), (0.3, 2, 0.3962428304200888), (2.5, 120, 0.006884767462515208)):
+        assert abs(an.t_upper(t, df) - ref) < 1e-9, (t, df, an.t_upper(t, df), ref)
+
+
+def test_calls_made_the_same_day_in_the_same_direction_are_one_bet():
+    def call(i, day, side, status, hour=1, base=0.4):
+        r = 1.9 if status == "WIN" else -1.1
+        return dict(id=i, symbol="X", method="SR", side=side, made_ms=NOW // D1 * D1 + day * D1 + hour * H1, status=status, r_net=r,
+                    base_p=base, be_p=0.35, pnl_usd=r * 1.5, risk_usd=1.5)
+    # 2026-10-27's shape: four shorts on one day, all stopped -> one bet; a long the same day -> a second; 23:00 and 01:00 the next day split
+    day = [call(1, 0, "short", "LOSS"), call(2, 0, "short", "LOSS", hour=4), call(3, 0, "short", "LOSS", hour=12), call(4, 0, "short", "LOSS", hour=23),
+           call(5, 0, "long", "WIN"), call(6, 1, "short", "LOSS", hour=0)]
+    bets = sorted(an.day_bets(day))
+    assert len(bets) == 3 and abs(bets[0] + 0.4) < 1e-12 and abs(bets[-1] - 0.6) < 1e-12, bets
+    # one lucky day of 20 winning longs, then a loss a day for 10 days: 30 calls, 20 right vs 12 expected
+    lucky = [call(i, 0, "long", "WIN", hour=i % 24) for i in range(20)] + [call(20 + k, 1 + k, "long", "LOSS") for k in range(10)]
+    s = an.stats(lucky)
+    assert s["resolved"] == 30 and s["avg_r"] > 0 and s["p_calls"] < 0.01         # counted call by call, it would read as an edge
+    assert s["bets"] == 11 and s["p"] > 0.5 and s["verdict"] == "NO EDGE PROVEN"    # as 11 bets it is one good day and ten bad ones
+    # the same 30 calls spread one a day: now 30 bets, and the edge is real
+    spread = [call(i, i, "long", "WIN") for i in range(20)] + [call(20 + k, 20 + k, "long", "LOSS") for k in range(10)]
+    s = an.stats(spread)
+    assert s["bets"] == 30 and s["p"] < 0.05 and s["verdict"] == "EDGE"
+    assert s["by_method"]["SR"]["bets"] == 30 and s["by_method"]["SR"]["p"] == s["p"]
+    # fewer than two bets, or no spread between them, cannot be measured
+    assert an.bet_p([0.6]) == 1.0 and an.bet_p([0.6, 0.6, 0.6]) == 1.0
 
 
 def test_the_random_baseline_is_read_on_the_one_minute_grid_the_calls_are_scored_on():

@@ -223,7 +223,7 @@ desk.py            2026-10-27: THE DESK - a manual trade plan (entry / stop / ta
 analyst.py         2026-10-27: THE ANALYST DESK - desk.py automated: hourly it draws support / resistance, a Fibonacci retracement and unfilled gaps on 7
                      markets (BTC ETH SOL XRP BNB gold QQQ), three fixed rules (SR bounce, FIB pullback, SMC sweep) log CALLS with stop / target / the random-entry
                      odds BEFORE the outcome, scored on 1-minute bars; a separate $300 PAPER book (0.5% risk a call, 3x cap). Dashboard tab "Analyst desk"
-                     (`dashboard_push.analyst_view`). A1-A4 registered in its docstring (expected: no edge); review at 100 resolved calls or 2027-01-31.
+                     (`dashboard_push.analyst_view`). A1-A4 registered in its docstring (expected: no edge; A1/A3 amended 10-27: same-day, same-direction calls = one bet); review at 100 resolved calls or 2027-01-31.
                      deploy/analyst-paper.service + .timer (hourly :07). tests/test_analyst.py 13 tests (13 of 14 mutations caught, 1 equivalent)
 backtest/analyst_replay.py / analyst_replay_1m.py   2026-10-27: the Analyst desk's three rules replayed over 4.7 years of 1h candles (10,580 calls) and the whole
                      account at 10x / 20x / 30x (`analyst.scenario`): wiped out at every leverage, the desk's own book -3.3% a week; the 1-minute re-score agrees (doc 02, last entry)
@@ -640,6 +640,19 @@ the box was patched before the repo was public.
 
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
+
+### 2026-10-27 (afternoon) - the Analyst desk's verdict test amended: same-day, same-direction calls are one bet
+
+- Review of the night's session and a read-only check (verify_status.sh, the feed): all services up, the desk ran every hour without an error, the feed
+  pushed every minute. The desk's first 6 resolved calls showed the flaw: four SR shorts (XRP, gold, ETH, SOL) stopped within 21 minutes by one move,
+  and A1's z-test counted them as four independent bets - more certain than the data, in either direction.
+- **Amended at the user's word, 2026-10-27 13:56 UTC, with 6 of 30 calls resolved:** `analyst.day_bets` groups calls by (UTC day made, side); each
+  group = one bet (its hit rate minus its average random baseline); `bet_p` = one-sided Student's t over the bets (`t_upper`, standard library -
+  the VM has no scipy; checked against scipy to 1e-9). `stats()['p']` is the new p (the verdict and the review read it), `['p_calls']` the old
+  one, `['bets']` the count; per rule too (A3). Written into the docstring, doc 22's override and STATUS. The replay's logged p values predate it
+  (per call; none under 0.37). tests/test_analyst.py 26 (6 of 6 mutations caught); the dashboard tab says how many bets the calls make.
+- Not seen rendered: the dashboard (live and local copy) is behind the password, and reading even the local test password was refused - the
+  user signs in to look. `next build` passes.
 
 ### 2026-10-27 (night, last) - the Analyst desk built: levels and predictions on the dashboard, a separate paper book (NOT DEPLOYED yet)
 

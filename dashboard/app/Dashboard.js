@@ -702,6 +702,7 @@ function AnalystDesk({ a }) {
           </div>
           <div className="muted" style={{ fontSize: 12, maxWidth: 440 }}>
             {s.resolved ? `${s.resolved} of ${s.min_resolved} resolved calls needed for a verdict. ` : `No call has resolved yet; a verdict needs ${s.min_resolved}. `}
+            {s.bets ? `The verdict counts calls made the same day in the same direction as one bet, since one market move settles them together: ${s.bets} bet${s.bets === 1 ? "" : "s"} so far. ` : null}
             Review at 100 resolved calls or 31 Jan 2027: retired if the average result after fees is not above zero or the hit rate is no better than chance.
           </div>
         </div>

@@ -110,6 +110,9 @@ or more - then it may join the machine. Real money in it would still need s2's c
 book, the Analyst desk (`analyst.py`, its own $300, its own files, hourly timer). Outside the machine like the crowd book: no bot is touched and s3b reads the machine alone. Its
 lines are in the file's docstring before its first call: no edge expected (A1-A4); review at 100 resolved calls or 2027-01-31; retired if the average result after fees is
 not above zero or the hit rate does not beat the random-entry baseline (p < 0.05). It never trades real money and cannot qualify for s2.
+**Amended 2026-10-27 13:56 UTC, with 6 of the 30 calls resolved (the user's word, before any verdict):** that p counts the calls MADE on the same UTC day in the
+same direction as ONE bet (one market move stopped four shorts within 21 minutes that day), Student's t over the bets; the per-call figure stays on the record
+as `p_calls`. Nothing else in the rule changed. The wording is in `analyst.py`'s docstring.
 
 ## 5. The research stops on 2026-12-31
 
