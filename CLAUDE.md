@@ -1,6 +1,6 @@
 # CLAUDE.md — read this first, every session
 
-*Last updated 2026-10-26. Dated history in §10.*
+*Last updated 2026-10-28. Dated history in §10.*
 
 This file is the orientation for a new session. It is deliberately short. It tells you the
 goal, the rules that keep the numbers honest, where everything is, and the traps that have
@@ -143,7 +143,7 @@ candidate on paper. The rule above still stands for everything else.
 | **A test that cannot exhibit the bug** | With one position open at a time the two compounding conventions are arithmetically IDENTICAL, so a non-overlapping test showed $0.00 difference and passed while proving nothing. The bug only bites when positions OVERLAP | Construct the case so the bug MUST appear if it is present |
 | **Yahoo's FOREX daily bars (`EURUSD=X`, `JPY=X`, ...)** | Not internally consistent: the open sits ~27bp from the previous close (a continuous market: Exness 1.1bp), and the close is not the end of the high/low window - after a close in the bottom fifth of the range the next close rose 92-95% of the time (Exness 49-50%). It produced 79 fake 'passes' at t up to +25 (2026-10-11, `fx_capit.py`). Bars are also dated one day off Exness's (corr 0.948 shifted, 0.05 not). `fx_anomalies.py` T8 (month-end USD) used these closes and measured the day BEFORE the month-end; re-checked on Exness (`fx_t8_exness.py`): the kill stands | Forex daily bars from Exness (`fx_capit.exness_csv`: MT5 1h -> 17:00 New York days). Yahoo forex only for monthly signals (`fx_tsmom.py`), never for anything that reads the close inside a day's range |
 | **HistData.com minute bars' clock** | Documented as fixed EST; the stamps are New York time WITH daylight saving. Converted with a fixed +5 h, every summer release sat an hour early, its jump fell into the "hour after" window, and a fake post-release drift read +10.5bp at t +21 with 9 passes (2026-10-12, `fx_surprises_1m.py`). Also: `to_datetime(format=...)` returns datetime64[us] there, so `int64 // 10**6` dated every bar in January 1970 | `histdata_1m.parse` localises to America/New_York. Before any minute-level event study, check that the biggest 1-minute move on payroll days sits in the release minute, winter AND summer |
-| **Binance WEBSOCKETS on this PC** | They connect and then deliver nothing - DOGE's own trade stream gave 0 messages in 12 s (2026-10-09) - while Binance REST works; a liquidation recorder listened to silence for 17 minutes | Probe any stream with a known-busy channel first; on this PC use REST (OKX needs a browser User-Agent, else 403) |
+| **Binance WEBSOCKETS on this PC** | They connect and then deliver nothing - DOGE's own trade stream gave 0 messages in 12 s (2026-10-09) - while Binance REST works; a liquidation recorder listened to silence for 17 minutes | Probe any stream with a known-busy channel first; on this PC use REST (OKX needs a browser User-Agent, else 403). **Bitget's public websocket DOES work here** (2026-10-28: `books` + `trade` on `wss://ws.bitget.com/v2/ws/public`, a snapshot then ~9 updates/s with `seq` / `pseq`) |
 | **Trusting `ls` / `date` in Git Bash for "is it stale?"** | They print the Windows local clock (PKT here) but label it PST, so a log written 20 minutes ago read as 13 hours dead and sent a session hunting a wedge that did not exist (2026-09-26) | Get the time from the PROCESS: `datetime.now(timezone.utc)` in Python, and compare it to the log's own UTC prefix |
 | **Timestamp unit mismatch** | `.asof()` raises "Cannot losslessly convert units" (ms index vs ns clock) | `blend_paper._ns()` |
 | **Bar label read as entry time** | `asof(t0)` on a 4h/12h row reads a bar that closed hours after the entry. The short boost's "+0.481R" was 118 look-ahead trades; causal, it is +0.305R and worth ~+0.5%/mo | `causal_t0.real_t0(rows)` |
@@ -229,6 +229,9 @@ backtest/analyst_replay.py / analyst_replay_1m.py   2026-10-27: the Analyst desk
                      account at 10x / 20x / 30x (`analyst.scenario`): wiped out at every leverage, the desk's own book -3.3% a week; the 1-minute re-score agrees (doc 02, last entry)
 backtest/pit_years.py   2026-10-27: the main account's machine by calendar year (fixed $300) with the trend book on the point-in-time top-12 alts
                      instead of the hindsight list: total ~unchanged (+$8,645 vs +$8,385), 2024 down, 2025 up - mostly MYX (doc 02, last entry)
+backtest/cot_metals.py / positioning_lean.py   2026-10-28: CFTC Disaggregated positions on platinum / palladium / gold / silver / copper vs the next 4 weeks: 0 of 15
+                     registered cells pass (ETF and futures prices); the tool prints the crowded side, its history, the test verdict and the CME delivery picture
+                     (logs/cme_snap/ - CME's free feed keeps 5 days, so that part is a RECORD from 2026-10-27). tests/test_cot_metals.py 6 (doc 02, last entry)
 btc_regime_now.py  LIVE read-only readout: 1000h gate, 4h break level, momentum, Coinbase
                      premium, funding. Public endpoints, no keys. (doc 12)
 blend_paper.py     THE LIVE PAPER BOOKS — seven in one process. main / tight / sized /
@@ -268,6 +271,9 @@ sentiment_rec.py   2026-10-12: retail long/short ratios (Myfxbook, OANDA, + 7 br
 doge_live.py / book_rec.py / liq_rec.py   2026-10-09: DOGE live forward test (frozen rules + logged calls, --call to
                      log a prediction), the order-book and liquidation recorders; scored by backtest/doge_adapt.py,
                      doge_bigtarget.py, doge_book.py. Data in strategy_analysis/data/{bitget_1m,doge_book}/ (gitignored)
+backtest/book_hist.py   2026-10-28: the order-book checklist on 7 full Bitget DOGE days (Tardis free days, 95M rows + the tape): book rebuild, event study, one
+                     claim tuned on early days and read on later ones, queue-aware limit-order replay with fees. imb1 predicts ONE tick; the tape fills the wrong side;
+                     net -2bp a signal, 0 of 4 days positive (doc 02, last entry). tests/test_book_hist.py 9 tests, 12 mutations caught
 backtest/fx_macro_data.py / fx_drivers.py / fx_surprises.py / fx_rates2y.py / fx_tff.py / fx_surprises_1m.py / fx_speeches.py /
   fx_news_tone.py / histdata_1m.py   2026-10-12: 30 years of forex DRIVERS (rates, risk, commodities,
                      positioning, data surprises): they move forex the same day; none predicts the next period (doc 02)
@@ -642,6 +648,31 @@ the box was patched before the repo was public.
 
 *Newest first. One entry per working day, and only what a later session needs to know -
 the detail lives in the numbered docs.*
+
+### 2026-10-28 - the order-book checklist on back data: the one-tick signal is real and stable, the tape fills the wrong side (`backtest/book_hist.py`)
+
+- The user pasted a 4-step order-book checklist, then "can't we do it on the back data". Source: Tardis.dev's free first-of-month Bitget DOGEUSDT days
+  (range-GET works, HEAD answers 404; `strategy_analysis/data/book_hist/bitget/`, 527 MB, gitignored): 7 days 2025-03 .. 2026-09, 95M rows, the complete tape.
+  Tune 2025-03/06/09 (thresholds only), unseen 2025-12 / 2026-03 / 2026-06 / 2026-09. Predictions in the file's docstring first. Doc 02's last entry.
+- **Result: dead for retail, on a stronger footing than 10-09.** imb1 -> next 10 s: IC +0.10..+0.25 and +0.9..+1.0bp on all four unseen days (about one tick, 1.2bp);
+  a queue-aware limit at the touch fills 20-22% and the fills are the signal's failures (-4.8..-5.1bp worse than the unfilled, about -3bp before fees);
+  net -2.0..-2.4bp a signal, 0 of 4 days positive in all 8 variants. A zero-fee venue would not rescue it. Event study (E1) mostly wrong: the spread stays one tick, only flow DURING the move shows.
+- **Trap met:** Tardis' Bitget `incremental_book_L2` is top-15 SNAPSHOTS ~6.6/s (not diffs) until at least 2026-03; only 2026-06-01 and 2026-09-01 are real diff streams. "Check the book at reconnects" is meaningless on the first kind. The rebuild is exact on 2026-09-01 (touch equals Tardis' snapshots 100.00%, 86,399 s) and resyncs at snapshots.
+- A background run died silently after 3 of 7 days (exit 4, no traceback); the rerun finished from the cache. Read a "should finish by itself" claim only after the notification.
+- Not done, and only measurement: a live diff-stream recorder (Bitget `books`, `seq`/`pseq`) for a true rebuild test. Nothing deployed; `tests/test_book_hist.py` 9 tests, 12 mutations caught. Uncommitted.
+
+### 2026-10-28 - the metals positioning tool: CFTC + CME, tested; no lean; the side that MUST trade is knowable, the price direction is not
+
+- The user (a screenshot of the CFTC Disaggregated report for 2026-10-20 - palladium and platinum - and CME's Final Settlements page): "make futures positional data from it, compute and correlate
+  both, say how to test; the tool must tell me which side will have an imbalance, beforehand". `backtest/cot_metals.py` (predictions P1-P6 registered in the docstring first) tested managed-money
+  crowd rank, swap-dealer rank and positioning change on platinum / palladium / gold / silver / copper, 956 weeks, 4-week horizon, 12bp, circular-shift null, tune / holdout:
+  **0 of 15 cells pass on ETF and on futures prices; best Holm-adjusted p 0.80.** P4 wrong (positioning momentum has the registered sign in 1 of 5 markets). Palladium's 'extreme' net short
+  (-47% of open interest) is the 28th percentile of its own last 3 years.
+- **CME has no free history:** the settlement feed keeps 5 trade dates (read from a script inside the cmegroup.com page in the browser pane - plain scripts get 403, not worked around), delivery
+  history is paid DataMine. `logs/cme_snap/` is a RECORD from 2026-10-27 (palladium December = 92% of open interest, first notice 2026-11-30, managed money's net short = 50% of that month to be
+  bought back; platinum's January -> April roll already under way). `positioning_lean.py` prints the crowded side, the history, the verdict and this CME block; the pending-roll side is arithmetic,
+  not a price forecast. **Keep the record going** (one snapshot a day or a week; it cannot be rebuilt) - it is the only way to test roll pressure.
+- Nothing deployed, nothing running, no orders. New: cot_metals.py, positioning_lean.py, tests/test_cot_metals.py, logs/cme_snap/, logs/cot_metals.{txt,json}. Doc 02 last entry.
 
 ### 2026-10-27 (evening) - the machine's years without the hindsight coin list (`backtest/pit_years.py`)
 

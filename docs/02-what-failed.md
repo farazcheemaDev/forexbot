@@ -4692,3 +4692,74 @@ The arithmetic is the whole story: 568 trades a year at 12bp of notional is 68% 
 | machine, point-in-time, without MYX | +723 | +2,939 | +365 | +915 | +834 | +1,558 | +568 | +7,977 |
 
 **Reading.** The 3x shrink landed near the honest total by luck; it put 2024's money in coins a 2024 trader would not have chosen (SUI, ENA, WLD), and the point-in-time book made 2025 instead - mostly through ONE coin: **MYX** (the 2025-09 squeeze; in the alt top 12 only Sep-Oct 2025) is 76% of 2025's winning long R. Every year is still positive; 2022 is carried by the bear sleeve and capitulation, not the trend book. Freeing the slot at the exit bar's close instead of its label: +$10 ± 185 paired, 6/10 - no difference here. Predictions: Y1 (2024 under half) right, Y2 (2021 at least the hindsight's) right, Y3 (2022 loses) right, Y5 (every year positive) right; **Y4 wrong** (expected the machine 20-50% lower; it is about the same), **Y6 wrong** (no measurable slot cost). **Still a backtest:** the other 8 books were chosen on these years, the live bot's position model is not modelled (2026-10-06: 1-2 %/mo under the engine), no capacity limit, and the live record (main −15% in 18 days, ~8th percentile of its band) is the measurement that counts.
+
+## The order-book checklist on back data: the signal is real and stable, the tape fills only the wrong side (2026-10-28) - `backtest/book_hist.py`, `logs/book_hist.txt`, `tests/test_book_hist.py`
+
+**Asked:** the user pasted a four-step order-book checklist (record a pair's book and trades and rebuild a valid book / spread, depth, imbalance and flow around a move / replay and test one hypothesis on later unseen data / paper-trade with fees, slippage, missed fills), then "can't we do it on the back data". `book_rec.py`'s own recording is 262 minutes of 1-second REST snapshots with a polled tape (Bitget trades capped at 100 per poll: 4,132 captured), so this uses Tardis.dev's free first-of-month days for BITGET's DOGEUSDT perp: **7 days, 2025-03-01 .. 2026-09-01, 95 million update rows, the complete tape** (52k-146k trades a day). Tune days 2025-03 / 06 / 09 (thresholds only); later unseen days 2025-12 / 2026-03 / 2026-06 / 2026-09. Predictions B1, E1, H1, M1 are in the file's docstring, written before any of the days was read.
+
+**Step 1, the book (B1).** Rebuilt row by row, sampled every second: **crossed in 0 of 86,399 seconds on every one of the 7 days; on 2026-09-01 the touch prices AND quantities equal Tardis' independent top-25 snapshots in 100.00% of seconds** (right on both; the snapshot file comes from the same recorded feed, so this checks my rebuild, not their recording's completeness). **The third part was wrong, and its premise too:** until at least 2026-03-01 the "update stream" is NOT a diff stream - it is top-15-per-side snapshots about 6.6 a second (~570,000 snapshot blocks a day), so "equal at reconnects" is meaningless there (1-9%). Only 2026-06-01 and 2026-09-01 are true diff streams (~65 rows a second, a 200- or 1000-level snapshot at the start and at 4 reconnects). At those 8 reconnects (silences of 0.1-1.4 s) the rebuilt top 5 matched the fresh snapshot **0 times of 8** - the book had moved while the feed was away, so a rebuild is valid only because it RESYNCS at the snapshot (it does). Registered >= 80%: wrong. The depth features beyond the touch (imb5, imb20, band10, band25) are capped at 15 levels on five of the seven days.
+
+**Step 2, around the top-1% 10-second moves (E1)** - 125-219 events a day, |move| >= 10-19bp:
+
+| | registered | measured, 7 days |
+|---|---|---|
+| spread at the start vs its median | >= 1.3x | **x1.00 on six days**, x1.21 on one - wrong (the spread is one tick, 1.2bp, nearly always) |
+| touch quantity on the consumed side below its 60 s median | >= 55% | 44-56%, about 51% pooled - wrong |
+| imb1 points the move's way | >= 60% | 44-58%, none at 60% - wrong |
+| taker flow in the 10 s BEFORE aligned | < +0.10 | -0.14 .. +0.04 - right (two days leaned the other way, -0.12 and -0.14, at 2.0-2.3 se) |
+| taker flow DURING the move | > +0.40 | **+0.43 .. +0.75** - right (this is the move itself being traded) |
+
+What changes around a move on this coin: **only the flow, and only while it happens.** Nothing in the spread or the touch depth, read once a second, announces it.
+
+**Step 3, one claim on later days (H1): imb1 (level-1 dollar imbalance) -> the next 10 s of the mid; thresholds 10th/90th percentile from the tune days (short at <= -0.942, long at >= +0.958).**
+
+| later day | IC | signals | move in the signalled direction | hit | taker net after 12bp | ideal maker (every limit fills) after 4bp |
+|---|---|---|---|---|---|---|
+| 2025-12-01 | +0.118 | 3,666 | +0.99bp (se 0.09) | 56% | -11.75 | -3.01 |
+| 2026-03-01 | +0.104 | 2,468 | +1.04bp (se 0.12) | 55% | -12.03 | -2.96 |
+| 2026-06-01 | +0.175 | 4,743 | +0.91bp (se 0.05) | 55% | -12.09 | -3.09 |
+| 2026-09-01 | +0.245 | 5,592 | +0.94bp (se 0.04) | 52% | -12.28 | -3.06 |
+
+**Right on all three (IC in +0.05..+0.30, move +0.3..+2.5bp, taker net below -9bp).** It holds on four unseen months and agrees with the 262-minute recording (IC +0.20 / +0.25, 1-2bp). The effect is real and stable: **about one tick (1.2bp) toward the thin side.** Exploratory (not part of the claim): the 30 s horizon halves the IC (+0.04..+0.13) at the same ~+0.9bp; microprice reproduces imb1; imb5 and band10 are weaker (+0.04..+0.10, +0.15..+0.6bp).
+
+**Step 4, the same signals, filled by the tape (M1):** a post-only limit at the touch, filled only by a trade through the price or by enough volume AT it to clear the queue ahead (queue x1.0 = all of it, x0.5 = half cancels), 0.5 s latency, 10 s to fill, one position at a time, exit by taker or by a second limit with a taker fallback, Bitget's standard fees (maker 2bp, taker 6bp a leg). 8 variants (hold 10 / 30 s x queue x exit), 11,500-14,600 signals taken over the four later days:
+
+- **Fill rate 20-22% in all eight** - and the queue assumption barely matters (22% at x1.0 and at x0.5), because the fills are TRADE-THROUGHS: a long fires when the bid is thick and the ask thin, price tends to rise away from the bid, and the bid fills mostly when price falls through it.
+- **Filled signals moved 4.8-5.1bp LESS in the signalled direction than the unfilled ones** (registered >= 0.5bp: right, ten times over). Before any fee a filled trade is already about **-3bp**.
+- **Net per signal taken (a missed fill is a zero): -2.04 .. -2.41bp (se 0.04-0.06); per FILL -10.0 .. -11.0bp; days positive 0 of 4 in every variant.**
+
+Verdicts: fill rate registered 30-70% - **wrong** (20-22%; the qf-1.0 line of 20-60% was right at its edge); adverse selection - right; every variant negative, best <= -1bp - right (best -2.04); no variant positive on >= 3 of 4 days - right. The registered PASS (positive pooled net at t > 2, >= 3 of 4 days, at qf 1.0) is **not met by a wide margin.**
+
+**What it means.** The order book of Bitget DOGE tells you about one tick, correctly, month after month - and a one-tick edge is 1.2bp against a 4bp maker round trip even if every limit fills, and the limits that do fill are the signal's failures. **A zero-fee venue would not rescue it** (the filled trades are -3bp before fees). Retail DOGE book trading is closed, on a stronger footing than 2026-10-09's (7 days of full tape over 17 months, thresholds set before the later days were seen, queue-aware fills). The thread's open pieces are measurement, not edge: a live diff-stream recorder (Bitget's `books` channel carries `seq` / `pseq`; the public websocket works from this PC, probed 2026-10-28) would give a true "rebuild and resync" test and queue-position data.
+
+**Caveats:** seven single days (the first of each month), not a continuous year; a 1-second decision grid and an assumed 0.5 s latency; the touch only on the five snapshot-feed days; the queue model ignores our own order's effect and models cancellations only as a halved queue; Bitget VIP0 fees. None of these can turn -2bp a signal into a profit; they could move it by tenths.
+
+**Predictions scored:** B1 two of three right (the third wrong, and its premise); E1 two of five right; H1 three of three right; M1 four of five right (the fill-rate range wrong). My model of what happens AROUND a move (E1) was the worst-calibrated part: it assumed a stress signature that a one-tick-spread coin does not show at one-second resolution.
+
+## Who is crowded in the metals, and does it say what comes next? CFTC positions on platinum / palladium / gold / silver / copper, and the CME delivery picture (2026-10-28) — `backtest/cot_metals.py`, `positioning_lean.py`, `logs/cot_metals.txt`
+
+**The ask** (the user, with a screenshot of the CFTC Disaggregated report for 2026-10-20 beside CME's Final Settlements page): "make futures positional data from the CFTC report and CME delivery / settlements, compute and correlate both, say how to test; the tool must tell me which side will have an imbalance, and beforehand." The screenshot is **palladium** (open interest 25,696, managed money 5,385 long / 17,528 short = 68% of open interest short) and **platinum** (73,635; 17,786 long / 11,171 short), found by matching its numbers to the CFTC API (dataset `kh3c-gbw2`, futures and options combined).
+
+**What exists to test.** CFTC: weekly Disaggregated reports back to 2006-06 (free public API), public on Friday for the Tuesday. CME: the free settlement feed behind the 'Final Settlements' page keeps **only the last 5 trade dates** per product (its `TradeDate` list has 5 entries; older dates return empty - checked in the browser pane; plain scripts get 403 and are not worked around); delivery notices are PDFs with a one-year file; the history is CME DataMine (paid). So the CFTC side is testable now and the CME side can only be RECORDED from today (`logs/cme_snap/`, first file 2026-10-27).
+
+**The test** (registered in the file before the first run; per market, 4-week horizon, 12bp, entry = the close of the first trading day after the Friday release, circular-shift null, tune / holdout, Holm over 15 cells): S1 crowd rank (managed-money net / open interest, trailing 3-year percentile; registered contrarian), S2 swap-dealer rank (+), S3 4-week change in the crowd (+).
+
+| market (956 weeks, 2008-06..2026-09) | S1 IC all / tune / holdout | shift p | crowded-short / crowded-long bucket, next 4 weeks | S3 IC | passes |
+|---|---|---|---|---|---|
+| platinum | -0.108 / -0.158 / -0.142 | 0.16 | +0.5% / -3.0% | -0.041 | no |
+| palladium | -0.031 / -0.068 / +0.036 | 0.46 | +0.3% / -0.5% | -0.052 | no |
+| gold | -0.006 / -0.042 / +0.004 | 0.51 | +0.1% / +1.1% | -0.014 | no |
+| silver | -0.027 / -0.016 / -0.062 | 0.39 | -1.2% / -0.0% | -0.012 | no |
+| copper | -0.032 / -0.161 / +0.129 | 0.35 | -0.9% / -1.6% | +0.055 | no |
+
+**0 of 15 cells pass, on the physical-metal ETFs and on front-month futures alike; the best Holm-adjusted p is 0.80.** The nearest thing to a lead is platinum's crowd rank (contrarian sign on both halves, IC -0.11; futures IC -0.09, p 0.07) and copper's positioning momentum (futures IC +0.08, p 0.053, holdout +0.16): both short of the rule, neither survives Holm. Pooled contrarian IC over the five metals: -0.041 (ETF) / -0.006 (futures).
+
+**Predictions:** P1 right (0 of 15, at most 1 allowed); P2 half right (palladium's crowded-short bucket averaged +0.35% on ETF prices against -0.81% for all weeks, p 0.13 - not distinguishable - but -0.21% on futures prices, so 'up' is not even stable); P3 right; **P4 wrong** (positioning momentum had the registered sign in only 1 of 5 markets, I expected 3); P5 right (no verdict changes between ETF and futures prices); P6 right (the tool says NO LEAN for palladium).
+
+**What 'extreme' means (the screenshot's palladium).** Managed money is net short 47% of the open interest, but that is only the **28th percentile of palladium's own last 3 years** - it has been far more crowded before - and the crowd added 13 points of net short in the last 4 weeks. 'Crowded' is relative; no rank bucket of palladium, platinum, gold, silver or copper has reliably been followed by a move in either direction.
+
+**What the CME snapshot adds (arithmetic, not history).** On 2026-10-27 palladium's December contract holds 24,137 of 26,209 open interest (92%), first notice day is 2026-11-30 (34 days), March trades +12.00 over it (contango: a short is paid to roll). Managed money's 11,994 net FUTURES short lots (CFTC futures-only) = 50% of that month's open interest: it cannot take delivery, so that is the size that has to be bought back (and sold in March) before first notice. Platinum's January month holds 72% (first notice 2026-12-31) and its January -> April roll has started (April open interest 11,640 -> 16,455 in five days); gold 72% (36% of that month is managed-money net long to be sold), silver 74%, copper 49%. **The side that must trade, and roughly when, is knowable beforehand; what that does to the price is not tested** - rolling moves the calendar spread more than the outright, and there is no spread history to test it on. The record (`logs/cme_snap/`, one file per day or week through several first-notice cycles) is the way to test it; a year of it gives about eight cycles per metal.
+
+**The tool** (`positioning_lean.py`, tests `tests/test_cot_metals.py` 6, 10 of 10 mutations caught - the entry date, the rank's look-ahead, the cost, the p direction, the pass rule, the first-notice month): per metal it prints the crowded side and rank, what followed that reading before (tune and holdout), the registered test's verdict (LEAN only if the signal passed - today none do), and the CME block (delivery-month share, days to first notice, pending roll side and size). It states the limit every time: the side that must trade is a fact, the direction of the price is only a 'lean' if the test says so.
+
+**Caveats.** Weekly data with overlapping 4-week returns (the shift null accounts for it); two price sources agree; CFTC 'combined' counts options at their delta (the roll size uses the futures-only report); no intraday imbalance can come from weekly positions - the trader of doc 23 acts in seconds, and nothing here reaches that scale. Related earlier kills: `cot_shapiro.py` / `cot_shapiro_more.py` (legacy report, 13 markets), `fx_tff.py` (currencies).

@@ -1,0 +1,56 @@
+backtest/book_hist.py, 2026-10-28 11:40 UTC; Bitget DOGEUSDT, Tardis free days: 2025-03-01, 2025-06-01, 2025-09-01, 2025-12-01, 2026-03-01, 2026-06-01, 2026-09-01
+
+[B1] 2025-03-01: 17,244,030 update rows -> 86,399 valid seconds of 86,399; crossed 0 (0.0000%), empty 0; snapshot blocks 574800 (this feed is top-15 snapshots ~6/s, NOT diffs + reconnects), previous book == next block at 6887 (1%); 52,761 trades
+[B1] 2025-06-01: 17,242,980 update rows -> 86,399 valid seconds of 86,399; crossed 0 (0.0000%), empty 0; snapshot blocks 574765 (this feed is top-15 snapshots ~6/s, NOT diffs + reconnects), previous book == next block at 22882 (4%); 62,241 trades
+[B1] 2025-09-01: 17,145,990 update rows -> 86,399 valid seconds of 86,399; crossed 0 (0.0000%), empty 0; snapshot blocks 571532 (this feed is top-15 snapshots ~6/s, NOT diffs + reconnects), previous book == next block at 45478 (8%); 145,146 trades
+[B1] 2025-12-01: 14,923,770 update rows -> 86,399 valid seconds of 86,399; crossed 0 (0.0000%), empty 0; snapshot blocks 497458 (this feed is top-15 snapshots ~6/s, NOT diffs + reconnects), previous book == next block at 32743 (7%); 145,881 trades
+[B1] 2026-03-01: 17,044,950 update rows -> 86,399 valid seconds of 86,399; crossed 0 (0.0000%), empty 0; snapshot blocks 566741 (this feed is top-15 snapshots ~6/s, NOT diffs + reconnects), previous book == next block at 49461 (9%); 115,519 trades
+[B1] 2026-06-01: 5,508,553 update rows -> 86,399 valid seconds of 86,399; crossed 0 (0.0000%), empty 0; snapshot blocks 4 (this feed is top-15 snapshots ~6/s, NOT diffs + reconnects), previous book == next block at 0 (0%); 86,232 trades
+[B1] 2026-09-01: 5,960,348 update rows -> 86,399 valid seconds of 86,399; crossed 0 (0.0000%), empty 0; snapshot blocks 4 (this feed is top-15 snapshots ~6/s, NOT diffs + reconnects), previous book == next block at 0 (0%); 64,392 trades
+[B1] 2026-09-01 vs Tardis' independent snapshots, 86,399 seconds: touch prices equal 100.00%, touch quantities equal 100.00%
+
+[E1] the top 1% of 10 s mid moves (spaced 30 s), per later day: spread vs median / touch thinner than its 60 s median / imb1 points the way (all-moves base) / flow BEFORE and DURING (aligned share of volume) / the 10 s before already moved
+  2025-03-01: n 219, |move| >= 13.2bp | spread x1.21 | thin 44% | imb1 44% (base 52%) | flow before +0.02 (se 0.05), during +0.48 | prior 10 s -0.5bp
+  2025-06-01: n 187, |move| >= 12.0bp | spread x1.00 | thin 53% | imb1 54% (base 49%) | flow before -0.07 (se 0.06), during +0.54 | prior 10 s -0.7bp
+  2025-09-01: n 150, |move| >= 14.4bp | spread x1.00 | thin 55% | imb1 57% (base 50%) | flow before -0.04 (se 0.06), during +0.65 | prior 10 s -1.8bp
+  2025-12-01: n 125, |move| >= 18.7bp | spread x0.98 | thin 50% | imb1 58% (base 49%) | flow before -0.12 (se 0.06), during +0.43 | prior 10 s -3.1bp
+  2026-03-01: n 145, |move| >= 17.5bp | spread x0.99 | thin 51% | imb1 52% (base 45%) | flow before +0.02 (se 0.06), during +0.57 | prior 10 s +0.0bp
+  2026-06-01: n 160, |move| >= 10.1bp | spread x1.01 | thin 50% | imb1 49% (base 46%) | flow before +0.04 (se 0.06), during +0.60 | prior 10 s -0.6bp
+  2026-09-01: n 161, |move| >= 10.9bp | spread x1.00 | thin 56% | imb1 50% (base 43%) | flow before -0.14 (se 0.06), during +0.75 | prior 10 s -1.3bp
+
+[H1] imb1 -> next 10 s; thresholds (10th/90th) from the tune days, read on the later days: IC, then the extreme-decile trade (mid move in the signalled direction, hit rate, taker net after 12bp, ideal-maker net after 4bp)
+   PRIMARY: imb1 @ 10 s
+    2025-12-01: IC +0.118 (n 8639) | 3666 signals: move +0.99bp (se 0.09), hit 56%, taker net -11.75, maker-ideal -3.01
+    2026-03-01: IC +0.104 (n 8639) | 2468 signals: move +1.04bp (se 0.12), hit 55%, taker net -12.03, maker-ideal -2.96
+    2026-06-01: IC +0.175 (n 8639) | 4743 signals: move +0.91bp (se 0.05), hit 55%, taker net -12.09, maker-ideal -3.09
+    2026-09-01: IC +0.245 (n 8639) | 5592 signals: move +0.94bp (se 0.04), hit 52%, taker net -12.28, maker-ideal -3.06
+   exploratory: imb1 @ 30 s
+    2025-12-01: IC +0.051 (n 2879) | 1947 signals: move +0.99bp (se 0.20), hit 54%, taker net -11.74, maker-ideal -3.01
+    2026-03-01: IC +0.037 (n 2879) | 1497 signals: move +0.91bp (se 0.25), hit 52%, taker net -12.16, maker-ideal -3.09
+    2026-06-01: IC +0.111 (n 2879) | 2229 signals: move +0.94bp (se 0.12), hit 54%, taker net -12.06, maker-ideal -3.06
+    2026-09-01: IC +0.126 (n 2879) | 2387 signals: move +0.92bp (se 0.11), hit 53%, taker net -12.29, maker-ideal -3.08
+   exploratory: micro @ 10 s
+    2025-12-01: IC +0.117 (n 8639) |  154 signals: move +1.98bp (se 0.76), hit 60%, taker net -11.25, maker-ideal -2.02
+    2026-03-01: IC +0.105 (n 8639) | 1787 signals: move +0.95bp (se 0.14), hit 55%, taker net -12.17, maker-ideal -3.05
+    2026-06-01: IC +0.176 (n 8639) | 1547 signals: move +1.06bp (se 0.09), hit 57%, taker net -11.95, maker-ideal -2.94
+    2026-09-01: IC +0.244 (n 8639) | 4971 signals: move +0.72bp (se 0.04), hit 47%, taker net -12.50, maker-ideal -3.28
+   exploratory: imb5 @ 10 s
+    2025-12-01: IC +0.048 (n 8639) | 4491 signals: move +0.53bp (se 0.08), hit 49%, taker net -12.21, maker-ideal -3.47
+    2026-03-01: IC +0.052 (n 8639) | 4415 signals: move +0.37bp (se 0.09), hit 47%, taker net -12.70, maker-ideal -3.63
+    2026-06-01: IC +0.094 (n 8639) | 1980 signals: move +0.62bp (se 0.08), hit 52%, taker net -12.38, maker-ideal -3.38
+    2026-09-01: IC +0.070 (n 8639) | 5006 signals: move +0.29bp (se 0.05), hit 41%, taker net -12.93, maker-ideal -3.71
+   exploratory: band10 @ 10 s
+    2025-12-01: IC +0.041 (n 8639) | 2001 signals: move +0.31bp (se 0.15), hit 48%, taker net -12.43, maker-ideal -3.69
+    2026-03-01: IC +0.053 (n 8639) | 4155 signals: move +0.24bp (se 0.09), hit 47%, taker net -12.83, maker-ideal -3.76
+    2026-06-01: IC +0.096 (n 8639) | 1147 signals: move +0.76bp (se 0.10), hit 53%, taker net -12.24, maker-ideal -3.24
+    2026-09-01: IC +0.062 (n 8639) | 5175 signals: move +0.15bp (se 0.05), hit 40%, taker net -13.07, maker-ideal -3.85
+
+[M1] the primary signal (imb1 <= -0.942 short / >= +0.958 long) traded the way an account could, on the later days: post at the touch, 0.5 s latency, 10 s to fill, one position at a time, fees maker 2bp / taker 6bp a leg; net per signal TAKEN (a missed fill is a 0)
+  hold 10 s, queue x1.0, exit taker: 14609 signals taken, fill  22%, net/signal  -2.37bp (se 0.04), net/fill -10.95bp, filled-minus-unfilled signalled move -4.84bp, days positive 0/4
+  hold 10 s, queue x1.0, exit maker: 13556 signals taken, fill  21%, net/signal  -2.16bp (se 0.05), net/fill -10.16bp, filled-minus-unfilled signalled move -4.85bp, days positive 0/4
+  hold 10 s, queue x0.5, exit taker: 14590 signals taken, fill  22%, net/signal  -2.41bp (se 0.04), net/fill -10.86bp, filled-minus-unfilled signalled move -4.77bp, days positive 0/4
+  hold 10 s, queue x0.5, exit maker: 13529 signals taken, fill  22%, net/signal  -2.19bp (se 0.05), net/fill -10.02bp, filled-minus-unfilled signalled move -4.79bp, days positive 0/4
+  hold 30 s, queue x1.0, exit taker: 12309 signals taken, fill  20%, net/signal  -2.22bp (se 0.06), net/fill -10.93bp, filled-minus-unfilled signalled move -5.09bp, days positive 0/4
+  hold 30 s, queue x1.0, exit maker: 11604 signals taken, fill  20%, net/signal  -2.04bp (se 0.06), net/fill -10.11bp, filled-minus-unfilled signalled move -5.10bp, days positive 0/4
+  hold 30 s, queue x0.5, exit taker: 12250 signals taken, fill  21%, net/signal  -2.26bp (se 0.06), net/fill -10.84bp, filled-minus-unfilled signalled move -4.99bp, days positive 0/4
+  hold 30 s, queue x0.5, exit maker: 11534 signals taken, fill  21%, net/signal  -2.07bp (se 0.06), net/fill  -9.99bp, filled-minus-unfilled signalled move -5.03bp, days positive 0/4

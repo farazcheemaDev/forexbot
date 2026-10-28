@@ -1,0 +1,63 @@
+CFTC DISAGGREGATED POSITIONS x PRICES - metals - 2026-10-28 11:56 UTC
+
+=== PRICES: physical-metal ETFs (PPLT PALL GLD SLV CPER) ===
+market      weeks  span                        S1 crowd rank (contrarian)             S2 swap rank (+)        S3 crowd change (+)
+                                               IC all / tune / hold    p      lowest10% / highest10%       IC all / tune / hold   p    IC all / tune / hold   p
+Platinum     956  2008-06-03..2026-09-22   -0.108 -0.158 -0.142  p 0.159    +0.5% (n134) /  -3.0% (n 77)   +0.087 +0.140 +0.076 p 0.194   -0.041 -0.092 +0.034 p 0.825   no cell passes
+Palladium    956  2008-06-03..2026-09-22   -0.031 -0.068 +0.036  p 0.455    +0.3% (n195) /  -0.5% (n150)   -0.034 -0.021 -0.066 p 0.702   -0.052 -0.124 +0.051 p 0.877   no cell passes
+Gold         956  2008-06-03..2026-09-22   -0.006 -0.042 +0.004  p 0.508    +0.1% (n143) /  +1.1% (n121)   +0.052 +0.068 +0.131 p 0.194   -0.014 -0.019 -0.008 p 0.621   no cell passes
+Silver       956  2008-06-03..2026-09-22   -0.027 -0.016 -0.062  p 0.390    -1.2% (n150) /  -0.0% (n133)   +0.071 +0.071 +0.113 p 0.174   -0.012 -0.026 +0.013 p 0.589   no cell passes
+Copper       956  2008-06-03..2026-09-22   -0.032 -0.161 +0.129  p 0.350    -0.9% (n115) /  -1.6% (n164)   -0.092 -0.146 -0.096 p 0.833   +0.055 +0.018 +0.150 p 0.089   no cell passes
+  cells passing the registered rule: 0 of 15
+  smallest p-values (Holm-adjusted): HG/S3 p 0.089 (adj 1.00), PL/S1 p 0.159 (adj 1.00), SI/S2 p 0.174 (adj 1.00), GC/S2 p 0.194 (adj 1.00)
+  P3 pooled contrarian IC of S1 over the five markets: -0.041
+  P4 S3 momentum IC by market: Pla -0.041 Pal -0.052 Gol -0.014 Sil -0.012 Cop +0.055  -> positive in 1 of 5
+  P2 palladium: crowded-short bucket (rank <= 10th) next 4 weeks avg +0.35% (n 195, up 51%) vs all weeks -0.81%; one-sided p of 'goes up more than chance' 0.126; crowded-long bucket -0.46% (n 150), p of 'falls more' 0.612
+
+=== PRICES: front-month futures (PL=F PA=F GC=F SI=F HG=F), roll gaps included ===
+market      weeks  span                        S1 crowd rank (contrarian)             S2 swap rank (+)        S3 crowd change (+)
+                                               IC all / tune / hold    p      lowest10% / highest10%       IC all / tune / hold   p    IC all / tune / hold   p
+Platinum     956  2008-06-03..2026-09-22   -0.093 -0.078 -0.158  p 0.070    +0.6% (n134) /  -1.7% (n 77)   +0.071 +0.078 +0.087 p 0.167   -0.009 -0.030 +0.022 p 0.592   no cell passes
+Palladium    956  2008-06-03..2026-09-22   +0.057 +0.037 +0.016  p 0.889    -0.2% (n195) /  +1.4% (n150)   -0.047 +0.003 -0.045 p 0.765   -0.049 -0.123 +0.044 p 0.835   no cell passes
+Gold         956  2008-06-03..2026-09-22   -0.010 -0.047 -0.002  p 0.476    +0.2% (n143) /  +1.1% (n121)   +0.055 +0.074 +0.136 p 0.176   -0.018 -0.021 -0.021 p 0.648   no cell passes
+Silver       956  2008-06-03..2026-09-22   -0.031 -0.018 -0.071  p 0.369    -1.1% (n150) /  -0.1% (n133)   +0.075 +0.076 +0.119 p 0.153   -0.021 -0.034 +0.001 p 0.658   no cell passes
+Copper       956  2008-06-03..2026-09-22   +0.047 -0.028 +0.154  p 0.812    +0.7% (n115) /  +0.7% (n164)   +0.022 +0.097 -0.099 p 0.367   +0.080 +0.045 +0.157 p 0.053   no cell passes
+  cells passing the registered rule: 0 of 15
+  smallest p-values (Holm-adjusted): HG/S3 p 0.053 (adj 0.80), PL/S1 p 0.070 (adj 0.98), SI/S2 p 0.153 (adj 1.00), PL/S2 p 0.167 (adj 1.00)
+  P3 pooled contrarian IC of S1 over the five markets: -0.006
+  P4 S3 momentum IC by market: Pla -0.009 Pal -0.049 Gol -0.018 Sil -0.021 Cop +0.080  -> positive in 1 of 5
+  P2 palladium: crowded-short bucket (rank <= 10th) next 4 weeks avg -0.21% (n 195, up 52%) vs all weeks +0.60%; one-sided p of 'goes up more than chance' 0.741; crowded-long bucket +1.43% (n 150), p of 'falls more' 0.751
+
+=== THE TOOL'S READOUT TODAY (ETF prices) ===
+PLATINUM   report 2026-10-20  managed money net +9% of open interest (LONG side), 3-year rank 42th, 4-week change -5.4 points; swap dealers net -13%; 35 MM traders short, top-4 hold 28% of OI short
+    rank  <= 10th:  134 weeks, next 4 weeks avg +0.48% (up  51%)  tune +0.02%  holdout +3.07%
+    rank    10-25:  165 weeks, next 4 weeks avg -0.82% (up  47%)  tune -1.56%  holdout +0.83%
+    rank    25-75:  462 weeks, next 4 weeks avg -0.20% (up  46%)  tune -1.84%  holdout +1.67%  <-- today
+    rank    75-90:  130 weeks, next 4 weeks avg -2.26% (up  38%)  tune -4.11%  holdout -0.73%
+    rank  >= 90th:   77 weeks, next 4 weeks avg -3.03% (up  35%)  tune -2.17%  holdout -4.31%
+PALLADIUM  report 2026-10-20  managed money net -47% of open interest (SHORT side), 3-year rank 28th, 4-week change -13.0 points; swap dealers net +26%; 44 MM traders short, top-4 hold 25% of OI short
+    rank  <= 10th:  195 weeks, next 4 weeks avg +0.35% (up  51%)  tune +2.35%  holdout -1.01%
+    rank    10-25:  122 weeks, next 4 weeks avg -1.17% (up  43%)  tune +0.15%  holdout -1.94%
+    rank    25-75:  378 weeks, next 4 weeks avg -0.57% (up  48%)  tune -1.13%  holdout +0.37%  <-- today
+    rank    75-90:  119 weeks, next 4 weeks avg +0.89% (up  50%)  tune +0.72%  holdout +1.51%
+    rank  >= 90th:  150 weeks, next 4 weeks avg -0.46% (up  46%)  tune -0.72%  holdout +0.78%
+GOLD       report 2026-10-20  managed money net +20% of open interest (LONG side), 3-year rank 49th, 4-week change -2.6 points; swap dealers net -40%; 23 MM traders short, top-4 hold 27% of OI short
+    rank  <= 10th:  143 weeks, next 4 weeks avg +0.13% (up  57%)  tune +0.22%  holdout -0.22%
+    rank    10-25:  147 weeks, next 4 weeks avg +0.60% (up  58%)  tune +0.25%  holdout +1.55%
+    rank    25-75:  434 weeks, next 4 weeks avg +0.69% (up  53%)  tune +0.37%  holdout +1.02%  <-- today
+    rank    75-90:  127 weeks, next 4 weeks avg -0.18% (up  43%)  tune -1.24%  holdout +1.26%
+    rank  >= 90th:  121 weeks, next 4 weeks avg +1.07% (up  61%)  tune +0.60%  holdout +1.59%
+SILVER     report 2026-10-20  managed money net +3% of open interest (LONG side), 3-year rank 5th, 4-week change -7.8 points; swap dealers net -16%; 25 MM traders short, top-4 hold 24% of OI short
+    rank  <= 10th:  150 weeks, next 4 weeks avg -1.17% (up  44%)  tune -1.39%  holdout -0.21%  <-- today
+    rank    10-25:  127 weeks, next 4 weeks avg +2.14% (up  57%)  tune +2.79%  holdout +1.16%
+    rank    25-75:  411 weeks, next 4 weeks avg +0.79% (up  51%)  tune -0.11%  holdout +1.78%
+    rank    75-90:  147 weeks, next 4 weeks avg -0.07% (up  44%)  tune -1.27%  holdout +1.45%
+    rank  >= 90th:  133 weeks, next 4 weeks avg -0.01% (up  47%)  tune -0.18%  holdout +0.29%
+COPPER     report 2026-10-20  managed money net +14% of open interest (LONG side), 3-year rank 56th, 4-week change -11.6 points; swap dealers net +4%; 34 MM traders short, top-4 hold 25% of OI short
+    rank  <= 10th:  115 weeks, next 4 weeks avg -0.91% (up  53%)  tune -0.90%  holdout -0.94%
+    rank    10-25:  121 weeks, next 4 weeks avg -0.47% (up  44%)  tune -1.12%  holdout +0.70%
+    rank    25-75:  419 weeks, next 4 weeks avg -1.67% (up  40%)  tune -3.14%  holdout +0.39%  <-- today
+    rank    75-90:  152 weeks, next 4 weeks avg -0.72% (up  41%)  tune -3.38%  holdout +2.85%
+    rank  >= 90th:  164 weeks, next 4 weeks avg -1.57% (up  38%)  tune -3.66%  holdout +1.11%
+
+P6 palladium today: rank 28th, SHORT side crowded at 47% of open interest, bucket 25-75.

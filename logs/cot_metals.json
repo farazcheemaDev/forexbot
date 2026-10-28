@@ -1,0 +1,42 @@
+{
+ "PL": {
+  "verdict": "NO LEAN: the registered signals did not pass - S1 crowd rank IC -0.108 (tune -0.158, holdout -0.142), shift p 0.16",
+  "S1": false,
+  "S2": false,
+  "S3": false,
+  "ic": -0.1075081318896807,
+  "p": 0.159
+ },
+ "PA": {
+  "verdict": "NO LEAN: the registered signals did not pass - S1 crowd rank IC -0.031 (tune -0.068, holdout +0.036), shift p 0.45",
+  "S1": false,
+  "S2": false,
+  "S3": false,
+  "ic": -0.030794700817586628,
+  "p": 0.4548
+ },
+ "GC": {
+  "verdict": "NO LEAN: the registered signals did not pass - S1 crowd rank IC -0.006 (tune -0.042, holdout +0.004), shift p 0.51",
+  "S1": false,
+  "S2": false,
+  "S3": false,
+  "ic": -0.006307126208222003,
+  "p": 0.5076
+ },
+ "SI": {
+  "verdict": "NO LEAN: the registered signals did not pass - S1 crowd rank IC -0.027 (tune -0.016, holdout -0.062), shift p 0.39",
+  "S1": false,
+  "S2": false,
+  "S3": false,
+  "ic": -0.02694042702147299,
+  "p": 0.3902
+ },
+ "HG": {
+  "verdict": "NO LEAN: the registered signals did not pass - S1 crowd rank IC -0.032 (tune -0.161, holdout +0.129), shift p 0.35",
+  "S1": false,
+  "S2": false,
+  "S3": false,
+  "ic": -0.03173835680688225,
+  "p": 0.3502
+ }
+}
