@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { DailyChart, EquityChart } from "./charts";
 import Refresh from "./Refresh";
 import { ACCOUNT_NAMES, BOOKS, bookName, dayLabel, pct, priceFmt, tone, usd, when } from "../lib/fmt";
-import { buildSizing, fmtQty, levelsFor, parseNum, plainSetup, recommendedLeverage, todaysPick } from "../lib/sizepanel.mjs";
+import { buildSizing, fmtQty, leverageGuide, levelsFor, parseNum, plainSetup, recommendedLeverage, todaysPick } from "../lib/sizepanel.mjs";
 
 function useMounted() {
   const [m, setM] = useState(false);
@@ -753,6 +753,7 @@ function SizePanel({ calls, scored, bets, needed, scalp }) {
   const r = out.ok ? out.r : null;
   const long = lv.side !== "short";
   const sf = r ? SAFETY[r.status] : null;
+  const guide = rec ? leverageGuide({ ...lv, bal, riskPct: risk }, rec.lev) : [];
   return (
     <div className="sizer">
       <h3 style={{ margin: "16px 0 6px", fontSize: 14 }}>Size a trade</h3>
@@ -862,6 +863,26 @@ function SizePanel({ calls, scored, bets, needed, scalp }) {
               : r.status === "tight"
                 ? `Liquidation at ${priceFmt(r.liqPrice)} is only ${r.roomX.toFixed(1)}× as far as your stop-loss, so a fast move could jump past the stop. Use ${r.maxLev}x or less.`
                 : `At ${lev}x the exchange would force-close the trade at ${priceFmt(r.liqPrice)}, BEFORE your stop-loss. Use ${r.maxLev}x or less.`}</span></div>
+          {guide.length > 1 ? (
+            <div className="levguide">
+              <div className="t-h">Want more leverage? Here is what each level does</div>
+              <div className="note" style={{ whiteSpace: "normal", marginBottom: 6 }}>
+                Higher leverage locks less of your money but puts liquidation closer. What you lose at the stop-loss and make at the take-profit stays exactly the same. "Safe" only means the stop-loss would trigger before liquidation, not that the trade will win. The calls are unproven and the position does not change, so a higher leverage buys you nothing here except less money locked as margin.
+              </div>
+              {guide.map((g) => (
+                <div className={`lrow${g.lev === lev ? " on" : ""}`} key={g.lev}>
+                  <div className="lh"><b>{g.lev}x</b>{g.tag ? <span className="note"> {g.tag}</span> : null}</div>
+                  <div className="ld">locks {usd(g.margin)} ({pct(g.marginShare, { dp: 0, sign: false })} of your balance) · liquidation {pct(g.liqDist, { dp: 1, sign: false })} away</div>
+                  <div className="lb"><span className={`badge ${SAFETY[g.status][1]}`}>{SAFETY[g.status][0]}</span>{" "}
+                    <button className="btn" disabled={g.lev === lev} onClick={() => set({ lev: String(g.lev) })}>{g.lev === lev ? "in use" : `Use ${g.lev}x`}</button></div>
+                </div>
+              ))}
+              <div className="note" style={{ whiteSpace: "normal", marginTop: 6 }}>
+                Above {r.maxLev}x, liquidation would sit less than twice as far away as your stop-loss, so a fast move could jump past it.{" "}
+                {!levAuto ? <button className="btn" onClick={() => set({ lev: "" })}>Back to the bot's suggestion</button> : null}
+              </div>
+            </div>
+          ) : null}
         </>
       )}
       <p className="note" style={{ marginTop: 8, whiteSpace: "normal" }}>

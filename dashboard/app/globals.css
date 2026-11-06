@@ -195,6 +195,14 @@ tr.pick td { background: rgba(240, 185, 11, .07); }
 .ticket .tv { font-size: 17px; font-weight: 650; font-variant-numeric: tabular-nums; min-width: 0; }
 .ticket .tv small { font-size: 12px; font-weight: 400; color: var(--muted); }
 .ticket .tnote { grid-column: 2; font-size: 12px; color: var(--muted); }
+.levguide { background: var(--panel2); border-radius: 8px; padding: 6px 12px 10px; margin: 8px 0; }
+.levguide .t-h { font-size: 13px; font-weight: 650; padding: 6px 0 4px; }
+.levguide .lrow { display: grid; grid-template-columns: minmax(96px, 150px) minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; padding: 7px 0; border-top: 1px solid rgba(43, 49, 57, .7); font-size: 13px; }
+.levguide .lrow.on { background: rgba(240, 185, 11, .07); }
+.levguide .ld { color: var(--muted); font-size: 12px; min-width: 0; }
+.levguide .lb { display: flex; gap: 8px; align-items: center; justify-content: flex-end; flex-wrap: wrap; }
+.levguide .btn { padding: 3px 10px; font-size: 12px; }
+.levguide .btn:disabled { opacity: .55; cursor: default; }
 .safety { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; margin: 6px 0 4px; font-size: 13px; color: var(--muted); }
 .sizer-out { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); margin: 10px 0; }
 .sizer-out .cell { background: var(--panel2); border-radius: 8px; padding: 10px 12px; min-width: 0; }
@@ -209,6 +217,8 @@ tr.pick td { background: rgba(240, 185, 11, .07); }
 }
 @media (max-width: 640px) {
   .ticket .trow { grid-template-columns: minmax(0, 1fr); }
+  .levguide .lrow { grid-template-columns: minmax(0, 1fr); }
+  .levguide .lb { justify-content: flex-start; }
   .ticket .tnote { grid-column: 1; }
   main { padding: 12px 16px; }
   .bar-in { padding: 8px 16px; gap: 10px; }

@@ -95,3 +95,20 @@ export function recommendedLeverage(r, bal) {
   const lev = Math.min(comfortable, r.maxLev);
   return { lev, fits: r.notional / lev <= bal };
 }
+
+// "What each leverage does" for the same trade: the suggested leverage, 5x, 10x, 20x and the highest safe one (only those up to the safe ceiling and
+// whose margin fits the balance). The position, the loss at the stop and the gain at the target are the same in every row; the margin locked and
+// the distance to liquidation are what change. `input` is buildSizing's input without `lev`.
+export function leverageGuide(input, recLev) {
+  const first = buildSizing({ ...input, lev: 1 });
+  if (!first.ok) return [];
+  const maxLev = first.r.maxLev;
+  const levs = [...new Set([recLev, 5, 10, 20, maxLev])].filter((x) => x >= 1 && x <= maxLev).sort((a, b) => a - b);
+  return levs
+    .map((lev) => {
+      const o = buildSizing({ ...input, lev });
+      const tags = [lev === recLev ? "suggested" : "", lev === maxLev ? "highest safe" : ""].filter(Boolean);
+      return { lev, margin: o.r.margin, marginShare: o.r.marginShare, liqPrice: o.r.liqPrice, liqDist: o.r.liqDist, status: o.r.status, fits: !o.notAffordable, tag: tags.join(" · ") };
+    })
+    .filter((g) => g.fits);
+}

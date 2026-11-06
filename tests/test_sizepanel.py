@@ -13,7 +13,7 @@ FEE = 0.0012
 
 
 def js(expr):
-    code = f"import {{ parseNum, levelsFor, buildSizing, fmtQty, MIN_NOTIONAL, todaysPick, plainSetup, liveFromHere, recommendedLeverage }} from '{MOD}'; console.log(JSON.stringify({expr}));"
+    code = f"import {{ parseNum, levelsFor, buildSizing, fmtQty, MIN_NOTIONAL, todaysPick, plainSetup, liveFromHere, recommendedLeverage, leverageGuide }} from '{MOD}'; console.log(JSON.stringify({expr}));"
     r = subprocess.run(["node", "--input-type=module", "-e", code], capture_output=True, text=True, encoding="utf-8", timeout=60)
     assert r.returncode == 0, r.stderr
     return json.loads(r.stdout)
@@ -201,6 +201,43 @@ def test_the_suggestion_keeps_the_loss_at_the_stop_and_the_safety_gap_for_a_real
     at = build(entry=entry, stop=entry * (1 - 0.014), target=entry * 1.0794, bal=10, lev=lev, riskPct=1)
     assert lev == 3 and near(at["r"]["lossAtStop"], 0.1) and at["r"]["status"] == "ok" and not at["notAffordable"]
     assert near(at["r"]["notional"], base["r"]["notional"])                # leverage never changes the position or the loss
+
+
+def guide(rec_lev, **kw):
+    base = dict(side="long", entry=1.187, stop=1.187 * (1 - 0.014), target=1.187 * 1.0794, bal=10, riskPct=1)
+    base.update(kw)
+    return js(f"leverageGuide({json.dumps(base)}, {rec_lev})")
+
+
+def test_the_leverage_guide_lists_the_options_up_to_the_safe_ceiling_with_what_changes_in_each():
+    g = guide(3)
+    assert [x["lev"] for x in g] == [3, 5, 10, 20, 30]                                   # suggested, 5x, 10x, 20x, the highest safe (30x)
+    assert g[0]["tag"] == "suggested" and g[-1]["tag"] == "highest safe" and all(x["tag"] == "" for x in g[1:-1])
+    notional = 10 * 0.01 / (0.014 + FEE)
+    for x in g:
+        assert near(x["margin"], notional / x["lev"]) and near(x["marginShare"], notional / x["lev"] / 10) and near(x["liqDist"], 1 / x["lev"] - 0.005)
+        assert x["fits"] and x["status"] == "ok"                                         # everything up to the ceiling keeps liquidation twice as far
+    assert g[0]["margin"] > g[-1]["margin"] and g[0]["liqDist"] > g[-1]["liqDist"]       # more leverage: less locked, liquidation closer
+
+
+def test_the_guide_merges_a_suggestion_that_equals_another_option_and_tags_both():
+    g = guide(5)
+    assert [x["lev"] for x in g] == [5, 10, 20, 30] and g[0]["tag"] == "suggested"
+    only = guide(30)                                                                    # the suggestion is the ceiling itself
+    assert only[-1]["lev"] == 30 and only[-1]["tag"] == "suggested · highest safe"
+
+
+def test_the_guide_drops_options_whose_margin_does_not_fit_the_balance_and_is_empty_for_a_bad_trade():
+    g = guide(3, bal=2)                                                                 # notional $1.32 on $2: even 3x locks $0.44, all fit
+    assert [x["lev"] for x in g] == [3, 5, 10, 20, 30]
+    tiny = guide(1, bal=5, riskPct=60)                                                  # a huge risk on $5: the 3x cap makes it $15; 1x would need $15 of margin
+    assert [x["lev"] for x in tiny] == [5, 10, 20, 30] and all(x["fits"] for x in tiny)   # the 1x row is dropped, 5x locks $3 of the $5
+    assert guide(3, stop=1.2) == []                                                     # a stop on the wrong side: nothing to suggest
+
+
+def test_a_wide_stop_leaves_fewer_safe_leverage_options():
+    g = guide(3, stop=1.187 * (1 - 0.05), target=1.187 * 1.15)                          # a 5% stop: liquidation twice as far allows 9x at most
+    assert [x["lev"] for x in g] == [3, 5, 9] and g[-1]["tag"] == "highest safe" and all(x["status"] == "ok" for x in g)
 
 
 if __name__ == "__main__":
