@@ -123,15 +123,23 @@ def day_ts(day: str) -> int:
 
 # ------------------------------------------------------------------ open positions, Binance style
 
+def struck_price(weight, base, coins):
+    """The price a daily-marked basket name was OPENED at: weight x base / coins (the identity combo_bot.mn_squeeze_exits uses;
+    the coins are fixed at the rebalance, the weights and base too). None when the bot holds no coins for the name."""
+    if not weight or not base or not coins or (weight > 0) != (coins > 0):
+        return None
+    return weight * base / coins
+
+
 def open_positions(st: dict, prices: dict) -> list:
     rows = []
 
-    def add(book, sym, qty, entry, mark, upnl, since, note=""):
+    def add(book, sym, qty, entry, mark, upnl, since, note="", **extra):
         cost = abs(qty) * entry if entry else 0.0
         rows.append(dict(book=book, sym=sym, side="long" if qty > 0 else "short", qty=qty,
                          size=round(abs(qty) * (mark or entry or 0.0), 2), entry=entry, mark=mark,
                          upnl=None if upnl is None else round(upnl, 4),
-                         pct=None if upnl is None or not cost else round(upnl / cost, 5), since=since, note=note))
+                         pct=None if upnl is None or not cost else round(upnl / cost, 5), since=since, note=note, **extra))
 
     tr = st.get("trend", {}) or {}
     for key, r in (tr.get("open", {}) or {}).items():
@@ -145,24 +153,32 @@ def open_positions(st: dict, prices: dict) -> list:
         add("trend", sym, sgn * per * len(entries), sum(entries) / len(entries), m, upnl, r.get("entry_bar"),
             f"{tf} breakout, {len(entries)} unit{'s' if len(entries) > 1 else ''}, stop {r.get('stop', 0):.6g}")
 
-    def basket(book, b, note):
+    # The market-neutral, carry and bear baskets are booked DAILY: each day's P&L is the day's move on that day's exposure, and
+    # the next day starts from the new mark. So for these rows `entry` is the last daily MARK, `upnl` / `pct` are TODAY's move
+    # (they sum to the account's open P&L), and `daily` tells the page to say so. `open_px` is the price the basket was really
+    # opened at and `chg_open` the PRICE move since - information, not the position's P&L.
+    def basket(book, b, note, coins):
         for s, w in (b.get("weights", {}) or {}).items():
             p0 = (b.get("mark_px", {}) or {}).get(s)
             if not p0:
                 continue
             qty = b.get("base", 0.0) * w / p0
             m = price(prices, s)
-            add(book, s, qty, p0, m, qty * (m - p0) if m else None, b.get("last_rebal"), note)
+            op = struck_price(w, b.get("base"), (coins or {}).get(s))
+            add(book, s, qty, p0, m, qty * (m - p0) if m else None, b.get("last_rebal"), note, daily=1,
+                open_px=None if op is None else round(op, 10), chg_open=None if op is None or not m else round(m / op - 1, 5))
 
-    basket("mn", st.get("mn", {}) or {}, "weekly basket, booked daily (entry = last daily mark)")
+    ex = st.get("exec", {}) or {}
+    basket("mn", st.get("mn", {}) or {}, "weekly basket, booked daily: P&L is today's move from the last daily mark", ex.get("mn_qty"))
     fin = st.get("fin", {}) or {}
-    basket("carry", fin.get("carry", {}) or {}, "funding basket, booked daily (entry = last daily mark)")
+    basket("carry", fin.get("carry", {}) or {}, "funding basket, booked daily: P&L is today's move from the last daily mark", ex.get("carry_qty"))
     sl = st.get("sleeve", {}) or {}
     for s, n in (sl.get("hold", {}) or {}).items():
         p0 = (sl.get("mark_px", {}) or {}).get(s)
         if p0:
             m = price(prices, s)
-            add("sleeve", s, n / p0, p0, m, n * (m / p0 - 1) if m else None, None, "bear basket, booked daily")
+            add("sleeve", s, n / p0, p0, m, n * (m / p0 - 1) if m else None, None,
+                "bear basket, booked daily: P&L is today's move from the last daily mark", daily=1)
     for b, note in (("daily", "daily Bollinger breakout"), ("capit2", "crash buy")):
         for s, p in ((fin.get(b, {}) or {}).get("open", {}) or {}).items():
             m = price(prices, s)

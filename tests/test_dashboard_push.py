@@ -250,6 +250,72 @@ def test_the_analyst_desk_is_absent_until_it_has_run():
         dp.ANALYST = old
 
 
+def _basket_state():
+    """Fresh-account-shaped state: an MN basket struck 10-31 (AKE short opened at 0.0139, since fallen to a 0.0022 daily mark),
+    a carry basket, one daily-book position and one NASDAQ dip buy (these two are NOT daily-marked)."""
+    return dict(
+        mn=dict(base=250.0, last_rebal="2026-10-31", weights={"AKEUSDT": -0.04, "BIRBUSDT": 0.04, "NEWUSDT": 0.04},
+                mark_px={"AKEUSDT": 0.002197, "BIRBUSDT": 0.10, "NEWUSDT": 2.0}),
+        exec=dict(mn_qty={"AKEUSDT": -719.0, "BIRBUSDT": 125.0}, carry_qty={"AKEUSDT": -359.5}),
+        fin=dict(carry=dict(base=125.0, last_rebal="2026-10-31", weights={"AKEUSDT": -0.04}, mark_px={"AKEUSDT": 0.002197}),
+                 daily=dict(open={"AINUSDT": dict(qty=100.0, entry=0.23, t_ms=1_793_000_000_000)}),
+                 ndx=dict(open=dict(qty=0.5, entry=690.0, t_ms=1_793_000_000_000, days=2))))
+
+
+PRICES = {"AKEUSDT": 0.005, "BIRBUSDT": 0.11, "NEWUSDT": 2.0, "AINUSDT": 0.10, "QQQUSDT": 660.0, "BTCUSDT": 76000.0}
+
+
+def _rows():
+    return dp.open_positions(_basket_state(), dict(PRICES))
+
+
+def test_struck_price_is_weight_times_base_over_coins_and_refuses_what_it_cannot_know():
+    assert abs(dp.struck_price(-0.04, 250.0, -719.0) - 0.04 * 250.0 / 719.0) < 1e-12        # a short: both signs negative, price positive
+    assert abs(dp.struck_price(0.04, 250.0, 125.0) - 0.08) < 1e-12
+    assert dp.struck_price(0.04, 250.0, None) is None and dp.struck_price(0.04, 250.0, 0) is None
+    assert dp.struck_price(0.04, 0, 125.0) is None and dp.struck_price(0.0, 250.0, 125.0) is None
+    assert dp.struck_price(0.04, 250.0, -125.0) is None                                      # weight and coins disagree on the side: not trustworthy
+
+
+def test_daily_marked_rows_say_so_and_carry_the_price_they_were_opened_at():
+    rows = {(r["book"], r["sym"]): r for r in _rows()}
+    ake = rows[("mn", "AKEUSDT")]
+    assert ake["daily"] == 1 and ake["side"] == "short"
+    assert ake["entry"] == 0.002197                                                           # `entry` stays the last daily MARK (what the P&L is measured from)
+    assert abs(ake["open_px"] - 0.04 * 250.0 / 719.0) < 1e-9 and abs(ake["open_px"] - 0.0139082) < 1e-6
+    assert abs(ake["chg_open"] - (0.005 / ake["open_px"] - 1)) < 1e-4 and ake["chg_open"] < 0          # the PRICE is down 64% since the basket was struck
+    car = rows[("carry", "AKEUSDT")]
+    assert car["daily"] == 1 and abs(car["open_px"] - 0.04 * 125.0 / 359.5) < 1e-9
+
+
+def test_the_pnl_of_a_daily_row_is_still_todays_move_so_the_page_still_adds_up():
+    ake = next(r for r in _rows() if r["book"] == "mn" and r["sym"] == "AKEUSDT")
+    qty = 250.0 * -0.04 / 0.002197
+    assert abs(ake["upnl"] - qty * (0.005 - 0.002197)) < 1e-3 and ake["upnl"] < 0              # a short loses when the price rises from the day's mark
+    assert abs(ake["pct"] - ake["upnl"] / abs(qty * 0.002197)) < 1e-4 and ake["pct"] < -1.0   # -130% of the day's exposure, a one-day figure
+    total = sum(r["upnl"] for r in _rows())
+    expect = (250.0 * -0.04 / 0.002197 * (0.005 - 0.002197) + 250.0 * 0.04 / 0.10 * (0.11 - 0.10) + 250.0 * 0.04 / 2.0 * 0.0
+              + 125.0 * -0.04 / 0.002197 * (0.005 - 0.002197) + 100.0 * (0.10 - 0.23) + 0.5 * (660.0 - 690.0))
+    assert abs(total - expect) < 1e-2
+
+
+def test_rows_booked_at_entry_are_not_marked_daily_and_unknown_coins_degrade_quietly():
+    rows = {(r["book"], r["sym"]): r for r in _rows()}
+    for key in (("daily", "AINUSDT"), ("ndx", "QQQUSDT")):
+        assert "daily" not in rows[key] and "open_px" not in rows[key]                          # their entry IS the entry
+    new = rows[("mn", "NEWUSDT")]                                                             # the bot holds no coins for it: no price to show, no crash
+    assert new["daily"] == 1 and new["open_px"] is None and new["chg_open"] is None
+    st = _basket_state()
+    del st["exec"]                                                                            # an older state file without the execution ledger
+    old = dp.open_positions(st, dict(PRICES))
+    assert all(r["open_px"] is None for r in old if r.get("daily")) and len(old) == len(_rows())
+
+
+def test_the_feed_stays_valid_json_with_the_new_fields():
+    import json
+    json.dumps(_rows(), allow_nan=False)
+
+
 if __name__ == "__main__":
     tests =[v for k, v in dict(globals()).items() if k.startswith("test_")]
     for fn in tests:

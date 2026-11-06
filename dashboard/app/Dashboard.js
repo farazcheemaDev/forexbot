@@ -304,15 +304,25 @@ function Positions({ a, local }) {
                   <span className="tag" title={r.note}>{bookName(r.book)}</span></td>
                 <td><span className={`side ${r.side}`}>{r.side === "long" ? "Long" : "Short"}</span></td>
                 <td className="r">{usd(r.size)}</td>
-                <td className="r">{priceFmt(r.entry)}</td>
+                <td className="r"><div>{priceFmt(r.entry)}</div>{r.daily ? <div className="note" title="This book is booked daily: each day's P&L is that day's move from the day's mark.">day mark</div> : null}</td>
                 <td className="r">{priceFmt(r.mark)}</td>
-                <td className={`r ${tone(r.upnl)}`}><div>{usd(r.upnl, { sign: true })}</div><div className="note">{pct(r.pct)}</div></td>
-                <td><div>{r.since ? when(r.since, local) : "–"}</div><div className="note">{r.note}</div></td>
+                <td className={`r ${tone(r.upnl)}`}><div>{usd(r.upnl, { sign: true })}</div><div className="note">{pct(r.pct)}{r.daily ? " today" : ""}</div></td>
+                <td><div>{r.since ? when(r.since, local) : "–"}</div>
+                  <div className="note">{r.daily && r.open_px
+                    ? `opened at ${priceFmt(r.open_px)} · price now ${pct(r.chg_open)}`
+                    : r.note}</div></td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      {all.some((r) => r.daily) ? (
+        <p className="note" style={{ marginTop: 10, whiteSpace: "normal" }}>
+          Rows marked <b>day mark</b> (market-neutral, carry, bear basket) are booked once a day: the account takes each day's move on that day's exposure and
+          starts the next day from the new mark. Their P&amp;L is therefore <b>today's</b>, and it is what adds up to the open P&amp;L above. The price in the last
+          column is where the basket was opened, and the move since is the coin's price change, not this position's profit.
+        </p>
+      ) : null}
     </>
   );
 }
