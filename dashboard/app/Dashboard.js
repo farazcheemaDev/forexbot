@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { DailyChart, EquityChart } from "./charts";
 import Refresh from "./Refresh";
 import { ACCOUNT_NAMES, BOOKS, bookName, dayLabel, pct, priceFmt, tone, usd, when } from "../lib/fmt";
+import { buildSizing, fmtQty, levelsFor, parseNum } from "../lib/sizepanel.mjs";
 
 function useMounted() {
   const [m, setM] = useState(false);
@@ -710,6 +711,115 @@ function oddsLine(h) {
   return `${p(h.hit)} hit (${h.wins} of ${h.n} calls, which are only ${h.bets} independent bets, so the likely range is ${p(h.lo)} to ${p(h.hi)}) · average ${rTxt(h.mean_r)} a call, ${rTxt(h.mean_r_bet)} a bet, after fees`;
 }
 
+const SIZE_KEY = "sizepanel.v1";
+const SIZE_DEFAULTS = { bal: "20", risk: "1", lev: "5", pick: "", entry: "now", side: "long", e: "", s: "", t: "" };
+const SIZE_STATUS = { ok: ["Room to spare", "good"], tight: ["Tight", "warn"], danger: ["Liquidated before the stop", "bad"] };
+
+// How big a position would be, what a stop-out costs and how far liquidation is, for one open desk call or a trade typed by hand.
+// The arithmetic is lib/size.mjs (the desk's rules); the warnings are lib/sizepanel.mjs; both are tested. Nothing here can place an order.
+function SizePanel({ calls, scored, bets, needed }) {
+  const [v, setV] = useState(SIZE_DEFAULTS);
+  useEffect(() => {
+    try {
+      const s = JSON.parse(window.localStorage.getItem(SIZE_KEY) || "null");
+      if (s && typeof s === "object") setV((x) => Object.fromEntries(Object.keys(SIZE_DEFAULTS).map((k) => [k, typeof s[k] === "string" ? s[k] : x[k]])));
+    } catch { /* private window or blocked storage: the panel works without remembering */ }
+  }, []);
+  const set = (patch) => {
+    const n = { ...v, ...patch };
+    setV(n);
+    try { window.localStorage.setItem(SIZE_KEY, JSON.stringify(n)); } catch { /* ignore */ }
+  };
+  const byId = Object.fromEntries(calls.map((c) => [String(c.id), c]));
+  const first = calls.find((c) => c.sw.kind === "sweet" && scored(c)) || calls.find((c) => c.sw.kind === "sweet") || calls[0];
+  const pick = v.pick === "manual" || byId[v.pick] ? v.pick : first ? String(first.id) : "manual";
+  const call = pick === "manual" ? null : byId[pick];
+  const bal = parseNum(v.bal), lev = parseNum(v.lev), risk = parseNum(v.risk);
+  const lv = call ? levelsFor(call, v.entry) : { side: v.side, entry: parseNum(v.e), stop: parseNum(v.s), target: parseNum(v.t) };
+  const out = buildSizing({ ...lv, bal, lev, riskPct: risk });
+  const sym = call ? call.symbol.replace(/USDT$/, "") : "coins";
+  const r = out.ok ? out.r : null;
+  const status = r ? SIZE_STATUS[r.status] : null;
+  return (
+    <div className="sizer">
+      <h3 style={{ margin: "16px 0 6px", fontSize: 14 }}>Size a trade</h3>
+      <p className="note" style={{ margin: "0 0 10px", whiteSpace: "normal" }}>
+        Type your futures balance and a leverage to see how big the position would be, what a stop-out costs and how far away liquidation is. It is arithmetic on the desk's rules, not a signal,
+        and nothing on this page can place an order.
+      </p>
+      <div className="sizer-in">
+        <label>Your futures balance ($)<input inputMode="decimal" value={v.bal} onChange={(e) => set({ bal: e.target.value })} /></label>
+        <label>Risk per trade (% of balance)<input inputMode="decimal" value={v.risk} onChange={(e) => set({ risk: e.target.value })} /></label>
+        <label>Leverage (x)<input inputMode="decimal" value={v.lev} onChange={(e) => set({ lev: e.target.value })} /></label>
+        <label>Trade to size
+          <select value={pick} onChange={(e) => set({ pick: e.target.value })}>
+            {calls.map((c) => (
+              <option key={c.id} value={String(c.id)}>
+                {c.symbol.replace(/USDT$/, "")} {c.side} · {METHOD[c.method]} · {(SIZE_BADGE[c.sw.kind] || ["–"])[0]}{scored(c) ? " · counts in the test" : ""}
+              </option>
+            ))}
+            <option value="manual">By hand: type the levels</option>
+          </select>
+        </label>
+      </div>
+      <div className="chips">
+        <span className="note" style={{ alignSelf: "center" }}>Balance</span>
+        {[10, 20, 50, 100, 300].map((x) => <button key={x} className={bal === x ? "on" : ""} onClick={() => set({ bal: String(x) })}>${x}</button>)}
+        <span className="note" style={{ alignSelf: "center", marginLeft: 8 }}>Risk</span>
+        {[0.5, 1, 2].map((x) => <button key={x} className={risk === x ? "on" : ""} onClick={() => set({ risk: String(x) })}>{x}%</button>)}
+        {call ? (
+          <>
+            <span className="note" style={{ alignSelf: "center", marginLeft: 8 }}>Enter</span>
+            <button className={v.entry === "now" ? "on" : ""} onClick={() => set({ entry: "now" })}>at the price now</button>
+            <button className={v.entry === "logged" ? "on" : ""} onClick={() => set({ entry: "logged" })}>at the desk's logged price</button>
+          </>
+        ) : null}
+      </div>
+      {call ? null : (
+        <div className="sizer-in">
+          <label>Side
+            <select value={v.side} onChange={(e) => set({ side: e.target.value })}>
+              <option value="long">Long</option>
+              <option value="short">Short</option>
+            </select>
+          </label>
+          <label>Entry price<input inputMode="decimal" value={v.e} onChange={(e) => set({ e: e.target.value })} /></label>
+          <label>Stop price<input inputMode="decimal" value={v.s} onChange={(e) => set({ s: e.target.value })} /></label>
+          <label>Target price (optional)<input inputMode="decimal" value={v.t} onChange={(e) => set({ t: e.target.value })} /></label>
+        </div>
+      )}
+      {!out.ok ? <div className="empty" style={{ padding: "8px 0" }}>{out.reason}</div> : (
+        <>
+          <div className="sizer-out">
+            <div className="cell"><div className="l">Position size</div><div className="v">{usd(r.notional)}</div>
+              <div className="s">{fmtQty(r.qty)} {sym} · {(r.notional / bal).toFixed(2)}× your balance</div></div>
+            <div className="cell"><div className="l">Margin you put in</div><div className="v">{usd(r.margin)}</div>
+              <div className="s">{pct(r.marginShare, { dp: 0, sign: false })} of your balance at {lev}x</div></div>
+            <div className="cell"><div className="l">If the stop is hit</div><div className="v down">{usd(-r.lossAtStop, { sign: true })}</div>
+              <div className="s">{pct(r.lossShare, { dp: 2, sign: false })} of your balance, fee included</div></div>
+            <div className="cell"><div className="l">If the target is hit</div>
+              {r.gainAtTarget !== null
+                ? <><div className="v up">{usd(r.gainAtTarget, { sign: true })}</div><div className="s">{out.rr.toFixed(1)} times the risk, after the fee</div></>
+                : <><div className="v">–</div><div className="s">{out.noTarget ? "no target given" : "the price is already past the target"}</div></>}</div>
+            <div className="cell"><div className="l">Liquidation price</div><div className="v">{priceFmt(r.liqPrice)}</div>
+              <div className="s">{pct(r.liqDist, { dp: 1, sign: false })} from the entry · your stop is {pct(r.stopPct, { dp: 2, sign: false })} away</div></div>
+            <div className="cell"><div className="l">Room beyond your stop</div><div className="v"><span className={`badge ${status[1]}`}>{status[0]}</span></div>
+              <div className="s">liquidation is {r.roomX.toFixed(1)}× as far as the stop; up to {r.maxLev}x keeps it at least twice as far</div></div>
+          </div>
+          {out.belowMin ? <p className="note" style={{ whiteSpace: "normal" }}><span className="badge bad">Under the minimum order</span> {usd(r.notional)} is below the $5 minimum order value. At this stop it takes at least {out.needRiskPct.toFixed(2)}% risk to place it.</p> : null}
+          {out.notAffordable ? <p className="note" style={{ whiteSpace: "normal" }}><span className="badge bad">Not enough balance</span> The margin is more than your balance. Use at least {out.minLev}x leverage, or a smaller risk.</p> : null}
+          {out.capped ? <p className="note" style={{ whiteSpace: "normal" }}><span className="badge warn">Cut to 3× the balance</span> The desk never holds more than 3 times the balance, so the position is cut to {usd(r.notional)}; a stop-out costs {usd(r.lossAtStop)}, less than the {risk}% you chose.</p> : null}
+          {r.status === "danger" ? <p className="note" style={{ whiteSpace: "normal" }}><span className="badge bad">Too much leverage</span> At {lev}x the exchange would close the trade before the stop could. Use {r.maxLev}x or less.</p> : null}
+        </>
+      )}
+      <p className="note" style={{ marginTop: 8, whiteSpace: "normal" }}>
+        These are estimates: a 0.12% round-trip fee, a 0.5% maintenance margin and isolated margin. Your exchange's own liquidation price differs by coin and tier, the size is not rounded to the coin's smallest
+        order step, and funding is left out. The calls themselves are unproven: the sweet-spot test stands at {bets} of {needed} bets. If you trade one, you place the order yourself.
+      </p>
+    </div>
+  );
+}
+
 function SweetSpot({ a }) {
   const sw = a.sweet;
   const now = useNow(15000);
@@ -780,6 +890,8 @@ function SweetSpot({ a }) {
           ))}
         </p>
       ) : null}
+
+      <SizePanel calls={[...sweetOpen, ...otherOpen]} scored={scored} bets={fw.bets ?? 0} needed={fw.needed ?? 30} />
 
       <h3 style={{ margin: "16px 0 6px", fontSize: 14 }}>Coming: where a rule could fire at the next run</h3>
       {sw.watch?.length ? (

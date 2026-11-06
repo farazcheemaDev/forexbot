@@ -180,6 +180,18 @@ tr.pick td { background: rgba(240, 185, 11, .07); }
 .lad-stp { border-left-color: var(--down); border-left-style: dotted; }
 .lad-now { border-left-color: var(--accent); background: rgba(240, 185, 11, .12); font-weight: 650; }
 
+/* ---------- analyst desk: the size panel */
+.sizer-in { display: grid; gap: 10px 14px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); margin-bottom: 10px; }
+.sizer-in label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); min-width: 0; }
+.sizer-in input, .sizer-in select { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel2);
+  color: var(--ink); font: inherit; font-size: 16px; font-variant-numeric: tabular-nums; min-width: 0; }
+.sizer-in input:focus, .sizer-in select:focus { outline: none; border-color: var(--accent); }
+.sizer-out { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); margin: 10px 0; }
+.sizer-out .cell { background: var(--panel2); border-radius: 8px; padding: 10px 12px; min-width: 0; }
+.sizer-out .cell .l { font-size: 12px; color: var(--muted); margin-bottom: 2px; }
+.sizer-out .cell .v { font-size: 18px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.sizer-out .cell .s { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
 /* ---------- small screens */
 @media (max-width: 1100px) {
   .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
