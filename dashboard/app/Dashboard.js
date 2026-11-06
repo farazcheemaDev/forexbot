@@ -701,6 +701,120 @@ function WhatIf({ w, n }) {
   );
 }
 
+const SIZE_BADGE = { sweet: ["Sweet-spot size", "good"], maybe: ["Only if the wick runs long", "warn"], small: ["Small stop", "idle"], mid: ["Middle size", "idle"], scalp: ["Scalp-sized", "bad"] };
+const rTxt = (x) => `${x > 0 ? "+" : x < 0 ? "−" : ""}${Math.abs(x).toFixed(2)}R`;
+
+function oddsLine(h) {
+  if (!h || !h.n) return "no resolved calls of this size yet";
+  const p = (x) => pct(x, { dp: 0, sign: false });
+  return `${p(h.hit)} hit (${h.wins} of ${h.n} calls, which are only ${h.bets} independent bets, so the likely range is ${p(h.lo)} to ${p(h.hi)}) · average ${rTxt(h.mean_r)} a call, ${rTxt(h.mean_r_bet)} a bet, after fees`;
+}
+
+function SweetSpot({ a }) {
+  const sw = a.sweet;
+  const now = useNow(15000);
+  const local = useMounted();
+  if (!sw) return null;
+  const fw = sw.forward || {};
+  const v = fw.verdict || "";
+  const badge = v.startsWith("PASS") ? ["Registered bar met", "good"] : v.startsWith("NO PASS") ? ["Registered bar not met", "bad"] : [`Unproven · ${fw.bets ?? 0} of ${fw.needed ?? 30} bets`, "warn"];
+  const hhmm = new Date(sw.next_run * 1000).toISOString().slice(11, 16);
+  const mins = now ? Math.max(0, Math.round((sw.next_run * 1000 - now) / 60000)) : null;
+  const byId = Object.fromEntries((sw.calls || []).map((x) => [x.id, x]));
+  const open = (a.open || []).map((c) => ({ ...c, sw: byId[c.id] || {} }));
+  const sweetOpen = open.filter((c) => c.sw.kind === "sweet");
+  const otherOpen = open.filter((c) => c.sw.kind !== "sweet");
+  const fresh = (c) => { const t = Date.parse(`${String(c.made).replace(" ", "T")}:00Z`); return !!(now && t && now - t < 90 * 60000); };
+  const scored = (c) => Date.parse(`${String(c.made).replace(" ", "T")}:00Z`) >= (sw.registered_ms || 0);
+  const h = sw.history || {};
+  return (
+    <section className="card">
+      <div className="card-h">
+        <div><h2>Sweet-spot watch</h2>
+          <div className="sub">A sweet spot is a desk call whose stop is at least {pct(sw.def_stop, { dp: 1, sign: false })} from its entry. This idea was registered on {sw.registered}, after the
+            desk's first 86 calls suggested it, and is scored only on calls made after that. It needs {fw.needed ?? 30} independent bets, at least +0.15R a bet after fees and a clear
+            statistical margin. Today it is a hypothesis, not a result.</div></div>
+        <span className={`badge ${badge[1]}`}>{badge[0]}</span>
+      </div>
+      <div className="summary">
+        <span>Next desk run <b>{hhmm} UTC</b>{mins !== null ? <> (in <b>{mins} min</b>)</> : null} - new calls appear then</span>
+        <span>Forward test <b>{fw.bets ?? 0}</b> of {fw.needed ?? 30} bets{fw.bets ? <> · mean <b className={tone(fw.mean_r_bet)}>{rTxt(fw.mean_r_bet)}</b> a bet</> : null}</span>
+        <span title="The desk's own resolved calls with a stop under 0.4%">Scalp-sized calls so far <b className="down">{h.scalp?.n ? `${h.scalp.wins} of ${h.scalp.n} hit, ${rTxt(h.scalp.mean_r)} a call` : "none"}</b></span>
+      </div>
+
+      <h3 style={{ margin: "14px 0 6px", fontSize: 14 }}>Open sweet-spot calls</h3>
+      {sweetOpen.length ? (
+        <div className="scroll">
+          <table>
+            <thead><tr><th>Call</th><th className="r">Entry</th><th className="r">Stop</th><th className="r">Target</th><th className="r">Price now</th><th className="r">From here</th><th>The odds, from the desk's own record</th></tr></thead>
+            <tbody>
+              {sweetOpen.map((c) => (
+                <tr key={c.id}>
+                  <td><div className="sym">{c.symbol.replace(/USDT$/, "")}<span className="faint">/USDT</span> {fresh(c) ? <span className="badge good">new</span> : null}</div>
+                    <span className={`side ${c.side}`}>{c.side === "long" ? "Long" : "Short"}</span> <span className="note">{METHOD[c.method]} · {when(c.made, local)}</span>
+                    <div>{scored(c)
+                      ? <span className="badge good" title="Made after the registration: this call counts toward the forward test.">counts in the forward test</span>
+                      : <span className="badge idle" title="Made before the registration: it is the kind of call that suggested the idea, so it cannot test it.">before the registration, not scored</span>}</div></td>
+                  <td className="r"><div>{priceFmt(c.entry)}</div><div className="note">logged by the desk</div></td>
+                  <td className="r"><div>{priceFmt(c.stop)}</div><div className="note">{pct(c.sw.stop_pct, { dp: 2, sign: false })} away</div></td>
+                  <td className="r"><div>{priceFmt(c.target)}</div><div className="note">{pct(Math.abs(c.target / c.entry - 1), { dp: 2, sign: false })} away</div></td>
+                  <td className="r"><div>{priceFmt(c.mark)}</div><div className={`note ${tone(c.pct)}`}>{pct(c.pct)} since the call</div></td>
+                  <td className="r"><div>{c.sw.rr_now !== null && c.sw.rr_now !== undefined ? `${c.sw.rr_now.toFixed(1)}R` : "–"}</div>
+                    <div className="note">{c.sw.valid ? "above the desk's 1.5R floor" : "most of the move is gone"}</div></td>
+                  <td style={{ whiteSpace: "normal", minWidth: 280 }}>
+                    <div>A random entry with this stop and target would hit <b>{c.base_p < 0.01 ? "under 1%" : pct(c.base_p, { dp: 0, sign: false })}</b>; it must hit <b>{pct(c.be_p, { dp: 0, sign: false })}</b> to cover fees.</div>
+                    <div className="note" style={{ whiteSpace: "normal" }}>Past {c.sw.odds_scope === "method" ? `${METHOD[c.method]} ` : ""}sweet-spot calls: {oddsLine(c.sw.odds)}.
+                      The cut was chosen after looking at these results, so it flatters: read it as the best case.</div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : <div className="empty" style={{ padding: "8px 0" }}>No sweet-spot call is open right now. The desk checks at {hhmm} UTC and then every hour.</div>}
+      {otherOpen.length ? (
+        <p className="note" style={{ margin: "10px 0 0", whiteSpace: "normal" }}>
+          Other open calls: {otherOpen.map((c) => (
+            <span key={c.id} style={{ marginRight: 12 }}>{c.symbol.replace(/USDT$/, "")} {c.side} <span className={`badge ${(SIZE_BADGE[c.sw.kind] || ["", "idle"])[1]}`}>{(SIZE_BADGE[c.sw.kind] || ["–"])[0]}</span>
+              {c.sw.odds?.n ? ` past: ${c.sw.odds.wins} of ${c.sw.odds.n} hit, ${rTxt(c.sw.odds.mean_r)} a call` : ""}</span>
+          ))}
+        </p>
+      ) : null}
+
+      <h3 style={{ margin: "16px 0 6px", fontSize: 14 }}>Coming: where a rule could fire at the next run</h3>
+      {sw.watch?.length ? (
+        <div className="scroll">
+          <table>
+            <thead><tr><th>Market</th><th>Setup</th><th>What has to happen</th><th className="r">The call it would be</th><th>Size</th></tr></thead>
+            <tbody>
+              {sw.watch.map((w, i) => (
+                <tr key={`${w.symbol}-${w.kind}-${i}`}>
+                  <td><div className="sym">{w.symbol.replace(/USDT$/, "")}<span className="faint">/USDT</span></div>
+                    <span className={`side ${w.side}`}>{w.side === "long" ? "Long" : "Short"}</span> <span className="note">{priceFmt(w.price)} now</span></td>
+                  <td>{w.kind === "FIB" ? "Fibonacci pullback zone" : `${w.touches}-touch ${w.side === "long" ? "support" : "resistance"} ${priceFmt(w.level)}`}
+                    <div className="note">{w.kind === "FIB" ? "price is inside the zone" : `${w.dist_atr} hourly ranges away`}</div></td>
+                  <td style={{ whiteSpace: "normal", minWidth: 240 }}>{w.need}</td>
+                  <td className="r">{w.kind === "FIB"
+                    ? (w.fires ? <><div>stop {pct(w.stop_pct, { dp: 2, sign: false })} · {w.rr}R</div><div className="note">stop {priceFmt(w.stop)} · target {priceFmt(w.target)}</div></> : <span className="note">no call</span>)
+                    : <><div>stop {pct(w.stop_pct_lo, { dp: 2, sign: false })} to {pct(w.stop_pct_hi, { dp: 2, sign: false })}</div><div className="note">{w.rr ? `${w.rr[0]} to ${w.rr[1]}R (the desk needs 1.5R)` : "no target level"}</div></>}</td>
+                  <td><span className={`badge ${(SIZE_BADGE[w.kind_size] || ["", "idle"])[1]}`}>{(SIZE_BADGE[w.kind_size] || ["–"])[0]}</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : <div className="empty" style={{ padding: "8px 0" }}>Nothing is close to a trigger: no price is inside a Fibonacci zone or near a strong level.</div>}
+
+      <p className="note" style={{ marginTop: 12, whiteSpace: "normal" }}>
+        How to read this. <b>The odds are the desk's own resolved calls of the same stop size</b>, after the 0.12% fee. The range counts independent bets (all same-direction calls of a day are one bet,
+        because one market move settles them together), so it is wide. It is not a forecast. The random-entry figure is exact for this call's stop and target. The desk logs a call at about :07 past the hour,
+        so your own entry will differ a little: check the "from here" ratio. The setups that need an hour's own wick, such as the liquidity sweeps that did best inside the sweet spot, cannot be
+        previewed; they show up here only once logged. Scalp-sized calls (stop under 0.4%) are where the desk has lost.
+      </p>
+    </section>
+  );
+}
+
 function AnalystDesk({ a }) {
   const local = useMounted();
   const syms = Object.keys(a.symbols || {});
@@ -748,6 +862,8 @@ function AnalystDesk({ a }) {
           ) : null}
         </div>
       </section>
+
+      <SweetSpot a={a} />
 
       <div className="row">
         <section className="card">

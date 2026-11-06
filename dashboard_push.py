@@ -32,6 +32,7 @@ import base64
 import csv
 import gzip
 import json
+import math
 import os
 import shutil
 import subprocess
@@ -492,6 +493,134 @@ def replay_view(r: dict | None) -> dict | None:
                 check_1m={k: ({a: rd(b) for a, b in v.items()} if isinstance(v, dict) else v) for k, v in (r.get("check_1m") or {}).items()} or None)
 
 
+# ------------------------------------------------------------------ the Analyst desk's "sweet spot" watch (2026-11-06, backtest/analyst_sweetspot.py)
+
+SWEET_STOP, SCALP_STOP = 0.008, 0.004          # a call is "sweet-spot-sized" from a 0.8% stop; under 0.4% it is scalp-sized (registered 2026-11-06 15:00 UTC)
+SWEET_BETS = 30                                 # independent bets the registered test needs
+SWEET_REGISTERED_MS = 1793977200000             # 2026-11-06 15:00 UTC: only calls made from here on are scored (= backtest.analyst_sweetspot.REGISTERED_MS)
+DESK_MIN_RR, SR_NEAR_ATR, WATCH_MAX = 1.5, 1.5, 6
+
+
+def wilson(k: float, n: float, z: float = 1.96):
+    """Wilson score interval for k successes in n trials (k may be fractional: it is rescaled to the number of independent bets)."""
+    if n <= 0:
+        return None
+    p = k / n
+    d = 1 + z * z / n
+    c = (p + z * z / (2 * n)) / d
+    h = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d
+    return max(0.0, c - h), min(1.0, c + h)
+
+
+def call_kind(stop_pct):
+    if stop_pct is None:
+        return None
+    return "sweet" if stop_pct >= SWEET_STOP else "scalp" if stop_pct < SCALP_STOP else "mid"
+
+
+def desk_history(rows: list, kind: str | None = None, method: str | None = None) -> dict:
+    """The desk's RESOLVED calls of one stop size (and method): calls, independent bets (same UTC day + same side), wins, hit rate, a 95% range that
+    counts the BETS and not the calls (a Wilson interval on the bets), and the mean result after fees per call and per bet."""
+    sel = []
+    for r in rows:
+        if r.get("status") not in ("WIN", "LOSS", "EXPIRED"):
+            continue
+        res, sp = fnum(r.get("r_net")), fnum(r.get("stop_pct"))
+        if res is None or sp is None or (kind and call_kind(sp) != kind) or (method and r.get("method") != method):
+            continue
+        sel.append((str(r.get("made_utc"))[:10], r.get("side"), res, r["status"] == "WIN"))
+    if not sel:
+        return dict(n=0, bets=0)
+    groups: dict = {}
+    for d, s, res, _ in sel:
+        groups.setdefault((d, s), []).append(res)
+    per_bet = [sum(v) / len(v) for _, v in sorted(groups.items())]
+    wins = sum(1 for x in sel if x[3])
+    p = wins / len(sel)
+    lo, hi = wilson(p * len(per_bet), len(per_bet))
+    return dict(n=len(sel), bets=len(per_bet), wins=wins, hit=round(p, 4), lo=round(lo, 3), hi=round(hi, 3),
+                mean_r=round(sum(x[2] for x in sel) / len(sel), 3), mean_r_bet=round(sum(per_bet) / len(per_bet), 3))
+
+
+def watch_items(symbols: dict) -> list:
+    """Where a desk rule could fire in the NEXT run, from the levels and the live price - the rule's own geometry (analyst.signals), no prediction.
+    FIB: the live price is inside the 50-78.6% zone, so the call that would be logged if the hour closed with the swing is fully fixed (stop and target
+    come from the levels). SR: a strong level is within 1.5 ATR; the stop depends on how far the hour's wick goes, so it is a RANGE (wick no deeper than
+    the level ... one ATR through it). Liquidity sweeps depend on the hour's own wick and cannot be previewed."""
+    out = []
+    for sym, v in symbols.items():
+        px = v.get("price")
+        a1 = (v.get("atr1_pct") or 0.0) * (px or 0.0)
+        if not px or a1 <= 0:
+            continue
+        sw = v.get("fib")
+        l886 = ((sw or {}).get("levels") or {}).get("0.886")
+        if sw and l886 is not None and sw.get("retraced") is not None and 0.5 <= sw["retraced"] <= 0.786:
+            up = sw["trend"] == "up"
+            stop = l886 - 0.25 * a1 if up else l886 + 0.25 * a1
+            tgt = sw["hi"] if up else sw["lo"]
+            risk, reward = abs(px - stop), abs(tgt - px)
+            geo = (stop < px < tgt) if up else (tgt < px < stop)
+            fires = bool(geo and risk > 0 and reward / risk >= DESK_MIN_RR and 0.3 * a1 <= risk <= 4 * a1)
+            out.append(dict(kind="FIB", symbol=sym, side="long" if up else "short", price=px, dist_atr=0.0, stop=round(stop, 8), target=tgt,
+                            stop_pct=round(risk / px, 5), rr=round(reward / risk, 2) if risk else None, fires=fires, kind_size=call_kind(risk / px),
+                            need=f"price is {sw['retraced'] * 100:.0f}% into the {sw['trend']} swing; fires if the hour closes {'up' if up else 'down'}"
+                                 if fires else "inside the 50-78.6% zone, but the stop or reward:risk fails the desk's limits - no call"))
+        for side, levels, other in (("long", v.get("support") or [], v.get("resistance") or []), ("short", v.get("resistance") or [], v.get("support") or [])):
+            strong = [x for x in levels if x.get("touches", 0) >= 3]
+            if not strong:
+                continue
+            lv = min(strong, key=lambda x: abs(x["price"] - px))
+            dist = abs(px - lv["price"]) / a1
+            if dist > SR_NEAR_ATR or (side == "long" and lv["price"] >= px) or (side == "short" and lv["price"] <= px):
+                continue
+            lo_stop = abs(px - lv["price"]) + 0.5 * a1                       # the wick stops at the level
+            hi_stop = abs(px - lv["price"]) + 1.5 * a1                       # the wick goes a full ATR through it
+            tgt = other[0]["price"] if other else None
+            rr = None if tgt is None else (round(abs(tgt - px) / hi_stop, 2), round(abs(tgt - px) / lo_stop, 2))
+            out.append(dict(kind="SR", symbol=sym, side=side, price=px, dist_atr=round(dist, 2), level=lv["price"], touches=lv["touches"],
+                            stop_pct_lo=round(lo_stop / px, 5), stop_pct_hi=round(hi_stop / px, 5), target=tgt, rr=rr,
+                            kind_size="sweet" if lo_stop / px >= SWEET_STOP else "maybe" if hi_stop / px >= SWEET_STOP else "small",
+                            need=f"{'above' if side == 'long' else 'below'} a {lv['touches']}-touch level; fires if an hourly candle wicks into it and "
+                                 f"closes back {'above' if side == 'long' else 'below'} with a wick of at least half its range"))
+    out.sort(key=lambda x: (0 if x["kind"] == "FIB" else 1, x["dist_atr"]))
+    return out[:WATCH_MAX]
+
+
+def sweet_view(rows: list, open_calls: list, symbols: dict, now: int) -> dict:
+    """The sweet-spot watch: the registered claim and its forward progress, the desk's history by stop size with its real uncertainty, every open call
+    tagged and priced from here, and the setups that could fire next. Everything is the desk's own record - a measurement, not a forecast."""
+    hist = dict(sweet=desk_history(rows, "sweet"), mid=desk_history(rows, "mid"), scalp=desk_history(rows, "scalp"),
+                by_method={m: desk_history(rows, "sweet", m) for m in ("SR", "FIB", "SMC")})
+    by_id = {int(r["id"]): r for r in rows if str(r.get("id", "")).isdigit()}
+    calls = []
+    for c in open_calls:
+        r = by_id.get(c["id"], {})
+        sp = fnum(r.get("stop_pct"))
+        kind = call_kind(sp)
+        cell = hist["by_method"].get(c["method"]) if kind == "sweet" else None
+        odds = cell if cell and cell.get("n", 0) >= 5 else hist.get(kind) if kind else None
+        px, entry, stop, tgt = c.get("mark"), c.get("entry"), c.get("stop"), c.get("target")
+        long_ = c["side"] == "long"
+        have = px is not None and stop is not None and tgt is not None
+        risk_now = ((px - stop) if long_ else (stop - px)) if have else 0.0
+        rr_now = ((tgt - px) if long_ else (px - tgt)) / risk_now if have and risk_now > 0 else None
+        calls.append(dict(id=c["id"], kind=kind, stop_pct=sp, odds=odds, odds_scope=("method" if odds is cell else "size") if odds else None,
+                          rr_now=None if rr_now is None else round(rr_now, 2), valid=bool(rr_now is not None and rr_now >= DESK_MIN_RR)))
+    fw = dict(bets=0, needed=SWEET_BETS, verdict=f"NOT YET - 0 of {SWEET_BETS} independent bets")
+    try:
+        from backtest import analyst_sweetspot as ss
+        sc = ss.score(ss.load(ANALYST / "calls.csv"))
+        fw = dict(calls=sc["calls"], bets=sc["bets"], needed=SWEET_BETS, mean_r_bet=round(sc["mean_r"], 3), hit=round(sc["hit"], 3), base=round(sc["base"], 3),
+                  t=None if sc["t"] is None else round(sc["t"], 2), verdict=sc["verdict"])
+    except Exception:                                    # the registered scorer must never break the rest of the feed
+        pass
+    nxt = (now // 3600) * 3600 + 7 * 60
+    nxt = nxt if nxt > now else nxt + 3600
+    return dict(def_stop=SWEET_STOP, scalp_stop=SCALP_STOP, registered="2026-11-06 15:00 UTC", registered_ms=SWEET_REGISTERED_MS, forward=fw, history=hist, calls=calls,
+                watch=watch_items(symbols), next_run=nxt, min_rr=DESK_MIN_RR)
+
+
 def analyst_view(prices: dict, now: int) -> dict | None:
     """The Analyst desk (analyst.py): its levels against the LIVE price, its open predictions marked live, its record against
     the random baseline, and its own $300 paper book (booked P&L + every open booked call at the live price, fee included)."""
@@ -555,7 +684,7 @@ def analyst_view(prices: dict, now: int) -> dict | None:
     s["min_resolved"] = an.MIN_RESOLVED
     return dict(started=st.get("started"), start=start, equity=round(live, 2), booked=round(booked_eq, 2), peak=round(st.get("peak", start), 2),
                 levels_t=lv.get("made"), symbols=symbols, open=open_calls, recent=recent, stats=s, curve=dict(d=h[-2:], h=h),
-                what_if=dict(live=slim_grid(an.grid(rows)), replay=replay_view(jload(ANALYST_REPLAY))),
+                sweet=sweet_view(rows, open_calls, symbols, now), what_if=dict(live=slim_grid(an.grid(rows)), replay=replay_view(jload(ANALYST_REPLAY))),
                 cfg=dict(watch=an.WATCH, risk_pct=an.RISK_PCT, max_gross=an.MAX_GROSS, hours=an.HOURS, review=dict(resolved=100, date="2027-01-31")))
 
 
@@ -594,6 +723,47 @@ def health() -> dict:
     return dict(services=svc, memory_mb=mem, disk_used_pct=round(du.used / du.total * 100, 1))
 
 
+# ------------------------------------------------------------------ the user's Bitget futures wallet, READ-ONLY (for the page's position sizer)
+
+WALLET_TTL_S = 300
+WALLET_ENV = ("BITGET_RO_KEY", "BITGET_RO_SECRET", "BITGET_RO_PASSPHRASE")
+
+
+def _bitget(key: str, secret: str, passphrase: str):
+    import ccxt
+    return ccxt.bitget({"apiKey": key, "secret": secret, "password": passphrase, "enableRateLimit": True, "timeout": 10000,
+                        "options": {"defaultType": "swap"}})
+
+
+def wallet_view(env=None, factory=None, now=None, cache=None, ttl: int = WALLET_TTL_S):
+    """The user's Bitget USDT-futures wallet (equity, available, margin used) for the page's position sizer. INERT unless all three BITGET_RO_* variables are
+    set in the service's environment (the user installs them with deploy/bitget_ro_env.sh, a READ-ONLY API key bound to the VM's IP; these are NOT the demo bot's
+    keys). The only exchange call is fetch_balance - no order, transfer, leverage or margin call exists in this function (a test pins that). The feed carries three
+    totals and a timestamp, never the key, an account id or an error message (an exception is reduced to its class name, which cannot echo a secret). The result,
+    errors included, is cached for `ttl` seconds so a bad key is not retried every minute. Never breaks the rest of the feed."""
+    env = os.environ if env is None else env
+    key, secret, passphrase = (env.get(k) for k in WALLET_ENV)
+    if not (key and secret and passphrase):
+        return None
+    now = int(time.time()) if now is None else now
+    cache = CURVES / "wallet.json" if cache is None else cache
+    c = jload(cache)
+    if c and ttl > 0 and 0 <= now - c.get("t", 0) < ttl:
+        return c
+    try:
+        bal = (factory or _bitget)(key, secret, passphrase).fetch_balance()
+        u = bal.get("USDT") or {}
+        out = dict(t=now, equity=round(float(u.get("total") or 0.0), 2), available=round(float(u.get("free") or 0.0), 2), used=round(float(u.get("used") or 0.0), 2))
+    except Exception as e:                               # the class name only
+        out = dict(t=now, error=type(e).__name__)
+    try:
+        cache.parent.mkdir(parents=True, exist_ok=True)
+        cache.write_text(json.dumps(out))
+    except Exception:
+        pass
+    return out
+
+
 def build(write: bool = False) -> tuple:
     prices = binance_prices()
     if not prices:
@@ -610,7 +780,7 @@ def build(write: bool = False) -> tuple:
     oth = others() + ([dict(name="Crowd squeeze paper", equity=cr["equity"], start=cr["start"], started=cr["started"])]
                       if cr else []) + ([dict(name="Analyst desk paper", equity=an["equity"], start=an["start"], started=an["started"])]
                                         if an else [])
-    meta = dict(generated=now, btc=prices.get("BTCUSDT"), health=health(), others=oth, mood=mood(), crowd=cr, analyst=an,
+    meta = dict(generated=now, btc=prices.get("BTCUSDT"), health=health(), others=oth, mood=mood(), crowd=cr, analyst=an, wallet=wallet_view(),
                 accounts=[dict(id=a["id"], started=a["started"], equity=a["equity"], start=a["start"])
                           for a in accts.values()])
     return meta, accts
@@ -635,6 +805,14 @@ def push(meta: dict, accts: dict):
 
 
 def main():
+    if "--wallet-check" in sys.argv:                    # deploy/bitget_ro_env.sh: one read-only balance call, three numbers or the error's class name
+        w = wallet_view(ttl=0)
+        if not w:
+            sys.exit("FAILED no BITGET_RO_* key in this environment")
+        if w.get("error"):
+            sys.exit(f"FAILED {w['error']}")
+        print(f"OK equity={w['equity']:.2f} available={w['available']:.2f} margin used={w['used']:.2f}")
+        return
     if "--print" in sys.argv:
         meta, accts = build(write=False)
         print(json.dumps(dict(meta=meta, accounts=accts), indent=1))
