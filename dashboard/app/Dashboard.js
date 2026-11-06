@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { DailyChart, EquityChart } from "./charts";
 import Refresh from "./Refresh";
 import { ACCOUNT_NAMES, BOOKS, bookName, dayLabel, pct, priceFmt, tone, usd, when } from "../lib/fmt";
-import { buildSizing, fmtQty, levelsFor, parseNum, plainSetup, todaysPick } from "../lib/sizepanel.mjs";
+import { buildSizing, fmtQty, levelsFor, parseNum, plainSetup, recommendedLeverage, todaysPick } from "../lib/sizepanel.mjs";
 
 function useMounted() {
   const [m, setM] = useState(false);
@@ -711,9 +711,9 @@ function oddsLine(h) {
   return `${p(h.hit)} hit (${h.wins} of ${h.n} calls, which are only ${h.bets} independent bets, so the likely range is ${p(h.lo)} to ${p(h.hi)}) · average ${rTxt(h.mean_r)} a call, ${rTxt(h.mean_r_bet)} a bet, after fees`;
 }
 
-const SIZE_KEY = "sizepanel.v1";
-const SIZE_DEFAULTS = { bal: "20", risk: "1", lev: "5", entry: "now", side: "long", e: "", s: "", t: "" };
-const SIZE_STATUS = { ok: ["Room to spare", "good"], tight: ["Tight", "warn"], danger: ["Liquidated before the stop", "bad"] };
+const SIZE_KEY = "sizepanel.v2";
+const SIZE_DEFAULTS = { bal: "20", risk: "1", lev: "", entry: "now", side: "long", e: "", s: "", t: "" };       // lev empty = the bot's suggestion
+const SAFETY = { ok: ["Safe", "good"], tight: ["Close", "warn"], danger: ["Danger", "bad"] };
 
 // How big a position would be, what a stop-out costs and how far liquidation is, for one open desk call or a trade typed by hand.
 // The arithmetic is lib/size.mjs (the desk's rules); the warnings are lib/sizepanel.mjs; both are tested. Nothing here can place an order.
@@ -737,22 +737,28 @@ function SizePanel({ calls, scored, bets, needed, scalp }) {
   const star = todaysPick(calls, scored);
   const pick = pickId === "manual" || byId[pickId] ? pickId : star ? String(star.id) : "none";
   const call = byId[pick] || null;
-  const bal = parseNum(v.bal), lev = parseNum(v.lev), risk = parseNum(v.risk);
+  const bal = parseNum(v.bal), typedLev = parseNum(v.lev), risk = parseNum(v.risk);
   const lv = call ? levelsFor(call, v.entry) : { side: v.side, entry: parseNum(v.e), stop: parseNum(v.s), target: parseNum(v.t) };
   const hasSweet = calls.some((c) => c.sw.kind === "sweet");
   const noPickWhy = hasSweet
     ? "The open sweet-spot calls are no longer worth entering from the price now: it has already run most of the way to their stops or targets, so the bot has no pick."
     : "No sweet-spot call is open right now, so the bot has no pick. The desk checks every hour at :07, and the pick appears here when it logs one.";
+  // the position and the loss at the stop do not depend on leverage, so size once at 1x, then suggest a leverage unless the person typed one
+  const base = pick === "none" ? null : buildSizing({ ...lv, bal, lev: 1, riskPct: risk });
+  const rec = base && base.ok ? recommendedLeverage(base.r, bal) : null;
+  const levAuto = !typedLev;
+  const lev = typedLev || (rec ? rec.lev : 1);
   const out = pick === "none" ? { ok: false, reason: "There is nothing for the bot to pick right now." } : buildSizing({ ...lv, bal, lev, riskPct: risk });
   const sym = call ? call.symbol.replace(/USDT$/, "") : "coins";
   const r = out.ok ? out.r : null;
-  const status = r ? SIZE_STATUS[r.status] : null;
+  const long = lv.side !== "short";
+  const sf = r ? SAFETY[r.status] : null;
   return (
     <div className="sizer">
       <h3 style={{ margin: "16px 0 6px", fontSize: 14 }}>Size a trade</h3>
       <p className="note" style={{ margin: "0 0 10px", whiteSpace: "normal" }}>
-        The bot picks the trade for you. Enter your balance, how much of it you are willing to lose on one trade, and a leverage, and this shows how big the position would be, what a stop-out costs and
-        how far away liquidation is. It is arithmetic on the desk's rules, not a promise, and nothing on this page can place an order.
+        The bot picks the trade and suggests the leverage. Enter your balance and how much of it you accept losing if the stop-loss hits, and this turns the pick into an order you can copy onto the exchange.
+        It is arithmetic on the desk's rules, not a promise, and nothing on this page can place an order.
       </p>
       <div className="pickbox">
         {call ? (
@@ -760,8 +766,7 @@ function SizePanel({ calls, scored, bets, needed, scalp }) {
             <div><b>{star && call.id === star.id ? "The bot's pick" : "Your choice"}: {sym} {call.side === "long" ? "long (a bet that it goes up)" : "short (a bet that it goes down)"}</b>{" "}
               {scored(call) ? <span className="badge good">counts in the forward test</span> : <span className="badge idle">made before the test began, not scored</span>}</div>
             <div className="note" style={{ whiteSpace: "normal" }}>
-              What the desk saw: {plainSetup(call.method, call.side)}. Logged {when(call.made, local)} at {priceFmt(call.entry)}; stop {priceFmt(call.stop)} ({pct(call.sw.stop_pct, { dp: 2, sign: false })} away),
-              target {priceFmt(call.target)} ({pct(Math.abs(call.target / call.entry - 1), { dp: 2, sign: false })} away).
+              What the desk saw: {plainSetup(call.method, call.side)}. Logged {when(call.made, local)}.
             </div>
             <div className="note" style={{ whiteSpace: "normal" }}>
               {star && call.id === star.id
@@ -792,8 +797,8 @@ function SizePanel({ calls, scored, bets, needed, scalp }) {
       ) : null}
       <div className="sizer-in">
         <label>Your futures balance ($)<input inputMode="decimal" value={v.bal} onChange={(e) => set({ bal: e.target.value })} /></label>
-        <label>Risk per trade (% of balance)<input inputMode="decimal" value={v.risk} onChange={(e) => set({ risk: e.target.value })} /></label>
-        <label>Leverage (x)<input inputMode="decimal" value={v.lev} onChange={(e) => set({ lev: e.target.value })} /></label>
+        <label>Most you accept losing if the stop-loss hits (% of balance)<input inputMode="decimal" value={v.risk} onChange={(e) => set({ risk: e.target.value })} /></label>
+        <label>Leverage (x): empty = the bot's suggestion<input inputMode="decimal" placeholder={rec ? `suggested ${rec.lev}` : ""} value={v.lev} onChange={(e) => set({ lev: e.target.value })} /></label>
       </div>
       <div className="chips">
         <span className="note" style={{ alignSelf: "center" }}>Balance</span>
@@ -823,27 +828,40 @@ function SizePanel({ calls, scored, bets, needed, scalp }) {
       ) : null}
       {!out.ok ? <div className="empty" style={{ padding: "8px 0" }}>{out.reason}</div> : (
         <>
-          <div className="sizer-out">
-            <div className="cell"><div className="l">Position size</div><div className="v">{usd(r.notional)}</div>
-              <div className="s">{fmtQty(r.qty)} {sym} · {(r.notional / bal).toFixed(2)}× your balance</div></div>
-            <div className="cell"><div className="l">Margin you put in</div><div className="v">{usd(r.margin)}</div>
-              <div className="s">{pct(r.marginShare, { dp: 0, sign: false })} of your balance at {lev}x</div></div>
-            <div className="cell"><div className="l">If the stop is hit</div><div className="v down">{usd(-r.lossAtStop, { sign: true })}</div>
-              <div className="s">{pct(r.lossShare, { dp: 2, sign: false })} of your balance, fee included</div></div>
-            <div className="cell"><div className="l">If the target is hit</div>
-              {r.gainAtTarget !== null
-                ? <><div className="v up">{usd(r.gainAtTarget, { sign: true })}</div><div className="s">{out.rr.toFixed(1)} times the risk, after the fee</div></>
-                : <><div className="v">–</div><div className="s">{out.noTarget ? "no target given" : "the price is already past the target"}</div></>}</div>
-            <div className="cell"><div className="l">Liquidation price</div><div className="v">{priceFmt(r.liqPrice)}</div>
-              <div className="s">{pct(r.liqDist, { dp: 1, sign: false })} from the entry · your stop is {pct(r.stopPct, { dp: 2, sign: false })} away</div></div>
-            <div className="cell"><div className="l">Room beyond your stop</div><div className="v"><span className={`badge ${status[1]}`}>{status[0]}</span></div>
-              <div className="s">liquidation is {r.roomX.toFixed(1)}× as far as the stop; up to {r.maxLev}x keeps it at least twice as far</div></div>
-          </div>
-          {out.belowMin ? <p className="note" style={{ whiteSpace: "normal" }}><span className="badge bad">Under the minimum order</span> {usd(r.notional)} is below the $5 minimum order value. At this stop it takes at least {out.needRiskPct.toFixed(2)}% risk to place it.</p> : null}
+          {out.belowMin ? <p className="note" style={{ whiteSpace: "normal" }}><span className="badge bad">Under the minimum order</span> {usd(r.notional)} is below the $5 minimum order value, so the exchange would refuse it. At this stop it takes at least {out.needRiskPct.toFixed(2)}% risk to place it.</p> : null}
           {out.scalpStop ? <p className="note" style={{ whiteSpace: "normal" }}><span className="badge warn">Scalp-sized stop</span> The stop is only {pct(r.stopPct, { dp: 2, sign: false })} from your entry. The desk's calls with a stop under 0.4% have won {scalp?.n ? `${scalp.wins} of ${scalp.n}` : "very few"}: this close, ordinary price movement is enough to stop you out.</p> : null}
-          {out.notAffordable ? <p className="note" style={{ whiteSpace: "normal" }}><span className="badge bad">Not enough balance</span> The margin is more than your balance. Use at least {out.minLev}x leverage, or a smaller risk.</p> : null}
+          {levAuto && rec && !rec.fits ? <p className="note" style={{ whiteSpace: "normal" }}><span className="badge bad">Too big for your balance</span> Even at the highest safe leverage ({r.maxLev}x) this position needs more margin than you have. Lower the risk, or use a call with a wider stop.</p> : null}
+          {!levAuto && out.notAffordable ? <p className="note" style={{ whiteSpace: "normal" }}><span className="badge bad">Not enough balance</span> The margin is more than your balance. Use at least {out.minLev}x leverage, or a smaller risk.</p> : null}
           {out.capped ? <p className="note" style={{ whiteSpace: "normal" }}><span className="badge warn">Cut to 3× the balance</span> The desk never holds more than 3 times the balance, so the position is cut to {usd(r.notional)}; a stop-out costs {usd(r.lossAtStop)}, less than the {risk}% you chose.</p> : null}
-          {r.status === "danger" ? <p className="note" style={{ whiteSpace: "normal" }}><span className="badge bad">Too much leverage</span> At {lev}x the exchange would close the trade before the stop could. Use {r.maxLev}x or less.</p> : null}
+          <div className="ticket">
+            <div className="t-h">If you take this trade, this is what to enter on the exchange</div>
+            <div className="trow"><div className="tl">1. Direction</div>
+              <div className="tv">{long ? "LONG (buy)" : "SHORT (sell)"} {call ? `${sym}/USDT` : "your coin"} <small>perpetual futures</small></div>
+              <div className="tnote">{long ? "A bet that the price goes up." : "A bet that the price goes down."}</div></div>
+            <div className="trow"><div className="tl">2. Entry price</div>
+              <div className="tv">about {priceFmt(lv.entry)}</div>
+              <div className="tnote">{call ? (v.entry === "now" ? `The price now (the desk logged ${priceFmt(call.entry)}).` : "The price the desk logged.") : "The entry you typed."} A market order is fine; every number below assumes you get about this price.</div></div>
+            <div className="trow"><div className="tl">3. Leverage</div>
+              <div className="tv">{lev}x</div>
+              <div className="tnote">{levAuto ? "The bot's suggestion." : "Your setting."} Anything up to {r.maxLev}x is safe for this trade. Leverage does not change how much you lose at the stop-loss: it only decides how much of your money is locked as margin and how close liquidation is. Lower is safer.</div></div>
+            <div className="trow"><div className="tl">4. Position size</div>
+              <div className="tv">{usd(r.notional)} <small>({fmtQty(r.qty)} {sym})</small></div>
+              <div className="tnote">This locks {usd(r.margin)} of your {usd(bal)} as margin ({pct(r.marginShare, { dp: 0, sign: false })}).</div></div>
+            <div className="trow"><div className="tl">5. Stop-loss at</div>
+              <div className="tv down">{priceFmt(lv.stop)}</div>
+              <div className="tnote">{pct(r.stopPct, { dp: 2, sign: false })} {long ? "below" : "above"} your entry. If the price touches it the trade closes and you lose about {usd(r.lossAtStop)} ({pct(r.lossShare, { dp: 2, sign: false })} of your balance), fee included.</div></div>
+            <div className="trow"><div className="tl">6. Take-profit at</div>
+              {r.gainAtTarget !== null
+                ? <><div className="tv up">{priceFmt(lv.target)}</div>
+                  <div className="tnote">{pct(r.targetPct, { dp: 2, sign: false })} {long ? "above" : "below"} your entry. If it is hit you make about {usd(r.gainAtTarget)}, {out.rr.toFixed(1)} times what you risk, after the fee.</div></>
+                : <><div className="tv">none</div><div className="tnote">{out.noTarget ? "No target was given." : "The price is already past the target."}</div></>}</div>
+          </div>
+          <div className="safety"><span className={`badge ${sf[1]}`}>{sf[0]}</span>
+            <span>{r.status === "ok"
+              ? `Liquidation (the exchange force-closing your trade) would be at ${priceFmt(r.liqPrice)}, ${pct(r.liqDist, { dp: 1, sign: false })} from your entry. Your stop-loss is only ${pct(r.stopPct, { dp: 2, sign: false })} away, so it triggers long before liquidation could.`
+              : r.status === "tight"
+                ? `Liquidation at ${priceFmt(r.liqPrice)} is only ${r.roomX.toFixed(1)}× as far as your stop-loss, so a fast move could jump past the stop. Use ${r.maxLev}x or less.`
+                : `At ${lev}x the exchange would force-close the trade at ${priceFmt(r.liqPrice)}, BEFORE your stop-loss. Use ${r.maxLev}x or less.`}</span></div>
         </>
       )}
       <p className="note" style={{ marginTop: 8, whiteSpace: "normal" }}>

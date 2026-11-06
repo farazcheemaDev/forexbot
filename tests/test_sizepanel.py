@@ -13,7 +13,7 @@ FEE = 0.0012
 
 
 def js(expr):
-    code = f"import {{ parseNum, levelsFor, buildSizing, fmtQty, MIN_NOTIONAL, todaysPick, plainSetup, liveFromHere }} from '{MOD}'; console.log(JSON.stringify({expr}));"
+    code = f"import {{ parseNum, levelsFor, buildSizing, fmtQty, MIN_NOTIONAL, todaysPick, plainSetup, liveFromHere, recommendedLeverage }} from '{MOD}'; console.log(JSON.stringify({expr}));"
     r = subprocess.run(["node", "--input-type=module", "-e", code], capture_output=True, text=True, encoding="utf-8", timeout=60)
     assert r.returncode == 0, r.stderr
     return json.loads(r.stdout)
@@ -179,6 +179,28 @@ def test_the_desks_setups_are_described_in_plain_words():
     assert "dipped under the lowest low of the last 24 hours" in out[4] and "poked above the highest high of the last 24 hours" in out[5]
     assert not any(" SMC " in x or " SR " in x or "SMC" == x for x in out[:6])      # no bare jargon labels
     assert js("plainSetup('SMC', 'weird')") == out[4]                                # an unknown side reads as a long, not as nothing
+
+
+def rec(notional, max_lev, bal):
+    return js(f"recommendedLeverage({{ notional: {notional}, maxLev: {max_lev} }}, {bal})")
+
+
+def test_the_suggested_leverage_is_at_least_3x_keeps_margin_to_half_the_balance_and_stays_in_the_safe_range():
+    assert rec(13.16, 30, 20) == dict(lev=3, fits=True)                  # margin 4.39 of 20: the 3x floor
+    assert rec(30, 89, 10) == dict(lev=6, fits=True)                     # a 3x-capped position on $10: 6x keeps the margin at exactly half
+    assert rec(5, 40, 10) == dict(lev=3, fits=True)
+    assert rec(10, 2, 100) == dict(lev=2, fits=True)                     # never above the highest safe leverage
+    assert rec(100, 5, 10) == dict(lev=5, fits=False)                    # even 5x needs $20 of margin on $10: it does not fit
+    assert rec(20, 30, 10)["lev"] == 4 and rec(20.01, 30, 10)["lev"] == 5   # half the balance, rounded up: 2 x 20 / 10 = 4 exactly, then 5
+
+
+def test_the_suggestion_keeps_the_loss_at_the_stop_and_the_safety_gap_for_a_real_call():
+    entry = 1.187
+    base = build(entry=entry, stop=entry * (1 - 0.014), target=entry * 1.0794, bal=10, lev=1, riskPct=1)
+    lev = js(f"recommendedLeverage({json.dumps(base['r'])}, 10)")["lev"]
+    at = build(entry=entry, stop=entry * (1 - 0.014), target=entry * 1.0794, bal=10, lev=lev, riskPct=1)
+    assert lev == 3 and near(at["r"]["lossAtStop"], 0.1) and at["r"]["status"] == "ok" and not at["notAffordable"]
+    assert near(at["r"]["notional"], base["r"]["notional"])                # leverage never changes the position or the loss
 
 
 if __name__ == "__main__":

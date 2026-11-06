@@ -85,3 +85,13 @@ const PLAIN = {
 export function plainSetup(method, side) {
   return (PLAIN[method] && PLAIN[method][side === "short" ? "short" : "long"]) || "the desk's rule fired";
 }
+
+// The leverage to type on the exchange when the person has not chosen one. Leverage does NOT change what is lost at the stop (the position size and the
+// stop do that); it only decides how much of the balance is locked as margin and how far away liquidation is. So: at least 3x, enough to keep the
+// margin at or under half the balance, and never above the highest leverage that keeps liquidation twice as far as the stop (r.maxLev).
+// `fits` is false when even that leverage cannot carry the position inside the balance.
+export function recommendedLeverage(r, bal) {
+  const comfortable = Math.max(3, Math.ceil((2 * r.notional) / bal - 1e-9));
+  const lev = Math.min(comfortable, r.maxLev);
+  return { lev, fits: r.notional / lev <= bal };
+}
