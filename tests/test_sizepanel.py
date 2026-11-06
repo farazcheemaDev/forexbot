@@ -13,7 +13,7 @@ FEE = 0.0012
 
 
 def js(expr):
-    code = f"import {{ parseNum, levelsFor, buildSizing, fmtQty, MIN_NOTIONAL }} from '{MOD}'; console.log(JSON.stringify({expr}));"
+    code = f"import {{ parseNum, levelsFor, buildSizing, fmtQty, MIN_NOTIONAL, todaysPick, plainSetup, liveFromHere }} from '{MOD}'; console.log(JSON.stringify({expr}));"
     r = subprocess.run(["node", "--input-type=module", "-e", code], capture_output=True, text=True, encoding="utf-8", timeout=60)
     assert r.returncode == 0, r.stderr
     return json.loads(r.stdout)
@@ -114,6 +114,71 @@ def test_coin_quantities_are_shown_with_a_readable_number_of_digits():
 
 def test_the_minimum_order_constant_is_five_dollars():
     assert js("MIN_NOTIONAL") == 5
+
+
+def mk(id, kind="sweet", **kw):
+    c = dict(id=id, side="long", entry=100, stop=98, target=105, mark=100, sw=dict(kind=kind, valid=True))
+    c.update(kw)
+    return c
+
+
+def pick(calls, scored_ids):
+    return js(f"(() => {{ const p = todaysPick({json.dumps(calls)}, (c) => {json.dumps(scored_ids)}.includes(c.id)); return p === null ? null : p.id; }})()")
+
+
+def live(c):
+    return js(f"liveFromHere({json.dumps(c)})")
+
+
+def test_a_call_is_only_worth_entering_while_the_price_is_still_between_a_real_stop_and_the_target():
+    assert live(mk(1))                                                                  # 2% from the stop, target ahead
+    assert live(mk(1, mark=None))                                                       # no price now: judged at the logged entry
+    assert not live(mk(1, mark=98.2))                                                   # 0.18% above a 98 stop: scalp-sized from here
+    assert not live(mk(1, mark=98))                                                     # at the stop
+    assert not live(mk(1, mark=97))                                                     # past the stop: the call is over
+    assert not live(mk(1, mark=105))                                                    # at the target
+    assert not live(mk(1, mark=106))                                                    # past the target
+    assert not live(mk(1, sw=dict(kind="sweet", valid=False)))                          # the desk's own 1.5R floor no longer holds from here
+    assert live(mk(1, mark=98.6))                                                       # 0.7% above the stop: a middle size, still fine to size
+    short = dict(side="short", entry=100, stop=102, target=95)
+    assert live(mk(1, mark=100, **short)) and not live(mk(1, mark=101.8, **short)) and not live(mk(1, mark=102, **short)) and not live(mk(1, mark=95, **short))
+
+
+def test_the_bots_pick_is_the_newest_live_sweet_spot_call_that_counts_in_the_test():
+    calls = [mk(84), mk(86), mk(88), mk(91, "mid"), mk(93)]
+    assert pick(calls, [93]) == 93
+    assert pick(calls, [86]) == 86                       # a call that counts beats a newer one that does not
+    assert pick(calls, [86, 88]) == 88                   # of two that count, the newer
+    assert pick(calls, []) == 93                         # none counts: the newest sweet-spot call
+    assert pick(calls[:3] + [mk(95, "mid"), mk(96, "scalp")], []) == 88    # newer middle / scalp calls are never the pick
+
+
+def test_a_call_the_price_has_already_run_through_is_not_the_pick():
+    calls = [mk(88), mk(93, mark=98.2)]                  # 93 is the newest and counts, but its stop is 0.18% away now
+    assert pick(calls, [93]) == 88                       # the older live call is the pick instead
+    assert pick([mk(93, mark=98.2), mk(94, mark=97)], [93, 94]) is None         # every call is dead from here: no pick
+
+
+def test_no_sweet_spot_call_means_no_pick():
+    assert pick([], []) is None
+    assert pick([mk(91, "mid"), mk(92, "scalp"), mk(93, "small")], [91, 92, 93]) is None
+    assert pick([dict(id=7)], [7]) is None               # a call without the sweet-spot block cannot be a pick
+
+
+def test_a_scalp_sized_stop_is_flagged_on_the_entry_used():
+    assert build(entry=100, stop=99.7, target=103)["scalpStop"] is True                # 0.3%
+    assert build(entry=100, stop=99.5, target=103)["scalpStop"] is False               # 0.5%
+    assert build(entry=100, stop=99.7, target=103, side="long")["ok"]
+
+
+def test_the_desks_setups_are_described_in_plain_words():
+    out = js('[["SR","long"],["SR","short"],["FIB","long"],["FIB","short"],["SMC","long"],["SMC","short"],["XYZ","long"]].map(([m, s]) => plainSetup(m, s))')
+    assert len(set(out)) == 7 and out[6] == "the desk's rule fired"
+    assert "bounced up off a level" in out[0] and "turned back down at a level" in out[1]
+    assert "Fibonacci zone of the last upward move" in out[2] and "Fibonacci zone of the last downward move" in out[3]
+    assert "dipped under the lowest low of the last 24 hours" in out[4] and "poked above the highest high of the last 24 hours" in out[5]
+    assert not any(" SMC " in x or " SR " in x or "SMC" == x for x in out[:6])      # no bare jargon labels
+    assert js("plainSetup('SMC', 'weird')") == out[4]                                # an unknown side reads as a long, not as nothing
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { DailyChart, EquityChart } from "./charts";
 import Refresh from "./Refresh";
 import { ACCOUNT_NAMES, BOOKS, bookName, dayLabel, pct, priceFmt, tone, usd, when } from "../lib/fmt";
-import { buildSizing, fmtQty, levelsFor, parseNum } from "../lib/sizepanel.mjs";
+import { buildSizing, fmtQty, levelsFor, parseNum, plainSetup, todaysPick } from "../lib/sizepanel.mjs";
 
 function useMounted() {
   const [m, setM] = useState(false);
@@ -712,12 +712,12 @@ function oddsLine(h) {
 }
 
 const SIZE_KEY = "sizepanel.v1";
-const SIZE_DEFAULTS = { bal: "20", risk: "1", lev: "5", pick: "", entry: "now", side: "long", e: "", s: "", t: "" };
+const SIZE_DEFAULTS = { bal: "20", risk: "1", lev: "5", entry: "now", side: "long", e: "", s: "", t: "" };
 const SIZE_STATUS = { ok: ["Room to spare", "good"], tight: ["Tight", "warn"], danger: ["Liquidated before the stop", "bad"] };
 
 // How big a position would be, what a stop-out costs and how far liquidation is, for one open desk call or a trade typed by hand.
 // The arithmetic is lib/size.mjs (the desk's rules); the warnings are lib/sizepanel.mjs; both are tested. Nothing here can place an order.
-function SizePanel({ calls, scored, bets, needed }) {
+function SizePanel({ calls, scored, bets, needed, scalp }) {
   const [v, setV] = useState(SIZE_DEFAULTS);
   useEffect(() => {
     try {
@@ -730,13 +730,20 @@ function SizePanel({ calls, scored, bets, needed }) {
     setV(n);
     try { window.localStorage.setItem(SIZE_KEY, JSON.stringify(n)); } catch { /* ignore */ }
   };
+  const [pickId, setPickId] = useState("");      // a choice made on this visit only; it is not remembered, so the panel always opens on the bot's pick
+  const [more, setMore] = useState(false);
+  const local = useMounted();
   const byId = Object.fromEntries(calls.map((c) => [String(c.id), c]));
-  const first = calls.find((c) => c.sw.kind === "sweet" && scored(c)) || calls.find((c) => c.sw.kind === "sweet") || calls[0];
-  const pick = v.pick === "manual" || byId[v.pick] ? v.pick : first ? String(first.id) : "manual";
-  const call = pick === "manual" ? null : byId[pick];
+  const star = todaysPick(calls, scored);
+  const pick = pickId === "manual" || byId[pickId] ? pickId : star ? String(star.id) : "none";
+  const call = byId[pick] || null;
   const bal = parseNum(v.bal), lev = parseNum(v.lev), risk = parseNum(v.risk);
   const lv = call ? levelsFor(call, v.entry) : { side: v.side, entry: parseNum(v.e), stop: parseNum(v.s), target: parseNum(v.t) };
-  const out = buildSizing({ ...lv, bal, lev, riskPct: risk });
+  const hasSweet = calls.some((c) => c.sw.kind === "sweet");
+  const noPickWhy = hasSweet
+    ? "The open sweet-spot calls are no longer worth entering from the price now: it has already run most of the way to their stops or targets, so the bot has no pick."
+    : "No sweet-spot call is open right now, so the bot has no pick. The desk checks every hour at :07, and the pick appears here when it logs one.";
+  const out = pick === "none" ? { ok: false, reason: "There is nothing for the bot to pick right now." } : buildSizing({ ...lv, bal, lev, riskPct: risk });
   const sym = call ? call.symbol.replace(/USDT$/, "") : "coins";
   const r = out.ok ? out.r : null;
   const status = r ? SIZE_STATUS[r.status] : null;
@@ -744,23 +751,49 @@ function SizePanel({ calls, scored, bets, needed }) {
     <div className="sizer">
       <h3 style={{ margin: "16px 0 6px", fontSize: 14 }}>Size a trade</h3>
       <p className="note" style={{ margin: "0 0 10px", whiteSpace: "normal" }}>
-        Type your futures balance and a leverage to see how big the position would be, what a stop-out costs and how far away liquidation is. It is arithmetic on the desk's rules, not a signal,
-        and nothing on this page can place an order.
+        The bot picks the trade for you. Enter your balance, how much of it you are willing to lose on one trade, and a leverage, and this shows how big the position would be, what a stop-out costs and
+        how far away liquidation is. It is arithmetic on the desk's rules, not a promise, and nothing on this page can place an order.
       </p>
+      <div className="pickbox">
+        {call ? (
+          <>
+            <div><b>{star && call.id === star.id ? "The bot's pick" : "Your choice"}: {sym} {call.side === "long" ? "long (a bet that it goes up)" : "short (a bet that it goes down)"}</b>{" "}
+              {scored(call) ? <span className="badge good">counts in the forward test</span> : <span className="badge idle">made before the test began, not scored</span>}</div>
+            <div className="note" style={{ whiteSpace: "normal" }}>
+              What the desk saw: {plainSetup(call.method, call.side)}. Logged {when(call.made, local)} at {priceFmt(call.entry)}; stop {priceFmt(call.stop)} ({pct(call.sw.stop_pct, { dp: 2, sign: false })} away),
+              target {priceFmt(call.target)} ({pct(Math.abs(call.target / call.entry - 1), { dp: 2, sign: false })} away).
+            </div>
+            <div className="note" style={{ whiteSpace: "normal" }}>
+              {star && call.id === star.id
+                ? (scored(call)
+                  ? `Why this one: it is the newest open call with a stop of 0.8% or more made since the test began, the kind the test is checking, and the price has not run most of the way to its stop. That is not a promise it wins: the test stands at ${bets} of ${needed} bets.`
+                  : "Why this one: it is the newest open call with a stop of 0.8% or more and the price has not run most of the way to its stop. It was made before the test began, so it does not count in it.")
+                : "You picked this one yourself."}
+            </div>
+          </>
+        ) : pick === "manual"
+          ? <div><b>Your own trade</b> <span className="note">type the levels below</span></div>
+          : <div className="note" style={{ whiteSpace: "normal" }}>{noPickWhy}</div>}
+        <button className="btn" onClick={() => setMore(!more)}>{more ? "Hide the other choices" : "Size a different call or type my own trade"}</button>
+      </div>
+      {more ? (
+        <div className="sizer-in">
+          <label>Which trade
+            <select value={pick} onChange={(e) => setPickId(e.target.value)}>
+              {calls.map((c) => (
+                <option key={c.id} value={String(c.id)}>
+                  {c.symbol.replace(/USDT$/, "")} {c.side} · stop {pct(c.sw.stop_pct, { dp: 2, sign: false })} away · {(SIZE_BADGE[c.sw.kind] || ["–"])[0]}{scored(c) ? " · counts in the test" : ""}
+                </option>
+              ))}
+              <option value="manual">My own trade: type the levels</option>
+            </select>
+          </label>
+        </div>
+      ) : null}
       <div className="sizer-in">
         <label>Your futures balance ($)<input inputMode="decimal" value={v.bal} onChange={(e) => set({ bal: e.target.value })} /></label>
         <label>Risk per trade (% of balance)<input inputMode="decimal" value={v.risk} onChange={(e) => set({ risk: e.target.value })} /></label>
         <label>Leverage (x)<input inputMode="decimal" value={v.lev} onChange={(e) => set({ lev: e.target.value })} /></label>
-        <label>Trade to size
-          <select value={pick} onChange={(e) => set({ pick: e.target.value })}>
-            {calls.map((c) => (
-              <option key={c.id} value={String(c.id)}>
-                {c.symbol.replace(/USDT$/, "")} {c.side} · {METHOD[c.method]} · {(SIZE_BADGE[c.sw.kind] || ["–"])[0]}{scored(c) ? " · counts in the test" : ""}
-              </option>
-            ))}
-            <option value="manual">By hand: type the levels</option>
-          </select>
-        </label>
       </div>
       <div className="chips">
         <span className="note" style={{ alignSelf: "center" }}>Balance</span>
@@ -775,7 +808,7 @@ function SizePanel({ calls, scored, bets, needed }) {
           </>
         ) : null}
       </div>
-      {call ? null : (
+      {pick === "manual" ? (
         <div className="sizer-in">
           <label>Side
             <select value={v.side} onChange={(e) => set({ side: e.target.value })}>
@@ -787,7 +820,7 @@ function SizePanel({ calls, scored, bets, needed }) {
           <label>Stop price<input inputMode="decimal" value={v.s} onChange={(e) => set({ s: e.target.value })} /></label>
           <label>Target price (optional)<input inputMode="decimal" value={v.t} onChange={(e) => set({ t: e.target.value })} /></label>
         </div>
-      )}
+      ) : null}
       {!out.ok ? <div className="empty" style={{ padding: "8px 0" }}>{out.reason}</div> : (
         <>
           <div className="sizer-out">
@@ -807,6 +840,7 @@ function SizePanel({ calls, scored, bets, needed }) {
               <div className="s">liquidation is {r.roomX.toFixed(1)}× as far as the stop; up to {r.maxLev}x keeps it at least twice as far</div></div>
           </div>
           {out.belowMin ? <p className="note" style={{ whiteSpace: "normal" }}><span className="badge bad">Under the minimum order</span> {usd(r.notional)} is below the $5 minimum order value. At this stop it takes at least {out.needRiskPct.toFixed(2)}% risk to place it.</p> : null}
+          {out.scalpStop ? <p className="note" style={{ whiteSpace: "normal" }}><span className="badge warn">Scalp-sized stop</span> The stop is only {pct(r.stopPct, { dp: 2, sign: false })} from your entry. The desk's calls with a stop under 0.4% have won {scalp?.n ? `${scalp.wins} of ${scalp.n}` : "very few"}: this close, ordinary price movement is enough to stop you out.</p> : null}
           {out.notAffordable ? <p className="note" style={{ whiteSpace: "normal" }}><span className="badge bad">Not enough balance</span> The margin is more than your balance. Use at least {out.minLev}x leverage, or a smaller risk.</p> : null}
           {out.capped ? <p className="note" style={{ whiteSpace: "normal" }}><span className="badge warn">Cut to 3× the balance</span> The desk never holds more than 3 times the balance, so the position is cut to {usd(r.notional)}; a stop-out costs {usd(r.lossAtStop)}, less than the {risk}% you chose.</p> : null}
           {r.status === "danger" ? <p className="note" style={{ whiteSpace: "normal" }}><span className="badge bad">Too much leverage</span> At {lev}x the exchange would close the trade before the stop could. Use {r.maxLev}x or less.</p> : null}
@@ -891,7 +925,7 @@ function SweetSpot({ a }) {
         </p>
       ) : null}
 
-      <SizePanel calls={[...sweetOpen, ...otherOpen]} scored={scored} bets={fw.bets ?? 0} needed={fw.needed ?? 30} />
+      <SizePanel calls={[...sweetOpen, ...otherOpen]} scored={scored} bets={fw.bets ?? 0} needed={fw.needed ?? 30} scalp={h.scalp} />
 
       <h3 style={{ margin: "16px 0 6px", fontSize: 14 }}>Coming: where a rule could fire at the next run</h3>
       {sw.watch?.length ? (

@@ -3,6 +3,7 @@
 import { sizeCall, FEE } from "./size.mjs";
 
 export const MIN_NOTIONAL = 5.0;                 // Bitget's smallest order value in USD (desk.MIN_NOTIONAL)
+export const SCALP_STOP = 0.004;                 // a stop closer than this to the entry is "scalp-sized": where the desk's calls have lost
 
 // What a person typed -> a positive finite number, or null. "20", " 20.5 ", "1,000", ".5" are fine; "", "abc", "-3", "0", "1e9x" are not.
 export function parseNum(s) {
@@ -24,6 +25,7 @@ export function levelsFor(call, mode) {
 //   belowMin     the position would be under the exchange's minimum order; needRiskPct is the risk % that would just reach it
 //   notAffordable  the margin is more than the balance; minLev is the lowest leverage that fits
 //   capped       the desk's 3x rule cut the position, so the loss at the stop is smaller than the chosen risk
+//   scalpStop    the stop is under 0.4% from the entry, the size where the desk's calls have lost
 //   noTarget     no target was given (a trade typed by hand); targetGone: the price is already past it. Neither has a gain figure
 //   rr           reward to risk from this entry (null without a usable target)
 export function buildSizing({ side, entry, stop, target, bal, lev, riskPct }) {
@@ -42,6 +44,7 @@ export function buildSizing({ side, entry, stop, target, bal, lev, riskPct }) {
     notAffordable: !r.affordable,
     minLev: Math.max(1, Math.ceil(r.notional / bal - 1e-9)),
     capped: r.capped,
+    scalpStop: r.stopPct < SCALP_STOP,
     rr: noTarget || targetGone ? null : r.targetPct / r.stopPct,
   };
 }
@@ -51,4 +54,34 @@ export function fmtQty(q) {
   if (!Number.isFinite(q)) return "–";
   const a = Math.abs(q);
   return a >= 100 ? q.toFixed(0) : a >= 1 ? q.toFixed(2) : a >= 0.01 ? q.toFixed(4) : q.toFixed(6);
+}
+
+// Is an open call still worth entering from the price now? Not when the price has already reached the stop or the target, when the desk's own
+// reward-to-risk floor no longer holds from here (`sw.valid`), or when the stop is already scalp-sized from here (the price ran most of the way to it).
+export function liveFromHere(c) {
+  if (c.sw && c.sw.valid === false) return false;
+  const px = Number.isFinite(c.mark) && c.mark > 0 ? c.mark : c.entry;
+  const dir = c.side === "short" ? -1 : 1;
+  if (!(dir * (px - c.stop) > 0)) return false;                     // at or past the stop
+  if (Number.isFinite(c.target) && dir * (c.target - px) <= 0) return false;   // at or past the target
+  return Math.abs(px - c.stop) / px >= SCALP_STOP;
+}
+
+// The call the panel opens on, so nobody has to choose a method: the newest open sweet-spot call that is still worth entering from here and counts in
+// the forward test; failing that the newest such call that does not count; failing that none. `scored(c)` says whether a call counts in the test.
+// Middle and scalp-sized calls are never the pick.
+export function todaysPick(calls, scored) {
+  const sweet = calls.filter((c) => c.sw && c.sw.kind === "sweet" && liveFromHere(c));
+  const newest = (xs) => xs.reduce((best, c) => (best === null || c.id > best.id ? c : best), null);
+  return newest(sweet.filter((c) => scored(c))) || newest(sweet);
+}
+
+// What the desk's rule saw, in plain words, instead of its jargon.
+const PLAIN = {
+  SR: { long: "price bounced up off a level that has held several times before", short: "price was turned back down at a level that has held several times before" },
+  FIB: { long: "price pulled back into a Fibonacci zone of the last upward move and turned up again", short: "price pulled back up into a Fibonacci zone of the last downward move and turned down again" },
+  SMC: { long: "price dipped under the lowest low of the last 24 hours and snapped back above it (a liquidity sweep)", short: "price poked above the highest high of the last 24 hours and fell back below it (a liquidity sweep)" },
+};
+export function plainSetup(method, side) {
+  return (PLAIN[method] && PLAIN[method][side === "short" ? "short" : "long"]) || "the desk's rule fired";
 }
