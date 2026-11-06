@@ -280,6 +280,18 @@ function Positions({ a, local }) {
   const books = [...new Set(all.map((r) => r.book))];
   const rows = book === "all" ? all : all.filter((r) => r.book === book);
   const sum = rows.reduce((s, r) => s + (r.upnl || 0), 0);
+  // The same coin is often held in several books at once; its rows must be read together (on 2026-11-06 two micro-caps, AKE and AIN, were about three quarters of one account's day).
+  const byCoin = {};
+  all.forEach((r) => {
+    const c = byCoin[r.sym] || (byCoin[r.sym] = { sym: r.sym, upnl: 0, books: [] });
+    c.upnl += r.upnl || 0;
+    if (!c.books.includes(r.book)) c.books.push(r.book);
+  });
+  const coins = Object.values(byCoin);
+  const losers = coins.filter((c) => c.upnl < 0).sort((a, b) => a.upnl - b.upnl).slice(0, 3);
+  const gainers = coins.filter((c) => c.upnl > 0).sort((a, b) => b.upnl - a.upnl).slice(0, 2);
+  const multi = coins.filter((c) => c.books.length >= 3);
+  const coinTxt = (c) => `${c.sym.replace(/USDT$/, "")} ${usd(c.upnl, { sign: true })} (${c.books.map(bookName).join(", ")})`;
   if (!all.length) return <div className="empty">No open positions.</div>;
   return (
     <>
@@ -291,6 +303,13 @@ function Positions({ a, local }) {
         <span><b>{rows.length}</b> positions</span>
         {book === "all" ? <span>If all closed now: <b>≈ {usd(a.equity - rows.reduce((s, r) => s + (r.size || 0), 0) * 0.0006)}</b></span> : null}
       </div>
+      {book === "all" && (losers.length || gainers.length) ? (
+        <p className="note" style={{ margin: "0 0 10px", whiteSpace: "normal" }}>
+          Open P&amp;L by coin, all books added: <b className="down">{losers.map(coinTxt).join(" · ") || "no losers"}</b>
+          {gainers.length ? <> · best <b className="up">{gainers.map(coinTxt).join(" · ")}</b></> : null}
+          {multi.length ? <> · held in 3 or more books at once: <b>{multi.map((c) => `${c.sym.replace(/USDT$/, "")} (${c.books.length})`).join(", ")}</b></> : null}
+        </p>
+      ) : null}
       <div className="scroll">
         <table>
           <thead><tr>
