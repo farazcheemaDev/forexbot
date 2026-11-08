@@ -114,6 +114,13 @@ not above zero or the hit rate does not beat the random-entry baseline (p < 0.05
 same direction as ONE bet (one market move stopped four shorts within 21 minutes that day), Student's t over the bets; the per-call figure stays on the record
 as `p_calls`. Nothing else in the rule changed. The wording is in `analyst.py`'s docstring.
 
+**Override, 2026-11-08 (the user: "yes, record it"):** one more PAPER book, the RSI-80 momentum book (`rsi80_paper.py`, its own $300, its own files, a timer every
+4 hours on the VM): long the top-100 USDT perps when the 4h RSI(14) crosses up through 80, stop 4 ATR, target 4R, out after 24 bars, 1% of the booked equity at risk.
+Found by `rsi_ratio.py`, a narrow no-pass on unseen data (`backtest/rsi80_more.py`: +0.14R a trade, t 1.80), not the trend book again (`backtest/rsi80_overlap.py`).
+Outside the machine like the crowd book and the desk: no bot is touched and s3b reads the machine alone. Its lines are in the file's docstring before its first trade:
+KILL on 2027-01-31 (30+ trades, mean under -0.24R); verdict on **2027-04-09**: held up at +0.072R a trade with the account above $300, dead under -0.107R, between
+= cannot tell, extended to 2027-10-09. A held-up verdict makes it a candidate to join the machine; real money would still need s2's conditions.
+
 ## 5. The research stops on 2026-12-31
 
 What the 2026-10-10 councils asked to test is done:

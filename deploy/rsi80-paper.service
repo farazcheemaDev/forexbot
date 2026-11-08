@@ -1,0 +1,19 @@
+[Unit]
+Description=RSI-80 momentum paper book (rsi80_paper.py) - registered 2026-11-08, paper only, public Binance futures data
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=__USER__
+WorkingDirectory=__APP_DIR__
+# PAPER ONLY: public Binance futures candles and funding rates, no keys, no orders. Writes logs/rsi80/ (state.json, trades.csv).
+# Standard library only; capped and niced so it can never crowd out the bots. The first run of a month also ranks the universe (~550 small requests).
+ExecStart=__APP_DIR__/.venv/bin/python -u rsi80_paper.py
+TimeoutStartSec=900
+Nice=10
+MemoryMax=120M
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
