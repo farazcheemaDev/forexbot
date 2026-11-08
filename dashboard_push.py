@@ -64,7 +64,7 @@ CROWD_MIN_WEEKS = 4
 ANALYST = LOGS / "analyst"                      # analyst.py's state / calls / levels / marks (hourly, analyst-paper.timer)
 ANALYST_KEEP = 40
 ANALYST_REPLAY = ROOT / "analyst_replay.json"   # backtest/analyst_replay.py: the same rules over history, with the leverage grid
-RSI80 = LOGS / "rsi80"                          # rsi80_paper.py's state / trades (every 4 hours at :05 UTC, rsi80-paper.timer)
+RSI80 = LOGS / "rsi80"                          # rsi80_paper.py's state / trades (30 s after every 4h close, rsi80-paper.timer)
 
 
 # ------------------------------------------------------------------ small readers
@@ -774,8 +774,8 @@ def wallet_view(env=None, factory=None, now=None, cache=None, ttl: int = WALLET_
 
 
 def next_4h_run(now: int) -> int:
-    """The paper book's next run: 5 minutes after the next 4h bar closes (00:05, 04:05, ... UTC), in unix seconds."""
-    t = now // 14400 * 14400 + 300
+    """The paper book's next run: 30 seconds after the next 4h bar closes (00:00:30, 04:00:30, ... UTC; deploy/rsi80-paper.timer), in unix seconds."""
+    t = now // 14400 * 14400 + 30
     return t if t > now else t + 14400
 
 

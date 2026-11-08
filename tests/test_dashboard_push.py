@@ -591,7 +591,7 @@ def test_the_momentum_book_feed():
         h = m["curve"]["h"]
         assert h[0] == [(t0 - 86_400_000) // 1000, 300.0] and h[1][1] == 296.85 and h[-1] == [now, 304.0] and m["curve"]["d"] == h[-2:]   # the chart's {d, h} shape
         assert m["coins"] == 3 and m["verdict"].startswith("NOT YET") and m["lines"]["verdict_date"] == "2027-04-09"
-        assert m["next_run"] == t0 // 1000 + 4 * 3600 + 300                                         # 04:05 UTC
+        assert m["next_run"] == t0 // 1000 + 4 * 3600 + 30                                          # 04:00:30 UTC (now is 00:10)
         m2 = dp.momentum({}, now)                                                                    # no live price: no result, nothing added
         assert m2["open"][0]["r"] is None and m2["equity"] == 302.5
     finally:
@@ -618,10 +618,10 @@ def test_the_momentum_curve_is_strictly_ascending_with_one_point_per_instant():
 
 def test_the_next_4h_run():
     base = int(datetime(2026, 11, 9, 0, 0, tzinfo=timezone.utc).timestamp())
-    assert dp.next_4h_run(base) == base + 300
-    assert dp.next_4h_run(base + 299) == base + 300
-    assert dp.next_4h_run(base + 300) == base + 4 * 3600 + 300
-    assert dp.next_4h_run(base + 3 * 3600) == base + 4 * 3600 + 300
+    assert dp.next_4h_run(base) == base + 30
+    assert dp.next_4h_run(base + 29) == base + 30
+    assert dp.next_4h_run(base + 30) == base + 4 * 3600 + 30
+    assert dp.next_4h_run(base + 3 * 3600) == base + 4 * 3600 + 30
 
 
 if __name__ == "__main__":

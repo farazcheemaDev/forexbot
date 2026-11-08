@@ -1,10 +1,12 @@
 [Unit]
-Description=Run the RSI-80 momentum paper book five minutes after every 4h bar closes (00, 04, 08, 12, 16, 20 UTC)
+Description=Run the RSI-80 momentum paper book 30 seconds after every 4h bar closes (00, 04, 08, 12, 16, 20 UTC)
 
 [Timer]
-OnCalendar=*-*-* 00,04,08,12,16,20:05:00 UTC
+# :00:30, not :05 (changed 2026-11-08 at the user's word): the booked entry is the bar's open either way; running sooner makes the
+# price the job logs beside it ('seen') close to what a live bot would really get.
+OnCalendar=*-*-* 00,04,08,12,16,20:00:30 UTC
 Persistent=true
-AccuracySec=30s
+AccuracySec=1s
 
 [Install]
 WantedBy=timers.target

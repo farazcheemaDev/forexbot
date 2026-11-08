@@ -33,6 +33,11 @@ REGISTERED LINES (2026-11-08, before the first trade; mean R = net of fees and R
          DEAD = mean R under -0.107 (their 22-week 10th percentile); anything between = CANNOT TELL, the record runs on to 2027-10-09 under the same lines.
   Predictions: F1 by 2027-01-31 the book has 40-140 resolved trades (75%); F2 its 12-week mean R is above zero (60%); F3 the real fills (the price the job saw)
   average within 0.3% of the bar opens it books (70%); F4 HELD UP at 2027-04-09 (35%), DEAD (15%).
+AMENDED 2026-11-08 21:15 UTC, at the user's word ("yes, check sooner"), with 1 trade open and none resolved: the job runs 30 SECONDS after each 4h bar
+  closes (00:00:30, 04:00:30, ... UTC) instead of 5 minutes after. Nothing booked changes - entries are still booked at the bar's open, exits on closed bars - so
+  the registered lines and the verdict are untouched. Only the 'seen' price logged beside each entry moves: the first trade (JCTUSDT, 2026-11-08 20:00) was seen
+  5 minutes late at 0.01609 against a 0.013213 open (+21.8%), which says nothing about what a bot at the open would get. F3 is scored on the entries from
+  this amendment on; that first trade's gap stays on the record, labelled.
 
 CHECKED BEFORE THE FIRST RUN: tests/test_rsi80_paper.py, 14 tests - the RSI / ATR / exits equal rsi_ratio / candle_manage's, and the live loop replayed over the
   real 4h history of SOL, DOGE, LINK and AVAX reproduces every one of the backtest's trades (same entry, same exit bar, same R; its only extra trades sit where
@@ -41,7 +46,7 @@ CHECKED BEFORE THE FIRST RUN: tests/test_rsi80_paper.py, 14 tests - the RSI / AT
 
     python rsi80_paper.py            one run: manage open trades on every closed 4h bar, check the bar that just closed for signals, write the logs
     python rsi80_paper.py --status   the record against the registered lines
-State in logs/rsi80/ (state.json, trades.csv). On the VM: deploy/rsi80-paper.service + .timer (every 4 hours at :05 UTC).
+State in logs/rsi80/ (state.json, trades.csv). On the VM: deploy/rsi80-paper.service + .timer (30 seconds after every 4h close since 2026-11-08 21:15 UTC; :05 before).
 """
 from __future__ import annotations
 
