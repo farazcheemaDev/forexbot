@@ -296,6 +296,14 @@ def test_the_registered_lines():
     assert rp.verdict(rows(0.0, 150), 290, "2027-04-09").startswith("CANNOT TELL")
 
 
+def test_the_record_line_with_resolved_trades():
+    patched()
+    rp.append_trade(dict(coin="A", net_r="0.5", net_r_flat="0.4", kind="stop", seen_px="101", entry="100"))
+    rp.append_trade(dict(coin="B", net_r="-1", net_r_flat="-1", kind="time", seen_px="99", entry="100"))
+    s = rp.status()
+    assert "mean R a trade -0.250 (real funding) / -0.300" in s and "exits stop 1, target 0, time 1" in s and "1.00% apart" in s
+
+
 def test_a_whole_run_on_fake_data():
     patched()
     t0 = rp.month_start_ms("2026-11") + 7 * rp.DAY

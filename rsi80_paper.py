@@ -399,9 +399,9 @@ def status() -> str:
         mf = sum(float(r["net_r_flat"]) for r in rows) / n
         wins = sum(1 for r in rows if float(r["net_r"]) > 0)
         slip = [abs(float(r["seen_px"]) / float(r["entry"]) - 1) for r in rows if float(r["entry"]) > 0]
+        exits = ", ".join("%s %d" % (k, sum(1 for r in rows if r["kind"] == k)) for k in ("stop", "target", "time"))     # no nested f-strings: the VM runs Python 3.10
         L.append(f"  mean R a trade {mr:+.3f} (real funding) / {mf:+.3f} (the backtest's flat funding); {wins} of {n} positive; "
-                 f"exits {', '.join(f'{k} {sum(1 for r in rows if r['kind'] == k)}' for k in ('stop', 'target', 'time'))}; "
-                 f"the price seen vs the bar open booked: mean {sum(slip) / len(slip) * 100:.2f}% apart")
+                 f"exits {exits}; the price seen vs the bar open booked: mean {sum(slip) / len(slip) * 100:.2f}% apart")
     L.append(f"  backtest bands for comparison: 12 weeks 10th -0.17 / median +0.06 (unseen coins); 22 weeks 10th -0.11 / median +0.07")
     L.append(f"  VERDICT: {verdict(rows, st['equity'], datetime.now(timezone.utc).strftime('%Y-%m-%d'))}")
     for c, tr in sorted(st["open"].items()):
