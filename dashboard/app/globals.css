@@ -197,6 +197,16 @@ tr.pick td { background: rgba(240, 185, 11, .07); }
 .ticket .tnote { grid-column: 2; font-size: 12px; color: var(--muted); }
 .levguide { background: var(--panel2); border-radius: 8px; padding: 6px 12px 10px; margin: 8px 0; }
 .levguide .t-h { font-size: 13px; font-weight: 650; padding: 6px 0 4px; }
+.levguide summary { cursor: pointer; font-size: 13px; font-weight: 650; padding: 6px 0 4px; }
+.intro h3 { font-size: 14px; margin: 14px 0 4px; }
+.intro p, .intro li { font-size: 14px; line-height: 1.55; margin: 6px 0; color: var(--ink); }
+.intro ul { margin: 6px 0; padding-left: 20px; }
+.steps { background: var(--panel2); border-radius: 8px; padding: 8px 12px 10px; margin: 8px 0; }
+.steps .t-h { font-size: 13px; font-weight: 650; padding: 4px 0; }
+.steps ol { margin: 4px 0 6px; padding-left: 20px; font-size: 14px; line-height: 1.6; }
+details.more { margin: 14px 0; }
+details.more > summary { cursor: pointer; padding: 12px 14px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); font-weight: 650; font-size: 14px; }
+details.more[open] > summary { margin-bottom: 14px; }
 .levguide .lrow { display: grid; grid-template-columns: minmax(96px, 150px) minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; padding: 7px 0; border-top: 1px solid rgba(43, 49, 57, .7); font-size: 13px; }
 .levguide .lrow.on { background: rgba(240, 185, 11, .07); }
 .levguide .ld { color: var(--muted); font-size: 12px; min-width: 0; }

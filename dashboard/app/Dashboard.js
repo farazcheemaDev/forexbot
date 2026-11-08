@@ -756,10 +756,9 @@ function SizePanel({ calls, scored, bets, needed, scalp }) {
   const guide = rec ? leverageGuide({ ...lv, bal, riskPct: risk }, rec.lev) : [];
   return (
     <div className="sizer">
-      <h3 style={{ margin: "16px 0 6px", fontSize: 14 }}>Size a trade</h3>
       <p className="note" style={{ margin: "0 0 10px", whiteSpace: "normal" }}>
-        The bot picks the trade and suggests the leverage. Enter your balance and how much of it you accept losing if the stop-loss hits, and this turns the pick into an order you can copy onto the exchange.
-        It is arithmetic on the desk's rules, not a promise, and nothing on this page can place an order.
+        The bot picks the trade. Tell it how much is in your futures account and how much of it you accept losing if the stop-loss hits, and it turns the pick into an order you can copy onto the exchange.
+        It is arithmetic, not a promise, and nothing on this page can place an order.
       </p>
       <div className="pickbox">
         {call ? (
@@ -799,7 +798,6 @@ function SizePanel({ calls, scored, bets, needed, scalp }) {
       <div className="sizer-in">
         <label>Your futures balance ($)<input inputMode="decimal" value={v.bal} onChange={(e) => set({ bal: e.target.value })} /></label>
         <label>Most you accept losing if the stop-loss hits (% of balance)<input inputMode="decimal" value={v.risk} onChange={(e) => set({ risk: e.target.value })} /></label>
-        <label>Leverage (x): empty = the bot's suggestion<input inputMode="decimal" placeholder={rec ? `suggested ${rec.lev}` : ""} value={v.lev} onChange={(e) => set({ lev: e.target.value })} /></label>
       </div>
       <div className="chips">
         <span className="note" style={{ alignSelf: "center" }}>Balance</span>
@@ -844,7 +842,8 @@ function SizePanel({ calls, scored, bets, needed, scalp }) {
               <div className="tnote">{call ? (v.entry === "now" ? `The price now (the desk logged ${priceFmt(call.entry)}).` : "The price the desk logged.") : "The entry you typed."} A market order is fine; every number below assumes you get about this price.</div></div>
             <div className="trow"><div className="tl">3. Leverage</div>
               <div className="tv">{lev}x</div>
-              <div className="tnote">{levAuto ? "The bot's suggestion." : "Your setting."} Anything up to {r.maxLev}x is safe for this trade. Leverage does not change how much you lose at the stop-loss: it only decides how much of your money is locked as margin and how close liquidation is. Lower is safer.</div></div>
+              <div className="tnote">{levAuto ? "The bot's suggestion." : "Your setting."} Anything up to {r.maxLev}x is safe for this trade. Leverage does not change how much you lose at the stop-loss: it only decides how much of your money is locked as margin and how close liquidation is. Lower is safer.
+                {!levAuto ? <> <button className="btn" onClick={() => set({ lev: "" })}>Back to the bot's suggestion</button></> : null}</div></div>
             <div className="trow"><div className="tl">4. Position size</div>
               <div className="tv">{usd(r.notional)} <small>({fmtQty(r.qty)} {sym})</small></div>
               <div className="tnote">This locks {usd(r.margin)} of your {usd(bal)} as margin ({pct(r.marginShare, { dp: 0, sign: false })}).</div></div>
@@ -863,10 +862,23 @@ function SizePanel({ calls, scored, bets, needed, scalp }) {
               : r.status === "tight"
                 ? `Liquidation at ${priceFmt(r.liqPrice)} is only ${r.roomX.toFixed(1)}× as far as your stop-loss, so a fast move could jump past the stop. Use ${r.maxLev}x or less.`
                 : `At ${lev}x the exchange would force-close the trade at ${priceFmt(r.liqPrice)}, BEFORE your stop-loss. Use ${r.maxLev}x or less.`}</span></div>
+          <div className="steps">
+            <div className="t-h">How to place it (Bitget app or website)</div>
+            <ol>
+              <li>Open <b>Futures</b>, choose <b>USDT-M</b>, then the pair <b>{call ? `${sym}USDT` : "you are trading"}</b>.</li>
+              <li>Set the margin mode to <b>Isolated</b> and the leverage to <b>{lev}x</b>.</li>
+              <li>Choose a <b>Market</b> order and press <b>{long ? "Buy / Long" : "Sell / Short"}</b> for <b>{fmtQty(r.qty)} {sym}</b> (about {usd(r.notional)}).</li>
+              <li>{r.gainAtTarget !== null
+                ? <>Switch on <b>TP/SL</b>: take-profit at <b>{priceFmt(lv.target)}</b> and stop-loss at <b>{priceFmt(lv.stop)}</b>. Confirm the order.</>
+                : <>Switch on <b>TP/SL</b>: stop-loss at <b>{priceFmt(lv.stop)}</b>. Confirm the order.</>}</li>
+              <li>If the price has already passed the stop-loss or the take-profit when you look, skip this one and wait for the next signal.</li>
+            </ol>
+            <div className="note" style={{ whiteSpace: "normal" }}>Button names differ a little between app versions. If the exchange wants the size in USDT instead of coins, enter {usd(r.notional)}.</div>
+          </div>
           {guide.length > 1 ? (
-            <div className="levguide">
-              <div className="t-h">Want more leverage? Here is what each level does</div>
-              <div className="note" style={{ whiteSpace: "normal", marginBottom: 6 }}>
+            <details className="levguide">
+              <summary>Want more leverage? See what each level does</summary>
+              <div className="note" style={{ whiteSpace: "normal", margin: "4px 0 6px" }}>
                 Higher leverage locks less of your money but puts liquidation closer. What you lose at the stop-loss and make at the take-profit stays exactly the same. "Safe" only means the stop-loss would trigger before liquidation, not that the trade will win. The calls are unproven and the position does not change, so a higher leverage buys you nothing here except less money locked as margin.
               </div>
               {guide.map((g) => (
@@ -878,18 +890,83 @@ function SizePanel({ calls, scored, bets, needed, scalp }) {
                 </div>
               ))}
               <div className="note" style={{ whiteSpace: "normal", marginTop: 6 }}>
-                Above {r.maxLev}x, liquidation would sit less than twice as far away as your stop-loss, so a fast move could jump past it.{" "}
-                {!levAuto ? <button className="btn" onClick={() => set({ lev: "" })}>Back to the bot's suggestion</button> : null}
+                Above {r.maxLev}x, liquidation would sit less than twice as far away as your stop-loss, so a fast move could jump past it.
               </div>
-            </div>
+              <div className="sizer-in" style={{ marginTop: 8 }}>
+                <label>Another leverage (x): leave empty to use the bot's suggestion<input inputMode="decimal" placeholder={rec ? `suggested ${rec.lev}` : ""} value={v.lev} onChange={(e) => set({ lev: e.target.value })} /></label>
+              </div>
+            </details>
           ) : null}
         </>
       )}
       <p className="note" style={{ marginTop: 8, whiteSpace: "normal" }}>
         These are estimates: a 0.12% round-trip fee, a 0.5% maintenance margin and isolated margin. Your exchange's own liquidation price differs by coin and tier, the size is not rounded to the coin's smallest
-        order step, and funding is left out. The calls themselves are unproven: the sweet-spot test stands at {bets} of {needed} bets. If you trade one, you place the order yourself.
+        order step, and funding is left out. The signals are unproven ({bets} of {needed} test bets so far), so risk only money you can afford to lose. You place the order yourself.
       </p>
     </div>
+  );
+}
+
+// the desk's open calls, each tagged with the sweet-spot feed's view of it; `scored` = made after the registration, so it counts in the forward test
+function splitCalls(a) {
+  const sw = a.sweet || {};
+  const byId = Object.fromEntries((sw.calls || []).map((x) => [x.id, x]));
+  const open = (a.open || []).map((c) => ({ ...c, sw: byId[c.id] || {} }));
+  const scored = (c) => Date.parse(`${String(c.made).replace(" ", "T")}:00Z`) >= (sw.registered_ms || 0);
+  return { sweetOpen: open.filter((c) => c.sw.kind === "sweet"), otherOpen: open.filter((c) => c.sw.kind !== "sweet"), scored };
+}
+
+function fwBadge(fw) {
+  const v = fw.verdict || "";
+  return v.startsWith("PASS") ? ["Registered bar met", "good"] : v.startsWith("NO PASS") ? ["Registered bar not met", "bad"] : [`Unproven · ${fw.bets ?? 0} of ${fw.needed ?? 30} test bets`, "warn"];
+}
+
+// The two things a person opening this tab needs first: what the desk is and whether it has an edge, then today's signal as an order to copy.
+function DeskIntro({ a }) {
+  const s = a.stats || {}, sw = a.sweet || {}, h = sw.history || {}, fw = sw.forward || {};
+  const sweet = h.sweet || {}, smc = (h.by_method || {}).SMC || {}, scalp = h.scalp || {};
+  const p = (x) => pct(x, { dp: 0, sign: false });
+  return (
+    <section className="card intro">
+      <div className="card-h"><div><h2>The Analyst desk, in plain words</h2></div><span className="badge idle">No edge proven</span></div>
+      <h3>What it is</h3>
+      <p>A robot chart-reader. Every hour it looks at 7 markets (BTC, ETH, SOL, XRP, BNB, gold, Nasdaq). When one of three textbook setups shows up it writes down a trade idea <b>before</b> it plays out:
+        buy or sell, the entry price, a stop-loss (where you get out if you are wrong) and a take-profit. Later it checks what really happened and keeps score. It uses play money, and nothing on this page places an order.</p>
+      <p>The three setups: a <b>liquidity sweep</b> (price dips under a recent low, or pokes above a recent high, triggers the stop-losses waiting there, then snaps back), a <b>support / resistance bounce</b> and a <b>Fibonacci pullback</b>.</p>
+      <h3>Does it have an edge?</h3>
+      <p><b>Not proven.</b> The honest numbers:</p>
+      <ul>
+        {s.resolved ? <li><b>Everything it has called:</b> {s.resolved} finished ideas, {p(s.hit)} reached the take-profit, and {p(s.breakeven)} was needed just to cover fees. Average result {rTxt(s.avg_r)} per idea
+          (R = the amount you risk on one idea). Taken as a whole it loses.</li> : null}
+        {sweet.n ? <li><b>The one pocket that looks good:</b> ideas with room, a stop-loss at least 0.8% from the entry. {sweet.wins} of {sweet.n} reached the take-profit ({p(sweet.hit)}), average {rTxt(sweet.mean_r)}.
+          {smc.n ? <> Inside that pocket the liquidity sweeps did best: {smc.wins} of {smc.n}.</> : null}
+          {scalp.n ? <> Ideas with a tiny stop (under 0.4%) hit {scalp.wins} of {scalp.n}, so avoid those.</> : null}</li> : null}
+        {sweet.n ? <li><b>Why it is not trusted yet:</b> that pocket is only {sweet.bets} independent bets, and it was found by looking at the results afterwards, so it flatters. A fair test started on {sw.registered}:
+          it needs {fw.needed ?? 30} bets and has {fw.bets ?? 0}{fw.bets ? <> (average {rTxt(fw.mean_r_bet)} a bet so far)</> : null}. Expect a verdict around early December.</li> : null}
+      </ul>
+      <p>So treat every signal as a small experiment: risk 1% or less of money you can afford to lose.</p>
+    </section>
+  );
+}
+
+function SignalNow({ a }) {
+  const sw = a.sweet;
+  const now = useNow(15000);
+  if (!sw) return null;
+  const fw = sw.forward || {};
+  const badge = fwBadge(fw);
+  const hhmm = new Date(sw.next_run * 1000).toISOString().slice(11, 16);
+  const mins = now ? Math.max(0, Math.round((sw.next_run * 1000 - now) / 60000)) : null;
+  const { sweetOpen, otherOpen, scored } = splitCalls(a);
+  return (
+    <section className="card signal">
+      <div className="card-h">
+        <div><h2>Signal now</h2>
+          <div className="sub">The bot checks the charts every hour (next check {hhmm} UTC{mins !== null ? `, in ${mins} min` : ""}). When a good setup shows up it appears here as an order you can copy onto the exchange.</div></div>
+        <span className={`badge ${badge[1]}`}>{badge[0]}</span>
+      </div>
+      <SizePanel calls={[...sweetOpen, ...otherOpen]} scored={scored} bets={fw.bets ?? 0} needed={fw.needed ?? 30} scalp={(sw.history || {}).scalp} />
+    </section>
   );
 }
 
@@ -899,16 +976,11 @@ function SweetSpot({ a }) {
   const local = useMounted();
   if (!sw) return null;
   const fw = sw.forward || {};
-  const v = fw.verdict || "";
-  const badge = v.startsWith("PASS") ? ["Registered bar met", "good"] : v.startsWith("NO PASS") ? ["Registered bar not met", "bad"] : [`Unproven · ${fw.bets ?? 0} of ${fw.needed ?? 30} bets`, "warn"];
+  const badge = fwBadge(fw);
   const hhmm = new Date(sw.next_run * 1000).toISOString().slice(11, 16);
   const mins = now ? Math.max(0, Math.round((sw.next_run * 1000 - now) / 60000)) : null;
-  const byId = Object.fromEntries((sw.calls || []).map((x) => [x.id, x]));
-  const open = (a.open || []).map((c) => ({ ...c, sw: byId[c.id] || {} }));
-  const sweetOpen = open.filter((c) => c.sw.kind === "sweet");
-  const otherOpen = open.filter((c) => c.sw.kind !== "sweet");
+  const { sweetOpen, otherOpen, scored } = splitCalls(a);
   const fresh = (c) => { const t = Date.parse(`${String(c.made).replace(" ", "T")}:00Z`); return !!(now && t && now - t < 90 * 60000); };
-  const scored = (c) => Date.parse(`${String(c.made).replace(" ", "T")}:00Z`) >= (sw.registered_ms || 0);
   const h = sw.history || {};
   return (
     <section className="card">
@@ -964,8 +1036,6 @@ function SweetSpot({ a }) {
         </p>
       ) : null}
 
-      <SizePanel calls={[...sweetOpen, ...otherOpen]} scored={scored} bets={fw.bets ?? 0} needed={fw.needed ?? 30} scalp={h.scalp} />
-
       <h3 style={{ margin: "16px 0 6px", fontSize: 14 }}>Coming: where a rule could fire at the next run</h3>
       {sw.watch?.length ? (
         <div className="scroll">
@@ -1014,6 +1084,10 @@ function AnalystDesk({ a }) {
   const nr = cur?.resistance?.[0], ns = cur?.support?.[0];
   return (
     <>
+      <DeskIntro a={a} />
+      <SignalNow a={a} />
+      <details className="more">
+        <summary>Full details: the paper book, record, charts and every open call <span className="note">(for people who like numbers)</span></summary>
       <section className="card score">
         <div className="card-h">
           <div><h2>Analyst desk · paper, its own {usd(a.start, { dp: 0 })}</h2>
@@ -1185,6 +1259,7 @@ function AnalystDesk({ a }) {
           </div>
         ) : <div className="empty">No call has resolved yet.</div>}
       </section>
+      </details>
     </>
   );
 }
