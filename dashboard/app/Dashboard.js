@@ -56,6 +56,12 @@ function TopBar({ meta, want }) {
               <small className={tone(meta.analyst.equity - meta.analyst.start)}>{pct(meta.analyst.equity / meta.analyst.start - 1, { dp: 1 })}</small>
             </a>
           ) : null}
+          {meta?.momentum ? (
+            <a href="/?acct=momentum" className={want === "momentum" ? "on" : ""}>
+              {ACCOUNT_NAMES.momentum}
+              <small className={tone(meta.momentum.equity - meta.momentum.start)}>{pct(meta.momentum.equity / meta.momentum.start - 1, { dp: 1 })}</small>
+            </a>
+          ) : null}
           {meta?.mood ? (
             <a href="/?acct=mood" className={want === "mood" ? "on" : ""}>
               {ACCOUNT_NAMES.mood}<small>F&amp;G {meta.mood.market?.fear_greed ?? "–"}</small>
@@ -1264,6 +1270,113 @@ function AnalystDesk({ a }) {
   );
 }
 
+// ------------------------------------------------------------------ the RSI-80 momentum paper book (rsi80_paper.py)
+
+const EXIT_KIND = { target: ["Target hit", "good"], stop: ["Stopped out", "bad"], time: ["4-day limit", "idle"] };
+const rStr = (r, dp = 2) => (r === null || r === undefined ? "–" : `${r > 0 ? "+" : r < 0 ? "−" : ""}${Math.abs(r).toFixed(dp)}R`);
+const dayYear = (d) => (d ? `${dayLabel(d)} ${String(d).slice(0, 4)}` : "");
+
+function momentumBadge(v) {
+  const s = String(v || "");
+  if (s.startsWith("HELD UP")) return ["Held up", "good"];
+  if (s.startsWith("DEAD")) return ["Dead - stopped", "bad"];
+  if (s.startsWith("CANNOT TELL")) return ["Can't tell yet - runs on", "warn"];
+  return ["Recording - verdict 9 Apr 2027", "idle"];
+}
+
+function MomentumBook({ m }) {
+  const now = useNow(15000);
+  const local = useMounted();
+  if (!m) return null;
+  const total = m.equity - m.start;
+  const badge = momentumBadge(m.verdict);
+  const hhmm = new Date(m.next_run * 1000).toISOString().slice(11, 16);
+  const mins = now ? Math.max(0, Math.round((m.next_run * 1000 - now) / 60000)) : null;
+  const L = m.lines || {};
+  const open = m.open || [];
+  return (
+    <>
+      <section className="card score">
+        <div className="card-h">
+          <div><h2>Momentum book · paper, its own {usd(m.start, { dp: 0 })}</h2>
+            <div className="sub">Buys a coin when its 4-hour RSI jumps above 80 (a strong move that often keeps going), with a wide stop, a target four times
+              the risk and a 4-day limit. It checks the top {m.coins || 100} coins every 4 hours (next check {hhmm} UTC{mins !== null ? `, in ${mins} min` : ""}) and risks
+              1% of its balance a trade. Paper money only - not part of the bot's account. Backtest on coins it had never seen: about +0.14R a trade, a near miss
+              of the proof bar, so this record is the real test.</div></div>
+          <span className={`badge ${badge[1]}`}>{badge[0]}</span>
+        </div>
+        <div className="score-total">
+          <div>
+            <div className="muted" style={{ fontSize: 12 }}>Balance now (open trades at live prices)</div>
+            <div className="big">{usd(m.equity)} <span className={`small ${tone(total)}`}>{pct(total / m.start)}</span></div>
+            <div className="muted" style={{ fontSize: 12 }}>
+              {m.n ? `${m.n} trades closed · ${m.wins} won · average ${rStr(m.mean_r)} a trade after fees and funding · `
+                + `${m.exits?.target ?? 0} hit the target, ${m.exits?.stop ?? 0} stopped, ${m.exits?.time ?? 0} closed at the 4-day limit`
+                : "No trade has closed yet."}
+            </div>
+          </div>
+          <div className="muted" style={{ fontSize: 12, maxWidth: 440 }}>
+            <b>What decides it.</b> {dayYear(L.kill_date)}: stopped early if, after {L.kill_min ?? 30}+ trades, it averages worse than {rStr(L.kill_r)} a trade.
+            {" "}{dayYear(L.verdict_date)}: it <b>holds up</b> at {rStr(L.held_r, 3)} a trade or better with the balance above {usd(m.start, { dp: 0 })}, and is <b>dead</b> below {rStr(L.dead_r, 3)};
+            in between it keeps running to {dayYear(L.extend)}. Expect flat stretches: in the backtest 3 in 10 five-month stretches lost money even though the rule
+            made money overall - most trades lose a little and a few strong weeks carry it.
+          </div>
+        </div>
+      </section>
+      <section className="card">
+        <div className="card-h"><div><h2>Open trades ({open.length})</h2>
+          <div className="sub">Entered at the 4-hour bar's open; "result so far" is at the live price, before the exit fee and funding.</div></div></div>
+        {open.length ? (
+          <div className="scroll">
+            <table>
+              <thead><tr><th>Coin</th><th>Opened</th><th className="r">Entry</th><th className="r">Now</th><th className="r">Stop</th><th className="r">Target</th>
+                <th className="r">Result so far</th><th className="r">Time left</th></tr></thead>
+              <tbody>
+                {open.map((t) => (
+                  <tr key={t.coin}>
+                    <td><div className="sym">{t.coin.replace(/USDT$/, "")}<span className="faint">/USDT</span></div><span className="side long">Long</span></td>
+                    <td>{when(t.opened, local)}</td>
+                    <td className="r">{priceFmt(t.entry)}</td>
+                    <td className="r">{priceFmt(t.mark)}</td>
+                    <td className="r">{priceFmt(t.stop)}</td>
+                    <td className="r">{priceFmt(t.target)}</td>
+                    <td className={`r ${tone(t.r)}`}><div>{rStr(t.r)}</div><div className="note">{t.booked ? usd(t.usd, { sign: true }) : "not booked"}</div></td>
+                    <td className="r">{t.hours_left} h</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : <div className="empty">No open trades. It buys only when a coin's 4-hour RSI crosses 80 - some weeks that is many coins, some weeks none.</div>}
+      </section>
+      <div className="row">
+        <EquityChart curve={m.curve} start={m.start} title="Momentum book balance" sub="after every closed trade, and now at live prices" />
+        <section className="card">
+          <div className="card-h"><div><h2>Closed trades</h2><div className="sub">the last 30, after fees and the funding each coin really paid</div></div></div>
+          {(m.recent || []).length ? (
+            <div className="scroll">
+              <table>
+                <thead><tr><th>Coin</th><th>How it ended</th><th className="r">Entry → exit</th><th className="r">Result</th><th className="r">P&amp;L</th></tr></thead>
+                <tbody>
+                  {m.recent.map((t, i) => (
+                    <tr key={`${t.coin}-${t.opened}-${i}`}>
+                      <td><div className="sym">{t.coin.replace(/USDT$/, "")}<span className="faint">/USDT</span></div><div className="note">{when(t.opened, local)}</div></td>
+                      <td><span className={`badge ${EXIT_KIND[t.kind]?.[1] || "idle"}`}>{EXIT_KIND[t.kind]?.[0] || t.kind}</span><div className="note">{when(t.closed, local)}</div></td>
+                      <td className="r">{priceFmt(t.entry)} → {priceFmt(t.exit)}</td>
+                      <td className={`r ${tone(t.r)}`}>{rStr(t.r)}</td>
+                      <td className={`r ${tone(t.usd)}`}>{t.booked ? usd(t.usd, { sign: true }) : <span className="note">not booked</span>}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : <div className="empty">No trade has closed yet. A trade lasts at most 4 days.</div>}
+        </section>
+      </div>
+    </>
+  );
+}
+
 // ------------------------------------------------------------------ the page
 
 export default function Dashboard({ meta, acct, want }) {
@@ -1280,6 +1393,8 @@ export default function Dashboard({ meta, acct, want }) {
           : <div className="alert info">The crowd-squeeze book has not reported yet - it runs hourly on the VM.</div>)
         : want === "analyst" ? (meta?.analyst ? <AnalystDesk a={meta.analyst} />
           : <div className="alert info">The analyst desk has not reported yet - it runs hourly on the VM.</div>)
+        : want === "momentum" ? (meta?.momentum ? <MomentumBook m={meta.momentum} />
+          : <div className="alert info">The momentum book has not reported yet - it runs every 4 hours on the VM.</div>)
         : want === "mood" ? (meta?.mood ? <Mood m={meta.mood} />
           : <div className="alert info">No market-mood snapshot yet - it is written hourly on the VM.</div>)
         : !acct ? (

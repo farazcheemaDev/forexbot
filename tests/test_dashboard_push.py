@@ -545,6 +545,85 @@ def test_the_wallet_reader_contains_no_way_to_trade_or_move_money():
     assert [c for c in calls if c.startswith(("fetch_", "create_", "edit_", "set_", "private_", "privatePost", "privateGet"))] == ["fetch_balance"]
 
 
+def _momentum_dir():
+    import csv
+    import json
+    import tempfile
+    import rsi80_paper as rp
+    d = Path(tempfile.mkdtemp())
+    t0 = int(datetime(2026, 11, 9, 0, 0, tzinfo=timezone.utc).timestamp() * 1000)
+    st = dict(started_ms=t0 - 86_400_000, equity=302.5, peak=303.0, universe={"2026-11": ["AAAUSDT", "BBBUSDT", "CCCUSDT"]}, checked={}, free_from={},
+              open={"AAAUSDT": dict(signal_ms=t0 - 2 * 14_400_000, entry_ms=t0 - 14_400_000, entry=100.0, seen_px=100.2, stop=90.0, target=140.0, rf=0.1,
+                                    bars=3, risk_usd=3.0, notional=30.0, booked=True),
+                    "BBBUSDT": dict(signal_ms=t0 - 2 * 14_400_000, entry_ms=t0 - 14_400_000, entry=10.0, seen_px=10.0, stop=3.0, target=38.0, rf=0.7,
+                                    bars=1, risk_usd=3.0, notional=4.29, booked=False)})
+    (d / "state.json").write_text(json.dumps(st))
+    rows = [dict(coin="CCCUSDT", entry_ms=t0 - 9 * 14_400_000, exit_ms=t0 - 5 * 14_400_000 - 1, kind="stop", entry=50, exit=45, net_r="-1.05", net_r_flat="-1.06",
+                 pnl_usd="-3.15", booked="True", equity_after="296.85"),
+            dict(coin="AAAUSDT", entry_ms=t0 - 8 * 14_400_000, exit_ms=t0 - 3 * 14_400_000 - 1, kind="target", entry=80, exit=96, net_r="1.88", net_r_flat="1.86",
+                 pnl_usd="5.65", booked="True", equity_after="302.5"),
+            dict(coin="BBBUSDT", entry_ms=t0 - 7 * 14_400_000, exit_ms=t0 - 2 * 14_400_000 - 1, kind="time", entry=9, exit=9.1, net_r="0.02", net_r_flat="0.01",
+                 pnl_usd="0.0", booked="False", equity_after="302.5")]
+    with open(d / "trades.csv", "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=rp.COLS, extrasaction="ignore")
+        w.writeheader()
+        for r in rows:
+            w.writerow(r)
+    return d, t0
+
+
+def test_the_momentum_book_feed():
+    d, t0 = _momentum_dir()
+    old = dp.RSI80
+    try:
+        dp.RSI80 = d / "missing"
+        assert dp.momentum({}, t0 // 1000) is None                                     # no state: no card
+        dp.RSI80 = d
+        now = t0 // 1000 + 600                                                          # 00:10 UTC
+        m = dp.momentum({"AAAUSDT": 105.0, "BBBUSDT": 12.0}, now)
+        a, b = m["open"]
+        assert a["coin"] == "AAAUSDT" and abs(a["r"] - 0.5) < 1e-9 and a["usd"] == 1.5 and a["hours_left"] == (24 - 3) * 4 and a["booked"]
+        assert b["coin"] == "BBBUSDT" and abs(b["r"] - (2.0 / 7.0)) < 1e-3 and b["usd"] == 0.0 and not b["booked"]      # scored, never in the balance
+        assert m["equity"] == 304.0 and m["booked"] == 302.5 and m["upnl"] == 1.5                   # booked 302.50 + 3.00 x 0.5R
+        assert m["n"] == 3 and m["wins"] == 2 and m["exits"] == dict(target=1, stop=1, time=1)
+        assert abs(m["mean_r"] - round((-1.05 + 1.88 + 0.02) / 3, 3)) < 1e-12 and abs(m["mean_r_flat"] - round((-1.06 + 1.86 + 0.01) / 3, 3)) < 1e-12
+        assert [r["coin"] for r in m["recent"]] == ["BBBUSDT", "AAAUSDT", "CCCUSDT"] and m["recent"][0]["booked"] is False and m["recent"][1]["booked"] is True
+        h = m["curve"]["h"]
+        assert h[0] == [(t0 - 86_400_000) // 1000, 300.0] and h[1][1] == 296.85 and h[-1] == [now, 304.0] and m["curve"]["d"] == h[-2:]   # the chart's {d, h} shape
+        assert m["coins"] == 3 and m["verdict"].startswith("NOT YET") and m["lines"]["verdict_date"] == "2027-04-09"
+        assert m["next_run"] == t0 // 1000 + 4 * 3600 + 300                                         # 04:05 UTC
+        m2 = dp.momentum({}, now)                                                                    # no live price: no result, nothing added
+        assert m2["open"][0]["r"] is None and m2["equity"] == 302.5
+    finally:
+        dp.RSI80 = old
+
+
+def test_the_momentum_curve_is_strictly_ascending_with_one_point_per_instant():
+    import csv
+    import rsi80_paper as rp
+    d, t0 = _momentum_dir()
+    with open(d / "trades.csv", "a", newline="") as f:                                         # a second trade closing in the same run as the last one
+        csv.DictWriter(f, fieldnames=rp.COLS, extrasaction="ignore").writerow(dict(coin="DDDUSDT", entry_ms=t0 - 6 * 14_400_000, exit_ms=t0 - 2 * 14_400_000 - 1,
+                                                                                    kind="stop", net_r="-1", net_r_flat="-1", pnl_usd="-3", booked="True",
+                                                                                    equity_after="299.5"))
+    old = dp.RSI80
+    try:
+        dp.RSI80 = d
+        c = dp.momentum({}, t0 // 1000 + 600)["curve"]["h"]
+        ts = [p[0] for p in c]
+        assert ts == sorted(set(ts)) and dict(c)[(t0 - 2 * 14_400_000 - 1) // 1000] == 299.5            # one point, the later balance
+    finally:
+        dp.RSI80 = old
+
+
+def test_the_next_4h_run():
+    base = int(datetime(2026, 11, 9, 0, 0, tzinfo=timezone.utc).timestamp())
+    assert dp.next_4h_run(base) == base + 300
+    assert dp.next_4h_run(base + 299) == base + 300
+    assert dp.next_4h_run(base + 300) == base + 4 * 3600 + 300
+    assert dp.next_4h_run(base + 3 * 3600) == base + 4 * 3600 + 300
+
+
 if __name__ == "__main__":
     tests =[v for k, v in dict(globals()).items() if k.startswith("test_")]
     for fn in tests:

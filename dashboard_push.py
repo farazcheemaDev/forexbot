@@ -47,7 +47,7 @@ LOGS = ROOT / "logs"
 CURVES = LOGS / "dashboard"
 ACCOUNTS = [("main", LOGS / "combo_bot_dry_final"), ("fresh", LOGS / "combo_bot_dry_final_fresh")]
 SERVICES = ["combo-bot-final", "combo-bot-fresh", "combo-paper", "blend-paper", "wick-paper", "pair-paper",
-            "crowd-paper.timer", "analyst-paper.timer"]
+            "crowd-paper.timer", "analyst-paper.timer", "rsi80-paper.timer"]
 # combo-bot-demo was stopped 2026-10-17 at the user's word: its order-path test was done (191 orders over 16.9 days, all
 # filled and priced, 0 failures; logs/combo_bot_demo/final_report_20261017.txt on the VM)
 START_EQUITY = 300.0
@@ -64,6 +64,7 @@ CROWD_MIN_WEEKS = 4
 ANALYST = LOGS / "analyst"                      # analyst.py's state / calls / levels / marks (hourly, analyst-paper.timer)
 ANALYST_KEEP = 40
 ANALYST_REPLAY = ROOT / "analyst_replay.json"   # backtest/analyst_replay.py: the same rules over history, with the leverage grid
+RSI80 = LOGS / "rsi80"                          # rsi80_paper.py's state / trades (every 4 hours at :05 UTC, rsi80-paper.timer)
 
 
 # ------------------------------------------------------------------ small readers
@@ -772,6 +773,55 @@ def wallet_view(env=None, factory=None, now=None, cache=None, ttl: int = WALLET_
     return out
 
 
+def next_4h_run(now: int) -> int:
+    """The paper book's next run: 5 minutes after the next 4h bar closes (00:05, 04:05, ... UTC), in unix seconds."""
+    t = now // 14400 * 14400 + 300
+    return t if t > now else t + 14400
+
+
+def momentum(prices: dict, now: int) -> dict | None:
+    """The RSI-80 momentum paper book (rsi80_paper.py): live equity = the booked equity + each open BOOKED trade at Binance's price now (before its exit fee
+    and funding); every open trade with its stop, target, result so far and hours left; the record against the registered lines (rsi80_paper.verdict and
+    its constants, so the page can never disagree with the book); the recent closed trades and the equity curve from the trade log."""
+    st = jload(RSI80 / "state.json")
+    if not st:
+        return None
+    try:
+        import rsi80_paper as rp
+    except Exception:
+        return None
+    rows = read_csv(RSI80 / "trades.csv")
+    opn, upnl = [], 0.0
+    for coin, tr in sorted((st.get("open") or {}).items()):
+        e, rf, mk = tr["entry"], tr["rf"], prices.get(coin)
+        r_now = (mk - e) / (e * rf) if mk and e > 0 and rf > 0 else None
+        u = tr["risk_usd"] * r_now if (r_now is not None and tr.get("booked")) else 0.0
+        upnl += u
+        opn.append(dict(coin=coin, opened=int(tr["entry_ms"]) // 1000, entry=e, mark=mk, stop=tr["stop"], target=tr["target"],
+                        r=None if r_now is None else round(r_now, 3), usd=round(u, 2), notional=round(tr["notional"], 2), booked=bool(tr.get("booked")),
+                        hours_left=max(0, (rp.CAP - int(tr.get("bars", 0))) * 4)))
+    net = [fnum(r.get("net_r"), 0.0) for r in rows]
+    flat = [fnum(r.get("net_r_flat"), 0.0) for r in rows]
+    n, booked, start = len(rows), float(st["equity"]), rp.START
+    pts = {int(st["started_ms"]) // 1000: start}
+    for r in rows:                                       # trades closed in the same run share an exit time: the chart needs ONE point per instant (the later balance)
+        pts[int(fnum(r.get("exit_ms"), 0)) // 1000] = round(fnum(r.get("equity_after"), start), 2)
+    pts[now] = round(booked + upnl, 2)
+    h = [[t, v] for t, v in sorted(pts.items())]                                      # strictly ascending in time, as the chart requires
+    curve = dict(d=h[-2:], h=h)                                                         # the chart's shape (charts.EquityChart: d = the 1D view, h = the rest)
+    recent = [dict(coin=r["coin"], opened=int(fnum(r.get("entry_ms"), 0)) // 1000, closed=int(fnum(r.get("exit_ms"), 0)) // 1000, kind=r.get("kind"),
+                   entry=fnum(r.get("entry")), exit=fnum(r.get("exit")), r=round(fnum(r.get("net_r"), 0.0), 3), usd=round(fnum(r.get("pnl_usd"), 0.0), 2),
+                   booked=str(r.get("booked")) in ("True", "true", "1")) for r in rows][-30:][::-1]
+    month = datetime.fromtimestamp(now, timezone.utc).strftime("%Y-%m")
+    return dict(start=start, equity=round(booked + upnl, 2), booked=round(booked, 2), upnl=round(upnl, 2), started=int(st["started_ms"]) // 1000,
+                open=opn, n=n, mean_r=round(sum(net) / n, 3) if n else None, mean_r_flat=round(sum(flat) / n, 3) if n else None,
+                wins=sum(1 for x in net if x > 0), exits={k: sum(1 for r in rows if r.get("kind") == k) for k in ("target", "stop", "time")},
+                recent=recent, curve=curve, coins=len((st.get("universe") or {}).get(month, [])), next_run=next_4h_run(now),
+                verdict=rp.verdict(rows, booked, datetime.fromtimestamp(now, timezone.utc).strftime("%Y-%m-%d")),
+                lines=dict(kill_date=rp.KILL_DATE, kill_r=rp.KILL_R, kill_min=rp.KILL_MIN, verdict_date=rp.VERDICT_DATE, held_r=rp.HELD_R,
+                           dead_r=rp.DEAD_R, extend=rp.EXTEND_DATE))
+
+
 def build(write: bool = False) -> tuple:
     prices = binance_prices()
     if not prices:
@@ -785,10 +835,12 @@ def build(write: bool = False) -> tuple:
             accts[acct] = a
     cr = crowd(prices, now, jload(CROWD_BANDS))
     an = analyst_view(prices, now)
+    mo = momentum(prices, now)
     oth = others() + ([dict(name="Crowd squeeze paper", equity=cr["equity"], start=cr["start"], started=cr["started"])]
                       if cr else []) + ([dict(name="Analyst desk paper", equity=an["equity"], start=an["start"], started=an["started"])]
-                                        if an else [])
-    meta = dict(generated=now, btc=prices.get("BTCUSDT"), health=health(), others=oth, mood=mood(), crowd=cr, analyst=an, wallet=wallet_view(),
+                                        if an else []) + ([dict(name="Momentum book paper", equity=mo["equity"], start=mo["start"], started=mo["started"])]
+                                                          if mo else [])
+    meta = dict(generated=now, btc=prices.get("BTCUSDT"), health=health(), others=oth, mood=mood(), crowd=cr, analyst=an, momentum=mo, wallet=wallet_view(),
                 accounts=[dict(id=a["id"], started=a["started"], equity=a["equity"], start=a["start"])
                           for a in accts.values()])
     return meta, accts
