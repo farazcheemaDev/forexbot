@@ -542,13 +542,21 @@ def desk_history(rows: list, kind: str | None = None, method: str | None = None)
                 mean_r=round(sum(x[2] for x in sel) / len(sel), 3), mean_r_bet=round(sum(per_bet) / len(per_bet), 3))
 
 
-def watch_items(symbols: dict) -> list:
+def watch_items(symbols: dict, next_run: int | None = None) -> list:
     """Where a desk rule could fire in the NEXT run, from the levels and the live price - the rule's own geometry (analyst.signals), no prediction.
     FIB: the live price is inside the 50-78.6% zone, so the call that would be logged if the hour closed with the swing is fully fixed (stop and target
     come from the levels). SR: a strong level is within 1.5 ATR; the stop depends on how far the hour's wick goes, so it is a RANGE (wick no deeper than
-    the level ... one ATR through it). Liquidity sweeps depend on the hour's own wick and cannot be previewed."""
+    the level ... one ATR through it). Liquidity sweeps depend on the hour's own wick and cannot be previewed.
+    With `next_run` (ms), a symbol the desk cannot call at that run (analyst.can_call: gold / QQQ while their market is shut) is left out."""
+    can = None
+    if next_run is not None:
+        import analyst as an
+        bar = next_run // 3_600_000 * 3_600_000 - 3_600_000                  # the candle the next run reads began an hour before its hour
+        can = lambda s: an.can_call(s, next_run, bar)                        # noqa: E731
     out = []
     for sym, v in symbols.items():
+        if can is not None and not can(sym):
+            continue
         px = v.get("price")
         a1 = (v.get("atr1_pct") or 0.0) * (px or 0.0)
         if not px or a1 <= 0:
@@ -618,7 +626,7 @@ def sweet_view(rows: list, open_calls: list, symbols: dict, now: int) -> dict:
     nxt = (now // 3600) * 3600 + 7 * 60
     nxt = nxt if nxt > now else nxt + 3600
     return dict(def_stop=SWEET_STOP, scalp_stop=SCALP_STOP, registered="2026-11-06 15:00 UTC", registered_ms=SWEET_REGISTERED_MS, forward=fw, history=hist, calls=calls,
-                watch=watch_items(symbols), next_run=nxt, min_rr=DESK_MIN_RR)
+                watch=watch_items(symbols, nxt * 1000), next_run=nxt, min_rr=DESK_MIN_RR)
 
 
 def analyst_view(prices: dict, now: int) -> dict | None:

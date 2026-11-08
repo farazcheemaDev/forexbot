@@ -382,6 +382,19 @@ def test_the_fib_preview_is_the_exact_call_the_rule_would_log():
     assert dp.watch_items({"DDDUSDT": _fib_symbol("up", 110.0, 100.0, 108.0, 0.5)}) == []         # 20% retraced: outside the 50-78.6% zone
 
 
+def test_the_preview_leaves_out_gold_and_qqq_while_the_desk_cannot_call_them():
+    from datetime import datetime, timezone
+
+    def ms(s):
+        return int(datetime.strptime(s, "%Y-%m-%d %H:%M").replace(tzinfo=timezone.utc).timestamp() * 1000)
+    syms = {k: _fib_symbol("up", 110.0, 100.0, 103.0, 0.5) for k in ("XAUUSDT", "QQQUSDT", "BTCUSDT")}
+    assert {w["symbol"] for w in dp.watch_items(syms)} == {"XAUUSDT", "QQQUSDT", "BTCUSDT"}                 # no run time given: unchanged
+    assert {w["symbol"] for w in dp.watch_items(syms, ms("2026-11-14 12:07"))} == {"BTCUSDT"}               # Saturday: gold and QQQ shut
+    assert {w["symbol"] for w in dp.watch_items(syms, ms("2026-11-10 03:07"))} == {"XAUUSDT", "BTCUSDT"}    # Asian night: gold open, QQQ shut
+    assert {w["symbol"] for w in dp.watch_items(syms, ms("2026-11-10 16:07"))} == {"XAUUSDT", "QQQUSDT", "BTCUSDT"}
+    assert {w["symbol"] for w in dp.watch_items(syms, ms("2026-11-10 15:07"))} == {"XAUUSDT", "BTCUSDT"}    # QQQ: that run reads the 09:00 EST candle
+
+
 def test_the_fib_preview_respects_the_zone_edges_and_the_desks_reward_to_risk_floor():
     assert dp.watch_items({"AAAUSDT": _fib_symbol("up", 110.0, 100.0, 106.0, 0.5)}) == []         # 40% retraced: not yet in the 50-78.6% zone
     assert dp.watch_items({"BBBUSDT": _fib_symbol("up", 110.0, 100.0, 101.5, 0.5)}) == []         # 85% retraced: past the zone

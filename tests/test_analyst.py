@@ -421,6 +421,68 @@ def test_calls_after_the_first_open_one_are_left_pending_not_guessed():
     assert {(g["capital"], g["lev"]) for g in an.grid(rows)} == {(c, x) for c in an.CAPITALS for x in an.LEVERAGES}
 
 
+def utc(s):
+    """'2026-11-09 14:30' (UTC) -> ms"""
+    from datetime import datetime, timezone
+    return int(datetime.strptime(s, "%Y-%m-%d %H:%M").replace(tzinfo=timezone.utc).timestamp() * 1000)
+
+
+def test_new_york_offset_switches_on_the_us_daylight_saving_sundays():
+    assert an.ny_offset_h(utc("2026-03-08 06:59")) == -5 and an.ny_offset_h(utc("2026-03-08 07:00")) == -4      # second Sunday of March, 02:00 EST
+    assert an.ny_offset_h(utc("2026-11-01 05:59")) == -4 and an.ny_offset_h(utc("2026-11-01 06:00")) == -5      # first Sunday of November, 02:00 EDT
+    assert an.ny_offset_h(utc("2027-03-14 06:59")) == -5 and an.ny_offset_h(utc("2027-03-14 07:00")) == -4      # 2027: March 1 is a Monday
+    assert an.ny_offset_h(utc("2027-11-07 05:59")) == -4 and an.ny_offset_h(utc("2027-11-07 06:00")) == -5
+    assert an.ny_offset_h(utc("2026-01-15 12:00")) == -5 and an.ny_offset_h(utc("2026-07-15 12:00")) == -4
+
+
+def test_qqq_is_open_only_in_the_us_cash_session():
+    q = lambda s: an.market_open("QQQUSDT", utc(s))                                 # noqa: E731
+    assert not q("2026-11-09 14:29") and q("2026-11-09 14:30") and q("2026-11-09 20:59") and not q("2026-11-09 21:00")   # winter: 09:30-16:00 EST
+    assert not q("2026-07-14 13:29") and q("2026-07-14 13:30") and q("2026-07-14 19:59") and not q("2026-07-14 20:00")   # summer: 09:30-16:00 EDT
+    assert not q("2026-11-07 16:00") and not q("2026-11-08 16:00")                    # Saturday, Sunday
+    assert not q("2026-11-26 16:00") and not q("2027-01-18 16:00")                    # Thanksgiving, Martin Luther King day
+    assert q("2026-11-27 17:59") and not q("2026-11-27 18:00")                        # the day after Thanksgiving closes at 13:00 New York
+
+
+def test_gold_is_open_sunday_evening_to_friday_evening_less_the_daily_break_and_holidays():
+    g = lambda s: an.market_open("XAUUSDT", utc(s))                                 # noqa: E731
+    assert not g("2026-11-08 22:59") and g("2026-11-08 23:00")                        # Sunday 18:00 EST reopen
+    assert not g("2026-11-08 21:30") and not g("2026-11-13 23:30")                    # Sunday 16:30 EST (before the reopen), Friday 18:30 EST (after the close)
+    assert g("2026-11-13 21:59") and not g("2026-11-13 22:00") and not g("2026-11-14 12:00")      # Friday 17:00 EST close, Saturday shut
+    assert g("2026-11-10 21:59") and not g("2026-11-10 22:00") and not g("2026-11-10 22:59") and g("2026-11-10 23:00")  # daily 17:00-18:00 EST break
+    assert not g("2026-07-12 21:59") and g("2026-07-12 22:00")                        # summer: Sunday 18:00 EDT = 22:00 UTC
+    assert g("2026-07-15 20:59") and not g("2026-07-15 21:00") and g("2026-07-15 22:00")          # summer daily break 21:00-22:00 UTC
+    assert not g("2026-12-25 12:00") and not g("2026-04-03 14:00")                    # Christmas, Good Friday
+    assert g("2026-11-27 17:59") and not g("2026-11-27 18:00")                        # early-close day: shut from 13:00 New York
+    assert g("2026-11-11 03:00")                                                      # an ordinary night in Asia: open
+
+
+def test_crypto_is_never_gated_and_a_call_needs_the_market_open_at_the_run_and_at_the_candle_start():
+    assert an.market_open("BTCUSDT", utc("2026-11-07 12:00")) and an.can_call("ETHUSDT", utc("2026-11-08 03:07"), utc("2026-11-08 02:00"))
+    assert not an.can_call("QQQUSDT", utc("2026-11-09 15:07"), utc("2026-11-09 14:00"))   # the run is in session, the candle began at 09:00 EST
+    assert an.can_call("QQQUSDT", utc("2026-11-09 16:07"), utc("2026-11-09 15:00"))
+    assert not an.can_call("XAUUSDT", utc("2026-11-08 23:07"), utc("2026-11-08 22:00"))   # the candle spans the Sunday reopening gap
+    assert an.can_call("XAUUSDT", utc("2026-11-09 00:07"), utc("2026-11-08 23:00"))
+    assert not an.can_call("XAUUSDT", utc("2026-11-10 22:07"), utc("2026-11-10 21:00"))   # the run falls in the daily break
+
+
+def test_the_cycle_draws_levels_but_makes_no_call_while_the_underlying_is_shut():
+    patched()
+    assert not an.can_call("QQQUSDT", NOW, NOW - H1)                                 # NOW = a Friday 08:07 UTC: 03:07 New York
+    an.cycle(NOW, world_fetch(), ["QQQUSDT"])
+    assert an.load_calls() == []
+    lev = __import__("json").loads(an.LEVELS.read_text())["symbols"]["QQQUSDT"]
+    assert lev["support"] and lev["resistance"]                                     # the chart is still drawn
+    patched()
+    t = NOW + 8 * H1                                                                 # 16:07 UTC = 11:07 New York, the candle began 10:00
+    assert an.can_call("QQQUSDT", t, t - 7 * MIN - H1)
+    an.cycle(t, world_fetch(now=t), ["QQQUSDT"])
+    assert [r["method"] for r in an.load_calls()] == ["SR"]                          # the same chart in session makes the call
+    patched()
+    an.cycle(NOW, world_fetch(), ["TESTUSDT"])
+    assert [r["method"] for r in an.load_calls()] == ["SR"]                          # crypto at the shut hour: unchanged
+
+
 if __name__ == "__main__":
     tests =[v for k, v in dict(globals()).items() if k.startswith("test_")]
     for fn in tests:

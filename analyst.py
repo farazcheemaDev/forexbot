@@ -44,6 +44,17 @@ AMENDED 2026-10-27 13:56 UTC, with 6 of the 30 calls resolved - BEFORE the verdi
   bet counts once. p = one-sided Student's t over the bets (`day_bets`, `bet_p`; stats()['p'], which the verdict and the REVIEW read).
   The old per-call z-test stays on the record as stats()['p_calls']. The 30-call gate, the 0.05 line, avg R > 0, A2, A4-A8 and the
   review are unchanged. backtest/analyst_replay.py's logged p values predate this (per call); none was under 0.37, every rule lost.
+AMENDED 2026-11-08 16:02 UTC, at the user's word ("yes, fix it"), with 95 calls resolved - AFTER looking at the data, so it is a fix, not a test.
+  XAUUSDT and QQQUSDT are perps that trade 24/7 on top of markets that do not: a call made while gold or the US stock market is shut is read off
+  thin weekend / overnight prices and its stop is jumped when the real market reopens. On the record (backtest/analyst_replay_cuts.py): live calls
+  made while the underlying was shut lost about two-thirds of the desk's -26.4R; on the replay QQQ -0.76R and gold -0.84R a call made while shut,
+  against -0.08 / -0.22 while open. From now on `can_call` (market_open at the run time AND at the start of the candle read) must hold for a call on
+  those two; crypto is untouched. This exact gate, applied to the 95 resolved live calls, blocks 15 of them (1 win, -16.6R) and keeps 80 (-9.7R,
+  -0.12R a call: about the fee); on the replay, re-run with the gate (cooldowns included): gold 295 calls -94.1R -> 245 calls -66.9R (losers past
+  -1.5R 28 -> 7), QQQ 204 calls -126.8R -> 59 calls -18.9R (48 -> 6). It stops a leak; it does not make the rules profitable. Gold: Sunday 18:00 to Friday 17:00 New York, not 17:00-18:00 daily; QQQ: 09:30-16:00 New York
+  on trading days; US holidays (list to 2027-12) shut both. The levels are still drawn. Every call before this stays on the record and counts in
+  A1-A8, the review and the registered sweet-spot test exactly as before. Not changed: a call made in session can still be HELD across a closure
+  (the 24h / 48h horizons) - that gap risk remains and is measured separately if needed.
 WHAT IF YOU TRADED THESE CALLS WITH LEVERAGE (added 2026-10-27, the user: "10x 20x 30x, capital 20 / 50 / 100 / 300 - how would that result in")
   The same calls, taken by a trader who puts the WHOLE account on each one at 10x / 20x / 30x (isolated margin, one position at a time: a call that
   appears while one is open is skipped), the stop and target as logged, 12bp of the NOTIONAL as the round-trip fee (= 12bp x leverage of the account).
@@ -70,7 +81,7 @@ import json
 import math
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import desk
@@ -173,6 +184,52 @@ def daily_sd(d1c: list, n: int = 14) -> float:
 
 
 # ------------------------------------------------------------------ the three rules
+
+# ------------------------------------------------------------------ market hours of the TradFi perps (AMENDED 2026-11-08, see the docstring)
+
+SESSION_SYMBOLS = ("XAUUSDT", "QQQUSDT")
+# NYSE full-day closures, 2025-12 .. 2027-12 (extend before 2028): QQQ shut all day; gold treated as shut for the whole New York date (CME metals
+# close on Good Friday / Christmas / New Year and halt early on the others - shutting the whole day is the conservative reading).
+US_HOLIDAYS = frozenset({
+    "2025-12-25",
+    "2026-01-01", "2026-01-19", "2026-02-16", "2026-04-03", "2026-05-25", "2026-06-19", "2026-07-03", "2026-09-07", "2026-11-26", "2026-12-25",
+    "2027-01-01", "2027-01-18", "2027-02-15", "2027-03-26", "2027-05-31", "2027-06-18", "2027-07-05", "2027-09-06", "2027-11-25", "2027-12-24"})
+US_EARLY_CLOSE = frozenset({"2025-12-24", "2026-11-27", "2026-12-24", "2027-11-26"})     # the US stock market closes 13:00 New York
+
+
+def ny_offset_h(t_ms: int) -> int:
+    """New York's offset from UTC in hours at t: -4 from the second Sunday of March 07:00 UTC (02:00 EST) to the first Sunday of November
+    06:00 UTC (02:00 EDT), else -5. Written out so the VM needs no time-zone database."""
+    d = datetime.fromtimestamp(t_ms / 1000, timezone.utc)
+
+    def sunday(month: int, n: int) -> datetime:
+        first = datetime(d.year, month, 1, tzinfo=timezone.utc)
+        return first + timedelta(days=(6 - first.weekday()) % 7 + 7 * (n - 1))
+    return -4 if sunday(3, 2) + timedelta(hours=7) <= d < sunday(11, 1) + timedelta(hours=6) else -5
+
+
+def market_open(sym: str, t_ms: int) -> bool:
+    """Is the market UNDER the perp open at t? Crypto: always. QQQ: 09:30-16:00 New York on trading days (13:00 on early-close days).
+    Gold: Sunday 18:00 to Friday 17:00 New York, shut 17:00-18:00 every day, shut on US holidays, from 13:00 on early-close days."""
+    if sym not in SESSION_SYMBOLS:
+        return True
+    ny = datetime.fromtimestamp(t_ms / 1000, timezone.utc) + timedelta(hours=ny_offset_h(t_ms))     # New York wall clock
+    day, wd, m = ny.strftime("%Y-%m-%d"), ny.weekday(), ny.hour * 60 + ny.minute
+    if day in US_HOLIDAYS:
+        return False
+    early = day in US_EARLY_CLOSE
+    if sym == "QQQUSDT":
+        return wd < 5 and 570 <= m < (780 if early else 960)
+    if wd == 5 or (wd == 6 and m < 1080) or (wd == 4 and m >= 1020) or (early and m >= 780):
+        return False
+    return not (1020 <= m < 1080)
+
+
+def can_call(sym: str, now: int, bar_start: int) -> bool:
+    """A call needs the market open both when the hour's job runs AND when the candle it reads began - a candle that spans a closure or a reopening
+    gap (a weekend, the overnight break) is not a chart a session trader sees."""
+    return market_open(sym, now) and market_open(sym, bar_start)
+
 
 def build(sym: str, method: str, side: str, price: float, stop: float, target: float | None, a1: float, why: str) -> dict | None:
     if target is None or desk.geometry_ok(side, price, stop, target):
@@ -355,7 +412,7 @@ def cycle(now: int | None = None, fetch=desk.klines, watch=WATCH) -> dict:
     st = load_state(now)
     rows = load_calls()
     resolved = score_open(st, rows, now, fetch)
-    levels, fired, bcache = {}, 0, {}
+    levels, fired, bcache, shut = {}, 0, {}, []
     for sym in watch:
         try:
             h1 = fetch(sym, "1h", None, None, 500)
@@ -369,6 +426,9 @@ def cycle(now: int | None = None, fetch=desk.klines, watch=WATCH) -> dict:
             continue
         price = h1[-1][4]
         levels[sym] = describe(sym, h1c, h4c, d1c, price)
+        if not can_call(sym, now, h1c[-1][0]):                                # the levels are still drawn; no call while the market is shut
+            shut.append(sym)
+            continue
         for sig in signals(sym, h1c, h4c, d1c, price):
             if allowed(rows, sym, sig["method"], now):
                 rows.append(new_call(st, rows, sig, h1c, now, fetch, bcache))
@@ -381,7 +441,8 @@ def cycle(now: int | None = None, fetch=desk.klines, watch=WATCH) -> dict:
     save_calls(rows)
     save_state(st)
     mark_day(now, st["equity"])
-    log(f"cycle: {resolved} resolved, {fired} new call(s), {sum(r['status'] == 'open' for r in rows)} open, book ${st['equity']:.2f}")
+    log(f"cycle: {resolved} resolved, {fired} new call(s), {sum(r['status'] == 'open' for r in rows)} open, book ${st['equity']:.2f}"
+        + (f"; market shut, no calls: {' '.join(shut)}" if shut else ""))
     return st
 
 
