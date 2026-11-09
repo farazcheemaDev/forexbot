@@ -62,6 +62,11 @@ function TopBar({ meta, want }) {
               <small className={tone(meta.momentum.equity - meta.momentum.start)}>{pct(meta.momentum.equity / meta.momentum.start - 1, { dp: 1 })}</small>
             </a>
           ) : null}
+          {meta?.leads ? (
+            <a href="/?acct=leads" className={want === "leads" ? "on" : ""}>
+              {ACCOUNT_NAMES.leads}<small>{(meta.leads.rows || []).length} records</small>
+            </a>
+          ) : null}
           {meta?.mood ? (
             <a href="/?acct=mood" className={want === "mood" ? "on" : ""}>
               {ACCOUNT_NAMES.mood}<small>F&amp;G {meta.mood.market?.fear_greed ?? "–"}</small>
@@ -1377,6 +1382,83 @@ function MomentumBook({ m }) {
   );
 }
 
+// ------------------------------------------------------------------ the Leads tab (dashboard_push.leads + backtest/forward_ledger.py)
+
+const LEAD_STATUS = {
+  "too early": ["Too early", "idle"], "on track": ["On track", "good"], "below the claim": ["Below its backtest", "warn"],
+  "below the line": ["Below its line", "warn"], "keep recording": ["Can't tell yet", "warn"], "held up": ["Held up", "good"],
+  "confirmed": ["Confirmed", "good"], "dead": ["Dead", "bad"], "RULE CHANGED": ["Rule changed - not scored", "bad"],
+};
+const LEAD_KIND = { "the product": "The product", "live paper": "Live paper", "inside the machine": "Inside the machine",
+  "forward replay": "Forward replay" };
+
+function leadVal(v, unit) {
+  if (v === null || v === undefined) return "–";
+  if (unit === "$") return usd(v);
+  if (unit === "R") return rStr(v, 3);
+  const s = `${v > 0 ? "+" : v < 0 ? "−" : ""}${Math.abs(v).toFixed(2)}`;
+  return unit === "%" ? `${s}%` : `${s}${unit || ""}`;
+}
+
+function leadCount(r) {
+  if (!r.n_label) return r.mean_label;
+  const n = r.n === null || r.n === undefined ? "–" : r.n_label === "weeks" ? Number(r.n).toFixed(1) : r.n;
+  const lab = r.n === 1 && /^[a-z]+s$/.test(r.n_label) ? r.n_label.slice(0, -1) : r.n_label;
+  return `${n} ${lab} · ${r.mean_label}`;
+}
+
+function LeadsBoard({ L }) {
+  const local = useMounted();
+  const rows = L?.rows || [];
+  const lg = L?.ledger;
+  return (
+    <>
+      <section className="card score">
+        <div className="card-h">
+          <div><h2>Leads · every forward record in one place</h2>
+            <div className="sub">Each of these looked good in a backtest. Only data that did not exist yet can show whether it is real, so each one is
+              recorded forward against a line written down before its first forward trade. Expect "too early" for a long time: a lead needs roughly
+              4 × its backtest years ÷ its backtest t² of new data to prove itself - years, not weeks. What a forward record can do sooner is catch
+              one that is clearly worse than its backtest.</div></div>
+          <span className="badge idle">{rows.length} records</span>
+        </div>
+        <div className="muted" style={{ fontSize: 12 }}>
+          {lg ? <>Forward replays (the last three rows) are re-run on the PC from the study files' own code, from {when(lg.forward_from, local)}:
+            last run {when(lg.generated, local)}, NASDAQ data up to {when(lg.minutes_to, local)}; next payrolls {when(lg.next_nfp, local)}, next Fed
+            statement {when(lg.next_fomc, local)}.{lg.rule_ok === false ? " A pinned rule changed - those rows are not scored." : ""}</>
+            : "The forward-replay ledger has not reached the VM yet; its three leads appear here once it has."}
+        </div>
+      </section>
+      <section className="card">
+        <div className="card-h"><div><h2>The records</h2>
+          <div className="sub">Record so far vs what the backtest said, in the same unit (R = multiples of the risk taken; % and bp per trade unless it says otherwise).</div></div></div>
+        <div className="scroll">
+          <table>
+            <thead><tr><th>Lead</th><th className="r">Record so far</th><th className="r">Backtest said</th><th>What decides it</th><th>Status</th></tr></thead>
+            <tbody>
+              {rows.map((r) => {
+                const st = LEAD_STATUS[r.status] || [r.status, "idle"];
+                return (
+                  <tr key={r.id}>
+                    <td className="lead-cell"><div className="sym">{r.name}</div><span className="badge idle">{LEAD_KIND[r.kind] || r.kind}</span>
+                      <div className="note">{r.what}</div>{r.started ? <div className="note">since {when(r.started, local)}</div> : null}</td>
+                    <td className="r"><div className={tone(r.unit === "$" ? r.mean - r.claim : r.mean)}>{leadVal(r.mean, r.unit)}</div>
+                      <div className="note">{leadCount(r)}</div></td>
+                    <td className="r lead-cell narrow"><div>{leadVal(r.claim, r.unit)}</div><div className="note">{r.claim_src}</div></td>
+                    <td className="lead-cell"><div className="note">{r.line}</div>
+                      <div className="note">{r.years ? `About ${r.years} years to prove at the backtest's size.` : `Decided: ${r.decide}.`}</div></td>
+                    <td className="lead-cell narrow"><span className={`badge ${st[1]}`}>{st[0]}</span>{r.note ? <div className="note">{r.note}</div> : null}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </>
+  );
+}
+
 // ------------------------------------------------------------------ the page
 
 export default function Dashboard({ meta, acct, want }) {
@@ -1395,6 +1477,8 @@ export default function Dashboard({ meta, acct, want }) {
           : <div className="alert info">The analyst desk has not reported yet - it runs hourly on the VM.</div>)
         : want === "momentum" ? (meta?.momentum ? <MomentumBook m={meta.momentum} />
           : <div className="alert info">The momentum book has not reported yet - it runs every 4 hours on the VM.</div>)
+        : want === "leads" ? (meta?.leads ? <LeadsBoard L={meta.leads} />
+          : <div className="alert info">The leads list has not reported yet - it is built every minute on the VM.</div>)
         : want === "mood" ? (meta?.mood ? <Mood m={meta.mood} />
           : <div className="alert info">No market-mood snapshot yet - it is written hourly on the VM.</div>)
         : !acct ? (

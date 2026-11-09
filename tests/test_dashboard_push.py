@@ -624,6 +624,77 @@ def test_the_next_4h_run():
     assert dp.next_4h_run(base + 3 * 3600) == base + 4 * 3600 + 30
 
 
+def _lead_inputs(equity=270.0, curve_h=None):
+    mo = dict(started=1794000000, n=12, mean_r=0.05, verdict="NOT YET - 12 resolved trades; kill check 2027-01-31, verdict 2027-04-09")
+    cr = dict(started="2026-10-23", start=300.0, equity=285.0, score=dict(weeks=2.3))
+    an = dict(sweet=dict(forward=dict(bets=4, mean_r_bet=-0.2, verdict="NOT YET - 4 of 30 independent bets")))
+    closed = [dict(book="news", pct=0.03), dict(book="news", pct=-0.01), dict(book="ndx", pct=0.02), dict(book="trend", pct=0.5),
+              dict(book="capit2", pct=None)]
+    accts = {"main": dict(started="2026-10-09", equity=equity, book_stats=dp.book_stats(closed), curve=dict(h=curve_h or []))}
+    ledger = dict(generated=1794200000, forward_from=1794182400, rule_ok=True,
+                  data=dict(next_nfp=1796391000, next_fomc=1796842800, nasdaq_minutes_to=1793387580),
+                  leads=[dict(id="gold_nfp", name="Gold payrolls straddle", what="w", unit="bp", claim=11.1, claim_src="s", years=10.7,
+                              n=2, mean=4.5, status="too early", events=[dict(t=2, value=4.5, note="long, fill +9.0bp past the level"),
+                                                                                 dict(t=1, value=4.5, note="short, fill +3.0bp past the level")]),
+                         dict(id="pre_fomc", name="NASDAQ before the Fed", what="w", unit="%", claim=0.25, claim_src="s", years=6.5,
+                              n=0, mean=None, status="RULE CHANGED", events=[])])
+    wick = dict(started="2026-09-25 05:17:34", led=dict(bitget=dict(fills=104, sum_net=0.5249)))
+    return mo, cr, an, accts, ledger, wick
+
+
+def test_the_leads_list_holds_every_forward_record_in_order():
+    mo, cr, an, accts, ledger, wick = _lead_inputs()
+    L = dp.leads(mo, cr, an, accts, 1794200000, ledger=ledger, wick=wick)
+    ids = [r["id"] for r in L["rows"]]
+    assert ids == ["machine", "rsi80", "crowd", "sweet", "wick", "news", "ndx", "capit2", "gold_nfp", "pre_fomc"]
+    R = {r["id"]: r for r in L["rows"]}
+    assert R["news"]["n"] == 2 and abs(R["news"]["mean"] - 1.0) < 1e-9 and R["ndx"]["n"] == 1 and R["capit2"]["n"] == 0
+    assert "trend" not in accts["main"]["book_stats"] and set(accts["main"]["book_stats"]) == {"news", "ndx"}
+    assert R["news"]["status"] == "too early" and R["capit2"]["status"] == "too early"
+    assert abs(R["wick"]["mean"] - 0.5249 / 104 * 100) < 1e-3 and R["wick"]["status"] == "on track"       # 0.505% >= 0.8 / 2
+    assert R["crowd"]["mean"] == -5.0 and R["crowd"]["status"] == "too early" and R["crowd"]["n"] == 2.3
+    assert R["rsi80"]["status"] == "too early" and R["sweet"]["status"] == "too early" and R["sweet"]["started"] == 1793977200
+    assert R["gold_nfp"]["mean"] == 4.5 and R["gold_nfp"]["note"] == "long, fill +9.0bp past the level" and R["pre_fomc"]["status"] == "RULE CHANGED"
+    assert L["ledger"]["next_nfp"] == 1796391000 and L["ledger"]["rule_ok"] is True
+    assert all(isinstance(r["line"], str) and r["line"] for r in L["rows"])
+
+
+def test_the_machine_row_reads_the_day_45_balance_once_it_exists():
+    mo, cr, an, accts, ledger, wick = _lead_inputs(equity=250.0)
+    m = dp.leads(None, None, None, accts, 1794200000)["rows"][0]
+    assert m["status"] == "below the line" and m["note"] == ""                        # before 23 Nov: the balance now
+    for v, want in ((262.0, "on track"), (259.0, "dead")):
+        _, _, _, acc, _, _ = _lead_inputs(equity=300.0, curve_h=[[dp.DAY45["ts"] - 3600, 100.0], [dp.DAY45["ts"] + 1800, v], [dp.DAY45["ts"] + 7200, 1.0]])
+        m = dp.leads(None, None, None, acc, dp.DAY45["ts"] + 86400)["rows"][0]
+        assert m["status"] == want and m["note"] == f"day-45 balance {v:.2f}", (v, m)
+
+
+def test_the_crowd_row_follows_its_dates():
+    L = dp.CROWD_LINES
+
+    def st(ret, now):
+        cr = dict(started="x", start=100.0, equity=100.0 * (1 + ret), score={})
+        return next(r for r in dp.leads(None, cr, None, {}, now)["rows"] if r["id"] == "crowd")["status"]
+    assert st(-0.20, L["kill_ts"] - 1) == "too early"
+    assert st(-0.08, L["kill_ts"]) == "below the line" and st(-0.07, L["kill_ts"]) == "on track"
+    assert st(-0.07, L["verdict_ts"]) == "dead" and st(0.17, L["verdict_ts"]) == "held up" and st(0.10, L["verdict_ts"]) == "keep recording"
+
+
+def test_status_words_and_progress():
+    assert dp.word_status("HELD UP (40 trades...)") == "held up" and dp.word_status("PASS - the registered bar is met") == "held up"
+    assert dp.word_status("DEAD - the kill line") == "dead" and dp.word_status("NO PASS - enough bets") == "dead"
+    assert dp.word_status("CANNOT TELL (x)") == "keep recording" and dp.word_status("NOT YET - 3 of 30") == "too early"
+    assert dp.progress(4, 9.0, 1.0) == "too early" and dp.progress(5, 0.5, 1.0) == "on track" and dp.progress(5, 0.49, 1.0) == "below the claim"
+    assert dp.progress(5, None, 1.0) == "too early"
+
+
+def test_no_ledger_no_forward_rows():
+    mo, cr, an, accts, _, _ = _lead_inputs()
+    L = dp.leads(mo, cr, an, accts, 1794200000)
+    assert L["ledger"] is None and not any(r["kind"] == "forward replay" for r in L["rows"])
+    assert not any(r["id"] == "wick" for r in L["rows"])
+
+
 if __name__ == "__main__":
     tests =[v for k, v in dict(globals()).items() if k.startswith("test_")]
     for fn in tests:

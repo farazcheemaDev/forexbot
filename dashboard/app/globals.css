@@ -148,6 +148,8 @@ th.r, td.r { text-align: right; }
 .etype { font-size: 11px; padding: 1px 6px; border-radius: 4px; background: var(--panel2); color: var(--muted); }
 .etype.traded { background: rgba(245, 197, 66, .15); color: var(--accent); }
 .headline { white-space: normal; min-width: 280px; max-width: 640px; }
+.lead-cell { white-space: normal; min-width: 180px; max-width: 320px; }
+.lead-cell.narrow { min-width: 120px; max-width: 220px; }
 
 /* ---------- footer */
 .foot { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; font-size: 12px; color: var(--muted); margin-top: 6px; }

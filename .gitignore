@@ -97,6 +97,7 @@ logs/analyst/
 logs/desk/
 # the RSI-80 momentum paper book (rsi80_paper.py, registered 2026-11-08): machine-local, like the others
 logs/rsi80/
+logs/leads/
 
 # local MCP config: the TradingView bridge lives in D:/TRADING/tradingview-mcp (this machine only)
 .mcp.json

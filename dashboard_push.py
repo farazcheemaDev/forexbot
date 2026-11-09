@@ -236,6 +236,18 @@ def closed_trades(d: Path) -> list:
     return out
 
 
+def book_stats(closed: list) -> dict:
+    """Per book: closed trades and their mean % (the Leads tab's record of the books that live inside the machine)."""
+    out = {}
+    for r in closed:
+        if r.get("book") in ("trend", None) or r.get("pct") is None:
+            continue
+        b = out.setdefault(r["book"], dict(n=0, sum=0.0))
+        b["n"] += 1
+        b["sum"] += r["pct"]
+    return {k: dict(n=v["n"], mean=round(v["sum"] / v["n"] * 100, 3)) for k, v in out.items()}
+
+
 def trade_stats(closed: list) -> dict:
     pn = [r["pnl"] for r in closed if r.get("pnl") is not None]
     wins = [x for x in pn if x > 0]
@@ -406,6 +418,7 @@ def account(acct: str, d: Path, prices: dict, now: int, write: bool, bands: dict
     news = fin.get("news", {}) or {}
     today = datetime.fromtimestamp(now, timezone.utc).strftime("%Y-%m-%d")
     return dict(
+        book_stats=book_stats(closed),
         id=acct, started=st.get("started"), start=START_EQUITY, equity=round(live, 2), booked=round(booked, 2),
         unrealized=round(unreal, 2), today=next((p for dy, p in cv["daily"] if dy == today), 0.0),
         peak=round(peak, 2), fall=round(1 - live / peak, 4) if peak else 0.0, max_dd=st.get("max_dd"),
@@ -822,6 +835,128 @@ def momentum(prices: dict, now: int) -> dict | None:
                            dead_r=rp.DEAD_R, extend=rp.EXTEND_DATE))
 
 
+# ------------------------------------------------------------------ the Leads tab: every forward record in one list
+
+LEADS_DIR = LOGS / "leads"                      # backtest/forward_ledger.py's ledger.json (replayed on the PC, copied here)
+WICK_STATE = LOGS / "wickp_state.json"
+DAY45 = dict(ts=1795392240, line=261.30)        # doc 22 s3b: the main account is stopped if under $261.30 at 2026-11-23 00:04 UTC
+CROWD_LINES = dict(kill_ts=1800835200, kill=-0.078, verdict_ts=1807228800, dead=-0.066, held=0.168)   # news/crowd_paper.py's docstring
+WICK_VERDICT_TS = 1805932800                    # wick_paper.py: verdict at 6 months (from 2026-09-25) with 60+ Bitget fills, else 12
+MACHINE_BOOKS = (                               # books inside the final machine: no line of their own, decided with the machine
+    ("news", "News book", "Shorts a coin (long BTC beside it) 15 minutes after Binance tags it for monitoring or adds a product for it; "
+     "out within 72 hours.", 2.67, "news/entry.py: +3.16% / +2.67% a trade (tune / holdout), 313 trades"),
+    ("ndx", "NASDAQ dip-buy", "Buys NASDAQ (QQQ) after a sharp down day (RSI(2) under 10); out at the first close above the 5-day average.",
+     0.95, "ndx_capit.py: +0.95% a trade, ~12 a year, 1999-2026"),
+    ("capit2", "Capitulation buy", "A limit buy 2% under a coin that fell 10%+ in 24 hours (when several coins capitulate); out at +5% or "
+     "after a set time.", 3.0, "capit_stack.py: +3.0% / +4.3% a trade, all four bar phases"),
+)
+
+
+def progress(n, mean, claim, n_min=5):
+    """For a record with no line of its own yet: too early under n_min, else on track at half the claim or better."""
+    if not n or n < n_min or mean is None:
+        return "too early"
+    return "on track" if mean >= claim / 2 else "below the claim"
+
+
+def word_status(v: str) -> str:
+    """A book's own verdict sentence -> one of the tab's status words."""
+    s = str(v or "")
+    if s.startswith(("HELD UP", "PASS")):
+        return "held up"
+    if s.startswith(("DEAD", "NO PASS")):
+        return "dead"
+    if s.startswith("CANNOT TELL"):
+        return "keep recording"
+    return "too early"
+
+
+def curve_value_at(acct: dict, ts: int):
+    """The account's balance at the first hourly point at or after ts (None if the curve has not reached it)."""
+    for t, v in (acct.get("curve") or {}).get("h") or []:
+        if t >= ts:
+            return v
+    return None
+
+
+def leads(mo, cr, an, accts: dict, now: int, ledger=None, wick=None) -> dict:
+    rows = []
+    a = (accts or {}).get("main")
+    if a:
+        v = curve_value_at(a, DAY45["ts"])
+        st = ("dead" if v < DAY45["line"] else "on track") if v is not None else (
+            "on track" if a["equity"] >= DAY45["line"] else "below the line")
+        rows.append(dict(id="machine", name="The machine (main account)", kind="the product", started=a.get("started"),
+                         what="All the books together on one $300 paper account - the thing real money would go into.",
+                         n=None, n_label="", mean=a["equity"], unit="$", mean_label="balance now", claim=DAY45["line"],
+                         claim_src="doc 22 s3b: the day-45 line ($261.30 = -12.9%)", decide="23 Nov 2026 (day 45), then 9 Apr 2027",
+                         line="Stopped if under $261.30 on 23 Nov 2026 00:04 UTC; the money verdict is 9 Apr 2027 (doc 22).",
+                         status=st, years=None, note=f"day-45 balance {v:.2f}" if v is not None else ""))
+    if mo:
+        rows.append(dict(id="rsi80", name="RSI-80 momentum", kind="live paper", started=mo.get("started"),
+                         what="Buys a coin when its 4-hour RSI jumps above 80; wide stop, target 4R, out after 4 days.",
+                         n=mo.get("n"), n_label="trades", mean=mo.get("mean_r"), unit="R", mean_label="a trade", claim=0.138,
+                         claim_src="rsi80_more.py: +0.138R a trade on coins it had never seen (day-vote t 1.80)", decide="9 Apr 2027",
+                         line="Stopped on 31 Jan 2027 if worse than -0.24R a trade after 30+; on 9 Apr 2027 held up at +0.072R or better "
+                              "with the book above $300, dead under -0.107R, else runs to Oct 2027.",
+                         status=word_status(mo.get("verdict")), years=6.0, note=""))
+    if cr:
+        ret = cr["equity"] / cr["start"] - 1
+        L = CROWD_LINES
+        if now < L["kill_ts"]:
+            st = "too early"
+        elif now < L["verdict_ts"]:
+            st = "below the line" if ret < L["kill"] else "on track"
+        else:
+            st = "dead" if ret < L["dead"] else ("held up" if ret >= L["held"] else "keep recording")
+        weeks = (cr.get("score") or {}).get("weeks")
+        rows.append(dict(id="crowd", name="Crowd squeeze", kind="live paper", started=cr.get("started"),
+                         what="Long the coins the crowd is most short, short the ones it is most long; rebalanced weekly in two halves.",
+                         n=weeks, n_label="weeks", mean=round(ret * 100, 2), unit="%", mean_label="since the start", claim=18.4,
+                         claim_src="positioning_hist.py --band: median 26 weeks +18.4%, 1 in 10 under -6.5%", decide="9 Apr 2027",
+                         line="Stopped on 25 Jan 2027 if under -7.8%; on 9 Apr 2027 dead under -6.6%, held up at +16.8% or better.",
+                         status=st, years=None, note=""))
+    sw = ((an or {}).get("sweet") or {}).get("forward")
+    if sw:
+        rows.append(dict(id="sweet", name="Analyst desk sweet spot", kind="live paper", started=SWEET_REGISTERED_MS // 1000,
+                         what="The desk's chart calls with a stop at least 0.8% away, counted as independent bets (one per day and side).",
+                         n=sw.get("bets"), n_label="of 30 bets", mean=sw.get("mean_r_bet"), unit="R", mean_label="a bet", claim=0.15,
+                         claim_src="analyst_sweetspot.py: 13 of 28 calls won in the desk's own record (found after looking)",
+                         decide="at 30 bets", line="At 30 bets: mean +0.15R a bet or better, t >= 2, wins above the random odds, both halves positive.",
+                         status=word_status(sw.get("verdict")), years=None, note=sw.get("verdict", "")))
+    led = ((wick or {}).get("led") or {}).get("bitget")
+    if led:
+        n = int(led.get("fills", 0))
+        m = round(led.get("sum_net", 0.0) / n * 100, 3) if n else None
+        rows.append(dict(id="wick", name="Crash bids", kind="live paper", started=wick.get("started"),
+                         what="Resting buys 10% under the top-40 coins (none on bear days, at most 10 fills an hour), sold at the hour's close.",
+                         n=n, n_label="fills", mean=m, unit="%", mean_label="a fill", claim=0.8,
+                         claim_src="wick_bitget.py: +1.01% a kept fill on Bitget 2022-26; expected +0.8-1.0%",
+                         decide="25 Mar 2027", line="Verdict at 6 months with 60+ Bitget fills (25 Mar 2027), else at 12 months.",
+                         status=progress(n, m, 0.8), years=None, note=""))
+    bs = (a or {}).get("book_stats") or {}
+    for book, name, what, claim, src in MACHINE_BOOKS:
+        b = bs.get(book) or {}
+        rows.append(dict(id=book, name=name, kind="inside the machine", started=(a or {}).get("started"), what=what,
+                         n=b.get("n", 0), n_label="trades", mean=b.get("mean"), unit="%", mean_label="a trade", claim=claim, claim_src=src,
+                         decide="9 Apr 2027 (with the machine)", line="No line of its own: it is judged as part of the machine.",
+                         status=progress(b.get("n", 0), b.get("mean"), claim), years=None, note=""))
+    for x in (ledger or {}).get("leads", []):
+        st = x.get("status", "too early")
+        rows.append(dict(id=x["id"], name=x["name"], kind="forward replay", started=(ledger or {}).get("forward_from"), what=x.get("what", ""),
+                         n=x.get("n"), n_label="trades", mean=None if x.get("mean") is None else round(x["mean"], 4), unit=x.get("unit"),
+                         mean_label="a trade", claim=x.get("claim"), claim_src=x.get("claim_src", ""), decide="when the record allows",
+                         line="Dead if the average falls more than 2 standard errors under the backtest claim (5+ trades); confirmed at "
+                              "t >= 2 after Holm across the ledger's leads.",
+                         status="RULE CHANGED" if st == "RULE CHANGED" else st, years=x.get("years"),
+                         note="; ".join(e["note"] for e in (x.get("events") or [])[:1] if e.get("note"))))
+    lg = ledger or {}
+    return dict(rows=rows, ledger=dict(generated=lg.get("generated"), forward_from=lg.get("forward_from"),
+                                       next_nfp=(lg.get("data") or {}).get("next_nfp"), next_fomc=(lg.get("data") or {}).get("next_fomc"),
+                                       minutes_to=(lg.get("data") or {}).get("nasdaq_minutes_to"), rule_ok=lg.get("rule_ok"))
+                if ledger else None)
+
+
 def build(write: bool = False) -> tuple:
     prices = binance_prices()
     if not prices:
@@ -840,7 +975,9 @@ def build(write: bool = False) -> tuple:
                       if cr else []) + ([dict(name="Analyst desk paper", equity=an["equity"], start=an["start"], started=an["started"])]
                                         if an else []) + ([dict(name="Momentum book paper", equity=mo["equity"], start=mo["start"], started=mo["started"])]
                                                           if mo else [])
-    meta = dict(generated=now, btc=prices.get("BTCUSDT"), health=health(), others=oth, mood=mood(), crowd=cr, analyst=an, momentum=mo, wallet=wallet_view(),
+    ld = leads(mo, cr, an, accts, now, ledger=jload(LEADS_DIR / "ledger.json"), wick=jload(WICK_STATE))
+    meta = dict(generated=now, btc=prices.get("BTCUSDT"), health=health(), others=oth, mood=mood(), crowd=cr, analyst=an, momentum=mo, leads=ld,
+                wallet=wallet_view(),
                 accounts=[dict(id=a["id"], started=a["started"], equity=a["equity"], start=a["start"])
                           for a in accts.values()])
     return meta, accts
