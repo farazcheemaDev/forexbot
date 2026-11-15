@@ -67,32 +67,29 @@ export function liveFromHere(c) {
   return Math.abs(px - c.stop) / px >= SCALP_STOP;
 }
 
-// The call the panel opens on, so nobody has to choose a method: among the open sweet-spot calls still worth entering from here, the newest that
-// counts in the forward test and goes AGAINST the market's state (`lean`, analyst.py's amendment of 2026-11-15: on the replay such calls beat the
-// rest by about 4 points of hit rate, found after looking); failing that the newest that counts; then the newest 'against' call that does not count;
-// then the newest of the rest; failing that none. `scored(c)` says whether a call counts in the test. Middle and scalp-sized calls are never the pick.
+// The call the panel opens on, so nobody has to choose a method: the newest open sweet-spot call that is still worth entering from here and counts in
+// the forward test; failing that the newest such call that does not count; failing that none. `scored(c)` says whether a call counts in the test.
+// Middle and scalp-sized calls are never the pick. The market's mood plays no part (2026-11-15: it made no difference in money on the replay).
 export function todaysPick(calls, scored) {
   const sweet = calls.filter((c) => c.sw && c.sw.kind === "sweet" && liveFromHere(c));
   const newest = (xs) => xs.reduce((best, c) => (best === null || c.id > best.id ? c : best), null);
-  const against = (c) => c.lean === "against";
-  return newest(sweet.filter((c) => scored(c) && against(c))) || newest(sweet.filter((c) => scored(c)))
-    || newest(sweet.filter(against)) || newest(sweet);
+  return newest(sweet.filter((c) => scored(c))) || newest(sweet);
 }
 
-// A trader's grade for one open desk idea, from what the data supports: the stop size (the desk's ideas with a stop of 0.8% or more are its
-// best-recorded kind; under that they have lost), whether it is still worth entering from the price now, and the market's mood (analyst.py's
-// amendment of 2026-11-15: ideas AGAINST the mood hit more often on the replays). "best" = room, still live, against the mood; "ok" = room and
-// still live but with the mood or with no mood (gold, Nasdaq); "skip" = a tight stop or the price has already run. None of them is proven.
-// `reasons` are short chips, each { text, good }.
+// A trader's grade for one open desk idea, from what the money on the replay supports (backtest/analyst_grades.py): the stop size - ideas with a
+// stop of 0.8% or more lost about -0.12R each, tighter ones about -0.31R - and whether it is still worth entering from the price now. "room" = a
+// stop of 0.8% or more and still live; "skip" = a tighter stop or the price has already run. The market's mood is shown as information only
+// (good = null): ideas with and against it hit the take-profit equally often (corrected 2026-11-15). Neither grade is proven to make money.
+// `reasons` are short chips, each { text, good } with good true / false / null (neutral).
 export function gradeCall(c) {
   const sw = c.sw || {};
   const live = liveFromHere(c);
   const reasons = [];
   if (Number.isFinite(sw.stop_pct)) reasons.push({ text: `stop ${(sw.stop_pct * 100).toFixed(1)}% away`, good: sw.kind === "sweet" });
-  if (c.lean) reasons.push({ text: c.lean === "against" ? "against the market's mood" : "with the market's mood", good: c.lean === "against" });
   if (Number.isFinite(sw.rr_now)) reasons.push({ text: `reward ${sw.rr_now.toFixed(1)}x the risk from here`, good: sw.rr_now >= 1.5 });
   reasons.push({ text: live ? "price still between stop and target" : "price has already run", good: live });
-  const grade = sw.kind !== "sweet" || !live ? "skip" : c.lean === "against" ? "best" : "ok";
+  if (c.lean) reasons.push({ text: c.lean === "against" ? "against the market's mood" : "with the market's mood", good: null });
+  const grade = sw.kind === "sweet" && live ? "room" : "skip";
   return { grade, reasons };
 }
 

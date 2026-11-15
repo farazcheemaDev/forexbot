@@ -265,6 +265,7 @@ details.more[open] > summary { margin-bottom: 14px; }
 .rz { font-size: 12px; border-radius: 999px; padding: 3px 9px; white-space: nowrap; }
 .rz.ok { color: var(--up); background: var(--up-bg); }
 .rz.no { color: var(--down); background: var(--down-bg); }
+.rz.info { color: var(--muted); background: var(--panel); }
 .lv4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
 .lv4 > div { background: var(--panel); border-radius: 8px; padding: 8px 10px; display: grid; gap: 1px; min-width: 0; }
 .lv4 span { font-size: 11px; color: var(--muted); }

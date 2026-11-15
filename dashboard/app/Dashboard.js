@@ -725,7 +725,7 @@ function oddsLine(h) {
 const SIZE_KEY = "sizepanel.v2";
 const SIZE_DEFAULTS = { bal: "20", risk: "1", lev: "", entry: "now", side: "long", e: "", s: "", t: "" };       // lev empty = the bot's suggestion
 const SAFETY = { ok: ["Safe", "good"], tight: ["Close", "warn"], danger: ["Danger", "bad"] };
-const GRADE = { best: ["Best setup", "good"], ok: ["Weaker setup", "warn"], skip: ["Skip", "bad"] };
+const GRADE = { room: ["Has room", "good"], skip: ["Skip", "bad"] };
 
 // How big a position would be, what a stop-out costs and how far liquidation is, for one open desk call or a trade typed by hand.
 // The arithmetic is lib/size.mjs (the desk's rules); the warnings are lib/sizepanel.mjs; both are tested. Nothing here can place an order.
@@ -777,7 +777,7 @@ function SizePanel({ calls, scored, bets, needed, scalp }) {
             <span className="note">{star && call.id === star.id ? "the bot's pick" : "your choice"}{scored(call) ? " · counts in the test" : ""}</span>
           </div>
           <div className="sig-why">{plainSetup(call.method, call.side)} · logged {when(call.made, local)}</div>
-          <div className="reasons">{g.reasons.map((x) => <span key={x.text} className={`rz ${x.good ? "ok" : "no"}`}>{x.good ? "✓" : "✗"} {x.text}</span>)}</div>
+          <div className="reasons">{g.reasons.map((x) => <span key={x.text} className={`rz ${x.good === null ? "info" : x.good ? "ok" : "no"}`}>{x.good === null ? "·" : x.good ? "✓" : "✗"} {x.text}</span>)}</div>
           <div className="lv4">
             <div><span>Entry</span><b>{priceFmt(lv.entry)}</b><small>{v.entry === "now" ? "price now" : "as logged"}</small></div>
             <div><span>Stop-loss</span><b className="down">{priceFmt(lv.stop)}</b><small>{r ? `${pct(r.stopPct, { dp: 2, sign: false })} away` : ""}</small></div>
@@ -931,30 +931,26 @@ function DeskIntro({ a }) {
           {scalp.n ? <> Ideas with a tiny stop (under 0.4%) hit {scalp.wins} of {scalp.n}, so avoid those.</> : null}</li> : null}
         {sweet.n ? <li><b>Why it is not trusted yet:</b> that pocket is only {sweet.bets} independent bets, and it was found by looking at the results afterwards, so it flatters. A fair test started on {sw.registered}:
           it needs {fw.needed ?? 30} bets and has {fw.bets ?? 0}{fw.bets ? <> (average {rTxt(fw.mean_r_bet)} a bet so far)</> : null}. Expect a verdict around early December.</li> : null}
-        {a.lean ? <li><b>New since 15 Nov, the market's mood:</b> every idea on BTC, ETH, SOL, XRP and BNB is tagged with or against the market's mood (a long while the alts are falling goes against it).
-          On four years of the desk's replayed ideas the ones against the mood hit about 4 points more often than the rest, in every year from 2022 to 2026. That was found after looking and those ideas still lost money,
-          so it is being tested on new ideas{(a.lean.forward || {}).verdict ? <>: {a.lean.forward.verdict.startsWith("NOT YET") ? `${a.lean.forward.against?.bets ?? 0} against and ${a.lean.forward.with?.bets ?? 0} with, of ${a.lean.forward.needed ?? 30} bets each` : a.lean.forward.verdict}</> : null}.
-          The bot's pick prefers an idea against the mood.</li> : null}
+        {a.lean ? <li><b>The market's mood (since 15 Nov):</b> every idea on BTC, ETH, SOL, XRP and BNB is tagged with or against the market's mood. On four years of the desk's replayed ideas the two kinds
+          reached the take-profit equally often and lost about the same, so the mood does not change the grade or the pick; it is shown for context and its registered test runs on new ideas
+          {(a.lean.forward || {}).verdict ? <> ({a.lean.forward.verdict.startsWith("NOT YET") ? `${a.lean.forward.against?.bets ?? 0} against and ${a.lean.forward.with?.bets ?? 0} with, of ${a.lean.forward.needed ?? 30} bets each` : a.lean.forward.verdict})</> : null}.
+          What does matter: ideas with a stop of 0.8% or more lost about 0.12R each on the replay, tighter ones about 0.31R.</li> : null}
       </ul>
       <p>So treat every signal as a small experiment: risk 1% or less of money you can afford to lose.</p>
     </section>
   );
 }
 
-// The market's mood when the desk last ran (analyst.py's amendment of 2026-11-15) and which side of a trade goes against it now.
+// The market's mood when the desk last ran (analyst.py's amendment of 2026-11-15), shown as context: in money it made no difference on the replay.
 function MarketMood({ m, lean }) {
   if (!m || !m.btc || !m.fuel || m.alt30 === null || m.alt30 === undefined) return null;
-  const bleed = m.alt30 <= -0.15;
-  const longAgainst = m.fuel === "LOW" || bleed;
-  const shortAgainst = !(bleed || m.btc === "bear");
-  const side = longAgainst && shortAgainst ? "longs and shorts" : longAgainst ? "LONGS" : shortAgainst ? "SHORTS" : "neither side";
   return (
     <div className="mood">
       <span className="note">Market mood</span>
       <span className="chip-s">BTC {m.btc}</span>
       <span className="chip-s">alts {pct(m.alt30, { dp: 0 })} in 30 days</span>
       <span className="chip-s">{m.fuel === "LOW" ? "few alts running" : m.fuel === "HIGH" ? "many alts running" : "some alts running"}</span>
-      <span className="note">→ the better side now: <b>{side}</b></span>
+      <span className="note">for context only: on the replay it did not change how ideas paid</span>
     </div>
   );
 }
@@ -962,7 +958,7 @@ function MarketMood({ m, lean }) {
 // Every open idea in one line each, best first, so the whole board reads at a glance.
 function OpenIdeas({ calls, local }) {
   if (!calls.length) return null;
-  const rank = { best: 0, ok: 1, skip: 2 };
+  const rank = { room: 0, skip: 1 };
   const rows = calls.map((c) => ({ c, g: gradeCall(c) })).sort((x, y) => rank[x.g.grade] - rank[y.g.grade] || y.c.id - x.c.id);
   return (
     <div className="ideas">

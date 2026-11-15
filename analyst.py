@@ -65,7 +65,12 @@ AMENDED 2026-11-15 14:00 UTC, at the user's word ("add our findings to the analy
   halves and in every year 2022-26. That was found after looking (post hoc), and those calls still lost money (-0.16 / -0.23R a call).
   From now each call records the market state (btc = BTC's label from its closed daily bars, market_neutral.btc_regime's rule; fuel and alt30 =
   the fuel gauge's state and the median top-40 alt's 30-day move from logs/mood/mood.json when it is under 6 hours old) and its LEAN ('against' /
-  'with'; '' for gold, QQQ or an unknown state). The dashboard's pick prefers 'against' calls.
+  'with'; '' for gold, QQQ or an unknown state).
+  CORRECTED the same day (the user: "are you sure 'with market mood' means not good?"): in MONEY the mood makes no difference on the replay - calls
+  against and with it reached the target equally often (stop >= 0.8%: 16.9% vs 17.0%, 14.1% vs 15.2%) and lost about the same (per bet, against
+  minus with +0.006 / -0.056R, t 0.1 / -0.7); the '+3.7 / +3.8 points' came from the random baseline, which is higher when a call goes with the
+  drift. So the dashboard's grade and pick do NOT use the lean (they did for about two hours, commits 1a4f9d7 / 258c764). The lean stays recorded
+  and lean_test runs unchanged as registered: it measures hit rate over random odds, which is not the same as making money.
   REGISTERED (lean_test): resolved calls made from 2026-11-15 14:00 UTC; a bet = the calls of one UTC day and direction (they share one lean),
   scored as hit rate minus random odds; after 30 bets of EACH lean: PASS if against minus with > 0 with Welch t >= 2, else NO PASS. My prior that
   it passes: about 30% (the replay's t is 2.0-2.5 per half, so the forward sample has about half the power needed). The live fuel state uses the

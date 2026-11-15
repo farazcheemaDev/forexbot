@@ -153,14 +153,12 @@ def test_the_bots_pick_is_the_newest_live_sweet_spot_call_that_counts_in_the_tes
     assert pick(calls[:3] + [mk(95, "mid"), mk(96, "scalp")], []) == 88    # newer middle / scalp calls are never the pick
 
 
-def test_the_pick_prefers_a_call_against_the_markets_state():
+def test_the_mood_plays_no_part_in_the_pick():
     calls = [mk(84, lean="against"), mk(86, lean="with"), mk(88, lean="")]
-    assert pick(calls, [84, 86, 88]) == 84               # all count: the 'against' call beats newer ones
-    assert pick(calls, [86, 88]) == 88                   # the 'against' call does not count: counting beats leaning
-    assert pick(calls, []) == 84                         # none counts: the 'against' call first
-    assert pick([mk(84, lean="with"), mk(86, lean="with")], [84, 86]) == 86      # no 'against' call: the newest, as before
-    assert pick([mk(84, lean="against", mark=98.1), mk(86, lean="with")], [84, 86]) == 86    # an 'against' call the price ran through is not chosen
-    assert pick([mk(84, "mid", lean="against"), mk(86, lean="with")], [84, 86]) == 86        # nor a middle-sized one
+    assert pick(calls, [84, 86, 88]) == 88               # the newest that counts, whatever its mood
+    assert pick(calls, [84, 86]) == 86
+    assert pick(calls, []) == 88
+    assert pick([mk(84, lean="with"), mk(86, lean="against", mark=98.1)], [84, 86]) == 84     # the price ran through the newer one
 
 
 def grade(c):
@@ -170,16 +168,17 @@ def grade(c):
 def test_each_open_idea_gets_a_traders_grade():
     sw = lambda **k: dict(dict(kind="sweet", valid=True, stop_pct=0.02, rr_now=2.5), **k)  # noqa: E731
     g = grade(mk(1, sw=sw(), lean="against"))
-    assert g["grade"] == "best"
-    assert [x["text"] for x in g["reasons"]] == ["stop 2.0% away", "against the market's mood", "reward 2.5x the risk from here", "price still between stop and target"]
-    assert all(x["good"] for x in g["reasons"])
-    assert grade(mk(1, sw=sw(), lean="with"))["grade"] == "ok"
-    assert grade(mk(1, sw=sw(), lean=""))["grade"] == "ok"                                  # gold / Nasdaq: no mood
+    assert g["grade"] == "room"
+    assert g["reasons"] == [dict(text="stop 2.0% away", good=True), dict(text="reward 2.5x the risk from here", good=True),
+                            dict(text="price still between stop and target", good=True), dict(text="against the market's mood", good=None)]
+    w = grade(mk(1, sw=sw(), lean="with"))
+    assert w["grade"] == "room" and w["reasons"][-1] == dict(text="with the market's mood", good=None)        # the mood never changes the grade
+    assert grade(mk(1, sw=sw(), lean=""))["grade"] == "room" and len(grade(mk(1, sw=sw(), lean=""))["reasons"]) == 3   # gold / Nasdaq: no mood chip
     t = grade(mk(1, sw=sw(kind="mid", stop_pct=0.006), lean="against"))
     assert t["grade"] == "skip" and t["reasons"][0] == dict(text="stop 0.6% away", good=False)
-    r = grade(mk(1, sw=sw(), lean="against", mark=98.2))                                   # the price ran most of the way to the stop
-    assert r["grade"] == "skip" and r["reasons"][-1] == dict(text="price has already run", good=False)
-    assert grade(mk(1, sw=sw(rr_now=1.2), lean="against"))["reasons"][2]["good"] is False
+    r = grade(mk(1, sw=sw(), lean="with", mark=98.2))                                     # the price ran most of the way to the stop
+    assert r["grade"] == "skip" and r["reasons"][2] == dict(text="price has already run", good=False)
+    assert grade(mk(1, sw=sw(rr_now=1.2)))["reasons"][1]["good"] is False
     assert grade(dict(id=1, side="long", entry=100, stop=98, target=105, mark=100))["grade"] == "skip"   # no sweet-spot block
 
 
