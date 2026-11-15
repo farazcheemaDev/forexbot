@@ -67,13 +67,16 @@ export function liveFromHere(c) {
   return Math.abs(px - c.stop) / px >= SCALP_STOP;
 }
 
-// The call the panel opens on, so nobody has to choose a method: the newest open sweet-spot call that is still worth entering from here and counts in
-// the forward test; failing that the newest such call that does not count; failing that none. `scored(c)` says whether a call counts in the test.
-// Middle and scalp-sized calls are never the pick.
+// The call the panel opens on, so nobody has to choose a method: among the open sweet-spot calls still worth entering from here, the newest that
+// counts in the forward test and goes AGAINST the market's state (`lean`, analyst.py's amendment of 2026-11-15: on the replay such calls beat the
+// rest by about 4 points of hit rate, found after looking); failing that the newest that counts; then the newest 'against' call that does not count;
+// then the newest of the rest; failing that none. `scored(c)` says whether a call counts in the test. Middle and scalp-sized calls are never the pick.
 export function todaysPick(calls, scored) {
   const sweet = calls.filter((c) => c.sw && c.sw.kind === "sweet" && liveFromHere(c));
   const newest = (xs) => xs.reduce((best, c) => (best === null || c.id > best.id ? c : best), null);
-  return newest(sweet.filter((c) => scored(c))) || newest(sweet);
+  const against = (c) => c.lean === "against";
+  return newest(sweet.filter((c) => scored(c) && against(c))) || newest(sweet.filter((c) => scored(c)))
+    || newest(sweet.filter(against)) || newest(sweet);
 }
 
 // What the desk's rule saw, in plain words, instead of its jargon.

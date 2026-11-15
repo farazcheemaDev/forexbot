@@ -483,6 +483,117 @@ def test_the_cycle_draws_levels_but_makes_no_call_while_the_underlying_is_shut()
     assert [r["method"] for r in an.load_calls()] == ["SR"]                          # crypto at the shut hour: unchanged
 
 
+def _daily(closes, t0=NOW - 200 * D1):
+    return [(t0 + i * D1, c, c * 1.01, c * 0.99, c) for i, c in enumerate(closes)]
+
+
+def test_btc_label_is_market_neutrals_rule_on_closed_daily_bars():
+    up = [100 * 1.004 ** i for i in range(80)]                                             # last close over its 50-day mean, mean +8% over 20 days
+    down = [100 * 0.996 ** i for i in range(80)]
+    assert an.btc_label(_daily(up)) == "bull" and an.btc_label(_daily(down)) == "bear"
+    assert an.btc_label(_daily([100.0] * 80)) == "chop"                                   # flat: the slope is 0
+    assert an.btc_label(_daily(up[:69])) is None                                           # needs 70 closes
+    dip = up[:-1] + [up[-1] * 0.80]                                                        # the mean still rises, the close is under it
+    assert an.btc_label(_daily(dip)) == "chop"
+    c = [100.0] * 50 + [100 * 1.0011 ** i for i in range(30)]                             # mean up less than 2% over 20 days
+    assert an.btc_label(_daily(c)) == "chop"
+    step = [100.0] * 25 + [110 * (1 + 0.0001 * k) for k in range(55)]                    # +2.8% over 20 days, under 1% over 10: the 20-day rule
+    assert an.btc_label(_daily(step)) == "bull"
+    slide = [100 * 0.99925 ** i for i in range(80)]                                       # the mean down about 1.5% over 20 days: not yet a bear
+    assert an.btc_label(_daily(slide)) == "chop"
+
+
+def _mood(d, t, state="LOW", med=-0.33):
+    p = Path(d) / "mood.json"
+    p.write_text(__import__("json").dumps(dict(t=t, market=dict(fuel=dict(state=state, med=med)))))
+    return p
+
+
+def test_read_fuel_uses_a_fresh_snapshot_only():
+    d = tempfile.mkdtemp()
+    stamp = lambda ms: desk.ts(ms) + " UTC"  # noqa: E731
+    assert an.read_fuel(NOW, _mood(d, stamp(NOW - 2 * H1))) == ("LOW", -0.33)
+    assert an.read_fuel(NOW, _mood(d, stamp(NOW - 7 * H1))) == (None, None)               # over 6 hours old
+    assert an.read_fuel(NOW, _mood(d, stamp(NOW + 2 * H1))) == (None, None)               # from the future: not trusted
+    assert an.read_fuel(NOW, _mood(d, stamp(NOW), med=None)) == (None, None)
+    p = Path(d) / "bad.json"
+    p.write_text("{not json")
+    assert an.read_fuel(NOW, p) == (None, None) and an.read_fuel(NOW, Path(d) / "missing.json") == (None, None)
+
+
+def test_the_lean_of_a_call():
+    run = dict(btc="bull", fuel="HIGH", alt30=0.05)
+    bleed = dict(btc="chop", fuel="MID", alt30=-0.20)
+    low = dict(btc="bull", fuel="LOW", alt30=0.0)
+    bear = dict(btc="bear", fuel="MID", alt30=0.0)
+    line = dict(btc="bull", fuel="MID", alt30=-0.15)
+    assert an.lean_of("BTCUSDT", "long", run) == "with" and an.lean_of("BTCUSDT", "short", run) == "against"
+    assert an.lean_of("ETHUSDT", "long", bleed) == "against" and an.lean_of("ETHUSDT", "short", bleed) == "with"
+    assert an.lean_of("SOLUSDT", "long", low) == "against" and an.lean_of("SOLUSDT", "short", low) == "against"
+    assert an.lean_of("XRPUSDT", "short", bear) == "with" and an.lean_of("XRPUSDT", "long", bear) == "with"
+    assert an.lean_of("BNBUSDT", "long", line) == "against"                                # exactly -15% counts as a bleed
+    assert an.lean_of("XAUUSDT", "long", bleed) == "" and an.lean_of("QQQUSDT", "short", run) == ""
+    assert an.lean_of("BTCUSDT", "long", dict(run, fuel=None)) == "" and an.lean_of("BTCUSDT", "long", None) == ""
+
+
+def _row(i, day, side, lean, win, base=0.2, made_ms=None, status=None):
+    return dict(id=i, made_utc=f"{day} 10:07", made_ms=str(made_ms if made_ms is not None else an.LEAN_REGISTERED_MS + i), side=side, lean=lean,
+                status=status or ("WIN" if win else "LOSS"), base_p=str(base))
+
+
+def test_lean_test_scores_bets_since_the_registration():
+    rows = [_row(1, "2026-11-16", "long", "against", 1), _row(2, "2026-11-16", "long", "against", 0),    # one bet: 0.5 - 0.2 = +0.3
+            _row(3, "2026-11-17", "short", "with", 0), _row(4, "2026-11-18", "short", "with", 1, base=0.4),
+            _row(5, "2026-11-14", "long", "against", 1, made_ms=an.LEAN_REGISTERED_MS - 1),            # before the registration: out
+            _row(6, "2026-11-19", "long", "", 1), _row(7, "2026-11-19", "long", "against", 1, status="open")]
+    r = an.lean_test(rows)
+    assert r["against"]["bets"] == 1 and abs(r["against"]["ex"] - 0.3) < 1e-12
+    assert r["with"]["bets"] == 2 and abs(r["with"]["ex"] - ((-0.2 + 0.6) / 2)) < 1e-12
+    assert r["t"] is None and r["verdict"].startswith("NOT YET - 1 against / 2 with")
+    many = []
+    for k in range(30):
+        many += [_row(100 + k, f"2026-12-{k % 28 + 1:02d}", "long", "against", k % 3 != 0), _row(200 + k, f"2026-12-{k % 28 + 1:02d}", "short", "with", k % 5 == 0)]
+    v = an.lean_test(many)
+    assert v["against"]["bets"] == 28 and v["verdict"].startswith("NOT YET")              # 30 calls on 28 days = 28 bets
+    many += [_row(300 + k, f"2027-01-{k + 1:02d}", s, ln, w) for k in range(3) for s, ln, w in (("long", "against", 1), ("short", "with", 0))]
+    v = an.lean_test(many)
+    assert v["against"]["bets"] == 31 and v["with"]["bets"] == 31 and v["diff"] > 0 and v["t"] >= 2 and v["verdict"] == "PASS"
+    noisy = []                                                                            # against ahead by 0.1 a bet, far too noisy for t 2
+    for k in range(31):
+        day = f"2027-02-{k % 28 + 1:02d}" if k < 28 else f"2027-03-{k - 27:02d}"
+        win = k % 2 == 0
+        noisy += [_row(400 + k, day, "long", "against", win, base=0.2 if win else 0.6), _row(500 + k, day, "short", "with", win, base=0.3 if win else 0.7)]
+    v = an.lean_test(noisy)
+    assert v["against"]["bets"] == 31 and v["diff"] > 0 and v["t"] < 2 and v["verdict"] == "NO PASS", v
+
+
+def test_the_cycle_records_the_market_state_with_each_call():
+    patched()
+    d = tempfile.mkdtemp()
+    keep_mood = an.MOOD
+    an.MOOD = _mood(d, desk.ts(NOW - H1) + " UTC", state="LOW", med=-0.30)
+    try:
+        _cycle_state_checks()
+    finally:
+        an.MOOD = keep_mood
+
+
+def _cycle_state_checks():
+    base = world_fetch()
+
+    def fetch(sym, interval, start=None, end=None, limit=500):
+        if sym == "BTCUSDT" and interval == "1d":
+            return _daily([100 * 0.996 ** i for i in range(100)], t0=NOW - 100 * D1)
+        return base(sym, interval, start, end, limit)
+    st = an.cycle(NOW, fetch, ["TESTUSDT"])
+    r = [x for x in an.load_calls() if x["method"] == "SR"][0]
+    assert (r["btc"], r["fuel"], r["alt30"], r["lean"]) == ("bear", "LOW", "-0.3", "")         # TESTUSDT is not one of the five coins
+    assert st["mkt"]["btc"] == "bear" and st["mkt"]["fuel"] == "LOW" and abs(st["mkt"]["alt30"] + 0.30) < 1e-12
+    call = an.new_call(st, [], dict(symbol="SOLUSDT", side="long", entry=101.0, stop=99.0, target=105.0, hours=24, method="SR", why="x"),
+                       base("SOLUSDT", "1h")[:-1], NOW, base, {}, st["mkt"])
+    assert call["lean"] == "against" and call["btc"] == "bear"
+
+
 if __name__ == "__main__":
     tests =[v for k, v in dict(globals()).items() if k.startswith("test_")]
     for fn in tests:

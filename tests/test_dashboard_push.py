@@ -154,7 +154,8 @@ def _analyst_world():
     call = lambda **k: dict(made_utc="2026-10-27 10:00:00", made_ms=1, expires_ms=int(time.time() * 1000) + 10 * 3_600_000, method="SR", why="w",  # noqa: E731
                             rr=2.0, be_p=0.4, base_p=0.35, **k)
     rows = [
-        call(id=1, symbol="BTCUSDT", side="long", entry=100.0, stop=98.0, target=106.0, stop_pct=0.02, risk_usd=1.5, notional=75.0, status="open", nobook=0),
+        call(id=1, symbol="BTCUSDT", side="long", entry=100.0, stop=98.0, target=106.0, stop_pct=0.02, risk_usd=1.5, notional=75.0, status="open", nobook=0,
+             lean="against", btc="chop", fuel="LOW", alt30=-0.3),
         call(id=2, symbol="ETHUSDT", side="short", entry=50.0, stop=51.0, target=47.0, stop_pct=0.02, risk_usd=1.5, notional=75.0, status="open", nobook=1),
         call(id=3, symbol="SOLUSDT", side="long", entry=10.0, stop=9.8, target=10.6, stop_pct=0.02, risk_usd=1.5, notional=75.0, status="WIN", nobook=0,
              exit_ms=2_000, exit_price=10.6, r_net=2.0, booked=1, pnl_usd=3.0),
@@ -167,7 +168,8 @@ def _analyst_world():
         an.save_calls(rows)
     finally:
         an.D, an.CALLS = old
-    (d / "state.json").write_text(json.dumps(dict(started="2026-10-27 09:00:00", started_ms=1_800_000_000_000, start=300.0, equity=303.0, peak=303.0)))
+    (d / "state.json").write_text(json.dumps(dict(started="2026-10-27 09:00:00", started_ms=1_800_000_000_000, start=300.0, equity=303.0, peak=303.0,
+                                                  mkt=dict(btc="chop", fuel="LOW", alt30=-0.3, t="2026-10-27 12:07"))))
     (d / "marks.csv").write_text("day,equity\n2026-10-27,300.0\n")
     (d / "levels.json").write_text(json.dumps(dict(t=5, made="2026-10-27 12:07:00", symbols={"BTCUSDT": dict(
         symbol="BTCUSDT", price=100.0, atr1_pct=0.004, typical_move_pct=0.02, support=[dict(price=95.0, touches=3)],
@@ -189,6 +191,21 @@ def test_the_analyst_desk_is_marked_live_and_only_booked_calls_move_its_book():
     assert two["upnl"] is None and two["booked"] is False and two["r"] < -2                          # a short that went against it, not booked
     assert abs(a["equity"] - 303.66) < 0.006 and a["booked"] == 303.0                              # only the booked call is in the book
     assert a["curve"]["h"][-1][1] == a["equity"] and a["curve"]["h"][0][1] == 300.0
+
+
+def test_the_desk_feed_carries_the_market_state_and_each_calls_lean():
+    d = _analyst_world()
+    old = dp.ANALYST
+    dp.ANALYST = d
+    try:
+        a = dp.analyst_view({"BTCUSDT": 101.0, "ETHUSDT": 55.0}, int(time.time()))
+    finally:
+        dp.ANALYST = old
+    one = [c for c in a["open"] if c["id"] == 1][0]
+    two = [c for c in a["open"] if c["id"] == 2][0]
+    assert (one["lean"], one["btc"], one["fuel"]) == ("against", "chop", "LOW") and two["lean"] == ""
+    assert a["market"]["fuel"] == "LOW" and a["market"]["btc"] == "chop"
+    assert a["lean"]["forward"]["verdict"].startswith("NOT YET") and a["lean"]["replay"] == dp.LEAN_REPLAY
 
 
 def test_the_analyst_desk_levels_are_measured_from_the_live_price_and_the_record_is_complete():

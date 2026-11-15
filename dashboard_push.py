@@ -643,6 +643,11 @@ def sweet_view(rows: list, open_calls: list, symbols: dict, now: int) -> dict:
                 watch=watch_items(symbols, nxt * 1000), next_run=nxt, min_rr=DESK_MIN_RR)
 
 
+# the lean's replay record (backtest/analyst_states.py, 2026-11-15, POST HOC: found after the registered gates failed): crypto calls AGAINST the
+# market's state vs the rest, hit rate over random odds, tune / holdout (split 2024-12-07), and what the 'against' calls made per call
+LEAN_REPLAY = dict(diff=[0.037, 0.038], t=[2.5, 2.0], against_r=[-0.162, -0.230], years="2022-26 every year +1.5 to +4.0 points", calls=9830)
+
+
 def analyst_view(prices: dict, now: int) -> dict | None:
     """The Analyst desk (analyst.py): its levels against the LIVE price, its open predictions marked live, its record against
     the random baseline, and its own $300 paper book (booked P&L + every open booked call at the live price, fee included)."""
@@ -673,7 +678,8 @@ def analyst_view(prices: dict, now: int) -> dict | None:
                                made=r["made_utc"], entry=entry, stop=fnum(r["stop"]), target=fnum(r["target"]), mark=px,
                                pct=None if pct is None else round(pct, 5), r=None if rr is None else round(rr, 3), upnl=upnl,
                                booked=booked, base_p=fnum(r["base_p"]), be_p=fnum(r["be_p"]), rr=fnum(r["rr"]),
-                               left_h=round((fnum(r["expires_ms"], 0.0) - now * 1000) / 3_600_000, 1), size=fnum(r["notional"])))
+                               left_h=round((fnum(r["expires_ms"], 0.0) - now * 1000) / 3_600_000, 1), size=fnum(r["notional"]),
+                               lean=r.get("lean") or "", btc=r.get("btc") or "", fuel=r.get("fuel") or ""))
     closed = [r for r in rows if r.get("status") in ("WIN", "LOSS", "EXPIRED")]
     closed.sort(key=lambda r: fnum(r.get("exit_ms"), 0.0), reverse=True)
     recent = [dict(id=int(r["id"]), symbol=r["symbol"], side=r["side"], method=r["method"], status=r["status"], made=r["made_utc"],
@@ -704,7 +710,12 @@ def analyst_view(prices: dict, now: int) -> dict | None:
     h = h + [[now, round(live, 2)]]
     s = an.stats(rows)
     s["min_resolved"] = an.MIN_RESOLVED
-    return dict(started=st.get("started"), start=start, equity=round(live, 2), booked=round(booked_eq, 2), peak=round(st.get("peak", start), 2),
+    try:
+        lean = dict(forward=an.lean_test(rows), replay=LEAN_REPLAY)
+    except Exception:                                    # the desk's lean test must never break the rest of the feed
+        lean = None
+    return dict(market=st.get("mkt"), lean=lean,
+                started=st.get("started"), start=start, equity=round(live, 2), booked=round(booked_eq, 2), peak=round(st.get("peak", start), 2),
                 levels_t=lv.get("made"), symbols=symbols, open=open_calls, recent=recent, stats=s, curve=dict(d=h[-2:], h=h),
                 sweet=sweet_view(rows, open_calls, symbols, now), what_if=dict(live=slim_grid(an.grid(rows)), replay=replay_view(jload(ANALYST_REPLAY))),
                 cfg=dict(watch=an.WATCH, risk_pct=an.RISK_PCT, max_gross=an.MAX_GROSS, hours=an.HOURS, review=dict(resolved=100, date="2027-01-31")))

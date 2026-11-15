@@ -153,6 +153,16 @@ def test_the_bots_pick_is_the_newest_live_sweet_spot_call_that_counts_in_the_tes
     assert pick(calls[:3] + [mk(95, "mid"), mk(96, "scalp")], []) == 88    # newer middle / scalp calls are never the pick
 
 
+def test_the_pick_prefers_a_call_against_the_markets_state():
+    calls = [mk(84, lean="against"), mk(86, lean="with"), mk(88, lean="")]
+    assert pick(calls, [84, 86, 88]) == 84               # all count: the 'against' call beats newer ones
+    assert pick(calls, [86, 88]) == 88                   # the 'against' call does not count: counting beats leaning
+    assert pick(calls, []) == 84                         # none counts: the 'against' call first
+    assert pick([mk(84, lean="with"), mk(86, lean="with")], [84, 86]) == 86      # no 'against' call: the newest, as before
+    assert pick([mk(84, lean="against", mark=98.1), mk(86, lean="with")], [84, 86]) == 86    # an 'against' call the price ran through is not chosen
+    assert pick([mk(84, "mid", lean="against"), mk(86, lean="with")], [84, 86]) == 86        # nor a middle-sized one
+
+
 def test_a_call_the_price_has_already_run_through_is_not_the_pick():
     calls = [mk(88), mk(93, mark=98.2)]                  # 93 is the newest and counts, but its stop is 0.18% away now
     assert pick(calls, [93]) == 88                       # the older live call is the pick instead

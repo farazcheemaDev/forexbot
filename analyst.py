@@ -55,6 +55,21 @@ AMENDED 2026-11-08 16:02 UTC, at the user's word ("yes, fix it"), with 95 calls 
   on trading days; US holidays (list to 2027-12) shut both. The levels are still drawn. Every call before this stays on the record and counts in
   A1-A8, the review and the registered sweet-spot test exactly as before. Not changed: a call made in session can still be HELD across a closure
   (the 24h / 48h horizons) - that gap risk remains and is measured separately if needed.
+AMENDED 2026-11-15 14:00 UTC, at the user's word ("add our findings to the analyst desk in any way that improves the signal") - AFTER looking at
+  the data, so it is a RECORD and a TAG, not a change to any rule, call or the paper book. backtest/works_map.py found that the working books fall
+  into a momentum family (earns when alts run) and a forced-flow family (earns in BTC bears and alt bleeds), by states knowable at each day's
+  open. backtest/analyst_states.py scored the desk's 9,830 crypto replay calls (2022-02 .. 2026-09) by those states: none of its four registered
+  gates improved the calls (Holm >= 0.63), and FOLLOWING the state made them worse (gate G1: -3.7 / -3.8 points of hit rate over random, t -2.5 /
+  -2.0). So the opposite - a call AGAINST the market's state: a long while few alts are running (fuel LOW) or the median top-40 alt is down 15%
+  or more over 30 days, a short while the alts are not bleeding and BTC is not labelled bear - beat the other calls by +3.7 / +3.8 points on both
+  halves and in every year 2022-26. That was found after looking (post hoc), and those calls still lost money (-0.16 / -0.23R a call).
+  From now each call records the market state (btc = BTC's label from its closed daily bars, market_neutral.btc_regime's rule; fuel and alt30 =
+  the fuel gauge's state and the median top-40 alt's 30-day move from logs/mood/mood.json when it is under 6 hours old) and its LEAN ('against' /
+  'with'; '' for gold, QQQ or an unknown state). The dashboard's pick prefers 'against' calls.
+  REGISTERED (lean_test): resolved calls made from 2026-11-15 14:00 UTC; a bet = the calls of one UTC day and direction (they share one lean),
+  scored as hit rate minus random odds; after 30 bets of EACH lean: PASS if against minus with > 0 with Welch t >= 2, else NO PASS. My prior that
+  it passes: about 30% (the replay's t is 2.0-2.5 per half, so the forward sample has about half the power needed). The live fuel state uses the
+  gauge's fixed 2020-26 terciles (news/fuel_bands.json); the replay used expanding ones.
 WHAT IF YOU TRADED THESE CALLS WITH LEVERAGE (added 2026-10-27, the user: "10x 20x 30x, capital 20 / 50 / 100 / 300 - how would that result in")
   The same calls, taken by a trader who puts the WHOLE account on each one at 10x / 20x / 30x (isolated margin, one position at a time: a call that
   appears while one is open is skipped), the stop and target as logged, 12bp of the NOTIONAL as the round-trip fee (= 12bp x leverage of the account).
@@ -98,9 +113,14 @@ COOLDOWN_H = 6
 MIN_RR = 1.5
 MIN_RESOLVED = 30
 H1, H4, D1 = 3_600_000, 14_400_000, 86_400_000
-COLS = desk.COLS + ["why", "nobook", "booked", "pnl_usd", "mae"]
+COLS = desk.COLS + ["why", "nobook", "booked", "pnl_usd", "mae", "btc", "fuel", "alt30", "lean"]
 CAPITALS = (20, 50, 100, 300)
 LEVERAGES = (10, 20, 30)
+MOOD = ROOT / "logs" / "mood" / "mood.json"            # written hourly by news/crowd_paper.py: the fuel gauge (news/mood_now.fuel)
+CRYPTO = ("BTCUSDT", "ETHUSDT", "SOLUSDT", "XRPUSDT", "BNBUSDT")
+BLEED = -0.15                                           # the median top-40 alt down 15% or more over 30 days
+LEAN_REGISTERED, LEAN_REGISTERED_MS = "2026-11-15 14:00 UTC", 1794751200000
+LEAN_BETS = 30
 
 
 def log(m: str):
@@ -345,7 +365,86 @@ def allowed(rows: list, sym: str, method: str, now: int) -> bool:
     return True
 
 
-def new_call(st: dict, rows: list, sig: dict, h1c: list, now: int, fetch=desk.klines, bcache: dict | None = None) -> dict:
+# ------------------------------------------------------------------ the market's state and the call's lean (amendment of 2026-11-15)
+
+def btc_label(d1c: list) -> str | None:
+    """bull / chop / bear from BTC's CLOSED daily bars by market_neutral.btc_regime's rule: the last close against its 50-day average and
+    that average's change over 20 days (+-2%)."""
+    c = [b[4] for b in d1c]
+    if len(c) < 70:
+        return None
+    ma, ma20 = sum(c[-50:]) / 50, sum(c[-70:-20]) / 50
+    slope = ma / ma20 - 1
+    if c[-1] > ma and slope > 0.02:
+        return "bull"
+    if c[-1] < ma and slope < -0.02:
+        return "bear"
+    return "chop"
+
+
+def read_fuel(now: int, path: Path | None = None, max_age_h: float = 6.0) -> tuple:
+    """(fuel state, the median top-40 alt's 30-day move) from the mood snapshot when it is at most max_age_h old; (None, None) otherwise."""
+    try:
+        d = json.loads((path or MOOD).read_text())
+        t = datetime.strptime(d["t"], "%Y-%m-%d %H:%M UTC").replace(tzinfo=timezone.utc).timestamp() * 1000
+        f = (d.get("market") or {}).get("fuel") or {}
+        if now - t > max_age_h * H1 or now < t - H1 or f.get("med") is None or f.get("state") is None:
+            return None, None
+        return f["state"], float(f["med"])
+    except Exception:  # noqa: BLE001 - no snapshot, a stale one or a malformed one: the state is unknown
+        return None, None
+
+
+def market_state(now: int, fetch=desk.klines, path: Path | None = None) -> dict:
+    try:
+        btc = btc_label(closed(fetch("BTCUSDT", "1d", None, None, 100), D1, now))
+    except Exception:  # noqa: BLE001 - no BTC candles: the label is unknown, the calls go on
+        btc = None
+    fuel, alt30 = read_fuel(now, path)
+    return dict(btc=btc, fuel=fuel, alt30=alt30)
+
+
+def lean_of(symbol: str, side: str, mkt: dict | None) -> str:
+    """'against' / 'with' the market's state for a crypto call; '' when it does not apply (gold, QQQ) or the state is unknown. A long is
+    AGAINST when few alts are running (fuel LOW) or the median top-40 alt is down 15% or more over 30 days; a short is AGAINST when the
+    alts are not bleeding and BTC is not labelled bear (backtest/analyst_states.py: the inverse of its gate G1)."""
+    if symbol not in CRYPTO or not mkt or mkt.get("btc") is None or mkt.get("fuel") is None or mkt.get("alt30") is None:
+        return ""
+    bleed = mkt["alt30"] <= BLEED
+    if side == "long":
+        return "against" if (mkt["fuel"] == "LOW" or bleed) else "with"
+    return "against" if not (bleed or mkt["btc"] == "bear") else "with"
+
+
+def lean_test(rows: list, since_ms: int = LEAN_REGISTERED_MS) -> dict:
+    """The registered forward test of the lean: resolved crypto calls made since the registration; a bet = the calls made the same UTC day in
+    the same direction (they share one lean); each bet scores its hit rate minus its random odds; AGAINST minus WITH, Welch t."""
+    groups: dict = {}
+    for r in rows:
+        if r.get("status") not in ("WIN", "LOSS", "EXPIRED") or r.get("lean") not in ("against", "with"):
+            continue
+        if _f(r.get("made_ms")) < since_ms:
+            continue
+        key = (str(r["made_utc"])[:10], r["side"], r["lean"])
+        groups.setdefault(key, []).append((1.0 if r["status"] == "WIN" else 0.0) - _f(r.get("base_p")))
+    ex = {k: [sum(v) / len(v) for key, v in groups.items() if key[2] == k] for k in ("against", "with")}
+    mean = {k: (sum(v) / len(v) if v else None) for k, v in ex.items()}
+    a, w = ex["against"], ex["with"]
+    t = None
+    if len(a) >= 2 and len(w) >= 2:
+        va = sum((x - mean["against"]) ** 2 for x in a) / (len(a) - 1)
+        vw = sum((x - mean["with"]) ** 2 for x in w) / (len(w) - 1)
+        se = math.sqrt(va / len(a) + vw / len(w))
+        t = (mean["against"] - mean["with"]) / se if se > 0 else None
+    diff = mean["against"] - mean["with"] if a and w else None
+    ready = len(a) >= LEAN_BETS and len(w) >= LEAN_BETS
+    verdict = (("PASS" if diff is not None and diff > 0 and t is not None and t >= 2 else "NO PASS") if ready
+               else f"NOT YET - {len(a)} against / {len(w)} with of {LEAN_BETS} bets each")
+    return {"registered": LEAN_REGISTERED, "against": dict(bets=len(a), ex=mean["against"]), "with": dict(bets=len(w), ex=mean["with"]),
+            "diff": diff, "t": t, "needed": LEAN_BETS, "verdict": verdict}
+
+
+def new_call(st: dict, rows: list, sig: dict, h1c: list, now: int, fetch=desk.klines, bcache: dict | None = None, mkt: dict | None = None) -> dict:
     eq = st["equity"]
     p = desk.plan_numbers(sig["side"], sig["entry"], sig["stop"], sig["target"], eq, RISK_PCT)
     base = desk.minute_baseline(sig["symbol"], sig["side"], p["stop_pct"], p["target_pct"], sig["hours"], now, fetch, h1c[-500:], bcache)     # on the scoring grid
@@ -355,7 +454,9 @@ def new_call(st: dict, rows: list, sig: dict, h1c: list, now: int, fetch=desk.kl
                 stop=sig["stop"], target=sig["target"], expires_ms=now + sig["hours"] * H1, method=sig["method"], note=sig["why"], equity=round(eq, 4),
                 risk_pct=RISK_PCT, risk_usd=round(p["risk_usd"], 4), qty=p["qty"], notional=round(p["notional"], 4), lev=round(p["lev"], 3),
                 stop_pct=round(p["stop_pct"], 6), target_pct=round(p["target_pct"], 6), rr=round(p["rr"], 4), be_p=round(p["be_p"], 4),
-                base_p=round(base["p_tp"], 4), status="open", why=sig["why"], nobook=int(nobook), booked=0)
+                base_p=round(base["p_tp"], 4), status="open", why=sig["why"], nobook=int(nobook), booked=0,
+                btc=(mkt or {}).get("btc") or "", fuel=(mkt or {}).get("fuel") or "",
+                alt30="" if (mkt or {}).get("alt30") is None else round(mkt["alt30"], 4), lean=lean_of(sig["symbol"], sig["side"], mkt))
 
 
 def mae_of(call: dict, bars: list) -> float:
@@ -412,6 +513,8 @@ def cycle(now: int | None = None, fetch=desk.klines, watch=WATCH) -> dict:
     st = load_state(now)
     rows = load_calls()
     resolved = score_open(st, rows, now, fetch)
+    mkt = market_state(now, fetch)
+    st["mkt"] = dict(mkt, t=desk.ts(now))
     levels, fired, bcache, shut = {}, 0, {}, []
     for sym in watch:
         try:
@@ -431,11 +534,12 @@ def cycle(now: int | None = None, fetch=desk.klines, watch=WATCH) -> dict:
             continue
         for sig in signals(sym, h1c, h4c, d1c, price):
             if allowed(rows, sym, sig["method"], now):
-                rows.append(new_call(st, rows, sig, h1c, now, fetch, bcache))
+                rows.append(new_call(st, rows, sig, h1c, now, fetch, bcache, mkt))
                 fired += 1
                 r = rows[-1]
+                lean_txt = " - " + r["lean"] + " the market" if r["lean"] else ""
                 log(f"CALL #{r['id']} {sym} {r['side']} [{r['method']}] {r['note']}: entry {r['entry']:.6g} stop {r['stop']:.6g} target {r['target']:.6g} "
-                    f"(random baseline {float(r['base_p']) * 100:.0f}%){' - NOT BOOKED (gross cap)' if r['nobook'] else ''}")
+                    f"(random baseline {float(r['base_p']) * 100:.0f}%){' - NOT BOOKED (gross cap)' if r['nobook'] else ''}{lean_txt}")
     D.mkdir(parents=True, exist_ok=True)
     LEVELS.write_text(json.dumps(dict(t=now, made=desk.ts(now), symbols=levels), separators=(",", ":")))
     save_calls(rows)

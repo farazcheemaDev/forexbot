@@ -775,10 +775,18 @@ function SizePanel({ calls, scored, bets, needed, scalp }) {
         {call ? (
           <>
             <div><b>{star && call.id === star.id ? "The bot's pick" : "Your choice"}: {sym} {call.side === "long" ? "long (a bet that it goes up)" : "short (a bet that it goes down)"}</b>{" "}
-              {scored(call) ? <span className="badge good">counts in the forward test</span> : <span className="badge idle">made before the test began, not scored</span>}</div>
+              {scored(call) ? <span className="badge good">counts in the forward test</span> : <span className="badge idle">made before the test began, not scored</span>}
+              {call.lean ? <> <span className={`badge ${call.lean === "against" ? "good" : "idle"}`}>{call.lean === "against" ? "against the market's mood" : "with the market's mood"}</span></> : null}</div>
             <div className="note" style={{ whiteSpace: "normal" }}>
               What the desk saw: {plainSetup(call.method, call.side)}. Logged {when(call.made, local)}.
             </div>
+            {call.lean ? (
+              <div className="note" style={{ whiteSpace: "normal" }}>
+                {call.lean === "against"
+                  ? "It goes against the market's mood (a long while the alts are falling, or a short while they are not). Over four years of the desk's replayed ideas, those beat the rest by about 4 points of hit rate. That was found after looking, so it is being tested on new ideas, and those ideas still lost money on average."
+                  : "It goes with the market's mood. Over four years of the desk's replayed ideas, those did about 4 points worse than the ones against it (found after looking, now being tested)."}
+              </div>
+            ) : null}
             <div className="note" style={{ whiteSpace: "normal" }}>
               {star && call.id === star.id
                 ? (scored(call)
@@ -956,9 +964,30 @@ function DeskIntro({ a }) {
           {scalp.n ? <> Ideas with a tiny stop (under 0.4%) hit {scalp.wins} of {scalp.n}, so avoid those.</> : null}</li> : null}
         {sweet.n ? <li><b>Why it is not trusted yet:</b> that pocket is only {sweet.bets} independent bets, and it was found by looking at the results afterwards, so it flatters. A fair test started on {sw.registered}:
           it needs {fw.needed ?? 30} bets and has {fw.bets ?? 0}{fw.bets ? <> (average {rTxt(fw.mean_r_bet)} a bet so far)</> : null}. Expect a verdict around early December.</li> : null}
+        {a.lean ? <li><b>New since 15 Nov, the market's mood:</b> every idea on BTC, ETH, SOL, XRP and BNB is tagged with or against the market's mood (a long while the alts are falling goes against it).
+          On four years of the desk's replayed ideas the ones against the mood hit about 4 points more often than the rest, in every year from 2022 to 2026. That was found after looking and those ideas still lost money,
+          so it is being tested on new ideas{(a.lean.forward || {}).verdict ? <>: {a.lean.forward.verdict.startsWith("NOT YET") ? `${a.lean.forward.against?.bets ?? 0} against and ${a.lean.forward.with?.bets ?? 0} with, of ${a.lean.forward.needed ?? 30} bets each` : a.lean.forward.verdict}</> : null}.
+          The bot's pick prefers an idea against the mood.</li> : null}
       </ul>
       <p>So treat every signal as a small experiment: risk 1% or less of money you can afford to lose.</p>
     </section>
+  );
+}
+
+// The market's mood when the desk last ran (analyst.py's amendment of 2026-11-15) and which side of a trade goes against it now.
+function MarketMood({ m, lean }) {
+  if (!m || !m.btc || !m.fuel || m.alt30 === null || m.alt30 === undefined) return null;
+  const bleed = m.alt30 <= -0.15;
+  const longAgainst = m.fuel === "LOW" || bleed;
+  const shortAgainst = !(bleed || m.btc === "bear");
+  const side = longAgainst && shortAgainst ? "both longs and shorts" : longAgainst ? "a long (buy)" : shortAgainst ? "a short (sell)" : "neither side";
+  const fw = (lean || {}).forward || {};
+  return (
+    <p className="note" style={{ whiteSpace: "normal", margin: "0 0 10px" }}>
+      <b>Market mood now:</b> BTC {m.btc}, {m.fuel === "LOW" ? "few alts running" : m.fuel === "HIGH" ? "many alts running" : "some alts running"},
+      the typical big alt {pct(m.alt30, { dp: 0 })} over 30 days. Right now {side} goes against the mood, the kind of idea the desk's replays favoured.
+      {fw.verdict ? <> The test on new ideas: {fw.verdict.startsWith("NOT YET") ? `${fw.against?.bets ?? 0} and ${fw.with?.bets ?? 0} of ${fw.needed ?? 30} bets each so far` : fw.verdict}.</> : null}
+    </p>
   );
 }
 
@@ -978,6 +1007,7 @@ function SignalNow({ a }) {
           <div className="sub">The bot checks the charts every hour (next check {hhmm} UTC{mins !== null ? `, in ${mins} min` : ""}). When a good setup shows up it appears here as an order you can copy onto the exchange.</div></div>
         <span className={`badge ${badge[1]}`}>{badge[0]}</span>
       </div>
+      <MarketMood m={a.market} lean={a.lean} />
       <SizePanel calls={[...sweetOpen, ...otherOpen]} scored={scored} bets={fw.bets ?? 0} needed={fw.needed ?? 30} scalp={(sw.history || {}).scalp} />
     </section>
   );
