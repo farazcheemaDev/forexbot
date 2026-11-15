@@ -13,7 +13,7 @@ FEE = 0.0012
 
 
 def js(expr):
-    code = f"import {{ parseNum, levelsFor, buildSizing, fmtQty, MIN_NOTIONAL, todaysPick, plainSetup, liveFromHere, recommendedLeverage, leverageGuide }} from '{MOD}'; console.log(JSON.stringify({expr}));"
+    code = f"import {{ parseNum, levelsFor, buildSizing, fmtQty, MIN_NOTIONAL, todaysPick, plainSetup, liveFromHere, recommendedLeverage, leverageGuide, gradeCall }} from '{MOD}'; console.log(JSON.stringify({expr}));"
     r = subprocess.run(["node", "--input-type=module", "-e", code], capture_output=True, text=True, encoding="utf-8", timeout=60)
     assert r.returncode == 0, r.stderr
     return json.loads(r.stdout)
@@ -161,6 +161,26 @@ def test_the_pick_prefers_a_call_against_the_markets_state():
     assert pick([mk(84, lean="with"), mk(86, lean="with")], [84, 86]) == 86      # no 'against' call: the newest, as before
     assert pick([mk(84, lean="against", mark=98.1), mk(86, lean="with")], [84, 86]) == 86    # an 'against' call the price ran through is not chosen
     assert pick([mk(84, "mid", lean="against"), mk(86, lean="with")], [84, 86]) == 86        # nor a middle-sized one
+
+
+def grade(c):
+    return js(f"gradeCall({json.dumps(c)})")
+
+
+def test_each_open_idea_gets_a_traders_grade():
+    sw = lambda **k: dict(dict(kind="sweet", valid=True, stop_pct=0.02, rr_now=2.5), **k)  # noqa: E731
+    g = grade(mk(1, sw=sw(), lean="against"))
+    assert g["grade"] == "best"
+    assert [x["text"] for x in g["reasons"]] == ["stop 2.0% away", "against the market's mood", "reward 2.5x the risk from here", "price still between stop and target"]
+    assert all(x["good"] for x in g["reasons"])
+    assert grade(mk(1, sw=sw(), lean="with"))["grade"] == "ok"
+    assert grade(mk(1, sw=sw(), lean=""))["grade"] == "ok"                                  # gold / Nasdaq: no mood
+    t = grade(mk(1, sw=sw(kind="mid", stop_pct=0.006), lean="against"))
+    assert t["grade"] == "skip" and t["reasons"][0] == dict(text="stop 0.6% away", good=False)
+    r = grade(mk(1, sw=sw(), lean="against", mark=98.2))                                   # the price ran most of the way to the stop
+    assert r["grade"] == "skip" and r["reasons"][-1] == dict(text="price has already run", good=False)
+    assert grade(mk(1, sw=sw(rr_now=1.2), lean="against"))["reasons"][2]["good"] is False
+    assert grade(dict(id=1, side="long", entry=100, stop=98, target=105, mark=100))["grade"] == "skip"   # no sweet-spot block
 
 
 def test_a_call_the_price_has_already_run_through_is_not_the_pick():

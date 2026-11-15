@@ -34,7 +34,7 @@ button { font: inherit; }
   color: #0b0e11; font-style: normal; font-size: 13px; font-weight: 800; }
 .pill { font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 999px; background: var(--panel2); color: var(--muted);
   letter-spacing: .04em; }
-.seg { display: flex; background: var(--panel); border: 1px solid var(--line); border-radius: 9px; padding: 3px; gap: 3px; }
+.seg { display: flex; background: var(--panel); border: 1px solid var(--line); border-radius: 9px; padding: 3px; gap: 3px; max-width: 100%; min-width: 0; overflow-x: auto; scrollbar-width: thin; }
 .seg a { padding: 6px 12px; border-radius: 7px; color: var(--muted); font-size: 13px; white-space: nowrap; display: flex; gap: 8px;
   align-items: baseline; }
 .seg a:hover { color: var(--ink); }
@@ -249,3 +249,33 @@ details.more[open] > summary { margin-bottom: 14px; }
   .score td, .score th { padding-left: 6px; padding-right: 6px; }
   .score-total { gap: 12px; }
 }
+
+/* the Analyst tab's signal board (2026-11-15): the signal first, the order in four numbers, every open idea graded */
+.mood { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 0 0 12px; font-size: 13px; }
+.mood .note { font-size: 12px; color: var(--muted); }
+.chip-s { background: var(--panel2); border-radius: 999px; padding: 3px 10px; font-size: 12px; color: var(--ink); white-space: nowrap; }
+.sig { background: var(--panel2); border-radius: 10px; padding: 14px; margin-bottom: 10px; display: grid; gap: 8px; min-width: 0; }
+.sig.nosig { display: block; font-size: 14px; }
+.sig.nosig .note { font-size: 13px; color: var(--muted); }
+.sig-top { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.sig-name { font-size: 24px; font-weight: 750; letter-spacing: .01em; }
+.sig-top .note { font-size: 12px; color: var(--muted); }
+.sig-why { font-size: 13px; color: var(--muted); }
+.reasons { display: flex; flex-wrap: wrap; gap: 6px; }
+.rz { font-size: 12px; border-radius: 999px; padding: 3px 9px; white-space: nowrap; }
+.rz.ok { color: var(--up); background: var(--up-bg); }
+.rz.no { color: var(--down); background: var(--down-bg); }
+.lv4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.lv4 > div { background: var(--panel); border-radius: 8px; padding: 8px 10px; display: grid; gap: 1px; min-width: 0; }
+.lv4 span { font-size: 11px; color: var(--muted); }
+.lv4 b { font-size: 16px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.lv4 small { font-size: 11px; color: var(--faint); }
+@media (max-width: 600px) { .lv4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } .sig-name { font-size: 21px; } }
+.order { margin: 4px 0 8px; }
+.order > .t-h, .ideas > .t-h { font-size: 13px; font-weight: 650; padding: 4px 0 8px; }
+.order .lv4 > div { background: var(--panel2); }
+.warnline { font-size: 12.5px; color: var(--muted); margin: 6px 0; white-space: normal; }
+.steps-ol { margin: 4px 0 4px; padding-left: 20px; font-size: 13.5px; line-height: 1.6; }
+.sig-more { margin: 6px 0 4px; }
+.ideas { margin-top: 14px; }
+.record { font-size: 12.5px; color: var(--muted); margin: 12px 0 0; white-space: normal; line-height: 1.6; }

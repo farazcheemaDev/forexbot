@@ -79,6 +79,23 @@ export function todaysPick(calls, scored) {
     || newest(sweet.filter(against)) || newest(sweet);
 }
 
+// A trader's grade for one open desk idea, from what the data supports: the stop size (the desk's ideas with a stop of 0.8% or more are its
+// best-recorded kind; under that they have lost), whether it is still worth entering from the price now, and the market's mood (analyst.py's
+// amendment of 2026-11-15: ideas AGAINST the mood hit more often on the replays). "best" = room, still live, against the mood; "ok" = room and
+// still live but with the mood or with no mood (gold, Nasdaq); "skip" = a tight stop or the price has already run. None of them is proven.
+// `reasons` are short chips, each { text, good }.
+export function gradeCall(c) {
+  const sw = c.sw || {};
+  const live = liveFromHere(c);
+  const reasons = [];
+  if (Number.isFinite(sw.stop_pct)) reasons.push({ text: `stop ${(sw.stop_pct * 100).toFixed(1)}% away`, good: sw.kind === "sweet" });
+  if (c.lean) reasons.push({ text: c.lean === "against" ? "against the market's mood" : "with the market's mood", good: c.lean === "against" });
+  if (Number.isFinite(sw.rr_now)) reasons.push({ text: `reward ${sw.rr_now.toFixed(1)}x the risk from here`, good: sw.rr_now >= 1.5 });
+  reasons.push({ text: live ? "price still between stop and target" : "price has already run", good: live });
+  const grade = sw.kind !== "sweet" || !live ? "skip" : c.lean === "against" ? "best" : "ok";
+  return { grade, reasons };
+}
+
 // What the desk's rule saw, in plain words, instead of its jargon.
 const PLAIN = {
   SR: { long: "price bounced up off a level that has held several times before", short: "price was turned back down at a level that has held several times before" },

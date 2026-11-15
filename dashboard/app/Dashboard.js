@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { DailyChart, EquityChart } from "./charts";
 import Refresh from "./Refresh";
 import { ACCOUNT_NAMES, BOOKS, bookName, dayLabel, pct, priceFmt, tone, usd, when } from "../lib/fmt";
-import { buildSizing, fmtQty, leverageGuide, levelsFor, parseNum, plainSetup, recommendedLeverage, todaysPick } from "../lib/sizepanel.mjs";
+import { buildSizing, fmtQty, gradeCall, leverageGuide, levelsFor, parseNum, plainSetup, recommendedLeverage, todaysPick } from "../lib/sizepanel.mjs";
 
 function useMounted() {
   const [m, setM] = useState(false);
@@ -725,6 +725,7 @@ function oddsLine(h) {
 const SIZE_KEY = "sizepanel.v2";
 const SIZE_DEFAULTS = { bal: "20", risk: "1", lev: "", entry: "now", side: "long", e: "", s: "", t: "" };       // lev empty = the bot's suggestion
 const SAFETY = { ok: ["Safe", "good"], tight: ["Close", "warn"], danger: ["Danger", "bad"] };
+const GRADE = { best: ["Best setup", "good"], ok: ["Weaker setup", "warn"], skip: ["Skip", "bad"] };
 
 // How big a position would be, what a stop-out costs and how far liquidation is, for one open desk call or a trade typed by hand.
 // The arithmetic is lib/size.mjs (the desk's rules); the warnings are lib/sizepanel.mjs; both are tested. Nothing here can place an order.
@@ -752,8 +753,8 @@ function SizePanel({ calls, scored, bets, needed, scalp }) {
   const lv = call ? levelsFor(call, v.entry) : { side: v.side, entry: parseNum(v.e), stop: parseNum(v.s), target: parseNum(v.t) };
   const hasSweet = calls.some((c) => c.sw.kind === "sweet");
   const noPickWhy = hasSweet
-    ? "The open sweet-spot calls are no longer worth entering from the price now: it has already run most of the way to their stops or targets, so the bot has no pick."
-    : "No sweet-spot call is open right now, so the bot has no pick. The desk checks every hour at :07, and the pick appears here when it logs one.";
+    ? "The open ideas with room are no longer worth entering: the price has already run most of the way to their stops or targets."
+    : "No idea with room (a stop of 0.8% or more) is open. The desk checks every hour at :07 UTC.";
   // the position and the loss at the stop do not depend on leverage, so size once at 1x, then suggest a leverage unless the person typed one
   const base = pick === "none" ? null : buildSizing({ ...lv, bal, lev: 1, riskPct: risk });
   const rec = base && base.ok ? recommendedLeverage(base.r, bal) : null;
@@ -765,164 +766,130 @@ function SizePanel({ calls, scored, bets, needed, scalp }) {
   const long = lv.side !== "short";
   const sf = r ? SAFETY[r.status] : null;
   const guide = rec ? leverageGuide({ ...lv, bal, riskPct: risk }, rec.lev) : [];
+  const g = call ? gradeCall(call) : null;
   return (
     <div className="sizer">
-      <p className="note" style={{ margin: "0 0 10px", whiteSpace: "normal" }}>
-        The bot picks the trade. Tell it how much is in your futures account and how much of it you accept losing if the stop-loss hits, and it turns the pick into an order you can copy onto the exchange.
-        It is arithmetic, not a promise, and nothing on this page can place an order.
-      </p>
-      <div className="pickbox">
-        {call ? (
-          <>
-            <div><b>{star && call.id === star.id ? "The bot's pick" : "Your choice"}: {sym} {call.side === "long" ? "long (a bet that it goes up)" : "short (a bet that it goes down)"}</b>{" "}
-              {scored(call) ? <span className="badge good">counts in the forward test</span> : <span className="badge idle">made before the test began, not scored</span>}
-              {call.lean ? <> <span className={`badge ${call.lean === "against" ? "good" : "idle"}`}>{call.lean === "against" ? "against the market's mood" : "with the market's mood"}</span></> : null}</div>
-            <div className="note" style={{ whiteSpace: "normal" }}>
-              What the desk saw: {plainSetup(call.method, call.side)}. Logged {when(call.made, local)}.
-            </div>
-            {call.lean ? (
-              <div className="note" style={{ whiteSpace: "normal" }}>
-                {call.lean === "against"
-                  ? "It goes against the market's mood (a long while the alts are falling, or a short while they are not). Over four years of the desk's replayed ideas, those beat the rest by about 4 points of hit rate. That was found after looking, so it is being tested on new ideas, and those ideas still lost money on average."
-                  : "It goes with the market's mood. Over four years of the desk's replayed ideas, those did about 4 points worse than the ones against it (found after looking, now being tested)."}
-              </div>
+      {call ? (
+        <div className="sig">
+          <div className="sig-top">
+            <span className="sig-name">{sym} <span className={long ? "up" : "down"}>{long ? "LONG" : "SHORT"}</span></span>
+            <span className={`badge ${GRADE[g.grade][1]}`}>{GRADE[g.grade][0]}</span>
+            <span className="note">{star && call.id === star.id ? "the bot's pick" : "your choice"}{scored(call) ? " · counts in the test" : ""}</span>
+          </div>
+          <div className="sig-why">{plainSetup(call.method, call.side)} · logged {when(call.made, local)}</div>
+          <div className="reasons">{g.reasons.map((x) => <span key={x.text} className={`rz ${x.good ? "ok" : "no"}`}>{x.good ? "✓" : "✗"} {x.text}</span>)}</div>
+          <div className="lv4">
+            <div><span>Entry</span><b>{priceFmt(lv.entry)}</b><small>{v.entry === "now" ? "price now" : "as logged"}</small></div>
+            <div><span>Stop-loss</span><b className="down">{priceFmt(lv.stop)}</b><small>{r ? `${pct(r.stopPct, { dp: 2, sign: false })} away` : ""}</small></div>
+            <div><span>Take-profit</span><b className="up">{Number.isFinite(lv.target) ? priceFmt(lv.target) : "none"}</b><small>{r && r.gainAtTarget !== null ? `${pct(r.targetPct, { dp: 2, sign: false })} away` : ""}</small></div>
+            <div><span>Reward : risk</span><b>{out.ok && Number.isFinite(out.rr) ? `${out.rr.toFixed(1)} : 1` : "–"}</b><small>after the fee</small></div>
+          </div>
+        </div>
+      ) : pick === "manual"
+        ? <div className="sig"><b>Your own trade</b> <span className="note">type the levels below</span></div>
+        : <div className="sig nosig"><b>No signal right now.</b> <span className="note">{noPickWhy}</span></div>}
+      {pick !== "none" ? (
+        <div className="order">
+          <div className="t-h">Your order</div>
+          <div className="sizer-in">
+            <label>Futures balance ($)<input inputMode="decimal" value={v.bal} onChange={(e) => set({ bal: e.target.value })} /></label>
+            <label>Risk if stopped (% of balance)<input inputMode="decimal" value={v.risk} onChange={(e) => set({ risk: e.target.value })} /></label>
+          </div>
+          <div className="chips">
+            {[10, 20, 50, 100, 300].map((x) => <button key={x} className={bal === x ? "on" : ""} onClick={() => set({ bal: String(x) })}>${x}</button>)}
+            <span style={{ width: 8 }} />
+            {[0.5, 1, 2].map((x) => <button key={x} className={risk === x ? "on" : ""} onClick={() => set({ risk: String(x) })}>{x}%</button>)}
+            {call ? (
+              <>
+                <span style={{ width: 8 }} />
+                <button className={v.entry === "now" ? "on" : ""} onClick={() => set({ entry: "now" })}>enter now</button>
+                <button className={v.entry === "logged" ? "on" : ""} onClick={() => set({ entry: "logged" })}>at the logged price</button>
+              </>
             ) : null}
-            <div className="note" style={{ whiteSpace: "normal" }}>
-              {star && call.id === star.id
-                ? (scored(call)
-                  ? `Why this one: it is the newest open call with a stop of 0.8% or more made since the test began, the kind the test is checking, and the price has not run most of the way to its stop. That is not a promise it wins: the test stands at ${bets} of ${needed} bets.`
-                  : "Why this one: it is the newest open call with a stop of 0.8% or more and the price has not run most of the way to its stop. It was made before the test began, so it does not count in it.")
-                : "You picked this one yourself."}
+          </div>
+          {pick === "manual" ? (
+            <div className="sizer-in">
+              <label>Side
+                <select value={v.side} onChange={(e) => set({ side: e.target.value })}>
+                  <option value="long">Long</option>
+                  <option value="short">Short</option>
+                </select>
+              </label>
+              <label>Entry price<input inputMode="decimal" value={v.e} onChange={(e) => set({ e: e.target.value })} /></label>
+              <label>Stop price<input inputMode="decimal" value={v.s} onChange={(e) => set({ s: e.target.value })} /></label>
+              <label>Target price (optional)<input inputMode="decimal" value={v.t} onChange={(e) => set({ t: e.target.value })} /></label>
             </div>
-          </>
-        ) : pick === "manual"
-          ? <div><b>Your own trade</b> <span className="note">type the levels below</span></div>
-          : <div className="note" style={{ whiteSpace: "normal" }}>{noPickWhy}</div>}
-        <button className="btn" onClick={() => setMore(!more)}>{more ? "Hide the other choices" : "Size a different call or type my own trade"}</button>
-      </div>
-      {more ? (
-        <div className="sizer-in">
-          <label>Which trade
-            <select value={pick} onChange={(e) => setPickId(e.target.value)}>
-              {calls.map((c) => (
-                <option key={c.id} value={String(c.id)}>
-                  {c.symbol.replace(/USDT$/, "")} {c.side} · stop {pct(c.sw.stop_pct, { dp: 2, sign: false })} away · {(SIZE_BADGE[c.sw.kind] || ["–"])[0]}{scored(c) ? " · counts in the test" : ""}
-                </option>
-              ))}
-              <option value="manual">My own trade: type the levels</option>
-            </select>
-          </label>
+          ) : null}
+          {!out.ok ? <div className="empty" style={{ padding: "8px 0" }}>{out.reason}</div> : (
+            <>
+              {out.belowMin ? <p className="warnline"><span className="badge bad">Under the $5 minimum</span> the exchange would refuse {usd(r.notional)}; it needs at least {out.needRiskPct.toFixed(2)}% risk at this stop.</p> : null}
+              {out.scalpStop ? <p className="warnline"><span className="badge warn">Tight stop</span> {pct(r.stopPct, { dp: 2, sign: false })} from the entry; the desk's ideas this tight won {scalp?.n ? `${scalp.wins} of ${scalp.n}` : "very few"}.</p> : null}
+              {levAuto && rec && !rec.fits ? <p className="warnline"><span className="badge bad">Too big for the balance</span> lower the risk or pick an idea with a wider stop.</p> : null}
+              {!levAuto && out.notAffordable ? <p className="warnline"><span className="badge bad">Not enough balance</span> use at least {out.minLev}x or a smaller risk.</p> : null}
+              {out.capped ? <p className="warnline"><span className="badge warn">Cut to 3x the balance</span> a stop-out costs {usd(r.lossAtStop)}.</p> : null}
+              <div className="lv4">
+                <div><span>Size</span><b>{usd(r.notional)}</b><small>{fmtQty(r.qty)} {sym}</small></div>
+                <div><span>Leverage</span><b>{lev}x</b><small>margin {usd(r.margin)}{levAuto ? "" : " · your setting"}</small></div>
+                <div><span>If stopped</span><b className="down">−{usd(r.lossAtStop)}</b><small>{pct(r.lossShare, { dp: 1, sign: false })} of the balance</small></div>
+                <div><span>If target hit</span><b className="up">{r.gainAtTarget !== null ? `+${usd(r.gainAtTarget)}` : "–"}</b><small>{r.gainAtTarget !== null ? `+${pct(r.gainOnMargin, { dp: 0, sign: false })} on the margin` : ""}</small></div>
+              </div>
+              <div className="safety"><span className={`badge ${sf[1]}`}>{sf[0]}</span>
+                <span>{r.status === "ok"
+                  ? `Liquidation at ${priceFmt(r.liqPrice)}, ${pct(r.liqDist, { dp: 1, sign: false })} away: the stop-loss triggers long before it.`
+                  : `Liquidation is too close to the stop at ${lev}x. Use ${r.maxLev}x or less.`}
+                  {!levAuto ? <> <button className="btn" onClick={() => set({ lev: "" })}>Use the suggested leverage</button></> : null}</span></div>
+              <details className="levguide">
+                <summary>How to place it on Bitget</summary>
+                <ol className="steps-ol">
+                  <li>Futures, USDT-M, pair <b>{call ? `${sym}USDT` : "your coin"}</b>; margin <b>Isolated</b>, leverage <b>{lev}x</b>.</li>
+                  <li><b>Market</b> order, <b>{long ? "Buy / Long" : "Sell / Short"}</b> <b>{fmtQty(r.qty)} {sym}</b> (about {usd(r.notional)} if it asks in USDT).</li>
+                  <li>TP/SL on: {r.gainAtTarget !== null ? <>take-profit <b>{priceFmt(lv.target)}</b>, </> : null}stop-loss <b>{priceFmt(lv.stop)}</b>. Confirm.</li>
+                  <li>If the price is already past the stop or the target, skip it.</li>
+                </ol>
+              </details>
+              {guide.length > 1 ? (
+                <details className="levguide">
+                  <summary>More leverage?</summary>
+                  <div className="note" style={{ whiteSpace: "normal", margin: "4px 0 6px" }}>
+                    More leverage only locks less margin and moves liquidation closer; the dollars at the stop and the target stay the same.
+                  </div>
+                  {guide.map((x) => (
+                    <div className={`lrow${x.lev === lev ? " on" : ""}`} key={x.lev}>
+                      <div className="lh"><b>{x.lev}x</b>{x.tag ? <span className="note"> {x.tag}</span> : null}</div>
+                      <div className="ld">margin {usd(x.margin)} · liquidation {pct(x.liqDist, { dp: 1, sign: false })} away
+                        {x.gainOnMargin !== null ? <> · target +{pct(x.gainOnMargin, { dp: 0, sign: false })} on the margin</> : null}</div>
+                      <div className="lb"><span className={`badge ${SAFETY[x.status][1]}`}>{SAFETY[x.status][0]}</span>{" "}
+                        <button className="btn" disabled={x.lev === lev} onClick={() => set({ lev: String(x.lev) })}>{x.lev === lev ? "in use" : `Use ${x.lev}x`}</button></div>
+                    </div>
+                  ))}
+                  <div className="sizer-in" style={{ marginTop: 8 }}>
+                    <label>Another leverage (x)<input inputMode="decimal" placeholder={rec ? `suggested ${rec.lev}` : ""} value={v.lev} onChange={(e) => set({ lev: e.target.value })} /></label>
+                  </div>
+                </details>
+              ) : null}
+            </>
+          )}
         </div>
       ) : null}
-      <div className="sizer-in">
-        <label>Your futures balance ($)<input inputMode="decimal" value={v.bal} onChange={(e) => set({ bal: e.target.value })} /></label>
-        <label>Most you accept losing if the stop-loss hits (% of balance)<input inputMode="decimal" value={v.risk} onChange={(e) => set({ risk: e.target.value })} /></label>
-      </div>
-      <div className="chips">
-        <span className="note" style={{ alignSelf: "center" }}>Balance</span>
-        {[10, 20, 50, 100, 300].map((x) => <button key={x} className={bal === x ? "on" : ""} onClick={() => set({ bal: String(x) })}>${x}</button>)}
-        <span className="note" style={{ alignSelf: "center", marginLeft: 8 }}>Risk</span>
-        {[0.5, 1, 2].map((x) => <button key={x} className={risk === x ? "on" : ""} onClick={() => set({ risk: String(x) })}>{x}%</button>)}
-        {call ? (
-          <>
-            <span className="note" style={{ alignSelf: "center", marginLeft: 8 }}>Enter</span>
-            <button className={v.entry === "now" ? "on" : ""} onClick={() => set({ entry: "now" })}>at the price now</button>
-            <button className={v.entry === "logged" ? "on" : ""} onClick={() => set({ entry: "logged" })}>at the desk's logged price</button>
-          </>
+      <div className="sig-more">
+        <button className="btn" onClick={() => setMore(!more)}>{more ? "Hide" : "Size another open idea, or my own trade"}</button>
+        {more ? (
+          <div className="sizer-in" style={{ marginTop: 8 }}>
+            <label>Which trade
+              <select value={pick} onChange={(e) => setPickId(e.target.value)}>
+                {calls.map((c) => (
+                  <option key={c.id} value={String(c.id)}>
+                    {c.symbol.replace(/USDT$/, "")} {c.side} · {GRADE[gradeCall(c).grade][0]} · stop {pct(c.sw.stop_pct, { dp: 2, sign: false })}
+                  </option>
+                ))}
+                <option value="manual">My own trade: type the levels</option>
+              </select>
+            </label>
+          </div>
         ) : null}
       </div>
-      {pick === "manual" ? (
-        <div className="sizer-in">
-          <label>Side
-            <select value={v.side} onChange={(e) => set({ side: e.target.value })}>
-              <option value="long">Long</option>
-              <option value="short">Short</option>
-            </select>
-          </label>
-          <label>Entry price<input inputMode="decimal" value={v.e} onChange={(e) => set({ e: e.target.value })} /></label>
-          <label>Stop price<input inputMode="decimal" value={v.s} onChange={(e) => set({ s: e.target.value })} /></label>
-          <label>Target price (optional)<input inputMode="decimal" value={v.t} onChange={(e) => set({ t: e.target.value })} /></label>
-        </div>
-      ) : null}
-      {!out.ok ? <div className="empty" style={{ padding: "8px 0" }}>{out.reason}</div> : (
-        <>
-          {out.belowMin ? <p className="note" style={{ whiteSpace: "normal" }}><span className="badge bad">Under the minimum order</span> {usd(r.notional)} is below the $5 minimum order value, so the exchange would refuse it. At this stop it takes at least {out.needRiskPct.toFixed(2)}% risk to place it.</p> : null}
-          {out.scalpStop ? <p className="note" style={{ whiteSpace: "normal" }}><span className="badge warn">Scalp-sized stop</span> The stop is only {pct(r.stopPct, { dp: 2, sign: false })} from your entry. The desk's calls with a stop under 0.4% have won {scalp?.n ? `${scalp.wins} of ${scalp.n}` : "very few"}: this close, ordinary price movement is enough to stop you out.</p> : null}
-          {levAuto && rec && !rec.fits ? <p className="note" style={{ whiteSpace: "normal" }}><span className="badge bad">Too big for your balance</span> Even at the highest safe leverage ({r.maxLev}x) this position needs more margin than you have. Lower the risk, or use a call with a wider stop.</p> : null}
-          {!levAuto && out.notAffordable ? <p className="note" style={{ whiteSpace: "normal" }}><span className="badge bad">Not enough balance</span> The margin is more than your balance. Use at least {out.minLev}x leverage, or a smaller risk.</p> : null}
-          {out.capped ? <p className="note" style={{ whiteSpace: "normal" }}><span className="badge warn">Cut to 3× the balance</span> The desk never holds more than 3 times the balance, so the position is cut to {usd(r.notional)}; a stop-out costs {usd(r.lossAtStop)}, less than the {risk}% you chose.</p> : null}
-          <div className="ticket">
-            <div className="t-h">If you take this trade, this is what to enter on the exchange</div>
-            <div className="trow"><div className="tl">1. Direction</div>
-              <div className="tv">{long ? "LONG (buy)" : "SHORT (sell)"} {call ? `${sym}/USDT` : "your coin"} <small>perpetual futures</small></div>
-              <div className="tnote">{long ? "A bet that the price goes up." : "A bet that the price goes down."}</div></div>
-            <div className="trow"><div className="tl">2. Entry price</div>
-              <div className="tv">about {priceFmt(lv.entry)}</div>
-              <div className="tnote">{call ? (v.entry === "now" ? `The price now (the desk logged ${priceFmt(call.entry)}).` : "The price the desk logged.") : "The entry you typed."} A market order is fine; every number below assumes you get about this price.</div></div>
-            <div className="trow"><div className="tl">3. Leverage</div>
-              <div className="tv">{lev}x</div>
-              <div className="tnote">{levAuto ? "The bot's suggestion." : "Your setting."} Anything up to {r.maxLev}x is safe for this trade. Leverage changes how much of your money is locked as margin ({usd(r.margin)} here), how close liquidation is, and so the profit % the exchange shows on that margin.
-                It does not change the position, so the dollars you lose at the stop-loss or make at the take-profit stay the same: to make or lose more dollars you must risk more, not use more leverage. Lower leverage is safer.
-                {!levAuto ? <> <button className="btn" onClick={() => set({ lev: "" })}>Back to the bot's suggestion</button></> : null}</div></div>
-            <div className="trow"><div className="tl">4. Position size</div>
-              <div className="tv">{usd(r.notional)} <small>({fmtQty(r.qty)} {sym})</small></div>
-              <div className="tnote">This locks {usd(r.margin)} of your {usd(bal)} as margin ({pct(r.marginShare, { dp: 0, sign: false })}).</div></div>
-            <div className="trow"><div className="tl">5. Stop-loss at</div>
-              <div className="tv down">{priceFmt(lv.stop)}</div>
-              <div className="tnote">{pct(r.stopPct, { dp: 2, sign: false })} {long ? "below" : "above"} your entry. If the price touches it the trade closes and you lose about {usd(r.lossAtStop)} ({pct(r.lossShare, { dp: 2, sign: false })} of your balance), fee included. On the {usd(r.margin)} locked as margin that is {pct(r.lossOnMargin, { dp: 0, sign: false })}.</div></div>
-            <div className="trow"><div className="tl">6. Take-profit at</div>
-              {r.gainAtTarget !== null
-                ? <><div className="tv up">{priceFmt(lv.target)}</div>
-                  <div className="tnote">{pct(r.targetPct, { dp: 2, sign: false })} {long ? "above" : "below"} your entry. If it is hit you make about {usd(r.gainAtTarget)}, {out.rr.toFixed(1)} times what you risk, after the fee. On the {usd(r.margin)} locked as margin that is +{pct(r.gainOnMargin, { dp: 0, sign: false })} (the profit % the exchange shows).</div></>
-                : <><div className="tv">none</div><div className="tnote">{out.noTarget ? "No target was given." : "The price is already past the target."}</div></>}</div>
-          </div>
-          <div className="safety"><span className={`badge ${sf[1]}`}>{sf[0]}</span>
-            <span>{r.status === "ok"
-              ? `Liquidation (the exchange force-closing your trade) would be at ${priceFmt(r.liqPrice)}, ${pct(r.liqDist, { dp: 1, sign: false })} from your entry. Your stop-loss is only ${pct(r.stopPct, { dp: 2, sign: false })} away, so it triggers long before liquidation could.`
-              : r.status === "tight"
-                ? `Liquidation at ${priceFmt(r.liqPrice)} is only ${r.roomX.toFixed(1)}× as far as your stop-loss, so a fast move could jump past the stop. Use ${r.maxLev}x or less.`
-                : `At ${lev}x the exchange would force-close the trade at ${priceFmt(r.liqPrice)}, BEFORE your stop-loss. Use ${r.maxLev}x or less.`}</span></div>
-          <div className="steps">
-            <div className="t-h">How to place it (Bitget app or website)</div>
-            <ol>
-              <li>Open <b>Futures</b>, choose <b>USDT-M</b>, then the pair <b>{call ? `${sym}USDT` : "you are trading"}</b>.</li>
-              <li>Set the margin mode to <b>Isolated</b> and the leverage to <b>{lev}x</b>.</li>
-              <li>Choose a <b>Market</b> order and press <b>{long ? "Buy / Long" : "Sell / Short"}</b> for <b>{fmtQty(r.qty)} {sym}</b> (about {usd(r.notional)}).</li>
-              <li>{r.gainAtTarget !== null
-                ? <>Switch on <b>TP/SL</b>: take-profit at <b>{priceFmt(lv.target)}</b> and stop-loss at <b>{priceFmt(lv.stop)}</b>. Confirm the order.</>
-                : <>Switch on <b>TP/SL</b>: stop-loss at <b>{priceFmt(lv.stop)}</b>. Confirm the order.</>}</li>
-              <li>If the price has already passed the stop-loss or the take-profit when you look, skip this one and wait for the next signal.</li>
-            </ol>
-            <div className="note" style={{ whiteSpace: "normal" }}>Button names differ a little between app versions. If the exchange wants the size in USDT instead of coins, enter {usd(r.notional)}.</div>
-          </div>
-          {guide.length > 1 ? (
-            <details className="levguide">
-              <summary>Want more leverage? See what each level does</summary>
-              <div className="note" style={{ whiteSpace: "normal", margin: "4px 0 6px" }}>
-                Higher leverage does not make this trade pay more dollars: the position, and so the dollars at the stop-loss and the take-profit, are set by your risk %. It only locks less of your money as margin and puts liquidation closer, so the same dollars become a bigger % of a smaller margin (the profit % an exchange shows). "Safe" only means the stop-loss would trigger before liquidation, not that the trade will win. The calls are unproven.
-              </div>
-              {guide.map((g) => (
-                <div className={`lrow${g.lev === lev ? " on" : ""}`} key={g.lev}>
-                  <div className="lh"><b>{g.lev}x</b>{g.tag ? <span className="note"> {g.tag}</span> : null}</div>
-                  <div className="ld">locks {usd(g.margin)} ({pct(g.marginShare, { dp: 0, sign: false })} of your balance) · liquidation {pct(g.liqDist, { dp: 1, sign: false })} away
-                    {g.gainOnMargin !== null ? <> · take-profit +{pct(g.gainOnMargin, { dp: 0, sign: false })} on the margin</> : null} · stop-loss −{pct(g.lossOnMargin, { dp: 0, sign: false })} on the margin</div>
-                  <div className="lb"><span className={`badge ${SAFETY[g.status][1]}`}>{SAFETY[g.status][0]}</span>{" "}
-                    <button className="btn" disabled={g.lev === lev} onClick={() => set({ lev: String(g.lev) })}>{g.lev === lev ? "in use" : `Use ${g.lev}x`}</button></div>
-                </div>
-              ))}
-              <div className="note" style={{ whiteSpace: "normal", marginTop: 6 }}>
-                Above {r.maxLev}x, liquidation would sit less than twice as far away as your stop-loss, so a fast move could jump past it.
-              </div>
-              <div className="sizer-in" style={{ marginTop: 8 }}>
-                <label>Another leverage (x): leave empty to use the bot's suggestion<input inputMode="decimal" placeholder={rec ? `suggested ${rec.lev}` : ""} value={v.lev} onChange={(e) => set({ lev: e.target.value })} /></label>
-              </div>
-            </details>
-          ) : null}
-        </>
-      )}
       <p className="note" style={{ marginTop: 8, whiteSpace: "normal" }}>
-        These are estimates: a 0.12% round-trip fee, a 0.5% maintenance margin and isolated margin. Your exchange's own liquidation price differs by coin and tier, the size is not rounded to the coin's smallest
-        order step, and funding is left out. The signals are unproven ({bets} of {needed} test bets so far), so risk only money you can afford to lose. You place the order yourself.
+        Estimates: 0.12% round-trip fee, isolated margin, funding left out. Unproven signals: risk only money you can afford to lose. You place the order yourself.
       </p>
     </div>
   );
@@ -980,13 +947,58 @@ function MarketMood({ m, lean }) {
   const bleed = m.alt30 <= -0.15;
   const longAgainst = m.fuel === "LOW" || bleed;
   const shortAgainst = !(bleed || m.btc === "bear");
-  const side = longAgainst && shortAgainst ? "both longs and shorts" : longAgainst ? "a long (buy)" : shortAgainst ? "a short (sell)" : "neither side";
-  const fw = (lean || {}).forward || {};
+  const side = longAgainst && shortAgainst ? "longs and shorts" : longAgainst ? "LONGS" : shortAgainst ? "SHORTS" : "neither side";
   return (
-    <p className="note" style={{ whiteSpace: "normal", margin: "0 0 10px" }}>
-      <b>Market mood now:</b> BTC {m.btc}, {m.fuel === "LOW" ? "few alts running" : m.fuel === "HIGH" ? "many alts running" : "some alts running"},
-      the typical big alt {pct(m.alt30, { dp: 0 })} over 30 days. Right now {side} goes against the mood, the kind of idea the desk's replays favoured.
-      {fw.verdict ? <> The test on new ideas: {fw.verdict.startsWith("NOT YET") ? `${fw.against?.bets ?? 0} and ${fw.with?.bets ?? 0} of ${fw.needed ?? 30} bets each so far` : fw.verdict}.</> : null}
+    <div className="mood">
+      <span className="note">Market mood</span>
+      <span className="chip-s">BTC {m.btc}</span>
+      <span className="chip-s">alts {pct(m.alt30, { dp: 0 })} in 30 days</span>
+      <span className="chip-s">{m.fuel === "LOW" ? "few alts running" : m.fuel === "HIGH" ? "many alts running" : "some alts running"}</span>
+      <span className="note">→ the better side now: <b>{side}</b></span>
+    </div>
+  );
+}
+
+// Every open idea in one line each, best first, so the whole board reads at a glance.
+function OpenIdeas({ calls, local }) {
+  if (!calls.length) return null;
+  const rank = { best: 0, ok: 1, skip: 2 };
+  const rows = calls.map((c) => ({ c, g: gradeCall(c) })).sort((x, y) => rank[x.g.grade] - rank[y.g.grade] || y.c.id - x.c.id);
+  return (
+    <div className="ideas">
+      <div className="t-h">All open ideas</div>
+      <div className="scroll">
+        <table>
+          <thead><tr><th>Market</th><th>Side</th><th>Grade</th><th className="r">Stop</th><th>Mood</th><th className="r">Logged</th></tr></thead>
+          <tbody>
+            {rows.map(({ c, g }) => (
+              <tr key={c.id}>
+                <td>{c.symbol.replace(/USDT$/, "")}</td>
+                <td className={c.side === "long" ? "up" : "down"}>{c.side === "long" ? "Long" : "Short"}</td>
+                <td><span className={`badge ${GRADE[g.grade][1]}`}>{GRADE[g.grade][0]}</span></td>
+                <td className="r">{pct(c.sw.stop_pct, { dp: 1, sign: false })}</td>
+                <td>{c.lean === "against" ? "against" : c.lean === "with" ? "with" : "–"}</td>
+                <td className="r">{when(c.made, local)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+// The record in one honest line.
+function RecordLine({ a }) {
+  const s = a.stats || {}, fw = (a.sweet || {}).forward || {}, lf = (a.lean || {}).forward || {};
+  const p = (x) => pct(x, { dp: 0, sign: false });
+  return (
+    <p className="record">
+      <span className="badge idle">Unproven</span>{" "}
+      {s.resolved ? <>All {s.resolved} finished ideas: {p(s.hit)} hit the take-profit, {p(s.breakeven)} was needed to break even ({rTxt(s.avg_r)} each). </> : null}
+      Ideas with room: {fw.bets ?? 0} of {fw.needed ?? 30} test bets{fw.bets ? ` (${rTxt(fw.mean_r_bet)} a bet so far)` : ""}.
+      {lf.verdict ? <> Mood test: {lf.verdict.startsWith("NOT YET") ? `${lf.against?.bets ?? 0} against / ${lf.with?.bets ?? 0} with, of ${lf.needed ?? 30} bets each` : lf.verdict}.</> : null}
+      {" "}Risk 1% or less.
     </p>
   );
 }
@@ -994,6 +1006,7 @@ function MarketMood({ m, lean }) {
 function SignalNow({ a }) {
   const sw = a.sweet;
   const now = useNow(15000);
+  const local = useMounted();
   if (!sw) return null;
   const fw = sw.forward || {};
   const badge = fwBadge(fw);
@@ -1003,12 +1016,14 @@ function SignalNow({ a }) {
   return (
     <section className="card signal">
       <div className="card-h">
-        <div><h2>Signal now</h2>
-          <div className="sub">The bot checks the charts every hour (next check {hhmm} UTC{mins !== null ? `, in ${mins} min` : ""}). When a good setup shows up it appears here as an order you can copy onto the exchange.</div></div>
+        <div><h2>Signal</h2>
+          <div className="sub">The desk reads the charts every hour at :07 UTC · next check {hhmm} UTC{mins !== null ? `, in ${mins} min` : ""}</div></div>
         <span className={`badge ${badge[1]}`}>{badge[0]}</span>
       </div>
       <MarketMood m={a.market} lean={a.lean} />
       <SizePanel calls={[...sweetOpen, ...otherOpen]} scored={scored} bets={fw.bets ?? 0} needed={fw.needed ?? 30} scalp={(sw.history || {}).scalp} />
+      <OpenIdeas calls={[...sweetOpen, ...otherOpen]} local={local} />
+      <RecordLine a={a} />
     </section>
   );
 }
@@ -1127,10 +1142,10 @@ function AnalystDesk({ a }) {
   const nr = cur?.resistance?.[0], ns = cur?.support?.[0];
   return (
     <>
-      <DeskIntro a={a} />
       <SignalNow a={a} />
       <details className="more">
-        <summary>Full details: the paper book, record, charts and every open call <span className="note">(for people who like numbers)</span></summary>
+        <summary>Full details: what the desk is, the paper book, the record, levels and charts</summary>
+      <DeskIntro a={a} />
       <section className="card score">
         <div className="card-h">
           <div><h2>Analyst desk · paper, its own {usd(a.start, { dp: 0 })}</h2>
