@@ -853,18 +853,19 @@ function SizePanel({ calls, scored, bets, needed, scalp }) {
               <div className="tnote">{call ? (v.entry === "now" ? `The price now (the desk logged ${priceFmt(call.entry)}).` : "The price the desk logged.") : "The entry you typed."} A market order is fine; every number below assumes you get about this price.</div></div>
             <div className="trow"><div className="tl">3. Leverage</div>
               <div className="tv">{lev}x</div>
-              <div className="tnote">{levAuto ? "The bot's suggestion." : "Your setting."} Anything up to {r.maxLev}x is safe for this trade. Leverage does not change how much you lose at the stop-loss: it only decides how much of your money is locked as margin and how close liquidation is. Lower is safer.
+              <div className="tnote">{levAuto ? "The bot's suggestion." : "Your setting."} Anything up to {r.maxLev}x is safe for this trade. Leverage changes how much of your money is locked as margin ({usd(r.margin)} here), how close liquidation is, and so the profit % the exchange shows on that margin.
+                It does not change the position, so the dollars you lose at the stop-loss or make at the take-profit stay the same: to make or lose more dollars you must risk more, not use more leverage. Lower leverage is safer.
                 {!levAuto ? <> <button className="btn" onClick={() => set({ lev: "" })}>Back to the bot's suggestion</button></> : null}</div></div>
             <div className="trow"><div className="tl">4. Position size</div>
               <div className="tv">{usd(r.notional)} <small>({fmtQty(r.qty)} {sym})</small></div>
               <div className="tnote">This locks {usd(r.margin)} of your {usd(bal)} as margin ({pct(r.marginShare, { dp: 0, sign: false })}).</div></div>
             <div className="trow"><div className="tl">5. Stop-loss at</div>
               <div className="tv down">{priceFmt(lv.stop)}</div>
-              <div className="tnote">{pct(r.stopPct, { dp: 2, sign: false })} {long ? "below" : "above"} your entry. If the price touches it the trade closes and you lose about {usd(r.lossAtStop)} ({pct(r.lossShare, { dp: 2, sign: false })} of your balance), fee included.</div></div>
+              <div className="tnote">{pct(r.stopPct, { dp: 2, sign: false })} {long ? "below" : "above"} your entry. If the price touches it the trade closes and you lose about {usd(r.lossAtStop)} ({pct(r.lossShare, { dp: 2, sign: false })} of your balance), fee included. On the {usd(r.margin)} locked as margin that is {pct(r.lossOnMargin, { dp: 0, sign: false })}.</div></div>
             <div className="trow"><div className="tl">6. Take-profit at</div>
               {r.gainAtTarget !== null
                 ? <><div className="tv up">{priceFmt(lv.target)}</div>
-                  <div className="tnote">{pct(r.targetPct, { dp: 2, sign: false })} {long ? "above" : "below"} your entry. If it is hit you make about {usd(r.gainAtTarget)}, {out.rr.toFixed(1)} times what you risk, after the fee.</div></>
+                  <div className="tnote">{pct(r.targetPct, { dp: 2, sign: false })} {long ? "above" : "below"} your entry. If it is hit you make about {usd(r.gainAtTarget)}, {out.rr.toFixed(1)} times what you risk, after the fee. On the {usd(r.margin)} locked as margin that is +{pct(r.gainOnMargin, { dp: 0, sign: false })} (the profit % the exchange shows).</div></>
                 : <><div className="tv">none</div><div className="tnote">{out.noTarget ? "No target was given." : "The price is already past the target."}</div></>}</div>
           </div>
           <div className="safety"><span className={`badge ${sf[1]}`}>{sf[0]}</span>
@@ -890,12 +891,13 @@ function SizePanel({ calls, scored, bets, needed, scalp }) {
             <details className="levguide">
               <summary>Want more leverage? See what each level does</summary>
               <div className="note" style={{ whiteSpace: "normal", margin: "4px 0 6px" }}>
-                Higher leverage locks less of your money but puts liquidation closer. What you lose at the stop-loss and make at the take-profit stays exactly the same. "Safe" only means the stop-loss would trigger before liquidation, not that the trade will win. The calls are unproven and the position does not change, so a higher leverage buys you nothing here except less money locked as margin.
+                Higher leverage does not make this trade pay more dollars: the position, and so the dollars at the stop-loss and the take-profit, are set by your risk %. It only locks less of your money as margin and puts liquidation closer, so the same dollars become a bigger % of a smaller margin (the profit % an exchange shows). "Safe" only means the stop-loss would trigger before liquidation, not that the trade will win. The calls are unproven.
               </div>
               {guide.map((g) => (
                 <div className={`lrow${g.lev === lev ? " on" : ""}`} key={g.lev}>
                   <div className="lh"><b>{g.lev}x</b>{g.tag ? <span className="note"> {g.tag}</span> : null}</div>
-                  <div className="ld">locks {usd(g.margin)} ({pct(g.marginShare, { dp: 0, sign: false })} of your balance) · liquidation {pct(g.liqDist, { dp: 1, sign: false })} away</div>
+                  <div className="ld">locks {usd(g.margin)} ({pct(g.marginShare, { dp: 0, sign: false })} of your balance) · liquidation {pct(g.liqDist, { dp: 1, sign: false })} away
+                    {g.gainOnMargin !== null ? <> · take-profit +{pct(g.gainOnMargin, { dp: 0, sign: false })} on the margin</> : null} · stop-loss −{pct(g.lossOnMargin, { dp: 0, sign: false })} on the margin</div>
                   <div className="lb"><span className={`badge ${SAFETY[g.status][1]}`}>{SAFETY[g.status][0]}</span>{" "}
                     <button className="btn" disabled={g.lev === lev} onClick={() => set({ lev: String(g.lev) })}>{g.lev === lev ? "in use" : `Use ${g.lev}x`}</button></div>
                 </div>

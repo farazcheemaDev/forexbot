@@ -108,7 +108,10 @@ export function leverageGuide(input, recLev) {
     .map((lev) => {
       const o = buildSizing({ ...input, lev });
       const tags = [lev === recLev ? "suggested" : "", lev === maxLev ? "highest safe" : ""].filter(Boolean);
-      return { lev, margin: o.r.margin, marginShare: o.r.marginShare, liqPrice: o.r.liqPrice, liqDist: o.r.liqDist, status: o.r.status, fits: !o.notAffordable, tag: tags.join(" · ") };
+      return {
+        lev, margin: o.r.margin, marginShare: o.r.marginShare, liqPrice: o.r.liqPrice, liqDist: o.r.liqDist, status: o.r.status, fits: !o.notAffordable, tag: tags.join(" · "),
+        gainOnMargin: o.r.gainOnMargin, lossOnMargin: o.r.lossOnMargin,
+      };
     })
     .filter((g) => g.fits);
 }

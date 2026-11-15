@@ -235,6 +235,18 @@ def test_the_guide_drops_options_whose_margin_does_not_fit_the_balance_and_is_em
     assert guide(3, stop=1.2) == []                                                     # a stop on the wrong side: nothing to suggest
 
 
+def test_each_guide_row_shows_the_return_on_its_own_margin_while_the_dollars_stay_the_same():
+    g = guide(3)
+    tp, sl = 0.0794, 0.014                                                              # the target and stop as shares of the entry used by guide()
+    for x in g:
+        assert near(x["gainOnMargin"], x["lev"] * (tp - FEE)) and near(x["lossOnMargin"], x["lev"] * (sl + FEE))
+    assert near(g[-1]["gainOnMargin"] / g[0]["gainOnMargin"], 30 / 3)                    # 30x reads ten times the percentage of 3x: same dollars, a tenth of the margin
+    d3, d30 = build(entry=1.187, stop=1.187 * (1 - 0.014), target=1.187 * 1.0794, bal=10, riskPct=1, lev=3), build(entry=1.187, stop=1.187 * (1 - 0.014), target=1.187 * 1.0794, bal=10, riskPct=1, lev=30)
+    assert near(d3["r"]["lossAtStop"], d30["r"]["lossAtStop"]) and near(d3["r"]["gainAtTarget"], d30["r"]["gainAtTarget"]) and near(d3["r"]["notional"], d30["r"]["notional"])
+    nt = guide(3, target=None)                                                          # no target: no gain on margin, the loss on margin is still there
+    assert all(x["gainOnMargin"] is None and x["lossOnMargin"] > 0 for x in nt)
+
+
 def test_a_wide_stop_leaves_fewer_safe_leverage_options():
     g = guide(3, stop=1.187 * (1 - 0.05), target=1.187 * 1.15)                          # a 5% stop: liquidation twice as far allows 9x at most
     assert [x["lev"] for x in g] == [3, 5, 9] and g[-1]["tag"] == "highest safe" and all(x["status"] == "ok" for x in g)

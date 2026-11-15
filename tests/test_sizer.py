@@ -62,6 +62,19 @@ def test_the_desks_three_times_cap_and_the_margin_check():
     assert poor["affordable"] is False and poor["marginShare"] > 1
 
 
+def test_leverage_changes_the_return_on_the_margin_locked_not_the_dollars():
+    base = dict(side="long", entry=100, stop=98.4, target=108, bal=1000, riskPct=0.005)
+    s, g = 0.016, 0.08
+    a, b = run(**base, lev=3), run(**base, lev=26)
+    for r in (a, b):                                                                    # the position, the loss at the stop and the gain at the target do not depend on leverage
+        assert near(r["notional"], 5 / (s + FEE)) and near(r["lossAtStop"], 5.0) and near(r["gainAtTarget"], r["notional"] * (g - FEE))
+    assert near(a["gainOnMargin"], 3 * (g - FEE)) and near(b["gainOnMargin"], 26 * (g - FEE))          # but the same dollars on a smaller margin read as a bigger percentage
+    assert near(a["lossOnMargin"], 3 * (s + FEE)) and near(b["lossOnMargin"], 26 * (s + FEE))
+    assert near(b["gainOnMargin"] / a["gainOnMargin"], 26 / 3) and near(b["lossOnMargin"] / a["lossOnMargin"], 26 / 3)
+    assert near(a["gainOnMargin"], a["gainAtTarget"] / a["margin"]) and near(a["lossOnMargin"], a["lossAtStop"] / a["margin"])
+    assert run(**{**base, "target": None}, lev=3)["gainOnMargin"] is None and run(**{**base, "target": 99}, lev=3)["gainOnMargin"] is None   # no target, or one on the losing side: no gain figure
+
+
 def test_nonsense_gets_no_size_not_a_wrong_one():
     ok = dict(side="long", entry=100, stop=98.4, target=108, bal=1000, lev=10, riskPct=0.005)
     assert run(**{**ok, "stop": 101}) is None                  # a long's stop above its entry

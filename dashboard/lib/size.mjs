@@ -22,6 +22,9 @@ export function sizeCall({ side, entry, stop, target, bal, lev, riskPct }) {
     stopPct, targetPct, notional, qty: notional / entry, capped, margin, marginShare: margin / bal, affordable: margin <= bal,
     liqDist, liqPrice, lossAtStop, lossShare: lossAtStop / bal,
     gainAtTarget: targetPct !== null && targetPct > 0 ? notional * (targetPct - FEE) : null,
+    // the same dollars as a share of the money LOCKED as margin: this is the profit % an exchange shows, and it is the number leverage changes
+    gainOnMargin: targetPct !== null && targetPct > 0 ? (notional * (targetPct - FEE)) / margin : null,
+    lossOnMargin: lossAtStop / margin,
     room: liqDist - stopPct, roomX: liqDist / stopPct,
     status: liqDist <= stopPct ? "danger" : liqDist >= 2 * stopPct ? "ok" : "tight",       // ok = liquidation at least twice as far as the stop
     maxLev: Math.max(1, Math.floor(1 / (2 * stopPct + MAINT))),                            // the highest leverage that keeps that 2x gap
