@@ -1,0 +1,12 @@
+[Unit]
+Description=Record the day's Nasdaq-100 market breadth once a day, after New York's 20:00 post-market close
+
+[Timer]
+# 02:00 UTC = 21:00 / 22:00 New York (winter / summer): every session of the day, pre- and post-market, is over. A missed run is caught up
+# at the next one (it refetches the last 5 days when one is missing); Persistent runs a run missed while the VM was off at boot.
+OnCalendar=*-*-* 02:00:00 UTC
+Persistent=true
+RandomizedDelaySec=120
+
+[Install]
+WantedBy=timers.target

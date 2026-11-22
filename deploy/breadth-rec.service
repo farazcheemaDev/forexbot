@@ -1,0 +1,20 @@
+[Unit]
+Description=Market breadth recorder (breadth_rec.py) - TICK / ADD / VOLD / TRIN-style breadth of the Nasdaq-100, 1-minute, public Yahoo data
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=__USER__
+WorkingDirectory=__APP_DIR__
+# RECORD ONLY: public Yahoo chart data for ~100 Nasdaq-100 stocks, no keys, no accounts, no orders. Writes strategy_analysis/data/breadth/
+# (raw/ day bars, minute/ breadth CSVs, breadth_rec.log). Standard library only, one stock in memory at a time; capped and niced so it
+# can never crowd out the bots.
+ExecStart=__APP_DIR__/.venv/bin/python -u breadth_rec.py
+TimeoutStartSec=1800
+Nice=10
+MemoryMax=150M
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
