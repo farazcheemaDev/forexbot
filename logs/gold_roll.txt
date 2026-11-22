@@ -1,0 +1,15 @@
+GOLD ROLL TEST - CME open interest by month x CFTC managed money - 2026-10-28 16:31 UTC
+panel: 94,183 contract-days, 4,151 trading days 2010-06-07 .. 2026-10-26, 120 contracts
+check vs the CME page: feed open interest for 2026-10-23 = 401,077; the page's 10/26 total = 401,077 (match)
+check vs the CME page: feed open interest for 2026-10-22 = 400,538; the page's 10/23 total = 400,538 (match)
+check vs the CME page: feed open interest for 2026-10-21 = 400,014; the page's 10/22 total = 400,014 (match)
+GCZ6 settle 2026-10-26 4038.4 (the page's 10/26 GC DEC 26 settled 4074.6 on 10/27; 10/26's is in the snapshot of the 5 days)
+51 cycles, 2016-02 .. 2026-06; roll share (managed money net futures lots / the delivery month's open interest) from -0.11 to +0.58, median +0.30; 46 cycles net long, 5 net short
+
+G1  open interest still in the delivery month at first notice (share of its t0 level): median 2%, worst cycle 9%; IC with roll share +0.10
+G2  spread change t0 -> F (N - M, % of price): IC with roll share +0.139 (tune +0.307, holdout -0.191), one-sided permutation p 0.162
+G5  mean spread change -0.012 points; net-long cycles (46) -0.008, net-short cycles (5) -0.043
+G3  outright return over the same days: IC with roll share -0.117, p 0.792, mean +0.78%
+G4  spread trade in the crowd's direction, $30 charged: mean -43.3 $/cycle (t -1.38, hit 29%), tune +1.0, holdout -106.7
+
+VERDICT: NO LEAD: the spread does not reliably move with managed money's pending roll

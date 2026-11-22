@@ -10,5 +10,9 @@ available dates: always 5. Anything older is empty - history is CME DataMine (pa
 - `pa_pl_oi_5d.json`  palladium and platinum open interest by contract month and the totals of all five products for 2026-10-21 .. 10-27: the start
   of the roll out of the delivery month (platinum's JAN -> APR has begun; palladium's DEC -> MAR has barely started).
 
+**Correction (2026-10-28):** the page's open-interest column for a trade date is the PREVIOUS trading day's open interest (the page's 10/26 total, 401,077, is the
+feed's figure for 10-23 in Databento's data, which stamps it with the day it belongs to). So the `open_interest` values in these files and in `pa_pl_oi_5d.json` are one trading day
+older than their `trade_date`; settlement prices and volume are the trade date's own. Databento's `statistics` (see `backtest/gold_roll.py`) has the history with correct dates.
+
 What these are for: `positioning_lean.py` reads the latest file to show how much of each metal's open interest still sits in the next delivery
 month and how many days remain to first notice. The record has to be kept going forward (one file a day or a week); it cannot be rebuilt.

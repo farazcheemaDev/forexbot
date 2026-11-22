@@ -1,0 +1,49 @@
+backtest/sweep_zone.py, 2026-11-08 16:50; PIT top-40 1h, 24-bar sweep + 4h supply/demand zone (1.5 ATR impulse, 1.0 ATR base, first retest + 24h) + daily 50-day trend; 12bp + funding; halves split 2024-04-07
+sweeps 60601 (28694 long / 31907 short), 359 coins, 2020-02-02 .. 2026-09-18
+FUNNEL: zoned 2323 (3.8% of sweeps, 351 a year); zoned + daily trend agrees 1352 (58% of zoned, 204 a year); opposite-zone sweeps 61; zoned without a valid zone trade 0
+        zoned share by side: long 4.2%, short 3.5%; by half: tune 3.8%, holdout 3.9%
+
+THE THREE ARMS on their own trade (A: sweep stop, 3R, 72h; B and C: zone stop, 3R, 72h); net of 12bp + funding, in R
+  A LONG  tune  n 16366, net -0.10R (t -3.2), gross -0.04R, hit 22% vs control 21%, excess +0.02R (t +0.4)
+  A LONG  hold  n 12328, net -0.19R (t -5.9), gross -0.11R, hit 20% vs control 21%, excess -0.02R (t -0.7)
+  A SHORT tune  n 19762, net -0.05R (t -2.1), gross +0.03R, hit 23% vs control 23%, excess +0.01R (t +0.4)
+  A SHORT hold  n 12145, net -0.07R (t -2.3), gross +0.02R, hit 23% vs control 24%, excess -0.05R (t -1.4)
+  B LONG  tune  n 656, net +0.01R (t +0.1), gross +0.05R, hit 18% vs control 16%, excess +0.05R (t +0.5)
+  B LONG  hold  n 539, net -0.26R (t -3.5), gross -0.21R, hit 14% vs control 20%, excess -0.21R (t -2.0)
+  B SHORT tune  n 713, net -0.14R (t -1.7), gross -0.09R, hit 16% vs control 19%, excess -0.07R (t -0.7)
+  B SHORT hold  n 415, net -0.00R (t -0.0), gross +0.06R, hit 19% vs control 18%, excess +0.01R (t +0.0)
+  C LONG  tune  n 368, net -0.05R (t -0.6), gross -0.01R, hit 17% vs control 17%, excess -0.11R (t -0.9)
+  C LONG  hold  n 240, net -0.23R (t -2.3), gross -0.19R, hit 15% vs control 17%, excess -0.12R (t -0.8)
+  C SHORT tune  n 440, net -0.07R (t -0.6), gross -0.02R, hit 17% vs control 21%, excess -0.10R (t -0.7)
+  C SHORT hold  n 304, net +0.06R (t +0.5), gross +0.12R, hit 21% vs control 19%, excess +0.03R (t +0.2)
+
+DIAGNOSTIC - B and C on arm A's own trade (same sweep stop, so the zone's effect is not mixed with a wider stop), in R
+  B-on-A LONG  tune  n 656, net +0.02R (t +0.2), gross +0.07R, hit 23% vs control 19%, excess +0.11R (t +1.1)
+  B-on-A LONG  hold  n 539, net -0.34R (t -4.7), gross -0.26R, hit 16% vs control 22%, excess -0.27R (t -2.6)
+  B-on-A SHORT tune  n 713, net -0.06R (t -0.7), gross +0.01R, hit 22% vs control 21%, excess +0.02R (t +0.2)
+  B-on-A SHORT hold  n 415, net -0.02R (t -0.2), gross +0.07R, hit 23% vs control 24%, excess -0.03R (t -0.2)
+  C-on-A LONG  tune  n 368, net -0.04R (t -0.4), gross +0.02R, hit 21% vs control 18%, excess +0.03R (t +0.2)
+  C-on-A LONG  hold  n 240, net -0.27R (t -2.6), gross -0.20R, hit 17% vs control 21%, excess -0.21R (t -1.4)
+  C-on-A SHORT tune  n 440, net +0.02R (t +0.2), gross +0.10R, hit 24% vs control 24%, excess -0.01R (t -0.0)
+  C-on-A SHORT hold  n 304, net -0.00R (t -0.0), gross +0.09R, hit 24% vs control 25%, excess -0.07R (t -0.4)
+
+INFORMATION TEST on T24 (the sweep_confluence trade: stop = sweep extreme, out 24 bars on), net % per trade: flagged minus unflagged, day-clustered t
+  B: zoned - unzoned                   LONG  tune spread -0.03% (t -0.1, 656 of 16366) | holdout -0.38% (t -2.1, 539 of 12328)
+  B: zoned - unzoned                   SHORT tune spread -0.00% (t -0.0, 713 of 19762) | holdout +0.08% (t +0.5, 415 of 12145)
+  C: trend-agrees - not, inside zoned  LONG  tune spread +0.34% (t +0.8, 368 of 656) | holdout -0.04% (t -0.1, 240 of 539)
+  C: trend-agrees - not, inside zoned  SHORT tune spread +0.33% (t +1.1, 440 of 713) | holdout +0.46% (t +1.2, 304 of 415)
+
+OPPOSITE-ZONE PLACEBO on T24: sweeps inside a live zone of the OPPOSITE type (a long sweep in a supply zone, a short sweep in a demand zone) vs the matching-zone sweeps
+  LONG  tune  opposite-zone n 13 net24 +6.72% | matching-zone n 656 net24 +0.05% | no zone n 15697 net24 +0.07%
+  LONG  hold  opposite-zone n 12 net24 +0.02% | matching-zone n 539 net24 -0.57% | no zone n 11777 net24 -0.18%
+  SHORT tune  opposite-zone n 20 net24 -2.39% | matching-zone n 713 net24 -0.10% | no zone n 19030 net24 -0.09%
+  SHORT hold  opposite-zone n 16 net24 +1.78% | matching-zone n 415 net24 +0.03% | no zone n 11714 net24 -0.06%
+
+GATE (net R > 0 on both halves; holdout Holm p < 0.05 over the 6 cells; excess over control > 0 on both halves; >= 100 holdout trades; B and C: the information test > 0 on both halves)
+  A LONG : tune net -0.10R (n 16366), holdout net -0.19R (t -5.9, n 12328, 1861 a year), excess +0.02R / -0.02R, Holm p 1.00, information ok  ->  no
+  A SHORT: tune net -0.05R (n 19762), holdout net -0.07R (t -2.3, n 12145, 1833 a year), excess +0.01R / -0.05R, Holm p 1.00, information ok  ->  no
+  B LONG : tune net +0.01R (n 656), holdout net -0.26R (t -3.5, n 539, 81 a year), excess +0.05R / -0.21R, Holm p 1.00, information no  ->  no
+  B SHORT: tune net -0.14R (n 713), holdout net -0.00R (t -0.0, n 415, 63 a year), excess -0.07R / +0.01R, Holm p 1.00, information no  ->  no
+  C LONG : tune net -0.05R (n 368), holdout net -0.23R (t -2.3, n 240, 36 a year), excess -0.11R / -0.12R, Holm p 1.00, information no  ->  no
+  C SHORT: tune net -0.07R (n 440), holdout net +0.06R (t +0.5, n 304, 46 a year), excess -0.10R / +0.03R, Holm p 1.00, information no  ->  no
+  cells passing: 0 of 6  []

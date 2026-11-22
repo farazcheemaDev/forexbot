@@ -1,0 +1,20 @@
+backtest/his_vix.py, 2026-11-13 23:41 UTC; VX.c.0 bbo-1s 59,848 seconds over 34 windows; clicks measured 53 (new 7); controls 30-37
+
+RANK OF HIS-WAY VIX MOVE AMONG SAME-SECOND MOMENTS (0.5 ordinary; > 0.5 = VIX moved his way: down before a buy, up before a sell)
+  vx10   mean 0.539  median 0.500  above 0.5: 22 of 53  p 0.3078   moved at all: 21%
+  vx30   mean 0.507  median 0.500  above 0.5: 22 of 53  p 0.9470   moved at all: 28%
+  vx60   mean 0.477  median 0.500  above 0.5: 20 of 53  p 0.5405   moved at all: 40%
+  vx120  mean 0.485  median 0.500  above 0.5: 23 of 53  p 0.5082   moved at all: 45%
+  vx300  mean 0.517  median 0.500  above 0.5: 26 of 53  p 0.5639   moved at all: 60%
+  vxa60  mean 0.584  median 0.500  above 0.5: 24 of 53  p 0.0478   moved at all: 28%
+
+RULE: follow VIX's last 30 s (VIX down -> buy NQ) at the sittings' moments: NQ +-7 race won 48.0% of 448
+
+LEAD-LAG corr(VIX change at s, NQ change at s + k), mean over windows (k > 0 = VIX first):
+  -10:+0.001  -9:-0.010  -8:-0.011  -7:-0.002  -6:-0.010  -5:-0.009  -4:-0.002  -3:-0.009  -2:-0.019  -1:-0.047  +0:-0.227  +1:-0.004  +2:+0.005  +3:+0.001  +4:+0.006  +5:+0.008  +6:-0.002  +7:+0.001  +8:-0.002  +9:+0.000  +10:-0.004
+
+PREDICTIONS
+  V1 no pre-click VIX feature > 0.65 with p < 0.01 (found: none) -> RIGHT
+  V2 after-click VIX leans his way, vxa60 > 0.6 (0.584) -> WRONG
+  V3 following VIX wins 45-55% (48.0%) -> RIGHT
+  V4 strongest at lag 0 and VIX-first |corr| < 0.05 (best k +0, VIX-first max 0.008) -> RIGHT

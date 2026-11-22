@@ -1,0 +1,6 @@
+2026-10-30 14:57:32  connected
+2026-10-30 14:58:32  6166 book msgs, 2240 trades, 0 gaps this minute; disk 0.7 MB; cpu 2.8% of one core; memory 55 MB; pongs 2; resubs 0
+2026-10-30 14:59:32  6189 book msgs, 1406 trades, 0 gaps this minute; disk 1.4 MB; cpu 2.9% of one core; memory 55 MB; pongs 5; resubs 0
+2026-10-30 15:00:32  6293 book msgs, 2671 trades, 0 gaps this minute; disk 2.3 MB; cpu 3.1% of one core; memory 59 MB; pongs 8; resubs 0
+2026-10-30 15:01:32  6268 book msgs, 3315 trades, 0 gaps this minute; disk 3.2 MB; cpu 2.9% of one core; memory 59 MB; pongs 11; resubs 0
+2026-10-30 15:02:36  stopped; files closed

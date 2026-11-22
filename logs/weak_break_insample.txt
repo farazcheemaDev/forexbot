@@ -1,0 +1,20 @@
+backtest/weak_break.py --insample, 2026-11-22 10:06 UTC; RULE sha256 86fd452f827be93ef74ae444b5bbae6a13fad9e4909c4dce7cb6046e3729abad
+  SEEN DAYS (every sign was found on them): 181 tick days 2026-01-02 .. 2026-09-14, split 2026-06-04; scored state-A moments 20,920
+
+                                                  tune             holdout
+    score 0                             48.7% of 2,804      50.6% of 1,621
+    score 1                             50.0% of 5,393      52.5% of 3,500
+    score 2                             50.0% of 3,211      51.5% of 2,171
+    score 3                             53.9% of 1,229        56.4% of 741
+    score 4                               53.6% of 151         53.5% of 99
+    RULE: score >= 3                    53.9% of 1,380        56.1% of 840
+    strict: score = 4                     53.6% of 151         53.5% of 99
+    rest: score <= 2                   49.7% of 11,408      51.8% of 7,292
+    every moment                       50.1% of 12,788      52.2% of 8,132
+    share with each sign: S 19%, B 52%, W 25%, H 31%
+
+    lift of the rule over the rest: tune +4.2, holdout +4.3, pooled +4.2 points
+
+  HIS 7 RECLAIMS by score: 02-17 2 (WH), 02-27 1 (B), 03-02 2 (BH), 04-06 4 (SBWH), 06-05 2 (SB), 07-01 2 (BH), 09-14 2 (SH)
+
+  F1 (seen) score >= 3 wins 53-57% on both halves -> RIGHT

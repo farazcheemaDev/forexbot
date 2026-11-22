@@ -1,0 +1,12 @@
+backtest/his_reclaim_tickflow.py, 2026-11-21 23:37 UTC; 181 tick days, split 2026-06-04; reclaim moments 21,211 (race won 51.0%)
+
+  STEP 1 the stand-in (quote up-moves minus down-moves, 60 s) vs the CME aggressor flow on 313 sitting moments: rank correlation +0.57
+
+  STEP 2 the reclaim race by tercile of the stand-in (bottom / middle / top), tune | holdout:
+    last 30 s:  tune 49.1% / 50.8% / 50.5% (n 4,184 in the top)  hold 53.0% / 53.2% / 50.8% (n 2,696 in the top)
+    last 60 s:  tune 49.3% / 51.0% / 50.1% (n 4,070 in the top)  hold 52.9% / 52.4% / 51.7% (n 2,664 in the top)
+
+REGISTERED PREDICTIONS
+  T1 the stand-in tracks the CME flow at rank >= +0.4 -> RIGHT (+0.57)
+  T2 the top tercile of the last-60-s stand-in <= 56% on both halves -> RIGHT (tune 50.1% | hold 51.7%)
+  T3 buying the real tape is worth it (T1 holds and the lean holds at scale): NO

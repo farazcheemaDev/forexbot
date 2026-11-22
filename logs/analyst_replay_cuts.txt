@@ -1,0 +1,60 @@
+backtest/analyst_replay_cuts.py, 2026-11-08 19:51; 10580 replay calls 2022-02-10 .. 2026-10-25, halves split 2024-12-07
+== tune
+  all                                          n  5934  bets 1844  hit  18.8% vs random  19.5%  R/call -0.160  R/bet -0.041 (t -1.5)
+  stop < 0.4%                                  n   278  bets  215  hit  20.9% vs random  23.1%  R/call -0.544  R/bet -0.481 (t -4.1)
+  stop 0.4-0.8%                                n  1403  bets  889  hit  24.0% vs random  24.3%  R/call -0.223  R/bet -0.173 (t -3.5)
+  stop >= 0.8% (the sweet spot)                n  4253  bets 1582  hit  17.0% vs random  17.6%  R/call -0.114  R/bet +0.005 (t +0.2)
+  stop >= 1.2%                                 n  2713  bets 1232  hit  14.1% vs random  15.2%  R/call -0.115  R/bet -0.020 (t -0.6)
+  RR <= 2.5                                    n  2864  bets 1474  hit  27.8% vs random  26.8%  R/call -0.107  R/bet -0.063 (t -2.1)
+  RR 2.5-4                                     n  1752  bets 1100  hit  14.2% vs random  16.1%  R/call -0.202  R/bet -0.149 (t -3.4)
+  RR > 4                                       n  1318  bets  807  hit   5.4% vs random   7.9%  R/call -0.221  R/bet -0.191 (t -3.2)
+  11-02 filter: RR <= 4 & stop >= 0.4%         n  4423  bets 1715  hit  22.5% vs random  22.6%  R/call -0.123  R/bet -0.046 (t -1.7)
+  SMC & stop >= 0.8%                           n  2068  bets 1036  hit  13.1% vs random  13.8%  R/call -0.128  R/bet -0.023 (t -0.5)
+  SR & stop >= 0.8%                            n  1576  bets 1028  hit  26.5% vs random  26.3%  R/call -0.116  R/bet -0.101 (t -2.5)
+  FIB & stop >= 0.8%                           n   609  bets  427  hit   5.4% vs random   8.2%  R/call -0.061  R/bet -0.063 (t -1.1)
+  long                                         n  2864  bets  914  hit  18.8% vs random  19.3%  R/call -0.170  R/bet -0.067 (t -1.7)
+  short                                        n  3070  bets  930  hit  18.9% vs random  19.6%  R/call -0.150  R/bet -0.015 (t -0.4)
+== hold
+  all                                          n  4646  bets 1275  hit  17.1% vs random  19.2%  R/call -0.245  R/bet -0.089 (t -2.6)
+  stop < 0.4%                                  n   516  bets  356  hit  17.8% vs random  19.7%  R/call -0.621  R/bet -0.503 (t -4.8)
+  stop 0.4-0.8%                                n  1455  bets  777  hit  20.8% vs random  22.9%  R/call -0.292  R/bet -0.190 (t -3.7)
+  stop >= 0.8% (the sweet spot)                n  2675  bets  994  hit  14.9% vs random  17.1%  R/call -0.146  R/bet -0.049 (t -1.3)
+  stop >= 1.2%                                 n  1532  bets  706  hit  13.2% vs random  14.8%  R/call -0.091  R/bet -0.036 (t -0.8)
+  RR <= 2.5                                    n  2178  bets 1060  hit  25.3% vs random  26.9%  R/call -0.218  R/bet -0.171 (t -4.9)
+  RR 2.5-4                                     n  1241  bets  749  hit  13.5% vs random  16.5%  R/call -0.221  R/bet -0.170 (t -3.2)
+  RR > 4                                       n  1227  bets  648  hit   6.0% vs random   8.4%  R/call -0.315  R/bet -0.207 (t -2.9)
+  11-02 filter: RR <= 4 & stop >= 0.4%         n  3115  bets 1164  hit  20.7% vs random  22.8%  R/call -0.181  R/bet -0.087 (t -2.5)
+  SMC & stop >= 0.8%                           n  1264  bets  616  hit  10.9% vs random  13.0%  R/call -0.150  R/bet -0.006 (t -0.1)
+  SR & stop >= 0.8%                            n   976  bets  656  hit  24.0% vs random  26.2%  R/call -0.205  R/bet -0.185 (t -3.6)
+  FIB & stop >= 0.8%                           n   435  bets  285  hit   6.0% vs random   8.7%  R/call -0.002  R/bet -0.063 (t -0.9)
+  long                                         n  2308  bets  630  hit  16.8% vs random  18.6%  R/call -0.232  R/bet -0.070 (t -1.4)
+  short                                        n  2338  bets  645  hit  17.3% vs random  19.9%  R/call -0.257  R/bet -0.107 (t -2.2)
+== the sweet spot by year
+  2022                                         n  1554  bets  526  hit  16.4% vs random  18.4%  R/call -0.133  R/bet -0.022 (t -0.4)
+  2023                                         n  1205  bets  511  hit  16.3% vs random  16.9%  R/call -0.071  R/bet +0.031 (t +0.6)
+  2024                                         n  1632  bets  588  hit  17.8% vs random  17.6%  R/call -0.128  R/bet -0.000 (t -0.0)
+  2025                                         n  1522  bets  565  hit  15.5% vs random  17.9%  R/call -0.137  R/bet -0.017 (t -0.3)
+  2026                                         n  1015  bets  386  hit  13.8% vs random  15.9%  R/call -0.163  R/bet -0.089 (t -1.5)
+== trend alignment (crypto symbols): the call points WITH / AGAINST
+  the daily 50-day trend WITH tune             n  2901  bets 1144  hit  19.6% vs random  22.0%  R/call -0.144  R/bet -0.045 (t -1.2)
+  the daily 50-day trend AGAINST tune          n  2970  bets 1162  hit  18.0% vs random  16.9%  R/call -0.177  R/bet -0.101 (t -2.8)
+  the daily 50-day trend WITH hold             n  2076  bets  784  hit  17.2% vs random  22.2%  R/call -0.188  R/bet -0.047 (t -1.0)
+  the daily 50-day trend AGAINST hold          n  2071  bets  789  hit  17.0% vs random  17.0%  R/call -0.253  R/bet -0.122 (t -2.7)
+  the 1000h average WITH tune                  n  2697  bets 1129  hit  20.4% vs random  22.9%  R/call -0.131  R/bet -0.077 (t -2.0)
+  the 1000h average AGAINST tune               n  3227  bets 1243  hit  17.6% vs random  16.6%  R/call -0.182  R/bet -0.078 (t -2.2)
+  the 1000h average WITH hold                  n  1935  bets  768  hit  18.0% vs random  23.1%  R/call -0.191  R/bet -0.077 (t -1.6)
+  the 1000h average AGAINST hold               n  2212  bets  813  hit  16.4% vs random  16.6%  R/call -0.247  R/bet -0.111 (t -2.5)
+  the last 24h move WITH tune                  n  1404  bets  932  hit  25.9% vs random  24.7%  R/call -0.150  R/bet -0.182 (t -4.2)
+  the last 24h move AGAINST tune               n  4530  bets 1518  hit  16.6% vs random  17.8%  R/call -0.163  R/bet -0.034 (t -1.0)
+  the last 24h move WITH hold                  n  1056  bets  665  hit  23.1% vs random  25.6%  R/call -0.278  R/bet -0.261 (t -5.1)
+  the last 24h move AGAINST hold               n  3091  bets  977  hit  15.1% vs random  17.6%  R/call -0.201  R/bet +0.009 (t +0.2)
+== XAU / QQQ: underlying open vs shut when the call was made
+  REPLAY QQQUSDT underlying open: n   42 hit  23.8% vs random  14.8%  R/call -0.075  sum -3.2R  worst -2.02R  under -1.5R: 4
+  REPLAY QQQUSDT underlying SHUT: n  162 hit  11.7% vs random  16.9%  R/call -0.763  sum -123.6R  worst -3.62R  under -1.5R: 44
+  REPLAY XAUUSDT underlying open: n  247 hit  17.4% vs random  14.9%  R/call -0.218  sum -53.8R  worst -2.38R  under -1.5R: 7
+  REPLAY XAUUSDT underlying SHUT: n   48 hit  22.9% vs random  18.5%  R/call -0.839  sum -40.3R  worst -4.89R  under -1.5R: 21
+  LIVE   QQQUSDT underlying open: n    5 hit  40.0% vs random  12.1%  R/call +0.053  sum +0.3R  worst -1.27R  under -1.5R: 0
+  LIVE   QQQUSDT underlying SHUT: n   12 hit   0.0% vs random  17.8%  R/call -1.120  sum -13.4R  worst -1.76R  under -1.5R: 3
+  LIVE   XAUUSDT underlying open: n    9 hit  22.2% vs random  15.4%  R/call -0.186  sum -1.7R  worst -1.46R  under -1.5R: 0
+  LIVE   XAUUSDT underlying SHUT: n    4 hit  25.0% vs random  22.0%  R/call -1.090  sum -4.4R  worst -3.27R  under -1.5R: 2
+  LIVE all resolved calls: n 95, sum -26.4R

@@ -1,0 +1,15 @@
+backtest/know_when_not_to.py - 3686 sessions 2010-11..2026-09; 88,464 entries (88,128 with all features); +2.5 bp target, no stop, held to the close, 0.77 bp cost; train before 2019-12-17, test after
+   all test entries: win 94.5%, expectancy -1.25 bp a trade (t -12.0), n 35,256
+   model        AUC keep safest       n  days  win % avg loser bp   EV bp     t
+   logistic   0.612         50%   17628  1469   96.2        -80.5   -1.41  -8.6
+   logistic   0.612         20%    7051  1264   96.8       -106.6   -1.76  -5.9
+   logistic   0.612         10%    3525   795   97.1       -126.8   -1.92  -4.2
+   logistic   0.612          5%    1762   431   97.2       -145.2   -2.36  -3.2
+   logistic   0.612          1%     352    69   98.0       -179.4   -1.36  -0.9
+   boosting   0.627         50%   17628  1432   96.3        -81.3   -1.32  -8.4
+   boosting   0.627         20%    7051  1045   97.1       -100.5   -1.21  -4.7
+   boosting   0.627         10%    3525   762   97.6       -121.8   -1.14  -2.7
+   boosting   0.627          5%    1762   525   98.0       -136.7   -1.02  -1.6
+   boosting   0.627          1%     352   116   96.9       -173.9   -3.76  -1.6
+
+   cells with a positive expectancy and t >= 2.8: 0 of 10; best: boosting keeping the safest 5% -> -1.02 bp (t -1.6, 1762 entries on 525 days) vs the all-entries -1.25

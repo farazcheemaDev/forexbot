@@ -1,0 +1,5 @@
+backtest/his_extreme_approach.py --fresh, 2026-11-22 10:38 UTC; 44 fresh tick days 2026-09-17 .. 2026-11-20; classified edge moments 710
+    CLIMAX -> fade           50.1% of 491 moments on 43 days (day-bootstrap 90% interval 44.9% .. 55.1%)
+    STAIRCASE -> follow      49.8% of 219 moments on 39 days (day-bootstrap 90% interval 43.0% .. 55.7%)
+
+  X5 fresh climax fades 52%+ with the interval above 50% -> WRONG

@@ -1,0 +1,13 @@
+strategy_analysis\data\orderflow_trial_straddle: 10 pairs, 5.0 minutes recorded; events: audit_round 2, connect 1, snapshot 10, stats 4, stop 1
+pair        frames snap  updates gaps  unsy cross  trades dupe badO   upd gap ms p10/50/90   lag ms p10/50/90 lvls/upd  audit exact/differ/approx/out
+ADAUSDT       3245    1     3164    0     0     0     195    0    0     86/ 100/  105    104/ 114/  138       5.0         2/0/0/0
+BTCUSDT       6765    1     3051    0     0     0    9169    0    0     99/ 100/  101    104/ 113/  136      72.0         2/0/0/0
+DOGEUSDT      3162    1     3061    0     0     0     248    0    0     97/ 100/  102    104/ 112/  134       6.0         2/0/0/0
+DOTUSDT       2708    1     2663    0     0     0     151    0    0     23/ 102/  207    105/ 119/  195       1.0         2/0/0/0
+LINKUSDT      3625    1     3472    0     0     0     284    0    0     36/  90/  128    105/ 117/  164       4.0         2/0/0/0
+SHIBUSDT      2895    1     2830    0     0     0     136    0    0     25/  97/  206    105/ 118/  193       2.0         2/0/0/0
+SOLUSDT       3876    1     3096    0     0     0    1569    0    0     95/ 100/  103    104/ 112/  136      18.0         2/0/0/0
+SUIUSDT       3726    1     3448    0     0     0     646    0    0     44/  94/  116    104/ 116/  149       7.0         2/0/0/0
+WLDUSDT       3430    1     3226    0     0     0     365    0    0     46/  99/  110    104/ 115/  148       3.0         2/0/0/0
+XRPUSDT       3526    1     3060    0     0     0     990    0    0     99/ 100/  101    104/ 112/  135       9.0         2/0/0/0
+

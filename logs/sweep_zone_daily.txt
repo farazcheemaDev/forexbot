@@ -1,0 +1,45 @@
+backtest/sweep_zone_daily.py, 2026-11-08 17:14; PIT top-40 1h, 24-bar sweep + DAILY supply/demand zone (1.5 ATR impulse, 1.0 ATR base, first retest + 72h) + daily 50-day trend; target at the next opposite zone (>= 1.5R); hold <= 240 bars; 12bp + funding; halves split 2024-04-07
+sweeps 60390 (28596 long / 31794 short), 359 coins, 2020-02-02 .. 2026-09-11
+FUNNEL: zoned 726 (1.20% of sweeps, 110 a year); with a next-zone target of >= 1.5R 286 (39% of zoned, 43 a year); and the daily trend agrees 130 (20 a year); opposite-zone sweeps 48
+        zoned share by side: long 1.59%, short 0.86%; by half: tune 1.16%, holdout 1.26%; median reward:risk of the next-zone target 7.30
+
+THE THREE ARMS on their own trade (A: sweep stop, 3R; B and C: zone stop, target at the next zone); net of 12bp + funding, in R
+  A LONG  tune  n 16361, net -0.11R (t -3.3), gross -0.04R, hit 24% vs control 23%, excess +0.03R (t +0.9)
+  A LONG  hold  n 12235, net -0.20R (t -5.9), gross -0.11R, hit 22% vs control 23%, excess -0.04R (t -1.1)
+  A SHORT tune  n 19758, net -0.06R (t -2.1), gross +0.02R, hit 25% vs control 25%, excess +0.01R (t +0.3)
+  A SHORT hold  n 12036, net -0.06R (t -1.7), gross +0.04R, hit 26% vs control 25%, excess +0.00R (t +0.1)
+  B LONG  tune  n 75, net -0.31R (t -1.9), gross -0.29R, hit 7% vs control 3%, excess -0.13R (t -0.5)
+  B LONG  hold  n 68, net -0.10R (t -0.3), gross -0.07R, hit 0% vs control 3%, excess +0.28R (t +0.8)
+  B SHORT tune  n 94, net +0.21R (t +1.0), gross +0.24R, hit 5% vs control 7%, excess +0.06R (t +0.2)
+  B SHORT hold  n 49, net +0.26R (t +0.8), gross +0.29R, hit 12% vs control 8%, excess +0.47R (t +1.0)
+  C LONG  tune  n 25, net +0.12R (t +0.3), gross +0.14R, hit 16% vs control 4%, excess +0.13R (t +0.2)
+  C LONG  hold  n 31, net +0.27R (t +0.5), gross +0.30R, hit 0% vs control 6%, excess +0.33R (t +0.5)
+  C SHORT tune  n 38, net +0.52R (t +1.3), gross +0.55R, hit 8% vs control 11%, excess -0.45R (t -0.8)
+  C SHORT hold  n 36, net +0.37R (t +1.0), gross +0.40R, hit 11% vs control 11%, excess +0.43R (t +0.8)
+
+DIAGNOSTIC Z3: zoned sweeps with the zone stop and a plain 3R target (the target choice separated from the stop), in R
+  Z3 LONG  tune  n 240, net -0.12R (t -1.1), gross -0.10R, hit 16% vs control 25%, excess -0.23R (t -1.5)
+  Z3 LONG  hold  n 214, net -0.13R (t -1.1), gross -0.11R, hit 16% vs control 15%, excess +0.11R (t +0.7)
+  Z3 SHORT tune  n 179, net +0.04R (t +0.4), gross +0.07R, hit 18% vs control 15%, excess +0.20R (t +1.6)
+  Z3 SHORT hold  n 93, net +0.29R (t +1.4), gross +0.33R, hit 25% vs control 14%, excess +0.64R (t +2.8)
+
+DIAGNOSTIC: zoned sweeps on arm A's own trade (same sweep stop, 3R), in R
+  zoned-on-A LONG  tune  n 240, net -0.11R (t -0.9), gross -0.06R, hit 22% vs control 25%, excess -0.10R (t -0.6)
+  zoned-on-A LONG  hold  n 214, net -0.06R (t -0.5), gross -0.00R, hit 24% vs control 22%, excess +0.11R (t +0.6)
+  zoned-on-A SHORT tune  n 179, net +0.16R (t +1.1), gross +0.23R, hit 29% vs control 25%, excess +0.21R (t +1.3)
+  zoned-on-A SHORT hold  n 93, net -0.20R (t -1.1), gross -0.12R, hit 22% vs control 19%, excess +0.10R (t +0.4)
+
+INFORMATION TEST on T24 (stop = sweep extreme, out 24 bars on), net % per trade: flagged minus unflagged, day-clustered t
+  B: zoned - unzoned                   LONG  tune spread +0.47% (t +1.0, 240 of 16361) | holdout +0.16% (t +0.4, 214 of 12235)
+  B: zoned - unzoned                   SHORT tune spread +0.25% (t +0.7, 179 of 19758) | holdout +0.38% (t +0.9, 93 of 12036)
+  C: trend-agrees - not, inside zoned  LONG  tune spread +1.97% (t +2.6, 129 of 240) | holdout -0.01% (t -0.0, 80 of 214)
+  C: trend-agrees - not, inside zoned  SHORT tune spread +0.58% (t +1.1, 85 of 179) | holdout +0.09% (t +0.1, 69 of 93)
+
+GATE (net R > 0 on both halves; holdout Holm p < 0.05 over the 6 cells; excess over control > 0 on both halves; >= 100 holdout trades; B and C: the information test > 0 on both halves)
+  A LONG : tune net -0.11R (n 16361), holdout net -0.20R (t -5.9, n 12235, 1852 a year), excess +0.03R / -0.04R, Holm p 1.00, information ok  ->  no
+  A SHORT: tune net -0.06R (n 19758), holdout net -0.06R (t -1.7, n 12036, 1822 a year), excess +0.01R / +0.00R, Holm p 1.00, information ok  ->  no
+  B LONG : tune net -0.31R (n 75), holdout net -0.10R (t -0.3, n 68, 10 a year), excess -0.13R / +0.28R, Holm p 1.00, information ok  ->  UNDERPOWERED
+  B SHORT: tune net +0.21R (n 94), holdout net +0.26R (t +0.8, n 49, 7 a year), excess +0.06R / +0.47R, Holm p 1.00, information ok  ->  UNDERPOWERED
+  C LONG : tune net +0.12R (n 25), holdout net +0.27R (t +0.5, n 31, 5 a year), excess +0.13R / +0.33R, Holm p 1.00, information no  ->  UNDERPOWERED
+  C SHORT: tune net +0.52R (n 38), holdout net +0.37R (t +1.0, n 36, 5 a year), excess -0.45R / +0.43R, Holm p 0.98, information ok  ->  UNDERPOWERED
+  cells passing: 0 of 6  []

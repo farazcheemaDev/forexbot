@@ -1,0 +1,31 @@
+backtest/analyst_states.py, 2026-11-15 12:54 UTC; the desk's replay calls (crypto) x the works map's market states; 9830 calls 2022-02-10 .. 2026-09-13; halves split 2024-12-07; a bet = same day + side
+
+ALL CALLS: tune 5934 calls, hit 18.8% vs random 19.5%, R/call -0.160, R/bet -0.041; hold 3896 calls, hit 16.9% vs random 19.6%, R/call -0.225, R/bet -0.059
+
+   gate  half   kept  share  kept hit-rnd   dropped  improve     t  R/call   R/bet     t
+   G1    tune   2926    49%         -2.1%     +0.8%    -3.7%  -2.5  -0.158  -0.058  -1.5
+   G1    hold   1985    51%         -4.5%     -0.9%    -3.8%  -2.0  -0.221  -0.045  -0.9
+   G2    tune   1689    28%         -3.5%     +0.5%    -3.8%  -2.4  -0.160  -0.053  -1.0
+   G2    hold   1090    28%         -5.4%     -1.7%    -3.0%  -1.5  -0.178  +0.030  +0.4
+   G3    tune   5663    95%         -0.5%     -3.8%    +3.6%  +1.0  -0.166  -0.051  -1.8
+   G3    hold   3581    92%         -2.3%     -7.9%    +7.3%  +2.4  -0.223  -0.052  -1.3
+   G4    tune   2465    42%         -0.1%     -1.0%    +0.1%  +0.1  -0.108  -0.018  -0.5
+   G4    hold   1716    44%         -2.1%     -3.2%    -0.4%  -0.2  -0.183  -0.042  -0.9
+
+   Holm p (improvement, weaker half): G1 1.000, G2 1.000, G3 0.632, G4 1.000
+   IMPROVES: none   PAYS: none
+
+THE DESK BY STATE (hit minus random, R per call; all halves)
+   momentum state  long   n  2882  hit-rnd  -2.4%  R/call -0.210
+   momentum state  short  n  2957  hit-rnd  -1.0%  R/call -0.214
+   not momentum    long   n  1966  hit-rnd  +1.2%  R/call -0.146
+   not momentum    short  n  2025  hit-rnd  -3.6%  R/call -0.151
+   deep bleed      long   n   598  hit-rnd  +3.4%  R/call -0.059
+   deep bleed      short  n   586  hit-rnd  -6.0%  R/call -0.152
+
+REGISTERED PREDICTIONS
+  S1 no gate pays -> RIGHT
+  S2 at most one gate improves -> RIGHT (0)
+  S3 G2 does not improve -> RIGHT
+  S4 shares kept G1 40-60, G2 30-50, G3 85-100, G4 40-60 -> WRONG (G1 50%, G2 28%, G3 94%, G4 43%)
+run time 0s

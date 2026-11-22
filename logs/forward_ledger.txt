@@ -1,0 +1,4 @@
+backtest/forward_ledger.py, 2026-11-08 22:45 UTC; forward from 2026-11-09 00:00:00 UTC; rule pin OK; NASDAQ minutes to 2026-10-30 19:13:00; MT5 on
+  Gold payrolls straddle     n   0  mean   -   bp  claim +11.1 bp  status too early        years to confirm at the claim ~10.7
+  NASDAQ inside-bar buy      n   0  mean   -   R   claim +0.079 R  status too early        years to confirm at the claim ~23.4
+  NASDAQ before the Fed      n   0  mean   -   %   claim +0.25 %  status too early        years to confirm at the claim ~6.5

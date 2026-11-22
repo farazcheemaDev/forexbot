@@ -1,0 +1,68 @@
+backtest/his_wyckoff.py, 2026-11-22 09:58 UTC; 181 tick days (181 with CME volume), split 2026-06-04; state-A moments 21,211 (his_reclaim.py: 21,211), state-B 19,485; reclaim race 50.1% / 52.4% (tune / holdout)
+
+  ALIGNMENT, CME NQ vs the Exness ticks (by lag in minutes; + = CME later)
+    minute returns: -1 +0.002  +0 +0.997  +1 +0.001
+    minute volume vs tick count: -1 +0.473  +0 +0.459  +1 +0.388
+
+  STATE A: THE TEST vs THE FIRST PUSH (his setup: still beyond the broken level)
+                                                                  tune           holdout
+    TEST (closed back across, now beyond again)         49.7% of 7,250    52.8% of 4,650
+    FIRST push (no close back across yet)               50.8% of 5,665    51.8% of 3,646
+    TEST within 5 points of the spring low                48.8% of 369      55.0% of 189
+
+  STATE A TESTS: the volume and bar size of the test against the spring
+                                                                  tune           holdout
+    LOW-volume test                                     49.5% of 6,172    52.7% of 3,949
+    higher-volume test                                  50.9% of 1,015      51.9% of 611
+    NARROW-bar test                                     49.8% of 5,334    54.0% of 3,364
+    wider-bar test                                      49.4% of 1,916    49.7% of 1,286
+
+  STATE B TESTS: a pullback of 3+ points after the return, holding above the level
+                                                                  tune           holdout
+    LOW-volume pullback                                 50.4% of 7,151    50.5% of 4,688
+    higher-volume pullback                              50.0% of 1,408      48.7% of 821
+    every state-B moment                               50.0% of 11,878    49.6% of 7,607
+
+  STATE A: SPRING TYPE (depth median 22.4 points, volume vs the 20 bars before median 1.16x, both from the tune half)
+                                                                  tune           holdout
+    No. 3 (shallow, light volume)                       50.8% of 3,156    53.5% of 2,002
+    No. 1 (deep, heavy volume)                          48.8% of 3,150    50.2% of 1,765
+    mixed                                               50.5% of 6,503    52.4% of 4,376
+
+  STATE A: RANGE SUPPORT (the level was the extreme of the 60 bars before the break)
+                                                                  tune           holdout
+    range-support spring                                50.8% of 3,814    52.7% of 2,713
+    interior swing                                      49.9% of 9,101    52.2% of 5,583
+
+  STATE A: EFFORT vs RESULT (the spring leg's volume per point of depth, terciles from the tune half)
+                                                                  tune           holdout
+    low effort per point                                51.0% of 4,270    51.5% of 3,451
+    middle                                              49.6% of 4,275    53.2% of 2,491
+    HIGH effort per point (absorption)                  49.8% of 4,264    52.2% of 2,201
+
+  STATE A: THE FULL WYCKOFF ENTRY (a test, lower volume and narrower bars than the spring, at range support)
+                                                                  tune           holdout
+    full entry                                          50.1% of 1,427      55.6% of 956
+    other tests and pushes with a reading               49.6% of 5,760    51.8% of 3,604
+
+  HIS RECLAIMS (state A, his side = back through the level): 7; won 7
+    2026-02-17 SELL  first  spring No. 3  depth  19.1  volume x1.10  range support  test volume -       bars -       won
+    2026-02-27 BUY   TEST   spring No. 1  depth  38.8  volume x1.34  interior       test volume higher  bars wider   won
+    2026-03-02 BUY   first  spring mixed  depth  11.4  volume x1.39  range support  test volume -       bars -       won
+    2026-04-06 BUY   TEST   spring No. 3  depth  19.5  volume x0.57  range support  test volume higher  bars wider   won
+    2026-06-05 BUY   first  spring mixed  depth  14.9  volume x1.22  interior       test volume -       bars -       won
+    2026-07-01 SELL  TEST   spring mixed  depth  49.1  volume x0.70  range support  test volume LOW     bars NARROW  won
+    2026-09-14 SELL  TEST   spring mixed  depth  28.0  volume x1.10  range support  test volume LOW     bars NARROW  won
+    among his 7: tests 4 (every state-A moment 56%), No. 3 springs 2 (24%), range support 5 (31%)
+  HIS STATE-B TRADES (already back, his side = the reversal side): 3; pullbacks of 3+ points 3; low-volume 2; won 3
+
+REGISTERED PREDICTIONS
+  W1 tests vs first pushes within 3 points, neither >= 56% -> RIGHT (-1.1 | +1.1 points)
+  W2 low- vs higher-volume tests within 3 points, none >= 56% -> RIGHT (state A -1.5 | +0.8; state B +0.4 | +1.8 points)
+  W3 No. 3 vs No. 1 springs within 3 points, neither >= 56% -> WRONG (+1.9 | +3.3 points)
+  W4 range support vs interior within 3 points, neither >= 56% -> RIGHT (+0.9 | +0.5 points)
+  W5 effort vs result top vs bottom tercile within 3 points -> RIGHT (-1.2 | +0.7 points)
+  W6 the full Wyckoff entry under 56% on both halves -> RIGHT (50.1% / 55.6%)
+  W7 his 7 reclaims at most 5 tests -> RIGHT (4 of 7)
+  W8 alignment best at lag 0, returns >= 0.9 -> WRONG
+  LEAD bar (5+ points on both halves): none

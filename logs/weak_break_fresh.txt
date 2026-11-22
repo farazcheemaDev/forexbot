@@ -1,0 +1,25 @@
+backtest/weak_break.py --fresh, 2026-11-22 10:12 UTC; RULE sha256 86fd452f827be93ef74ae444b5bbae6a13fad9e4909c4dce7cb6046e3729abad = frozen at 2026-11-22 10:06:44 UTC
+  SOURCE CHECK on 31 seen days from 2026-08-03: the S-sign from Exness US500m = HistData's on 98.0% of 3,887 matched moments (scored moments 3,887 / 3,887)
+
+  FRESH DAYS (no test has seen them): 31 tick days 2026-09-17 .. 2026-10-29 (31 with CME volume); scored state-A moments 3,663
+
+                                            first half         second half           all fresh
+    score 0                               49.4% of 389        54.3% of 409        51.9% of 798
+    score 1                               48.8% of 750        54.3% of 853      51.7% of 1,603
+    score 2                               55.6% of 390        54.2% of 509        54.8% of 899
+    score 3                               52.1% of 188        58.1% of 155        54.8% of 343
+    score 4                                 57.1% of 7         61.5% of 13         60.0% of 20
+    RULE: score >= 3                      52.3% of 195        58.3% of 168        55.1% of 363
+    strict: score = 4                       57.1% of 7         61.5% of 13         60.0% of 20
+    rest: score <= 2                    50.7% of 1,529      54.3% of 1,771      52.6% of 3,300
+    every moment                        50.9% of 1,724      54.6% of 1,939      52.9% of 3,663
+    share with each sign: S 18%, B 50%, W 25%, H 29%
+
+    lift of the rule over the rest: +2.5 points (day-bootstrap 90% interval -3.3 .. +7.9); in-sample pooled lift +4.2
+
+REGISTERED PREDICTIONS (fresh)
+  F2 the fresh lift is below the in-sample lift -> RIGHT
+  F3 score >= 3 under 61% -> RIGHT (55.1%)
+  F4 the race does not rise steadily with the score -> RIGHT (51.9% / 51.7% / 54.8% / 54.8% / n<30)
+  F5 the S&P source switch agrees on >= 85% -> RIGHT
+  LEAD (lift >= 3 points and the 90% interval above zero): no

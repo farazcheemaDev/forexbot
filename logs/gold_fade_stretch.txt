@@ -1,0 +1,33 @@
+backtest/gold_fade_stretch.py, 2026-11-13 17:37 UTC; 5,868,603 gold minutes 2010-01 .. 2026-10; 281,576 clean quarter-hour marks; split 2020-01-01; cost 1.5bp (and 3bp)
+
+E1 his shape +0.08% / -1% / 4h
+  random entries      tune: won 78.0%  net  -1.79bp   hold: won 81.6%  net  -1.39bp   (n 27,400 hold)
+  fade Q 0.10 [tune]  n 27,482  won 79.2% (random 78.0%)  net  -1.31bp (3bp:  -2.81)  t/bet  +4.5 (5,041 bets)  excess over random +0.48bp (t +3.2)
+  fade Q 0.10 [hold]  n 21,691  won 82.4% (random 81.6%)  net  -1.09bp (3bp:  -2.59)  t/bet  +5.7 (3,358 bets)  excess over random +0.30bp (t +1.6)
+    by year (net bp): 2010:-0.4 2011:-1.2 2012:-0.5 2013:-1.5 2014:-0.9 2015:-1.8 2016:-0.9 2017:-1.6 2018:-2.6 2019:-1.7 2020:-0.8 2021:-0.9 2022:-1.0 2023:-1.1 2024:-1.3 2025:-1.6 2026:-0.7
+  fade Q 0.25 [tune]  n 82,571  won 78.5% (random 78.0%)  net  -1.70bp (3bp:  -3.20)  t/bet  -1.0 (5,157 bets)  excess over random +0.09bp (t +0.7)
+  fade Q 0.25 [hold]  n 56,599  won 81.8% (random 81.6%)  net  -1.40bp (3bp:  -2.90)  t/bet  +2.7 (3,471 bets)  excess over random -0.02bp (t -0.1)
+    by year (net bp): 2010:-0.8 2011:-1.6 2012:-0.9 2013:-2.4 2014:-1.6 2015:-1.3 2016:-1.6 2017:-1.8 2018:-2.9 2019:-2.0 2020:-1.3 2021:-1.0 2022:-1.3 2023:-1.6 2024:-1.7 2025:-1.7 2026:-1.1
+
+E2 race +-0.08% / 4h
+  random entries      tune: won 50.3%  net  -1.46bp   hold: won 50.2%  net  -1.47bp   (n 27,400 hold)
+  fade Q 0.10 [tune]  n 27,482  won 51.7% (random 50.3%)  net  -1.23bp (3bp:  -2.73)  t/bet -10.2 (5,041 bets)  excess over random +0.22bp (t +3.6)
+  fade Q 0.10 [hold]  n 21,691  won 51.0% (random 50.2%)  net  -1.34bp (3bp:  -2.84)  t/bet -10.8 (3,358 bets)  excess over random +0.13bp (t +1.7)
+    by year (net bp): 2010:-1.0 2011:-1.2 2012:-1.0 2013:-1.2 2014:-1.0 2015:-1.3 2016:-1.2 2017:-1.5 2018:-1.5 2019:-1.4 2020:-1.2 2021:-1.4 2022:-1.1 2023:-1.2 2024:-1.5 2025:-1.6 2026:-1.2
+  fade Q 0.25 [tune]  n 82,571  won 50.8% (random 50.3%)  net  -1.38bp (3bp:  -2.88)  t/bet -21.6 (5,157 bets)  excess over random +0.08bp (t +1.6)
+  fade Q 0.25 [hold]  n 56,599  won 50.1% (random 50.2%)  net  -1.49bp (3bp:  -2.99)  t/bet -19.4 (3,471 bets)  excess over random -0.02bp (t -0.4)
+    by year (net bp): 2010:-1.1 2011:-1.3 2012:-1.1 2013:-1.3 2014:-1.3 2015:-1.2 2016:-1.4 2017:-1.6 2018:-1.7 2019:-1.7 2020:-1.5 2021:-1.4 2022:-1.4 2023:-1.4 2024:-1.6 2025:-1.7 2026:-1.4
+
+E3 +-0.25% / 4h
+  random entries      tune: won 50.0%  net  -1.55bp   hold: won 49.6%  net  -1.67bp   (n 27,400 hold)
+  fade Q 0.10 [tune]  n 27,482  won 50.7% (random 50.0%)  net  -1.27bp (3bp:  -2.77)  t/bet  +8.4 (5,041 bets)  excess over random +0.28bp (t +1.7)
+  fade Q 0.10 [hold]  n 21,691  won 50.7% (random 49.6%)  net  -1.06bp (3bp:  -2.56)  t/bet  +8.8 (3,358 bets)  excess over random +0.61bp (t +3.0)
+    by year (net bp): 2010:-0.1 2011:-0.9 2012:-0.6 2013:-1.2 2014:-1.1 2015:-1.9 2016:-0.8 2017:-2.0 2018:-2.3 2019:-1.6 2020:-0.9 2021:-0.9 2022:-0.4 2023:-1.8 2024:-1.3 2025:-1.7 2026:-0.4
+  fade Q 0.25 [tune]  n 82,571  won 49.7% (random 50.0%)  net  -1.72bp (3bp:  -3.22)  t/bet  +4.6 (5,157 bets)  excess over random -0.17bp (t -1.3)
+  fade Q 0.25 [hold]  n 56,599  won 50.0% (random 49.6%)  net  -1.44bp (3bp:  -2.94)  t/bet  +6.0 (3,471 bets)  excess over random +0.23bp (t +1.4)
+    by year (net bp): 2010:-0.7 2011:-0.9 2012:-1.6 2013:-1.9 2014:-1.8 2015:-1.7 2016:-1.8 2017:-2.4 2018:-2.4 2019:-1.9 2020:-1.8 2021:-1.2 2022:-1.0 2023:-2.1 2024:-1.8 2025:-1.5 2026:-0.8
+
+PREDICTIONS
+  G1 E2 fade wins <= random + 2 pts on the holdout (51.0% vs 50.2%) -> RIGHT
+  G2 his shape loses after 1.5bp on both halves (-1.31 / -1.09bp) -> RIGHT
+  G3 no cell passes (passing: none) -> RIGHT

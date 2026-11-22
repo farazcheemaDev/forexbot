@@ -1,0 +1,24 @@
+backtest/his_exit_shape.py - 7192 random entries on 181 tick days (tune before 2026-06-04), entered at the quote, net of the spread
+
+EXPECTED NET POINTS A TRADE (win % in brackets), every combination; t is day-clustered:
+   target \ stop             none              10              20              30              50
+   +3              -2.49 ( 96%)     -2.22 ( 60%)     -2.43 ( 76%)     -2.54 ( 83%)     -2.75 ( 89%)  
+   +5              -2.10 ( 95%)     -2.14 ( 52%)     -2.35 ( 71%)     -2.43 ( 79%)     -2.68 ( 86%)  
+   +7              -1.82 ( 94%)     -2.05 ( 47%)     -2.20 ( 66%)     -2.28 ( 75%)     -2.53 ( 83%)  
+   +10             -2.33 ( 91%)     -2.00 ( 40%)     -2.23 ( 59%)     -2.40 ( 69%)     -2.75 ( 79%)  
+   +15             -2.35 ( 88%)     -2.00 ( 32%)     -2.16 ( 51%)     -2.40 ( 61%)     -2.85 ( 72%)  
+   +25             -2.21 ( 82%)     -1.90 ( 23%)     -1.92 ( 40%)     -2.21 ( 50%)     -2.62 ( 63%)  
+   combinations positive with t >= 2 on both halves: 0 of 30; best (7, None) -1.82 points (t -2.6; tune -2.29, holdout -1.11)
+
+HIS EXIT SHAPE from random entries (+7, no stop, held to 16:00): wins 93.7%, average loser -132.1 points, expectancy -1.82 (t -2.6); break-even win rate = 95.0%
+HIS RECORD: 44 wins of 46 (95.7%), average win +10.48, average loser -19.62 points, mean +9.17 a trade; his break-even win rate at his own loser size = 65.2%
+
+THE +7 / NO-STOP TRADE BY ENTRY HOUR (New York), random entries - do the losers cluster in time?
+    hour      n  win % avg loser  net pts     t    tune  holdout
+      10   1176   96.1    -201.7    -1.16  -0.7   -2.69    +1.05
+      11   1224   95.9    -152.1    +0.50  +0.4   +0.71    +0.20
+      12   1150   94.3    -164.2    -2.68  -1.4   +0.28    -7.22
+      13   1258   94.1    -153.5    -2.44  -1.6   -2.44    -2.44
+      14   1258   91.3    -111.0    -3.23  -2.0   -5.30    +0.01
+      15   1126   90.1     -82.2    -1.88  -1.5   -4.20    +1.43
+   hours positive with t >= 2 on both halves: see the table (a positive cell needs t >= 2.64 after Holm over 6 hours x 2 halves)

@@ -1,0 +1,21 @@
+backtest/etf_flows.py, 2026-11-09 09:36 UTC; Farside US spot bitcoin ETF flows 2024-01-11 .. 2026-11-06 (709 flow days); signal days 649 from 2024-04-09; holdout from 2025-10-27; entry 14:00 UTC the next day; 12bp + 1bp / 8h
+
+flow per day: median +49 US$m, mean +79, 10th / 90th percentile -317 / +517
+same UTC day: correlation of the flow with BTC's return +0.431; with the PREVIOUS 5 days' return +0.369
+IC tu: percentile vs next 24h +0.055 (t +1.08, n 389); vs next 72h +0.031 (overlapping)
+IC ho: percentile vs next 24h -0.037 (t -0.60, n 260); vs next 72h +0.037 (overlapping)
+
+CELLS (tune / holdout; a 72h cell's t and MDE use every 3rd entry, its mean all of them)
+  LONG after a big inflow  hold 24h  n  94/ 55  NET   +23.9 (+1.2) /    +4.0bp (+0.1)  excess   +21.5 (+1.0) /   +25.0bp (+0.7)  MDE80 hold    99bp  holm 1.00
+  LONG after a big inflow  hold 72h  n  94/ 55  NET   +26.2 (+0.2) /   +25.5bp (-0.2)  excess   +17.0 (+0.4) /   +70.4bp (+1.0)  MDE80 hold   360bp  holm 1.00
+  SHORT after a big outflow hold 24h  n  83/ 57  NET   -42.3 (-1.9) /   -16.2bp (-0.6)  excess    -9.9 (-0.4) /    -7.2bp (-0.2)  MDE80 hold    80bp  holm 1.00
+  SHORT after a big outflow hold 72h  n  83/ 55  NET   -91.9 (-1.3) /   +52.1bp (+0.5)  excess   -40.7 (-0.8) /   +49.2bp (+0.9)  MDE80 hold   234bp  holm 1.00
+
+PASSING: 0 of 4
+REGISTERED PREDICTIONS
+  E1 no cell passes -> RIGHT
+  E2 same-day correlation >= +0.30 -> RIGHT (+0.431)
+  E3 flows follow price, previous 5 days >= +0.20 -> RIGHT (+0.369)
+  E4 |next-24h IC| < 0.08 on both halves -> RIGHT (+0.055 / -0.037)
+  E5 24h cells' MDE80 over 1% -> WRONG (0.80% .. 0.99%)
+run time 0s

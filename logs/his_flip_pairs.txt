@@ -1,0 +1,37 @@
+backtest/his_flip_pairs.py, 2026-11-21 23:09 UTC; his NASDAQ trades 53, with NQ minute data 50; flip pairs (same day, opposite sides, <= 10 minutes apart): 6
+
+  pair 2026-02-20 10:01:48 -> 10:02:15  (0.5 min; buy +1.25, sell +19.50)
+  pair 2026-04-06 11:38:36 -> 11:44:39  (6.0 min; buy +12.50, sell +7.00)
+  pair 2026-06-05 11:04:00 -> 11:04:39  (0.7 min; buy +8.25, sell +14.50)
+  pair 2026-08-07 12:59:59 -> 13:03:15  (3.3 min; buy +8.75, sell +7.00)
+  pair 2026-09-14 14:30:13 -> 14:38:07  (7.9 min; buy +5.25, sell +2.50)
+  pair 2026-10-08 13:10:48 -> 13:17:55  (7.1 min; buy +5.50, sell +15.50)
+
+  feature      FADE-consistent pairs   FOLLOW-consistent pairs   reading at the BUY / at the SELL in each pair
+  range_3m                  3 of 6                  0 of 6   -1/-1  +1/-1  +1/+1  +1/-1  -1/-1  +1/-1
+  range_5m                  3 of 6                  0 of 6   -1/-1  +1/-1  +1/+1  +1/-1  -1/-1  +1/-1
+  range_10m                 3 of 6                  0 of 6   -1/-1  +1/-1  +1/+1  +1/-1  +1/-1  +1/+1
+  range_15m                 2 of 6                  0 of 6   -1/-1  +1/-1  +1/+1  +1/+1  +1/-1  +1/+1
+  range_30m                 1 of 6                  0 of 6   -1/-1  +1/+1  +1/+1  -1/-1  +1/-1  +1/+1
+  range_60m                 0 of 6                  0 of 6   -1/-1  +1/+1  +1/+1  +1/+1  +1/+1  +1/+1
+  move_1m                   1 of 6                  1 of 6   -1/-1  -1/+1  -1/-1  +1/-1  -1/-1  +1/+1
+  move_2m                   3 of 6                  0 of 6   -1/-1  +1/-1  +1/+1  +1/-1  -1/-1  +1/-1
+  move_5m                   0 of 6                  0 of 6   -1/-1  -1/-1  +1/+1  +1/+1  -1/-1  -1/-1
+  vwap                      0 of 6                  0 of 6   -1/-1  +1/+1  +1/+1  -1/-1  -1/-1  +1/+1
+  ma20                      2 of 6                  0 of 6   -1/-1  +1/-1  +1/+1  +1/+1  +1/-1  +1/+1
+  rsi14                     1 of 6                  0 of 6   -1/-1  +1/+1  +1/+1  +1/+1  +1/-1  +1/+1
+
+  CARRY-OVER to his 38 trades outside the pairs (only for features consistent in all pairs or all but one):
+    none qualifies
+
+  ALL TRADES: his side = the OPPOSITE of the recent range position (buy in its lower half, sell in its upper half)
+    last  3 min: 24 of 50 (48%), p 0.89; won when opposite 96% (+8.1 pts), when the same way 96% (+10.3 pts)
+    last  5 min: 24 of 50 (48%), p 0.89; won when opposite 96% (+8.4 pts), when the same way 96% (+10.0 pts)
+    last 10 min: 23 of 50 (46%), p 0.67; won when opposite 91% (+7.3 pts), when the same way 100% (+10.9 pts)
+    last 15 min: 22 of 49 (45%), p 0.57; won when opposite 91% (+6.7 pts), when the same way 100% (+11.3 pts)
+    last 30 min: 23 of 50 (46%), p 0.67; won when opposite 91% (+7.6 pts), when the same way 100% (+10.6 pts)
+    last 60 min: 19 of 50 (38%), p 0.12; won when opposite 95% (+11.3 pts), when the same way 97% (+8.0 pts)
+
+REGISTERED PREDICTIONS
+  P1 no feature consistent in every pair -> RIGHT
+  P2 qualifying features match 40-62% on his other trades, p > 0.05 -> RIGHT (none qualified)

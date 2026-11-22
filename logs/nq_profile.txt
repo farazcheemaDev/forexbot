@@ -1,0 +1,78 @@
+backtest/nq_profile.py, 2026-11-08 22:27 UTC; NQ.c.0 1-minute bars with volume, cash session 09:30-16:00 New York; prior-session profile; 1.27bp a trade; matched-day control; tune = first 60% of sessions
+sessions 4016 (2010-06-07 .. 2026-10-29); tune 2409 (to 2020-04-14), holdout 1607 (from 2020-04-15); contract changes between kept sessions 67
+control for scale: long from the open to the close EVERY session = +3.56bp (tune) / +2.85bp (holdout) gross
+[TPO] profile checks: POC inside its value area on 100.0% of sessions; median value-area width 58bp of the close; sessions opening outside the prior value area 65.2% (2559 of 3925)
+[VOL] profile checks: POC inside its value area on 100.0% of sessions; median value-area width 60bp of the close; sessions opening outside the prior value area 65.1% (2556 of 3925)
+
+=== TPO construction: every cell, tune | holdout (gross / net bp a trade at 1.27bp, t of the net, EXCESS over matched days in bp and its t, Holm-adjusted holdout p) ===
+  R1 80% rule                      n   500 |   336  fire  21.3%  gross    3.67 |   -0.22  net    2.40 |   -1.49  t   1.1 |  -0.4  excess    4.23 |    0.69  t   1.9 |   0.2  Holm p 1.000
+  R2 back to POC                   n  1871 |  1353  fire  82.1%  gross   -1.38 |    0.88  net   -2.65 |   -0.39  t  -1.6 |  -0.2  excess   -1.37 |    1.71  t  -0.8 |   0.8  Holm p 1.000
+  R3 fade value edge               n   754 |   522  fire  32.5%  gross   -1.06 |   -2.66  net   -2.33 |   -3.93  t  -1.1 |  -1.3  excess   -0.47 |   -1.49  t  -0.2 |  -0.5  Holm p 1.000
+  R4 acceptance outside value      n  2109 |  1445  fire  90.5%  gross    1.39 |    1.64  net    0.12 |    0.37  t   0.1 |   0.2  excess    1.14 |    1.40  t   0.7 |   0.6  Holm p 1.000
+  R5a value migration (POC)        n  1605 |  1080  fire  68.4%  gross    1.61 |   -1.06  net    0.34 |   -2.33  t   0.2 |  -0.7  excess    1.04 |   -1.39  t   0.5 |  -0.4  Holm p 1.000
+  R5b value migration (no overlap) n  1054 |   726  fire  45.4%  gross    0.52 |   -4.44  net   -0.75 |   -5.71  t  -0.3 |  -1.4  excess   -0.20 |   -4.77  t  -0.1 |  -1.2  Holm p 1.000
+  R6a IB break                     n  2241 |  1519  fire  95.8%  gross   -2.35 |    2.48  net   -3.62 |    1.21  t  -2.3 |   0.5  excess   -2.52 |    2.32  t  -1.6 |   1.0  Holm p 1.000
+  R6b IB break, narrow IB          n   236 |   144  fire   9.7%  gross   -5.31 |   -7.16  net   -6.58 |   -8.43  t  -1.7 |  -1.2  excess   -5.48 |   -7.37  t  -1.4 |  -1.0  Holm p 1.000
+  R7 open drive                    n   141 |   120  fire   6.6%  gross    1.70 |   16.86  net    0.43 |   15.59  t   0.1 |   1.7  excess    1.12 |   16.60  t   0.2 |   1.8  Holm p 0.342
+
+=== VOL construction: every cell, tune | holdout (gross / net bp a trade at 1.27bp, t of the net, EXCESS over matched days in bp and its t, Holm-adjusted holdout p) ===
+  R1 80% rule                      n   504 |   330  fire  21.2%  gross    1.20 |   -2.49  net   -0.07 |   -3.76  t  -0.0 |  -1.1  excess    1.77 |   -1.65  t   0.8 |  -0.5  Holm p 1.000
+  R2 back to POC                   n  1896 |  1370  fire  83.2%  gross   -1.06 |    0.67  net   -2.33 |   -0.60  t  -1.4 |  -0.3  excess   -1.05 |    1.49  t  -0.6 |   0.7  Holm p 1.000
+  R3 fade value edge               n   733 |   517  fire  31.8%  gross   -0.23 |   -2.72  net   -1.50 |   -3.99  t  -0.6 |  -1.3  excess    0.25 |   -1.63  t   0.1 |  -0.6  Holm p 1.000
+  R4 acceptance outside value      n  2086 |  1428  fire  89.5%  gross    2.23 |    0.25  net    0.96 |   -1.02  t   0.6 |  -0.4  excess    1.94 |   -0.02  t   1.2 |  -0.0  Holm p 1.000
+  R5a value migration (POC)        n  1631 |  1092  fire  69.4%  gross    0.56 |    1.02  net   -0.71 |   -0.25  t  -0.3 |  -0.1  excess   -0.04 |    0.71  t  -0.0 |   0.2  Holm p 1.000
+  R5b value migration (no overlap) n  1049 |   706  fire  44.7%  gross    0.79 |   -6.09  net   -0.48 |   -7.36  t  -0.2 |  -1.8  excess   -0.02 |   -6.40  t  -0.0 |  -1.6  Holm p 1.000
+  R6a IB break                     n  2241 |  1519  fire  95.8%  gross   -2.35 |    2.48  net   -3.62 |    1.21  t  -2.3 |   0.5  excess   -2.52 |    2.32  t  -1.6 |   1.0  Holm p 1.000
+  R6b IB break, narrow IB          n   236 |   144  fire   9.7%  gross   -5.31 |   -7.16  net   -6.58 |   -8.43  t  -1.7 |  -1.2  excess   -5.48 |   -7.37  t  -1.4 |  -1.0  Holm p 1.000
+  R7 open drive                    n   141 |   120  fire   6.6%  gross    1.70 |   16.86  net    0.43 |   15.59  t   0.1 |   1.7  excess    1.12 |   16.60  t   0.2 |   1.8  Holm p 0.342
+
+TARGET RULES: share of trades that touched the target vs the same trade on matched days (tune | holdout)
+  [tpo] R1 80% rule                      touched   47.6% |   43.5%   matched days   43.4% |   44.2%   (R1's textbook claim: 80%)
+  [tpo] R2 back to POC                   touched   39.5% |   42.8%   matched days   37.6% |   40.0%   (R1's textbook claim: 80%)
+  [tpo] R3 fade value edge               touched   64.5% |   62.6%   matched days   61.4% |   62.4%   (R1's textbook claim: 80%)
+  [vol] R1 80% rule                      touched   44.2% |   43.9%   matched days   42.9% |   45.3%   (R1's textbook claim: 80%)
+  [vol] R2 back to POC                   touched   37.1% |   41.3%   matched days   36.5% |   39.7%   (R1's textbook claim: 80%)
+  [vol] R3 fade value edge               touched   62.1% |   61.1%   matched days   59.2% |   60.8%   (R1's textbook claim: 80%)
+
+SIDES AND YEARS (TPO): long / short counts and net bp by side over the whole period; net bp by calendar year
+  R1 80% rule                      long 385 (+1.29) short 451 (+0.46)
+      10:+5.6  11:+15.0  12:+2.1  13:-3.5  14:-4.8  15:+8.9  16:+5.4  17:-2.5  18:+11.4  19:-5.4  20:+6.5  21:+5.7  22:-15.0  23:+10.3  24:-14.0  25:+0.6  26:-7.8
+  R2 back to POC                   long 1414 (+0.78) short 1810 (-3.64)
+      10:+5.8  11:-16.2  12:-3.0  13:-3.4  14:+1.1  15:-1.7  16:+2.0  17:-0.2  18:-8.1  19:-0.0  20:-0.5  21:-0.4  22:-2.4  23:-0.4  24:+1.2  25:+8.8  26:-7.8
+  R3 fade value edge               long 588 (-1.21) short 688 (-4.50)
+      10:+0.7  11:-8.1  12:-3.4  13:-9.2  14:-0.3  15:-1.0  16:-4.1  17:-0.9  18:-4.4  19:-5.1  20:+22.5  21:-3.5  22:+2.9  23:-4.8  24:-2.3  25:-13.2  26:-17.6
+  R4 acceptance outside value      long 2042 (+1.07) short 1512 (-0.93)
+      10:-13.3  11:+9.1  12:-2.0  13:-1.0  14:-0.4  15:-0.2  16:-0.3  17:-2.3  18:+0.8  19:-1.8  20:+6.7  21:-0.6  22:+13.6  23:+0.5  24:-2.0  25:-15.0  26:+6.2
+  R5a value migration (POC)        long 1534 (+2.53) short 1151 (-5.08)
+      10:+5.2  11:-3.5  12:+7.9  13:-3.3  14:+3.1  15:+8.0  16:-3.7  17:+0.5  18:+0.2  19:-3.0  20:-27.7  21:+8.2  22:-5.0  23:+5.9  24:+2.2  25:-11.9  26:+7.2
+  R5b value migration (no overlap) long 1038 (+1.17) short 742 (-8.28)
+      10:+8.3  11:-3.6  12:-3.7  13:-5.6  14:+2.7  15:+4.1  16:-3.6  17:+0.3  18:+16.1  19:-7.9  20:-29.6  21:-0.8  22:-7.5  23:-1.6  24:-11.7  25:-8.7  26:+9.7
+  R6a IB break                     long 2072 (-0.38) short 1688 (-3.24)
+      10:-2.3  11:+3.5  12:-1.5  13:-1.8  14:-3.0  15:-6.5  16:-5.7  17:-4.3  18:-5.1  19:-1.2  20:-13.2  21:-2.4  22:+12.4  23:+3.7  24:+0.6  25:+0.3  26:-2.3
+  R6b IB break, narrow IB          long 206 (-4.46) short 174 (-10.62)
+      10:-6.3  11:+7.1  12:-14.2  13:+0.9  14:+5.1  15:-9.4  16:-19.5  17:-3.4  18:-10.5  19:+2.9  20:-35.1  21:-10.9  22:-11.1  23:-5.8  24:+7.9  25:-12.2  26:-18.5
+  R7 open drive                    long 156 (+10.92) short 105 (+2.17)
+      10:-32.2  11:-39.4  12:+19.1  13:+26.5  14:-0.0  15:-2.4  16:+0.9  17:+6.3  18:+16.8  19:-7.0  20:+25.2  21:+33.3  22:+27.9  23:+20.3  24:+5.4  25:-22.1  26:+30.9
+
+COST SENSITIVITY (TPO): net bp a trade, tune | holdout, at 0.25 / 1.27 / 2.54 bp
+  R1 80% rule                         3.42 |   -0.47      2.40 |   -1.49      1.13 |   -2.76
+  R2 back to POC                     -1.63 |    0.63     -2.65 |   -0.39     -3.92 |   -1.66
+  R3 fade value edge                 -1.31 |   -2.91     -2.33 |   -3.93     -3.60 |   -5.20
+  R4 acceptance outside value         1.14 |    1.39      0.12 |    0.37     -1.15 |   -0.90
+  R5a value migration (POC)           1.36 |   -1.31      0.34 |   -2.33     -0.93 |   -3.60
+  R5b value migration (no overlap)    0.27 |   -4.69     -0.75 |   -5.71     -2.02 |   -6.98
+  R6a IB break                       -2.60 |    2.23     -3.62 |    1.21     -4.89 |   -0.06
+  R6b IB break, narrow IB            -5.56 |   -7.41     -6.58 |   -8.43     -7.85 |   -9.70
+  R7 open drive                       1.45 |   16.61      0.43 |   15.59     -0.84 |   14.32
+
+GATE (net > 0 on both halves at 1.27bp; excess > 0 on both halves; holdout Holm p < 0.05 over the 9 cells; >= 100 holdout trades; and the VOL construction also net > 0 on both halves)
+  R1 80% rule                      tune net    2.40 (n 500), holdout net   -1.49 (t  -0.4, n 336), excess    4.23 /    0.69 (t   1.9 /   0.2), Holm p 1.000, VOL net   -0.07 /   -3.76  ->  no
+  R2 back to POC                   tune net   -2.65 (n 1871), holdout net   -0.39 (t  -0.2, n 1353), excess   -1.37 /    1.71 (t  -0.8 /   0.8), Holm p 1.000, VOL net   -2.33 /   -0.60  ->  no
+  R3 fade value edge               tune net   -2.33 (n 754), holdout net   -3.93 (t  -1.3, n 522), excess   -0.47 /   -1.49 (t  -0.2 /  -0.5), Holm p 1.000, VOL net   -1.50 /   -3.99  ->  no
+  R4 acceptance outside value      tune net    0.12 (n 2109), holdout net    0.37 (t   0.2, n 1445), excess    1.14 /    1.40 (t   0.7 /   0.6), Holm p 1.000, VOL net    0.96 /   -1.02  ->  no
+  R5a value migration (POC)        tune net    0.34 (n 1605), holdout net   -2.33 (t  -0.7, n 1080), excess    1.04 /   -1.39 (t   0.5 /  -0.4), Holm p 1.000, VOL net   -0.71 /   -0.25  ->  no
+  R5b value migration (no overlap) tune net   -0.75 (n 1054), holdout net   -5.71 (t  -1.4, n 726), excess   -0.20 /   -4.77 (t  -0.1 /  -1.2), Holm p 1.000, VOL net   -0.48 /   -7.36  ->  no
+  R6a IB break                     tune net   -3.62 (n 2241), holdout net    1.21 (t   0.5, n 1519), excess   -2.52 /    2.32 (t  -1.6 /   1.0), Holm p 1.000, VOL net   -3.62 /    1.21  ->  no
+  R6b IB break, narrow IB          tune net   -6.58 (n 236), holdout net   -8.43 (t  -1.2, n 144), excess   -5.48 /   -7.37 (t  -1.4 /  -1.0), Holm p 1.000, VOL net   -6.58 /   -8.43  ->  no
+  R7 open drive                    tune net    0.43 (n 141), holdout net   15.59 (t   1.7, n 120), excess    1.12 /   16.60 (t   0.2 /   1.8), Holm p 0.342, VOL net    0.43 /   15.59  ->  no
+  cells passing: 0 of 9  []

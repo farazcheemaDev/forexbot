@@ -1,0 +1,48 @@
+backtest/his_exit_levels.py, 2026-11-21 23:06 UTC; 35 of his NASDAQ trades on the tick days (after the first hour of the tick day, so a 60-minute look-back exists); 1299 control moments
+
+  exits AT a prior swing level (within 1.5 points of the previous high / low of the last 5 / 15 / 30 / 60 min): 2 of 35 (6%); control, the same distance at his sittings' other moments: 12%; binomial p 0.310
+  exits at the +7 target (6.5-7.5 banked): 7 of 35; at a level among them 0%, among the other exits 7% (control for those distances 12%)
+  exits within 1 point of a round 25-level (CapitalFX price): 3 of 35 (9%; chance on a quarter-point grid ~9%)
+  room to the level ahead at his entries (median points): 5 min 12.8, 15 min 25.5, 30 min 32.3, 60 min 44.7
+
+  each trade: banked, his move on the Exness mid, room to the level ahead (5 / 15 / 30 / 60 min), at a level?
+    2026-01-06 SELL banked  +4.75  move  +9.11  room   7.3 /  24.9 /  31.9 / 146.4  
+    2026-01-16 SELL banked  +7.00  move  +3.06  room  25.8 /  25.8 /  25.8 /  25.8  
+    2026-02-17 SELL banked  +7.25  move +12.35  room  17.0 /  41.8 / 103.5 / 205.5  
+    2026-02-17 SELL banked  +4.50  move +11.40  room   8.1 /  35.2 /  96.9 / 198.8  
+    2026-02-25 BUY  banked  +3.00  move  +3.41  room   5.6 /   5.6 /   5.6 /   6.5  
+    2026-02-27 BUY  banked  +3.50  move  +7.23  room  14.0 /  52.2 /  52.2 /  52.2  
+    2026-03-02 BUY  banked  +5.25  move +11.10  room  12.4 /  32.0 /  61.8 /  97.4  AT LEVEL
+    2026-03-03 SELL banked  +8.00  move  +6.81  room  11.9 /  30.8 /  30.8 /  30.8  
+    2026-03-16 BUY  banked +16.25  move +21.33  room  32.3 /  32.3 /  32.3 /  32.3  
+    2026-03-31 BUY  banked  +9.00  move +12.19  room  16.6 /  63.4 /  63.4 /  63.4  
+    2026-04-02 BUY  banked +14.50  move +18.54  room   6.8 /  42.6 /  52.8 / 104.9    round
+    2026-04-02 BUY  banked  +6.25  move  +9.31  room -27.4 /   3.5 /  13.7 /  65.7  
+    2026-04-06 BUY  banked +12.50  move +16.29  room  15.1 /  26.9 /  59.5 /  77.2  AT LEVEL
+    2026-04-06 SELL banked  +7.00  move  +7.24  room  20.2 /  41.2 /  41.2 /  41.2  
+    2026-04-28 BUY  banked  +6.25  move +10.39  room  20.9 /  29.4 /  29.4 /  44.7  
+    2026-05-05 BUY  banked +24.50  move +28.26  room   3.3 /  11.1 /  36.2 /  36.2  
+    2026-05-07 SELL banked  +1.00  move  +2.19  room  20.3 /  20.3 /  20.3 /  43.4  
+    2026-05-07 SELL banked  +4.50  move  +1.62  room   6.7 /  18.2 /  18.2 /  41.3  
+    2026-06-05 BUY  banked  +8.00  move +11.43  room  77.1 /  77.1 / 132.3 / 146.3  
+    2026-06-05 BUY  banked  +8.25  move +13.84  room  67.9 /  71.3 / 126.5 / 140.5  
+    2026-06-05 SELL banked +14.50  move +16.36  room  22.7 /  22.7 /  22.7 /  51.0  
+    2026-07-01 SELL banked  +6.50  move +11.63  room  21.7 /  21.7 / 102.5 / 170.1    round
+    2026-07-01 SELL banked +15.25  move +18.28  room  15.4 /  15.4 /  96.2 / 163.8  
+    2026-07-10 BUY  banked  +7.00  move +12.19  room  10.5 /  10.5 /  10.5 /  10.5  
+    2026-07-24 SELL banked  +6.25  move  +7.25  room  31.5 /  62.8 /  62.8 /  62.8  
+    2026-08-07 BUY  banked  +8.75  move +13.24  room  25.2 /  41.2 /  41.2 /  90.4  
+    2026-08-07 SELL banked  +7.00  move +10.50  room  26.6 /  26.6 /  51.5 /  84.2  
+    2026-08-10 SELL banked +18.75  move +18.49  room   5.0 /  12.2 /  12.2 /  12.2  
+    2026-09-14 BUY  banked -31.75  move -33.00  room   4.2 /  18.2 /  22.2 /  22.2  
+    2026-09-14 BUY  banked  +5.25  move  +9.62  room   3.0 /  25.5 /  36.0 /  40.0  
+    2026-09-14 SELL banked  +2.50  move  +8.00  room  12.8 /  21.0 /  21.0 /  21.0  
+    2026-09-14 SELL banked  +8.75  move  +9.25  room   3.2 /  14.1 /  15.5 /  15.5  
+    2026-09-14 SELL banked  +6.75  move  +8.00  room  11.2 /  11.2 /  11.8 /  11.8  
+    2026-09-14 SELL banked  +8.75  move  +8.00  room   2.5 /   2.5 /   2.5 /   2.5    round
+    2026-09-14 SELL banked +17.25  move +21.25  room   3.8 /   3.8 /   3.8 /   3.8  
+
+REGISTERED PREDICTIONS
+  E1 at a level no more than 10 points over the control -> RIGHT (6% vs 12%)
+  E2 round-level exits under 15% -> RIGHT (9%)
+  E3 non-+7 exits at a level more often than +7 exits -> RIGHT

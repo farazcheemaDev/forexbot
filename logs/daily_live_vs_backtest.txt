@@ -1,0 +1,77 @@
+backtest/daily_live_vs_backtest.py, 2026-11-15 12:44 UTC; daily breakout book (Bollinger(30, 1.5), out under the 20-day mean), live paper vs backtest
+
+A. THE CODE - the backtest's rule replayed on Binance's daily bars, every live trade matched
+
+  universe check: November top-40 by this file's rule vs the live bot's saved pool: 40 of 40 shared (only here: -; only live: -)
+
+  MAIN: 10 live trades | replay, backtest month rule: 10 trades | live month rule: 10
+    coin               live in   replay in in px bp   live out  replay out out px bp  live net replay net listed d  in backtest-month universe?
+    NEARUSDT      10-1210-12         +61      10-15       10-15       +10    -17.8%     -17.3%      365  yes
+    FILUSDT       10-1210-12          +4      10-15       10-15        +5    -11.1%     -11.1%      365  yes
+    BTWUSDT       10-1010-10         +15      10-22       10-22       +22     +7.2%      +7.1%      128  yes
+    IOSTUSDT      10-22 00:02  NOT A REPLAY SIGNAL
+    WLDUSDT       10-2110-21          +0      10-24       10-24       -35    -18.3%     -18.0%      374  yes
+    AKEUSDT       10-2410-24          +0      10-28       10-28       -40    -45.0%     -44.8%      377  yes
+    AINUSDT       11-0111-01         -20      11-07       11-07       -40    -56.6%     -56.5%      385  NO - only by the live month rule
+    ZECUSDT       11-0711-07          -3      11-09       11-09        -2     -8.4%      -8.5%      391  yes
+    JCTUSDT       11-0911-09        +228      11-11       11-11       -38    -56.5%     -55.3%      364  yes
+    1000PEPEUSDT  10-2210-22          +6      11-12       11-12       -43     -3.1%      -2.6%      375  yes
+    replay trades the live book did not take: RAYSOLUSDT 10-09 (-12.1%)
+    replay mean per trade: backtest month rule -22.7% (10), live rule -21.9% (10); live -22.1% (10)
+
+  FRESH: 8 live trades | replay, backtest month rule: 7 trades | live month rule: 7
+    coin               live in   replay in in px bp   live out  replay out out px bp  live net replay net listed d  in backtest-month universe?
+    BTWUSDT       10-1710-17        +136      10-22       10-22       +18    -12.7%     -11.7%      135  yes
+    IOSTUSDT      10-22 00:02  NOT A REPLAY SIGNAL
+    WLDUSDT       10-2110-21          -7      10-24       10-24       -29    -18.2%     -18.0%      374  yes
+    AKEUSDT       10-2410-24         -12      10-28       10-28       -38    -45.0%     -44.8%      377  yes
+    AINUSDT       11-0111-01         +11      11-07       11-07       -39    -56.7%     -56.5%      385  NO - only by the live month rule
+    ZECUSDT       11-0711-07          -3      11-09       11-09        -2     -8.4%      -8.5%      391  yes
+    JCTUSDT       11-0911-09        +228      11-11       11-11       -21    -56.4%     -55.3%      364  yes
+    1000PEPEUSDT  10-2210-22          +2      11-12       11-12       -43     -3.1%      -2.6%      375  yes
+    replay trades the live book did not take: none
+    replay mean per trade: backtest month rule -29.4% (7), live rule -28.2% (7); live -26.5% (8)
+
+  live coins, days listed on Binance futures at the live entry (exchangeInfo onboardDate): NEAR 2187  FIL 2186  BTW 127  IOST 2434  WLD 1184  AKE 392  AIN 478  ZEC 2466  JCT 363  1000PEPE 1266
+  AIN in the October top-40 (backtest month rule for an Oct-31 signal): NO; in November's: yes
+
+B. THE DATA - coins in the top-40 that daily_combos.panel drops (fewer than 120 daily bars in the whole data set)
+
+  parity: the rule through the patched panel reproduces gen(0) on the kept coins: YES (1692 trades)
+  coins in the PIT top-40 at least one month but not in the panel: 12 (23 of 3059 top-40 coin-months, 0.8%); with >= 65 daily bars (can trade at all): 9
+  their trades by the same rule: 7; mean -3.66% a trade, won 14%, under -40%: 0.0%  (kept coins: mean +6.23%, won 34%, under -40% 0.5%)
+    BTW 2026-09-12 +14%  DRAM 2026-08-14 -7%  KORU 2026-08-27 -10%  MRVL 2026-08-14 -1%  SAMSUNG 2026-08-13 -4%  SKHYNIX 2026-08-24 -9%  SPCX 2026-08-13 -8%
+
+C. THE DRAW - the backtest's own trades (boundary 0h, every signal), by days since the coin's first bar at entry
+
+  age at entry     trades     mean   median   won  < -40%  < -25%   2025-26: trades, mean, < -40%
+  60-120 d            188   +12.7%    -6.5%   32%    0.5%    3.2%   33, +27.5%, 3.0%
+  120-180 d           139   +13.2%    -6.3%   33%    0.0%    4.3%   24, -2.2%, 0.0%
+  180-365 d           345   +10.7%    -5.9%   37%    1.2%    4.9%   53, +11.2%, 3.8%
+  365+ d             1020    +2.5%    -5.3%   33%    0.3%    2.1%   271, -1.8%, 1.1%
+  -> under -40%: listed < 180 d 0.3% vs older 0.5%
+
+  main's 10 live trades: mean -22.1% a trade, 3 under -40%. Of the backtest's runs of 10 consecutive trades:
+    mean <= -22.1%: 0.59% of runs (since 2025: 0.00%); >= 3 trades under -40%: 0.00% (since 2025: 0.00%)
+    worst run's mean: -28.6% (since 2025 -20.4%)
+
+D. POST HOC, the backtest's own trades per trade (tune before 2024-04-07 / holdout after / 2025-26), each day boundary
+
+   0h base: backtest month rule              n  1692 | tune  +8.34%  holdout  +2.03%  2025-26  +2.54% | under -40% 0.47%
+   0h live month rule (entry day's month)    n  1702 | tune  +8.42%  holdout  +2.91%  2025-26  +3.55% | under -40% 0.41%
+   0h + 20% disaster stop                    n  1751 | tune  +6.85%  holdout  +1.19%  2025-26  +1.72% | under -40% 0.00%
+   0h + 25% disaster stop                    n  1720 | tune  +7.18%  holdout  +1.37%  2025-26  +1.74% | under -40% 0.00%
+   0h + 30% disaster stop                    n  1705 | tune  +7.62%  holdout  +1.64%  2025-26  +2.04% | under -40% 0.00%
+   0h + 35% disaster stop                    n  1701 | tune  +7.83%  holdout  +1.77%  2025-26  +2.16% | under -40% 0.06%
+   8h base: backtest month rule              n  1680 | tune  +8.25%  holdout  +2.61%  2025-26  +3.59% | under -40% 0.42%
+   8h live month rule (entry day's month)    n  1685 | tune  +8.13%  holdout  +3.21%  2025-26  +4.20% | under -40% 0.47%
+   8h + 20% disaster stop                    n  1733 | tune  +6.92%  holdout  +1.33%  2025-26  +2.16% | under -40% 0.00%
+   8h + 25% disaster stop                    n  1709 | tune  +7.05%  holdout  +1.80%  2025-26  +2.58% | under -40% 0.00%
+   8h + 30% disaster stop                    n  1690 | tune  +7.54%  holdout  +2.31%  2025-26  +3.21% | under -40% 0.00%
+   8h + 35% disaster stop                    n  1682 | tune  +7.96%  holdout  +2.64%  2025-26  +3.64% | under -40% 0.12%
+  16h base: backtest month rule              n  1692 | tune  +8.28%  holdout  +1.98%  2025-26  +3.42% | under -40% 0.24%
+  16h live month rule (entry day's month)    n  1693 | tune  +7.90%  holdout  +2.86%  2025-26  +4.47% | under -40% 0.30%
+  16h + 20% disaster stop                    n  1748 | tune  +6.95%  holdout  +1.07%  2025-26  +2.13% | under -40% 0.00%
+  16h + 25% disaster stop                    n  1718 | tune  +7.41%  holdout  +1.28%  2025-26  +2.44% | under -40% 0.00%
+  16h + 30% disaster stop                    n  1703 | tune  +7.61%  holdout  +1.56%  2025-26  +2.81% | under -40% 0.06%
+  16h + 35% disaster stop                    n  1694 | tune  +7.85%  holdout  +1.98%  2025-26  +3.42% | under -40% 0.06%

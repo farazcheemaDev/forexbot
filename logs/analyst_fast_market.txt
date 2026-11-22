@@ -1,0 +1,29 @@
+backtest/analyst_fast_market.py, 2026-11-21 00:26 UTC; the desk's replay calls (crypto) x the market's FAST direction at the day's open; 9824 calls 2022-02-10 .. 2026-09-13; halves split 2024-12-07; a bet = same day + side; money measure = net R per bet
+
+ALL CALLS tune: 5928 calls, hit 18.8% vs random 19.5%, R per bet -0.040 (1842 bets)
+ALL CALLS hold: 3896 calls, hit 16.9% vs random 19.6%, R per bet -0.059 (1168 bets)
+
+   gate              half  kept   hit   rnd kept R/bet     t dropped R/bet kept-dropped     t
+   F1 alts 3 days    tune   46% 21.4% 21.6%     -0.051  -1.3        -0.029       -0.022  -0.4
+   F1 alts 3 days    hold   47% 18.5% 20.8%     -0.017  -0.3        -0.101       +0.085  +1.1
+   F2 alts 7 days    tune   49% 20.0% 21.2%     -0.036  -0.9        -0.043       +0.007  +0.1
+   F2 alts 7 days    hold   50% 16.4% 20.9%     -0.063  -1.2        -0.055       -0.008  -0.1
+   F3 BTC 7 days     tune   49% 19.2% 21.1%     -0.077  -2.0        -0.004       -0.073  -1.3
+   F3 BTC 7 days     hold   49% 16.4% 21.0%     -0.048  -0.9        -0.070       +0.022  +0.3
+   F4 Fear & Greed   tune   52% 18.1% 20.6%     -0.092  -2.4        +0.011       -0.103  -1.9
+   F4 Fear & Greed   hold   50% 16.5% 21.2%     -0.070  -1.3        -0.048       -0.022  -0.3
+
+   Holm p (kept minus dropped, weaker half): F1 1.000, F2 1.000, F3 1.000, F4 1.000
+   HELPS: none   PAYS: none
+
+LIVE CRASH WEEK (desk calls made 11-14 .. 11-20, crypto, closed: 33; all +5.0R, longs -17.3R in 18, shorts +22.3R in 15)
+   F1 alts 3 days   kept 15 calls  +20.3R | dropped 18  -15.3R | longs dropped 83%
+   F2 alts 7 days   kept 15 calls  +22.3R | dropped 18  -17.3R | longs dropped 100%
+   F3 BTC 7 days    kept 15 calls  +22.3R | dropped 18  -17.3R | longs dropped 100%
+   F4 Fear & Greed  kept 15 calls  +22.3R | dropped 18  -17.3R | longs dropped 100%
+
+REGISTERED PREDICTIONS
+  Q1 no gate pays -> RIGHT
+  Q2 at most one gate helps -> RIGHT (0)
+  Q3 each gate keeps 35-65% -> RIGHT (F1 46%, F2 49%, F3 49%, F4 51%)
+  Q4 F1 and F2 drop >= 75% of the live week's longs -> RIGHT (F1 83%, F2 100%)

@@ -1,0 +1,63 @@
+backtest/liq_map_past.py, 2026-11-15 11:07 UTC; orders resting k past liq_map.py's clusters, cancelled 60 minutes after the cluster level trades through; Binance 1-minute bars; 12bp + 1bp / 8h
+
+PARITY: the order AT the cluster (k = 0) reproduces liq_map_1m.py's 15m / 60m / scalp on all 29121 rows: YES
+
+FILL RATE long (of fills whose minute reaches the cluster level): k 0.25% cluster 86.2% vs control 85.3%; k 0.50% cluster 73.4% vs control 71.8%; k 1.00% cluster 54.5% vs control 51.3%
+FILL RATE short (of fills whose minute reaches the cluster level): k 0.25% cluster 86.9% vs control 84.7%; k 0.50% cluster 74.6% vs control 72.7%; k 1.00% cluster 56.3% vs control 53.4%
+
+PRIMARY (tune / holdout)
+long 0.25% 15m         2438/1813   NET    +1.5 (+0.3) /    -3.6bp (-0.7)   EXCESS    +2.9 (+0.5) /    +4.3bp (+0.6)   MDE80 hold   12bp  holm 1.00
+long 0.25% 60m         2438/1813   NET    +4.7 (+0.7) /   -12.7bp (-1.6)   EXCESS    +3.0 (+0.4) /    -4.5bp (-0.4)   MDE80 hold   18bp  holm 1.00
+long 0.25% scalp       2438/1813   NET   -20.4 (-13.2) /   -18.7bp (-10.4)   EXCESS    -3.1 (-1.6) /    -0.1bp (-0.0)   MDE80 hold    4bp  holm 1.00
+long 0.50% 15m         2077/1545   NET    +4.3 (+0.6) /    -3.2bp (-0.5)   EXCESS    +2.0 (+0.3) /    +3.7bp (+0.4)   MDE80 hold   15bp  holm 1.00
+long 0.50% 60m         2077/1545   NET    +7.4 (+1.0) /   -11.9bp (-1.3)   EXCESS    +2.8 (+0.3) /   -13.9bp (-1.2)   MDE80 hold   21bp  holm 1.00
+long 0.50% scalp       2077/1545   NET   -21.7 (-13.1) /   -17.9bp (-9.8)   EXCESS    -5.5 (-2.5) /    +0.8bp (+0.3)   MDE80 hold    5bp  holm 1.00
+long 1.00% 15m         1550/1139   NET   +16.5 (+1.8) /    +0.2bp (+0.0)   EXCESS   +13.3 (+1.3) /    -2.5bp (-0.2)   MDE80 hold   19bp  holm 1.00
+long 1.00% 60m         1550/1139   NET   +22.2 (+2.3) /    -5.4bp (-0.5)   EXCESS   +17.2 (+1.5) /   -16.4bp (-1.0)   MDE80 hold   27bp  holm 1.00
+long 1.00% scalp       1550/1139   NET   -20.9 (-10.7) /   -20.2bp (-9.4)   EXCESS    -1.2 (-0.4) /    +0.9bp (+0.3)   MDE80 hold    6bp  holm 1.00
+short 0.25% 15m        2280/1575   NET   -11.7 (-3.5) /   -26.3bp (-4.3)   EXCESS    +6.7 (+1.4) /   -16.2bp (-2.0)   MDE80 hold   17bp  holm 1.00
+short 0.25% 60m        2280/1575   NET   -17.4 (-3.3) /   -34.6bp (-3.3)   EXCESS    +4.6 (+0.6) /   -25.2bp (-1.8)   MDE80 hold   29bp  holm 1.00
+short 0.25% scalp      2280/1575   NET   -16.5 (-11.1) /   -23.0bp (-13.4)   EXCESS    +1.7 (+0.8) /    -3.1bp (-1.3)   MDE80 hold    5bp  holm 1.00
+short 0.50% 15m        1931/1375   NET   -13.4 (-3.6) /   -26.4bp (-3.9)   EXCESS    +3.5 (+0.6) /   -19.8bp (-2.1)   MDE80 hold   19bp  holm 1.00
+short 0.50% 60m        1931/1375   NET   -19.5 (-3.3) /   -33.8bp (-2.9)   EXCESS    -1.5 (-0.2) /   -30.3bp (-1.8)   MDE80 hold   32bp  holm 1.00
+short 0.50% scalp      1931/1375   NET   -19.4 (-11.5) /   -20.1bp (-11.2)   EXCESS    -1.1 (-0.5) /    -0.4bp (-0.2)   MDE80 hold    5bp  holm 1.00
+short 1.00% 15m        1436/1060   NET   -12.9 (-2.6) /   -21.4bp (-2.5)   EXCESS    +1.6 (+0.2) /   -33.6bp (-2.6)   MDE80 hold   23bp  holm 1.00
+short 1.00% 60m        1436/1060   NET   -15.2 (-2.1) /   -31.4bp (-2.1)   EXCESS    +0.0 (+0.0) /   -48.4bp (-2.1)   MDE80 hold   40bp  holm 1.00
+short 1.00% scalp      1436/1060   NET   -18.4 (-9.8) /   -26.1bp (-13.4)   EXCESS    +1.3 (+0.4) /   -10.9bp (-3.5)   MDE80 hold    5bp  holm 1.00
+
+PER ORDER PLACED, 60 minutes (unfilled = 0), tune / holdout
+  long   k 0.00% (at the cluster)    -0.4bp (-0.1) /   -13.8bp (-1.9)
+  long   k 0.25%                     +4.0bp (+0.7) /   -10.9bp (-1.6)
+  long   k 0.50%                     +5.5bp (+1.0) /    -8.7bp (-1.3)
+  long   k 1.00%                    +12.2bp (+2.3) /    -2.9bp (-0.5)
+  short  k 0.00% (at the cluster)   -18.6bp (-3.9) /   -32.9bp (-3.6)
+  short  k 0.25%                    -15.1bp (-3.3) /   -30.2bp (-3.3)
+  short  k 0.50%                    -14.3bp (-3.3) /   -25.7bp (-2.9)
+  short  k 1.00%                     -8.3bp (-2.1) /   -18.4bp (-2.1)
+
+POST HOC (added after the first run, which showed deeper long orders doing better per order): the same orders past the
+RANDOM levels (controls), 60 minutes, unfilled = 0, tune / holdout - is 'deeper is better' the cluster or any level?
+  long   k 0.00%                     -5.9bp (-1.3) /   -11.7bp (-1.7)
+  long   k 0.25%                     -3.0bp (-0.7) /    -8.8bp (-1.3)
+  long   k 0.50%                     -0.6bp (-0.2) /    -4.6bp (-0.7)
+  long   k 1.00%                     +1.7bp (+0.5) /    -2.9bp (-0.4)
+  short  k 0.00%                    -19.4bp (-5.2) /   -15.6bp (-2.2)
+  short  k 0.25%                    -16.7bp (-4.7) /   -12.1bp (-1.8)
+  short  k 0.50%                    -12.0bp (-3.5) /    -8.8bp (-1.3)
+  short  k 1.00%                     -8.7bp (-2.8) /    -2.3bp (-0.3)
+
+AT A MAKER ENTRY (about 8bp instead of 12bp) every net rises by 4bp; cells then positive on both halves: 3 (long 0.25% 15m, long 0.50% 15m, long 1.00% 15m) (not the judging cost)
+
+SECONDARY: long, k 0.50%, clusters 8%+ under the close
+deep long 0.50% 15m     214/204    NET   +55.8 (+2.2) /   +42.7bp (+2.1)   EXCESS   +20.5 (+0.5) /   +21.5bp (+0.8)   MDE80 hold   53bp  holm 0.03
+deep long 0.50% 60m     214/204    NET   +46.4 (+1.9) /   +55.2bp (+1.8)   EXCESS   +14.4 (+0.3) /   -12.4bp (-0.3)   MDE80 hold   79bp  holm 0.03
+
+PASSING: 0 of 18 primary
+REGISTERED PREDICTIONS
+  P1 no primary cell passes -> RIGHT
+  P2 the order past a cluster fills more often than past a random level, every k, both sides -> RIGHT
+  P3 no cell has excess t >= 2 on both halves -> RIGHT
+  P4 every scalp cell loses on both halves -> RIGHT
+  P5 per order placed, every k loses at 60 minutes on both halves, both sides -> WRONG
+  P6 the deep-long secondary cells do not pass -> RIGHT
+run time 10s

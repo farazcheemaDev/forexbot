@@ -1,0 +1,108 @@
+backtest/works_map.py, 2026-11-15 16:59 UTC; 2020-02-17 .. 2026-09-13; machine books = the mean of the 10 orderings; trend gains shrunk 3x, the rest raw; halves split 2024-08-29; BACKTEST
+
+1. EACH BOOK ALONE (annualised mean day, % of the account at its machine weight)
+   book            start     ann    tune    hold  Sharpe  active
+   trend      2020-02-18 +216.6% +192.4% +270.2%    1.04     90%
+   mn_blend   2020-04-08  +63.6%  +48.3%  +96.6%    3.24    100%
+   carry      2020-04-08  +15.8%  +16.1%  +15.2%    2.50    100%
+   sleeve     2021-06-13  +28.1%  +40.0%   +9.4%    1.17     34%
+   bids       2020-03-12  +15.4%  +17.8%  +10.2%    2.63     21%
+   daily      2020-04-07  +47.1%  +48.0%  +45.2%    1.65     91%
+   capit2     2020-03-09  +23.4%  +24.2%  +21.7%    1.80      4%
+   news       2021-11-27  +18.6%  +12.9%  +26.2%    1.11     10%
+   ndx_dip    2020-03-02   +9.8%   +6.8%  +16.5%    1.54      3%
+   crowd      2022-01-20  +39.9%  +24.1%  +59.9%    1.33    100%
+   rsi80      2020-04-07  +66.0%  +57.7%  +83.8%    1.73     40%
+   noise      2020-02-20   +5.8%   +7.2%   +2.8%    0.71     35%
+   MACHINE    2020-02-17 +424.4% +385.6% +510.5%    1.99    100%
+
+2. THE STATE MAP - annualised mean in each state (% of the account); * = positive on both halves; days in brackets
+   book             BULL        CHOP        BEAR    fuel LOW    fuel MID   fuel HIGH   alt bleed    no bleed    CHOP+LOW    BULL+LOW
+   (days)          (874)       (913)       (614)       (725)      (1123)       (539)       (692)      (1695)       (319)        (75)
+   trend        +665.0%*     -34.0%      -49.0%      -50.7%       -4.6%    +1046.2%*     -29.1%     +319.4%*     -30.4%     -162.8% 
+   mn_blend      +76.4%*     +68.2%*     +37.6%*      +3.1%*     +96.6%*     +78.5%*      +8.5%*     +85.2%*      +2.2%      +16.3% 
+   carry         +24.5%*     +11.1%      +10.1%*      +7.0%*     +13.5%*     +32.4%*      +9.5%*     +18.3%*      +9.0%*     +19.3% 
+   sleeve         +0.0%       +4.7%      +91.8%*     +66.0%*     +10.4%*      +6.4%      +42.8%*     +21.4%*     +16.4%*      +0.0% 
+   bids          +28.1%*     +13.7%*      +0.0%       +3.4%*     +12.0%*     +38.7%*      +3.5%*     +20.3%*      +6.6%*      +4.6% 
+   daily         +74.6%*     +60.3%*     -13.1%      -19.7%      +78.7%*     +73.3%*     -13.9%      +71.0%*      -0.8%      -16.8% 
+   capit2         +7.7%*     +28.3%*     +38.7%*     +35.4%*     +25.3%*      +3.4%      +51.6%*     +11.9%*     +42.1%*     +16.6% 
+   news          +29.1%*     +16.2%*     +10.7%*     +32.2%*      +9.3%*     +16.5%*     +46.1%*      +5.7%      +48.5%*      +3.9% 
+   ndx_dip        +8.9%*     +11.5%*      +8.6%*      +8.3%*     +13.1%*      +4.9%*     +11.7%*      +9.0%*     +11.3%*     +10.0% 
+   crowd          +3.3%      +55.3%*     +58.5%*     +30.3%*     +59.2%*     +15.3%*     +36.2%*     +41.5%*     +31.7%*     +54.2%*
+   rsi80        +149.3%*     +56.5%*     -42.8%      -25.5%      +57.4%*    +206.3%*     -29.3%     +103.3%*     -25.6%      -11.9% 
+   noise          +0.7%       +6.6%      +11.9%*      +9.2%*      +3.5%*      +4.7%*      +9.7%*      +3.8%      +10.7%*      +2.9% 
+   MACHINE      +901.9%*    +170.2%*    +122.6%*     +71.3%*    +242.6%*   +1291.7%*    +116.1%*    +554.6%*     +95.4%*    -109.8% 
+
+3. WEEKLY CORRELATION (pairwise, from the later book's start)
+               trend mn_blen   carry  sleeve    bids   daily  capit2    news ndx_dip   crowd   rsi80   noise
+   trend       +1.00   +0.02   -0.00   -0.03   +0.21   -0.07   -0.00   -0.02   -0.03   +0.13   -0.06   +0.01
+   mn_blend    +0.02   +1.00   +0.23   -0.02   +0.20   +0.22   +0.04   -0.04   +0.14   +0.38   +0.05   -0.01
+   carry       -0.00   +0.23   +1.00   +0.02   +0.12   +0.14   +0.03   -0.11   +0.05   -0.00   +0.08   +0.01
+   sleeve      -0.03   -0.02   +0.02   +1.00   -0.06   -0.18   +0.12   +0.01   -0.01   -0.00   -0.09   +0.04
+   bids        +0.21   +0.20   +0.12   -0.06   +1.00   -0.01   +0.06   -0.11   +0.03   +0.21   +0.05   -0.08
+   daily       -0.07   +0.22   +0.14   -0.18   -0.01   +1.00   -0.16   -0.12   +0.05   +0.22   +0.43   -0.03
+   capit2      -0.00   +0.04   +0.03   +0.12   +0.06   -0.16   +1.00   +0.10   +0.11   +0.07   -0.08   +0.14
+   news        -0.02   -0.04   -0.11   +0.01   -0.11   -0.12   +0.10   +1.00   -0.12   -0.10   +0.00   -0.03
+   ndx_dip     -0.03   +0.14   +0.05   -0.01   +0.03   +0.05   +0.11   -0.12   +1.00   +0.01   +0.06   +0.13
+   crowd       +0.13   +0.38   -0.00   -0.00   +0.21   +0.22   +0.07   -0.10   +0.01   +1.00   -0.11   +0.17
+   rsi80       -0.06   +0.05   +0.08   -0.09   +0.05   +0.43   -0.08   +0.00   +0.06   -0.11   +1.00   -0.03
+   noise       +0.01   -0.01   +0.01   +0.04   -0.08   -0.03   +0.14   -0.03   +0.13   +0.17   -0.03   +1.00
+   highest: daily~rsi80 +0.43, crowd~mn_blend +0.38, carry~mn_blend +0.23, crowd~daily +0.22; lowest: daily~sleeve -0.18, capit2~daily -0.16, daily~news -0.12, ndx_dip~news -0.12
+
+4. THE MACHINE'S WORST 10% OF WEEKS (machine -11.41% a week) and BEST 10% (+66.99%) - each book's average week then
+   worst: trend -6.96%, mn_blend -2.06%, carry -0.04%, sleeve -0.39%, bids +0.20%, daily -1.56%, capit2 +0.06%, news -0.64%, ndx_dip -0.01%, crowd +0.26%, rsi80 -0.95%, noise -0.04%
+   best:  trend +52.33%, mn_blend +6.56%, carry +1.20%, sleeve +0.66%, bids +0.91%, daily +2.84%, capit2 +1.15%, news +1.08%, ndx_dip +0.26%, crowd +2.43%, rsi80 +1.24%, noise +0.09%
+
+5. SIGNAL -> BOOK: Spearman with each book's NEXT 30 days, every 30th day (tune / holdout); ! = same sign, |rho| > 0.15 both halves
+   fuel share     trend +0.26/+0.24!  mn_blend +0.20/+0.07  carry -0.05/-0.18  sleeve -0.11/-0.25  bids +0.50/+0.12  daily +0.02/+0.07  capit2 -0.01/+0.07  news +0.06/+0.12  ndx_dip -0.01/+0.25  crowd -0.03/-0.14  rsi80 +0.02/+0.27  noise -0.17/-0.11  MACHINE +0.21/+0.21!
+   BTC vs 50d     trend +0.45/+0.27!  mn_blend +0.29/+0.04  carry +0.03/-0.00  sleeve -0.04/-0.25  bids +0.72/+0.01  daily +0.12/-0.27  capit2 -0.04/+0.15  news -0.03/+0.20  ndx_dip +0.09/+0.31  crowd +0.04/-0.24  rsi80 +0.12/+0.18  noise -0.07/+0.15  MACHINE +0.45/+0.18!
+   alt median 30d trend +0.24/+0.38!  mn_blend +0.26/-0.05  carry +0.03/-0.25  sleeve -0.10/-0.33  bids +0.55/+0.04  daily +0.11/+0.08  capit2 -0.07/-0.10  news +0.05/+0.38  ndx_dip +0.10/-0.04  crowd +0.00/-0.15  rsi80 +0.10/+0.33  noise -0.12/-0.13  MACHINE +0.24/+0.24!
+
+EXPECTATIONS (registered before the run)
+  W1 chop is the machine's weakest BTC state and >= 3 books earn in it -> WRONG (machine bull +902% / chop +170% / bear +123%; 11 books positive in chop)
+  W2 every weekly correlation under +0.40 -> WRONG (max +0.43)
+  W3 in the worst weeks trend is the biggest loser and >= 3 books are positive -> RIGHT (biggest loser trend, 3 positive)
+  W4 fuel predicts trend on both halves, no other book with a same-sign |rho| > 0.15 -> RIGHT
+  W5 machine on LOW-fuel days < half its HIGH-fuel rate -> RIGHT
+run time 0s
+
+6. POST HOC (added after the first run showed BULL+LOW as the machine's only losing state): FAMILIES and EPISODES
+   families by mechanism: MOMENTUM = trend, daily, rsi80; FORCED FLOW = sleeve, capit2, news, crowd, bids; NEUTRAL / CARRY = mn_blend, carry, ndx_dip, noise
+   family                  BULL        CHOP        BEAR    fuel LOW   fuel HIGH   alt bleed    BULL+LOW
+   MOMENTUM             +888.0%      +79.3%     -102.9%      -95.9%    +1323.7%      -70.4%     -191.6%
+   FORCED FLOW           +55.5%      +99.6%     +174.3%     +146.7%      +69.5%     +157.2%      +66.1%
+   NEUTRAL / CARRY      +110.4%      +94.8%      +66.4%      +27.6%     +120.3%      +38.6%      +48.5%
+   weekly correlation between families: MOMENTUM ~ FORCED FLOW +0.04, MOMENTUM ~ NEUTRAL / CARRY +0.07, FORCED FLOW ~ NEUTRAL / CARRY +0.19
+   BULL+LOW episodes (3+ days): 10; machine compounded over each:
+     2020-10-28 .. 2020-11-01 (  5 days) machine   -6.2%  trend   -4.7%  forced flow  -0.0%  neutral  -0.0%  alt median 30d at start -4%
+     2020-11-03 .. 2020-11-05 (  3 days) machine   +0.5%  trend   -1.2%  forced flow  +0.0%  neutral  +0.9%  alt median 30d at start -10%
+     2020-11-10 .. 2020-11-12 (  3 days) machine   -5.4%  trend   -2.5%  forced flow  +0.0%  neutral  -3.2%  alt median 30d at start -6%
+     2021-03-23 .. 2021-03-25 (  3 days) machine   -0.3%  trend   +2.7%  forced flow  +0.6%  neutral  +3.0%  alt median 30d at start -11%
+     2023-03-16 .. 2023-04-01 ( 17 days) machine   -5.9%  trend   -9.9%  forced flow  +2.4%  neutral  -0.7%  alt median 30d at start -6%
+     2023-04-21 .. 2023-05-01 ( 11 days) machine   +0.5%  trend   -5.9%  forced flow  +3.4%  neutral  +5.7%  alt median 30d at start -4%
+     2024-10-27 .. 2024-10-29 (  3 days) machine   +2.6%  trend   -1.7%  forced flow  +1.5%  neutral  +1.4%  alt median 30d at start -12%
+     2025-06-13 .. 2025-06-16 (  4 days) machine   +1.1%  trend   -2.2%  forced flow  +4.7%  neutral  -0.6%  alt median 30d at start -21%
+     2025-06-24 .. 2025-07-01 (  8 days) machine   -8.8%  trend   -7.7%  forced flow  -2.9%  neutral  +1.8%  alt median 30d at start -22%
+     2026-04-19 .. 2026-04-25 (  7 days) machine   -8.6%  trend   +0.4%  forced flow  -3.0%  neutral  -4.2%  alt median 30d at start -3%
+
+   ALT BLEED split by the BTC label (the live tape of 2026-11: alts -33% median, BTC labelled chop) - annualised, % of the account
+   book                        bleed+BULL            bleed+CHOP            bleed+BEAR  deep bleed (<= -25%)
+   (days)                            (30)                 (268)                 (394)                 (331)
+   trend                         -109.8%                 +1.4%                -43.7%                 +0.1% 
+   mn_blend                       +94.7%                 +2.6%*                +5.5%                -30.7% 
+   carry                          +33.6%                 +8.0%*                +8.6%*               +10.2%*
+   sleeve                          +0.0%                 +7.1%                +69.9%*               +54.6%*
+   bids                            +4.8%                 +8.7%*                +0.0%                 +7.0%*
+   daily                          +21.3%                -25.0%                 -8.9%                -16.4% 
+   capit2                         +41.6%                +81.4%*               +32.3%*               +85.0%*
+   news                           +77.2%                +66.2%*               +29.2%*               +22.6%*
+   ndx_dip                        +17.3%                 +9.9%*               +12.5%*                +5.6% 
+   crowd                          +36.3%                +20.8%*               +47.8%*               +54.2% 
+   rsi80                          -71.7%                -12.4%                -37.7%                -17.3% 
+   noise                           +4.3%                +12.1%*                +8.5%*                +2.1% 
+   MACHINE                       +162.8%               +148.9%*               +90.3%*              +125.4%*
+
+   THE EVENT-ONLY ACCOUNT (audit_event_only.py's set: sleeve + bids + capit2 + news + ndx_dip, at machine weights) by state - annualised, % of the account
+   BULL +62%*  CHOP +69%*  BEAR +138%*  fuel LOW +132%*  fuel HIGH +64%*  alt bleed +141%*  deep bleed +159%*  BULL+LOW +34%
+   by year (sum of days): 2020 +30%  2021 +115%  2022 +136%  2023 +47%  2024 +76%  2025 +143%  2026 +8%
+   all 75 BULL+LOW days: machine -22.6% (sum of days), of which trend -33.5%; the machine without trend +10.9%

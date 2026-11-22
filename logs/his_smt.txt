@@ -1,0 +1,80 @@
+backtest/his_smt.py, 2026-11-22 00:03 UTC; 181 tick days, split 2026-06-04; broken-level moments with a race: state A (still beyond) 21,211, state B (back) 19,485; parity with his_reclaim.broken_level: 0 mismatching moments
+
+  CLOCK CHECK
+    the US30m builder's USTECm minute highs = the tick cache's on 69,510 of 69,510 minutes (100.00%)
+    NASDAQ minute returns vs the Dow's, by lag (minutes; + = the Dow later): -2 +0.005  -1 -0.003  +0 +0.578  +1 -0.011  +2 +0.004
+    NASDAQ minute returns vs the S&P's, by lag (minutes; + = the S&P later): -2 +0.003  -1 +0.002  +0 +0.823  +1 +0.004  +2 +0.002
+
+  STATE A - his setup: NASDAQ broke the level and is still beyond it (trade back through)
+  Dow, primary (scaled 3-point rule): SMT on 30% of 21,211 moments
+                                                tune           holdout
+    SMT (partner held)                51.4% of 3,649    52.0% of 2,641
+    no SMT (partner broke too)        49.6% of 9,266    52.5% of 5,655
+    difference                                 +1.8p             -0.5p   (day-bootstrap se of the pooled difference 0.9 points)
+  Dow, strict (never beyond its level at all): SMT on 24% of 21,211 moments
+                                                tune           holdout
+    SMT (partner held)                51.2% of 2,980    52.1% of 2,172
+    no SMT (partner broke too)        49.8% of 9,935    52.4% of 6,124
+    difference                                 +1.4p             -0.3p   (day-bootstrap se of the pooled difference 0.9 points)
+    Dow by tercile (partner broke LEAST relative to NASDAQ / middle / MOST): tune 50.0% / 49.9% / 50.5% | holdout 51.6% / 52.5% / 53.1%
+  S&P 500: SMT on 19% of 21,170 moments
+                                                tune           holdout
+    SMT (partner held)                51.6% of 2,533    53.7% of 1,586
+    no SMT (partner broke too)       49.8% of 10,352    52.1% of 6,699
+    difference                                 +1.8p             +1.6p   (day-bootstrap se of the pooled difference 1.0 points)
+    S&P by tercile (partner broke LEAST relative to NASDAQ / middle / MOST): tune 49.9% / 50.2% / 50.3% | holdout 52.3% / 52.3% / 52.6%
+  Dow AND S&P (both held vs both broke): SMT on 18% of 16,593 moments
+                                                tune           holdout
+    SMT (partner held)                50.5% of 1,631    52.9% of 1,283
+    no SMT (partner broke too)        49.2% of 8,337    52.3% of 5,342
+    difference                                 +1.3p             +0.6p   (day-bootstrap se of the pooled difference 1.2 points)
+
+  STATE B - after the shift: NASDAQ broke the level and is already back (trade on)
+  Dow, primary (scaled 3-point rule): SMT on 31% of 19,485 moments
+                                                tune           holdout
+    SMT (partner held)                49.3% of 3,460    49.8% of 2,512
+    no SMT (partner broke too)        50.3% of 8,418    49.6% of 5,095
+    difference                                 -1.0p             +0.2p   (day-bootstrap se of the pooled difference 1.0 points)
+  Dow, strict (never beyond its level at all): SMT on 25% of 19,485 moments
+                                                tune           holdout
+    SMT (partner held)                49.1% of 2,817    50.6% of 2,049
+    no SMT (partner broke too)        50.3% of 9,061    49.3% of 5,558
+    difference                                 -1.2p             +1.3p   (day-bootstrap se of the pooled difference 1.1 points)
+    Dow by tercile (partner broke LEAST relative to NASDAQ / middle / MOST): tune 50.6% / 49.4% / 50.1% | holdout 49.2% / 49.7% / 50.1%
+  S&P 500: SMT on 20% of 19,458 moments
+                                                tune           holdout
+    SMT (partner held)                48.5% of 2,354    48.9% of 1,491
+    no SMT (partner broke too)        50.4% of 9,498    49.8% of 6,115
+    difference                                 -2.0p             -0.9p   (day-bootstrap se of the pooled difference 1.0 points)
+    S&P by tercile (partner broke LEAST relative to NASDAQ / middle / MOST): tune 50.9% / 49.3% / 50.0% | holdout 49.5% / 49.8% / 49.6%
+  Dow AND S&P (both held vs both broke): SMT on 18% of 15,159 moments
+                                                tune           holdout
+    SMT (partner held)                49.7% of 1,605    49.4% of 1,151
+    no SMT (partner broke too)        50.8% of 7,649    49.7% of 4,754
+    difference                                 -1.0p             -0.3p   (day-bootstrap se of the pooled difference 1.3 points)
+
+  HIS RECLAIMS (state A, his side = back through the level): 7; the Dow held (SMT) on 4, the S&P on 3; won 7
+    2026-02-17 SELL  Dow broke too   S&P broke too   won
+    2026-02-27 BUY   Dow HELD (SMT)  S&P broke too   won
+    2026-03-02 BUY   Dow broke too   S&P broke too   won
+    2026-04-06 BUY   Dow HELD (SMT)  S&P HELD (SMT)  won
+    2026-06-05 BUY   Dow HELD (SMT)  S&P HELD (SMT)  won
+    2026-07-01 SELL  Dow broke too   S&P broke too   won
+    2026-09-14 SELL  Dow HELD (SMT)  S&P HELD (SMT)  won
+  HIS TRADES in state B (already back, his side = the reversal side): 3; the Dow held on 1; won 3
+    2026-01-06 SELL  Dow broke too   S&P broke too   won
+    2026-02-17 SELL  Dow broke too   S&P broke too   won
+    2026-09-14 SELL  Dow HELD (SMT)  S&P HELD (SMT)  won
+
+  CANDLE SMT (the last closed 1-minute candle: a new low / high on exactly one of NASDAQ and the Dow) as a rule: 19,476 moments, race won 50.4% (tune) / 49.6% (holdout)
+  at his entries: a candle SMT active on 9; his side = its direction on 5 (56%, binomial p 1.00); his race won 100% when matching, 50% when not
+
+REGISTERED PREDICTIONS
+  S1 state A, Dow: SMT vs no SMT within 3 points on both halves, neither >= 56% -> RIGHT (+1.8 | -0.5 points)
+  S2 state B, Dow: the same -> RIGHT (-1.0 | +0.2 points)
+  S3 his 7 reclaims at most 5 with the Dow holding -> RIGHT (4 of 7)
+  S4 both partners holding, state A at most 56% on either half -> RIGHT (50.5% / 52.9%)
+  S5 candle SMT as a rule 47-53% on both halves -> RIGHT
+  S6 his side = the candle SMT on 35-65% -> RIGHT
+  S7 clock: >= 99% equal minute highs and lag 0 best (>= 0.7) for both partners -> WRONG
+  LEAD bar (5+ points on both halves): none

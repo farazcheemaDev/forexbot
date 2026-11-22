@@ -1,0 +1,99 @@
+backtest/sweetspot_deep.py, 2026-11-14 19:13 UTC; live log analyst_calls_20261114.csv: 132 calls (129 resolved), made 2026-10-27 01:07 .. 2026-11-14 18:07 UTC; sweet spot (stop >= 0.8%) 57 calls (54 resolved); registered 2026-11-06 15:00 UTC
+
+A+B. THE LIVE RECORD, WITH THE MATCHED RANDOM-ENTRY CONTROL (R after the 12bp fee; bets = UTC day + side; [95% range over bets])
+  sweet spot, BEFORE the registration (discovery) n  33  bets  14  won 13 (  39% vs random   12%)  R/call +0.55  R/bet +0.44 [-0.26, +1.15]  t +1.4  | random entry -0.01R  excess +0.55R/call, +0.54/bet (t +1.6)
+  sweet spot, AFTER the registration (forward)   n  21  bets  12  won  3 (  14% vs random   15%)  R/call -0.49  R/bet -0.32 [-1.04, +0.41]  t -1.0  | random entry -0.09R  excess -0.39R/call, -0.25/bet (t -0.8)
+    forward, market open at the call (no XAU / QQQ gap) n  21  bets  12  won  3 (  14% vs random   15%)  R/call -0.49  R/bet -0.32 [-1.04, +0.41]  t -1.0  | random entry -0.09R  excess -0.39R/call, -0.25/bet (t -0.8)
+  sweet spot, all live                           n  54  bets  25  won 16 (  30% vs random   13%)  R/call +0.14  R/bet +0.14 [-0.37, +0.64]  t +0.6  | random entry -0.04R  excess +0.18R/call, +0.20/bet (t +0.8)
+  middle (stop 0.4-0.8%), all live               n  51  bets  24  won 11 (  22% vs random   21%)  R/call -0.36  R/bet -0.16 [-0.67, +0.35]  t -0.7  | random entry -0.05R  excess -0.30R/call, -0.11/bet (t -0.4)
+  scalp-sized (stop < 0.4%), all live            n  24  bets  15  won  2 (   8% vs random   19%)  R/call -0.76  R/bet -0.63 [-2.10, +0.84]  t -0.9  | random entry -0.47R  excess -0.29R/call, -0.10/bet (t -0.2)
+  all calls                                      n 129  bets  34  won 29 (  22% vs random   17%)  R/call -0.22  R/bet -0.20 [-0.63, +0.24]  t -0.9  | random entry -0.12R  excess -0.10R/call, -0.01/bet (t -0.1)
+  all calls, forward only                        n  37  bets  15  won  7 (  19% vs random   16%)  R/call -0.19  R/bet -0.17 [-1.04, +0.70]  t -0.4  | random entry -0.18R  excess -0.01R/call, +0.08/bet (t +0.2)
+  (the discovery sample as first found: 13 of 28 won, +0.71R a call over 14 bets - read after slicing 19 ways; the same calls are the 'before' row above, now with later resolutions)
+  forward outcomes: 3 WIN, 16 LOSS, 2 EXPIRED (timed out in profit: #100 +1.11R, #113 +1.22R); R of a LOSS -1.15..-1.06
+  random-entry check: a coin-flip entry on the forward calls' own brackets wins 16% of the time (the desk's own logged odds: 15%) and earns -0.09R a trade
+  (the fee alone costs 0.09R on a sweet-spot call, against 0.57R on a scalp-sized one: most of the 'sweet spot' is that a wider stop shrinks the fee)
+
+C. THE REGISTERED FORWARD TEST (stop >= 0.8%, calls made after the registration; bar: 30 independent bets, mean >= +0.15R a bet, t >= 2, hit above the random odds, both halves positive)
+  scorer: 21 calls = 12 bets | mean R per bet -0.315 | t -0.96 | hit 14% vs random-entry odds 15% | halves -0.51 / -0.12 | NOT YET - 12 of 30 independent bets
+  pace: 12 bets in 7.6 days = 1.58 a day -> 30 bets about 2026-11-26 (a call takes up to 24-48h to resolve)
+  the bar in practice: bet sd so far 1.14R (a win is +1.4..+1.9R, a loss -1.1R), so t >= 2 at 30 bets needs a mean of about +0.42R a bet - the +0.15R clause never binds
+  the 18 remaining bets must average +0.90R to reach that (-0.32R so far)
+  chance of passing at 30 bets if the TRUE edge per bet were:  -0.30R ->  0.0%   -0.15R ->  0.0%   +0.00R ->  0.0%   +0.10R ->  0.0%   +0.20R ->  0.0%   +0.30R ->  0.2%   +0.50R ->  1.3%   +0.80R -> 10.1%
+  skeptical prior N(-0.02, 0.15) (the replay's per-bet mean): posterior edge -0.07R +- 0.14, P(pass at 30 bets) = 0.0%
+  enthusiast prior N(+0.30, 0.30): posterior edge +0.02R +- 0.22, P(pass at 30 bets) = 0.1%
+
+D. SLICES (exploratory: ~40 cells, found AFTER looking, so a cell needs |t| >= 3 to mean anything; small n)
+  -- forward sweet spot
+  method = FIB                                   n   1  bets   1  won  0 (   0% vs random    8%)  R/call -1.13  R/bet +nan [+nan, +nan]  t +nan  | random entry +0.01R  excess -1.14R/call, -1.14/bet (t +nan)
+  method = SMC                                   n   7  bets   5  won  1 (  14% vs random   12%)  R/call -0.68  R/bet -0.50 [-2.19, +1.18]  t -0.8  | random entry -0.32R  excess -0.36R/call, -0.26/bet (t -0.6)
+  method = SR                                    n  13  bets   8  won  2 (  15% vs random   18%)  R/call -0.33  R/bet -0.29 [-1.15, +0.56]  t -0.8  | random entry +0.02R  excess -0.36R/call, -0.28/bet (t -0.8)
+  symbol = BNBUSDT                               n   4  bets   4  won  1 (  25% vs random   15%)  R/call +0.09  R/bet +0.09 [-2.13, +2.32]  t +nan  | random entry -0.21R  excess +0.31R/call, +0.31/bet (t +nan)
+  symbol = BTCUSDT                               n   3  bets   2  won  0 (   0% vs random    0%)  R/call -1.11  R/bet +nan [+nan, +nan]  t +nan  | random entry -0.14R  excess -0.96R/call, -1.14/bet (t +nan)
+  symbol = ETHUSDT                               n   1  bets   1  won  0 (   0% vs random   24%)  R/call -1.10  R/bet +nan [+nan, +nan]  t +nan  | random entry +0.50R  excess -1.61R/call, -1.61/bet (t +nan)
+  symbol = SOLUSDT                               n   5  bets   5  won  1 (  20% vs random   18%)  R/call -0.07  R/bet -0.07 [-1.82, +1.68]  t -0.1  | random entry +0.03R  excess -0.10R/call, -0.10/bet (t -0.2)
+  symbol = XAUUSDT                               n   2  bets   1  won  0 (   0% vs random   16%)  R/call -1.14  R/bet +nan [+nan, +nan]  t +nan  | random entry -0.07R  excess -1.07R/call, -1.07/bet (t +nan)
+  symbol = XRPUSDT                               n   6  bets   6  won  1 (  17% vs random   19%)  R/call -0.59  R/bet -0.59 [-1.88, +0.70]  t -1.2  | random entry -0.20R  excess -0.39R/call, -0.39/bet (t -1.0)
+  side = long                                    n  13  bets   7  won  1 (   8% vs random   10%)  R/call -0.73  R/bet -0.75 [-1.30, -0.21]  t -3.4  | random entry -0.40R  excess -0.33R/call, -0.35/bet (t -1.5)
+  side = short                                   n   8  bets   5  won  2 (  25% vs random   24%)  R/call -0.09  R/bet +0.30 [-1.55, +2.15]  t +0.4  | random entry +0.41R  excess -0.50R/call, -0.10/bet (t -0.2)
+  stop 0.8-1.0%                                  n   6  bets   4  won  1 (  17% vs random   10%)  R/call -0.71  R/bet -0.50 [-2.51, +1.50]  t +nan  | random entry -0.15R  excess -0.56R/call, -0.42/bet (t +nan)
+  stop 1.0-1.5%                                  n  10  bets   8  won  1 (  10% vs random   20%)  R/call -0.36  R/bet -0.17 [-1.25, +0.91]  t -0.4  | random entry +0.05R  excess -0.41R/call, -0.15/bet (t -0.3)
+  stop >= 1.5%                                   n   5  bets   4  won  1 (  20% vs random   11%)  R/call -0.47  R/bet -0.32 [-2.70, +2.06]  t +nan  | random entry -0.32R  excess -0.15R/call, -0.05/bet (t +nan)
+  reward:risk <= 2.5                             n   9  bets   8  won  3 (  33% vs random   22%)  R/call +0.09  R/bet +0.10 [-1.07, +1.26]  t +0.2  | random entry -0.13R  excess +0.23R/call, +0.19/bet (t +0.4)
+  reward:risk 2.5-4                              n   6  bets   5  won  0 (   0% vs random   19%)  R/call -0.73  R/bet -0.66 [-1.88, +0.57]  t -1.5  | random entry +0.11R  excess -0.84R/call, -0.71/bet (t -1.8)
+  reward:risk > 4                                n   6  bets   4  won  0 (   0% vs random    2%)  R/call -1.12  R/bet -1.11 [-1.14, -1.08]  t +nan  | random entry -0.24R  excess -0.88R/call, -1.00/bet (t +nan)
+  held 24h (SR, SMC)                             n  20  bets  12  won  3 (  15% vs random   16%)  R/call -0.45  R/bet -0.32 [-1.04, +0.41]  t -1.0  | random entry -0.10R  excess -0.36R/call, -0.24/bet (t -0.8)
+  held 48h (FIB)                                 n   1  bets   1  won  0 (   0% vs random    8%)  R/call -1.13  R/bet +nan [+nan, +nan]  t +nan  | random entry +0.01R  excess -1.14R/call, -1.14/bet (t +nan)
+  -- all live sweet spot
+  method = FIB                                   n   7  bets   5  won  2 (  29% vs random    9%)  R/call +0.45  R/bet +0.38 [-2.24, +3.00]  t +0.4  | random entry +0.33R  excess +0.11R/call, +0.19/bet (t +0.3)
+  method = SMC                                   n  24  bets  13  won 11 (  46% vs random    9%)  R/call +0.66  R/bet +0.59 [-0.27, +1.45]  t +1.5  | random entry -0.25R  excess +0.90R/call, +0.81/bet (t +2.4)
+  method = SR                                    n  23  bets  15  won  3 (  13% vs random   19%)  R/call -0.48  R/bet -0.46 [-1.00, +0.08]  t -1.8  | random entry +0.06R  excess -0.54R/call, -0.44/bet (t -1.7)
+  symbol = BNBUSDT                               n   8  bets   8  won  2 (  25% vs random   14%)  R/call +0.03  R/bet +0.03 [-1.06, +1.12]  t +0.1  | random entry -0.14R  excess +0.17R/call, +0.17/bet (t +0.3)
+  symbol = BTCUSDT                               n   8  bets   7  won  3 (  38% vs random    2%)  R/call +0.40  R/bet +0.61 [-1.22, +2.45]  t +0.8  | random entry -0.10R  excess +0.50R/call, +0.66/bet (t +1.0)
+  symbol = ETHUSDT                               n  10  bets  10  won  3 (  30% vs random   18%)  R/call +0.22  R/bet +0.22 [-0.68, +1.13]  t +0.6  | random entry -0.04R  excess +0.26R/call, +0.26/bet (t +0.6)
+  symbol = QQQUSDT                               n   3  bets   3  won  1 (  33% vs random    7%)  R/call +0.60  R/bet +0.60 [-3.07, +4.26]  t +nan  | random entry -0.06R  excess +0.66R/call, +0.66/bet (t +nan)
+  symbol = SOLUSDT                               n  10  bets  10  won  3 (  30% vs random   14%)  R/call +0.02  R/bet +0.02 [-1.02, +1.06]  t +0.0  | random entry +0.03R  excess -0.00R/call, -0.00/bet (t -0.0)
+  symbol = XAUUSDT                               n   2  bets   1  won  0 (   0% vs random   16%)  R/call -1.14  R/bet +nan [+nan, +nan]  t +nan  | random entry -0.07R  excess -1.07R/call, -1.07/bet (t +nan)
+  symbol = XRPUSDT                               n  13  bets  12  won  4 (  31% vs random   17%)  R/call +0.19  R/bet +0.29 [-0.95, +1.53]  t +0.5  | random entry +0.02R  excess +0.16R/call, +0.23/bet (t +0.4)
+  side = long                                    n  29  bets  14  won  7 (  24% vs random    9%)  R/call -0.11  R/bet -0.11 [-0.75, +0.54]  t -0.4  | random entry -0.41R  excess +0.30R/call, +0.29/bet (t +0.9)
+  side = short                                   n  25  bets  11  won  9 (  36% vs random   18%)  R/call +0.44  R/bet +0.45 [-0.45, +1.34]  t +1.1  | random entry +0.39R  excess +0.05R/call, +0.09/bet (t +0.2)
+  stop 0.8-1.0%                                  n  12  bets  10  won  3 (  25% vs random   20%)  R/call -0.12  R/bet +0.09 [-1.11, +1.28]  t +0.2  | random entry -0.12R  excess -0.00R/call, +0.17/bet (t +0.3)
+  stop 1.0-1.5%                                  n  24  bets  17  won  8 (  33% vs random   14%)  R/call +0.31  R/bet +0.34 [-0.50, +1.18]  t +0.9  | random entry -0.00R  excess +0.31R/call, +0.34/bet (t +0.9)
+  stop >= 1.5%                                   n  18  bets  11  won  5 (  28% vs random    8%)  R/call +0.10  R/bet +0.05 [-0.76, +0.87]  t +0.1  | random entry -0.04R  excess +0.14R/call, +0.17/bet (t +0.5)
+  reward:risk <= 2.5                             n  27  bets  18  won 13 (  48% vs random   19%)  R/call +0.53  R/bet +0.30 [-0.34, +0.94]  t +1.0  | random entry -0.06R  excess +0.59R/call, +0.33/bet (t +1.1)
+  reward:risk 2.5-4                              n  17  bets  13  won  1 (   6% vs random   11%)  R/call -0.38  R/bet -0.23 [-1.06, +0.60]  t -0.6  | random entry +0.01R  excess -0.40R/call, -0.26/bet (t -0.6)
+  reward:risk > 4                                n  10  bets   7  won  2 (  20% vs random    2%)  R/call -0.00  R/bet +0.40 [-1.84, +2.64]  t +0.4  | random entry -0.08R  excess +0.07R/call, +0.31/bet (t +0.4)
+  held 24h (SR, SMC)                             n  47  bets  25  won 14 (  30% vs random   14%)  R/call +0.10  R/bet +0.10 [-0.42, +0.63]  t +0.4  | random entry -0.09R  excess +0.19R/call, +0.20/bet (t +0.8)
+  held 48h (FIB)                                 n   7  bets   5  won  2 (  29% vs random    9%)  R/call +0.45  R/bet +0.38 [-2.24, +3.00]  t +0.4  | random entry +0.33R  excess +0.11R/call, +0.19/bet (t +0.3)
+  concentration, all live sweet spot (54 resolved, sum +7.8R): the best 3 calls are +11.2R; without them -3.4R over 51 calls = -0.07R a call
+
+E. DOLLARS: the sweet-spot calls booked with the desk's own rules (risk on booked equity, notional = risk / stop, 3x cap, $5 minimum order; no slippage / funding / lot steps)
+  -- forward sweet spot only
+    $10: 0.5% risk: $9.79 (-2.1%, fall 3%, 6 taken / 15 under $5) | 1.0% risk: $9.11 (-8.9%, fall 9%, 20 taken / 1 under $5) | 2.0% risk: $8.21 (-17.9%, fall 18%, 13 taken / 0 under $5)
+    $20: 0.5% risk: $19.10 (-4.5%, fall 5%, 20 taken / 1 under $5) | 1.0% risk: $18.03 (-9.8%, fall 10%, 21 taken / 0 under $5) | 2.0% risk: $16.41 (-17.9%, fall 18%, 13 taken / 0 under $5)
+    $50: 0.5% risk: $47.49 (-5.0%, fall 5%, 21 taken / 0 under $5) | 1.0% risk: $45.09 (-9.8%, fall 10%, 21 taken / 0 under $5) | 2.0% risk: $41.03 (-17.9%, fall 18%, 13 taken / 0 under $5)
+  -- all live sweet spot
+    $10: 0.5% risk: $9.87 (-1.3%, fall 4%, 13 taken / 41 under $5) | 1.0% risk: $10.96 (+9.6%, fall 11%, 49 taken / 2 under $5) | 2.0% risk: $9.93 (-0.7%, fall 22%, 30 taken / 0 under $5)
+    $20: 0.5% risk: $20.89 (+4.4%, fall 6%, 52 taken / 2 under $5) | 1.0% risk: $21.34 (+6.7%, fall 13%, 51 taken / 0 under $5) | 2.0% risk: $19.86 (-0.7%, fall 22%, 30 taken / 0 under $5)
+    $50: 0.5% risk: $51.84 (+3.7%, fall 6%, 54 taken / 0 under $5) | 1.0% risk: $53.34 (+6.7%, fall 13%, 51 taken / 0 under $5) | 2.0% risk: $49.65 (-0.7%, fall 22%, 30 taken / 0 under $5)
+
+F. THE 4.7-YEAR REPLAY (analyst_replay.py's cached calls, 1h bars, a bar touching both = a loss, 12bp): the sweet spot against what a random entry on the same bracket does
+  all sweet-spot calls     n  6928  bets 2576  hit 16.2% vs random 17.5%  R/call -0.126  R/bet -0.016 (t -0.6)  R lost to the hit-rate shortfall -0.063/call  fee 0.09R
+  holdout (2024-12 on)     n  2675  bets  994  hit 14.9% vs random 17.1%  R/call -0.146  R/bet -0.049 (t -1.3)  R lost to the hit-rate shortfall -0.098/call  fee 0.09R
+  tune (to 2024-12)        n  4253  bets 1582  hit 17.0% vs random 17.6%  R/call -0.114  R/bet +0.005 (t +0.2)  R lost to the hit-rate shortfall -0.042/call  fee 0.09R
+  year 2022                n  1554  bets  526  hit 16.4% vs random 18.4%  R/call -0.133  R/bet -0.022 (t -0.4)  R lost to the hit-rate shortfall -0.080/call  fee 0.08R
+  year 2023                n  1205  bets  511  hit 16.3% vs random 16.9%  R/call -0.071  R/bet +0.031 (t +0.6)  R lost to the hit-rate shortfall -0.037/call  fee 0.09R
+  year 2024                n  1632  bets  588  hit 17.8% vs random 17.6%  R/call -0.128  R/bet -0.000 (t -0.0)  R lost to the hit-rate shortfall -0.017/call  fee 0.09R
+  year 2025                n  1522  bets  565  hit 15.5% vs random 17.9%  R/call -0.137  R/bet -0.017 (t -0.3)  R lost to the hit-rate shortfall -0.099/call  fee 0.09R
+  year 2026                n  1015  bets  386  hit 13.8% vs random 15.9%  R/call -0.163  R/bet -0.089 (t -1.5)  R lost to the hit-rate shortfall -0.092/call  fee 0.10R
+  method SMC               n  3332  bets 1652  hit 12.2% vs random 13.5%  R/call -0.136  R/bet -0.016 (t -0.5)
+  method SR                n  2552  bets 1684  hit 25.5% vs random 26.3%  R/call -0.150  R/bet -0.133 (t -4.2)
+  method FIB               n  1044  bets  712  hit  5.7% vs random  8.4%  R/call -0.036  R/bet -0.063 (t -1.4)
+  every stretch of 54 consecutive sweet-spot calls in the replay: median -0.14R a call, 90th percentile +0.16, 99th +0.41; the live all-time +0.14R a call sits at the 89th percentile; the discovery sample's +0.71R a call (28 calls) would be the 99.3th percentile of 28-call stretches
+
+PREDICTIONS (registered in the docstring before the run)
+  S1 random-entry R on the sweet-spot geometry -0.039R a call; excess per bet forward -0.25 (t -0.8), discovery +0.54 (t +1.6), all +0.20 (t +0.8)
+  S2 P(pass) at 30 bets: see C (skeptical / enthusiast posterior)
+  S3 forward slices with >= 5 bets (10): best t over bets +0.4 (side = short, 5 bets), worst -3.4 (side = long, 7 bets); best excess-over-random t +0.4 (reward:risk <= 2.5), worst -1.8 (reward:risk 2.5-4)
+  S4 $20 at 1% risk, forward sweet spot only: $18.03 (-9.8%)
+  S5 the discovery cut on the calls MADE SINCE: -0.49R a call over 21 calls (before: +0.55R over 33)

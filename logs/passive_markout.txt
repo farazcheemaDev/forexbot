@@ -1,0 +1,30 @@
+backtest/passive_markout.py, run 2026-11-02 19:21; ten pairs, the 2026-10-30 trial recordings, queue-free upper bound, maker fee 2bp, taker 6bp per side
+FILLS = a print exactly at the touch, one per taker order per millisecond (the first run counted every print at or below the touch: last column shows what that did)
+
+  pair      spread bp   fills |   markout 1 s           5 s          30 s          60 s | half-spread | net UPPER 30 s net LOWER 30 s | first-run def. 30 s
+  BTCUSDT        0.01   10516 |   -0.35+-0.02   -0.47+-0.06   -0.91+-0.32   -1.51+-0.48 |        0.01 |          -2.91          -8.92 |      -1.50 (76892)
+  SOLUSDT        0.11    3534 |   -0.78+-0.06   -1.01+-0.15   -1.47+-0.55   -1.62+-0.80 |        0.05 |          -3.47          -9.53 |      -2.46 (14331)
+  XRPUSDT        0.81    2201 |   -0.64+-0.05   -0.78+-0.16   -1.19+-0.41   -1.88+-0.74 |        0.40 |          -3.19          -9.59 |      -0.86 (7788)
+  DOGEUSDT       1.33     632 |   -0.86+-0.14   -1.24+-0.28   -1.41+-0.90   -2.58+-1.38 |        0.66 |          -3.41         -10.09 |      -1.85 (1590)
+  SUIUSDT        1.13    1159 |   -0.83+-0.10   -1.03+-0.21   -1.71+-0.79   -2.24+-1.21 |        0.57 |          -3.71         -10.29 |      -1.72 (3631)
+  LINKUSDT       0.91     683 |   -1.22+-0.13   -1.26+-0.30   -0.82+-0.42   -0.93+-0.87 |        0.46 |          -2.82          -9.30 |      -1.79 (1576)
+  WLDUSDT        2.49    1145 |   -0.51+-0.24   -0.67+-0.40   -2.31+-1.49   -2.91+-3.85 |        1.24 |          -4.31         -11.57 |      -3.99 (2653)
+  SHIBUSDT       2.12     390 |   -0.23+-0.15   -0.06+-0.27   -0.57+-0.88   -0.98+-1.46 |        1.06 |          -2.57          -9.85 |      -2.56 (725)
+  ADAUSDT        5.24     565 |   -0.57+-0.17   -0.43+-0.27   +0.29+-0.57   -0.10+-0.74 |        2.62 |          -1.71         -10.32 |      +0.30 (1223)
+  DOTUSDT       10.60     170 |   -1.00+-0.44   -0.37+-0.42   -0.83+-0.87   -1.72+-1.39 |        5.30 |          -2.83         -14.12 |      -1.69 (402)
+
+DOES THE BOOK HELP AVOID BEING PICKED OFF? 30 s markout when imb1 leans WITH the fill (bid-heavy for our bid, ask-heavy for our offer) vs AGAINST it (|imb1| > 0.5 on the touch):
+  pair       WITH: n       markout | AGAINST: n       markout | difference
+  BTCUSDT       1399   +0.12+-0.38 |       3425   -1.50+-0.52 |      +1.61
+  SOLUSDT        413   -1.02+-1.07 |       1450   -2.06+-0.73 |      +1.04
+  XRPUSDT        234   -1.02+-1.18 |        887   -1.71+-0.57 |      +0.70
+  DOGEUSDT        81   +1.52+-1.38 |        332   -2.65+-1.20 |      +4.17
+  SUIUSDT        134   -1.55+-1.74 |        563   -2.23+-1.01 |      +0.68
+  LINKUSDT        92   +0.14+-1.49 |        246   -1.82+-1.19 |      +1.96
+  WLDUSDT        132   +1.47+-3.41 |        448   -4.34+-1.71 |      +5.80
+  SHIBUSDT       103   -0.32+-2.07 |        169   -0.93+-1.20 |      +0.61
+  ADAUSDT         78   +0.67+-1.61 |        401   +0.17+-0.70 |      +0.50
+  DOTUSDT         13  +11.00+-3.05 |        125   -2.33+-1.24 |     +13.33
+  average difference over the pairs with both cells filled: +3.04bp (10 pairs)
+
+  worked example (DOT): a taker SELL at 1793368699711 ms met a resting bid; spread then 10.7bp, imb1 -1.00; markout 5 s +5.33bp, 30 s +5.33bp, 60 s +26.64bp

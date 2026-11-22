@@ -1,0 +1,4 @@
+backtest/forward_ledger.py --check, 2026-11-08 23:03 UTC
+nasdaq_ib_buy: n 889 (study 889), mean +0.0792R (study +0.0789), sd 1.429R, 56.0 a year
+pre_fomc: n 128 (study 128), mean +0.250% (study +0.25), t +3.14 (study +3.14), sd 0.899%
+gold_nfp: 8 of 8 logged 2026 releases replayed from the tick cache; values equal to the log: True

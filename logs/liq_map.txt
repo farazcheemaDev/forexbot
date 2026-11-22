@@ -1,0 +1,21 @@
+backtest/liq_map.py, 2026-11-15 01:33 UTC; 346 coins with open interest; events 37905 (18642 long, 19263 short); CUT 2024-11-12 04:00; 12bp + 1bp / 8h; leverage mix (10, 20, 50, 100)
+
+long: big clusters a median 5.88% from the close (IQR 4.32-8.36%); filled 26.5% vs controls 26.8%
+short: big clusters a median 6.82% from the close (IQR 4.74-8.92%); filled 23.0% vs controls 22.9%
+
+cell            n tune/hold   fill vs ctrl tune / hold      NET tune / hold (t)               EXCESS tune / hold (t)            MDE80 hold
+long 4h          2819/2113     25.3/25.4% | 28.1/29.0%     +15.9 (+1.6) /   -13.6bp (-0.9)      +8.4 (+0.8) /   +12.9bp (+0.7)      31bp  holm 1.00
+long 24h         2819/2113     25.3/25.4% | 28.1/29.0%     +12.3 (+0.5) /   -57.6bp (-1.7)     -15.2 (-0.5) /    -7.3bp (-0.2)      68bp  holm 1.00
+long bracket     2819/2113     25.3/25.4% | 28.1/29.0%     -30.7 (-2.8) /   -45.3bp (-2.6)     -11.9 (-0.9) /    +0.3bp (+0.0)      40bp  holm 1.00
+short 4h         2628/1806     22.4/22.1% | 24.0/24.1%     -21.7 (-2.2) /   -43.2bp (-2.4)      +9.2 (+0.7) /   -38.4bp (-1.6)      47bp  holm 1.00
+short 24h        2628/1806     22.4/22.1% | 24.0/24.1%     -26.9 (-1.1) /   -12.9bp (-0.3)     +11.1 (+0.4) /   -52.6bp (-1.1)      82bp  holm 1.00
+short bracket    2628/1806     22.4/22.1% | 24.0/24.1%     -11.8 (-1.2) /   -32.2bp (-2.3)     +16.9 (+1.4) /   -39.5bp (-1.9)      37bp  holm 1.00
+
+PASSING: 0 of 6
+REGISTERED PREDICTIONS
+  L1 no cell passes -> RIGHT
+  L2 no magnet (fill ratio 0.9-1.1 on both halves, both sides) -> RIGHT (long tu 1.00, long ho 0.97, short tu 1.01, short ho 1.00)
+  L3 |excess| < 15bp at 4h everywhere -> WRONG
+  L4 the long side loses on the holdout at all three exits -> RIGHT
+  L5 long clusters a median 2-6% away -> RIGHT (5.88%)
+run time 570s

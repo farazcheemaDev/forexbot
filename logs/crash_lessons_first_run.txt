@@ -1,0 +1,56 @@
+backtest/crash_lessons.py, 2026-11-20 21:25 UTC; live logs from live1121; Binance daily closes to 2026-11-19 (the bar opened that day)
+alt index = equal-weight daily return of the live November top-40 (BTC out, 40 coins); from 10-09 to the last close: alts -3.9%, BTC -24.2%
+
+=== A1 MAIN: what the netted account held (placeable ledger, x live equity)
+  before 11-10   long     174$  short    244$  net -0.26x  gross 1.56x  (days 32)
+  11-10 .. now   long     120$  short    146$  net -0.11x  gross 1.12x  (days 10)
+  by day in the crash: 11-10 -0.23x  11-11 -0.28x  11-12 -0.32x  11-13 -0.34x  11-14 -0.29x  11-15 -0.03x  11-16 -0.02x  11-17 +0.08x  11-18 +0.22x  11-19 +0.14x
+=== A2 MAIN: daily live-equity return vs the alt index and BTC (OLS, one factor at a time)
+  before 11-10   n 23  beta to alts -0.11 (corr -0.09)  beta to BTC -0.12  account -8.2%  alts +6.2%  BTC -7.5%
+  11-10 .. now   n 10  beta to alts -0.28 (corr -0.51)  beta to BTC -0.25  account -15.4%  alts -16.0%  BTC -17.7%
+  all            n 33  beta to alts -0.12 (corr -0.12)  beta to BTC -0.05  account -22.3%  alts -10.8%  BTC -23.9%
+  the 5 worst alt days: 11-14 alts -11.0% acct +2.3%  10-29 alts -9.4% acct +3.2%  11-05 alts -7.5% acct -1.9%  11-02 alts -3.6% acct +0.9%  11-13 alts -3.3% acct -1.8%
+
+=== A1 FRESH: what the netted account held (placeable ledger, x live equity)
+  before 11-10   long     259$  short    238$  net +0.06x  gross 1.88x  (days 24)
+  11-10 .. now   long     144$  short    167$  net -0.11x  gross 1.57x  (days 10)
+  by day in the crash: 11-10 -0.13x  11-11 -0.22x  11-12 -0.30x  11-13 -0.32x  11-14 -0.30x  11-15 +0.00x  11-16 -0.03x  11-17 +0.02x  11-18 +0.07x  11-19 +0.06x
+=== A2 FRESH: daily live-equity return vs the alt index and BTC (OLS, one factor at a time)
+  before 11-10   n 23  beta to alts +0.28 (corr +0.16)  beta to BTC +0.19  account -24.5%  alts +6.2%  BTC -7.5%
+  11-10 .. now   n 10  beta to alts -0.09 (corr -0.12)  beta to BTC -0.01  account -22.8%  alts -16.0%  BTC -17.7%
+  all            n 33  beta to alts +0.20 (corr +0.13)  beta to BTC +0.21  account -41.8%  alts -10.8%  BTC -23.9%
+  the 5 worst alt days: 11-14 alts -11.0% acct +0.6%  10-29 alts -9.4% acct -1.8%  11-05 alts -7.5% acct -4.0%  11-02 alts -3.6% acct +1.9%  11-13 alts -3.3% acct -1.6%
+
+=== A3 the live market-neutral book, leg by leg (fixed coins, equal weight per leg, +50% short exit at its level)
+  main: basket   to      long leg   short leg   net (0.5L - 0.5S)   longs' 30d run-up   shorts' 30d
+   2026-10-09 -> 10-15     -10.6%      -4.8%         -2.9%               +134%           -25%
+   2026-10-16 -> 10-22      -7.7%      -4.5%         -1.6%               +110%           -11%
+   2026-10-23 -> 10-29     -13.4%     -11.0%         -1.2%                +13%           -55%
+   2026-10-30 -> 11-05      -4.2%      -5.7%         +0.7%                 +3%           -45%
+   2026-11-06 -> 11-12     -14.9%      -3.3%         -5.8%                +30%           -42%
+   2026-11-13 -> 11-19     -12.7%      -9.3%         -1.7%                +20%           -42%
+   2026-11-20 -> 11-19      +0.0%      +0.0%         +0.0%                 -6%           -57%
+   from the 10-30/10-31 basket on: long leg worse than the short leg made in 2 of 4 weeks; median longs' run-up +20%
+  fresh: basket   to      long leg   short leg   net (0.5L - 0.5S)   longs' 30d run-up   shorts' 30d
+   2026-10-17 -> 10-23     -10.6%      -2.7%         -3.9%               +101%           -14%
+   2026-10-24 -> 10-30     -13.7%      -1.8%         -6.0%                 +6%           -49%
+   2026-10-31 -> 11-06      -6.0%      -7.2%         +0.6%                 -3%           -45%
+   2026-11-07 -> 11-13     -13.0%      -5.4%         -3.8%                +30%           -37%
+   2026-11-14 -> 11-19      -9.9%     -11.5%         +0.8%                +29%           -44%
+   from the 10-30/10-31 basket on: long leg worse than the short leg made in 1 of 3 weeks; median longs' run-up +29%
+
+=== B1 the backtest market-neutral blend (7 rebalance weekdays): the long names' and the short names' average weekly price return (the book gains when the SHORT names fall), crash weeks vs all weeks
+  parity: the copied run() reproduces moderate_retests.scored_run exactly; split 2024-04-07
+  all weeks        n 2357  long leg  +1.94%/wk  short leg  -0.17%/wk  net +1.26%/wk  (44% negative)  longs' 30d run-up median +44%
+  crash weeks      n  252  long leg  -0.52%/wk  short leg  +1.95%/wk  net -0.93%/wk  (61% negative)  longs' 30d run-up median +13%
+  crash, tune      n  171  long leg  -0.02%/wk  short leg  +1.56%/wk  net -0.85%/wk  (60% negative)  longs' 30d run-up median +9%
+  crash, holdout   n   81  long leg  -1.56%/wk  short leg  +2.76%/wk  net -1.08%/wk  (62% negative)  longs' 30d run-up median +32%
+  non-crash        n 2105  long leg  +2.23%/wk  short leg  -0.43%/wk  net +1.52%/wk  (42% negative)  longs' 30d run-up median +48%
+  crash weeks fall in 25 months: 2020-04 2021-05 2021-06 2021-07 2021-09 2021-12 2022-01 2022-02 2022-04 2022-05 2022-06 2022-07 2022-09 2022-11 2022-12 2024-05 2024-07 2025-02 2025-03 2025-11 2025-12 2026-02 2026-03 2026-06 2026-07
+  crash weeks whose longs had run up the MOST (top quarter, run-up >= +33%): n 63 long leg -3.45%/wk  short leg -0.38%/wk  net -0.54%/wk
+  ALL weeks whose longs had run up the most (top 10%, >= +135%): n 236 net +1.47%/wk (tune +1.43%, holdout +1.61%) vs the rest +1.23%/wk
+
+=== B2 the bear sleeve after the label turns BEAR (backtest, top-10 basket, whole-account returns)
+  first  7 days: 35 flips, sleeve mean -0.1% median -0.2%, lost money in 51%; flips with breadth already <= 10%: 11, sleeve mean +0.3%, lost in 55%; the basket itself mean -0.9%
+  first 14 days: 35 flips, sleeve mean +1.0% median +0.4%, lost money in 43%; flips with breadth already <= 10%: 11, sleeve mean +1.9%, lost in 27%; the basket itself mean +4.1%
+  each flip (14 days): 2020-03-16 br 0.00 sleeve +4.2% basket +3.8%  2020-04-21 br 0.38 sleeve -4.0% basket +20.3%  2020-10-03 br 0.24 sleeve -1.8% basket +1.0%  2021-05-19 br 0.27 sleeve +4.8% basket -26.7%  2021-12-12 br 0.07 sleeve +8.4% basket +5.4%  2022-02-12 br 0.50 sleeve +10.3% basket -6.1%  2022-02-18 br 0.17 sleeve +6.1% basket -7.3%  2022-03-05 br 0.03 sleeve +4.0% basket +6.4%  2022-03-11 br 0.05 sleeve +5.0% basket +17.0%  2022-05-10 br 0.02 sleeve -10.8% basket -38.4%  2022-07-24 br 0.88 sleeve -2.3% basket +12.6%  2022-07-26 br 0.30 sleeve -5.3% basket +25.7%  2022-09-14 br 0.22 sleeve +0.7% basket -8.5%  2022-10-06 br 0.58 sleeve +4.5% basket -12.5%  2022-11-18 br 0.07 sleeve +3.9% basket +4.1%  2022-12-28 br 0.07 sleeve +0.4% basket +12.5%  2023-06-04 br 0.62 sleeve +2.2% basket -16.4%  2023-08-25 br 0.07 sleeve -2.5% basket -4.4%  2023-09-21 br 0.68 sleeve -0.5% basket -4.2%  2024-05-08 br 0.32 sleeve -2.4% basket +16.9%  2024-07-11 br 0.23 sleeve -3.9% basket +18.5%  2024-08-05 br 0.02 sleeve -1.8% basket +0.3%  2024-09-13 br 0.58 sleeve -3.1% basket +14.7%  2024-09-16 br 0.51 sleeve -3.8% basket +22.1%  2025-03-09 br 0.10 sleeve +4.3% basket -4.7%  2025-04-14 br 0.28 sleeve -0.9% basket +22.3%  2025-04-16 br 0.23 sleeve +0.0% basket +23.9%  2025-11-11 br 0.47 sleeve +0.4% basket -17.4%  2026-02-06 br 0.05 sleeve +6.2% basket +6.3%  2026-03-20 br 0.34 sleeve -0.2% basket -7.9%  2026-03-22 br 0.19 sleeve +5.6% basket +17.2%  2026-03-27 br 0.15 sleeve +6.0% basket +23.1%  2026-06-12 br 0.14 sleeve +3.3% basket +4.8%  2026-07-17 br 0.32 sleeve -1.4% basket -0.1%  2026-08-01 br 0.15 sleeve +0.0% basket +18.1%

@@ -1,0 +1,8 @@
+backtest/liq_map.py --validate (POST HOC), 2026-11-15 01:39 UTC; the 60 coins with the longest open-interest history; the hour a resting order at a CLUSTER vs at a random level the same distance away (controls) trades through
+
+  long  cluster  n   3179  fill-hour volume / previous 24h: median 2.45, mean 3.35; range: median 3.18%
+  long  control  n  16142  fill-hour volume / previous 24h: median 2.01, mean 2.78; range: median 3.08%
+        cluster minus control, mean log volume ratio +0.191 (t +13.9)
+  short cluster  n   2839  fill-hour volume / previous 24h: median 2.58, mean 3.53; range: median 3.23%
+  short control  n  14014  fill-hour volume / previous 24h: median 2.11, mean 3.10; range: median 3.12%
+        cluster minus control, mean log volume ratio +0.212 (t +15.3)

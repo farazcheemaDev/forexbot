@@ -1,0 +1,41 @@
+backtest/sweep_confluence.py, 2026-10-30 07:23; PIT top-40 1h, 24-bar sweep+reclaim, in at the next open, stop at the sweep extreme, T24 (exit 24 bars later) / TP2 (+2% target), 12bp + funding, halves split 2024-04-07
+events 60664: long 28715, short 31949; 359 coins, 2020-02-02 .. 2026-09-20
+
+Q1  UNFILTERED
+  LONG  T24 tune     n 16369, net +0.07% (t +0.7), gross +0.19%, hit 28%; excess vs control +0.24% (t +2.1)
+  LONG  T24 holdout  n 12346, net -0.20% (t -2.5), gross -0.08%, hit 22%; excess vs control +0.07% (t +0.7)
+  LONG  TP2 tune     n 16369, net -0.12% (t -3.1), gross +0.19%, hit 45%; excess vs control +0.11% (t +2.5)
+  LONG  TP2 holdout  n 12346, net -0.16% (t -4.3), gross -0.08%, hit 41%; excess vs control +0.10% (t +2.3)
+  SHORT T24 tune     n 19762, net -0.09% (t -1.7), gross +0.03%, hit 25%; excess vs control +0.13% (t +2.2)
+  SHORT T24 holdout  n 12187, net -0.05% (t -0.8), gross +0.07%, hit 26%; excess vs control +0.05% (t +0.7)
+  SHORT TP2 tune     n 19762, net -0.08% (t -3.4), gross +0.03%, hit 43%; excess vs control +0.04% (t +1.6)
+  SHORT TP2 holdout  n 12187, net -0.11% (t -3.6), gross +0.07%, hit 42%; excess vs control +0.01% (t +0.2)
+
+STAGE 1 - one factor at a time (cut = 2/3 quantile of the factor on the TUNE half; flagged = at or above it)
+  cell                 cut  share | tune: spread  t   flagged net | holdout: spread  t   flagged net  Holm p | CONFIRMED
+  LONG depth        0.3754    33% |  +0.11%  +0.5    +0.14% |  -0.16%  -1.1    -0.31%    1.00 | 
+  LONG vol           1.938    33% |  +0.07%  +0.3    +0.12% |  -0.11%  -0.8    -0.27%    1.00 | 
+  LONG loc          0.9024    33% |  +0.21%  +1.4    +0.21% |  -0.08%  -0.7    -0.26%    1.00 | 
+  LONG breadth          15    35% |  +0.22%  +0.9    +0.21% |  -0.55%  -3.1    -0.59%    1.00 | 
+  LONG trend     -0.007524    33% |  -0.20%  -1.3    -0.06% |  -0.04%  -0.3    -0.23%    1.00 | 
+  LONG touch             4    35% |  -0.24%  -1.8    -0.09% |  +0.03%  +0.2    -0.18%    1.00 | 
+  LONG fund      -9.004e-05    33% |  +0.07%  +0.5    +0.12% |  +0.13%  +1.1    -0.17%    1.00 | 
+  SHORT depth       0.3267    33% |  -0.09%  -1.4    -0.15% |  +0.01%  +0.1    -0.04%    1.00 | 
+  SHORT vol          2.324    33% |  -0.16%  -1.9    -0.20% |  +0.25%  +2.0    +0.12%    0.34 | 
+  SHORT loc         0.8611    33% |  +0.07%  +0.9    -0.05% |  -0.17%  -2.0    -0.16%    1.00 | 
+  SHORT breadth          6    39% |  -0.20%  -2.0    -0.21% |  -0.07%  -0.5    -0.09%    1.00 | 
+  SHORT trend    -0.001932    33% |  +0.22%  +2.1    +0.05% |  +0.01%  +0.1    -0.05%    1.00 | 
+  SHORT touch            4    34% |  -0.01%  -0.1    -0.10% |  +0.09%  +1.0    +0.01%    1.00 | 
+  SHORT fund        0.0001    69% |  +0.05%  +0.6    -0.08% |  +0.05%  +0.4    -0.02%    1.00 | 
+  confirmed cells: 0 of 14  []
+  diagnostic - LONG high-breadth sweeps on the holdout: 3564 trades on 187 days; the 3 worst days 2025-02-02, 2024-12-19, 2025-10-16 hold 115 trades and 23% of the summed loss; without them the flagged net is -0.47% (n 3449)
+
+STAGE 2 - stacking the factors that the TUNE half selected (spread > 0, t > 2); k chosen on tune only
+  LONG: selected on tune: []
+  SHORT: selected on tune: ['trend']
+    score >= 1: tune  n 6588, net +0.05% (t +0.5), gross +0.17%, hit 25%
+                 holdout n 4618, net -0.05% (t -0.5), gross +0.07%, hit 25%
+    CHOSEN k = 1 (best tune mean net +0.05%): holdout n 4618 (1887 a year), net -0.05% (t -0.5), gross +0.07% = break-even round-trip fee 7bp; excess vs control -0.09%
+    TRADABLE (net > 0 on both halves, holdout t > 2, >= 100 trades): no
+    diagnostic - share with the coin down >= 10% over 24 bars (capit2's family): tune 0% / holdout 0%; holdout net without them -0.06% (n 4614)
+    placebo - the same share of holdout events flagged at random, 200 draws: mean net -0.05% (sd 0.05); the chosen subset is +0.1 sd above it

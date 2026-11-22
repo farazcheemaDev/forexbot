@@ -1,0 +1,61 @@
+==== NFP (8:30 New York): 199 events (2010-02-05 .. 2026-09-04), 4141 control days at 08:30 New York; split 2020-01-10
+   clock check summer: n 121, biggest 1-min move at offset 0 in 64% (offsets {0: 78, 1: 9, 2: 8})
+   clock check winter: n  70, biggest 1-min move at offset 0 in 57% (offsets {0: 40, 1: 12, 2: 5})
+   release-minute |move|: event median 24.6bp vs control 3.3bp
+   straddle +-5bp: triggered in 192 events, both sides touched inside ONE minute in 49 (26%); trigger bar runs past the level by median 34.4bp / mean 43.0bp (the slippage a level fill ignores)
+   straddle +-10bp: triggered in 192 events, both sides touched inside ONE minute in 27 (14%); trigger bar runs past the level by median 28.7bp / mean 36.4bp (the slippage a level fill ignores)
+   straddle +-20bp: triggered in 190 events, both sides touched inside ONE minute in 11 (6%); trigger bar runs past the level by median 18.9bp / mean 29.1bp (the slippage a level fill ignores)
+   rule                               taken   gross     net  ctl net  excess      t  tune t  hold t   2se  verdict
+   A follow, +1m, hold 15m              192   +4.49   +1.55    -3.18   +4.73  +1.79   +1.44   +1.04   5.3  fail
+   A follow, +1m, hold 60m              191   +4.59   +1.65    -2.72   +4.37  +1.10   +1.40   -0.13   7.9  fail
+   A follow, +2m, hold 15m              192   +4.81   +1.87    -3.21   +5.08  +2.16   +1.02   +2.21   4.7  fail
+   A follow, +2m, hold 60m              191   +7.34   +4.40    -2.52   +6.92  +1.85   +1.89   +0.51   7.4  fail
+   A follow, +5m, hold 15m              192   -2.05   -4.99    -3.14   -1.85  -0.79   -1.16   +0.31   4.6  fail
+   A follow, +5m, hold 60m              191   -0.02   -2.96    -2.63   -0.33  -0.09   +0.12   -0.35   7.3  fail
+   B break 5m range, level              177   +1.23   -3.71    -3.94   +0.24  +0.05   +0.48   -0.45   9.3  fail
+   B break 5m range, close              177   -0.89   -5.83    -4.69   -1.14  -0.24   +0.25   -0.64   9.3  fail
+   B break 5m range, extreme            177   -5.91  -10.85    -7.11   -3.75  -0.80   -0.34   -0.81   9.3  fail
+   B break 15m range, level             159   +0.95   -3.99    -4.49   +0.50  +0.10   +0.98   -0.83   9.6  fail
+   B break 15m range, close             159   +0.24   -4.70    -5.19   +0.49  +0.10   +0.98   -0.83   9.7  fail
+   B break 15m range, extreme           159   -5.02   -9.96    -7.57   -2.39  -0.49   +0.34   -1.03   9.7  fail
+   C straddle +-5bp, level              192  +25.35  +20.41    -3.13  +23.54  +5.23   +4.31   +2.95   9.0  PASS
+   C straddle +-5bp, close              192   +2.12   -2.82    -5.21   +2.39  +0.65   +1.27   -0.65   7.4  fail
+   C straddle +-5bp, extreme            192   -6.42  -11.36    -8.09   -3.27  -0.87   +0.03   -1.52   7.5  fail
+   C straddle +-10bp, level             191  +24.39  +19.45    -3.93  +23.38  +4.76   +4.32   +2.11   9.8  PASS
+   C straddle +-10bp, close             191   +3.65   -1.29    -5.26   +3.97  +0.93   +1.82   -1.03   8.4  fail
+   C straddle +-10bp, extreme           191   -6.81  -11.75    -8.57   -3.17  -0.75   +0.45   -2.00   8.5  fail
+   C straddle +-20bp, level             190  +22.41  +17.47    -4.33  +21.80  +4.16   +4.11   +1.43  10.4  fail
+   C straddle +-20bp, close             190   +6.88   +1.94    -5.39   +7.33  +1.54   +2.31   -0.58   9.4  fail
+   C straddle +-20bp, extreme           190   -4.93   -9.87    -9.26   -0.61  -0.13   +0.91   -1.54   9.5  fail
+   cells passing both halves: 2 of 21   (bp per trade; 2se = smallest mean that would reach t 2 on this sample)
+
+==== FOMC statement (14:00 New York, 2013 on): 108 events (2013-03-20 .. 2026-09-16), 4232 control days at 14:00 New York; split 2021-04-28
+   clock check summer: n  75, biggest 1-min move at offset 0 in 39% (offsets {0: 29, 1: 13, 2: 8})
+   clock check winter: n  29, biggest 1-min move at offset 0 in 41% (offsets {0: 12, 3: 5, 1: 3})
+   release-minute |move|: event median 16.4bp vs control 1.3bp
+   straddle +-5bp: triggered in 107 events, both sides touched inside ONE minute in 38 (36%); trigger bar runs past the level by median 21.0bp / mean 30.7bp (the slippage a level fill ignores)
+   straddle +-10bp: triggered in 106 events, both sides touched inside ONE minute in 18 (17%); trigger bar runs past the level by median 18.8bp / mean 27.6bp (the slippage a level fill ignores)
+   straddle +-20bp: triggered in 103 events, both sides touched inside ONE minute in 2 (2%); trigger bar runs past the level by median 13.5bp / mean 20.7bp (the slippage a level fill ignores)
+   rule                               taken   gross     net  ctl net  excess      t  tune t  hold t   2se  verdict
+   A follow, +1m, hold 15m              105   +5.77   +2.83    -2.77   +5.60  +1.62   +0.89   +1.53   6.9  fail
+   A follow, +1m, hold 60m              105   +5.62   +2.68    -3.09   +5.77  +0.96   +1.06   +0.26  12.0  fail
+   A follow, +2m, hold 15m              105   +2.54   -0.40    -2.84   +2.45  +0.70   +0.05   +1.19   7.0  fail
+   A follow, +2m, hold 60m              105   +8.01   +5.07    -2.61   +7.68  +1.28   +1.13   +0.64  12.0  fail
+   A follow, +5m, hold 15m              105   +3.66   +0.72    -3.28   +4.00  +1.50   +1.30   +0.78   5.3  fail
+   A follow, +5m, hold 60m              105  +10.11   +7.17    -3.34  +10.51  +1.88   +2.28   +0.40  11.2  fail
+   B break 5m range, level              101  +14.74   +9.80    -5.10  +14.90  +2.29   +1.87   +1.41  13.0  fail
+   B break 5m range, close              101  +13.97   +9.03    -5.45  +14.48  +2.29   +2.05   +1.27  12.6  fail
+   B break 5m range, extreme            101   +9.38   +4.44    -6.64  +11.08  +1.73   +1.43   +1.04  12.8  fail
+   B break 15m range, level              97  +10.91   +5.97    -5.67  +11.64  +2.01   +1.27   +1.54  11.6  fail
+   B break 15m range, close              97  +10.70   +5.76    -6.06  +11.81  +2.03   +1.33   +1.50  11.6  fail
+   B break 15m range, extreme            97   +6.03   +1.09    -7.26   +8.35  +1.46   +0.78   +1.21  11.4  fail
+   C straddle +-5bp, level              107  +17.21  +12.27    -5.13  +17.40  +2.68   +1.92   +1.86  13.0  fail
+   C straddle +-5bp, close              107   +4.89   -0.05    -5.65   +5.60  +1.07   +0.80   +0.70  10.5  fail
+   C straddle +-5bp, extreme            107   -2.22   -7.16    -6.88   -0.28  -0.05   +0.05   -0.13  10.3  fail
+   C straddle +-10bp, level             106  +12.96   +8.02    -5.03  +13.05  +1.90   +1.65   +0.98  13.7  fail
+   C straddle +-10bp, close             106   +0.07   -4.87    -5.62   +0.75  +0.13   +0.21   -0.07  11.6  fail
+   C straddle +-10bp, extreme           106   -9.72  -14.66    -7.26   -7.40  -1.27   -0.90   -0.93  11.6  fail
+   C straddle +-20bp, level             103  +17.71  +12.77    -4.57  +17.34  +2.25   +1.87   +1.27  15.3  fail
+   C straddle +-20bp, close             103   +9.22   +4.28    -5.49   +9.77  +1.41   +1.07   +0.90  13.8  fail
+   C straddle +-20bp, extreme           103   -2.45   -7.39    -8.15   +0.76  +0.11   -0.01   +0.14  14.2  fail
+   cells passing both halves: 0 of 21   (bp per trade; 2se = smallest mean that would reach t 2 on this sample)

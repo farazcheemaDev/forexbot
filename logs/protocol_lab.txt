@@ -1,0 +1,25 @@
+backtest/protocol_lab.py, DOGEUSDT perp on Bitget, 2026-06-01 (Tardis), 86,399 seconds, tune = first 60% (51,839 s), read = last 40%, run 2026-10-30 09:34
+
+A. THE WINNER'S CURSE: best of 60 rules chosen in-sample, read out of sample
+  REAL features: the best rule is imb5 at q 0.90, h 300 s: in-sample +3.60bp gross on 36 trades; out of sample -0.14bp on 32 trades (-4% of the in-sample figure)
+  50 SHIFTED draws (no link to the future): in-sample best gross: mean +2.92bp, median +2.54, 10th-90th percentile +1.36 .. +5.51; the same rules out of sample: mean +0.04bp, median -0.09, positive in 46% of draws
+  horizons the null searches picked: 5 s 0, 30 s 11, 300 s 39 (the few-trade, big-variance long horizons win the search)
+
+   THE SAME SEARCH, CHOOSING BY t = mean / standard error INSTEAD OF BY THE MEAN
+  REAL features: the best rule is imb1 at q 0.90, h 5 s: in-sample +0.72bp gross on 2074 trades (t 15.3); out of sample +0.79bp on 1226 trades (109% of the in-sample figure)
+  50 SHIFTED draws: in-sample best t: median 2.13, 10th-90th percentile 1.30 .. 2.71; the same rules out of sample: mean -0.39bp, median -0.01; horizons picked: 5 s 23, 30 s 19, 300 s 8
+
+B. RIGHT BUT UNPROFITABLE: imb1 decile rule (q 0.90), thresholds from the tune part, read on the last 40%
+      h  trades  right (non-zero)  gross bp   +-se  sd/trade  net maker 4bp  net taker 12bp
+    5 s    1226               76%     +0.79   0.06      2.15          -3.21          -11.21
+   30 s     199               64%     +1.46   0.35      4.98          -2.54          -10.54
+   60 s      99               61%     +2.02   0.75      7.41          -1.98           -9.98
+  300 s      21               60%     +2.79   3.39     15.52          -1.21           -9.21
+
+C. HOW MANY INDEPENDENT TRADES TO DETECT A TRUE MEAN (80% power, two-sided 5%), using each horizon's measured sd per trade
+      h  sd/trade  trades / day  mean 0.25bp   mean 0.5bp   mean 1.0bp   mean 2.0bp  days for 1bp
+    5 s      2.15         3,065          580          145           37           10           0.0
+   30 s      4.98           498        3,119          780          195           49           0.4
+   60 s      7.41           248        6,903        1,726          432          108           1.7
+  300 s     15.52            52       30,267        7,567        1,892          473          36.0
+  (the registry also demands at least 20 distinct confirm DAYS, because a day is one cluster of one market: for the fast horizons the days, not the trades, are the binding constraint)

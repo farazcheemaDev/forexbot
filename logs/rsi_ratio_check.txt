@@ -1,0 +1,120 @@
+backtest/rsi_ratio_check.py, 2026-11-02 14:34 UTC; 1h lo30 LONG on the PIT top-40 perps, 108,171 trades over 357 coins, 4 brackets; tune < 2024-08-29
+
+1. PER-TRADE vs DAY-VOTE (R)
+  stop 1.0 ATR / target 4.0R: 27,507 trades, stop distance 2.02% of price on average
+    tune      18446 trades 1118 days   per-trade -0.150R   day-vote +0.368R   win 25%   total  -2772.2R   best 10 days   +708.8R   without them -0.189R/trade
+    holdout    9061 trades  621 days   per-trade -0.123R   day-vote +0.257R   win 25%   total  -1117.3R   best 10 days   +536.9R   without them -0.183R/trade
+    by year (per-trade): 2020: n2327 -0.08R  2021: n3854 -0.06R  2022: n5377 -0.22R  2023: n3847 -0.05R  2024: n4310 -0.23R  2025: n4578 -0.10R  2026: n3214 -0.18R
+    signals per day: median 8, p90 43, max 102; worst day -107.2R on 102 trades (2022-01-21); best day +93.4R
+  stop 1.0 ATR / target 2.0R: 27,568 trades, stop distance 2.02% of price on average
+    tune      18483 trades 1118 days   per-trade -0.176R   day-vote +0.236R   win 31%   total  -3259.6R   best 10 days   +435.8R   without them -0.200R/trade
+    holdout    9085 trades  621 days   per-trade -0.142R   day-vote +0.175R   win 32%   total  -1293.7R   best 10 days   +338.9R   without them -0.180R/trade
+    by year (per-trade): 2020: n2328 -0.13R  2021: n3863 -0.11R  2022: n5393 -0.21R  2023: n3854 -0.11R  2024: n4315 -0.27R  2025: n4585 -0.12R  2026: n3230 -0.17R
+    signals per day: median 8, p90 43, max 102; worst day -101.0R on 96 trades (2021-09-20); best day +61.5R
+  stop 2.0 ATR / target 2.0R: 23,123 trades, stop distance 4.02% of price on average
+    tune      15497 trades 1110 days   per-trade -0.086R   day-vote +0.253R   win 41%   total  -1335.2R   best 10 days   +384.1R   without them -0.111R/trade
+    holdout    7626 trades  610 days   per-trade -0.108R   day-vote +0.109R   win 39%   total   -825.0R   best 10 days   +307.6R   without them -0.149R/trade
+    by year (per-trade): 2020: n1972 -0.01R  2021: n3235 -0.03R  2022: n4459 -0.16R  2023: n3314 -0.02R  2024: n3592 -0.14R  2025: n3845 -0.09R  2026: n2706 -0.16R
+    signals per day: median 7, p90 36, max 83; worst day -85.2R on 83 trades (2022-01-21); best day +54.8R
+  stop 0.5 ATR / target 4.0R: 29,973 trades, stop distance 1.02% of price on average
+    tune      20104 trades 1121 days   per-trade -0.279R   day-vote +0.200R   win 18%   total  -5607.5R   best 10 days   +788.6R   without them -0.318R/trade
+    holdout    9869 trades  615 days   per-trade -0.231R   day-vote +0.155R   win 19%   total  -2281.0R   best 10 days   +567.3R   without them -0.289R/trade
+    by year (per-trade): 2020: n2512 -0.29R  2021: n4198 -0.21R  2022: n5881 -0.29R  2023: n4179 -0.18R  2024: n4731 -0.38R  2025: n5017 -0.19R  2026: n3455 -0.30R
+    signals per day: median 9, p90 46, max 122; worst day -124.2R on 122 trades (2022-01-21); best day +122.0R
+
+2. BUCKETS (per-trade mean net R and win share; tune / holdout)
+   A. by signals on the SAME CALENDAR DAY - includes signals after the entry hour: A LOOK-AHEAD, shown only for comparison
+     stop 1.0 ATR / 4.0R
+         1-1     tune: n   168 +0.865R win 49%   holdout: n    76 +0.411R win 39%
+         2-3     tune: n   443 +0.831R win 49%   holdout: n   301 +0.652R win 44%
+         4-9     tune: n  1482 +0.442R win 42%   holdout: n   852 +0.384R win 37%
+        10-24    tune: n  3703 +0.395R win 40%   holdout: n  2403 +0.141R win 32%
+        25-999   tune: n 12650 -0.427R win 18%   holdout: n  5429 -0.370R win 19%
+     stop 1.0 ATR / 2.0R
+         1-1     tune: n   168 +0.594R win 57%   holdout: n    75 +0.355R win 49%
+         2-3     tune: n   444 +0.542R win 56%   holdout: n   303 +0.543R win 55%
+         4-9     tune: n  1486 +0.379R win 51%   holdout: n   855 +0.177R win 43%
+        10-24    tune: n  3683 +0.275R win 47%   holdout: n  2406 +0.109R win 41%
+        25-999   tune: n 12702 -0.408R win 23%   holdout: n  5446 -0.349R win 25%
+     stop 2.0 ATR / 2.0R
+         1-1     tune: n   188 +0.503R win 62%   holdout: n    85 +0.136R win 46%
+         2-3     tune: n   451 +0.486R win 61%   holdout: n   311 +0.261R win 52%
+         4-9     tune: n  1502 +0.330R win 59%   holdout: n   827 +0.252R win 52%
+        10-24    tune: n  3793 +0.279R win 57%   holdout: n  2575 +0.061R win 45%
+        25-999   tune: n  9563 -0.335R win 31%   holdout: n  3828 -0.335R win 30%
+     stop 0.5 ATR / 4.0R
+         1-1     tune: n   162 +0.901R win 42%   holdout: n    63 +0.515R win 33%
+         2-3     tune: n   421 +0.535R win 35%   holdout: n   275 +0.706R win 39%
+         4-9     tune: n  1430 +0.272R win 30%   holdout: n   858 +0.075R win 26%
+        10-24    tune: n  3669 +0.179R win 28%   holdout: n  2273 +0.034R win 25%
+        25-999   tune: n 14422 -0.487R win 14%   holdout: n  6400 -0.414R win 15%
+   B. by signals in the 24 hours up to and including the entry hour - CAUSAL
+     stop 1.0 ATR / 4.0R
+         1-3     tune: n   948 -0.160R win 24%   holdout: n   505 -0.159R win 24%
+         4-9     tune: n  1998 -0.220R win 24%   holdout: n  1198 -0.186R win 24%
+        10-24    tune: n  4306 -0.222R win 23%   holdout: n  2757 -0.087R win 25%
+        25-49    tune: n  6946 -0.078R win 28%   holdout: n  3155 -0.118R win 26%
+        50-999   tune: n  4248 -0.162R win 25%   holdout: n  1446 -0.140R win 25%
+     stop 1.0 ATR / 2.0R
+         1-3     tune: n   948 -0.175R win 31%   holdout: n   503 -0.097R win 34%
+         4-9     tune: n  2001 -0.180R win 31%   holdout: n  1201 -0.202R win 30%
+        10-24    tune: n  4307 -0.269R win 28%   holdout: n  2761 -0.151R win 32%
+        25-49    tune: n  6935 -0.110R win 34%   holdout: n  3152 -0.142R win 33%
+        50-999   tune: n  4292 -0.189R win 30%   holdout: n  1468 -0.095R win 33%
+     stop 2.0 ATR / 2.0R
+         1-3     tune: n   966 -0.101R win 39%   holdout: n   525 -0.179R win 34%
+         4-9     tune: n  1972 -0.183R win 37%   holdout: n  1207 -0.139R win 37%
+        10-24    tune: n  4228 -0.139R win 38%   holdout: n  2613 -0.098R win 38%
+        25-49    tune: n  6286 -0.021R win 45%   holdout: n  2556 -0.090R win 40%
+        50-999   tune: n  2045 -0.078R win 41%   holdout: n   725 -0.104R win 39%
+     stop 0.5 ATR / 4.0R
+         1-3     tune: n   934 -0.343R win 17%   holdout: n   480 -0.182R win 20%
+         4-9     tune: n  1984 -0.302R win 18%   holdout: n  1215 -0.324R win 18%
+        10-24    tune: n  4425 -0.420R win 16%   holdout: n  2771 -0.270R win 19%
+        25-49    tune: n  7080 -0.266R win 18%   holdout: n  3392 -0.196R win 20%
+        50-999   tune: n  5681 -0.167R win 20%   holdout: n  2011 -0.191R win 19%
+
+   same-day buckets under 25 signals with a positive per-trade mean: 32 of 32;  causal buckets with a positive mean: 0 of 40
+
+3. ACCOUNT (0.3% of booked equity risked a trade, K positions at most, 5 orderings, $300, booked at exit)
+  stop 1.0 ATR/4.0R gate  none K= 3   tune: n18446 x0.07 over 4.5y (-44%/yr) fall -93%   holdout: n9061 x0.26 over 2.1y (-48%/yr) fall -77%
+  stop 1.0 ATR/4.0R gate  none K= 5   tune: n18446 x0.02 over 4.5y (-59%/yr) fall -98%   holdout: n9061 x0.14 over 2.1y (-61%/yr) fall -87%
+  stop 1.0 ATR/4.0R gate  none K=10   tune: n18446 x0.00 over 4.5y (-76%/yr) fall -100%   holdout: n9061 x0.06 over 2.1y (-75%/yr) fall -95%
+  stop 1.0 ATR/4.0R gate  <=24 K= 3   tune: n7252 x0.10 over 4.5y (-40%/yr) fall -91%   holdout: n4460 x0.38 over 2.1y (-38%/yr) fall -65%
+  stop 1.0 ATR/4.0R gate  <=24 K= 5   tune: n7252 x0.04 over 4.5y (-52%/yr) fall -96%   holdout: n4460 x0.27 over 2.1y (-47%/yr) fall -75%
+  stop 1.0 ATR/4.0R gate  <=24 K=10   tune: n7252 x0.01 over 4.5y (-64%/yr) fall -99%   holdout: n4460 x0.18 over 2.1y (-56%/yr) fall -84%
+  stop 1.0 ATR/4.0R gate   <=9 K= 3   tune: n2946 x0.27 over 4.5y (-25%/yr) fall -74%   holdout: n1703 x0.49 over 2.1y (-29%/yr) fall -53%
+  stop 1.0 ATR/4.0R gate   <=9 K= 5   tune: n2946 x0.18 over 4.5y (-31%/yr) fall -83%   holdout: n1703 x0.39 over 2.1y (-37%/yr) fall -63%
+  stop 1.0 ATR/4.0R gate   <=9 K=10   tune: n2946 x0.15 over 4.5y (-34%/yr) fall -85%   holdout: n1703 x0.38 over 2.1y (-37%/yr) fall -63%
+  stop 1.0 ATR/2.0R gate  none K= 3   tune: n18483 x0.04 over 4.5y (-51%/yr) fall -96%   holdout: n9085 x0.20 over 2.1y (-54%/yr) fall -80%
+  stop 1.0 ATR/2.0R gate  none K= 5   tune: n18483 x0.01 over 4.5y (-66%/yr) fall -99%   holdout: n9085 x0.10 over 2.1y (-68%/yr) fall -91%
+  stop 1.0 ATR/2.0R gate  none K=10   tune: n18483 x0.00 over 4.5y (-82%/yr) fall -100%   holdout: n9085 x0.04 over 2.1y (-80%/yr) fall -97%
+  stop 1.0 ATR/2.0R gate  <=24 K= 3   tune: n7256 x0.08 over 4.5y (-42%/yr) fall -92%   holdout: n4465 x0.28 over 2.1y (-46%/yr) fall -73%
+  stop 1.0 ATR/2.0R gate  <=24 K= 5   tune: n7256 x0.03 over 4.5y (-53%/yr) fall -97%   holdout: n4465 x0.18 over 2.1y (-56%/yr) fall -82%
+  stop 1.0 ATR/2.0R gate  <=24 K=10   tune: n7256 x0.01 over 4.5y (-65%/yr) fall -99%   holdout: n4465 x0.12 over 2.1y (-64%/yr) fall -88%
+  stop 1.0 ATR/2.0R gate   <=9 K= 3   tune: n2949 x0.28 over 4.5y (-24%/yr) fall -72%   holdout: n1704 x0.51 over 2.1y (-28%/yr) fall -50%
+  stop 1.0 ATR/2.0R gate   <=9 K= 5   tune: n2949 x0.21 over 4.5y (-29%/yr) fall -79%   holdout: n1704 x0.42 over 2.1y (-34%/yr) fall -59%
+  stop 1.0 ATR/2.0R gate   <=9 K=10   tune: n2949 x0.19 over 4.5y (-30%/yr) fall -81%   holdout: n1704 x0.41 over 2.1y (-35%/yr) fall -61%
+  stop 2.0 ATR/2.0R gate  none K= 3   tune: n15497 x0.31 over 4.5y (-23%/yr) fall -71%   holdout: n7626 x0.41 over 2.1y (-35%/yr) fall -61%
+  stop 2.0 ATR/2.0R gate  none K= 5   tune: n15497 x0.17 over 4.5y (-32%/yr) fall -84%   holdout: n7626 x0.29 over 2.1y (-45%/yr) fall -72%
+  stop 2.0 ATR/2.0R gate  none K=10   tune: n15497 x0.05 over 4.5y (-47%/yr) fall -95%   holdout: n7626 x0.17 over 2.1y (-58%/yr) fall -85%
+  stop 2.0 ATR/2.0R gate  <=24 K= 3   tune: n7166 x0.31 over 4.5y (-23%/yr) fall -69%   holdout: n4345 x0.46 over 2.1y (-32%/yr) fall -55%
+  stop 2.0 ATR/2.0R gate  <=24 K= 5   tune: n7166 x0.19 over 4.5y (-31%/yr) fall -81%   holdout: n4345 x0.36 over 2.1y (-39%/yr) fall -64%
+  stop 2.0 ATR/2.0R gate  <=24 K=10   tune: n7166 x0.07 over 4.5y (-45%/yr) fall -93%   holdout: n4345 x0.27 over 2.1y (-47%/yr) fall -75%
+  stop 2.0 ATR/2.0R gate   <=9 K= 3   tune: n2938 x0.44 over 4.5y (-16%/yr) fall -56%   holdout: n1732 x0.59 over 2.1y (-23%/yr) fall -43%
+  stop 2.0 ATR/2.0R gate   <=9 K= 5   tune: n2938 x0.34 over 4.5y (-21%/yr) fall -67%   holdout: n1732 x0.51 over 2.1y (-28%/yr) fall -51%
+  stop 2.0 ATR/2.0R gate   <=9 K=10   tune: n2938 x0.24 over 4.5y (-27%/yr) fall -76%   holdout: n1732 x0.44 over 2.1y (-33%/yr) fall -57%
+  stop 0.5 ATR/4.0R gate  none K= 3   tune: n20104 x0.00 over 4.5y (-79%/yr) fall -100%   holdout: n9869 x0.02 over 2.1y (-84%/yr) fall -98%
+  stop 0.5 ATR/4.0R gate  none K= 5   tune: n20104 x0.00 over 4.5y (-89%/yr) fall -100%   holdout: n9869 x0.01 over 2.1y (-92%/yr) fall -99%
+  stop 0.5 ATR/4.0R gate  none K=10   tune: n20104 x0.00 over 4.5y (-96%/yr) fall -100%   holdout: n9869 x0.00 over 2.1y (-96%/yr) fall -100%
+  stop 0.5 ATR/4.0R gate  <=24 K= 3   tune: n7343 x0.01 over 4.5y (-64%/yr) fall -99%   holdout: n4466 x0.06 over 2.1y (-74%/yr) fall -94%
+  stop 0.5 ATR/4.0R gate  <=24 K= 5   tune: n7343 x0.00 over 4.5y (-75%/yr) fall -100%   holdout: n4466 x0.03 over 2.1y (-81%/yr) fall -97%
+  stop 0.5 ATR/4.0R gate  <=24 K=10   tune: n7343 x0.00 over 4.5y (-84%/yr) fall -100%   holdout: n4466 x0.02 over 2.1y (-84%/yr) fall -98%
+  stop 0.5 ATR/4.0R gate   <=9 K= 3   tune: n2918 x0.09 over 4.5y (-41%/yr) fall -91%   holdout: n1695 x0.27 over 2.1y (-47%/yr) fall -74%
+  stop 0.5 ATR/4.0R gate   <=9 K= 5   tune: n2918 x0.06 over 4.5y (-45%/yr) fall -94%   holdout: n1695 x0.23 over 2.1y (-51%/yr) fall -78%
+  stop 0.5 ATR/4.0R gate   <=9 K=10   tune: n2918 x0.06 over 4.5y (-47%/yr) fall -94%   holdout: n1695 x0.23 over 2.1y (-51%/yr) fall -78%
+
+PREDICTIONS (stated after the fact - see the docstring)
+  C1 per-trade mean negative in both halves and every year, all four brackets -> RIGHT
+  C2 same-day buckets rescue it, causal buckets do not -> RIGHT (same-day positive 32/32, causal positive 0/40)
+  C3 every capped account loses in both halves -> RIGHT

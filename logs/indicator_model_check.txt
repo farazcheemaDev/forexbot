@@ -1,0 +1,40 @@
+backtest/indicator_model_check.py, 2026-11-01 21:52 UTC; POST-HOC check of indicator_model.py; same predictions, different entry times
+
+H=1 single entry 00:00 (official)  IC +0.091 (+9.1) / +0.094 (+8.3)   gross spread   +8.5 /  +19.4bp   NET  -18.5 /   -7.6bp   LONG-ONLY top fifth minus the universe, net:   -5.2bp (-1.0) /   -5.6bp (-0.8)
+H=1 single entry 01:00             IC +0.082 (+8.0) / +0.094 (+8.4)   gross spread   +5.6 /  +21.3bp   NET  -21.4 /   -5.7bp   LONG-ONLY top fifth minus the universe, net:   -5.3bp (-1.0) /   -7.0bp (-1.0)
+H=1 single entry 04:00             IC +0.079 (+7.8) / +0.084 (+7.5)   gross spread   +3.9 /  +10.0bp   NET  -23.1 /  -17.0bp   LONG-ONLY top fifth minus the universe, net:   -7.4bp (-1.5) /   -9.6bp (-1.4)
+H=1 single entry next day 00:00    IC +0.090 (+9.0) / +0.095 (+8.3)   gross spread   +7.4 /  +11.3bp   NET  -19.6 /  -15.7bp   LONG-ONLY top fifth minus the universe, net:   -6.6bp (-1.2) /   -4.9bp (-0.7)
+
+H=1 ridge  entry 00:00 (official)  IC +0.108 (+12.9) / +0.105 (+10.9)   gross spread  +18.5 /  +32.4bp   NET   -8.5 /   +5.4bp   LONG-ONLY top fifth minus the universe, net:   -4.6bp (-1.0) /   -1.9bp (-0.3)
+H=1 ridge  entry 01:00             IC +0.097 (+11.4) / +0.099 (+10.4)   gross spread  +15.6 /  +29.4bp   NET  -11.4 /   +2.4bp   LONG-ONLY top fifth minus the universe, net:   -5.5bp (-1.3) /   -2.9bp (-0.5)
+H=1 ridge  entry 04:00             IC +0.089 (+10.4) / +0.087 (+9.0)   gross spread  +13.2 /  +17.9bp   NET  -13.8 /   -9.1bp   LONG-ONLY top fifth minus the universe, net:   -6.8bp (-1.7) /   -5.9bp (-1.0)
+H=1 ridge  entry next day 00:00    IC +0.088 (+10.6) / +0.083 (+8.7)   gross spread  +14.5 /  +11.7bp   NET  -12.5 /  -15.3bp   LONG-ONLY top fifth minus the universe, net:   -8.2bp (-1.8) /   -4.1bp (-0.6)
+
+single-feature IC by calendar year (H=1, official entry): 2022: +0.109  2023: +0.071  2024: +0.082  2025: +0.116  2026: +0.080
+ATR% rank vs the SAME day's open-to-close return (not tradable, mechanical): IC -0.153
+ATR% rank vs the next day's return (the single feature, all days): IC -0.086
+  -> the single feature is used with the OPPOSITE sign: LOW-ATR% coins outperform (the model's IC is +0.09 because it predicts -ATR%)
+
+H=3 single entry 00:00 (official)  IC +0.108 (+6.6) / +0.134 (+6.8)   gross spread  +20.4 /  +46.8bp   NET  -12.6 /  +13.8bp   LONG-ONLY top fifth minus the universe, net:   +5.4bp (+0.4) /   +9.3bp (+0.4)
+H=3 single entry 01:00             IC +0.105 (+6.4) / +0.133 (+6.8)   gross spread  +17.6 /  +49.4bp   NET  -15.4 /  +16.4bp   LONG-ONLY top fifth minus the universe, net:   +5.2bp (+0.3) /   +8.1bp (+0.4)
+H=3 single entry 04:00             IC +0.105 (+6.3) / +0.127 (+6.5)   gross spread  +15.1 /  +38.9bp   NET  -17.9 /   +5.9bp   LONG-ONLY top fifth minus the universe, net:   +2.5bp (+0.2) /   +5.7bp (+0.3)
+H=3 single entry next day 00:00    IC +0.107 (+6.5) / +0.134 (+6.8)   gross spread  +21.6 /  +37.5bp   NET  -11.4 /   +4.5bp   LONG-ONLY top fifth minus the universe, net:   +4.7bp (+0.3) /   +7.2bp (+0.3)
+
+H=3 ridge  entry 00:00 (official)  IC +0.119 (+8.3) / +0.130 (+7.4)   gross spread  +37.4 /  +38.0bp   NET   +4.4 /   +5.0bp   LONG-ONLY top fifth minus the universe, net:   +3.6bp (+0.3) /  +12.0bp (+0.6)
+H=3 ridge  entry 01:00             IC +0.115 (+8.0) / +0.128 (+7.3)   gross spread  +34.5 /  +35.1bp   NET   +1.5 /   +2.1bp   LONG-ONLY top fifth minus the universe, net:   +2.3bp (+0.2) /  +10.0bp (+0.5)
+H=3 ridge  entry 04:00             IC +0.115 (+8.0) / +0.121 (+6.9)   gross spread  +35.7 /  +24.7bp   NET   +2.7 /   -8.3bp   LONG-ONLY top fifth minus the universe, net:   +1.6bp (+0.1) /   +7.8bp (+0.4)
+H=3 ridge  entry next day 00:00    IC +0.109 (+7.5) / +0.116 (+6.7)   gross spread  +35.8 /  +15.9bp   NET   +2.8 /  -17.1bp   LONG-ONLY top fifth minus the universe, net:   +3.5bp (+0.3) /   +7.2bp (+0.4)
+
+H=7 single entry 00:00 (official)  IC +0.127 (+5.3) / +0.190 (+6.6)   gross spread  +53.3 / +103.1bp   NET   +8.3 /  +58.1bp   LONG-ONLY top fifth minus the universe, net:  +27.5bp (+0.8) /  +41.2bp (+0.8)
+H=7 single entry 01:00             IC +0.126 (+5.2) / +0.190 (+6.6)   gross spread  +50.8 / +105.2bp   NET   +5.8 /  +60.2bp   LONG-ONLY top fifth minus the universe, net:  +27.1bp (+0.8) /  +40.3bp (+0.7)
+H=7 single entry 04:00             IC +0.123 (+5.1) / +0.187 (+6.5)   gross spread  +48.2 /  +94.0bp   NET   +3.2 /  +49.0bp   LONG-ONLY top fifth minus the universe, net:  +23.8bp (+0.7) /  +37.4bp (+0.7)
+H=7 single entry next day 00:00    IC +0.126 (+5.3) / +0.189 (+6.5)   gross spread  +52.2 / +114.5bp   NET   +7.2 /  +69.5bp   LONG-ONLY top fifth minus the universe, net:  +25.2bp (+0.7) /  +45.1bp (+0.8)
+
+H=7 ridge  entry 00:00 (official)  IC +0.126 (+5.7) / +0.175 (+6.6)   gross spread  +79.2 /  +90.6bp   NET  +34.2 /  +45.6bp   LONG-ONLY top fifth minus the universe, net:  +17.9bp (+0.6) /  +28.4bp (+0.6)
+H=7 ridge  entry 01:00             IC +0.123 (+5.5) / +0.174 (+6.5)   gross spread  +75.1 /  +89.3bp   NET  +30.1 /  +44.3bp   LONG-ONLY top fifth minus the universe, net:  +16.1bp (+0.5) /  +27.0bp (+0.5)
+H=7 ridge  entry 04:00             IC +0.122 (+5.5) / +0.171 (+6.4)   gross spread  +76.9 /  +78.4bp   NET  +31.9 /  +33.4bp   LONG-ONLY top fifth minus the universe, net:  +15.7bp (+0.5) /  +24.7bp (+0.5)
+H=7 ridge  entry next day 00:00    IC +0.120 (+5.4) / +0.167 (+6.3)   gross spread  +77.2 /  +71.9bp   NET  +32.2 /  +26.9bp   LONG-ONLY top fifth minus the universe, net:  +16.8bp (+0.5) /  +27.7bp (+0.5)
+
+REGISTERED (post-hoc)
+  C1 H=1 IC falls by more than half with a one-hour delay -> WRONG
+  C2 H=7 IC keeps >= 70% with a one-hour delay -> RIGHT

@@ -4,6 +4,12 @@
 > trades at the wrong hour - conclusions unchanged. The two optional items at the end are NOT done (awaiting the
 > user): restarting `mn_paper.py` and re-checking the dry-run bot.
 
+> **RECURRING (from 2026-11-09): the forward ledger.** Once a month, and after each US payrolls release / Fed statement if asked, with MT5
+> open: `python -m backtest.forward_ledger` (refreshes HistData NASDAQ minutes into `strategy_analysis/data/forward/`, ForexFactory months,
+> Exness gold ticks; writes `logs/leads/ledger.json` and `logs/forward_ledger.txt`). Then the ledger has to reach the VM for the dashboard's
+> Leads tab (`/opt/forexbot/logs/leads/ledger.json`) - by the route the user chose when it was deployed. `--check` re-proves parity with the
+> three studies. A 'RULE CHANGED' status means a pinned study function was edited: do not re-pin to make it go away.
+
 # Tasks for a LOCAL session on the PC (MT5 open) — written 2026-10-01
 
 *For a Claude session running on the user's PC in `D:\forexbot`, where the Exness MT5 terminal and

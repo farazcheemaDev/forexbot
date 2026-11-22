@@ -1,0 +1,134 @@
+backtest/bear_label_test.py, 2026-10-30 14:21 UTC; panel 2020-01-01 .. 2026-09-21; live label reproduces btc_regime on all 2456 days; cut-offs 0.1 / 0.288 fixed, lag 1, 7-day ladder; returns on the whole account, from 2020-03-01
+
+######## 1. THE REGISTERED TEST - fixed cut-offs 0.10 / 0.288, as the live sleeve runs
+
+=== alt index (top-40)
+  label          bear days    CAGR  TUNE/yr  HOLD/yr    DD  worst wk  Sharpe  in mkt  | extra-days book alone: CAGR   Sharpe  in mkt
+  20d none            1131   +1.1%    -2.0%    +8.2%   70%    -32.1%    0.25     59%  |   -17.9%   -0.39    38%
+  20d +0%              696  +12.2%   +13.0%   +10.4%   50%    -32.4%    0.51     36%  |    -8.9%   -0.18    18%
+  20d -2%              583  +15.0%   +14.8%   +15.3%   50%    -25.1%    0.59     30%  |    -6.4%   -0.13    14%
+  30d none            1134   +8.7%    +7.4%   +11.6%   66%    -32.1%    0.42     54%  |   -13.5%   -0.25    33%
+  30d +0%              726  +25.6%   +29.2%   +18.0%   48%    -22.1%    0.87     35%  |    +1.2%    0.16    15%
+  30d -2%              618  +23.2%   +27.9%   +13.4%   48%    -22.1%    0.85     29%  |    +0.3%    0.11     9%
+  42d none            1112  +18.7%   +16.9%   +22.9%   57%    -32.1%    0.63     51%  |    -7.7%   -0.06    28%
+  42d +0%              748  +25.7%   +26.8%   +23.1%   46%    -22.1%    0.86     35%  |    -2.4%   -0.04    11%
+  42d -2%              605  +27.5%   +32.3%   +17.6%   24%    -10.7%    1.03     29%  |    +0.5%    0.10     6%
+  50d none            1098  +20.6%   +18.4%   +25.5%   58%    -32.1%    0.66     50%  |    -6.0%   -0.01    24%
+  50d +0%              757  +27.6%   +32.3%   +18.0%   37%    -17.2%    0.91     35%  |    -0.5%    0.05    10%
+  50d -2%  LIVE        614  +28.7%   +32.4%   +21.0%   30%    -10.7%    1.07     29%
+
+=== top-10 basket
+  label          bear days    CAGR  TUNE/yr  HOLD/yr    DD  worst wk  Sharpe  in mkt  | extra-days book alone: CAGR   Sharpe  in mkt
+  20d none            1131   -2.9%    -9.4%   +12.9%   73%    -36.4%    0.16     59%  |   -17.1%   -0.35    38%
+  20d +0%              696   +6.2%    +3.1%   +13.2%   60%    -36.4%    0.36     36%  |    -9.5%   -0.19    18%
+  20d -2%              583   +8.2%    +4.5%   +16.7%   60%    -36.4%    0.41     30%  |    -7.2%   -0.15    14%
+  30d none            1134   +2.2%    -2.9%   +14.4%   70%    -36.4%    0.28     54%  |   -14.1%   -0.26    33%
+  30d +0%              726  +19.1%   +17.5%   +22.5%   58%    -36.4%    0.71     35%  |    +1.2%    0.17    15%
+  30d -2%              618  +16.3%   +18.2%   +12.4%   58%    -36.4%    0.66     29%  |    -0.4%    0.07     9%
+  42d none            1112  +12.8%    +7.7%   +24.8%   63%    -36.4%    0.51     51%  |    -8.3%   -0.08    28%
+  42d +0%              748  +18.8%   +19.3%   +17.7%   57%    -36.4%    0.70     35%  |    -3.5%   -0.10    11%
+  42d -2%              605  +22.1%   +27.2%   +11.6%   36%    -12.0%    0.89     29%  |    -0.2%    0.01     6%
+  50d none            1098  +15.0%    +9.4%   +28.3%   63%    -36.4%    0.56     50%  |    -6.5%   -0.03    24%
+  50d +0%              757  +20.1%   +24.1%   +11.7%   48%    -31.6%    0.74     35%  |    -2.4%   -0.07    10%
+  50d -2%  LIVE        614  +23.5%   +28.3%   +13.7%   30%    -12.0%    0.95     29%
+
+MATCHED-RISK CONTROL - the LIVE sleeve scaled to the SAME full-sample fall as each faster label; a label only matters if it beats this on the holdout:
+  alt index 20d none  : live x2.86 -> tune  +74.2% hold  +62.3% (this label tune   -2.0% hold   +8.2%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  alt index 20d +0%   : live x1.83 -> tune  +55.8% hold  +39.3% (this label tune  +13.0% hold  +10.4%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  alt index 20d -2%   : live x1.80 -> tune  +55.1% hold  +38.7% (this label tune  +14.8% hold  +15.3%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  alt index 30d none  : live x2.64 -> tune  +71.6% hold  +57.4% (this label tune   +7.4% hold  +11.6%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  alt index 30d +0%   : live x1.73 -> tune  +53.2% hold  +37.0% (this label tune  +29.2% hold  +18.0%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  alt index 30d -2%   : live x1.73 -> tune  +53.2% hold  +37.0% (this label tune  +27.9% hold  +13.4%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  alt index 42d none  : live x2.18 -> tune  +63.6% hold  +47.1% (this label tune  +16.9% hold  +22.9%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  alt index 42d +0%   : live x1.64 -> tune  +51.0% hold  +35.1% (this label tune  +26.8% hold  +23.1%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  alt index 42d -2%   : live x0.77 -> tune  +25.1% hold  +16.0% (this label tune  +32.3% hold  +17.6%)  both halves above live: False, Sharpe: False, risk within 5 pts: True, beats matched on holdout: True
+  alt index 50d none  : live x2.25 -> tune  +65.0% hold  +48.6% (this label tune  +18.4% hold  +25.5%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  alt index 50d +0%   : live x1.24 -> tune  +39.5% hold  +26.1% (this label tune  +32.3% hold  +18.0%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  top-10 ba 20d none  : live x2.87 -> tune  +62.8% hold  +35.3% (this label tune   -9.4% hold  +12.9%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  top-10 ba 20d +0%   : live x2.20 -> tune  +54.8% hold  +28.5% (this label tune   +3.1% hold  +13.2%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  top-10 ba 20d -2%   : live x2.18 -> tune  +54.4% hold  +28.2% (this label tune   +4.5% hold  +16.7%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  top-10 ba 30d none  : live x2.73 -> tune  +61.6% hold  +34.0% (this label tune   -2.9% hold  +14.4%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  top-10 ba 30d +0%   : live x2.12 -> tune  +53.4% hold  +27.5% (this label tune  +17.5% hold  +22.5%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  top-10 ba 30d -2%   : live x2.12 -> tune  +53.4% hold  +27.5% (this label tune  +18.2% hold  +12.4%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  top-10 ba 42d none  : live x2.33 -> tune  +56.7% hold  +29.8% (this label tune   +7.7% hold  +24.8%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  top-10 ba 42d +0%   : live x2.05 -> tune  +52.2% hold  +26.7% (this label tune  +19.3% hold  +17.7%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  top-10 ba 42d -2%   : live x1.20 -> tune  +33.6% hold  +16.4% (this label tune  +27.2% hold  +11.6%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  top-10 ba 50d none  : live x2.35 -> tune  +57.1% hold  +30.1% (this label tune   +9.4% hold  +28.3%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  top-10 ba 50d +0%   : live x1.70 -> tune  +45.2% hold  +22.6% (this label tune  +24.1% hold  +11.7%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+
+CANDIDATES (all of: both halves + Sharpe + risk + matched-risk, on both instruments, and a neighbour passing both halves + Sharpe): NONE
+  passing every check on both instruments but without a passing neighbour: none
+
+######## 2. POST-HOC ROBUSTNESS (added after run 1) - each label with its OWN causal expanding terciles
+
+=== alt index (top-40)
+  label          bear days    CAGR  TUNE/yr  HOLD/yr    DD  worst wk  Sharpe  in mkt  | extra-days book alone: CAGR   Sharpe  in mkt
+  20d none            1131   +7.4%    +8.4%    +5.2%   49%    -22.1%    0.38     56%  |    -7.3%   -0.16    37%
+  20d +0%              696  +15.8%   +19.2%    +8.6%   40%    -17.2%    0.70     32%  |    -1.5%   -0.00    15%
+  20d -2%              583  +15.9%   +15.7%   +16.3%   27%     -7.9%    0.83     27%  |    -3.3%   -0.17    10%
+  30d none            1134  +19.3%   +23.1%   +11.3%   48%    -22.1%    0.67     53%  |    -2.1%    0.05    32%
+  30d +0%              726  +25.0%   +29.4%   +15.7%   43%    -19.5%    0.95     32%  |    -1.6%   -0.02    12%
+  30d -2%              618  +18.7%   +22.0%   +11.8%   43%    -19.5%    0.84     26%  |    +1.6%    0.25     7%
+  42d none            1112  +34.3%   +42.6%   +17.9%   45%    -19.5%    1.00     49%  |    +5.5%    0.34    26%
+  42d +0%              748  +24.5%   +24.6%   +24.2%   43%    -19.5%    0.88     32%  |    +2.6%    0.39     7%
+  42d -2%              605  +28.0%   +31.3%   +21.1%   24%     -8.2%    1.25     25%  |    -0.2%   -0.13     1%
+  50d none            1098  +36.9%   +43.8%   +22.9%   48%    -22.1%    1.07     47%  |    +7.5%    0.42    23%
+  50d +0%              757  +19.7%   +19.7%   +19.6%   39%    -33.5%    0.72     32%  |    +1.1%    0.21     5%
+  50d -2%  LIVE        614  +27.0%   +31.0%   +18.7%   20%     -9.5%    1.24     25%
+
+=== top-10 basket
+  label          bear days    CAGR  TUNE/yr  HOLD/yr    DD  worst wk  Sharpe  in mkt  | extra-days book alone: CAGR   Sharpe  in mkt
+  20d none            1131   -3.6%    -1.8%    -7.3%   58%    -36.4%    0.07     56%  |   -10.7%   -0.29    37%
+  20d +0%              696   +8.3%   +11.1%    +2.6%   52%    -31.6%    0.44     32%  |    -4.7%   -0.17    15%
+  20d -2%              583   +8.2%    +8.8%    +7.0%   41%    -17.7%    0.49     27%  |    -6.5%   -0.36    10%
+  30d none            1134   +6.5%   +11.2%    -3.0%   58%    -36.4%    0.36     53%  |    -5.5%   -0.08    32%
+  30d +0%              726  +16.8%   +18.9%   +12.4%   53%    -34.0%    0.72     32%  |    -2.4%   -0.06    12%
+  30d -2%              618  +10.9%   +14.2%    +4.2%   53%    -34.0%    0.56     26%  |    +0.7%    0.13     7%
+  42d none            1112  +22.9%   +32.3%    +4.6%   54%    -34.0%    0.77     49%  |    +2.1%    0.21    26%
+  42d +0%              748  +19.6%   +19.5%   +19.8%   52%    -34.0%    0.77     32%  |    +3.9%    0.54     7%
+  42d -2%              605  +25.4%   +30.6%   +14.8%   32%    -10.2%    1.16     25%  |    -0.3%   -0.16     1%
+  50d none            1098  +28.6%   +35.2%   +15.3%   57%    -36.4%    0.91     47%  |    +4.1%    0.29    23%
+  50d +0%              757  +14.0%   +13.7%   +14.5%   48%    -31.6%    0.58     32%  |    +0.8%    0.15     5%
+  50d -2%  LIVE        614  +25.4%   +31.3%   +13.4%   21%     -9.1%    1.20     25%
+
+MATCHED-RISK CONTROL - the LIVE sleeve scaled to the SAME full-sample fall as each faster label; a label only matters if it beats this on the holdout:
+  alt index 20d none  : live x2.79 -> tune  +85.8% hold  +53.1% (this label tune   +8.4% hold   +5.2%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  alt index 20d +0%   : live x2.13 -> tune  +66.8% hold  +40.6% (this label tune  +19.2% hold   +8.6%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  alt index 20d -2%   : live x1.38 -> tune  +43.3% hold  +26.1% (this label tune  +15.7% hold  +16.3%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  alt index 30d none  : live x2.71 -> tune  +83.6% hold  +51.6% (this label tune  +23.1% hold  +11.3%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  alt index 30d +0%   : live x2.34 -> tune  +73.0% hold  +44.5% (this label tune  +29.4% hold  +15.7%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  alt index 30d -2%   : live x2.34 -> tune  +73.0% hold  +44.5% (this label tune  +22.0% hold  +11.8%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  alt index 42d none  : live x2.46 -> tune  +76.6% hold  +46.9% (this label tune  +42.6% hold  +17.9%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  alt index 42d +0%   : live x2.34 -> tune  +73.0% hold  +44.5% (this label tune  +24.6% hold  +24.2%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  alt index 42d -2%   : live x1.22 -> tune  +38.2% hold  +23.0% (this label tune  +31.3% hold  +21.1%)  both halves above live: True, Sharpe: True, risk within 5 pts: True, beats matched on holdout: False
+  alt index 50d none  : live x2.71 -> tune  +83.6% hold  +51.6% (this label tune  +43.8% hold  +22.9%)  both halves above live: True, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  alt index 50d +0%   : live x2.09 -> tune  +65.4% hold  +39.7% (this label tune  +19.7% hold  +19.6%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  top-10 ba 20d none  : live x3.30 -> tune +103.3% hold  +39.0% (this label tune   -1.8% hold   -7.3%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  top-10 ba 20d +0%   : live x2.87 -> tune  +91.1% hold  +35.0% (this label tune  +11.1% hold   +2.6%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  top-10 ba 20d -2%   : live x2.18 -> tune  +69.7% hold  +27.7% (this label tune   +8.8% hold   +7.0%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  top-10 ba 30d none  : live x3.26 -> tune +102.1% hold  +38.6% (this label tune  +11.2% hold   -3.0%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  top-10 ba 30d +0%   : live x2.96 -> tune  +93.6% hold  +35.9% (this label tune  +18.9% hold  +12.4%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  top-10 ba 30d -2%   : live x2.94 -> tune  +93.1% hold  +35.7% (this label tune  +14.2% hold   +4.2%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  top-10 ba 42d none  : live x3.03 -> tune  +95.8% hold  +36.6% (this label tune  +32.3% hold   +4.6%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  top-10 ba 42d +0%   : live x2.88 -> tune  +91.4% hold  +35.1% (this label tune  +19.5% hold  +19.8%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  top-10 ba 42d -2%   : live x1.59 -> tune  +50.7% hold  +20.9% (this label tune  +30.6% hold  +14.8%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  top-10 ba 50d none  : live x3.21 -> tune +100.7% hold  +38.2% (this label tune  +35.2% hold  +15.3%)  both halves above live: True, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+  top-10 ba 50d +0%   : live x2.58 -> tune  +82.4% hold  +32.1% (this label tune  +13.7% hold  +14.5%)  both halves above live: False, Sharpe: False, risk within 5 pts: False, beats matched on holdout: False
+
+CANDIDATES (all of: both halves + Sharpe + risk + matched-risk, on both instruments, and a neighbour passing both halves + Sharpe): NONE
+  passing every check on both instruments but without a passing neighbour: none
+
+
+TODAY (label read the day after the 2026-10-29 close of $77,963; flip = further daily closes at $77,000 flat):
+  20d none  : BEAR
+  20d +0%   : BEAR
+  20d -2%   : BEAR
+  30d none  : BEAR
+  30d +0%   : not bear, flips after 2 more closes
+  30d -2%   : not bear, flips after 5 more closes
+  42d none  : BEAR
+  42d +0%   : not bear, flips after 8 more closes
+  42d -2%   : not bear, flips after 14 more closes
+  50d none  : BEAR
+  50d +0%   : not bear, flips after 12 more closes
+  50d -2%   : not bear, flips after 21 more closes   <- LIVE

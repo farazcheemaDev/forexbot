@@ -1,0 +1,23 @@
+backtest/his_candle_shape.py, 2026-11-14 01:20 UTC; 225 days, 23153 moments; base rate +7-first = 49.8%
+
+1. CANDLE BODY DIRECTION as a continuation call (call up if the last candle was bullish):
+   overall 49.8% over 23060
+     body/range 0.00-0.23 (n  4612): continuation hit  50.2%  [+7-first 49.5%]
+     body/range 0.23-0.43 (n  4612): continuation hit  49.9%  [+7-first 49.4%]
+     body/range 0.43-0.61 (n  4612): continuation hit  49.0%  [+7-first 49.6%]
+     body/range 0.61-0.78 (n  4612): continuation hit  49.4%  [+7-first 50.3%]
+     body/range 0.78-1.00 (n  4612): continuation hit  50.6%  [+7-first 50.1%]
+
+2. REVERSAL WICKS - forward +7-first rate by wick (a hammer = long lower wick should bounce UP; a star = long upper wick should drop):
+   hammer (lower wick >= 0.5)     n  3632  +7-first  49.2% (base 49.8%)
+   strong hammer (>= 0.66)        n  1490  +7-first  49.6% (base 49.8%)
+   star (upper wick >= 0.5)       n  3459  +7-first  49.6% (base 49.8%)
+   strong star (>= 0.66)          n  1362  +7-first  48.1% (base 49.8%)
+   doji (body/range <= 0.1)       n  2031  +7-first  48.9% (base 49.8%)
+
+3. ENGULFING:
+   bullish engulf n 1382  +7-first 48.6%
+   bearish engulf n 1325  +7-first 52.8%
+
+VERDICT
+  biggest edge over 50%: star>=0.66 downrate = 51.9% (n 1362). Nothing in the candle shape - every cell ~50%. The candle he clicks on does not predict the move.

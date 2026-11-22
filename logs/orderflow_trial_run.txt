@@ -1,0 +1,11 @@
+2026-10-30 13:57:24  connected
+2026-10-30 13:58:24  6325 book msgs, 3239 trades, 0 gaps this minute; disk 0.9 MB; pongs 2; resubs 0
+2026-10-30 13:59:24  6437 book msgs, 4241 trades, 0 gaps this minute; disk 1.9 MB; pongs 5; resubs 1
+2026-10-30 14:00:24  6452 book msgs, 5752 trades, 0 gaps this minute; disk 3.0 MB; pongs 8; resubs 1
+2026-10-30 14:01:24  6392 book msgs, 3813 trades, 0 gaps this minute; disk 4.1 MB; pongs 11; resubs 1
+2026-10-30 14:02:24  6409 book msgs, 3668 trades, 0 gaps this minute; disk 5.1 MB; pongs 14; resubs 1
+2026-10-30 14:03:24  6435 book msgs, 3281 trades, 0 gaps this minute; disk 6.1 MB; pongs 17; resubs 1
+2026-10-30 14:04:24  6371 book msgs, 2602 trades, 0 gaps this minute; disk 7.0 MB; pongs 20; resubs 1
+2026-10-30 14:05:24  6270 book msgs, 2587 trades, 0 gaps this minute; disk 7.8 MB; pongs 23; resubs 1
+2026-10-30 14:06:24  6311 book msgs, 2505 trades, 0 gaps this minute; disk 8.7 MB; pongs 26; resubs 1
+2026-10-30 14:07:28  stopped; files closed

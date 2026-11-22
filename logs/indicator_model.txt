@@ -1,0 +1,27 @@
+backtest/indicator_model.py, 2026-11-01 21:44 UTC; 364 PIT coins, 91,042 coin-days, 32 features, 19 quarterly blocks from 2022-01-01; tune < 2024-08-29; 24bp + long funding per trade; top/bottom 20%
+
+H=1: single feature chosen most often: atr_pct x19
+      ridge |coefficient| largest: body 0.067, ret1 0.063, atr_pct 0.056, bb_pctb 0.051, ema_d50 0.051
+H=3: single feature chosen most often: atr_pct x18, min_ret30 x1
+      ridge |coefficient| largest: ema_d50 0.082, atr_pct 0.066, bb_pctb 0.061, ret1 0.036, max_ret30 0.033
+H=7: single feature chosen most often: atr_pct x17, min_ret30 x2
+      ridge |coefficient| largest: ema_d50 0.072, atr_pct 0.056, max_ret30 0.050, bb_pctb 0.047, ret1 0.038
+
+cell        IC tune / hold (t)            gross spread          NET spread tune / hold (t)            worst align      paired vs single (t)
+single H1   +0.091 (+9.1) / +0.094 (+8.3)     +8.5 /  +19.4bp    -18.5bp (-1.7) /   -7.6bp (-0.4)    -18.5 /   -7.6    holm nan 
+ridge H1    +0.108 (+12.9) / +0.105 (+10.9)    +18.5 /  +32.4bp     -8.5bp (-0.8) /   +5.4bp (+0.3)     -8.5 /   +5.4  +10.0bp (+1.2) / +12.9bp (+0.9)  holm 1.00 
+gbm H1      +0.115 (+13.9) / +0.110 (+11.7)    +19.3 /  +32.2bp     -7.7bp (-0.8) /   +5.2bp (+0.3)     -7.7 /   +5.2  +10.8bp (+1.6) / +12.8bp (+1.0)  holm 1.00 
+single H3   +0.108 (+6.6) / +0.134 (+6.8)    +20.4 /  +46.8bp    -12.6bp (-0.4) /  +13.8bp (+0.2)    -14.2 /  -11.2    holm nan 
+ridge H3    +0.119 (+8.3) / +0.130 (+7.4)    +37.4 /  +38.0bp     +4.4bp (+0.2) /   +5.0bp (+0.1)     +1.0 /  -20.4  +17.0bp (+0.8) /  -8.8bp (-0.2)  holm 1.00 
+gbm H3      +0.122 (+9.0) / +0.137 (+8.1)    +58.6 /  +71.7bp    +25.6bp (+1.0) /  +38.7bp (+0.8)    +21.0 /   +3.2  +38.2bp (+1.7) / +25.0bp (+0.4)  holm 1.00 
+single H7   +0.127 (+5.3) / +0.190 (+6.6)    +53.3 / +103.1bp     +8.3bp (+0.1) /  +58.1bp (+0.4)    -49.2 /   -7.6    holm nan 
+ridge H7    +0.126 (+5.7) / +0.175 (+6.6)    +79.2 /  +90.6bp    +34.2bp (+0.5) /  +45.6bp (+0.4)    -28.7 /  -51.2  +26.0bp (+0.5) / -12.5bp (-0.4)  holm 1.00 
+gbm H7      +0.134 (+6.4) / +0.182 (+7.3)   +107.2 / +197.6bp    +62.2bp (+1.0) / +152.6bp (+1.4)    -10.8 /  +41.9  +53.9bp (+1.2) / +94.4bp (+0.5)  holm 0.92 
+
+PRIMARY CELLS PASSING: 0 of 6
+REGISTERED PREDICTIONS
+  P1 no primary cell passes -> RIGHT (0)
+  P2 every IC in [-0.01, +0.04] and ridge vs gbm differ by < 0.015 -> WRONG (ICs +0.105 .. +0.182)
+  P3 combination does not beat the best single feature (paired t < 2 on a half) in >= 5 of 6 -> RIGHT (6 of 6)
+  P4 every H = 1 cell net spread negative on both halves -> WRONG
+  P5 holdout gross spread below tune in >= 3 of 6 -> WRONG (0 of 6)

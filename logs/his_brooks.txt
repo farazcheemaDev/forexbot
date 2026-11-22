@@ -1,0 +1,64 @@
+backtest/his_brooks.py, 2026-11-22 09:52 UTC; 181 tick days, split 2026-06-04; state-A moments with a race: 21,211 (his_reclaim.py: 21,211); reclaim race won 50.1% / 52.4% (tune / holdout)
+
+  THE BREAKOUT BAR (the first bar more than 3 points beyond the level)
+                                                              tune           holdout
+    WEAK breakout bar                               51.2% of 6,735    52.8% of 4,316
+    STRONG breakout bar                             48.9% of 6,180    51.8% of 3,980
+  FOLLOW-THROUGH (the bar after the breakout bar)
+                                                              tune           holdout
+    NO follow-through                               50.5% of 5,649    53.2% of 3,831
+    follow-through                                  49.7% of 6,149    51.5% of 3,708
+  THE SIGNAL BAR (the last closed bar, in the reclaim direction)
+                                                              tune           holdout
+    STRONG signal bar                               50.5% of 3,803    51.5% of 2,493
+    not                                             50.0% of 9,112    52.7% of 5,803
+  FIRST vs SECOND ENTRY, stop past the signal bar, race from the fill
+                                                              tune           holdout
+    second entry (after one failed attempt)           52.8% of 464      50.0% of 300
+    first entry (no attempt yet)                    50.9% of 1,204      52.8% of 775
+    other (attempt under way / later)               51.9% of 3,743    50.3% of 2,493
+  THE COMBINATION (weak breakout bar + no follow-through + strong signal bar)
+                                                              tune           holdout
+    combination, at the moment                        51.6% of 795      51.6% of 552
+    the rest, at the moment                        50.0% of 11,003    52.5% of 6,987
+  THE COMBINATION with Brooks's stop entry
+                                                              tune           holdout
+    combination, stop entry                           53.7% of 523      49.7% of 354
+    every state-A moment, stop entry                51.7% of 5,411    50.8% of 3,568
+
+  THE GENERAL SECOND-ENTRY SCALP (every minute; the 20-bar extreme, a stop past the signal bar, race from the fill)
+                                                              tune           holdout
+    second entries                                  53.8% of 2,537    48.5% of 1,738
+    second entries WITH the 20-bar EMA                49.8% of 679      45.6% of 456
+    first entries                                   51.7% of 4,478    49.1% of 3,219
+    first entries WITH the 20-bar EMA                  58.0% of 50       48.5% of 33
+
+  HIS RECLAIMS (state A, his side = back through the level): 7; won 7
+    2026-02-17 SELL  breakout bar STRONG  follow-through yes   signal bar STRONG  entry other   won
+    2026-02-27 BUY   breakout bar weak    follow-through NONE  signal bar weak    entry other   won
+    2026-03-02 BUY   breakout bar weak    follow-through yes   signal bar weak    entry other   won
+    2026-04-06 BUY   breakout bar weak    follow-through NONE  signal bar STRONG  entry second  won
+    2026-06-05 BUY   breakout bar weak    follow-through NONE  signal bar weak    entry first   won
+    2026-07-01 SELL  breakout bar weak    follow-through NONE  signal bar weak    entry second  won
+    2026-09-14 SELL  breakout bar STRONG  follow-through yes   signal bar weak    entry other   won
+    Brooks-good readings among his 7 (share at every state-A moment): weak breakout bar 5 (52%), no follow-through 4 (49%), strong signal bar 2 (30%), second-entry setup 2 (8%)
+
+  HIS ENTRIES (42 scored NASDAQ clicks): the signal bar strong in his direction on 14 of 42 (33%; every minute 33%; binomial p 1.00)
+    his count since the 20-bar extreme against him (every minute's share in brackets):
+      no attempt yet (first-entry setup)         8 (19%)  [15%]  his race won 88%
+      attempt 1 under way                        5 (12%)  [11%]  his race won 100%
+      after attempt 1 (second-entry setup)       5 (12%)  [7%]  his race won 80%
+      attempt 2 under way                        2 (5%)  [8%]  his race won 50%
+      after attempt 2                            2 (5%)  [7%]  his race won 100%
+      3+ attempts                               20 (48%)  [49%]  his race won 85%
+
+REGISTERED PREDICTIONS
+  R1 weak vs strong breakout bar within 3 points, neither >= 56% -> RIGHT (+2.3 | +1.0 points)
+  R2 no follow-through vs follow-through the same -> RIGHT (+0.7 | +1.7 points)
+  R3 strong signal bar vs the rest the same -> RIGHT (+0.4 | -1.2 points)
+  R4 second vs first entry the same -> RIGHT (+1.9 | -2.8 points)
+  R5 the combination under 56% at the moment and with the stop entry -> RIGHT (51.6% / 51.6% / 53.7% / 49.7%)
+  R6 no Brooks-good reading for more than 5 of his 7 -> RIGHT (5)
+  R7 the general second-entry scalp 47-53% on both halves -> WRONG (53.8% / 48.5% / 49.8% / 45.6%)
+  R8 his strong signal bars no more often than every minute (p > 0.05) -> RIGHT
+  LEAD bar (5+ points on both halves): none

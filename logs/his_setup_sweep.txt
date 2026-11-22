@@ -1,0 +1,28 @@
+backtest/his_setup_sweep.py, 2026-11-14 00:57 UTC; 225 days, 5493 setups, 19348 window-baseline moments; race +-7 pts, 10-min cap, cost 2.0 pts
+
+WINDOW BASELINE (every 1-min close+13s in his windows, trend direction): race won 50.0% (n 19348); random direction 50.0%
+
+HIS SETUP by momentum strength (impulse = 15-min swing range):
+  impulse >=   0 pts: n 5493  race won  49.2% (day-se  0.8)  net -2.12 pts/trade  excess over baseline  -0.8 pts
+  impulse >=  10 pts: n 5489  race won  49.2% (day-se  0.8)  net -2.12 pts/trade  excess over baseline  -0.8 pts
+  impulse >=  20 pts: n 5328  race won  49.4% (day-se  0.8)  net -2.08 pts/trade  excess over baseline  -0.6 pts
+  impulse >=  30 pts: n 4723  race won  49.7% (day-se  0.9)  net -2.05 pts/trade  excess over baseline  -0.3 pts
+  impulse >=  50 pts: n 3079  race won  49.8% (day-se  1.1)  net -2.03 pts/trade  excess over baseline  -0.2 pts
+  impulse >=  80 pts: n 1363  race won  48.4% (day-se  2.0)  net -2.22 pts/trade  excess over baseline  -1.5 pts
+
+  by strength sextile:
+    impulse     7-   32 pts: n  916  race  46.0%  net -2.57
+    impulse    32-   43 pts: n  917  race  50.3%  net -1.96
+    impulse    43-   54 pts: n  914  race  51.1%  net -1.85
+    impulse    54-   70 pts: n  916  race  49.5%  net -2.08
+    impulse    70-   95 pts: n  914  race  49.5%  net -2.08
+    impulse    95-  322 pts: n  916  race  48.7%  net -2.18
+
+PREDICTIONS
+  P1 no >=30-setup cell reaches 75% race (49.8% max) -> RIGHT
+  P2 race within 48-60% at every strength -> RIGHT
+  P3 strength does not lift race monotonically to >75% -> RIGHT
+  P4 setup beats baseline by < 8 pts everywhere -> RIGHT
+  P5 no >=30-setup cell nets >= +1.0 pt -> RIGHT
+
+His actual: ~88% race win on 53 trades. Max mechanical cell here: 49.8%.

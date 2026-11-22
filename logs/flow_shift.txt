@@ -1,0 +1,46 @@
+backtest/flow_shift.py, 2026-11-15 12:44 UTC; the final machine's 9 books, 10 orderings, 2020-02-17 .. 2026-09-13; trend gains shrunk 3x; halves split 2024-08-29; judged against the base x k at the same biggest fall
+
+PARITY: all weights 1 reproduce the cached machine (max daily gap 0.0e+00) -> OK
+BLEED (median top-40 alt <= -15% over 30 days): on 28.8% of days; tune 27.7%, holdout 31.4%
+
+THE BASE ($300, 12 months, mean over orderings)
+   base tune      typical $4,435, bad $817, worst month -19.2%, fall 42%, months up 67%
+   base holdout   typical $9,838, bad $4,652, worst month -31.3%, fall 49%, months up 68%
+
+VARIANTS vs THE LINE (the base x k at the same biggest fall)
+   variant                        half   typical      line      gap   fall worst mo  mo up
+   V1 FLOW x2                     tune     5,593     6,625   -1,033    49%   -27.0%    69%
+   V1 FLOW x2                  holdout    12,831    13,377     -547    54%   -38.8%    68%
+                             capit2 bleed-day trades at the raised weight: 878, liquidated 51 (5.8%)
+   V2 SHIFT                       tune     5,710     6,505     -796    48%   -26.4%    68%
+   V2 SHIFT                    holdout    12,844    13,157     -313    54%   -38.5%    68%
+                             capit2 bleed-day trades at the raised weight: 878, liquidated 51 (5.8%)
+   V3 CROWD-B                     tune     4,286     4,865     -579    44%   -19.9%    69%
+   V3 CROWD-B                  holdout    12,534     9,761   +2,773    49%   -31.1%    72%
+   V4 ALL                         tune     5,585     6,271     -686    48%   -26.8%    69%
+   V4 ALL                      holdout    16,086    12,738   +3,348    53%   -37.3%    70%
+                             capit2 bleed-day trades at the raised weight: 878, liquidated 51 (5.8%)
+   REF crowd always               tune     5,468     4,933     +535    44%   -19.9%    72%
+   REF crowd always            holdout    16,045    11,944   +4,101    52%   -34.3%    70%
+   (V1 at x1.5)                   tune     4,977     5,198     -220    45%   -23.6%    69%
+   (V1 at x1.5)                holdout    11,844     9,828   +2,017    49%   -31.3%    69%
+                             capit2 bleed-day trades at the raised weight: 878, liquidated 17 (1.9%)
+   (V2, bleed line -10%)          tune     5,266     7,300   -2,034    50%   -29.2%    70%
+   (V2, bleed line -10%)       holdout    11,303    13,372   -2,069    54%   -38.6%    67%
+                             capit2 bleed-day trades at the raised weight: 1050, liquidated 71 (6.8%)
+   (V2, bleed line -20%)          tune     5,550     6,502     -952    48%   -27.2%    68%
+   (V2, bleed line -20%)       holdout    13,393    11,449   +1,944    52%   -31.4%    67%
+                             capit2 bleed-day trades at the raised weight: 802, liquidated 32 (4.0%)
+
+WHERE V2 DIFFERS FROM THE BASE (sum of daily differences, mean over orderings, % of the account)
+   tune      bleed days +103.3%, other days -4.3%
+   holdout   bleed days +43.0%, other days +8.6%
+
+PASSING: none (beats the line on both halves, inside its range)
+REGISTERED PREDICTIONS
+  F1 V1 does not clear the line on both halves -> RIGHT
+  F2 V2's gap > V1's on both halves -> RIGHT
+  F3 V3's gap < REF's on both halves -> RIGHT
+  F4 bleed on 25-35% of days -> RIGHT (28.8%)
+  F5 >= 1% of capit2's raised trades liquidated -> RIGHT (51 of 878)
+run time 125s

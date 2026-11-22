@@ -1,0 +1,15 @@
+backtest/his_reclaim_regime.py, 2026-11-21 23:42 UTC; 181 tick days with a daily regime, split 2026-06-04; reclaim moments 21,211; days by regime: up 76, down 61, ranging 44
+
+  reclaim vs the daily trend                tune           holdout
+  aligned                         51.2% of 4,470    51.3% of 3,267
+  opposed                         49.4% of 5,376    53.5% of 2,790
+  ranging                         49.9% of 3,069    52.5% of 2,239
+
+  HIS TRADES on trending-regime days: 28 of 46; his side = the daily trend on 14 (50%); ranging days 18
+  HIS RECLAIMS: 7 - trend-aligned 2, opposed 2, on ranging days 3; won 7
+
+REGISTERED PREDICTIONS
+  W1 aligned beats opposed by 3+ points on both halves -> WRONG (tune +1.7 | hold -2.2 points)
+  W2 aligned under 56% on both halves -> RIGHT
+  W3 his 7 reclaims at most 5 trend-aligned -> RIGHT (2)
+  W4 his side = the daily trend on 40-65% of trending days' trades -> RIGHT

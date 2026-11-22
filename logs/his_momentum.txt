@@ -1,0 +1,25 @@
+backtest/his_momentum.py, 2026-11-14 01:15 UTC; 225 days, 23153 window moments; call the +-7 race in the direction of the last k-min slope
+
+last  3-min slope: call-continuation hit 49.9% over 23153 moments
+    |slope|   0.0-   3.6 pts: n  4637  continuation hit  49.6%
+    |slope|   3.6-   7.7 pts: n  4625  continuation hit  50.1%
+    |slope|   7.7-  13.2 pts: n  4676  continuation hit  50.2%
+    |slope|  13.3-  23.0 pts: n  4584  continuation hit  49.2%
+    |slope|  23.0- 197.9 pts: n  4631  continuation hit  50.4%
+
+last  5-min slope: call-continuation hit 50.5% over 23153 moments
+    |slope|   0.0-   4.7 pts: n  4637  continuation hit  50.8%
+    |slope|   4.7-  10.0 pts: n  4636  continuation hit  51.4%
+    |slope|  10.0-  17.3 pts: n  4620  continuation hit  50.0%
+    |slope|  17.3-  29.8 pts: n  4633  continuation hit  50.5%
+    |slope|  29.8- 202.2 pts: n  4627  continuation hit  50.0%
+
+last 10-min slope: call-continuation hit 50.5% over 23153 moments
+    |slope|   0.0-   6.9 pts: n  4631  continuation hit  50.9%
+    |slope|   6.9-  14.6 pts: n  4630  continuation hit  51.8%
+    |slope|  14.6-  24.5 pts: n  4641  continuation hit  49.2%
+    |slope|  24.5-  41.8 pts: n  4620  continuation hit  50.2%
+    |slope|  41.8- 304.1 pts: n  4631  continuation hit  50.4%
+
+VERDICT
+  strongest-slope cell hit rate: 50.4% (coin flip 50%). Flat ~50%: momentum continuation is NOT predictive in general; my 70% on his 53 was his-moment selection or noise, not a rule.

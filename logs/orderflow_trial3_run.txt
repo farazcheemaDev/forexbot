@@ -1,0 +1,4 @@
+2026-10-30 14:25:25  connected
+2026-10-30 14:26:25  6219 book msgs, 2349 trades, 0 gaps this minute; disk 0.8 MB; pongs 2; resubs 0
+2026-10-30 14:27:25  6306 book msgs, 2372 trades, 0 gaps this minute; disk 1.6 MB; pongs 5; resubs 0
+2026-10-30 14:27:59  stopped; files closed

@@ -1,0 +1,38 @@
+backtest/lottery_v2.py, 2026-11-06 20:18
+CHECK vs triple_capped.simulate (label release, no floor): end 102260.576848 vs 102260.576848, max daily gap 0.00e+00 -> MATCH
+
+PIT12 - no hindsight, the honest one: 22,328 positions | triple, entry-sized, 10x guard on entries AND adds, slot freed at the exit bar's close, ruin = -90%
+
+  within 6 months (69 monthly starts x 2 orderings):
+     start risk/unit  median x   >=2x   >=5x  >=10x  >=20x  touch 5x  RUINED  ended < start  units refused
+  $  20.00      0.3%     0.99x     7%     1%     1%     1%        1%      0%            67%            95%
+  $  20.00      1.0%     1.83x    46%    22%    12%     9%       33%      1%            35%            72%
+  $  20.00      2.0%     1.39x    40%    20%    17%    13%       30%      1%            39%            69%
+  $  20.00      4.0%     0.64x    29%    16%     9%     4%       19%     17%            58%            74%
+
+
+  within 12 months (63 monthly starts x 2 orderings):
+     start risk/unit  median x   >=2x   >=5x  >=10x  >=20x  touch 5x  RUINED  ended < start  units refused
+  $  20.00      0.3%     0.99x    11%     2%     2%     2%        2%      0%            63%            94%
+  $  20.00      1.0%     2.74x    58%    33%    25%    21%       52%      2%            25%            65%
+  $  20.00      2.0%     1.26x    38%    30%    25%    18%       42%      4%            40%            66%
+  $  20.00      4.0%     0.40x    33%    21%    13%    10%       35%     39%            60%            72%
+
+
+BOOK12 - hindsight coins, OPTIMISTIC: 17,542 positions | triple, entry-sized, 10x guard on entries AND adds, slot freed at the exit bar's close, ruin = -90%
+
+  within 6 months (69 monthly starts x 2 orderings):
+     start risk/unit  median x   >=2x   >=5x  >=10x  >=20x  touch 5x  RUINED  ended < start  units refused
+  $  20.00      0.3%     0.99x    13%     0%     0%     0%        3%      0%            62%            97%
+  $  20.00      1.0%     1.73x    48%    16%     8%     7%       27%      0%            33%            72%
+  $  20.00      2.0%     1.25x    33%    14%    10%     8%       23%      2%            41%            69%
+  $  20.00      4.0%     0.64x    30%    17%    11%     8%       26%     12%            62%            71%
+
+
+  within 12 months (63 monthly starts x 2 orderings):
+     start risk/unit  median x   >=2x   >=5x  >=10x  >=20x  touch 5x  RUINED  ended < start  units refused
+  $  20.00      0.3%     0.97x    24%     5%     5%     0%        5%      0%            67%            96%
+  $  20.00      1.0%     3.25x    61%    39%    19%    10%       61%      0%            30%            65%
+  $  20.00      2.0%     1.32x    38%    22%    15%    12%       39%      2%            35%            65%
+  $  20.00      4.0%     0.40x    25%    14%    10%     7%       32%     33%            71%            70%
+

@@ -7,13 +7,17 @@ Disaggregated FUTURES-ONLY reports.
 THE MECHANISM UNDER TEST. Managed money cannot take delivery, so its net futures position in the delivery month M has to be rolled or closed before first notice day F
 (the last trading day of the month before M). A net LONG crowd SELLS M and BUYS the next even month N; a net SHORT crowd BUYS M and SELLS N. That pushes M down
 relative to N when the crowd is long (the spread N - M widens) and M up relative to N when the crowd is short (narrows). The OUTRIGHT price need not move at all.
-CYCLES  every even delivery month (Feb Apr Jun Aug Oct Dec) of 2010..2026 with data from 20 trading days before F: about 95 cycles. Active month M = the contract with the
-  most open interest at t0 = 20 trading days before F; N = the next even month; F = the last trading day (in the data) of the previous month.
+CYCLES  every even delivery month (Feb Apr Jun Aug Oct Dec) of 2016..2026 with open interest known 20 trading days before F: about 60 cycles. Active month M = the contract with the
+  most open interest on the day before t0 (t0 = 20 trading days before F); N = the next even month; F = the last trading day (in the data) of the previous month.
   FEATURE (read at t0, known): roll share = managed money's net FUTURES lots (the CFTC report public by the Friday before t0: report date + 3 days < t0) / open interest in M at t0.
   OUTCOMES: dS = change in the spread S = (settle_N - settle_M) / settle_M, in percent, from t0 to F; r = log return of M's settle from t0 to F (the outright);
   stay = M's open interest at F / at t0 (how much had not rolled).
   TRADE VIEW  buy the spread (long N, short M) when the crowd is net long, sell it when net short, from t0's settle to F's; P&L in dollars per 100-ounce spread, $30 charged
   per round trip (a listed calendar spread's tick is $10; more than it costs); t over cycles; tune = the first 60% of cycles, holdout the rest.
+DATA FACTS FOUND BEFORE THE FIRST RUN (2026-10-28, from the pulled file - not results): (1) the feed has NO open interest before late 2015 (2010-14: none, 2015: 11% of days,
+  2016 on: 70-94%), so only cycles from 2016 can be used (about 60); settlement prices are complete from 2010. (2) Open interest for trade date d is published after the session
+  (preliminary 00:27 UTC, final ~14:05 UTC the next day); Databento stamps it with d, and CME's web page shows it one trading day LATER (the page's 10/26 total 401,077 = the
+  feed's 10-23). So the feature is read from the PREVIOUS trading day's open interest (t0 - 1), the only one known at t0's settle; this is a causality rule, not a result.
 REGISTERED BEFORE THE FIRST RUN (2026-10-28; the data seen so far: one week of October 2026 and the CME snapshot of 2026-10-27)
   G1  stay: by F at most 40% of M's open interest remains in every cycle (the roll is mechanical and nearly complete); roll share is unrelated to stay (|IC| < 0.2).
   G2  dS vs roll share has the registered POSITIVE sign (IC > 0; a long crowd widens N - M) - I put 65% on the sign - but is NOT significant at 0.05 (permutation, one-sided).
@@ -110,18 +114,23 @@ def cycles(panel: pd.DataFrame) -> pd.DataFrame:
             if i - WINDOW < 0 or F >= days[-1]:
                 continue
             t0 = days[i - WINDOW]
-            g0, gF = by_day.get(t0), by_day.get(F)
-            if g0 is None or gF is None or (y, m) not in g0.index or (y, m) not in gF.index:
+            g0s, gF = by_day.get(t0), by_day.get(F)                       # settles at t0 and F
+            g0 = by_day.get(days[i - WINDOW - 1])                         # open interest of the PREVIOUS trading day: the only one known at t0's settle
+            if g0 is None or g0s is None or gF is None or (y, m) not in g0.index or (y, m) not in gF.index or (y, m) not in g0s.index:
                 continue
+            if g0["oi"].notna().sum() == 0 or pd.isna(gF.loc[(y, m), "oi"]) or pd.isna(g0.loc[(y, m), "oi"]):
+                continue                                                  # no open interest recorded (before late 2015)
             ny, nm = (y + (m == 12), 2 if m == 12 else m + 2)
-            if (ny, nm) not in g0.index or (ny, nm) not in gF.index:
+            if (ny, nm) not in g0s.index or (ny, nm) not in gF.index:
                 continue
             oi_all = float(g0["oi"].sum())
             if g0.loc[(y, m), "oi"] < 0.25 * oi_all:               # M must be the active month at t0 (largest OI), not a thin one
                 continue
-            if g0["oi"].idxmax() != (y, m):
+            if g0["oi"].dropna().idxmax() != (y, m):
                 continue
-            s0M, s0N, sFM, sFN = (float(g0.loc[(y, m), "settle"]), float(g0.loc[(ny, nm), "settle"]), float(gF.loc[(y, m), "settle"]), float(gF.loc[(ny, nm), "settle"]))
+            s0M, s0N, sFM, sFN = (float(g0s.loc[(y, m), "settle"]), float(g0s.loc[(ny, nm), "settle"]), float(gF.loc[(y, m), "settle"]), float(gF.loc[(ny, nm), "settle"]))
+            if np.isnan([s0M, s0N, sFM, sFN]).any():
+                continue
             avail = fut[(fut.index + pd.Timedelta(days=3)) < pd.Timestamp(t0)]
             if not len(avail):
                 continue
@@ -188,9 +197,12 @@ def main():
     say(f"GOLD ROLL TEST - CME open interest by month x CFTC managed money - {pd.Timestamp.utcnow():%Y-%m-%d %H:%M} UTC")
     panel = build_panel()
     say(f"panel: {len(panel):,} contract-days, {panel['date'].nunique():,} trading days {panel['date'].min().date()} .. {panel['date'].max().date()}, {panel['symbol'].nunique()} contracts")
-    # sanity: the day the CME web snapshot covers (2026-10-26 total open interest 401,077 = the sum over the outright months)
-    chk = panel[panel["date"] == pd.Timestamp("2026-10-26")]
-    say(f"check vs the CME page: 2026-10-26 total open interest {chk['oi'].sum():,.0f} (CME's own total 401,077); GCZ6 settle {chk.loc[chk.symbol == 'GCZ6', 'settle'].iloc[0]:.1f}")
+    # sanity: the CME page's totals (recorded 2026-10-28) are the PREVIOUS trading day's open interest: page 10/26 = 401,077, page 10/23 = 400,538, page 10/22 = 400,014
+    for d, page_total, page_day in (("2026-10-23", 401077, "10/26"), ("2026-10-22", 400538, "10/23"), ("2026-10-21", 400014, "10/22")):
+        chk = panel[panel["date"] == pd.Timestamp(d)]
+        say(f"check vs the CME page: feed open interest for {d} = {chk['oi'].sum():,.0f}; the page's {page_day} total = {page_total:,} ({'match' if abs(chk['oi'].sum() - page_total) < 1 else 'MISMATCH'})")
+    z = panel[(panel["date"] == pd.Timestamp("2026-10-26")) & (panel.symbol == "GCZ6")]
+    say(f"GCZ6 settle 2026-10-26 {z['settle'].iloc[0]:.1f} (the page's 10/26 GC DEC 26 settled 4074.6 on 10/27; 10/26's is in the snapshot of the 5 days)")
     c = cycles(panel)
     say(f"{len(c)} cycles, {c['month'].iloc[0]} .. {c['month'].iloc[-1]}; roll share (managed money net futures lots / the delivery month's open interest) from {c['roll_share'].min():+.2f} to {c['roll_share'].max():+.2f}, "
         f"median {c['roll_share'].median():+.2f}; {int((c.roll_share > 0).sum())} cycles net long, {int((c.roll_share < 0).sum())} net short")

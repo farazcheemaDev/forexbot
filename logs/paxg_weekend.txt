@@ -1,0 +1,77 @@
+backtest/paxg_weekend.py, 2026-11-10 15:36 UTC; 254 weekends 2020-08-28 .. 2026-09-04; tune 152 (to 2024-05-31) / holdout 102
+
+1. HOW FAR DOES THE TOKEN WANDER WHILE GOLD IS SHUT? (|PAXG Sunday 16:00 / Friday 17:00 - 1|)
+   median 0.24%  75th 0.46%  90th 0.74%  99th 2.76%  max 3.94%
+   share of weekends at or over: 0.25% -> 48%  0.50% -> 22%  1.00% -> 5%
+   gold's own reopen gap (Sunday 19:00 vs Friday 17:00): median |gap| 0.11%, 90th 0.72%
+
+2. INFORMATION OR NOISE?
+   all      gold's gap on the token's weekend move: slope +0.29 (R2 0.11, n 254)   |   the token's next move (17:00 -> reopen + 6h) on it: slope -0.32 (R2 0.09, n 254)
+   tune     gold's gap on the token's weekend move: slope +0.07 (R2 0.01, n 152)   |   the token's next move (17:00 -> reopen + 6h) on it: slope -0.28 (R2 0.11, n 152)
+   holdout  gold's gap on the token's weekend move: slope +0.53 (R2 0.30, n 102)   |   the token's next move (17:00 -> reopen + 6h) on it: slope -0.37 (R2 0.08, n 102)
+   |move| >= 0.5% only: gap slope +0.33 (R2 0.27, n 56)   |   next-move slope -0.26 (R2 0.10, n 56)
+
+3. FAMILY 1 - fade the weekend move, PAXG only, 12bp
+   cell                      half    n      net      t   won   worst
+   theta 0.25% H 2           tune   65   +0.03%  +0.51   55%   -1.4%
+   theta 0.25% H 2        holdout   56   +0.02%  +0.23   48%   -1.3%
+                                  Holm p 1.00  minimum detectable edge on the holdout 0.25% a trade -> no pass
+   theta 0.25% H 6           tune   65   +0.14%  +1.71   63%   -1.2%
+   theta 0.25% H 6        holdout   56   +0.05%  +0.43   52%   -2.4%
+                                  Holm p 1.00  minimum detectable edge on the holdout 0.35% a trade -> no pass
+   theta 0.25% H 24          tune   65   +0.15%  +1.25   54%   -2.6%
+   theta 0.25% H 24       holdout   56   +0.07%  +0.35   54%   -2.5%
+                                  Holm p 1.00  minimum detectable edge on the holdout 0.54% a trade -> no pass
+   theta 0.50% H 2           tune   31   +0.05%  +0.47   65%   -1.0%
+   theta 0.50% H 2        holdout   25   +0.10%  +0.54   52%   -1.3%
+                                  Holm p 1.00  minimum detectable edge on the holdout 0.51% a trade -> no pass
+   theta 0.50% H 6           tune   31   +0.17%  +1.20   65%   -1.2%
+   theta 0.50% H 6        holdout   25   +0.17%  +0.75   56%   -2.4%
+                                  Holm p 1.00  minimum detectable edge on the holdout 0.65% a trade -> no pass
+   theta 0.50% H 24          tune   31   +0.20%  +1.01   61%   -2.6%
+   theta 0.50% H 24       holdout   25   +0.14%  +0.44   60%   -2.3%
+                                  Holm p 1.00  minimum detectable edge on the holdout 0.87% a trade -> no pass
+   theta 1.00% H 2           tune    7   -0.00%  -0.01   57%   -1.0%
+   theta 1.00% H 2        holdout    6   +0.78%  +1.28   67%   -0.7%
+                                  Holm p 1.00  minimum detectable edge on the holdout 1.70% a trade -> cannot tell
+   theta 1.00% H 6           tune    7   +0.55%  +1.11   71%   -1.2%
+   theta 1.00% H 6        holdout    6   +0.68%  +0.75   67%   -2.4%
+                                  Holm p 1.00  minimum detectable edge on the holdout 2.54% a trade -> cannot tell
+   theta 1.00% H 24          tune    7   +0.64%  +1.58   71%   -0.5%
+   theta 1.00% H 24       holdout    6   +0.64%  +0.80   67%   -2.3%
+                                  Holm p 1.00  minimum detectable edge on the holdout 2.23% a trade -> cannot tell
+
+   PRIMARY (theta 0.5%, H 6) all trades: n 56, net +0.17% at 12bp, +0.09% at the 20bp spot cost, t +1.34, 11.5 trades a year
+   by year (n, mean): 2020 3 +0.16%  2021 11 +0.13%  2022 8 +0.11%  2023 5 +0.00%  2024 8 +0.27%  2025 9 +0.89%  2026 12 -0.27%
+   without its 3 best trades: +0.02% (n 53);  the 3 best: 2025-01-31 +4.4%, 2024-04-12 +2.4%, 2021-01-08 +1.6%
+   long side (token fell) / short side (token rose): n 14 -0.23% / n 42 +0.31%
+
+4. THE PREMIUM AT THE REOPEN (PAXG / gold against the week's median, Sunday 19:00): median 0.14%, 90th 0.70%, share >= 0.25% 36%, >= 0.5% 18%
+   FAMILY 2 - hedged (PAXG against gold), 14.5bp
+   cell                      half    n      net      t   won   worst
+   theta 0.25% H 4           tune   59   -0.02%  -0.31   37%   -0.6%
+   theta 0.25% H 4        holdout   31   +0.02%  +0.28   39%   -0.3%
+                                  Holm p 1.00  minimum detectable edge on the holdout 0.17% a trade -> no pass
+   theta 0.25% H 22          tune    4   +0.28%  +1.05   75%   -0.1%
+   theta 0.25% H 22       holdout    1   +0.79%   +nan  100%   +0.8%
+                                  Holm p 1.00  minimum detectable edge on the holdout nan% a trade -> cannot tell
+   theta 0.50% H 4           tune   32   +0.01%  +0.11   44%   -0.6%
+   theta 0.50% H 4        holdout   13   +0.09%  +0.75   46%   -0.3%
+                                  Holm p 0.93  minimum detectable edge on the holdout 0.35% a trade -> cannot tell
+   theta 0.50% H 22          tune    1   +1.08%   +nan  100%   +1.1%
+   theta 0.50% H 22       holdout    1   +0.79%   +nan  100%   +0.8%
+                                  Holm p 1.00  minimum detectable edge on the holdout nan% a trade -> cannot tell
+
+5. PLACEBO - the same rule on a weekday window, gold open (300 weeks; next-move slope -0.02, R2 0.00)
+   cell                      half    n      net      t   won   worst
+   theta 0.50% H 6           tune  105   -0.10%  -2.98   38%   -1.2%
+   theta 0.50% H 6        holdout   81   -0.15%  -1.83   31%   -4.2%
+                                  Holm p 0.96  minimum detectable edge on the holdout 0.23% a trade -> no pass
+
+REGISTERED PREDICTIONS
+  W1 gap slope 0.3..0.8 (+0.29) -> WRONG
+  W2 next-move slope -0.1..-0.5 (-0.32) -> RIGHT
+  W3 |dev| >= 0.5% on under 15% of weekends (22%) -> WRONG
+  W4 primary positive on both halves, too few holdout trades; no cell passes (primary +0.17% / +0.17%, holdout n 25, any pass: False) -> WRONG
+  W5 placebo slope within +-0.1 (-0.02) -> RIGHT
+  W6 premium >= 0.25% at the reopen on under 10% of weekends (36%) -> WRONG

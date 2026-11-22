@@ -1,0 +1,27 @@
+backtest/his_rsi_long.py - 42 cells (28 continuous, 14 hooks) on 5- and 15-minute candles built from Exness 1-minute bars
+
+STAGE A - 45 of his 46 NASDAQ entries usable (1 in the 8-29 March changeover skipped, the rest lacked warm-up) vs ~80 moments within 20 minutes, same direction. Smallest raw p (of 42):
+  5m_rsi5_lvl     rank 0.41                  p 0.037  Holm 1.000
+  5m_rsi2_lvl     rank 0.42                  p 0.051  Holm 1.000
+  5m_rsi9_lvl     rank 0.42                  p 0.053  Holm 1.000
+  5m_rsi14_lvl    rank 0.42                  p 0.055  Holm 1.000
+  5m_rsi21_lvl    rank 0.42                  p 0.064  Holm 1.000
+  5m_rsi7_lvl     rank 0.42                  p 0.071  Holm 1.000
+  5m_rsi3_lvl     rank 0.42                  p 0.073  Holm 1.000
+  15m_rsi2_hook   his 12/45 vs nearby 33.9%  p 0.111  Holm 1.000
+  cells with raw p < 0.05: 1 of 42 (chance alone gives ~2.1); with Holm < 0.05: 0
+  mean |rank - 0.5| over continuous cells: 5-minute 0.064, 15-minute 0.010; cells on the pullback side (rank < 0.5): 21 of 28
+
+STAGE B - 13324 random moment x direction pairs on 181 days; NET +7/-7 race, base 35.6%, break-even 50%.
+  extreme chosen on the first half of the days, read on the second:
+  cell               chosen  1st half  2nd half  n 2nd       p   Holm
+  15m_rsi14_hook    high/on     38.2%     39.1%    327   1.000  1.000
+  5m_rsi14_hook     high/on     37.5%     36.8%    247   1.000  1.000
+  15m_rsi21_hook    high/on     37.1%     34.8%    204   1.000  1.000
+  5m_rsi21_hook     high/on     38.6%     28.2%    124   1.000  1.000
+  15m_rsi9_hook     high/on     38.7%     38.6%    684   1.000  1.000
+  15m_rsi7_hook     high/on     39.0%     37.4%    861   1.000  1.000
+  5m_rsi2_lvl       low/off     36.6%     35.6%   2189   1.000  1.000
+  5m_rsi2_chg       low/off     36.3%     35.1%   2137   1.000  1.000
+  best second-half net race over all 42 cells: 39.1%   cells with Holm < 0.05: 0
+  mid race (high - low), same sign in both halves: 27 of 42 cells (a coin gives ~21)

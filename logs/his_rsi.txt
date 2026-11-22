@@ -1,0 +1,28 @@
+backtest/his_rsi.py - 51 RSI cells (34 continuous, 17 hooks)
+
+STAGE A - his 25 clean entries vs ~80 moments of the same day within 20 minutes, same direction. Smallest raw p-values (of 51):
+  15s_rsi2_hook   his  6/25 vs nearby 39.4%  p 0.111  Holm 1.000
+  15s_rsi3_hook   his  4/25 vs nearby 28.8%  p 0.152  Holm 1.000
+  15s_rsi7_hook   his  4/25 vs nearby  8.7%  p 0.184  Holm 1.000
+  1m_rsi5_hook    his  2/25 vs nearby 15.9%  p 0.251  Holm 1.000
+  5m_rsi5_lvl     rank 0.44                  p 0.309  Holm 1.000
+  5m_rsi2_lvl     rank 0.44                  p 0.321  Holm 1.000
+  15s_rsi14_hook  his  0/25 vs nearby  3.4%  p 0.341  Holm 1.000
+  5m_rsi9_lvl     rank 0.45                  p 0.347  Holm 1.000
+  reproduction check: 1m_rsi14_lvl rank 0.46  p 0.499   (his_ta.py, same entries: rank 0.46, p 0.50)
+  cells with raw p < 0.05: 0 of 51 (chance alone gives ~2.6); with Holm < 0.05: 0
+  continuous cells with rank below 0.5 (pullback side): 21 of 34
+
+STAGE B - 11982 random moment x direction pairs on 181 days; NET +7/-7 race, base 35.8%, break-even 50%.
+  extreme chosen on the first half of the days, read on the second:
+  cell               chosen  1st half  2nd half  n 2nd       p   Holm
+  1m_rsi14_hook     high/on     37.9%     35.7%    213   1.000  1.000
+  1m_rsi9_hook      high/on     37.8%     36.0%    530   1.000  1.000
+  15s_rsi2_lvl      low/off     36.6%     34.3%   1963   1.000  1.000
+  15s_rsi2_chg      low/off     37.1%     34.9%   1992   1.000  1.000
+  15s_rsi3_lvl      low/off     36.7%     35.0%   1960   1.000  1.000
+  15s_rsi3_chg      low/off     37.2%     34.7%   1997   1.000  1.000
+  15s_rsi5_lvl      low/off     36.4%     34.1%   1962   1.000  1.000
+  15s_rsi5_chg      low/off     37.1%     34.5%   1993   1.000  1.000
+  best second-half net race over all 51 cells: 37.5%   cells with Holm < 0.05: 0
+  mid race (high - low), same sign in both halves: 28 of 51 cells (a coin gives ~26)

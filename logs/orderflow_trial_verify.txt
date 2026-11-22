@@ -1,0 +1,25 @@
+strategy_analysis\data\orderflow_trial: 10 pairs, 10.0 minutes recorded; events: audit 40, connect 1, resub 1, selftest_resub 1, snapshot 11, stats 9, stop 1
+pair        frames snap  updates gaps  unsy cross  trades dupe badO   upd gap ms p10/50/90   lag ms p10/50/90 lvls/upd  audits
+ADAUSDT       6625    1     6355    0     0     0     494    0    0     84/ 100/  105    129/ 146/  188       5.0   1/4  
+BTCUSDT      16196    1     6086    0     0     0   25366    0  142     99/ 100/  101    129/ 144/  185      91.0   2/4  
+DOGEUSDT      6301    1     6099    0     0     0     374    0    0     97/ 100/  102    128/ 144/  183       7.0   0/4  
+DOTUSDT       6122    1     6080    0     0     0     115    0    0     24/  91/  203    131/ 154/  235       1.0   3/4  
+LINKUSDT      7175    1     6949    0     0     0     372    0    0     37/  92/  121    130/ 150/  206       6.0   4/4  
+SHIBUSDT      6281    1     6125    0     0     0     276    0    0     25/  92/  200    131/ 153/  232       2.0   2/4  
+SOLUSDT       8150    2     6130    0     0     0    4233    0   15     96/ 100/  103    129/ 145/  185      23.0   0/4  
+SUIUSDT       7296    1     6899    0     0     0     803    0    0     44/  93/  116    130/ 148/  198       8.0   0/4  
+WLDUSDT       6967    1     6796    0     0     0     342    0    0     28/  88/  146    130/ 152/  224       3.0   0/4  
+XRPUSDT       7015    1     6098    0     0     0    1861    0    5     99/ 100/  101    128/ 144/  184      10.0   0/4  
+
+pair       snapshot depth (bids, asks)     covers (bid, ask) bp  levels at end / max  disk MB  MB / day  trades/s
+ADAUSDT                     (200, 200)      1161.8,    1051.7        400 / 400          0.39        56      0.83
+BTCUSDT                     (500, 500)        29.1,      25.3       1000 / 1000         4.60       665     42.46
+DOGEUSDT                    (200, 200)       305.0,     278.5        400 / 400          0.53        76      0.63
+DOTUSDT                     (200, 200)      4139.6,    2445.4        400 / 400          0.24        35      0.19
+LINKUSDT                    (200, 200)       457.6,     345.3        400 / 400          0.54        77      0.62
+SHIBUSDT                    (200, 200)      1825.4,    2664.6        400 / 400          0.34        49      0.46
+SOLUSDT                     (200, 200)        53.4,      50.4        400 / 400          1.19       172      7.08
+SUIUSDT                     (200, 200)       269.3,     274.9        400 / 400          0.65        93      1.34
+WLDUSDT                     (200, 200)      1062.2,    1446.9        400 / 400          0.41        60      0.57
+XRPUSDT                     (200, 200)       164.3,     165.1        400 / 400          0.70       101      3.11
+extrapolated disk use of all pairs: 1,384 MB a day = 41.5 GB for 30 days (a straight multiple of this window; busy hours differ)

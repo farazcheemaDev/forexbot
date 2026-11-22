@@ -1,0 +1,37 @@
+BTCUSDT 4442
+ETHUSDT 8639
+SOLUSDT 13001
+XRPUSDT 17358
+BNBUSDT 21856
+XAUUSDT 22476
+QQQUSDT 22933
+backtest/analyst_filters_oos.py, 2026-11-12 18:16 UTC; 22933 signals before any cooldown; split 2024-12-07
+CHECK (O5): no-filter variant 10580 calls, mean -0.1972R; replay calls.json 10580, -0.1972R -> IDENTICAL
+  none (the replay) [tune]             n  5934 bets 1844  hit  18.8% vs random  19.5%  R/call -0.160  R/bet -0.041 (t -1.5, MDE 0.08R)  $300 at 0.5% -> $2, fall 99%
+  none (the replay) [hold]             n  4646 bets 1275  hit  17.1% vs random  19.2%  R/call -0.245  R/bet -0.089 (t -2.6, MDE 0.10R)  $300 at 0.5% -> $1, fall 100%
+  F1 stop >= 0.8% [tune]               n  4471 bets 1608  hit  16.9% vs random  17.8%  R/call -0.122  R/bet -0.007 (t -0.2, MDE 0.08R)  $300 at 0.5% -> $17, fall 95%
+  F1 stop >= 0.8% [hold]               n  2867 bets 1020  hit  14.9% vs random  17.3%  R/call -0.138  R/bet -0.043 (t -1.2, MDE 0.10R)  $300 at 0.5% -> $38, fall 89%
+  F2 4h EMA50 slope with the call [tune] n  2673 bets 1190  hit  22.6% vs random  24.4%  R/call -0.172  R/bet -0.116 (t -3.1, MDE 0.10R)  $300 at 0.5% -> $27, fall 91%
+  F2 4h EMA50 slope with the call [hold] n  2027 bets  866  hit  20.9% vs random  23.9%  R/call -0.225  R/bet -0.141 (t -2.9, MDE 0.14R)  $300 at 0.5% -> $28, fall 91%
+  F3 session gate (live) [tune]        n  5934 bets 1844  hit  18.8% vs random  19.5%  R/call -0.160  R/bet -0.041 (t -1.5, MDE 0.08R)  $300 at 0.5% -> $2, fall 99%
+  F3 session gate (live) [hold]        n  4451 bets 1260  hit  17.1% vs random  19.3%  R/call -0.225  R/bet -0.066 (t -1.9, MDE 0.10R)  $300 at 0.5% -> $2, fall 99%
+  F4 drop SR [tune]                    n  3320 bets 1321  hit  12.1% vs random  13.5%  R/call -0.152  R/bet -0.017 (t -0.5, MDE 0.10R)  $300 at 0.5% -> $21, fall 93%
+  F4 drop SR [hold]                    n  2614 bets  920  hit  11.1% vs random  13.0%  R/call -0.221  R/bet -0.089 (t -1.9, MDE 0.13R)  $300 at 0.5% -> $15, fall 96%
+  COMBINED F1+F2+F3+F4 [tune]          n   855 bets  527  hit  15.7% vs random  19.3%  R/call -0.093  R/bet -0.055 (t -0.9, MDE 0.17R)  $300 at 0.5% -> $195, fall 41%
+  COMBINED F1+F2+F3+F4 [hold]          n   500 bets  292  hit  11.6% vs random  17.3%  R/call -0.106  R/bet -0.024 (t -0.3, MDE 0.24R)  $300 at 0.5% -> $225, fall 34%
+    by year: 2022 n 300 -0.177R  2023 n 233 -0.119R  2024 n 349 +0.011R  2025 n 275 -0.138R  2026 n 198 -0.086R
+    by symbol: BNB 236 -0.051R  BTC 249 -0.049R  ETH 255 -0.169R  SOL 335 -0.142R  XAU 12 +0.038R  XRP 268 -0.066R
+    by rule / side: FIB long 90 +0.226R  FIB short 75 -0.042R  SMC long 562 -0.246R  SMC short 628 -0.018R
+  F1+F2+F3, SR kept [tune]             n  1807 bets  928  hit  21.9% vs random  23.6%  R/call -0.097  R/bet -0.067 (t -1.6, MDE 0.12R)  $300 at 0.5% -> $117, fall 63%
+  F1+F2+F3, SR kept [hold]             n  1100 bets  579  hit  18.5% vs random  22.7%  R/call -0.139  R/bet -0.101 (t -1.8, MDE 0.15R)  $300 at 0.5% -> $133, fall 59%
+  SMC only + F1+F2+F3 [tune]           n   759 bets  475  hit  16.2% vs random  19.9%  R/call -0.104  R/bet -0.055 (t -0.8, MDE 0.18R)  $300 at 0.5% -> $196, fall 42%
+  SMC only + F1+F2+F3 [hold]           n   431 bets  260  hit  10.7% vs random  17.9%  R/call -0.164  R/bet -0.046 (t -0.5, MDE 0.27R)  $300 at 0.5% -> $207, fall 37%
+
+VERDICT (the bar: R/bet > 0 at t >= 2 on both halves, hit above random on both, holdout account above $300): DOES NOT SURVIVE
+
+REGISTERED PREDICTIONS
+  O1 COMBINED holdout R/call < 0 (-0.106) -> RIGHT
+  O2 COMBINED holdout R/bet t < 2 (-0.27) -> RIGHT
+  O3 F2 does not lift hit above random on both halves (22.6 vs 24.4; 20.9 vs 23.9) -> RIGHT
+  O4 COMBINED keeps < 15% of the calls (1355 of 10580 = 13%) -> RIGHT
+  O5 parity -> RIGHT

@@ -1,0 +1,43 @@
+backtest/direction_vs_power.py, 2026-11-12 18:54 UTC; 10522 of 10580 desk calls with 2 random-entry controls each; split 2024-12-07
+   the desk as it is (its own bracket): -0.198R a call
+
+A. DIRECTION ONLY (no stop, no target): signed GROSS return to the close H hours later; 'right' = share of calls above zero
+   tune    1h  calls -0.020% (right 50.1%)   random -0.010%   excess +0.039% (t +2.59)   net of 12bp -0.140%
+   tune    4h  calls -0.019% (right 52.1%)   random -0.000%   excess +0.128% (t +4.05)   net of 12bp -0.139%
+   tune   12h  calls -0.065% (right 51.6%)   random -0.026%   excess +0.258% (t +4.64)   net of 12bp -0.185%
+   tune   24h  calls -0.080% (right 51.5%)   random -0.049%   excess +0.270% (t +3.23)   net of 12bp -0.200%
+   tune   72h  calls -0.220% (right 49.4%)   random -0.077%   excess +0.252% (t +1.63)   net of 12bp -0.340%
+   hold    1h  calls -0.018% (right 49.6%)   random -0.001%   excess +0.000% (t +0.01)   net of 12bp -0.138%
+   hold    4h  calls -0.017% (right 50.1%)   random -0.014%   excess +0.108% (t +3.33)   net of 12bp -0.137%
+   hold   12h  calls -0.058% (right 50.4%)   random +0.004%   excess +0.183% (t +3.06)   net of 12bp -0.178%
+   hold   24h  calls -0.071% (right 50.0%)   random +0.047%   excess +0.157% (t +1.74)   net of 12bp -0.191%
+   hold   72h  calls +0.000% (right 50.7%)   random +0.047%   excess +0.161% (t +1.06)   net of 12bp -0.120%
+
+B. POWER within 24h, in units of the call's own stop distance (MFE = furthest its way, MAE = furthest against)
+   tune  MFE calls 1.55 (median) / random 1.83; mean excess -0.040 (t -0.44)   |   MAE calls 1.61 / random 1.89; mean excess -0.396 (t -5.93)
+   hold  MFE calls 1.56 (median) / random 1.94; mean excess -0.148 (t -1.58)   |   MAE calls 1.75 / random 1.95; mean excess -0.300 (t -3.66)
+
+C. EXITS WITHOUT A FIXED TARGET (net R after 12bp; excess = the call minus its random-entry controls with the same exit)
+   C1 stop, no target, 24h                tune  R/call -0.105  R/bet +0.061 (t +0.98)  won 29.7%  random R/call -0.147  excess/bet +0.235 (t +3.52)
+   C1 stop, no target, 24h                hold  R/call -0.222  R/bet -0.009 (t -0.16)  won 27.0%  random R/call -0.161  excess/bet +0.166 (t +2.76)
+   C2 stop, no target, 72h                tune  R/call -0.090  R/bet +0.122 (t +1.72)  won 18.8%  random R/call -0.140  excess/bet +0.277 (t +3.52)
+   C2 stop, no target, 72h                hold  R/call -0.173  R/bet +0.062 (t +0.80)  won 18.3%  random R/call -0.140  excess/bet +0.228 (t +2.59)
+   C3 stop + 3 ATR trail, 72h             tune  R/call -0.123  R/bet +0.025 (t +0.53)  won 23.3%  random R/call -0.163  excess/bet +0.208 (t +3.83)
+   C3 stop + 3 ATR trail, 72h             hold  R/call -0.193  R/bet +0.050 (t +0.78)  won 21.7%  random R/call -0.144  excess/bet +0.213 (t +2.98)
+   C4 stop + 3 ATR trail, 168h            tune  R/call -0.122  R/bet +0.016 (t +0.33)  won 22.7%  random R/call -0.157  excess/bet +0.194 (t +3.49)
+   C4 stop + 3 ATR trail, 168h            hold  R/call -0.205  R/bet +0.036 (t +0.57)  won 21.1%  random R/call -0.149  excess/bet +0.209 (t +2.95)
+   C5 breakeven at +1R, then trail, 168h  tune  R/call -0.122  R/bet +0.018 (t +0.41)  won 20.6%  random R/call -0.166  excess/bet +0.205 (t +3.99)
+   C5 breakeven at +1R, then trail, 168h  hold  R/call -0.199  R/bet +0.003 (t +0.06)  won 18.8%  random R/call -0.142  excess/bet +0.169 (t +2.64)
+   C6 2 ATR trail from the start, 72h     tune  R/call -0.061  R/bet +0.057 (t +2.20)  won 32.5%  random R/call -0.095  excess/bet +0.157 (t +5.33)
+   C6 2 ATR trail from the start, 72h     hold  R/call -0.116  R/bet +0.015 (t +0.46)  won 31.2%  random R/call -0.086  excess/bet +0.102 (t +2.83)
+
+   by rule, C4 (stop + 3 ATR trail, 168h), R/call tune | hold: SR -0.104 | -0.217  FIB -0.034 | +0.029  SMC -0.160 | -0.244
+
+VERDICT: direction right = False; exits that pass the bar: none
+
+REGISTERED PREDICTIONS
+  T1 direction NOT right at 24h (excess +0.270% t +3.23 / +0.157% t +1.74) -> RIGHT
+  T2 MFE no larger than random on both halves (-0.040 t -0.44 / -0.148 t -1.58) -> RIGHT
+  T3 no C exit passes -> RIGHT
+  T4 every C exit negative per call on both halves -> RIGHT
+  T5 |excess| < 0.05R on the holdout for >= 4 of 6 exits (3) -> WRONG

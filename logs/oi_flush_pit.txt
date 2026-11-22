@@ -1,0 +1,33 @@
+backtest/oi_flush_pit.py, 2026-11-12 18:26 UTC; PIT top-40 incl. dead coins; 15471 events on 357 coins, 2020-02-15 .. 2026-09-21
+   open interest found at both ends for 10857 events (70%) on 341 coins, 2020-09-04 .. 2026-09-21; holdout from 2024-12-10
+   open interest over the fall's 24 hours: median -1.8%, 10th -12.0%, 90th +7.4%;  FLUSH 14%  MID 47%  BUILD 39%
+   exits cut short by a delisting / halt: 9
+
+   group                       half     n  days    gross      net t(day)   won  target    worst
+   ALL split                   tune  6514   816   +0.19%   +0.10%  +0.25   66%     61%   -99.5%
+   ALL split                holdout  4343   600   -0.33%   -0.29%  -0.80   64%     60%   -85.4%
+   FLUSH                       tune  1131   469   +0.40%   +0.30%  +0.74   64%     60%   -99.4%
+   FLUSH                    holdout   394   239   -1.29%   -1.01%  -1.03   64%     61%   -69.6%
+   MID                         tune  3100   604   +0.53%   +0.42%  +1.09   66%     62%   -51.5%
+   MID                      holdout  2006   493   +0.10%   +0.11%  +0.29   64%     60%   -85.4%
+   BUILD                       tune  2283   555   -0.38%   -0.43%  -0.79   65%     60%   -99.5%
+   BUILD                    holdout  1943   488   -0.58%   -0.57%  -1.27   64%     60%   -81.4%
+   NO_OI (before archive)         -  4614   475   +1.87%   +1.68%  +4.05   75%     72%   -49.0%
+
+   FLUSH minus BUILD, tune: +0.74% a trade (day-clustered t +1.38);  rank correlation of the open-interest change with the result: -0.009
+   FLUSH minus BUILD, holdout: -0.44% a trade (day-clustered t -0.44);  rank correlation of the open-interest change with the result: -0.019
+   minimum detectable edge for FLUSH on the holdout (2.8 x se): 2.73% a trade
+
+   FLUSH by year (n, net): 2020 2 +3.00%  2021 50 +0.84%  2022 422 -0.47%  2023 364 +0.57%  2024 313 +0.77%  2025 237 -0.32%  2026 137 -2.04%
+   BUILD by year (n, net): 2021 137 +0.10%  2022 1026 -1.35%  2023 336 +0.85%  2024 848 -0.21%  2025 1258 -0.10%  2026 621 -1.14%
+   ALL drops by year (n, net, incl. NO_OI): 2020 1312 +0.83%  2021 3607 +1.83%  2022 2636 -0.91%  2023 1341 +1.34%  2024 2411 +0.36%  2025 2715 +0.07%  2026 1449 -0.70%
+
+VERDICT: no pass
+
+REGISTERED PREDICTIONS
+  P1 55-75% of events split (70%) -> RIGHT
+  P2 FLUSH 8-18% of split events (14%) -> RIGHT
+  P3 all drops -0.5..+0.5% a trade each half (+0.10% / -0.29%) -> RIGHT
+  P4 FLUSH > BUILD both halves (+0.74% / -0.44%; stated 45%); pass stated 20% -> verdict no pass
+  P5 deepest third beats the shallowest on both halves (+0.86 vs -0.53 / +0.15 vs -0.39) -> RIGHT (the flush-inside-thirds half is in oi_flush_pit_check)
+  P6 FLUSH holdout without its 5 best days under half its mean (-2.23% vs -1.01%) -> RIGHT

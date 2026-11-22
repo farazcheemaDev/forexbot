@@ -1,0 +1,80 @@
+backtest/candle_scan_check.py, 2026-11-01 20:50 UTC; 364 PIT coins; tune < 2024-08-29; POST-HOC checks of cells picked from candle_scan.txt
+
+1h H1 THREE_BLACK long   trades 6,442
+   net 12bp      tune/hold   +0.13% t +2.8 /  +0.12% t +2.4
+   net 25bp      tune/hold   -0.00% t -0.1 /  -0.01% t -0.2
+   excess (day)  tune/hold   +0.28% t +6.3 /  +0.27% t +5.3
+   excess (slot) tune/hold   +0.04% t +1.9 /  +0.10% t +2.3
+   excess, 10 best days out  +0.22% t +8.0 /  +0.22% t +5.1
+   by year  net / excess:  2020:+0.11/+0.27  2021:+0.30/+0.46  2022:+0.11/+0.29  2023:+0.04/+0.17  2024:+0.15/+0.29  2025:+0.15/+0.31  2026:+0.04/+0.18
+   coins 15, positive excess 15, biggest coin = 13% of the positive total
+
+1h H1 THREE_WHITE short   trades 7,026
+   net 12bp      tune/hold   +0.06% t +2.1 /  +0.10% t +1.9
+   net 25bp      tune/hold   -0.07% t -2.2 /  -0.03% t -0.6
+   excess (day)  tune/hold   +0.23% t +7.5 /  +0.24% t +4.7
+   excess (slot) tune/hold   +0.10% t +4.0 /  +0.07% t +1.6
+   excess, 10 best days out  +0.20% t +7.2 /  +0.19% t +4.1
+   by year  net / excess:  2020:+0.18/+0.36  2021:+0.08/+0.27  2022:+0.01/+0.17  2023:+0.05/+0.20  2024:+0.02/+0.18  2025:+0.07/+0.21  2026:+0.16/+0.29
+   coins 19, positive excess 19, biggest coin = 13% of the positive total
+
+1h H5 DOJI_UP short   trades 89,915
+   net 12bp      tune/hold   +0.08% t +2.4 /  +0.06% t +1.5
+   net 25bp      tune/hold   -0.05% t -1.6 /  -0.07% t -1.9
+   excess (day)  tune/hold   +0.23% t+10.8 /  +0.16% t +6.3
+   excess (slot) tune/hold   -0.01% t -1.7 /  -0.01% t -0.5
+   excess, 10 best days out  +0.20% t+10.5 /  +0.16% t +6.3
+   by year  net / excess:  2020:+0.05/+0.23  2021:+0.11/+0.35  2022:+0.15/+0.18  2023:-0.00/+0.17  2024:+0.08/+0.23  2025:+0.12/+0.19  2026:-0.04/+0.07
+   coins 147, positive excess 122, biggest coin = 3% of the positive total
+
+4h H5 BULL_ENGULF short   trades 36,438
+   net 12bp      tune/hold   +0.16% t +1.7 /  +0.28% t +2.0
+   net 25bp      tune/hold   +0.03% t +0.3 /  +0.15% t +1.1
+   excess (day)  tune/hold   +0.44% t +8.3 /  +0.34% t +4.0
+   excess (slot) tune/hold   -0.00% t -0.1 /  -0.00% t -0.1
+   excess, 10 best days out  +0.39% t +7.8 /  +0.32% t +3.8
+   by year  net / excess:  2020:-0.08/+0.38  2021:-0.21/+0.42  2022:+0.56/+0.37  2023:+0.11/+0.44  2024:+0.30/+0.50  2025:+0.60/+0.54  2026:+0.02/+0.09
+   coins 87, positive excess 81, biggest coin = 4% of the positive total
+
+4h H5 BEAR_ENGULF long   trades 38,751
+   net 12bp      tune/hold   +0.31% t +3.0 /  +0.02% t +0.2
+   net 25bp      tune/hold   +0.18% t +1.7 /  -0.11% t -0.8
+   excess (day)  tune/hold   +0.34% t +6.7 /  +0.22% t +3.2
+   excess (slot) tune/hold   -0.06% t -2.4 /  -0.08% t -1.6
+   excess, 10 best days out  +0.30% t +6.2 /  +0.18% t +2.8
+   by year  net / excess:  2020:+0.23/+0.17  2021:+0.73/+0.37  2022:-0.08/+0.42  2023:+0.48/+0.41  2024:+0.29/+0.35  2025:-0.04/+0.29  2026:-0.21/-0.02
+   coins 88, positive excess 80, biggest coin = 4% of the positive total
+
+4h H5 BEAR_HARAMI short   trades 25,587
+   net 12bp      tune/hold   +0.17% t +1.6 /  +0.34% t +2.3
+   net 25bp      tune/hold   +0.04% t +0.3 /  +0.21% t +1.4
+   excess (day)  tune/hold   +0.43% t +7.2 /  +0.41% t +4.0
+   excess (slot) tune/hold   -0.02% t -0.6 /  +0.06% t +0.7
+   excess, 10 best days out  +0.38% t +6.6 /  +0.36% t +3.8
+   by year  net / excess:  2020:-0.06/+0.39  2021:-0.08/+0.54  2022:+0.63/+0.43  2023:-0.06/+0.25  2024:+0.42/+0.60  2025:+0.58/+0.51  2026:+0.02/+0.14
+   coins 67, positive excess 54, biggest coin = 5% of the positive total
+
+4h H5 DOJI_UP short   trades 23,364
+   net 12bp      tune/hold   +0.34% t +3.2 /  +0.17% t +1.0
+   net 25bp      tune/hold   +0.21% t +1.9 /  +0.04% t +0.3
+   excess (day)  tune/hold   +0.63% t +9.1 /  +0.28% t +2.4
+   excess (slot) tune/hold   -0.03% t -0.5 /  -0.07% t -0.6
+   excess, 10 best days out  +0.56% t +8.9 /  +0.20% t +1.9
+   by year  net / excess:  2020:+0.14/+0.58  2021:+0.31/+0.94  2022:+0.90/+0.74  2023:+0.08/+0.43  2024:-0.01/+0.27  2025:+0.38/+0.37  2026:+0.16/+0.27
+   coins 59, positive excess 53, biggest coin = 4% of the positive total
+
+4h H1 HANGING_MAN short   trades 5,963
+   net 12bp      tune/hold   +0.01% t +0.2 /  +0.21% t +1.9
+   net 25bp      tune/hold   -0.12% t -1.7 /  +0.08% t +0.7
+   excess (day)  tune/hold   +0.22% t +3.5 /  +0.35% t +3.2
+   excess (slot) tune/hold   +0.03% t +0.6 /  +0.09% t +1.0
+   excess, 10 best days out  +0.19% t +3.1 /  +0.20% t +2.2
+   by year  net / excess:  2020:-0.25/-0.05  2021:+0.20/+0.52  2022:+0.23/+0.35  2023:-0.01/+0.17  2024:-0.13/+0.04  2025:+0.15/+0.28  2026:+0.39/+0.50
+   coins 15, positive excess 14, biggest coin = 16% of the positive total
+
+REGISTERED (post-hoc cells)
+  S1 slot-matched excess keeps >= half of the day-matched excess (4h cells) -> WRONG
+  Y1 excess positive in >= 5 of 7 years (4h H5 cells) -> RIGHT
+  C1 at 25bp the 4h H5 cells stay net positive on both halves (no); the 1h THREE_BLACK cell does not (right) -> WRONG
+  D1 excess positive on both halves with the 10 best days removed (every cell) -> RIGHT
+  N1 > 60% of coins positive and no coin over 15% of the positive total (every cell) -> WRONG

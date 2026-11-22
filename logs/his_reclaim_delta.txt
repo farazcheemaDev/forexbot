@@ -1,0 +1,24 @@
+backtest/his_reclaim_delta.py, 2026-11-21 23:45 UTC; 181 tick days, split 2026-06-04; reclaim moments with an aggressive first push: 18,201 (race won 51.0%); with a divergence 38%
+
+                                        tune           holdout
+  WITH a divergence           49.9% of 4,160    52.6% of 2,755
+  without                     50.3% of 6,977    52.5% of 4,309
+  push 2 weakest third                 50.0%             52.4%
+  middle third                         50.4%             53.5%
+  push 2 strongest third               50.0%             51.5%
+
+  HIS RECLAIMS: 7; with a divergence 3; won 7
+    2026-02-17 SELL push-1 aggression   +282  push-2    +88  DIVERGENCE  won
+    2026-02-27 BUY  push-1 aggression    +89  push-2   +132  no divergence  won
+    2026-03-02 BUY  push-1 aggression    +65  push-2    +69  no divergence  won
+    2026-04-06 BUY  push-1 aggression   +199  push-2    -17  DIVERGENCE  won
+    2026-06-05 BUY  push-1 aggression   +222  push-2   +101  DIVERGENCE  won
+    2026-07-01 SELL push-1 aggression   +206  push-2   +304  no divergence  won
+    2026-09-14 SELL push-1 aggression    +35  push-2   +114  no divergence  won
+
+  CHECK: the stand-in's divergence flag = the real CME tape's on 61 of 71 sitting moments (86%)
+
+REGISTERED PREDICTIONS
+  D1 divergence beats no-divergence by <= 3 points on both halves, neither >= 56% -> RIGHT (-0.4 | +0.1 points)
+  D2 his reclaims at most 5 of 7 divergences -> RIGHT (3 of 7)
+  D3 stand-in agrees with the tape on >= 65% -> RIGHT

@@ -1,0 +1,37 @@
+backtest/liq_sweep.py, 2026-11-15 11:21 UTC; sweep_confluence.py's sweeps x the liquidation map and real open interest; T24 primary, TP2 beside; 12bp + funding; halves split 2024-04-07
+
+COVERAGE: 43846 sweeps from 2022-02-01 on 339 coins (2 coins with no open interest); matched to a bar 43687; kept (map run >= 14 days, both readings) 43500: long 20972, short 22528
+CHECK: the stop distance recomputed from the matched bars equals the cached one on 100.00% of kept events
+
+long : liq median 0.47% of open interest (cut 0.98%), flush median +0.03% (cut +0.47%); rank correlation liq vs flush +0.074
+short: liq median 0.48% of open interest (cut 1.09%), flush median +0.11% (cut +0.52%); rank correlation liq vs flush -0.043
+
+STAGE 1 - one factor at a time (flagged = at or above the tune 2/3 cut); spread = flagged minus unflagged T24 net
+  LONG liq     tune  -0.17% (t -1.2)  holdout  -0.06% (t -0.4)  Holm 1.00
+  LONG flush   tune  -0.08% (t -0.6)  holdout  -0.04% (t -0.3)  Holm 1.00
+  SHORT liq    tune  -0.26% (t -2.8)  holdout  -0.03% (t -0.3)  Holm 1.00
+  SHORT flush  tune  +0.11% (t +1.2)  holdout  +0.15% (t +1.5)  Holm 0.26
+
+SUBSETS (T24 net per trade, t by day; spread over the same side's unflagged sweeps; excess over the random control) - tune / holdout
+  LONG liq      2896/3339  NET  -18.2 (-1.1) /  -24.6bp (-1.5)  SPREAD  -16.8 (-1.2) /   -6.5bp (-0.4)  EXCESS  +18.4 /   -4.0bp  TP2  -17.6 /  -14.3bp  holm 1.00
+  LONG flush    2896/3008  NET  -12.5 (-0.7) /  -22.8bp (-1.6)  SPREAD   -8.2 (-0.6) /   -3.9bp (-0.3)  EXCESS  +12.6 /   +8.4bp  TP2   -8.9 /   -8.8bp  holm 1.00
+  LONG both     1250/1174  NET  -26.7 (-1.2) /  -30.8bp (-1.4)  SPREAD  -25.3 (-1.2) /  -12.5bp (-0.6)  EXCESS   +7.0 /  +11.1bp  TP2  -12.8 /   -4.0bp  holm 1.00
+  SHORT liq     3472/3011  NET  -21.1 (-2.2) /   -7.5bp (-0.6)  SPREAD  -25.6 (-2.8) /   -3.1bp (-0.3)  EXCESS   +0.6 /  +15.5bp  TP2  -15.0 /  -15.4bp  holm 1.00
+  SHORT flush   3472/3465  NET   +3.4 (+0.3) /   +5.8bp (+0.5)  SPREAD  +11.2 (+1.2) /  +15.4bp (+1.5)  EXCESS  +21.9 /  +19.5bp  TP2  -12.2 /   -8.9bp  holm 1.00
+  SHORT both    1209/1099  NET  -15.5 (-1.0) /   -5.5bp (-0.3)  SPREAD  -15.7 (-1.0) /   +4.4bp (+0.2)  EXCESS   +4.5 /  +38.4bp  TP2  -15.6 /  -15.9bp  holm 1.00
+  LONG all      8687/12285 NET   -7.0 /  -19.9bp  (every kept sweep)
+  SHORT all    10414/12114 NET   -4.0 /   -5.2bp  (every kept sweep)
+
+PASSING: 0 of 6
+REGISTERED PREDICTIONS
+  S1 no subset passes -> RIGHT
+  S2 rank correlation of liq and flush positive on both sides -> WRONG (long +0.074, short -0.043)
+  S3 0 of 4 stage-1 cells confirmed -> RIGHT (0)
+  S4 every subset's T24 holdout net under +0.10% -> RIGHT
+  S5 long flush-flagged sweeps no better than the rest on the holdout -> RIGHT (spread -3.9bp)
+run time 476s
+
+POST HOC (added after the first run, which found liq and the real open-interest fall nearly unrelated): rank correlations
+  long  liq vs the wick's depth in ATR (sweep_confluence F1) +0.604, vs the stop distance +0.455, vs the bar's volume ratio (F2) +0.376; flush vs depth +0.090, vs volume +0.028
+  short liq vs the wick's depth in ATR (sweep_confluence F1) +0.580, vs the stop distance +0.513, vs the bar's volume ratio (F2) +0.457; flush vs depth -0.009, vs volume +0.002
+  -> the map's estimate is mostly how deep the wick went (already F1, not confirmed in sweep_confluence.py); the real open-interest change is a different, unrelated quantity

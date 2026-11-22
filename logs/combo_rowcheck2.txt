@@ -1,0 +1,47 @@
+backtest/combo_rowcheck2.py, 2026-11-15 06:16 UTC; per-CALL re-score of combo_universe's 27 cells (ridge P, hgb P, hgb P+E x 3 brackets x top 5 / 10 / 20%); fixed brackets, 12bp
+
+PER-CALL RESULTS (excess = selected calls' mean R minus the mean R of all calls of the same side(s); t over weekly clusters; 'bet' = the old gate's per-(day, side) excess)
+  G1 ridge P    top  5%  n  2788  selected +0.025 vs same-side -0.082 = +0.107 (t +2.4); halves selected +0.041 / +0.008   bet-level excess -0.012
+  G1 ridge P    top 10%  n  5576  selected -0.010 vs same-side -0.082 = +0.072 (t +2.2); halves selected +0.001 / -0.023   bet-level excess -0.027
+  G1 ridge P    top 20%  n 11152  selected -0.031 vs same-side -0.084 = +0.053 (t +2.2); halves selected -0.054 / -0.006   bet-level excess -0.021
+  G1 hgb   P    top  5%  n  2788  selected -0.072 vs same-side -0.088 = +0.016 (t +0.4); halves selected +0.004 / -0.156   bet-level excess +0.032
+  G1 hgb   P    top 10%  n  5576  selected -0.062 vs same-side -0.087 = +0.026 (t +0.9); halves selected -0.020 / -0.108   bet-level excess +0.004
+  G1 hgb   P    top 20%  n 11152  selected -0.048 vs same-side -0.088 = +0.041 (t +1.9); halves selected -0.048 / -0.048   bet-level excess +0.011
+  G1 hgb   P+E  top  5%  n  2696  selected -0.018 vs same-side -0.092 = +0.074 (t +1.8); halves selected -0.051 / +0.021   bet-level excess +0.098
+  G1 hgb   P+E  top 10%  n  5392  selected -0.044 vs same-side -0.092 = +0.048 (t +1.5); halves selected -0.074 / -0.008   bet-level excess +0.040
+  G1 hgb   P+E  top 20%  n 10784  selected -0.052 vs same-side -0.092 = +0.039 (t +1.6); halves selected -0.070 / -0.031   bet-level excess +0.045
+  G2 ridge P    top  5%  n  2788  selected -0.022 vs same-side -0.080 = +0.058 (t +1.2); halves selected -0.003 / -0.043   bet-level excess +0.033
+  G2 ridge P    top 10%  n  5576  selected -0.038 vs same-side -0.081 = +0.043 (t +1.1); halves selected -0.049 / -0.026   bet-level excess +0.006
+  G2 ridge P    top 20%  n 11152  selected -0.030 vs same-side -0.081 = +0.051 (t +1.8); halves selected -0.073 / +0.018   bet-level excess +0.033
+  G2 hgb   P    top  5%  n  2788  selected -0.035 vs same-side -0.084 = +0.049 (t +1.0); halves selected -0.004 / -0.071   bet-level excess +0.057
+  G2 hgb   P    top 10%  n  5576  selected -0.050 vs same-side -0.084 = +0.034 (t +1.0); halves selected -0.018 / -0.084   bet-level excess -0.003
+  G2 hgb   P    top 20%  n 11152  selected -0.065 vs same-side -0.084 = +0.019 (t +0.7); halves selected -0.053 / -0.078   bet-level excess +0.007
+  G2 hgb   P+E  top  5%  n  2696  selected -0.028 vs same-side -0.083 = +0.055 (t +1.1); halves selected -0.038 / -0.016   bet-level excess +0.111
+  G2 hgb   P+E  top 10%  n  5392  selected -0.024 vs same-side -0.084 = +0.059 (t +1.5); halves selected -0.032 / -0.015   bet-level excess +0.088
+  G2 hgb   P+E  top 20%  n 10784  selected -0.045 vs same-side -0.085 = +0.040 (t +1.4); halves selected -0.016 / -0.078   bet-level excess +0.075
+  G3 ridge P    top  5%  n  2786  selected -0.029 vs same-side -0.054 = +0.026 (t +0.6); halves selected -0.048 / -0.008   bet-level excess -0.010
+  G3 ridge P    top 10%  n  5572  selected -0.047 vs same-side -0.054 = +0.007 (t +0.2); halves selected -0.065 / -0.027   bet-level excess -0.014
+  G3 ridge P    top 20%  n 11144  selected -0.047 vs same-side -0.054 = +0.006 (t +0.2); halves selected -0.071 / -0.021   bet-level excess -0.035
+  G3 hgb   P    top  5%  n  2786  selected +0.008 vs same-side -0.055 = +0.063 (t +1.3); halves selected -0.039 / +0.061   bet-level excess +0.057
+  G3 hgb   P    top 10%  n  5572  selected -0.007 vs same-side -0.055 = +0.047 (t +1.2); halves selected -0.055 / +0.045   bet-level excess +0.017
+  G3 hgb   P    top 20%  n 11144  selected -0.017 vs same-side -0.055 = +0.037 (t +1.2); halves selected -0.066 / +0.036   bet-level excess +0.016
+  G3 hgb   P+E  top  5%  n  2696  selected -0.064 vs same-side -0.054 = -0.010 (t -0.2); halves selected -0.160 / +0.050   bet-level excess +0.003
+  G3 hgb   P+E  top 10%  n  5392  selected -0.056 vs same-side -0.054 = -0.001 (t -0.0); halves selected -0.131 / +0.033   bet-level excess +0.058
+  G3 hgb   P+E  top 20%  n 10784  selected -0.037 vs same-side -0.054 = +0.018 (t +0.6); halves selected -0.092 / +0.029   bet-level excess +0.044
+  cells with a per-call selected mean >= +0.05R in BOTH halves: 0 of 27
+  best per-call excess: +0.107 (G1 ridge P top 5%); mean excess over the 27 cells +0.040; cells with excess >= +0.08: 1
+  panel signals added (hgb P+E minus hgb P, nine matched cells): mean -0.001, range -0.073..+0.058
+
+SHIFT-NULL for the cells with excess >= +0.08R and for the best cell
+  G1 ridge P top 5%: excess +0.107 (t +2.4), halves selected +0.041 / +0.008; shift p 0.005 (Bonferroni over 63: 0.31)  not a lead
+
+OUT-OF-UNIVERSE TEST of the best cell: G1 ridge P top 5% - the model frozen on the five majors, applied to the point-in-time top-40 outside them
+  wide universe: 357 perpetuals outside the five
+  frozen ridge P G1 top 5%: 318,014 out-of-sample calls on 284 coins; selected 15906: per-call mean R -0.034 vs same-side -0.074 = excess +0.040 (weekly-cluster t +1.6)
+      halves: 2023-24 selected -0.012 (excess +0.042, t +1.1, n 8246);  2025-26 selected -0.058 (excess +0.036, t +1.1, n 7660)
+      by year, selected / excess (n): 2023 -0.067/-0.007(3847)  2024 +0.035/+0.087(4399)  2025 -0.033/+0.056(4474)  2026 -0.093/+0.006(3186)
+      side mix of the selected: {'short': 0.873, 'long': 0.127}; coins in the selection: 279 (the most frequent: {'ADAUSDT': 512, 'AVAXUSDT': 483, 'BCHUSDT': 478, 'LINKUSDT': 463, 'DOGEUSDT': 462})
+      selected mean R after extra slippage per trade: 0bp: -0.034, 3bp: -0.059, 6bp: -0.084, 10bp: -0.117
+      circular-shift null on the same-side excess: observed +0.040, null sd 0.014, p = 0.010 (200 shifts)
+
+PREDICTIONS: L1 cells with selected >= +0.05 in both halves = 0 of 27; L2 best excess +0.107 vs +0.135; L3 panel gain -0.001; L4 see the table; leads 0; out-of-universe excess +0.040, selected -0.034 -> not believed

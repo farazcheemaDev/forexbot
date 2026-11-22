@@ -1,0 +1,29 @@
+backtest/oi_flush_check.py, 2026-11-10 15:47 UTC (post hoc)
+
+C1 POOLED FLUSH: n  175 days 118 net +1.44% t +2.07; 29 trades a year on 13 coins; won 66%, hit +5% 59%, average loser -7.0%, worst -25.5%, median hold 48 h
+   median drop: FLUSH -9.4%  MID -8.8%  BUILD -8.7%
+
+C2 SAME-SIZE DROPS (thirds of the drop over all events): FLUSH | the rest
+   shallow     tune: n   29 days  27 net +0.55% t +0.42  |  n  381 days 247 net -0.33% t -0.65
+   shallow  holdout: n    8 days   8 net -0.19% t -0.06  |  n  263 days 140 net -1.09% t -1.49
+   middle      tune: n   37 days  34 net +1.94% t +1.58  |  n  370 days 224 net -0.27% t -0.45
+   middle   holdout: n   10 days  10 net +2.61% t +1.64  |  n  264 days 131 net +0.11% t +0.16
+   deep        tune: n   71 days  47 net +0.80% t +0.83  |  n  338 days 171 net +1.71% t +2.41
+   deep     holdout: n   20 days  11 net +4.19% t +2.28  |  n  253 days 104 net +2.19% t +3.67
+
+C3 PLATEAU (open interest down at least ...):
+     -5.0%  tune n  373 days 225 net +0.96% t +2.12   holdout n  145 days  85 net +1.44% t +1.89
+     -7.5%  tune n  239 days 152 net +1.17% t +2.11   holdout n   75 days  53 net +2.49% t +2.84
+    -10.0%  tune n  137 days  92 net +1.05% t +1.38   holdout n   38 days  26 net +2.85% t +1.97
+    -12.5%  tune n   90 days  69 net +0.46% t +0.50   holdout n   23 days  12 net +4.17% t +2.29
+    -15.0%  tune n   56 days  43 net +0.51% t +0.42   holdout n   15 days   7 net +3.43% t +1.49
+
+C4 SAME DAY (days with both kinds): mean of the day's FLUSH trades minus the day's others
+       tune: 59 days, +0.61% (t +0.65), FLUSH better on 44% of them
+    holdout: 19 days, +1.70% (t +1.62), FLUSH better on 74% of them
+
+C5 WITHOUT THE 5 BEST DAYS (by summed FLUSH result):
+       tune: n  115 days  87 net +0.34% t +0.41
+    holdout: n   21 days  21 net -0.72% t -0.50
+
+BY COIN (FLUSH, n, net): ADA 11 +2.3%  ARB 11 +0.6%  AVAX 8 +2.1%  BTC 10 +0.9%  DOT 5 -3.2%  ENA 5 +7.3%  ETH 2 +5.1%  LINK 20 +2.9%  LTC 14 +1.1%  NEAR 20 -0.6%  SUI 23 +1.4%  WLD 25 +1.4%  XRP 21 +1.7%

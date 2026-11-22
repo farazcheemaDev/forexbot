@@ -1,0 +1,71 @@
+backtest/combo_universe.py, 2026-11-15 01:50 UTC; fixed brackets at every 6th hour, 5 markets, both sides; walk-forward quarterly folds from 2023-01-01; 12bp fee
+
+=== G1: stop 1.2% / target 2.4% / 24h: 70,350 candidates, win 26.2%, mean R -0.103 (out of sample 55,760: -0.097; long -0.115, short -0.079); 2023-24 -0.099, 2025-26 -0.094
+  fee-free out-of-sample rank IC (prediction vs R + fee/stop): ridge P +0.048   hgb P +0.039   hgb P+E +0.036
+    ridge P   IC vs R +0.048; 2023-24 +0.034, 2025-26 +0.065
+    hgb P     IC vs R +0.039; 2023-24 +0.036, 2025-26 +0.045
+    hgb P+E   IC vs R +0.036; 2023-24 +0.030, 2025-26 +0.046
+
+=== G2: stop 1.2% / target 3.6% / 24h: 70,350 candidates, win 15.7%, mean R -0.096 (out of sample 55,760: -0.089; long -0.103, short -0.075); 2023-24 -0.095, 2025-26 -0.082
+  fee-free out-of-sample rank IC (prediction vs R + fee/stop): ridge P +0.055   hgb P +0.034   hgb P+E +0.042
+    ridge P   IC vs R +0.055; 2023-24 +0.047, 2025-26 +0.066
+    hgb P     IC vs R +0.034; 2023-24 +0.036, 2025-26 +0.032
+    hgb P+E   IC vs R +0.042; 2023-24 +0.047, 2025-26 +0.035
+
+=== G3: stop 2.0% / target 4.0% / 48h: 70,310 candidates, win 24.4%, mean R -0.058 (out of sample 55,720: -0.057; long -0.062, short -0.051); 2023-24 -0.064, 2025-26 -0.048
+  fee-free out-of-sample rank IC (prediction vs R + fee/stop): ridge P +0.034   hgb P +0.038   hgb P+E +0.023
+    ridge P   IC vs R +0.034; 2023-24 +0.024, 2025-26 +0.045
+    hgb P     IC vs R +0.038; 2023-24 +0.018, 2025-26 +0.064
+    hgb P+E   IC vs R +0.023; 2023-24 +0.012, 2025-26 +0.041
+
+THE 27 CELLS (selected = top fraction by predicted R in each fold; difference = selected bets' mean R minus all bets' mean R; Holm over all 27)
+  G1 ridge P   top  5%  n   2788 bets  885/2788  selected -0.108 vs all -0.097 = -0.012 (t -0.3)  hit 30.8% vs 26.2%  halves diff +0.022 / -0.046, selected -0.077 / -0.141  Holm 1.000  no
+  G1 ridge P   top 10%  n   5576 bets 1328/2788  selected -0.124 vs all -0.097 = -0.027 (t -0.9)  hit 28.9% vs 26.2%  halves diff +0.002 / -0.053, selected -0.096 / -0.148  Holm 1.000  no
+  G1 ridge P   top 20%  n  11152 bets 1859/2788  selected -0.118 vs all -0.097 = -0.021 (t -0.8)  hit 27.1% vs 26.0%  halves diff -0.016 / -0.027, selected -0.114 / -0.121  Holm 1.000  no
+  G1 hgb P     top  5%  n   2788 bets 1014/2788  selected -0.065 vs all -0.097 = +0.032 (t +0.8)  hit 26.8% vs 25.8%  halves diff +0.105 / -0.050, selected +0.006 / -0.144  Holm 1.000  no
+  G1 hgb P     top 10%  n   5576 bets 1492/2788  selected -0.093 vs all -0.097 = +0.004 (t +0.1)  hit 26.5% vs 25.8%  halves diff +0.056 / -0.052, selected -0.043 / -0.146  Holm 1.000  no
+  G1 hgb P     top 20%  n  11152 bets 2058/2788  selected -0.085 vs all -0.097 = +0.011 (t +0.4)  hit 26.7% vs 25.8%  halves diff +0.039 / -0.019, selected -0.059 / -0.113  Holm 1.000  no
+  G1 hgb P+E   top  5%  n   2696 bets  673/2696  selected +0.001 vs all -0.097 = +0.098 (t +2.3)  hit 28.2% vs 25.0%  halves diff +0.120 / +0.072, selected +0.021 / -0.024  Holm 0.294  no
+  G1 hgb P+E   top 10%  n   5392 bets 1074/2696  selected -0.058 vs all -0.097 = +0.040 (t +1.2)  hit 26.4% vs 25.1%  halves diff +0.084 / -0.013, selected -0.015 / -0.109  Holm 1.000  no
+  G1 hgb P+E   top 20%  n  10784 bets 1606/2696  selected -0.053 vs all -0.097 = +0.045 (t +1.6)  hit 26.1% vs 25.3%  halves diff +0.073 / +0.011, selected -0.025 / -0.085  Holm 1.000  no
+  G2 ridge P   top  5%  n   2788 bets  956/2788  selected -0.056 vs all -0.089 = +0.033 (t +0.7)  hit 16.3% vs 15.1%  halves diff +0.104 / -0.034, selected +0.009 / -0.116  Holm 1.000  no
+  G2 ridge P   top 10%  n   5576 bets 1394/2788  selected -0.083 vs all -0.089 = +0.006 (t +0.2)  hit 15.9% vs 15.0%  halves diff +0.019 / -0.006, selected -0.076 / -0.089  Holm 1.000  no
+  G2 ridge P   top 20%  n  11152 bets 1926/2788  selected -0.057 vs all -0.089 = +0.033 (t +1.1)  hit 15.5% vs 15.0%  halves diff +0.049 / +0.016, selected -0.046 / -0.066  Holm 1.000  no
+  G2 hgb P     top  5%  n   2788 bets 1021/2788  selected -0.033 vs all -0.089 = +0.057 (t +1.3)  hit 17.1% vs 14.8%  halves diff +0.078 / +0.033, selected -0.017 / -0.049  Holm 1.000  no
+  G2 hgb P     top 10%  n   5576 bets 1541/2788  selected -0.092 vs all -0.089 = -0.003 (t -0.1)  hit 16.3% vs 14.8%  halves diff +0.031 / -0.040, selected -0.064 / -0.123  Holm 1.000  no
+  G2 hgb P     top 20%  n  11152 bets 2117/2788  selected -0.083 vs all -0.089 = +0.007 (t +0.2)  hit 15.2% vs 14.8%  halves diff +0.026 / -0.015, selected -0.069 / -0.097  Holm 1.000  no
+  G2 hgb P+E   top  5%  n   2696 bets  657/2696  selected +0.022 vs all -0.089 = +0.111 (t +2.2)  hit 17.0% vs 14.4%  halves diff +0.157 / +0.056, selected +0.061 / -0.026  Holm 0.369  no
+  G2 hgb P+E   top 10%  n   5392 bets 1056/2696  selected -0.001 vs all -0.089 = +0.088 (t +2.2)  hit 16.3% vs 14.5%  halves diff +0.161 / +0.008, selected +0.065 / -0.075  Holm 0.344  no
+  G2 hgb P+E   top 20%  n  10784 bets 1621/2696  selected -0.014 vs all -0.089 = +0.075 (t +2.3)  hit 15.3% vs 14.6%  halves diff +0.169 / -0.025, selected +0.074 / -0.107  Holm 0.259  no
+  G3 ridge P   top  5%  n   2786 bets  974/2786  selected -0.067 vs all -0.057 = -0.010 (t -0.3)  hit 24.9% vs 23.3%  halves diff +0.001 / -0.022, selected -0.063 / -0.070  Holm 1.000  no
+  G3 ridge P   top 10%  n   5572 bets 1407/2786  selected -0.071 vs all -0.057 = -0.014 (t -0.4)  hit 24.1% vs 23.2%  halves diff +0.023 / -0.050, selected -0.041 / -0.098  Holm 1.000  no
+  G3 ridge P   top 20%  n  11144 bets 1909/2786  selected -0.092 vs all -0.057 = -0.035 (t -1.3)  hit 23.4% vs 23.2%  halves diff -0.031 / -0.040, selected -0.095 / -0.089  Holm 1.000  no
+  G3 hgb P     top  5%  n   2786 bets  944/2786  selected +0.001 vs all -0.057 = +0.057 (t +1.4)  hit 27.0% vs 23.1%  halves diff +0.061 / +0.054, selected -0.004 / +0.006  Holm 1.000  no
+  G3 hgb P     top 10%  n   5572 bets 1445/2786  selected -0.040 vs all -0.057 = +0.017 (t +0.5)  hit 25.7% vs 23.1%  halves diff +0.007 / +0.028, selected -0.057 / -0.020  Holm 1.000  no
+  G3 hgb P     top 20%  n  11144 bets 2004/2786  selected -0.040 vs all -0.057 = +0.016 (t +0.6)  hit 24.7% vs 23.1%  halves diff +0.027 / +0.005, selected -0.037 / -0.043  Holm 1.000  no
+  G3 hgb P+E   top  5%  n   2696 bets  586/2696  selected -0.053 vs all -0.055 = +0.003 (t +0.1)  hit 22.5% vs 22.7%  halves diff -0.030 / +0.038, selected -0.094 / -0.007  Holm 1.000  no
+  G3 hgb P+E   top 10%  n   5392 bets 1015/2696  selected +0.003 vs all -0.055 = +0.058 (t +1.6)  hit 22.4% vs 22.6%  halves diff +0.039 / +0.080, selected -0.025 / +0.035  Holm 1.000  no
+  G3 hgb P+E   top 20%  n  10784 bets 1586/2696  selected -0.011 vs all -0.055 = +0.044 (t +1.5)  hit 23.0% vs 22.7%  halves diff +0.044 / +0.043, selected -0.020 / -0.002  Holm 1.000  no
+  cells passing: 0 of 27
+  best cell by difference: G2 hgb P+E top 5%: +0.111 (t +2.2); selected R/bet +0.061 in 2023-24 and -0.026 in 2025-26
+
+POWER CHECK (G1, ridge P, top 10%): a planted skill of +0.10R per sd of the rank-normal direction-aligned 24h return, and shuffled labels
+  planted +0.10R / sd        selected -0.080 vs all -0.097 = +0.017 (Welch t +0.6), halves +0.005 / +0.032
+  planted +0.05R / sd        selected -0.151 vs all -0.097 = -0.055 (Welch t -1.8), halves -0.072 / -0.036
+  placebo (shuffled labels)  selected -0.072 vs all -0.099 = +0.026 (Welch t +1.1), halves +0.048 / -0.004
+
+THE LIVE FORWARD CALLS (the desk's own 92 resolved crypto calls, never seen by any fit): models trained on ALL candidates of each bracket up to 2026-10-25, applied to the live calls' own features
+  G1 ridge top 33%: n 31 bets 15  selected +0.12 vs all -0.04 = +0.16 (Welch t +0.4)  hit 26% vs random 25%
+  G1 ridge top 50%: n 46 bets 19  selected +0.07 vs all -0.04 = +0.10 (Welch t +0.3)  hit 24% vs random 24%
+  G1 hgb   top 33%: n 31 bets 14  selected +0.28 vs all -0.04 = +0.32 (Welch t +0.8)  hit 26% vs random 22%
+  G1 hgb   top 50%: n 46 bets 20  selected -0.06 vs all -0.04 = -0.02 (Welch t -0.1)  hit 20% vs random 23%
+  G2 ridge top 33%: n 31 bets 13  selected +0.09 vs all -0.04 = +0.12 (Welch t +0.3)  hit 23% vs random 25%
+  G2 ridge top 50%: n 46 bets 18  selected +0.29 vs all -0.04 = +0.32 (Welch t +0.8)  hit 28% vs random 24%
+  G2 hgb   top 33%: n 31 bets 16  selected +0.02 vs all -0.04 = +0.05 (Welch t +0.1)  hit 23% vs random 23%
+  G2 hgb   top 50%: n 46 bets 22  selected +0.13 vs all -0.04 = +0.17 (Welch t +0.5)  hit 26% vs random 21%
+  G3 ridge top 33%: n 31 bets 16  selected -0.04 vs all -0.04 = -0.01 (Welch t -0.0)  hit 19% vs random 24%
+  G3 ridge top 50%: n 46 bets 19  selected -0.04 vs all -0.04 = -0.00 (Welch t -0.0)  hit 22% vs random 24%
+  G3 hgb   top 33%: n 31 bets 22  selected -0.16 vs all -0.04 = -0.13 (Welch t -0.4)  hit 26% vs random 21%
+  G3 hgb   top 50%: n 46 bets 24  selected -0.07 vs all -0.04 = -0.04 (Welch t -0.1)  hit 33% vs random 22%
+
+PREDICTIONS (registered before the run): U1 cells passing 0 of 27

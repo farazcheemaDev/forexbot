@@ -97,6 +97,18 @@ def futures_only_net(code: str) -> tuple:
     return float(r["m_money_positions_long_all"]) - float(r["m_money_positions_short_all"]), float(r["open_interest_all"]), r["report_date_as_yyyy_mm_dd"][:10]
 
 
+def roll_test_line(key: str) -> str | None:
+    """backtest/gold_roll.py's verdict (gold only so far): did the calendar spread move with managed money's pending roll before first notice?"""
+    f = ROOT / "logs" / "gold_roll.json"
+    if key != "GC" or not f.exists():
+        return None
+    j = json.loads(f.read_text())
+    r, d = j["result"], j["result"]["dS"]
+    return (f"ROLL TEST ({r['n']} gold cycles {r['first']} .. {r['last']}, open interest from the CME feed): {j['verdict']} - spread change vs roll share IC {d['ic']:+.2f} "
+            f"(tune {d['tune']:+.2f}, holdout {d['hold']:+.2f}), permutation p {d['p']:.2f}; only {d['n_short']} of the cycles had a net SHORT crowd, so the short side is untested "
+            f"(palladium and platinum have far more)")
+
+
 def verdicts() -> dict:
     if TEST_JSON.exists():
         return json.loads(TEST_JSON.read_text())
@@ -139,6 +151,9 @@ def main():
             out(f"  CME {cme['date']}: {cme['active']} holds {cme['active_oi']:,.0f} of {cme['total_oi']:,.0f} open interest ({cme['share'] * 100:.0f}%); first notice day {cme['fnd']} ({cme['days_to_fnd']} days){sp}.")
             out(f"  PENDING ROLL (arithmetic, not a price forecast): managed money's {abs(fut_net):,.0f} net FUTURES lots ({'short' if fut_net < 0 else 'long'}, CFTC futures-only report {fut_date}) = "
                 f"{roll['share_of_active'] * 100:.0f}% of that month's open interest must be rolled or closed before first notice -> the side that has to trade: {roll_side}.")
+        rt = roll_test_line(key)
+        if rt:
+            out(f"  {rt}")
         res[key] = dict(report=str(d.date()), side=side, net_lots=net_lots, mm_net=float(last["mm_net"]), rank=rank, bucket=bucket, hist=dict(n=n, mean=mean, up=hit, tune=mt, hold=mh),
                         verdict=verdict, cme=cme, roll=roll)
     out("")

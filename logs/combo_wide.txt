@@ -1,0 +1,44 @@
+backtest/combo_wide.py, 2026-11-15 02:18 UTC; the direction-only ridge (13 features) on the point-in-time top-40 perpetuals outside the five majors; G1 = 1.2% / 2.4% / 24h at every 6th hour, both sides, 12bp (no funding); top 5% per quarterly fold
+  360 coins were ever in the top 40 by the prior month's volume (the five majors excluded)
+  357 of them have a usable 1h history (8,026,841 bars)
+  wide candidates: 553,006 (343 coins, 2020-02 to 2026-09); out of sample 318,014; all-candidate mean R long -0.184, short -0.058
+  for reference the five majors' G1 all-candidate mean R long -0.115, short -0.079
+
+(A) FROZEN: the ridge trained on the FIVE MAJORS only, applied to the wide coins
+  A frozen: 318,014 out-of-sample calls on 284 coins; selected 15906: per-call mean R -0.108 vs same-side -0.082 = excess -0.026 (weekly-cluster t -1.1)
+      halves: 2023-24 selected -0.062 (excess +0.002, t +0.1, n 8246);  2025-26 selected -0.158 (excess -0.059, t -2.0, n 7660)
+      by year, selected / excess (n): 2023 -0.033/+0.031(3847)  2024 -0.088/-0.019(4399)  2025 -0.143/-0.045(4474)  2026 -0.179/-0.078(3186)
+      side mix of the selected: {'short': 0.807, 'long': 0.193}; coins in the selection: 284 (the most frequent: {'1000PEPEUSDT': 425, 'WLDUSDT': 388, 'SUIUSDT': 294, 'LINKUSDT': 284, 'DOGEUSDT': 276})
+      selected mean R after extra slippage per trade: 0bp: -0.108, 3bp: -0.133, 6bp: -0.158, 10bp: -0.192
+      circular-shift null on the same-side excess: observed -0.026, null sd 0.017, p = 0.831 (200 shifts)
+
+(B) NATIVE: a ridge trained walk-forward on the wide coins themselves
+  B native: 318,014 out-of-sample calls on 284 coins; selected 15906: per-call mean R -0.042 vs same-side -0.060 = excess +0.018 (weekly-cluster t +0.6)
+      halves: 2023-24 selected -0.021 (excess +0.027, t +0.6, n 8246);  2025-26 selected -0.065 (excess +0.008, t +0.2, n 7660)
+      by year, selected / excess (n): 2023 +0.004/+0.063(3847)  2024 -0.042/-0.005(4399)  2025 -0.043/+0.029(4474)  2026 -0.096/-0.021(3186)
+      side mix of the selected: {'short': 0.986, 'long': 0.014}; coins in the selection: 284 (the most frequent: {'1000PEPEUSDT': 388, 'DOGEUSDT': 380, 'AVAXUSDT': 377, 'ADAUSDT': 343, 'WLDUSDT': 340})
+      selected mean R after extra slippage per trade: 0bp: -0.042, 3bp: -0.067, 6bp: -0.092, 10bp: -0.125
+      circular-shift null on the same-side excess: observed +0.018, null sd 0.017, p = 0.124 (200 shifts)
+
+(C) FOR REFERENCE, the majors themselves with the SAME code path (should reproduce combo_ridge_dissect: selected +0.051, excess +0.135)
+  C majors: 55,760 out-of-sample calls on 5 coins; selected 2788: per-call mean R +0.051 vs same-side -0.084 = excess +0.135 (weekly-cluster t +3.1)
+      halves: 2023-24 selected +0.080 (excess +0.170, t +2.8, n 1462);  2025-26 selected +0.019 (excess +0.100, t +1.6, n 1326)
+      by year, selected / excess (n): 2023 -0.010/+0.092(730)  2024 +0.170/+0.250(732)  2025 +0.044/+0.132(730)  2026 -0.010/+0.058(596)
+      side mix of the selected: {'short': 0.853, 'long': 0.147}; coins in the selection: 5 (the most frequent: {'XRPUSDT': 674, 'SOLUSDT': 592, 'ETHUSDT': 531, 'BNBUSDT': 501, 'BTCUSDT': 490})
+      selected mean R after extra slippage per trade: 0bp: +0.051, 3bp: +0.026, 6bp: +0.001, 10bp: -0.032
+
+(D) THE OTHER TWO BRACKETS AND TOP 10% ON THE WIDE COINS (frozen model retrained per bracket on the majors; consistency of sign only)
+  A frozen G2: 318,014 out-of-sample calls on 284 coins; selected 15906: per-call mean R -0.074 vs same-side -0.071 = excess -0.003 (weekly-cluster t -0.1)
+      halves: 2023-24 selected -0.028 (excess +0.035, t +0.7, n 8246);  2025-26 selected -0.124 (excess -0.045, t -1.1, n 7660)
+      by year, selected / excess (n): 2023 -0.001/+0.066(3847)  2024 -0.052/+0.014(4399)  2025 -0.085/-0.008(4474)  2026 -0.178/-0.096(3186)
+      side mix of the selected: {'short': 0.743, 'long': 0.257}; coins in the selection: 284 (the most frequent: {'1000PEPEUSDT': 387, 'WLDUSDT': 369, 'WIFUSDT': 297, 'SUIUSDT': 296, 'DOGEUSDT': 286})
+      selected mean R after extra slippage per trade: 0bp: -0.074, 3bp: -0.099, 6bp: -0.124, 10bp: -0.158
+  A frozen G3: 317,718 out-of-sample calls on 284 coins; selected 15891: per-call mean R -0.024 vs same-side -0.024 = excess +0.001 (weekly-cluster t +0.0)
+      halves: 2023-24 selected -0.002 (excess +0.006, t +0.2, n 8246);  2025-26 selected -0.048 (excess -0.008, t -0.3, n 7645)
+      by year, selected / excess (n): 2023 -0.024/+0.005(3847)  2024 +0.018/+0.021(4399)  2025 -0.027/+0.009(4473)  2026 -0.077/-0.033(3172)
+      side mix of the selected: {'short': 0.755, 'long': 0.245}; coins in the selection: 283 (the most frequent: {'1000PEPEUSDT': 402, 'WLDUSDT': 361, 'SUIUSDT': 301, 'WIFUSDT': 301, 'DOGEUSDT': 279})
+      selected mean R after extra slippage per trade: 0bp: -0.024, 3bp: -0.039, 6bp: -0.054, 10bp: -0.074
+  A frozen G1 top 10%: selected -0.070 vs same-side -0.080 = excess +0.010 (t +0.5), n 31807
+  A frozen G1 top 20%: selected -0.065 vs same-side -0.079 = excess +0.015 (t +0.8), n 63608
+
+PREDICTIONS: E1 frozen excess -0.026; E2 absolute selected halves frozen -0.062 / -0.158, native -0.021 / -0.065; E3 native excess +0.018 (t +0.6); E4 2025-26 selected -0.158 / -0.065

@@ -1,0 +1,48 @@
+backtest/combo_meta.py, 2026-11-15 01:43 UTC; 10,081 replay calls (2022-02-10 .. 2026-10-25), 5 crypto markets; 55 candle features (P), 91 panel features (E); walk-forward quarterly folds from 2023-01-01, embargo 72h
+all calls out of sample: 8,220 calls, mean R -0.195 a call, hit 18.1% vs random 19.6%
+
+OUT-OF-SAMPLE RANK IC (day-block bootstrap 95% range) against: realised R / FEE-FREE R (R + 0.12% / stop: removes the stop-width tie-break among losers) / the win flag; plus the in-sample IC and the prediction's correlation with stop width
+  ridge P     R +0.251 [+0.227, +0.274] | fee-free R +0.071 | win flag +0.049 | in-sample +0.326 | corr with stop width +0.431
+  hgb P       R +0.206 [+0.183, +0.228] | fee-free R +0.053 | win flag +0.052 | in-sample +0.469 | corr with stop width +0.340
+  ridge P+E   R +0.196 [+0.170, +0.221] | fee-free R +0.047 | win flag +0.027 | in-sample +0.306 | corr with stop width +0.355
+  hgb P+E     R +0.204 [+0.179, +0.230] | fee-free R +0.049 | win flag +0.044 | in-sample +0.505 | corr with stop width +0.354
+  reference, ALL calls 2023-24: 4,237 calls, 1,318 bets, -0.166R a call, -0.040R a bet
+  reference, ALL calls 2025-26: 3,983 calls, 1,194 bets, -0.225R a call, -0.063R a bet
+
+THE 12 CELLS (selected = the top fraction by predicted R in each fold; uplift per bet = selected minus all calls of the same day + side)
+  ridge P     top 10%  n   830 bets  568/2512  selected R/bet -0.048 vs all -0.051 = +0.003 (Welch t +0.1)  hit 16.4% vs random 17.8%  halves: diff +0.004 / +0.003, selected -0.036 / -0.060  [within-bet uplift -0.015 (t -0.4)]  Holm p 1.000  no
+  ridge P     top 20%  n  1650 bets 1023/2512  selected R/bet -0.055 vs all -0.051 = -0.004 (Welch t -0.1)  hit 18.2% vs random 19.7%  halves: diff -0.005 / -0.003, selected -0.045 / -0.066  [within-bet uplift +0.017 (t +0.6)]  Holm p 1.000  no
+  ridge P     top 33%  n  2721 bets 1459/2512  selected R/bet -0.057 vs all -0.051 = -0.006 (Welch t -0.1)  hit 19.5% vs random 20.3%  halves: diff +0.027 / -0.039, selected -0.013 / -0.102  [within-bet uplift +0.014 (t +0.6)]  Holm p 1.000  no
+  hgb P       top 10%  n   830 bets  583/2512  selected R/bet -0.102 vs all -0.051 = -0.051 (Welch t -0.8)  hit 18.0% vs random 20.0%  halves: diff -0.031 / -0.072, selected -0.071 / -0.135  [within-bet uplift -0.017 (t -0.4)]  Holm p 1.000  no
+  hgb P       top 20%  n  1650 bets 1034/2512  selected R/bet -0.064 vs all -0.051 = -0.013 (Welch t -0.3)  hit 19.0% vs random 20.3%  halves: diff +0.050 / -0.079, selected +0.009 / -0.142  [within-bet uplift -0.009 (t -0.3)]  Holm p 1.000  no
+  hgb P       top 33%  n  2721 bets 1506/2512  selected R/bet -0.069 vs all -0.051 = -0.018 (Welch t -0.4)  hit 19.6% vs random 20.8%  halves: diff +0.039 / -0.077, selected -0.001 / -0.140  [within-bet uplift -0.015 (t -0.7)]  Holm p 1.000  no
+  ridge P+E   top 10%  n   802 bets  536/2434  selected R/bet -0.148 vs all -0.050 = -0.097 (Welch t -1.7)  hit 15.6% vs random 17.9%  halves: diff -0.074 / -0.123, selected -0.115 / -0.186  [within-bet uplift -0.022 (t -0.6)]  Holm p 1.000  no
+  ridge P+E   top 20%  n  1594 bets  938/2434  selected R/bet -0.088 vs all -0.050 = -0.038 (Welch t -0.8)  hit 17.5% vs random 18.7%  halves: diff +0.040 / -0.128, selected -0.000 / -0.190  [within-bet uplift +0.004 (t +0.1)]  Holm p 1.000  no
+  ridge P+E   top 33%  n  2628 bets 1369/2434  selected R/bet -0.082 vs all -0.050 = -0.031 (Welch t -0.7)  hit 17.8% vs random 19.5%  halves: diff +0.042 / -0.118, selected +0.002 / -0.180  [within-bet uplift +0.014 (t +0.7)]  Holm p 1.000  no
+  hgb P+E     top 10%  n   802 bets  552/2434  selected R/bet -0.136 vs all -0.050 = -0.086 (Welch t -1.4)  hit 20.2% vs random 20.7%  halves: diff -0.069 / -0.107, selected -0.109 / -0.170  [within-bet uplift +0.007 (t +0.2)]  Holm p 1.000  no
+  hgb P+E     top 20%  n  1594 bets  959/2434  selected R/bet -0.089 vs all -0.050 = -0.039 (Welch t -0.8)  hit 19.0% vs random 20.6%  halves: diff -0.000 / -0.084, selected -0.040 / -0.146  [within-bet uplift +0.026 (t +1.0)]  Holm p 1.000  no
+  hgb P+E     top 33%  n  2628 bets 1389/2434  selected R/bet -0.050 vs all -0.050 = +0.000 (Welch t +0.0)  hit 19.7% vs random 20.5%  halves: diff +0.082 / -0.093, selected +0.042 / -0.156  [within-bet uplift +0.021 (t +1.0)]  Holm p 1.000  no
+  cells passing: 0 of 12
+  best cell by difference: ridge P top 10%: out-of-sample selected -0.048 vs all -0.051 R a bet; the SAME model on its own training calls (in-sample): selected +0.068 vs all -0.057 (t +2.2)
+
+WHAT THE RICH SIGNALS ADD (IC of P+E minus P, same calls)
+  ridge: P +0.244  P+E +0.196  (on the 7,941 calls the panel covers)
+  hgb: P +0.199  P+E +0.204  (on the 7,941 calls the panel covers)
+
+POWER CHECK: the same pipeline on labels with a KNOWN skill planted (+0.25R per sd of the direction-aligned 24h return) and on a label-shuffled placebo (ridge P, top 20%)
+  planted                    selected +0.085 vs all +0.005 R a bet = +0.080 (Welch t +1.8), halves +0.084 / +0.076; within-bet uplift -0.043
+  placebo (shuffled labels)  selected -0.171 vs all -0.198 R a bet = +0.027 (Welch t +0.6), halves -0.010 / +0.071; within-bet uplift +0.007
+
+THE LIVE FORWARD CALLS (never seen by any fit; the P-set models trained on ALL replay calls up to 2026-10-25; candles to now)
+  92 resolved live crypto calls, 18 days; all calls: -0.061R a call, hit 25% vs random 18%
+  ridge P: IC +0.462;  top 33%: n 31 bets 22  selected R/bet +0.03 vs all -0.04 = +0.07 (Welch t +0.2)  hit 29% vs random 21%
+  ridge P: IC +0.462;  top 50%: n 46 bets 24  selected R/bet +0.16 vs all -0.04 = +0.20 (Welch t +0.6)  hit 39% vs random 21%
+  hgb P: IC +0.479;  top 33%: n 31 bets 18  selected R/bet +0.12 vs all -0.04 = +0.15 (Welch t +0.4)  hit 39% vs random 18%
+  hgb P: IC +0.479;  top 50%: n 46 bets 24  selected R/bet +0.33 vs all -0.04 = +0.37 (Welch t +1.1)  hit 37% vs random 18%
+  ridge P: fee-free IC +0.219; corr of the prediction with stop width +0.667; 74% of the top-50% calls are sweet-spot calls (stop >= 0.8%) against 53% of all
+  hgb P: fee-free IC +0.230; corr of the prediction with stop width +0.693; 80% of the top-50% calls are sweet-spot calls (stop >= 0.8%) against 53% of all
+  the plain rule 'stop >= 0.8%' on the same live calls: 49 calls, selected +0.24 vs all -0.04 R a bet = +0.28 (Welch t +0.8); live sweet-spot calls +0.169R a call
+  the same plain rule over the replay's out-of-sample years: 5,300 calls, selected -0.015 vs all -0.051 R a bet = +0.036 (Welch t +1.0): the stop-width effect alone (a wider stop shrinks the fee), still negative in absolute R
+
+PREDICTIONS (registered before the run)
+  M1 cells passing: 0 of 12

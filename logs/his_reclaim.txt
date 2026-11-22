@@ -1,0 +1,18 @@
+backtest/his_reclaim.py, 2026-11-21 23:17 UTC; 181 tick days, split 2026-06-04; moments with a broken level and the price back on the broken side: 21,211
+
+  subset            half  moments  RECLAIM won       p  continuation won
+  all               tune   12,915       50.1%   0.751            49.9%
+  all               hold    8,296       52.4%   0.000            47.6%
+  fresh             tune   12,684       50.2%   0.600            49.8%
+  fresh             hold    8,154       52.3%   0.000            47.7%
+  strong            tune    4,695       50.7%   0.335            49.3%
+  strong            hold    2,682       51.2%   0.239            48.8%
+  fresh + strong    tune    4,602       50.8%   0.269            49.2%
+  fresh + strong    hold    2,627       51.2%   0.226            48.8%
+
+  HIS clicks in the rule's set: 11; he took the reclaim side on 7, won the race on 7 of 7; the continuation side on 4, won 2 of 4
+
+REGISTERED PREDICTIONS
+  B1 the reclaim rule 50-56% on both halves -> RIGHT (50.1% / 52.4%)
+  B2 fresh + strong at most 58% on either half -> RIGHT
+  B3 his reclaim trades beat the rule by 25+ points -> RIGHT (100% vs 51%)

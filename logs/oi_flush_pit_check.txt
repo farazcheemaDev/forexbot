@@ -1,0 +1,33 @@
+backtest/oi_flush_pit_check.py, 2026-11-12 18:27 UTC (post hoc)
+
+C1 POOLED FLUSH: n 1525 days  708 net -0.04% t -0.09; 252 trades a year; won 64%, hit +5% 60%, average loser -11.4%, worst -99.4%, median hold 46 h
+   median drop: FLUSH -9.4%  MID -8.9%  BUILD -8.9%
+
+C2 SAME-SIZE DROPS (thirds of the drop over the split events): FLUSH | the rest
+   shallow     tune: n  312 days  224 net -0.87% t -1.45  |  n 1988 days  552 net -0.47% t -1.10
+   shallow  holdout: n   61 days   56 net -1.23% t -0.80  |  n 1258 days  399 net -0.34% t -0.79
+   middle      tune: n  339 days  237 net +0.38% t +0.64  |  n 1875 days  527 net +0.00% t +0.00
+   middle   holdout: n  118 days   93 net -1.25% t -1.03  |  n 1287 days  428 net -0.67% t -1.42
+   deep        tune: n  480 days  235 net +1.01% t +1.98  |  n 1520 days  389 net +0.81% t +1.41
+   deep     holdout: n  215 days  146 net -0.81% t -0.56  |  n 1404 days  439 net +0.30% t +0.61
+
+C3 DOSE-RESPONSE (open interest down at least ...):
+     -5.0%  tune n 2396 days  637 net +0.44% t +1.26   holdout n 1040 days  407 net -0.38% t -0.74
+     -7.5%  tune n 1695 days  558 net +0.43% t +1.16   holdout n  658 days  338 net -0.51% t -0.72
+    -10.0%  tune n 1131 days  469 net +0.30% t +0.74   holdout n  394 days  239 net -1.01% t -1.03
+    -12.5%  tune n  725 days  365 net +0.38% t +0.83   holdout n  249 days  174 net -0.01% t -0.01
+    -15.0%  tune n  502 days  288 net +0.51% t +1.00   holdout n  164 days  115 net -0.12% t -0.07
+
+C4 SAME DAY (days with both kinds): the day's FLUSH trades minus the day's others
+       tune: 383 days, -0.24% (t -0.60), FLUSH better on 50% of them
+    holdout: 226 days, -1.73% (t -1.66), FLUSH better on 55% of them
+
+C5 WITHOUT THE 5 BEST DAYS (by summed FLUSH result):
+       tune: n 1069 days  464 net -0.03% t -0.06   (the 5 days: 2024-12-10, 2024-08-05, 2024-03-05, 2022-05-12, 2023-06-10)
+    holdout: n  342 days  234 net -2.23% t -2.46   (the 5 days: 2025-10-11, 2025-02-03, 2026-06-04, 2025-01-20, 2025-11-04)
+
+C6 THE 13 COINS OF oi_flush.py AGAINST THE REST (FLUSH | BUILD):
+   the 13 coins     tune: n  124 days   80 net +1.11% t +1.45  |  n  397 days  234 net -0.33% t -0.47
+   the 13 coins  holdout: n   41 days   27 net +3.45% t +3.05  |  n  340 days  146 net +0.86% t +1.52
+   other coins      tune: n 1007 days  450 net +0.20% t +0.48  |  n 1886 days  518 net -0.45% t -0.81
+   other coins   holdout: n  353 days  232 net -1.52% t -1.56  |  n 1603 days  482 net -0.87% t -1.86

@@ -1,0 +1,17 @@
+backtest/his_reclaim_flow.py, 2026-11-21 23:26 UTC; CME NQ tape 801,045 trades in 31 windows; reclaim moments inside the windows with the break on tape: 175 (race won 50.3%); his reclaim trades: 3 (won 3)
+
+  measure      bottom third    middle   top third  top - bottom   his reclaims by tercile (1 = bottom)
+  absorption       44% (61)   59% (58)    48% (56)         +4 pts   [2, 2, 2]
+  snapback         45% (60)   56% (57)    50% (58)         +5 pts   [2, 2, 3]
+  last30           42% (59)   55% (58)    53% (58)        +11 pts   [2, 2, 3]
+  last60           44% (59)   50% (60)    57% (56)        +13 pts   [1, 3, 3]
+
+  his reclaim trades: absorption, snap-back, last 30 s / 60 s flow (contracts, + = for the reclaim), race
+    2026-02-17 SELL absorption     +6.5/pt  snap-back    +212  last 30 s     +8  last 60 s    +43  won
+    2026-03-02 BUY  absorption     +7.5/pt  snap-back     +37  last 30 s    +19  last 60 s    -25  won
+    2026-06-05 BUY  absorption     +7.5/pt  snap-back     +28  last 30 s    +50  last 60 s    +28  won
+
+REGISTERED PREDICTIONS
+  G1 absorption top - bottom within 10 points and no tercile >= 61% -> RIGHT
+  G2 his reclaims not concentrated in absorption's top third (<= 4 of 3) -> RIGHT (0)
+  G3 last 30 / 60 s top third <= 56% -> WRONG

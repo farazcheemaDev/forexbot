@@ -1,0 +1,76 @@
+backtest/his_volume15.py, 2026-11-21 00:52 UTC; his NASDAQ trades 53, scored 50 (CME NQ 1-minute bars with volume to 2026-10-29)
+
+  his side vs                           clicks                 agree       p    Holm
+  the Globex day's direction            all clicks        25 of 50    50%   1.000   1.000
+  the Globex day's direction            pumping clicks     6 of 11    55%   1.000   1.000
+  the day's signed volume               all clicks        26 of 50    52%   0.888   1.000
+  the day's signed volume               pumping clicks     8 of 11    73%   0.227   1.000
+  the last 15-min bar's direction       all clicks        26 of 50    52%   0.888   1.000
+  the last 15-min bar's direction       pumping clicks     8 of 11    73%   0.227   1.000
+  the last 15 minutes' signed volume    all clicks        26 of 50    52%   0.888   1.000
+  the last 15 minutes' signed volume    pumping clicks     6 of 11    55%   1.000   1.000
+
+  'pumping' clicks (day volume >= 1.3x its norm or the 15-min bar >= 1.5x): 11 of 50
+  the day's relative volume at his clicks: median 0.99x; percentile among all 2026 days at the same clock time: mean 45 (0-100)
+  the last 15-min bar's relative volume: median 0.97x; percentile mean 46
+  his banked points on pumping clicks +9.82 (won 100%) vs the rest +9.06 (won 95%)
+
+  THE RULE ON EVERY 2026 DAY (09:30-15:45 New York): after a high-volume 15-minute bar (>= 1.5x its slot's norm), the next 15 minutes went the same way 46.5% of 621 times (binomial p 0.092); after an ordinary bar 49.4% of 4104
+
+REGISTERED PREDICTIONS
+  V1 every all-clicks agreement 40-60%, none survives Holm -> RIGHT
+  V2 pumping-click agreement 35-65% -> WRONG
+  V3 the day's relative-volume percentile at his clicks 35-65 -> RIGHT (45)
+  V4 the next 15 minutes follow a high-volume bar 47-53% -> WRONG (46.5%)
+
+  each click: New York time, his side | the day's direction, its signed volume | the last 15-min bar's direction, the last 15 minutes' signed volume | day relative volume, 15-min relative volume | his points
+    2026-01-02 09:51:10  SELL | day + + | 15m + + |  nanx  nanx | +38.25
+    2026-01-06 10:33:13  SELL | day + + | 15m + - |  nanx  nanx |  +4.75
+    2026-01-16 10:45:05  SELL | day - - | 15m - - | 0.91x 1.21x |  +7.00
+    2026-01-19 09:54:21  BUY  | day - - | 15m - + | 0.70x 0.17x | +48.00
+    2026-01-21 09:52:45  BUY  | day + + | 15m + + | 1.39x 0.98x | +13.75
+    2026-01-26 10:19:54  BUY  | day + + | 15m + - | 0.94x 0.76x |  +5.00
+    2026-02-04 08:54:41  BUY  | day - - | 15m + - | 1.02x 1.20x |  -7.50
+    2026-02-11 10:14:14  BUY  | day - - | 15m - - | 0.94x 0.92x | +14.00
+    2026-02-17 13:58:50  SELL | day + - | 15m + + | 1.07x 1.60x |  +7.25
+    2026-02-17 13:59:11  SELL | day + - | 15m + + | 1.07x 1.60x |  +4.50
+    2026-02-20 10:01:48  BUY  | day + + | 15m - - | 1.00x 0.98x |  +1.25
+    2026-02-20 10:02:15  SELL | day + + | 15m - + | 1.03x 0.98x | +19.50
+    2026-02-24 08:32:10  SELL | day + + | 15m + + | 0.96x 0.96x |  +7.00
+    2026-02-25 13:51:18  BUY  | day + + | 15m + + | 0.66x 0.40x |  +3.00
+    2026-02-27 14:15:09  BUY  | day - + | 15m + + | 0.88x 1.11x |  +3.50
+    2026-03-02 14:02:40  BUY  | day + + | 15m - - | 1.03x 0.88x |  +5.25
+    2026-03-03 16:02:10  SELL | day - - | 15m - - | 1.22x 0.97x |  +8.00
+    2026-03-06 06:54:33  SELL | day - - | 15m - - | 1.33x 3.52x | +15.50
+    2026-03-16 13:04:28  BUY  | day + + | 15m - + | 0.44x 0.41x | +16.25
+    2026-03-31 15:58:14  BUY  | day + + | 15m + + | 1.34x 1.35x |  +9.00
+    2026-04-02 11:10:35  BUY  | day - + | 15m - - | 1.25x 1.44x | +14.50
+    2026-04-02 11:11:16  BUY  | day + + | 15m - - | 1.25x 1.44x |  +6.25
+    2026-04-06 11:38:36  BUY  | day + - | 15m - - | 0.90x 0.63x | +12.50
+    2026-04-06 11:44:39  SELL | day + - | 15m - + | 0.89x 0.63x |  +7.00
+    2026-04-28 12:16:15  BUY  | day - - | 15m + + | 1.24x 1.16x |  +6.25
+    2026-05-05 11:03:41  BUY  | day + + | 15m + - | 0.91x 0.70x | +24.50
+    2026-05-07 11:07:11  SELL | day + + | 15m + - | 0.99x 1.08x |  +1.00
+    2026-05-07 11:13:06  SELL | day + + | 15m + - | 0.99x 1.08x |  +4.50
+    2026-06-05 11:02:16  BUY  | day - - | 15m + + | 1.32x 1.29x |  +8.00
+    2026-06-05 11:04:00  BUY  | day - - | 15m + - | 1.32x 1.29x |  +8.25
+    2026-06-05 11:04:39  SELL | day - - | 15m + - | 1.32x 1.29x | +14.50
+    2026-07-01 11:39:33  SELL | day - + | 15m + - | 0.91x 0.97x |  +6.50
+    2026-07-01 11:40:20  SELL | day - + | 15m + + | 0.91x 0.97x | +15.25
+    2026-07-10 05:11:46  BUY  | day - - | 15m - - | 0.88x 1.02x |  +4.25
+    2026-07-10 12:18:29  BUY  | day + + | 15m + + | 0.87x 0.92x |  +7.00
+    2026-07-24 14:57:02  SELL | day - - | 15m - + | 1.18x 2.10x |  +6.25
+    2026-08-07 12:59:59  BUY  | day + + | 15m + + | 1.00x 1.27x |  +8.75
+    2026-08-07 13:03:15  SELL | day + + | 15m - - | 1.00x 0.95x |  +7.00
+    2026-08-10 18:30:21  SELL | day - - | 15m - - | 0.65x 0.61x | +18.75
+    2026-09-14 14:14:37  BUY  | day + + | 15m + - | 0.63x 0.73x | -31.75
+    2026-09-14 14:30:13  BUY  | day + + | 15m - - | 0.63x 0.49x |  +5.25
+    2026-09-14 14:38:07  SELL | day + + | 15m - + | 0.63x 0.49x |  +2.50
+    2026-09-14 14:46:11  SELL | day + + | 15m + - | 0.63x 0.48x |  +8.75
+    2026-09-14 14:49:02  SELL | day + + | 15m + - | 0.63x 0.48x |  +6.75
+    2026-09-14 15:00:16  SELL | day + + | 15m - - | 0.63x 0.43x |  +8.75
+    2026-09-14 15:02:30  SELL | day + + | 15m - - | 0.63x 0.43x | +17.25
+    2026-10-08 13:10:48  SELL | day - - | 15m - - | 1.18x 6.06x | +15.50
+    2026-10-08 13:17:55  BUY  | day - - | 15m + - | 1.21x 4.38x |  +5.50
+    2026-10-13 11:24:30  SELL | day - + | 15m + + | 1.07x 0.71x | +12.00
+    2026-10-13 11:27:06  SELL | day - - | 15m + - | 1.08x 0.71x |  +6.75

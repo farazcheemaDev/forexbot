@@ -1,0 +1,25 @@
+backtest/rsi80_overlap.py, 2026-11-08 22:33; machine calendar 2020-02-17 .. 2026-09-13, 10 orderings; RSI books at 1% risk a trade, booked on the exit day
+
+1. CORRELATION (mean over orderings)
+   RSI-NEW: daily with trend -0.04, with the machine -0.02 | monthly with trend +0.07, with the machine +0.13
+   RSI-100: daily with trend -0.03, with the machine -0.01 | monthly with trend +0.08, with the machine +0.17
+
+2. THE RSI BOOK'S 20 BEST DAYS vs the trend book (mean over orderings)
+   RSI-NEW: those days make -0.36% for trend (its average day +0.59%); 0.0 of 20 are in trend's best 10% of days
+   RSI-100: those days make -0.24% for trend (its average day +0.59%); 0.0 of 20 are in trend's best 10% of days
+
+3. IN THE MACHINE'S WORST 20% OF MONTHS (mean over orderings)
+   RSI-NEW: +2.02% a month (all months +2.15%)
+   RSI-100: +2.45% a month (all months +6.11%)
+
+4. COINS: 10.7% of RSI-100's trades are in the trend book's 12 coins (['ADAUSDT', 'ARBUSDT', 'AVAXUSDT', 'DOTUSDT', 'ENAUSDT', 'LINKUSDT', 'LTCUSDT', 'NEARUSDT', 'SHIBUSDT', 'SUIUSDT', 'WLDUSDT', 'XRPUSDT'])
+
+5. ADDED VALUE: the machine + the RSI book vs the machine x k at the same biggest fall ($300, typical 12 months)
+   machine + RSI-NEW  tune     typical $   4,108 (line at the same fall $   4,899: -791)  fall 51%  worst month -20.9%  months up 66%
+   machine + RSI-NEW  holdout  typical $   8,430 (line at the same fall $   5,028: +3,401)  fall 49%  worst month -24.8%  months up 63%
+   machine + RSI-100  tune     typical $   6,236 (line at the same fall $   5,618: +618)  fall 54%  worst month -23.0%  months up 62%
+   machine + RSI-100  holdout  typical $  12,506 (line at the same fall $   6,277: +6,229)  fall 53%  worst month -28.4%  months up 61%
+   machine alone           tune     typical $   3,774  fall 46%  worst month -21.1%  months up 65%
+   machine alone           holdout  typical $   5,494  fall 51%  worst month -30.0%  months up 63%
+   RSI-NEW: does not pass the bet-bigger line on both halves
+   RSI-100: PASSES the bet-bigger line on both halves

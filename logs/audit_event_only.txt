@@ -1,0 +1,42 @@
+calendar 2020-02-17 2026-09-13 | news from 2021-11-27 | CUT 2024-08-29
+
+1. FULL PERIOD
+   EVENT x1 (sleeve+bids+capit2+news+ndx)   FULL CAGR   +121%  fall   22%  months up  78%
+   EVENT x1 without news (not post hoc)     FULL CAGR    +95%  fall   21%  months up  85%
+   EVENT x1 without news and ndx            FULL CAGR    +78%  fall   21%  months up  82%
+   EVENT x2                                 FULL CAGR   +343%  fall   41%  months up  78%
+   EVENT x3                                 FULL CAGR   +705%  fall   59%  months up  78%
+   DEPLOYED + news + ndx x1                 FULL CAGR  +1731%  fall   53%  months up  67%
+
+2. BY HALF ($300, 12 months)
+   EVENT x1                                    tune typ $    644 bad $   519 worst $   360 worst mo  -10.2% fall   21% up  82% below-start   0%
+   EVENT x1                                 holdout typ $    711 bad $   578 worst $   525 worst mo  -19.0% fall   22% up  72% below-start   0%
+   EVENT x1 no news                            tune typ $    613 bad $   467 worst $   307 worst mo  -12.1% fall   21% up  85% below-start   0%
+   EVENT x1 no news                         holdout typ $    545 bad $   482 worst $   422 worst mo   -3.9% fall   13% up  84% below-start   0%
+   EVENT x2                                    tune typ $  1,293 bad $   858 worst $   399 worst mo  -22.4% fall   39% up  82% below-start   0%
+   EVENT x2                                 holdout typ $  1,540 bad $   994 worst $   823 worst mo  -35.2% fall   41% up  72% below-start   0%
+   EVENT x3                                    tune typ $  2,367 bad $ 1,343 worst $   391 worst mo  -36.4% fall   56% up  82% below-start   0%
+   EVENT x3                                 holdout typ $  3,054 bad $ 1,529 worst $ 1,158 worst mo  -48.9% fall   56% up  72% below-start   0%
+   DEPLOYED+news+ndx x1                        tune typ $  4,435 bad $   817 worst $   307 worst mo  -19.2% fall   42% up  67% below-start   0%
+   DEPLOYED+news+ndx x1                     holdout typ $  9,838 bad $ 4,652 worst $ 1,282 worst mo  -31.3% fall   49% up  68% below-start   0%
+
+3. DEPLOYED scaled to EVENT's fall (the bet-smaller line), per half
+   EVENT x1     tune: fall 21% typ $644 bad $519 worst $360 wm -10.2%  |  deployed x0.40: fall 19% typ $1,099 bad $487 worst $317 wm -7.9%
+   EVENT x1  holdout: fall 22% typ $711 bad $578 worst $525 wm -19.0%  |  deployed x0.35: fall 20% typ $1,271 bad $948 worst $556 wm -12.0%
+   EVENT x2     tune: fall 39% typ $1,293 bad $858 worst $399 wm -22.4%  |  deployed x0.90: fall 39% typ $3,563 bad $761 worst $311 wm -17.4%
+   EVENT x2  holdout: fall 41% typ $1,540 bad $994 worst $823 wm -35.2%  |  deployed x0.75: fall 39% typ $4,848 bad $2,678 worst $973 wm -24.3%
+   EVENT x3     tune: fall 56% typ $2,367 bad $1,343 worst $391 wm -36.4%  |  deployed x1.00: fall 42% typ $4,435 bad $817 worst $307 wm -19.2%
+   EVENT x3  holdout: fall 56% typ $3,054 bad $1,529 worst $1,158 wm -48.9%  |  deployed x1.00: fall 49% typ $9,838 bad $4,652 worst $1,282 wm -31.3%
+
+4. EVENT x1 BY CALENDAR YEAR (ordering 0; simple sum of daily returns, %)
+      sleeve  bids  capit2  news   ndx  EVENT  deployed7
+2020     0.0  12.5    13.4   0.0   0.7   26.6      257.7
+2021    38.5  43.1    19.3   1.7   7.6  110.2      833.4
+2022    85.6   2.8    37.3  11.4   5.6  142.7       55.7
+2023     6.4  10.4     6.5  13.5   6.8   43.6      247.5
+2024    -6.6  16.7    41.7  14.3  16.4   82.5      480.4
+2025    20.9   8.3    23.1  73.6  16.6  142.5      304.4
+2026     3.0   6.7     8.5 -25.4  10.4    3.2      187.7
+
+   EVENT x1 months: median +3.7%, p10 -1.9%, worst -19.0%, best +80.8%, share with |ret| < 0.5%: 8%
+   last 12 months (ordering 0): +90.6%

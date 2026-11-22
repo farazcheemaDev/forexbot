@@ -1,0 +1,7 @@
+backtest/his_sittings.py - 46 NASDAQ trades in 31 sittings (a new sitting after a gap of more than 30 minutes); sitting sizes {1: 22, 2: 7, 3: 1, 7: 1}
+all                n  46  closed in profit  95.7%  mean pts  +9.17  median pts +7.00  median worst excursion  -4.76  worse than -10: 17.4%  median hold    78s
+first of sitting   n  31  closed in profit  93.5%  mean pts  +9.22  median pts +7.00  median worst excursion  -4.76  worse than -10: 19.4%  median hold    58s
+later tickets      n  15  closed in profit 100.0%  mean pts  +9.07  median pts +7.00  median worst excursion  -4.75  worse than -10: 13.3%  median hold    84s
+2nd ticket         n   9  closed in profit 100.0%  mean pts  +8.61  median pts +7.00  median worst excursion  -5.50  worse than -10: 22.2%  median hold    68s
+3rd and later      n   6  closed in profit 100.0%  mean pts  +9.75  median pts +8.75  median worst excursion  -3.99  worse than -10:  0.0%  median hold   242s
+sittings that finished green: 97% of 31; first ticket alone green: 94%; began with a loss and finished green: 1

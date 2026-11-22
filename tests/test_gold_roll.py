@@ -67,6 +67,18 @@ def test_a_cycle_has_the_hand_computed_spread_change_stay_and_roll_share():
     assert abs(r["r"] - np.log(1705 / 1700)) < 1e-12
 
 
+def test_the_open_interest_used_is_the_previous_trading_days_not_t0s():
+    panel, t0, f = synthetic_panel()
+    prev = DAYS[DAYS.get_loc(t0) - 1]
+    panel.loc[(panel.symbol == "GCZ2") & (panel.date == t0), "oi"] = 999999.0                    # t0's own open interest is not known at t0's settle
+    panel.loc[(panel.symbol == "GCZ2") & (panel.date == prev), "oi"] = 100000.0
+    c = run_cycles(panel, fake_cftc())
+    assert abs(c.iloc[0]["roll_share"] - 50000 / 100000) < 1e-9 and abs(c.iloc[0]["oi_M"] - 100000.0) < 1e-9
+    panel2, t0, f = synthetic_panel()
+    panel2.loc[panel2.date <= t0, "oi"] = np.nan                                                  # no open interest recorded then (the feed before late 2015): no cycle
+    assert run_cycles(panel2, fake_cftc()).empty
+
+
 def test_a_report_must_be_public_before_t0_not_on_it():
     panel, t0, f = synthetic_panel()
     # the report whose release (date + 3 days) is exactly t0 must NOT be used; the one a week earlier is

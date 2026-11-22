@@ -1,0 +1,46 @@
+backtest/his_alt_charts.py, 2026-11-22 10:21 UTC; 181 tick days, split 2026-06-04; his clicks with ticks 42 on 27 days; pseudo-click sets 2000
+
+  A. TIMING - share of clicks 5-24 s after the last close (best of 10 offsets for tick / Renko; the null pays for it)
+    chart                           his clicks    random       p    Holm  best offset
+    1-minute candles (reference)          55%       31%   0.002       -            -
+    Renko 5                               40%       33%   0.512    1.00            7
+    Renko 7                               26%       25%   0.880    1.00            1
+    Renko 10                              19%       16%   0.817    1.00            0
+    Renko 15                              12%        9%   0.774    1.00            1
+    Renko 20                               7%        5%   0.879    1.00            0
+    tick 100                              62%       52%   0.634    1.00            3
+    tick 250                              64%       49%   0.189    1.00            7
+    tick 500                              33%       30%   0.996    1.00            3
+    tick 1000                             19%       15%   0.987    1.00            0
+    tick 2000                             12%        8%   0.948    1.00            0
+
+  B. DIRECTION - his side vs the last Renko brick / the last tick candle's body
+    Renko 5      his side = it on 24 of 42 (57%; binomial p 0.44)
+    Renko 10     his side = it on 19 of 42 (45%; binomial p 0.64)
+    Renko 20     his side = it on 26 of 42 (62%; binomial p 0.16)
+    tick 250     his side = it on 20 of 41 (49%; binomial p 1.00)
+    tick 500     his side = it on 22 of 41 (54%; binomial p 0.76)
+    tick 1000    his side = it on 22 of 42 (52%; binomial p 0.88)
+
+  B. RULES on every day (14 s after each close, the +-7 race)
+    rule                                                        tune           holdout
+    Renko 10: continuation                           48.9% of 24,114   50.0% of 26,301
+    Renko 10: first counter brick after 3+            48.7% of 3,629    49.4% of 3,880
+    Renko 20: continuation                            48.4% of 6,239    50.7% of 6,682
+    Renko 20: first counter brick after 3+              48.8% of 955    53.0% of 1,008
+    Renko 5: continuation                            49.6% of 91,246  49.8% of 100,082
+    Renko 5: first counter brick after 3+            50.3% of 13,545   50.4% of 14,920
+    tick 1000: body continuation                     49.5% of 13,886   49.4% of 20,992
+    tick 1000: reversal wick                          48.7% of 4,256    50.0% of 6,484
+    tick 250: body continuation                      49.8% of 55,521   49.6% of 83,284
+    tick 250: reversal wick                          49.6% of 16,934   49.8% of 26,627
+    tick 500: body continuation                      49.2% of 27,767   49.2% of 41,819
+    tick 500: reversal wick                           50.2% of 8,550   50.2% of 13,092
+
+REGISTERED PREDICTIONS
+  K1 no tick / Renko setting fits his timing after the offset search (Holm p > 0.05) -> RIGHT (smallest raw p 0.189, Holm 1.00)
+  K2 the 1-minute fit is stronger than every tick / Renko setting's -> RIGHT (1-minute p 0.002)
+  K3 Renko rules 47-53% on both halves -> RIGHT (48.4% .. 53.0%)
+  K4 tick-candle rules 47-53% on both halves -> RIGHT (48.7% .. 50.2%)
+  K5 his side = the last brick / candle on 35-65% -> RIGHT
+  LEAD (56%+ on both halves): none

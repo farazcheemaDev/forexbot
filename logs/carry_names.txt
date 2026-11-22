@@ -1,0 +1,11 @@
+backtest/carry_names.py, 2026-11-21 00:14 UTC; the machine's carry book (mn_combos.mn_run funding7, +50% short exit) by coins a side; eligible coins per rebalance: median 60 (10th 58, 90th 60); split 2024-04-07
+
+  coins a side   Sharpe tune Sharpe hold  %/wk tune  %/wk hold  worst week     paired vs 12: tune / hold (wins of 7)
+  12                   +1.40       +0.74     +0.66%     +0.52%      -10.5%     +0.00 /  +0.00 %/wk  (Sharpe at least as high: 7 / 7)
+  10                   +1.31       +0.57     +0.68%     +0.46%      -12.6%     +0.02 /  -0.06 %/wk  (Sharpe at least as high: 2 / 0)
+  8                    +1.34       +0.39     +0.77%     +0.43%      -15.4%     +0.11 /  -0.09 %/wk  (Sharpe at least as high: 3 / 0)
+  6                    +1.28       +0.10     +0.82%     +0.21%      -18.5%     +0.16 /  -0.31 %/wk  (Sharpe at least as high: 2 / 0)
+  4                    +1.11       +0.03     +0.91%     +0.26%      -23.5%     +0.25 /  -0.26 %/wk  (Sharpe at least as high: 1 / 0)
+
+  N1 10 / 8 / 6 coins within 0.2 Sharpe of 12 on both halves: 10: -0.09 / -0.17, 8: -0.07 / -0.35, 6: -0.12 / -0.64 -> WRONG
+  N2 4 coins drop more than 0.2 on a half: -0.29 / -0.71 -> RIGHT

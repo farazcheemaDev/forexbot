@@ -1,0 +1,120 @@
+backtest/analyst_review.py, 2026-11-01 21:51 UTC; 52 calls (48 resolved, 4 open) from the desk's log, made 2026-10-27 01:07 .. 2026-11-01 12:07
+
+1  THE RECORD (gross = before the 12bp fee; 0 = no skill, whatever the brackets)
+  all resolved       n  48  wins 12 ( 25%)  random baseline  20%  break-even  31%   gross -0.10R (se 0.20)  net -0.35R  fee 0.24R
+  rule FIB           n   3  wins  0 (  0%)  random baseline  13%  break-even  26%   gross -1.00R (se 0.00)  net -1.19R  fee 0.19R
+  rule SMC           n  21  wins  6 ( 29%)  random baseline  16%  break-even  28%   gross +0.11R (se 0.33)  net -0.12R  fee 0.23R
+  rule SR            n  24  wins  6 ( 25%)  random baseline  25%  break-even  34%   gross -0.17R (se 0.27)  net -0.44R  fee 0.27R
+  side long          n  14  wins  5 ( 36%)  random baseline  11%  break-even  29%   gross +0.25R (se 0.41)  net -0.08R  fee 0.33R
+  side short         n  34  wins  7 ( 21%)  random baseline  24%  break-even  31%   gross -0.25R (se 0.22)  net -0.46R  fee 0.21R
+  symbol BNBUSDT     n   5  wins  2 ( 40%)  random baseline  20%  break-even  31%   gross +0.12R (se 0.69)  net -0.04R  fee 0.16R
+  symbol BTCUSDT     n   5  wins  2 ( 40%)  random baseline  15%  break-even  32%   gross +0.32R (se 0.64)  net +0.09R  fee 0.24R
+  symbol ETHUSDT     n   7  wins  2 ( 29%)  random baseline  32%  break-even  33%   gross -0.19R (se 0.52)  net -0.38R  fee 0.19R
+  symbol QQQUSDT     n  11  wins  1 (  9%)  random baseline  17%  break-even  32%   gross -0.37R (se 0.39)  net -0.75R  fee 0.38R
+  symbol SOLUSDT     n   7  wins  1 ( 14%)  random baseline  19%  break-even  27%   gross -0.57R (se 0.43)  net -0.73R  fee 0.16R
+  symbol XAUUSDT     n   6  wins  2 ( 33%)  random baseline  16%  break-even  32%   gross +0.02R (se 0.55)  net -0.30R  fee 0.32R
+  symbol XRPUSDT     n   7  wins  2 ( 29%)  random baseline  20%  break-even  27%   gross +0.30R (se 0.73)  net +0.14R  fee 0.16R
+  RR <= 2.5          n  23  wins  9 ( 39%)  random baseline  30%  break-even  40%   gross +0.25R (se 0.29)  net +0.07R  fee 0.18R
+  RR 2.5-4           n   9  wins  3 ( 33%)  random baseline  17%  break-even  31%   gross +0.44R (se 0.65)  net +0.22R  fee 0.21R
+  RR > 4             n  16  wins  0 (  0%)  random baseline   8%  break-even  17%   gross -0.91R (se 0.06)  net -1.27R  fee 0.36R
+  stop < 0.4%        n  10  wins  1 ( 10%)  random baseline  15%  break-even  27%   gross -0.53R (se 0.39)  net -1.04R  fee 0.51R
+  stop 0.4-0.8%      n  25  wins  5 ( 20%)  random baseline  24%  break-even  30%   gross -0.40R (se 0.23)  net -0.62R  fee 0.22R
+  stop >= 0.8%       n  13  wins  6 ( 46%)  random baseline  15%  break-even  33%   gross +0.80R (se 0.43)  net +0.71R  fee 0.09R
+
+   independent bets (calls made the same UTC day in the same direction = one move): 11; bets whose hit rate beat their baseline: 5
+
+2  THE WINNERS
+    id when        symbol   side  rule    RR  stop% min to target  MAE/stop  same-move calls   note
+     3 10-27 02:07 BNBUSDT  short SR     1.6   0.74           481      0.17               13   rejection at the 7-touch resistance 744.57
+     6 10-27 11:07 BNBUSDT  long  SMC    2.0   1.07          1394      0.25                3   swept the 24-bar low 735 and reclaimed it
+    15 10-27 21:07 BTCUSDT  long  SR     1.7   0.42           678      0.49                3   bounce at the 10-touch support 80715.8
+    17 10-28 01:07 XAUUSDT  short SR     1.6   0.40           287      0.22                9   rejection at the 4-touch resistance 4077.05
+    19 10-28 03:07 XRPUSDT  short SMC    3.5   0.94          1402      0.79                9   swept the 24-bar high 1.3391 and reclaimed it
+    22 10-28 18:07 QQQUSDT  long  SR     2.9   0.16            28      0.83                2   bounce at the 9-touch support 722.729
+    24 10-28 21:07 ETHUSDT  short SMC    2.0   1.48          1406      0.50                9   swept the 24-bar high 2387.28 and reclaimed it
+    25 10-28 21:07 SOLUSDT  short SMC    2.0   1.49           292      0.23                9   swept the 24-bar high 103.67 and reclaimed it
+    26 10-28 21:07 XAUUSDT  short SMC    1.8   0.53           527      0.16                9   swept the 24-bar high 4081.44 and reclaimed it
+    29 10-29 11:07 XRPUSDT  long  SR     2.6   0.73           301      0.64                5   bounce at the 7-touch support 1.28946
+    30 10-29 14:07 ETHUSDT  long  SR     1.7   0.85            61      0.12                5   bounce at the 4-touch support 2320.36
+    32 10-29 17:07 BTCUSDT  short SMC    2.0   1.26           215      0.09                2   swept the 24-bar high 81898.7 and reclaimed it
+   minutes to target: median 481, quartiles 287 / 1394; winners' average RR 2.11, stop 0.84%
+
+3  THE LOSERS (stopped out)
+   minutes from fill to stop: median 217, quartiles 90 / 491; stopped within 60 min: 6 of 31, within 3 h: 12
+   best the loser ever did, as a share of the distance to target: median 12%, reached >= 25%: 7, >= 50%: 5, >= 75%: 2 of 31
+   price touched the TARGET after the stop, before the call expired ('stopped then right'): 4 of 31
+   stop that would have survived to expiry, in multiples of the stop used: median 3.0x; survived at 1.5x: 6, at 2x: 8, at 3x: 15 of 31
+    id when        symbol   side  rule    RR  stop% min to stop best vs target  target later? stop needed
+     1 10-27 01:07 XRPUSDT  short SR     2.0   0.81         701            95%             no        2.2x
+     2 10-27 01:07 XAUUSDT  short SR     2.0   0.42         684            58%             no        3.5x
+     4 10-27 04:07 ETHUSDT  short SR     2.0   0.64         500            59%             no        3.7x
+     5 10-27 06:07 SOLUSDT  long  SMC    5.2   0.53          42             6%             no        1.7x
+     7 10-27 12:07 SOLUSDT  short SR     1.9   0.77          31             4%             no        4.8x
+     8 10-27 12:07 QQQUSDT  short SR     1.9   0.33          90             3%             no        4.5x
+     9 10-27 14:07 QQQUSDT  short SMC    2.7   0.49          48            16%             no        2.9x
+    10 10-27 17:07 QQQUSDT  short FIB    4.7   0.59         837             4%             no        2.1x
+    11 10-27 18:07 BTCUSDT  short SMC    2.6   0.50         203             2%             no        3.2x
+    12 10-27 18:07 ETHUSDT  short SMC    2.8   0.73         205            12%             no        2.5x
+    13 10-27 18:07 XAUUSDT  short SMC    6.4   0.26         361             8%             no        1.2x
+    14 10-27 20:07 QQQUSDT  short SR     2.0   0.36         432            16%             no        3.2x
+    16 10-27 23:07 ETHUSDT  short SR     2.5   0.55         190            41%             no        3.0x
+    18 10-28 03:07 SOLUSDT  short SMC    4.4   0.55          22             0%             no        4.1x
+    20 10-28 16:07 XRPUSDT  short SR     2.3   0.72         101            16%  yes, +522 min        3.5x
+    21 10-28 17:07 BTCUSDT  long  SMC    6.7   0.25         520            97%  yes, +838 min        4.1x
+    23 10-28 18:07 QQQUSDT  short FIB    6.5   0.45          28             5% yes, +1826 min        2.5x
+    28 10-29 10:07 SOLUSDT  short SR     2.2   0.76         264            17%  yes, +334 min        3.8x
+    31 10-29 14:07 XRPUSDT  long  SMC    7.8   0.54         263            52%             no       13.0x
+    33 10-29 19:07 XAUUSDT  long  SMC    6.0   0.28         355            27%             no       11.8x
+    34 10-29 19:07 QQQUSDT  long  FIB    1.6   1.41         217            16%             no        2.9x
+    37 10-30 13:07 QQQUSDT  long  SMC   16.6   0.19          24             4%             no        9.8x
+    38 10-30 16:07 SOLUSDT  short SR     3.5   1.89         513            19%             no        1.3x
+    39 10-30 16:07 BNBUSDT  short SR     2.7   1.49         491            15%             no        1.1x
+    42 10-31 11:07 SOLUSDT  short SR    14.7   0.54          89             0%             no        1.5x
+    43 10-31 17:07 BNBUSDT  short SR     9.0   0.47         927            12%             no        3.9x
+    44 10-31 19:07 ETHUSDT  short SR    13.4   0.30         174             6%             no        3.3x
+    45 10-31 23:07 ETHUSDT  short SMC    2.0   0.76         147             1%             no        1.5x
+    47 11-01 04:07 XRPUSDT  short SR    10.4   0.49         101             0%             no        2.0x
+    50 11-01 10:07 BNBUSDT  short SMC    2.5   0.66         239            12%             no        1.2x
+    52 11-01 12:07 QQQUSDT  long  SR     4.1   0.16         423            16%             no        1.3x
+
+   the 5 EXPIRED calls (neither stop nor target inside the horizon): #27 QQQUSDT short SMC RR 2.0 ended +1.21R; #35 BTCUSDT long SMC RR 3.7 ended -0.13R; #36 XRPUSDT short SR RR 2.5 ended -0.02R; #40 XAUUSDT long SMC RR 7.2 ended -0.56R; #41 QQQUSDT short SR RR 5.1 ended -0.72R
+
+4  FEES AND GEOMETRY
+   the 12bp fee is 0.24R a call on average (median 0.22R, largest 0.76R); total 11.7R of the -16.7R net, i.e. gross -4.9R
+   stop < 0.4%    10 calls: fee 0.51R each, win share needed to break even 27% vs a random entry's 15%
+   stop 0.4-0.8%  25 calls: fee 0.22R each, win share needed to break even 30% vs a random entry's 24%
+   stop >= 0.8%   13 calls: fee 0.09R each, win share needed to break even 33% vs a random entry's 15%
+   RR > 4: 16 calls, 0 wins, random baseline 8% a call, -20.3R of the -16.7R total
+
+5  WHAT-IFS: the same entries under other brackets (hindsight, in-sample; judged by mean GROSS return per trade, 12bp not charged - a no-edge variant earns ~0)
+   variant                              n   hit  mean gross %   se %     t  mean net % (12bp)
+   (sanity: re-scoring every call unchanged reproduces the logged status for 48 of 48)
+   as logged                           48   25%         0.080  0.173   0.5             -0.040
+   stop x1.5                           45   27%         0.010  0.195   0.0             -0.110
+   stop x2                             45   27%        -0.045  0.216  -0.2             -0.165
+   target at 1R                        48   48%         0.048  0.117   0.4             -0.072
+   target at 1.5R                      48   33%         0.053  0.140   0.4             -0.067
+   target at 2R (RR capped at 2)       48   29%         0.089  0.163   0.5             -0.031
+   stop x2 and target at 2R            45   33%        -0.084  0.205  -0.4             -0.204
+   no RR above 4                       32   38%         0.302  0.251   1.2              0.182
+   no stop under 0.4%                  38   29%         0.147  0.217   0.7              0.027
+   RR <= 4 and stop >= 0.4%            29   38%         0.341  0.275   1.2              0.221
+   longs only                          14   36%         0.210  0.267   0.8              0.090
+   shorts only                         34   21%         0.027  0.220   0.1             -0.093
+   rule SR only                        24   25%        -0.183  0.178  -1.0             -0.303
+   rule SMC only                       21   29%         0.510  0.315   1.6              0.390
+   rule FIB only                        3    0%        -0.816  0.299  -2.7             -0.936
+
+6  THE TAPE these calls lived in (Binance perp daily candles)
+   BTCUSDT 10-27 +0.9%  10-28 +0.5%  10-29 -4.1%  10-30 -0.8%  10-31 +0.3%  11-01 +0.5%
+   ETHUSDT 10-27 +1.1%  10-28 +0.4%  10-29 -4.5%  10-30 -0.4%  10-31 +0.5%  11-01 +0.4%
+   XAUUSDT 10-27 +1.4%  10-28 -0.2%  10-29 -1.1%  10-30 -3.0%  10-31 -0.2%  11-01 +0.1%
+   QQQUSDT 10-27 +1.1%  10-28 -0.6%  10-29 -1.8%  10-30 -1.6%  10-31 +0.0%  11-01 +0.4%
+
+REGISTERED HYPOTHESES
+  H1 hit rate within 8 points of the random baseline and gross R <= 0 -> RIGHT (hit 25% vs 20%, gross -0.10R a call)
+  H2 fee >= 0.25R a call and >= 0.4R for stops under 0.4% -> WRONG (0.24R; 0.51R for 10 small-stop calls)
+  H3 RR > 4: no wins and most of the loss -> RIGHT
+  H4 median time to stop < 3 h and half never reach 25% of the way -> WRONG
+  H5 >= 20% of losers touched the target later -> WRONG (4 of 31)
+  H6 no variant 2 standard errors above 0 gross -> RIGHT

@@ -1,0 +1,20 @@
+backtest/his_fade_stretch.py, 2026-11-13 17:23 UTC; entries measured 96 (NASDAQ 53, gold 43); 40 same-day controls each, 30-180 min away, same side
+
+USTECm  n 53  (new since Oct: 7)
+  r60  (1h move, rank; < 0.5 = he fades it)    mean rank 0.480  median 0.550  Wilcoxon p 0.549   new trades: 1.00, 0.00, 0.97, 0.97, 0.00, 0.00, 0.00
+  r120 (2h move, rank)                         mean rank 0.426  median 0.450  Wilcoxon p 0.102   new trades: 0.97, 0.05, 0.35, 0.40, 0.00, 0.00, 0.07
+  pos120 (rank; > 0.5 = at the faded end)      mean rank 0.545  median 0.525  Wilcoxon p 0.258   new trades: 0.07, 0.93, 0.45, 0.28, 0.97, 0.93, 0.97
+  raw: his entries pos120 mean 0.51 (0 = end against him, 1 = faded end); in the faded quarter (>= 0.75): 36%; r60 his way (followed) 51%
+XAUUSDm  n 43  (new since Oct: 2)
+  r60  (1h move, rank; < 0.5 = he fades it)    mean rank 0.364  median 0.100  Wilcoxon p 0.076   new trades: 0.78, 1.00
+  r120 (2h move, rank)                         mean rank 0.367  median 0.250  Wilcoxon p 0.005   new trades: 0.30, 0.45
+  pos120 (rank; > 0.5 = at the faded end)      mean rank 0.661  median 0.875  Wilcoxon p 0.002   new trades: 0.35, 0.20
+  raw: his entries pos120 mean 0.67 (0 = end against him, 1 = faded end); in the faded quarter (>= 0.75): 56%; r60 his way (followed) 35%
+
+F4  the fade rule on random NASDAQ moments of his days (pos120 >= 0.75, the faded side, +-7 race at bid / ask): n 1074, won 37.9% (break-even 50%)
+
+PREDICTIONS
+  F1 NASDAQ pos120 rank > 0.5, p < 0.05 (0.545, p 0.258) -> WRONG
+  F2 NASDAQ fades r60 / r120 (0.480 p 0.549; 0.426 p 0.102) -> WRONG
+  F3 gold pos120 same sign as NASDAQ (+0.161 vs +0.045) -> RIGHT
+  F4 the fade rule loses after the spread (37.9% < 50%) -> RIGHT

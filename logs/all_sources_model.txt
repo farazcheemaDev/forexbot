@@ -1,0 +1,124 @@
+backtest/all_sources_model.py, 2026-11-08 22:13 UTC; 364 PIT coins; 67,317 trainable coin-days from 2022-01-01; 60 coin-level features (32 price) + 13 market; 16 quarterly blocks from 2022-10-01; tune < 2024-08-29; 24bp + long funding per trade
+
+COVERAGE (share of out-of-sample member coin-days with a value, before the missing = 0 fill):
+  price      99.7%   (ret1, ret3, ret7, ret14, ret30, ret60 ...)
+  funding    99.8%   (fund1, fund7, fund_chg)
+  position   96.1%   (crowd, top_acc, top_pos, taker1, taker7, oi_chg1 ...)
+  news       92.9%   (news1, news7, news_spike, tone7, listing7, delist7 ...)
+  social     18.7%   (bsky7, bsky_tone7)
+  unlock    100.0%   (unl_next7, unl_last7)
+  size      100.0%   (liq30, age)
+  market     99.6%
+
+H=1: single feature chosen most often: atr_pct x16
+      ridge ALL |coefficient| largest: body 0.079, ret1 0.064, ema_d50 0.048, vol_z 0.043, bb_pctb 0.042, atr_pct 0.037
+
+H=3: single feature chosen most often: atr_pct x16
+      ridge ALL |coefficient| largest: atr_pct 0.061, bb_pctb 0.059, ema_d50 0.057, age 0.052, crowd 0.048, unl_last7 0.047
+
+H=7: single feature chosen most often: atr_pct x14, age x2
+      ridge ALL |coefficient| largest: crowd 0.078, age 0.070, atr_pct 0.060, delist7 0.046, news7 0.044, ema_d50 0.043
+
+PRIMARY: ALL (every source)
+cell            IC tune / hold (t)            gross spread          NET spread tune / hold (t)            worst align      paired vs PRICE (t)
+ALL ridge H1    +0.100 (+9.9) / +0.105 (+11.0)     +7.6 /  +29.7bp    -19.4bp (-1.6) /   +2.7bp (+0.1)    -19.4 /   +2.7   +6.5bp (+1.5) /  -5.6bp (-0.9)  holm 1.00 
+ALL gbm H1      +0.113 (+11.3) / +0.107 (+11.1)    +15.8 /  +24.8bp    -11.2bp (-1.0) /   -2.2bp (-0.1)    -11.2 /   -2.2   +8.7bp (+1.8) /  -1.3bp (-0.1)  holm 1.00 
+ALL ridge H3    +0.110 (+6.2) / +0.125 (+7.4)    +18.2 /  +25.5bp    -14.8bp (-0.4) /   -7.5bp (-0.1)    -26.2 /  -28.1  +18.4bp (+1.1) /  -1.5bp (-0.1)  holm 1.00 
+ALL gbm H3      +0.127 (+7.6) / +0.134 (+7.9)    +49.8 /  +70.0bp    +16.8bp (+0.5) /  +37.0bp (+0.6)     +7.7 /  +25.5  +31.6bp (+1.7) / +24.9bp (+1.0)  holm 1.00 
+ALL ridge H7    +0.125 (+4.6) / +0.168 (+6.3)    +33.6 / +113.9bp    -11.4bp (-0.1) /  +68.9bp (+0.5)    -43.5 /   -1.4  +38.5bp (+0.8) / +16.1bp (+0.4)  holm 1.00 
+ALL gbm H7      +0.144 (+5.6) / +0.177 (+6.9)    +65.6 / +180.7bp    +20.6bp (+0.3) / +135.7bp (+1.0)    -14.0 /   +9.6   +2.9bp (+0.1) / -23.3bp (+0.3)  holm 1.00 
+
+REFERENCE (same rows, same quarters)
+cell            IC tune / hold (t)            gross spread          NET spread tune / hold (t)            worst align      paired vs PRICE (t)
+PRICE ridge H1  +0.096 (+9.2) / +0.105 (+10.8)     +1.0 /  +35.3bp    -26.0bp (-2.2) /   +8.3bp (+0.4)    -26.0 /   +8.3  
+PRICE gbm H1    +0.106 (+10.4) / +0.103 (+10.8)     +7.1 /  +26.1bp    -19.9bp (-1.7) /   -0.9bp (-0.0)    -19.9 /   -0.9  
+NEW gbm H1      +0.097 (+10.0) / +0.097 (+10.0)    +10.8 /  +23.9bp    -16.2bp (-1.4) /   -3.1bp (-0.2)    -16.2 /   -3.1  
+SINGLE H1       +0.082 (+7.0) / +0.094 (+8.3)     +2.0 /  +19.4bp    -25.0bp (-2.0) /   -7.6bp (-0.4)    -25.0 /   -7.6  
+PRICE ridge H3  +0.102 (+5.6) / +0.131 (+7.4)     -0.2 /  +27.0bp    -33.2bp (-1.0) /   -6.0bp (-0.1)    -39.0 /  -14.9  
+PRICE gbm H3    +0.109 (+6.4) / +0.133 (+8.1)    +18.2 /  +45.1bp    -14.8bp (-0.5) /  +12.1bp (+0.3)    -26.6 /  -15.5  
+NEW gbm H3      +0.113 (+6.7) / +0.128 (+7.3)    +29.0 / +121.0bp     -4.0bp (-0.1) /  +88.0bp (+1.6)     -7.6 /  +76.6  
+SINGLE H3       +0.096 (+4.9) / +0.134 (+6.8)     +0.1 /  +46.8bp    -32.9bp (-0.9) /  +13.8bp (+0.2)    -38.7 /  -11.2  
+PRICE ridge H7  +0.113 (+4.0) / +0.180 (+6.6)     -5.0 /  +97.8bp    -50.0bp (-0.6) /  +52.8bp (+0.4)   -123.4 /  -59.2  
+PRICE gbm H7    +0.124 (+4.8) / +0.182 (+7.3)    +62.7 / +204.0bp    +17.7bp (+0.3) / +159.0bp (+1.2)    -56.4 /  +30.2  
+NEW gbm H7      +0.135 (+5.1) / +0.176 (+6.6)    +62.7 / +163.0bp    +17.7bp (+0.2) / +118.0bp (+0.8)    -22.9 /   +4.0  
+SINGLE H7       +0.117 (+3.9) / +0.187 (+6.8)    +10.4 /  +89.2bp    -34.6bp (-0.4) /  +44.2bp (+0.3)   -104.0 /  -15.5  
+
+DROP ONE FAMILY (gradient boosting; mean IC tune / hold, gross spread tune / hold; ALL first)
+  H=1 ALL           IC +0.1128 / +0.1069   gross  +15.8 /  +24.8bp
+      without price     IC +0.0969 / +0.0968   gross  +10.8 /  +23.9bp   IC lost +0.0159 / +0.0101
+      without funding   IC +0.1117 / +0.1065   gross  +11.7 /  +20.3bp   IC lost +0.0010 / +0.0004
+      without position  IC +0.1072 / +0.1082   gross   +8.0 /  +27.7bp   IC lost +0.0056 / -0.0012
+      without news      IC +0.1117 / +0.1078   gross  +19.6 /  +19.8bp   IC lost +0.0011 / -0.0009
+      without social    IC +0.1128 / +0.1076   gross  +15.8 /  +27.7bp   IC lost +0.0000 / -0.0007
+      without unlock    IC +0.1134 / +0.1076   gross  +13.6 /  +24.6bp   IC lost -0.0006 / -0.0006
+      without size      IC +0.1116 / +0.1057   gross  +17.1 /  +24.3bp   IC lost +0.0012 / +0.0012
+      without market    IC +0.1100 / +0.1065   gross  +16.4 /  +26.6bp   IC lost +0.0028 / +0.0004
+  H=3 ALL           IC +0.1271 / +0.1340   gross  +49.8 /  +70.0bp
+      without price     IC +0.1128 / +0.1280   gross  +29.0 / +121.0bp   IC lost +0.0142 / +0.0059
+      without funding   IC +0.1251 / +0.1310   gross  +48.3 /  +68.2bp   IC lost +0.0020 / +0.0029
+      without position  IC +0.1225 / +0.1368   gross  +40.3 /  +71.0bp   IC lost +0.0046 / -0.0028
+      without news      IC +0.1281 / +0.1346   gross  +56.3 /  +71.4bp   IC lost -0.0011 / -0.0006
+      without social    IC +0.1271 / +0.1325   gross  +49.8 /  +67.3bp   IC lost +0.0000 / +0.0014
+      without unlock    IC +0.1274 / +0.1344   gross  +60.8 /  +66.9bp   IC lost -0.0004 / -0.0004
+      without size      IC +0.1254 / +0.1330   gross  +61.9 /  +62.8bp   IC lost +0.0016 / +0.0010
+      without market    IC +0.1245 / +0.1341   gross  +53.0 /  +70.6bp   IC lost +0.0026 / -0.0002
+  H=7 ALL           IC +0.1445 / +0.1773   gross  +65.6 / +180.7bp
+      without price     IC +0.1345 / +0.1757   gross  +62.7 / +163.0bp   IC lost +0.0099 / +0.0016
+      without funding   IC +0.1408 / +0.1797   gross  +34.9 / +168.9bp   IC lost +0.0036 / -0.0024
+      without position  IC +0.1372 / +0.1800   gross  +57.1 / +109.4bp   IC lost +0.0073 / -0.0027
+      without news      IC +0.1441 / +0.1753   gross  +67.2 / +163.4bp   IC lost +0.0003 / +0.0020
+      without social    IC +0.1445 / +0.1762   gross  +65.6 / +203.9bp   IC lost +0.0000 / +0.0011
+      without unlock    IC +0.1467 / +0.1756   gross  +73.9 / +179.4bp   IC lost -0.0022 / +0.0017
+      without size      IC +0.1372 / +0.1765   gross  +84.0 / +189.6bp   IC lost +0.0073 / +0.0008
+      without market    IC +0.1379 / +0.1772   gross  +41.5 / +187.2bp   IC lost +0.0066 / +0.0002
+
+POWER: a planted feature with a known link to the future (H = 7, added to ALL, gradient boosting)
+  rho 0.03: the feature's own IC +0.039 / +0.026; ALL + it: +0.144 (+5.6) / +0.178 (+6.9)    +43.6 / +182.5bp     -1.4bp (+0.0) / +137.5bp (+1.1)    -37.8 /   -6.0  -> per-cell bar not met
+  rho 0.10: the feature's own IC +0.097 / +0.090; ALL + it: +0.166 (+6.6) / +0.201 (+8.3)   +132.5 / +267.3bp    +87.5bp (+1.3) / +222.3bp (+1.7)    +34.1 /  +82.6  -> per-cell bar not met
+
+POST-HOC 1 (added after the first run): each feature on its own, H = 7, out of sample (missing values left out); 'with atr_pct' = its mean daily rank correlation with atr_pct
+  feature      family    IC tune (t)      IC hold (t)      with atr_pct
+  atr_pct      price     -0.136 (-5.5)   -0.190 (-6.6)   +1.00
+  age          size      +0.136 (+5.7)   +0.169 (+6.0)   -0.65
+  min_ret30    price     +0.109 (+4.9)   +0.182 (+6.8)   -0.75
+  max_ret30    price     -0.123 (-6.5)   -0.157 (-6.3)   +0.75
+  bb_width     price     -0.111 (-4.8)   -0.154 (-5.7)   +0.78
+  dist_h20     price     +0.071 (+3.2)   +0.153 (+6.0)   -0.69
+  oi_vol       position  +0.103 (+5.1)   +0.118 (+4.8)   -0.62
+  dist_h60     price     +0.068 (+2.9)   +0.150 (+5.6)   -0.57
+  dist_l20     price     -0.097 (-5.3)   -0.053 (-2.3)   +0.43
+  taker7       position  +0.085 (+4.4)   +0.030 (+1.4)   -0.34
+  liq30        size      +0.025 (+1.4)   +0.079 (+4.8)   -0.18
+  news7        news      +0.031 (+2.1)   +0.072 (+4.5)   -0.16
+  taker1       position  +0.071 (+4.0)   +0.025 (+1.3)   -0.24
+  dvol_chg     price     +0.001 (+0.1)   +0.088 (+4.2)   -0.19
+  stoch14      price     -0.006 (-0.3)   +0.086 (+3.8)   -0.29
+  ret3_x_volz  price     -0.027 (-1.6)   -0.038 (-1.7)   +0.15
+  unl_next7    unlock    -0.026 (-1.8)   -0.037 (-2.4)   +0.16
+  unl_last7    unlock    -0.022 (-1.5)   -0.034 (-2.2)   +0.16
+  delist7      news      -0.022 (-1.5)   -0.030 (-1.9)   +0.14
+  fund1        funding   +0.012 (+0.8)   +0.038 (+2.0)   -0.02
+  strongest feature of each new family: size age +0.136 / +0.169 (atr -0.65); position oi_vol +0.103 / +0.118 (atr -0.62); news news7 +0.031 / +0.072 (atr -0.16); unlock unl_next7 -0.026 / -0.037 (atr +0.16); funding fund1 +0.012 / +0.038 (atr -0.02); social bsky7 +nan / +0.168 (atr -0.65)
+
+POST-HOC 2 (added after the first run): a planted signal traded ON ITS OWN (no model), H = 7: the IC it takes to meet the per-cell bar here
+  rho 0.10: IC +0.098 / +0.099; NET  +197.2bp (+4.5) /  +271.8bp (+2.6); worst alignment +150.6 / +54.5 -> bar MET
+  rho 0.20: IC +0.191 / +0.196; NET  +385.3bp (+8.6) /  +565.4bp (+6.8); worst alignment +361.0 / +468.1 -> bar MET
+  rho 0.30: IC +0.297 / +0.289; NET  +629.4bp (+14.0) /  +885.0bp (+8.7); worst alignment +581.2 / +723.4 -> bar MET
+
+POST-HOC 3 (added after the first run): the ALL gradient-boosting prediction made VOLATILITY-NEUTRAL (each day its line on the atr_pct rank removed), traded the same way
+cell            IC tune / hold (t)            gross spread          NET spread tune / hold (t)            worst align      paired vs PRICE (t)
+ALL gbm-vn H1   +0.065 (+9.3) / +0.050 (+6.8)    +17.7 /  +18.7bp     -9.3bp (-1.0) /   -8.3bp (-0.5)     -9.3 /   -8.3    -> per-cell bar not met
+ALL gbm-vn H3   +0.067 (+6.1) / +0.039 (+3.4)    +49.1 /  +31.1bp    +16.1bp (+0.7) /   -1.9bp (-0.1)    -15.0 /  -38.6    -> per-cell bar not met
+ALL gbm-vn H7   +0.072 (+4.1) / +0.057 (+3.4)    +53.7 /  +88.2bp     +8.7bp (+0.2) /  +43.2bp (+0.5)    -54.8 /  +10.1    -> per-cell bar not met
+
+VERDICT: NO PASS
+REGISTERED PREDICTIONS
+  A1 no primary ALL cell passes -> RIGHT (0)
+  A2 joining adds little (paired t < 2 on a half in >= 5 of 6; IC gain < 0.02 everywhere) -> WRONG (6 of 6; IC gain -0.0119 .. +0.0203)
+  A3 NEW gbm H7 IC in [0, +0.04] on both halves -> WRONG (+0.1345 / +0.1757)
+  A4 ridge's largest coefficient atr_pct at H3 and H7 -> WRONG (atr_pct, crowd)
+  A5 every H1 ALL cell net negative on both halves -> WRONG
+  A6 'position' costs the most IC when dropped (gbm H7) -> WRONG (size +0.0041, position +0.0023, news +0.0011, funding +0.0006, social +0.0005, unlock -0.0003)
+  A7 planted rho 0.03 fails the bar, 0.10 meets it -> WRONG
+
+run time 716s

@@ -1,0 +1,74 @@
+backtest/sweep_zone_more.py, 2026-11-08 21:49; the 4h and daily zone rules FROZEN (sweep_zone / sweep_zone_daily coin_events) on unseen data
+this file's loop reproduces the studies' own event rows on BTC / ETH / LINK (both studies): yes
+
+== NEW-PERP (ranks 41-100, 2020-26): 83969 sweeps, 555 coins, 2020-10 .. 2026-09; 4h-zoned 2792 (3.3%), daily-zoned with a target 377
+  arm A long  n  39809  net -0.110R (t -4.5)  excess +0.045R
+  arm A short n  44160  net -0.081R (t -4.1)  excess -0.010R
+  zoned - unzoned on the 24-bar trade, long : +0.41% (t +2.21; 1332 of 39809)
+  zoned - unzoned on the 24-bar trade, short: -0.12% (t -1.03; 1460 of 44160)
+  4h B long      n  1332  net +0.018R (t +0.30)  halves +0.11 / -0.08  excess -0.041R  MDE80 +0.20R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  4h C long      n   660  net -0.006R (t -0.09)  halves +0.15 / -0.17  excess -0.118R  MDE80 +0.24R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  daily B long   n   244  net -0.221R (t -1.81)  halves -0.33 / -0.12  excess -0.014R  MDE80 +0.41R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  daily C long   n    80  net -0.436R (t -2.22)  halves -0.70 / -0.17  excess -0.325R  MDE80 +0.66R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  4h B short     n  1460  net -0.144R (t -2.57)  halves -0.23 / -0.05  excess -0.205R  MDE80 +0.19R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  4h C short     n  1026  net -0.138R (t -2.10)  halves -0.23 / -0.05  excess -0.223R  MDE80 +0.22R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  daily B short  n   133  net +0.417R (t +1.46)  halves -0.06 / +0.89  excess +0.742R  MDE80 +0.95R  Holm p 0.50  -> no (cannot tell: MDE80 > +0.15R)
+  daily C short  n    44  net +1.132R (t +1.94)  halves +0.37 / +1.90  excess +1.240R  MDE80 +1.95R  Holm p 0.21  -> no (cannot tell: MDE80 > +0.15R)
+
+== NEW-SPOT (2017-19): 10218 sweeps, 79 coins, 2017-10 .. 2019-12; 4h-zoned 413 (4.0%), daily-zoned with a target 51
+  arm A long  n   5104  net -0.115R (t -2.5)  excess +0.072R
+  arm A short n   5114  net -0.053R (t -1.2)  excess -0.009R
+  zoned - unzoned on the 24-bar trade, long : +0.19% (t +0.58; 205 of 5104)
+  zoned - unzoned on the 24-bar trade, short: -0.08% (t -0.30; 208 of 5114)
+  4h B long      n   205  net -0.015R (t -0.12)  halves +0.02 / -0.05  excess +0.062R  MDE80 +0.42R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  4h C long      n    40  net -0.022R (t -0.08)  halves -0.05 / +0.01  excess +0.193R  MDE80 +1.00R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  daily B long   n    35  net +0.023R (t +0.06)  halves +0.22 / -0.17  excess -0.114R  MDE80 +1.25R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  daily C long   n     3  net -0.492R (t -1.16)  halves +0.35 / -0.91  excess -1.712R  MDE80 +1.42R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  4h B short     n   208  net -0.157R (t -1.46)  halves +0.05 / -0.36  excess -0.195R  MDE80 +0.36R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  4h C short     n    71  net -0.391R (t -2.53)  halves -0.49 / -0.29  excess -0.493R  MDE80 +0.52R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  daily B short  n    16  net -0.241R (t -0.78)  halves -0.31 / -0.17  excess -1.084R  MDE80 +1.03R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  daily C short  n     5  net +1.044R (t +1.70)  halves +1.64 / +0.65  excess -0.270R  MDE80 +2.05R  Holm p 0.36  -> no (cannot tell: MDE80 > +0.15R)
+
+== NEW = both (THE CONFIRM SAMPLE): 94187 sweeps, 580 coins, 2017-10 .. 2026-09; 4h-zoned 3205 (3.4%), daily-zoned with a target 428
+  arm A long  n  44913  net -0.111R (t -5.0)  excess +0.048R
+  arm A short n  49274  net -0.078R (t -4.2)  excess -0.010R
+  zoned - unzoned on the 24-bar trade, long : +0.38% (t +2.29; 1537 of 44913)
+  zoned - unzoned on the 24-bar trade, short: -0.12% (t -1.07; 1668 of 49274)
+  4h B long      n  1537  net +0.013R (t +0.25)  halves +0.12 / -0.09  excess -0.027R  MDE80 +0.18R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  4h C long      n   700  net -0.007R (t -0.10)  halves +0.18 / -0.19  excess -0.100R  MDE80 +0.23R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  daily B long   n   279  net -0.191R (t -1.64)  halves -0.26 / -0.12  excess -0.026R  MDE80 +0.39R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  daily C long   n    83  net -0.438R (t -2.31)  halves -0.66 / -0.23  excess -0.376R  MDE80 +0.63R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  4h B short     n  1668  net -0.146R (t -2.87)  halves -0.22 / -0.08  excess -0.204R  MDE80 +0.17R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  4h C short     n  1097  net -0.155R (t -2.48)  halves -0.29 / -0.02  excess -0.240R  MDE80 +0.21R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  daily B short  n   149  net +0.347R (t +1.34)  halves -0.12 / +0.81  excess +0.546R  MDE80 +0.86R  Holm p 0.63  -> no (cannot tell: MDE80 > +0.15R)
+  daily C short  n    49  net +1.123R (t +2.13)  halves +0.47 / +1.75  excess +1.086R  MDE80 +1.76R  Holm p 0.13  -> no (cannot tell: MDE80 > +0.15R)
+
+== OLD (top-40, already read): 60601 sweeps, 359 coins, 2020-02 .. 2026-09; 4h-zoned 2323 (3.8%), daily-zoned with a target 286
+  arm A long  n  28694  net -0.143R (t -6.0)  excess -0.002R
+  arm A short n  31907  net -0.061R (t -3.0)  excess -0.011R
+  zoned - unzoned on the 24-bar trade, long : -0.19% (t -1.34; 1195 of 28694)
+  zoned - unzoned on the 24-bar trade, short: +0.03% (t +0.23; 1128 of 31907)
+  4h B long      n  1195  net -0.114R (t -2.02)  halves +0.04 / -0.27  excess -0.069R  MDE80 +0.19R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  4h C long      n   608  net -0.124R (t -1.85)  halves -0.07 / -0.18  excess -0.112R  MDE80 +0.22R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  daily B long   n   143  net -0.212R (t -1.30)  halves -0.38 / -0.04  excess +0.064R  MDE80 +0.54R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  daily C long   n    56  net +0.206R (t +0.57)  halves +0.02 / +0.39  excess +0.237R  MDE80 +1.20R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  4h B short     n  1128  net -0.089R (t -1.44)  halves -0.26 / +0.08  excess -0.042R  MDE80 +0.21R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  4h C short     n   744  net -0.018R (t -0.22)  halves -0.10 / +0.06  excess -0.045R  MDE80 +0.27R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  daily B short  n   143  net +0.226R (t +1.30)  halves +0.22 / +0.23  excess +0.198R  MDE80 +0.58R  Holm p 0.68  -> no (cannot tell: MDE80 > +0.15R)
+  daily C short  n    74  net +0.444R (t +1.64)  halves +0.47 / +0.42  excess -0.018R  MDE80 +0.91R  Holm p 0.41  -> no (cannot tell: MDE80 > +0.15R)
+
+== ALL = OLD + NEW: 154788 sweeps, 610 coins, 2017-10 .. 2026-09; 4h-zoned 5528 (3.6%), daily-zoned with a target 714
+  arm A long  n  73607  net -0.123R (t -5.7)  excess +0.029R
+  arm A short n  81181  net -0.071R (t -4.0)  excess -0.010R
+  zoned - unzoned on the 24-bar trade, long : +0.13% (t +1.04; 2732 of 73607)
+  zoned - unzoned on the 24-bar trade, short: -0.06% (t -0.65; 2796 of 81181)
+  4h B long      n  2732  net -0.042R (t -0.94)  halves +0.09 / -0.17  excess -0.045R  MDE80 +0.15R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  4h C long      n  1308  net -0.062R (t -1.19)  halves +0.06 / -0.19  excess -0.106R  MDE80 +0.17R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  daily B long   n   422  net -0.198R (t -2.08)  halves -0.30 / -0.10  excess +0.004R  MDE80 +0.32R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  daily C long   n   139  net -0.179R (t -0.97)  halves -0.32 / -0.04  excess -0.129R  MDE80 +0.62R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  4h B short     n  2796  net -0.123R (t -2.61)  halves -0.24 / -0.00  excess -0.138R  MDE80 +0.16R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  4h C short     n  1841  net -0.099R (t -1.65)  halves -0.24 / +0.04  excess -0.161R  MDE80 +0.20R  Holm p 1.00  -> no (cannot tell: MDE80 > +0.15R)
+  daily B short  n   292  net +0.287R (t +1.79)  halves +0.03 / +0.55  excess +0.375R  MDE80 +0.54R  Holm p 0.26  -> no (cannot tell: MDE80 > +0.15R)
+  daily C short  n   123  net +0.715R (t +2.69)  halves +0.52 / +0.91  excess +0.422R  MDE80 +0.89R  Holm p 0.03  -> PASS
+
+VERDICT on NEW (Holm over 8): 0 of 8 pass: []

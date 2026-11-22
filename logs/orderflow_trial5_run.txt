@@ -1,0 +1,16 @@
+2026-10-30 14:30:54  connected
+2026-10-30 14:31:54  6251 book msgs, 2665 trades, 0 gaps this minute; disk 0.9 MB; cpu 3.2% of one core; memory 55 MB; pongs 2; resubs 0
+2026-10-30 14:32:54  6352 book msgs, 2711 trades, 0 gaps this minute; disk 1.8 MB; cpu 3.1% of one core; memory 56 MB; pongs 5; resubs 0
+2026-10-30 14:33:54  6255 book msgs, 1641 trades, 0 gaps this minute; disk 2.5 MB; cpu 2.6% of one core; memory 56 MB; pongs 8; resubs 0
+2026-10-30 14:34:54  6297 book msgs, 1689 trades, 0 gaps this minute; disk 3.3 MB; cpu 2.8% of one core; memory 56 MB; pongs 11; resubs 0
+2026-10-30 14:35:54  6290 book msgs, 1596 trades, 0 gaps this minute; disk 4.1 MB; cpu 2.8% of one core; memory 56 MB; pongs 14; resubs 0
+2026-10-30 14:36:54  6260 book msgs, 1965 trades, 0 gaps this minute; disk 4.8 MB; cpu 3.4% of one core; memory 58 MB; pongs 17; resubs 0
+2026-10-30 14:37:54  6183 book msgs, 1830 trades, 0 gaps this minute; disk 5.6 MB; cpu 2.7% of one core; memory 57 MB; pongs 20; resubs 0
+2026-10-30 14:38:54  6412 book msgs, 3209 trades, 0 gaps this minute; disk 6.6 MB; cpu 3.5% of one core; memory 58 MB; pongs 23; resubs 0
+2026-10-30 14:39:54  6359 book msgs, 5467 trades, 0 gaps this minute; disk 7.9 MB; cpu 4.0% of one core; memory 58 MB; pongs 26; resubs 0
+2026-10-30 14:40:54  6355 book msgs, 4908 trades, 0 gaps this minute; disk 9.0 MB; cpu 2.9% of one core; memory 57 MB; pongs 29; resubs 0
+2026-10-30 14:41:54  6364 book msgs, 4007 trades, 0 gaps this minute; disk 10.2 MB; cpu 3.3% of one core; memory 58 MB; pongs 32; resubs 0
+2026-10-30 14:42:54  6354 book msgs, 2985 trades, 0 gaps this minute; disk 11.2 MB; cpu 3.5% of one core; memory 58 MB; pongs 35; resubs 0
+2026-10-30 14:43:54  6277 book msgs, 2021 trades, 0 gaps this minute; disk 12.1 MB; cpu 3.4% of one core; memory 58 MB; pongs 38; resubs 0
+2026-10-30 14:44:54  6237 book msgs, 1841 trades, 0 gaps this minute; disk 12.9 MB; cpu 3.7% of one core; memory 58 MB; pongs 41; resubs 0
+2026-10-30 14:45:58  stopped; files closed

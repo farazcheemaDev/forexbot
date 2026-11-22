@@ -1,0 +1,28 @@
+backtest/his_flip_seconds.py, 2026-11-21 22:25 UTC; his NASDAQ trades with tick data: 42 (race won 36 of 41); flip pairs covered: 5
+
+  pair 2026-02-20 10:01:48 -> 10:02:15 (27 s)
+  pair 2026-04-06 11:38:36 -> 11:44:39 (363 s)
+  pair 2026-06-05 11:04:00 -> 11:04:39 (39 s)
+  pair 2026-08-07 12:59:59 -> 13:03:15 (196 s)
+  pair 2026-09-14 14:30:13 -> 14:38:07 (474 s)
+
+  reading        FADE pairs  FOLLOW pairs   at the BUY / at the SELL
+  move_1s            1 of 5        2 of 5   +1/+1  -1/+1  -1/+1  +1/-1  +1/+0
+  move_3s            2 of 5        0 of 5   +1/+1  +1/-1  +1/+1  +1/-1  -1/-1
+  move_6s            0 of 5        2 of 5   -1/+1  -1/-1  -1/+1  +1/+1  -1/-1
+  move_10s           0 of 5        2 of 5   -1/+1  -1/-1  +1/+1  +1/+1  -1/+1
+  move_20s           1 of 5        0 of 5   -1/-1  -1/-1  -1/-1  +1/-1  -1/-1
+  move_30s           1 of 5        0 of 5   -1/-1  -1/-1  -1/-1  +1/-1  -1/-1
+  move_60s           1 of 5        0 of 5   -1/-1  -1/-1  -1/-1  +1/-1  -1/-1
+  range_30s          1 of 5        1 of 5   -1/-1  -1/-1  -1/-1  +1/-1  -1/+1
+  range_60s          1 of 5        0 of 5   -1/-1  -1/-1  -1/-1  +1/-1  -1/-1
+  range_120s         1 of 5        0 of 5   -1/-1  -1/-1  -1/-1  +1/-1  -1/-1
+  candle_now         1 of 5        0 of 5   -1/-1  -1/-1  -1/-1  +1/-1  -1/-1
+  candle_prev        1 of 5        1 of 5   -1/-1  -1/+1  -1/-1  +1/-1  -1/-1
+
+  READINGS CONSISTENT IN ALL PAIRS OR ALL BUT ONE: none
+
+REGISTERED PREDICTIONS
+  S1 the last 1-6 s move flips with him as a FADE in >= 4 of the pairs -> WRONG (1s 1 of 5, 3s 2 of 5, 6s 0 of 5)
+  S2 qualifying readings match 40-65% on his other trades -> RIGHT (none qualified)
+  S3 as rules they win the race 46-54% -> RIGHT (none qualified)

@@ -1,0 +1,27 @@
+backtest/liq_map_1m.py, 2026-11-15 11:03 UTC; liq_map.py's fills re-scored on Binance 1-minute bars: 9366 cluster fills, 19755 control fills; with a minute through the level 100.0% / 100.0%; 12bp + 1bp / 8h
+
+OVERSHOOT long: past the level within 5 minutes of the fill, median 0.58% (cluster) vs 0.48% (control); 0.5% or more 55% vs 49%
+OVERSHOOT short: past the level within 5 minutes of the fill, median 0.55% (cluster) vs 0.48% (control); 0.5% or more 53% vs 48%
+
+PRIMARY (tune / holdout)      
+long 5m                2819/2113   NET    -8.6 (-1.9) /   -13.3bp (-3.5)   EXCESS    -4.4 (-0.9) /    -2.2bp (-0.4)   MDE80 hold    9bp  holm 1.00
+long 15m               2819/2113   NET    -3.1 (-0.6) /    -5.3bp (-1.2)   EXCESS    -1.1 (-0.2) /    +3.2bp (+0.5)   MDE80 hold   11bp  holm 1.00
+long 60m               2819/2113   NET    -0.4 (-0.1) /   -13.8bp (-1.9)   EXCESS    -1.3 (-0.2) /    -4.4bp (-0.5)   MDE80 hold   17bp  holm 1.00
+long scalp             2819/2113   NET   -20.3 (-14.0) /   -19.6bp (-12.1)   EXCESS    -1.4 (-0.8) /    -0.3bp (-0.1)   MDE80 hold    4bp  holm 1.00
+short 5m               2628/1806   NET   -15.8 (-7.2) /   -21.1bp (-6.1)   EXCESS    -0.3 (-0.1) /    -3.9bp (-0.8)   MDE80 hold   10bp  holm 1.00
+short 15m              2628/1806   NET   -15.3 (-5.1) /   -28.0bp (-5.1)   EXCESS    +1.3 (+0.3) /   -13.2bp (-1.8)   MDE80 hold   15bp  holm 1.00
+short 60m              2628/1806   NET   -18.6 (-3.9) /   -32.9bp (-3.6)   EXCESS    -0.6 (-0.1) /   -20.5bp (-1.7)   MDE80 hold   25bp  holm 1.00
+short scalp            2628/1806   NET   -18.4 (-13.7) /   -22.6bp (-13.8)   EXCESS    -0.9 (-0.6) /    -2.8bp (-1.3)   MDE80 hold    4bp  holm 1.00
+
+SECONDARY: deep longs (cluster 8%+ under the close)
+deep long 15m           273/252    NET   +31.3 (+1.6) /   +34.8bp (+2.1)   EXCESS    -1.0 (-0.0) /    -6.1bp (-0.2)   MDE80 hold   43bp  holm 0.12
+deep long 60m           273/252    NET   +31.6 (+1.5) /   +28.5bp (+1.1)   EXCESS    +4.4 (+0.1) /    +0.1bp (+0.0)   MDE80 hold   66bp  holm 0.13
+
+PASSING: 0 of 8 primary
+REGISTERED PREDICTIONS
+  M1 no primary cell passes -> RIGHT
+  M2 cluster overshoot >= control's -> RIGHT (long 0.58% vs 0.48%, short 0.55% vs 0.48%)
+  M3 |excess| < 10bp at 5m / 15m everywhere -> WRONG
+  M4 the scalp bracket loses on both halves, both sides -> RIGHT
+  M5 the deep-long cells do not pass -> RIGHT
+run time 4s

@@ -1,0 +1,43 @@
+backtest/combo_meta.py, 2026-11-15 01:31 UTC; 10,081 replay calls (2022-02-10 .. 2026-10-25), 5 crypto markets; 55 candle features (P), 91 panel features (E); walk-forward quarterly folds from 2023-01-01, embargo 72h
+all calls out of sample: 8,220 calls, mean R -0.195 a call, hit 18.1% vs random 19.6%
+
+OUT-OF-SAMPLE RANK IC between predicted and realised R (day-block bootstrap 95% range), and the same on the model's own training data
+  ridge P     IC +0.251 [+0.227, +0.274]   2023-24 +0.182   2025-26 +0.324   in-sample IC +0.326
+  hgb P       IC +0.206 [+0.183, +0.228]   2023-24 +0.166   2025-26 +0.253   in-sample IC +0.469
+  ridge P+E   IC +0.196 [+0.170, +0.221]   2023-24 +0.152   2025-26 +0.245   in-sample IC +0.306
+  hgb P+E     IC +0.204 [+0.179, +0.230]   2023-24 +0.162   2025-26 +0.260   in-sample IC +0.505
+
+THE 12 CELLS (selected = the top fraction by predicted R in each fold; uplift per bet = selected minus all calls of the same day + side)
+  ridge P     top 10%  n   830 bets  568  selected R/bet -0.048  uplift/bet -0.015 (t -0.4)  hit 16.4% vs random 17.8%  halves uplift +0.034 / -0.063  Holm p 1.000  no
+  ridge P     top 20%  n  1650 bets 1023  selected R/bet -0.055  uplift/bet +0.017 (t +0.6)  hit 18.2% vs random 19.7%  halves uplift +0.066 / -0.034  Holm p 1.000  no
+  ridge P     top 33%  n  2721 bets 1459  selected R/bet -0.057  uplift/bet +0.014 (t +0.6)  hit 19.5% vs random 20.3%  halves uplift +0.049 / -0.023  Holm p 1.000  no
+  hgb P       top 10%  n   830 bets  583  selected R/bet -0.102  uplift/bet -0.017 (t -0.4)  hit 18.0% vs random 20.0%  halves uplift +0.018 / -0.055  Holm p 1.000  no
+  hgb P       top 20%  n  1650 bets 1034  selected R/bet -0.064  uplift/bet -0.009 (t -0.3)  hit 19.0% vs random 20.3%  halves uplift +0.041 / -0.061  Holm p 1.000  no
+  hgb P       top 33%  n  2721 bets 1506  selected R/bet -0.069  uplift/bet -0.015 (t -0.7)  hit 19.6% vs random 20.8%  halves uplift +0.033 / -0.064  Holm p 1.000  no
+  ridge P+E   top 10%  n   802 bets  536  selected R/bet -0.148  uplift/bet -0.022 (t -0.6)  hit 15.6% vs random 17.9%  halves uplift -0.004 / -0.043  Holm p 1.000  no
+  ridge P+E   top 20%  n  1594 bets  938  selected R/bet -0.088  uplift/bet +0.004 (t +0.1)  hit 17.5% vs random 18.7%  halves uplift +0.073 / -0.077  Holm p 1.000  no
+  ridge P+E   top 33%  n  2628 bets 1369  selected R/bet -0.082  uplift/bet +0.014 (t +0.7)  hit 17.8% vs random 19.5%  halves uplift +0.051 / -0.029  Holm p 1.000  no
+  hgb P+E     top 10%  n   802 bets  552  selected R/bet -0.136  uplift/bet +0.007 (t +0.2)  hit 20.2% vs random 20.7%  halves uplift +0.032 / -0.023  Holm p 1.000  no
+  hgb P+E     top 20%  n  1594 bets  959  selected R/bet -0.089  uplift/bet +0.026 (t +1.0)  hit 19.0% vs random 20.6%  halves uplift +0.040 / +0.009  Holm p 1.000  no
+  hgb P+E     top 33%  n  2628 bets 1389  selected R/bet -0.050  uplift/bet +0.021 (t +1.0)  hit 19.7% vs random 20.5%  halves uplift +0.050 / -0.012  Holm p 1.000  no
+  cells passing: 0 of 12
+  best cell by uplift: hgb P+E top 20%: out-of-sample uplift +0.026R a bet; the SAME model on its own training calls (in-sample): selected R/bet +0.850, uplift +0.454 (t +15.5)
+
+WHAT THE RICH SIGNALS ADD (IC of P+E minus P, same calls)
+  ridge: P +0.244  P+E +0.196  (on the 7,941 calls the panel covers)
+  hgb: P +0.199  P+E +0.204  (on the 7,941 calls the panel covers)
+
+POWER CHECK: the same pipeline on labels with a KNOWN skill planted (+0.25R per sd of the direction-aligned 24h return) and on a label-shuffled placebo (ridge P, top 20%)
+  planted                    uplift/bet -0.052 (t -2.2), halves +0.001 / -0.108
+  placebo (shuffled labels)  uplift/bet +0.007 (t +0.2), halves -0.040 / +0.063
+
+THE LIVE FORWARD CALLS (never seen by any fit; the P-set models trained on ALL replay calls up to 2026-10-25; candles to now)
+  92 resolved live crypto calls, 18 days; all calls: -0.061R a call, hit 25% vs random 18%
+  ridge P: IC +0.462;  top 33%: n 31 bets 22  selected R/bet +0.03  uplift/bet -0.15 (t -0.8)  hit 29% vs random 21%
+  ridge P: IC +0.462;  top 50%: n 46 bets 24  selected R/bet +0.16  uplift/bet -0.01 (t -0.1)  hit 39% vs random 21%
+  hgb P: IC +0.479;  top 33%: n 31 bets 18  selected R/bet +0.12  uplift/bet +0.04 (t +0.2)  hit 39% vs random 18%
+  hgb P: IC +0.479;  top 50%: n 46 bets 24  selected R/bet +0.33  uplift/bet +0.16 (t +0.9)  hit 37% vs random 18%
+  for reference: the live sweet-spot calls (49) +0.169R a call
+
+PREDICTIONS (registered before the run)
+  M1 cells passing: 0 of 12

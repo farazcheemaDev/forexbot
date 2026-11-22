@@ -1,0 +1,14 @@
+backtest/book_drop_check.py, 2026-11-21 00:15 UTC; medians over 10 orderings, %; full_same_fall = the full machine scaled to the same biggest fall (the bet-smaller line)
+
+                    cagr  fall  worst_month  full_same_fall  orderings beating the line
+drop        half                                                                       
+daily       hold  1767.4  43.6        -31.4          2017.4                           2
+            tune   898.0  41.5        -22.9          1296.2                           0
+mn_blend    hold  1080.4  46.5        -28.3          2315.3                           0
+            tune   970.6  37.5        -18.4          1046.1                           4
+ndx_dip     hold  2167.8  53.4        -30.0          2860.3                           0
+            tune  1363.9  44.3        -20.6          1542.9                           0
+none (full) hold  2560.1  50.9        -29.4          2560.1                          10
+            tune  1459.4  42.9        -19.9          1459.4                          10
+
+RESULT: no drop is supported - each reduced machine earns less than the full machine run smaller to the same fall, in most orderings on both halves.

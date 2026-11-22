@@ -1,0 +1,41 @@
+backtest/blindness_check.py, 2026-11-08 21:43; planted skill in real data, judged by the studies' own gates; 200 reps a row (test 1), 500 windows a row (test 2)
+
+== ALL sweeps (arm A's events): 60529 events (36081 tune / 24448 holdout; about 12224 holdout trades a side)
+    p right   true R  measured R   excess   PASS (gate)  PASS both sides  PASS w/o 100-trade rule
+       0.50   -0.084      -0.084   -0.010            0%               0%                       0%
+       0.52   -0.053      -0.052   +0.021            0%               0%                       0%
+       0.55   -0.006      -0.006   +0.064            0%               0%                       0%
+       0.60   +0.072      +0.072   +0.139          100%               0%                     100%
+       0.65   +0.150      +0.149   +0.214          100%              92%                     100%
+       0.70   +0.228      +0.228   +0.290          100%             100%                     100%
+       0.80   +0.383      +0.383   +0.441          100%             100%                     100%
+
+== 4h-ZONED sweeps (arm B's events): 2321 events (1369 tune / 952 holdout; about 476 holdout trades a side)
+    p right   true R  measured R   excess   PASS (gate)  PASS both sides  PASS w/o 100-trade rule
+       0.50   -0.089      -0.087   +0.001            0%               0%                       0%
+       0.52   -0.056      -0.057   +0.030            0%               0%                       0%
+       0.55   -0.008      -0.004   +0.084            0%               0%                       0%
+       0.60   +0.073      +0.071   +0.161           12%               0%                      12%
+       0.65   +0.153      +0.154   +0.241           66%               0%                      66%
+       0.70   +0.234      +0.236   +0.323           98%               0%                      98%
+       0.80   +0.395      +0.396   +0.484          100%              26%                     100%
+
+== DAILY-ZONED with a target (daily arm B's events): 285 events (169 tune / 116 holdout; about 58 holdout trades a side)
+    p right   true R  measured R   excess   PASS (gate)  PASS both sides  PASS w/o 100-trade rule
+       0.50   -0.114      -0.115   -0.030            0%               0%                       0%
+       0.52   -0.086      -0.088   -0.011            0%               0%                       0%
+       0.55   -0.043      -0.051   +0.036            0%               0%                       0%
+       0.60   +0.029      +0.032   +0.133            0%               0%                       0%
+       0.65   +0.100      +0.092   +0.197            0%               0%                       0%
+       0.70   +0.171      +0.172   +0.288            0%               0%                       0%
+       0.80   +0.314      +0.322   +0.461            0%               0%                       2%
+
+== THE DESK'S 30-BET FORWARD TEST (analyst_sweetspot.score as registered) on its own replay: 6928 calls with a stop >= 0.8%, 1613 days; 500 windows of 30 consecutive bets per row
+    q (losers made winners)    hit  random odds  true R a bet    PASS  mean R a bet in a window, 10th / 50th / 90th pct
+                       0.00  16.2%        17.5%        -0.016      0%             -0.25 / -0.01 / +0.31
+                       0.05  20.3%        17.5%        +0.119      3%             -0.12 / +0.12 / +0.42
+                       0.10  24.7%        17.5%        +0.284     15%             -0.05 / +0.24 / +0.61
+                       0.15  29.1%        17.5%        +0.432     35%             +0.09 / +0.40 / +0.74
+                       0.20  33.2%        17.5%        +0.607     57%             +0.25 / +0.58 / +0.89
+                       0.30  41.9%        17.5%        +0.893     91%             +0.56 / +0.89 / +1.25
+                       0.40  49.6%        17.5%        +1.167     99%             +0.80 / +1.19 / +1.51

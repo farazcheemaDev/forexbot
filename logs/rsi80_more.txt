@@ -1,0 +1,57 @@
+backtest/rsi80_more.py, 2026-11-08 22:18; 4h RSI(14) up through 80 -> LONG, stop 4 ATR, target 4R, out at bar 24, 12bp + 1bp/8h, rsi_ratio.py's own code; control = the same bracket from every coin-bar at the entry day x slot
+OLD: 364 coins, 1088 lead trades; lead_trades == rsi_ratio.process: True
+NEW-PERP: 561 coins, 1292 lead trades; lead_trades == rsi_ratio.process: True
+NEW-SPOT: 80 coins, 182 lead trades; lead_trades == rsi_ratio.process: True
+
+OLD (top-40 perps, where the lead was found) - must reproduce rsi_ratio.txt line 412: REPRODUCED
+  tune     n   775 on  387 days  day-vote +0.221R (t +3.91)  excess +0.186R (t +3.84)  per-trade +0.227R  win 50% (random 46%)
+  holdout  n   313 on  165 days  day-vote +0.192R (t +1.87)  excess +0.188R (t +2.07)  per-trade +0.292R  win 52% (random 47%)
+
+NEW-PERP: n  1292 on  666 days  day-vote +0.070R (t +1.53)  excess +0.074R (t +1.83)  per-trade +0.126R  win 43% (random 48%)  MDE80 +0.13R
+    first half n   646 on  321 days  day-vote +0.080R (t +1.29)  excess +0.073R (t +1.39)  per-trade +0.112R  win 43% (random 49%)
+    second half n   646 on  345 days  day-vote +0.061R (t +0.91)  excess +0.075R (t +1.23)  per-trade +0.139R  win 42% (random 47%)
+
+NEW-SPOT: n   182 on   99 days  day-vote +0.119R (t +1.04)  excess +0.166R (t +2.02)  per-trade +0.229R  win 47% (random 44%)  MDE80 +0.32R
+    first half n    91 on   48 days  day-vote +0.240R (t +1.31)  excess +0.195R (t +1.51)  per-trade +0.341R  win 56% (random 53%)
+    second half n    91 on   51 days  day-vote +0.005R (t +0.04)  excess +0.137R (t +1.33)  per-trade +0.116R  win 38% (random 34%)
+
+NEW = both (THE CONFIRM SAMPLE): n  1474 on  765 days  day-vote +0.076R (t +1.80)  excess +0.086R (t +2.34)  per-trade +0.138R  win 43% (random 47%)  MDE80 +0.12R
+    first half n   737 on  380 days  day-vote +0.100R (t +1.73)  excess +0.124R (t +2.62)  per-trade +0.138R  win 45% (random 47%)
+    second half n   737 on  385 days  day-vote +0.053R (t +0.85)  excess +0.048R (t +0.86)  per-trade +0.139R  win 42% (random 47%)
+VERDICT on NEW: NO PASS
+
+NEIGHBOURS on NEW (context, not judged): per-trade mean R, day-vote t, excess
+  4h hi75 long, stop 2.0 ATR, target 2.0R: n  3886 on 1349 days  day-vote -0.036R (t -1.21)  excess +0.058R (t +2.10)  per-trade +0.006R  win 37% (random 39%)
+  4h hi75 long, stop 2.0 ATR, target 4.0R: n  3588 on 1294 days  day-vote -0.017R (t -0.44)  excess +0.067R (t +1.92)  per-trade +0.045R  win 32% (random 36%)
+  4h hi75 long, stop 4.0 ATR, target 2.0R: n  3465 on 1268 days  day-vote -0.004R (t -0.16)  excess +0.040R (t +1.98)  per-trade +0.084R  win 45% (random 47%)
+  4h hi75 long, stop 4.0 ATR, target 4.0R: n  3331 on 1244 days  day-vote +0.017R (t +0.59)  excess +0.059R (t +2.43)  per-trade +0.110R  win 45% (random 46%)
+  4h hi80 long, stop 2.0 ATR, target 2.0R: n  1681 on  820 days  day-vote +0.029R (t +0.68)  excess +0.073R (t +1.79)  per-trade +0.052R  win 38% (random 39%)
+  4h hi80 long, stop 2.0 ATR, target 4.0R: n  1566 on  789 days  day-vote +0.029R (t +0.52)  excess +0.065R (t +1.28)  per-trade +0.077R  win 31% (random 36%)
+  4h hi80 long, stop 4.0 ATR, target 2.0R: n  1534 on  783 days  day-vote +0.030R (t +0.88)  excess +0.038R (t +1.28)  per-trade +0.106R  win 45% (random 48%)
+  4h hi80 long, stop 4.0 ATR, target 4.0R: n  1474 on  765 days  day-vote +0.076R (t +1.80)  excess +0.086R (t +2.34)  per-trade +0.138R  win 43% (random 47%)
+
+THE SMALL ACCOUNT: $20, one position at a time, the whole account on each trade (median of 5 tie orders); stuck under $5
+  top-100 perps 2020-26 (OLD + NEW-PERP)   1x:  396 trades, $20 -> $21.81 (+1%/yr), deepest fall 99%, worst trade -70%   (5 orders: $4 .. $153)
+  top-100 perps 2020-26 (OLD + NEW-PERP)   2x:   55 trades, $20 -> $4.07 (-21%/yr), deepest fall 99%, worst trade -96% STUCK   (5 orders: $4 .. $4)
+  NEW-PERP only                            1x:  278 trades, $20 -> $4.38 (-23%/yr), deepest fall 99%, worst trade -51% STUCK   (5 orders: $4 .. $5)
+  NEW-PERP only                            2x:   36 trades, $20 -> $2.97 (-28%/yr), deepest fall 100%, worst trade -96% STUCK   (5 orders: $2 .. $5)
+  NEW-SPOT 2017-19                         1x:   60 trades, $20 -> $6.82 (-38%/yr), deepest fall 88%, worst trade -27%   (5 orders: $6 .. $8)
+  NEW-SPOT 2017-19                         2x:   47 trades, $20 -> $4.04 (-51%/yr), deepest fall 97%, worst trade -53% STUCK   (5 orders: $3 .. $5)
+
+THE WAY IT IS MEANT TO BE TRADED (added after the first run, descriptive): every signal, each risking a fixed share of the booked equity, positions under $5 skipped
+  top-100 perps 2020-26  risk 1%  $  20 -> $    19.41 (  -0%/yr)  taken   34, skipped under $5 2346, deepest fall   7%, most open at once 1.7x the account
+  top-100 perps 2020-26  risk 1%  $  50 -> $   322.67 ( +32%/yr)  taken 1278, skipped under $5 1102, deepest fall  29%, most open at once 5.4x the account
+  top-100 perps 2020-26  risk 1%  $ 100 -> $ 2,853.13 ( +66%/yr)  taken 2328, skipped under $5   52, deepest fall  34%, most open at once 5.7x the account
+  top-100 perps 2020-26  risk 1%  $ 300 -> $ 9,486.37 ( +68%/yr)  taken 2380, skipped under $5    0, deepest fall  34%, most open at once 5.7x the account
+  top-100 perps 2020-26  risk 2%  $  20 -> $    60.13 ( +18%/yr)  taken  666, skipped under $5 1714, deepest fall  51%, most open at once 7.4x the account
+  top-100 perps 2020-26  risk 2%  $  50 -> $11,942.47 (+129%/yr)  taken 2338, skipped under $5   42, deepest fall  58%, most open at once 11.4x the account
+  top-100 perps 2020-26  risk 2%  $ 100 -> $26,459.68 (+132%/yr)  taken 2377, skipped under $5    3, deepest fall  58%, most open at once 11.4x the account
+  top-100 perps 2020-26  risk 2%  $ 300 -> $78,607.29 (+132%/yr)  taken 2380, skipped under $5    0, deepest fall  58%, most open at once 11.4x the account
+  NEW-PERP only          risk 1%  $  20 -> $    19.80 (  -0%/yr)  taken   19, skipped under $5 1273, deepest fall   4%, most open at once 1.0x the account
+  NEW-PERP only          risk 1%  $  50 -> $   101.46 ( +13%/yr)  taken  463, skipped under $5  829, deepest fall  18%, most open at once 2.6x the account
+  NEW-PERP only          risk 1%  $ 100 -> $   297.50 ( +20%/yr)  taken 1172, skipped under $5  120, deepest fall  27%, most open at once 3.7x the account
+  NEW-PERP only          risk 1%  $ 300 -> $ 1,158.93 ( +26%/yr)  taken 1292, skipped under $5    0, deepest fall  28%, most open at once 3.7x the account
+  NEW-PERP only          risk 2%  $  20 -> $    28.09 (  +6%/yr)  taken  164, skipped under $5 1128, deepest fall  20%, most open at once 3.4x the account
+  NEW-PERP only          risk 2%  $  50 -> $   435.38 ( +44%/yr)  taken 1271, skipped under $5   21, deepest fall  49%, most open at once 7.3x the account
+  NEW-PERP only          risk 2%  $ 100 -> $   926.35 ( +46%/yr)  taken 1292, skipped under $5    0, deepest fall  49%, most open at once 7.3x the account
+  NEW-PERP only          risk 2%  $ 300 -> $ 2,779.04 ( +46%/yr)  taken 1292, skipped under $5    0, deepest fall  49%, most open at once 7.3x the account

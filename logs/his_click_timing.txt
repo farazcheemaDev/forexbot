@@ -1,0 +1,34 @@
+backtest/his_click_timing.py, 2026-11-13 17:12 UTC; statement 91 trades (NASDAQ 46, gold 41), new NASDAQ trades 4; window 5-24 s = 33% of the minute
+
+1. SECONDS INTO THE MINUTE (5-s bins)
+  NASDAQ entries       n 46  in 5-24 s: 24 ( 52%, binomial p 0.006)  chi-square p 0.008
+    00-04:3 05-09:4 10-14:10 15-19:7 20-24:3 25-29:2 30-34:3 35-39:5 40-44:3 45-49:3 50-54:2 55-59:1
+  NASDAQ exits         n 46  in 5-24 s: 14 ( 30%, binomial p 0.713)  chi-square p 0.370
+    00-04:8 05-09:3 10-14:3 15-19:5 20-24:3 25-29:5 30-34:8 35-39:2 40-44:1 45-49:2 50-54:4 55-59:2
+  gold entries         n 41  in 5-24 s: 12 ( 29%, binomial p 0.761)  chi-square p 0.478
+    00-04:5 05-09:2 10-14:4 15-19:2 20-24:4 25-29:4 30-34:3 35-39:8 40-44:0 45-49:4 50-54:3 55-59:2
+  gold exits           n 41  in 5-24 s: 17 ( 41%, binomial p 0.173)  chi-square p 0.692
+    00-04:3 05-09:4 10-14:6 15-19:4 20-24:3 25-29:3 30-34:3 35-39:3 40-44:3 45-49:1 50-54:2 55-59:6
+  new NASDAQ entries   n  4  in 5-24 s:  1 ( 25%, binomial p 0.802)  chi-square p nan
+    00-04:0 05-09:1 10-14:0 15-19:0 20-24:0 25-29:0 30-34:1 35-39:0 40-44:0 45-49:1 50-54:0 55-59:1
+
+2. HOW TIGHT IS THE CLUSTER
+  in-window NASDAQ entries: median 14 s, middle half 10-16 s (width 6 s), all: 5, 6, 7, 9, 10, 10, 10, 11, 11, 11, 13, 13, 14, 14, 15, 15, 15, 16, 16, 16, 18, 20, 21, 21
+  share in the tightest 6-s span of the minute: 28% (uniform ~10%)
+
+3. DOES THE TIMING PAY (points banked, his own record)
+  in 5-24 s: n 24, mean +10.78 pts, median +7.00, won 100%
+  elsewhere:   n 22, mean +7.41 pts, median +7.12, won 91%
+  difference +3.37 pts (se 3.26); Mann-Whitney p 0.88
+
+4. WHO CLICKS IN THE WINDOW
+  first trade of a sitting: 14 of 31 (45%);  follow-ups: 10 of 15 (67%)
+  before the 2026-03-29 clock change: 58% of 19;  after: 48% of 27
+  BUY 39% / SELL 65%
+
+PREDICTIONS
+  K1 NASDAQ entries not uniform (chi-square p 0.008) -> RIGHT
+  K2 cluster broad, middle half >= 8 s (6 s) -> WRONG
+  K3 exits and gold entries uniform (p 0.37 / 0.48) -> RIGHT
+  K4 clustered entries bank no more (diff +3.37, se 3.26) -> WRONG
+  K5 first trades cluster like follow-ups (45% vs 67%) -> WRONG

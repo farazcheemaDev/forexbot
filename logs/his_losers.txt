@@ -1,0 +1,26 @@
+backtest/his_losers.py - 91 statement trades: NASDAQ 46, gold 41, silver 4
+
+A. THE SHAPE OF ALL HIS NASDAQ OUTCOMES (points a trade, his own broker prices):
+                           n  hold_median_s     net  share_of_profit
+pts                                                                 
+loss                       2         1442.5  -507.8            -16.2
+0..1.5 scratch             2           36.5     6.8              0.2
+1.5..3.5 small             3          429.0    61.5              2.0
+3.5..6.5 short of target  11           77.0   546.5             17.5
+6.5..7.5 = the +7          7           68.0   418.5             13.4
+7.5..12                    7           94.0   905.5             28.9
+>12                       14           65.5  1699.0             54.3
+   closed short of +6.5: 17 of 46; of them 15 were small WINS (median hold 82 s) and 2 losses; trades above +7.5: 21, making 83% of the profit; the biggest 14 (> +12) make 54%
+
+B. HIS NASDAQ LOSERS IN CONTEXT (1 trades without usable context: changeover weeks or too little history); winners n = 43; 'pct' = the loser's percentile among the winners
+   winners' median: move in his direction 5 min +0.2 / 30 min +7.5 / 120 min +1.2 pts; range position 0.38 (0 = bought at the cheap end of the last 6.5 hours, 1 = at the expensive end); wildness percentile 37; worst price during the hold -4.8
+   2026-02-04 17:54:41 BUY 0.03 lot  -7.50 pts  held 10 s ($-24.00)
+      before entry: +7.3 / -16.2 / -102.6 pts in his direction over 5 / 30 / 120 min (winners' percentile 60 / 37 / 21); range position 0.14 (0 = cheap end, 1 = expensive end; pct 33); hour wildness 86th pct
+      during the hold: worst -6.8, best +2.1 pts (index bars); the 60 minutes after he got out moved -56.1 in his direction
+   2026-09-14 23:14:37 BUY 0.15 lot  -31.75 pts  held 2875 s ($-483.75)
+      before entry: -8.0 / -6.8 / +123.5 pts in his direction over 5 / 30 / 120 min (winners' percentile 26 / 40 / 81); range position 0.94 (0 = cheap end, 1 = expensive end; pct 88); hour wildness 46th pct
+      during the hold: worst -32.0, best +12.5 pts (index bars); the 60 minutes after he got out moved -94.5 in his direction
+
+C. GOLD: 37 of 41 trades are the sitting of 2026-02-02 (09:51:26-10:39:05, 48 minutes); 26 won / 11 lost, net $+74, median hold 7 s, average winner +3.47 pts / average loser -8.38 pts; the other 4 gold trades: 4 won
+   gold's range that day 483 points against a median daily range of 89 since January (5.4x; rank 99th percentile)
+   the sitting in order (W win / L loss): LLWWLLWWLLWWWWWWWLLWLLWWWWWWWWWWLWWWW; losses are followed by a win 6 of 11 times; the longest losing run is 2

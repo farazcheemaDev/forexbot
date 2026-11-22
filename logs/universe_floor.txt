@@ -1,0 +1,46 @@
+backtest/universe_floor.py, 2026-11-02 00:18 UTC; split 2024-04-07; MN base top-60, floors (20, 30, 40); daily base top-40, floors (30, 20)
+
+self-check: scored_run_floor at the base universe reproduces moderate_retests.scored_run exactly (337 weeks, start 0)
+1. MARKET-NEUTRAL BOOK: weekly net on the 7 rebalance weekdays (mean over weekdays; Sharpe is annualised x sqrt(52))
+   variant                    weeks  tune Sharpe hold Sharpe    mean %/wk t/h  worst week  max fall   worst-weekday hold Sharpe
+   base top-60                  336        +1.38       +1.36   +1.12/ +1.47%       -25.6%       31%                       +0.90
+   control top-60, 3 a side     336        +1.43       +1.23   +1.57/ +2.05%       -27.8%       42%                       +0.90
+   floor top-20                 334        +0.62       +1.55   +0.49/ +1.88%       -25.6%       46%                       +1.15
+   floor top-30                 333        +0.84       +1.51   +0.71/ +2.01%       -30.5%       47%                       +1.15
+   floor top-40                 336        +0.98       +1.44   +0.80/ +1.80%       -25.2%       44%                       +1.05
+
+   paired against the base (mean difference in Sharpe over the 7 weekdays +- se, weekdays higher):
+   control top-60, 3 a side  tune +0.04 +- 0.07 (4/7)   hold -0.13 +- 0.05 (1/7)   (control)
+   floor top-20              tune -0.76 +- 0.05 (0/7)   hold +0.19 +- 0.08 (7/7)   -> no pass
+   floor top-30              tune -0.54 +- 0.05 (0/7)   hold +0.15 +- 0.06 (5/7)   -> no pass
+   floor top-40              tune -0.40 +- 0.05 (0/7)   hold +0.07 +- 0.06 (6/7)   -> no pass
+   floors against the k-matched control (is it coin size, or only fewer names a side?):
+   floor top-20              tune -0.80 +- 0.05 (0/7)   hold +0.32 +- 0.11 (7/7)
+   floor top-30              tune -0.59 +- 0.07 (0/7)   hold +0.28 +- 0.08 (6/7)
+   floor top-40              tune -0.45 +- 0.09 (0/7)   hold +0.21 +- 0.05 (7/7)
+
+2. THE LIVE TAPE: mean weekly net in weeks that follow an alt market down >= 15% in 30 days (median member), by variant
+   variant                    bleed weeks  mean %/wk  weeks<0   worst    other weeks %/wk
+   base top-60                         97      -0.17      55%  -16.9%               +1.84
+   control top-60, 3 a side            97      -0.07      55%  -22.1%               +2.50
+   floor top-20                        97      -0.41      52%  -25.6%               +1.60
+   floor top-30                        97      -0.21      51%  -30.5%               +1.79
+   floor top-40                        97      -0.32      55%  -19.5%               +1.79
+
+3. DAILY BOOK (deployed 20-day-mean exit, 8 slots, 3 day boundaries x 10 orderings = 30 pairs, marked to market)
+   variant      trades/boundary  tune CAGR  hold CAGR   fall  worst month
+   top-40                  1688      +157%       +65%    61%         -21%
+   top-30                  1288       +95%       +23%    65%         -19%
+   top-20                   867      +102%       +36%    50%         -19%
+   top-30 vs top-40: tune -61 +- 4 points (0/30)   hold -41 +- 2 points (0/30)   fall 65% vs 61%   -> no pass
+   top-20 vs top-40: tune -55 +- 4 points (0/30)   hold -29 +- 2 points (1/30)   fall 50% vs 61%   -> no pass
+   the bet-smaller line: the BASE (top-40) at lower leverage - does any floor beat it at its own fall?
+   top-40 at 0.75x                            +116%       +52%    51%         -17%
+   top-40 at 0.5x                             +76%       +37%    38%         -11%
+
+PREDICTIONS (registered above):
+   U3 no floor lifts the live-tape MN mean above +0.5%/wk: RIGHT  ({'base top-60': np.float64(-0.17), 'control top-60, 3 a side': np.float64(-0.08), 'floor top-20': np.float64(-0.4), 'floor top-30': np.float64(-0.21), 'floor top-40': np.float64(-0.32)})
+   U4 daily floors lower the holdout CAGR: RIGHT; and no floor makes the fall materially shallower (>= 5 points): WRONG  (fall gain {30: -4, 20: 11} points)
+   U5 no floor is worth a shadow book (nothing passes the bar): RIGHT
+   U1 no MN floor passes: RIGHT  ({20: False, 30: False, 40: False})
+   U2 top-20 is the worst MN floor: RIGHT  (mean paired Sharpe {20: np.float64(-0.29), 30: np.float64(-0.19), 40: np.float64(-0.16)})

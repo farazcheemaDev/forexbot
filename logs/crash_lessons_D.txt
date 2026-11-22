@@ -1,0 +1,15 @@
+backtest/crash_lessons.py, 2026-11-20 21:51 UTC; parts D; live logs from live1121; Binance daily closes to 2026-11-19 (the bar opened that day); TradFi closes: QQQUSDT
+alt index = equal-weight daily return of the point-in-time top-40 (each day's month, BTC out, 39 coins); bars 10-09..11-19: alts -28.7%, BTC -24.2%; the median alt's 30 days at the last close -29.9%
+
+=== D capit2 - the book the backtest leans on in crashes - its rule replayed on the live weeks with the bot's own code (final_books.capit_signals on Binance 4h bars of the point-in-time top-40)
+  257 closed 4h bars from 10-09 to 11-20 16:00: a coin's RSI crossed under 20 on > 2x volume 11 times; 5 of those with the coin down >= 10% over 24h; bars inside a wave (>= 5 of the 40 within 24h): 7; SIGNALS (all three together): 3
+   11-14 20:00 SOLUSDT      drop -10% breadth  6  limit 68.8254  filled -> target +4.9%
+   11-14 20:00 ADAUSDT      drop -12% breadth  6  limit 0.144648  filled -> target +4.9%
+   11-14 20:00 FILUSDT      drop -13% breadth  6  limit 0.604856  filled -> not_working -6.0%
+  the live bot (main, combo_final_trades.csv): 3 capit2 trades - ADAUSDT entry 0.144648 -> target +5.0%  SOLUSDT entry 68.8254 -> target +4.9%  FILUSDT entry 0.604856 -> not_working -6.5%
+  replay: 3 signals, 3 filled, mean +1.2% a trade
+  the backtest machine in the 42-day windows matched to main's whole record (C2's AB match): capit2 closed trades on a median 2 days a window (10th 0, 90th 4); live: 2 days
+
+=== PREDICTIONS (registered in the docstring; L1-L6 before any number, L7-L10 after A and B, before C)
+  D1 the replay finds the live bot's signals and no more: replay 3 signals (3 filled) vs live 3 -> RIGHT
+  D2 backtest capit2 closed trades on >= 5 days in the median matched window: 2 -> WRONG

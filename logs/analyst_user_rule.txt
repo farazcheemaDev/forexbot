@@ -1,0 +1,124 @@
+backtest/analyst_user_rule.py, 2026-11-13 17:09 UTC; 22933 replay signals, split 2024-12-07, 12bp, $300 start, booked equity
+
+R0 crypto + SMC + stop>=0.8%
+  [tune] n 2211 (784/yr) bets 1068  hit 13.1% vs random 14.1%  R/call -0.132  R/bet -0.033 (t -0.8)
+      risk 0.5% plain              took 2211  $300 -> $      64  fall  80%
+      risk 0.5% capped 3x          took 2211  $300 -> $      64  fall  80%
+      risk 0.5% day stop 2%        took 2136  $300 -> $      70  fall  78%
+      risk 0.5% capped + day stop  took 2136  $300 -> $      70  fall  78%
+      risk 1.0% plain              took 2211  $300 -> $      12  fall  96%
+      risk 1.0% capped 3x          took 2135  $300 -> $      12  fall  96%
+      risk 1.0% day stop 2%        took 1912  $300 -> $      19  fall  95%
+      risk 1.0% capped + day stop  took 1840  $300 -> $      20  fall  94%
+      risk 2.0% plain              took 2211  $300 -> $       0  fall 100%
+      risk 2.0% capped 3x          took 1588  $300 -> $       2  fall  99%
+      risk 2.0% day stop 2%        took 1506  $300 -> $       4  fall  99%
+      risk 2.0% capped + day stop  took 1100  $300 -> $      23  fall  95%
+  [hold] n 1323 (705/yr) bets  623  hit 10.7% vs random 13.3%  R/call -0.136  R/bet +0.023 (t +0.4)
+      risk 0.5% plain              took 1323  $300 -> $     116  fall  69%
+      risk 0.5% capped 3x          took 1323  $300 -> $     116  fall  69%
+      risk 0.5% day stop 2%        took 1290  $300 -> $     125  fall  67%
+      risk 0.5% capped + day stop  took 1290  $300 -> $     125  fall  67%
+      risk 1.0% plain              took 1323  $300 -> $      41  fall  91%
+      risk 1.0% capped 3x          took 1263  $300 -> $      40  fall  91%
+      risk 1.0% day stop 2%        took 1114  $300 -> $      64  fall  87%
+      risk 1.0% capped + day stop  took 1062  $300 -> $      70  fall  85%
+      risk 2.0% plain              took 1323  $300 -> $       4  fall  99%
+      risk 2.0% capped 3x          took  890  $300 -> $      18  fall  96%
+      risk 2.0% day stop 2%        took  916  $300 -> $      14  fall  98%
+      risk 2.0% capped + day stop  took  617  $300 -> $      52  fall  90%
+  by year: 2022 n 781 -0.14R  2023 n 600 -0.17R  2024 n 894 -0.09R  2025 n 777 -0.15R  2026 n 482 -0.14R
+
+R1 R0 + RR<=4
+  [tune] n 1729 (614/yr) bets  949  hit 16.0% vs random 16.7%  R/call -0.113  R/bet -0.029 (t -0.7)
+      risk 0.5% plain              took 1729  $300 -> $     107  fall  68%
+      risk 0.5% capped 3x          took 1729  $300 -> $     107  fall  68%
+      risk 0.5% day stop 2%        took 1702  $300 -> $     116  fall  65%
+      risk 0.5% capped + day stop  took 1702  $300 -> $     116  fall  65%
+      risk 1.0% plain              took 1729  $300 -> $      35  fall  90%
+      risk 1.0% capped 3x          took 1686  $300 -> $      40  fall  89%
+      risk 1.0% day stop 2%        took 1569  $300 -> $      54  fall  85%
+      risk 1.0% capped + day stop  took 1526  $300 -> $      65  fall  83%
+      risk 2.0% plain              took 1729  $300 -> $       3  fall  99%
+      risk 2.0% capped 3x          took 1344  $300 -> $      13  fall  97%
+      risk 2.0% day stop 2%        took 1300  $300 -> $      31  fall  93%
+      risk 2.0% capped + day stop  took 1004  $300 -> $     110  fall  80%
+  [hold] n  970 (517/yr) bets  526  hit 13.5% vs random 16.2%  R/call -0.069  R/bet -0.009 (t -0.2)
+      risk 0.5% plain              took  970  $300 -> $     208  fall  49%
+      risk 0.5% capped 3x          took  970  $300 -> $     208  fall  49%
+      risk 0.5% day stop 2%        took  962  $300 -> $     210  fall  48%
+      risk 0.5% capped + day stop  took  962  $300 -> $     210  fall  48%
+      risk 1.0% plain              took  970  $300 -> $     135  fall  75%
+      risk 1.0% capped 3x          took  946  $300 -> $     137  fall  74%
+      risk 1.0% day stop 2%        took  879  $300 -> $     171  fall  67%
+      risk 1.0% capped + day stop  took  860  $300 -> $     176  fall  65%
+      risk 2.0% plain              took  970  $300 -> $      48  fall  95%
+      risk 2.0% capped 3x          took  704  $300 -> $      70  fall  89%
+      risk 2.0% day stop 2%        took  762  $300 -> $     146  fall  84%
+      risk 2.0% capped + day stop  took  551  $300 -> $     241  fall  67%
+  by year: 2022 n 580 -0.20R  2023 n 494 -0.11R  2024 n 701 -0.02R  2025 n 559 -0.12R  2026 n 365 -0.03R
+
+R2 R0 shorts only
+  [tune] n 1308 (464/yr) bets  613  hit 13.4% vs random 14.3%  R/call -0.139  R/bet -0.046 (t -0.9)
+      risk 0.5% plain              took 1308  $300 -> $     115  fall  64%
+      risk 0.5% capped 3x          took 1308  $300 -> $     115  fall  64%
+      risk 0.5% day stop 2%        took 1276  $300 -> $     114  fall  64%
+      risk 0.5% capped + day stop  took 1276  $300 -> $     114  fall  64%
+      risk 1.0% plain              took 1308  $300 -> $      39  fall  88%
+      risk 1.0% capped 3x          took 1276  $300 -> $      46  fall  87%
+      risk 1.0% day stop 2%        took 1127  $300 -> $      63  fall  81%
+      risk 1.0% capped + day stop  took 1095  $300 -> $      72  fall  78%
+      risk 2.0% plain              took 1308  $300 -> $       3  fall  99%
+      risk 2.0% capped 3x          took  974  $300 -> $      13  fall  97%
+      risk 2.0% day stop 2%        took  916  $300 -> $      32  fall  92%
+      risk 2.0% capped + day stop  took  693  $300 -> $      50  fall  89%
+  [hold] n  723 (387/yr) bets  349  hit 11.9% vs random 14.5%  R/call -0.080  R/bet +0.084 (t +1.1)
+      risk 0.5% plain              took  723  $300 -> $     217  fall  44%
+      risk 0.5% capped 3x          took  723  $300 -> $     217  fall  44%
+      risk 0.5% day stop 2%        took  707  $300 -> $     227  fall  41%
+      risk 0.5% capped + day stop  took  707  $300 -> $     227  fall  41%
+      risk 1.0% plain              took  723  $300 -> $     148  fall  70%
+      risk 1.0% capped 3x          took  708  $300 -> $     160  fall  67%
+      risk 1.0% day stop 2%        took  628  $300 -> $     182  fall  63%
+      risk 1.0% capped + day stop  took  614  $300 -> $     195  fall  59%
+      risk 2.0% plain              took  723  $300 -> $      57  fall  93%
+      risk 2.0% capped 3x          took  523  $300 -> $     106  fall  82%
+      risk 2.0% day stop 2%        took  514  $300 -> $     122  fall  84%
+      risk 2.0% capped + day stop  took  385  $300 -> $     213  fall  64%
+  by year: 2022 n 425 -0.12R  2023 n 380 -0.22R  2024 n 532 -0.08R  2025 n 424 -0.11R  2026 n 270 -0.07R
+
+R3 R0 + 4h EMA50 with the call
+  [tune] n  759 (269/yr) bets  475  hit 16.2% vs random 19.9%  R/call -0.104  R/bet -0.055 (t -0.8)
+      risk 0.5% plain              took  759  $300 -> $     196  fall  42%
+      risk 0.5% capped 3x          took  759  $300 -> $     196  fall  42%
+      risk 0.5% day stop 2%        took  756  $300 -> $     190  fall  42%
+      risk 0.5% capped + day stop  took  756  $300 -> $     190  fall  42%
+      risk 1.0% plain              took  759  $300 -> $     120  fall  67%
+      risk 1.0% capped 3x          took  757  $300 -> $     123  fall  67%
+      risk 1.0% day stop 2%        took  698  $300 -> $     126  fall  62%
+      risk 1.0% capped + day stop  took  696  $300 -> $     129  fall  62%
+      risk 2.0% plain              took  759  $300 -> $      38  fall  91%
+      risk 2.0% capped 3x          took  636  $300 -> $      51  fall  87%
+      risk 2.0% day stop 2%        took  593  $300 -> $      36  fall  90%
+      risk 2.0% capped + day stop  took  503  $300 -> $      49  fall  85%
+  [hold] n  424 (228/yr) bets  256  hit 10.6% vs random 18.1%  R/call -0.169  R/bet -0.047 (t -0.5)
+      risk 0.5% plain              took  424  $300 -> $     206  fall  38%
+      risk 0.5% capped 3x          took  424  $300 -> $     206  fall  38%
+      risk 0.5% day stop 2%        took  424  $300 -> $     206  fall  38%
+      risk 0.5% capped + day stop  took  424  $300 -> $     206  fall  38%
+      risk 1.0% plain              took  424  $300 -> $     136  fall  62%
+      risk 1.0% capped 3x          took  418  $300 -> $     137  fall  62%
+      risk 1.0% day stop 2%        took  391  $300 -> $     146  fall  59%
+      risk 1.0% capped + day stop  took  385  $300 -> $     147  fall  59%
+      risk 2.0% plain              took  424  $300 -> $      54  fall  87%
+      risk 2.0% capped 3x          took  339  $300 -> $      76  fall  81%
+      risk 2.0% day stop 2%        took  331  $300 -> $     121  fall  73%
+      risk 2.0% capped + day stop  took  266  $300 -> $     179  fall  59%
+  by year: 2022 n 275 -0.19R  2023 n 192 -0.17R  2024 n 314 +0.02R  2025 n 240 -0.20R  2026 n 162 -0.14R
+
+PREDICTIONS
+  U1 R0 negative per call on the holdout (-0.136R) -> RIGHT
+  U2 no rule passes the bar (passing: none) -> RIGHT
+  U3 R0 hit below random on both halves (13.1 vs 14.1; 10.7 vs 13.3) -> RIGHT
+  U4 no rule x risk setting ends above $300 on both halves (0 do: []) -> RIGHT
+  U5 day stop moves R0 holdout end at 1% by < 10% ($41 -> $64, +58.4%) -> WRONG

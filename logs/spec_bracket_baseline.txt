@@ -1,0 +1,16 @@
+   (bars with a gap over 2 min before them: 0)
+
+DOGE: 2,453,760 one-minute bars 2022-01-01 .. 2026-08-31
+  long : target first 13.78% | stop first  7.89% | timeout 78.33% (timeout move mean -1.18 bp, sd 10.4 bp) | EV/trade: zero-fee -0.23 bp, Hyperliquid(1.5/4.5) -5.82 bp
+         target-first by year: 2022 16.8%, 2023 8.0%, 2024 18.4%, 2025 15.5%, 2026 8.4%
+  short: target first 14.59% | stop first  7.31% | timeout 78.11% (timeout move mean -1.47 bp, sd 10.4 bp) | EV/trade: zero-fee -0.06 bp, Hyperliquid(1.5/4.5) -5.62 bp
+         target-first by year: 2022 17.8%, 2023 9.1%, 2024 19.3%, 2025 16.2%, 2026 8.6%
+  break-even target-first share at zero cost, ignoring timeouts: 58.3%  (with Hyperliquid fees: 65.1%)
+   (bars with a gap over 2 min before them: 0)
+
+BTC: 2,453,760 one-minute bars 2022-01-01 .. 2026-08-31
+  long : target first  4.61% | stop first  2.09% | timeout 93.30% (timeout move mean -0.48 bp, sd 8.1 bp) | EV/trade: zero-fee -0.02 bp, Hyperliquid(1.5/4.5) -5.88 bp
+         target-first by year: 2022 7.7%, 2023 2.9%, 2024 5.0%, 2025 3.3%, 2026 3.7%
+  short: target first  4.68% | stop first  2.07% | timeout 93.26% (timeout move mean -0.51 bp, sd 8.0 bp) | EV/trade: zero-fee -0.03 bp, Hyperliquid(1.5/4.5) -5.89 bp
+         target-first by year: 2022 7.8%, 2023 2.9%, 2024 5.3%, 2025 3.5%, 2026 3.7%
+  break-even target-first share at zero cost, ignoring timeouts: 58.3%  (with Hyperliquid fees: 65.1%)

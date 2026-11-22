@@ -1,0 +1,22 @@
+backtest/his_mnq_optflow.py, 2026-11-21 22:56 UTC; 31 windows; MNQ trades on the busiest outright 2,402,570; NQ option trades 1,916; NQ tape for the divergence: yes; 46 of his entries, 1763 sitting moments
+baseline: his side at the sittings' moments wins 55.7%; his clicks with any NQ option trade in the 60 s before: 54%
+
+     feature   agree       p    rank       p    rule     n
+      mnq_5s     53%   0.766    0.49   0.843     50%   317   (n 45; any side: WITH the reading 51%, AGAINST 49% of 317)
+     mnq_15s     50%   1.000    0.49   0.870     53%   319   (n 46; any side: WITH the reading 50%, AGAINST 50% of 319)
+     mnq_30s     39%   0.184    0.45   0.369     54%   317   (n 46; any side: WITH the reading 44%, AGAINST 56% of 318)
+     mnq_60s     46%   0.659    0.47   0.527     52%   317   (n 46; any side: WITH the reading 46%, AGAINST 54% of 317)
+    mnq_120s     59%   0.302    0.54   0.451     50%   317   (n 46; any side: WITH the reading 47%, AGAINST 53% of 318)
+     opt_30s     62%   0.383    0.52   0.883     58%   330   (n 21; any side: WITH the reading 54%, AGAINST 46% of 405)
+     opt_60s     56%   0.690    0.48   0.347     57%   378   (n 25; any side: WITH the reading 52%, AGAINST 48% of 365)
+    opt_120s     47%   0.864    0.46   0.289     55%   321   (n 34; any side: WITH the reading 54%, AGAINST 46% of 348)
+    opt_300s     54%   0.755    0.48   0.627     52%   318   (n 41; any side: WITH the reading 51%, AGAINST 49% of 325)
+     div_30s     64%   0.424    0.53   0.731     52%   191   (n 14; any side: WITH the reading 48%, AGAINST 52% of 355)
+     div_60s     56%   0.804    0.52   0.516     53%   179   (n 16; any side: WITH the reading 48%, AGAINST 52% of 354)
+    div_120s     29%   0.453    0.48   0.981     55%   190   (n 7; any side: WITH the reading 48%, AGAINST 52% of 402)
+
+REGISTERED PREDICTIONS
+  M1 mnq / div agreement within 35-65%: 29..64% -> WRONG
+  M2 options thin (< half his clicks with a trade in 60 s: 54%) and agreement 35-65% where present (47..62%) -> WRONG
+  M3 rules within 5 points of 56%: 50..58% -> WRONG
+  LEAD LINE: not hit

@@ -1,0 +1,23 @@
+backtest/wait_leverage.py, 2026-11-01 21:28 UTC; BTCUSDT 1h, 58,940 bars 2020-01-01 .. 2026-09-21; maintenance margin 0.5%, taker fees 0.06% a side, target +0.30%
+
+A  SHARE OF RANDOM LONG ENTRIES WHOSE LIQUIDATION LEVEL IS TOUCHED WITHIN ...
+ leverage  distance   1 hour    1 day   7 days  30 days  90 days
+     100x      0.5%      27%      80%      93%      96%      97%
+      50x      1.5%       4%      50%      80%      89%      92%
+      20x      4.5%       0%      12%      47%      70%      81%
+      10x      9.5%       0%       2%      18%      45%      66%
+
+B  THE RULE: wait, no stop, until +0.30% in your favour or liquidated
+            side    win  liquidated  open>208d  median hrs to win  mean return on margin / try  10 tries without a wipe-out
+      100x  long    56%         44%       0.0%                  1                       -34.5%                         0.3%
+      100x short    55%         45%       0.0%                  1                       -34.7%                         0.3%
+       50x  long    82%         18%       0.0%                  1                       -10.4%                        14.3%
+       50x short    82%         18%       0.0%                  1                       -10.9%                        13.3%
+       20x  long    94%          6%       0.0%                  2                        -2.9%                        53.1%
+       20x short    93%          7%       0.0%                  2                        -3.9%                        47.3%
+       10x  long    97%          3%       0.0%                  2                        -1.1%                        76.0%
+       10x short    96%          4%       0.0%                  2                        -2.3%                        66.5%
+
+random-walk check, P(target first) = d / (d + 0.30%): 100x 62%, 50x 83%, 20x 94%, 10x 97%
+while you wait, funding on a long: $50 at 100x ($5,000 position) = $1.50 a day = 3.0% of the margin; at 50x ($2,500) = $0.75 = 1.5%
+a win pays (0.30% - 0.12%) x leverage on the margin: $9.00 at 100x, $4.50 at 50x, against a loss of the whole $50

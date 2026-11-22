@@ -1,0 +1,18 @@
+backtest/his_after_flow.py, 2026-11-13 23:21 UTC; 53 clicks measured (old 46, new 7), controls 22-29 each
+
+RANKS OF HIS CLICK AMONG SAME-SECOND MOMENTS (0.5 = ordinary; > 0.5 = more his way)
+  mv60             n 53  mean rank 0.718  median 0.776  above 0.5: 42  Wilcoxon p 0.0000   new clicks: 0.36, 0.50, 0.96, 0.50, 0.64, 0.79, 0.97
+  mv300            n 53  mean rank 0.585  median 0.625  above 0.5: 34  Wilcoxon p 0.0145   new clicks: 0.00, 0.29, 0.96, 0.79, 0.93, 0.71, 0.72
+  flow60           n 53  mean rank 0.649  median 0.759  above 0.5: 40  Wilcoxon p 0.0021   new clicks: 0.43, 0.82, 1.00, 0.29, 0.82, 0.75, 1.00
+  flow300          n 53  mean rank 0.572  median 0.586  above 0.5: 33  Wilcoxon p 0.0867   new clicks: 0.04, 0.11, 0.89, 0.32, 0.96, 0.88, 0.90
+  matched_flow300  n 32  mean rank 0.498  median 0.619  above 0.5: 19  Wilcoxon p 0.9701   new clicks: 0.67, 0.07, 0.75, 0.80, 0.67
+  clip300          n 53  mean rank 0.570  median 0.667  above 0.5: 34  Wilcoxon p 0.1618   new clicks: 0.89, 0.86, 0.68, 0.14, 0.75, 0.04, 0.69
+
+RAW medians (his side +): mv60 +6.50  mv300 +6.25  flow60 +42.00  flow300 +69.00  clip300 +0.21
+  matched-move controls per click: median 5 (clicks with >= 3: 32)
+
+PREDICTIONS
+  A1 mv300 rank > 0.6 (0.585) -> WRONG
+  A2 flow300 rank > 0.6 (0.572) -> WRONG
+  A3 matched-move flow rank in 0.4-0.6 (0.498, p 0.970) -> RIGHT
+  A4 clip300 rank in 0.4-0.6 (0.570, p 0.162) -> RIGHT

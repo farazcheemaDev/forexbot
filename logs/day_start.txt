@@ -1,0 +1,53 @@
+backtest/day_start.py, 2026-11-21 00:30 UTC; BTC, ETH, SOL, XRP, BNB hourly bars 2022-01-01 .. 2026-10-25 (1759 days); split 2024-11-21; trade from hour k to 24:00 UTC, 12bp + 1bp per settlement; a bet = one day (mean over the coins)
+
+   start     way       days     half  bets  gross bp  net bp     t  same way
+   first 1h  momentum  all      tune  1055     -16.8   -30.8  -3.6     48.1%
+   first 1h  momentum  all      hold   704     -17.8   -31.8  -3.5     47.2%
+   first 1h  momentum  strong   tune   353     -29.2   -43.2  -1.8     46.3%
+   first 1h  momentum  strong   hold   233     -35.1   -49.1  -1.9     43.9%
+   first 1h  reversal  all      tune  1055     +16.8    +2.8  +0.3     48.1%
+   first 1h  reversal  all      hold   704     +17.8    +3.8  +0.4     47.2%
+   first 1h  reversal  strong   tune   353     +29.2   +15.2  +0.6     46.3%
+   first 1h  reversal  strong   hold   233     +35.1   +21.1  +0.8     43.9%
+   first 4h  momentum  all      tune  1055      -3.3   -17.3  -2.3     49.3%
+   first 4h  momentum  all      hold   704      -2.4   -16.4  -1.8     48.7%
+   first 4h  momentum  strong   tune   356     +23.9    +9.9  +0.4     50.5%
+   first 4h  momentum  strong   hold   263     -14.9   -28.9  -1.1     49.6%
+   first 4h  reversal  all      tune  1055      +3.3   -10.7  -1.4     49.3%
+   first 4h  reversal  all      hold   704      +2.4   -11.6  -1.3     48.7%
+   first 4h  reversal  strong   tune   356     -23.9   -37.9  -1.6     50.5%
+   first 4h  reversal  strong   hold   263     +14.9    +0.9  +0.0     49.6%
+   first 8h  momentum  all      tune  1055      -2.7   -15.7  -2.1     49.2%
+   first 8h  momentum  all      hold   704      +6.8    -6.2  -0.7     48.4%
+   first 8h  momentum  strong   tune   387     +24.8   +11.8  +0.6     51.5%
+   first 8h  momentum  strong   hold   277     +42.3   +29.3  +1.2     50.1%
+   first 8h  reversal  all      tune  1055      +2.7   -10.3  -1.4     49.2%
+   first 8h  reversal  all      hold   704      -6.8   -19.8  -2.3     48.4%
+   first 8h  reversal  strong   tune   387     -24.8   -37.8  -1.9     51.5%
+   first 8h  reversal  strong   hold   277     -42.3   -55.3  -2.2     50.1%
+   first 13h momentum  all      tune  1055      +3.3    -9.7  -1.5     50.6%
+   first 13h momentum  all      hold   704      +6.7    -6.3  -0.8     50.3%
+   first 13h momentum  strong   tune   399     +14.8    +1.8  +0.1     52.3%
+   first 13h momentum  strong   hold   297     +14.5    +1.5  +0.1     50.1%
+   first 13h reversal  all      tune  1055      -3.3   -16.3  -2.4     50.6%
+   first 13h reversal  all      hold   704      -6.7   -19.7  -2.6     50.3%
+   first 13h reversal  strong   tune   399     -14.8   -27.8  -1.7     52.3%
+   first 13h reversal  strong   hold   297     -14.5   -27.5  -1.3     50.1%
+
+   PASS: none   (best Holm p 1.00)
+
+AFTER A STRONG START (top 20% of starts), ALL COINS, BOTH HALVES - what the rest of the day did
+   start     the start      coin-days  rest went the same way  average rest of day  baseline: any day, rest up
+   first 1h  strong UP            624                   47.4%               +0.25%                      49.6%
+   first 1h  strong DOWN          602                   43.0%               +0.48%                      49.6%
+   first 4h  strong UP            702                   51.6%               +0.54%                      49.0%
+   first 4h  strong DOWN          620                   48.4%               +0.23%                      49.0%
+   first 8h  strong UP            715                   52.7%               +0.52%                      49.3%
+   first 8h  strong DOWN          682                   49.0%               +0.02%                      49.3%
+   first 13h strong UP            751                   52.7%               +0.35%                      48.9%
+   first 13h strong DOWN          685                   49.8%               +0.00%                      48.9%
+
+REGISTERED PREDICTIONS
+  P1 no cell passes after costs -> RIGHT
+  P2 strong-start momentum gross > 0 at k = 1 and 4 on both halves, under 12bp -> WRONG (k 1 tune -29.2bp, k 1 hold -35.1bp, k 4 tune +23.9bp, k 4 hold -14.9bp)
+  P3 after a strong start the rest goes the same way on 48-55% of coin-days -> WRONG (k 1 45.3%, k 4 50.1%, k 8 50.9%, k 13 51.3%)

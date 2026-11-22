@@ -1,0 +1,59 @@
+backtest/options_expiry.py, 2026-11-09 09:36 UTC; Binance perp 1h opens to 2026-11-09 08:00:00 UTC; events 08:00 UTC: 82 monthly (27 quarterly), 276 ordinary Fridays, 1428 Monday-Thursday days; tune < 2024-08-29; 12bp + 1bp / 8h
+
+MONTHLY / QUARTERLY EXPIRY vs ordinary Fridays at 08:00 UTC (direction = the tune half's excess; tune / holdout)
+  BTC monthly into24         dir long   n  55/ 27  excess   +89.8 (+1.8) /  -115.2bp (-2.2)  NET   +36.7 (+0.9) /  -147.1bp (-3.4)  MDE80 hold    120bp  holm 1.00
+  BTC quarterly into24       dir long   n  18/  9  excess  +144.2 (+2.7) /   -94.3bp (-1.4)  NET   +91.0 (+2.0) /  -126.2bp (-2.1)  MDE80 hold    165bp  holm 1.00
+  BTC monthly into4          dir short  n  55/ 27  excess   -48.7 (-2.5) /   -41.7bp (-2.7)  NET   +32.7 (+1.9) /   +23.0bp (+1.8)  MDE80 hold     36bp  holm 0.57
+  BTC quarterly into4        dir short  n  18/  9  excess   -28.1 (-1.0) /   -51.0bp (-1.9)  NET   +12.2 (+0.5) /   +32.2bp (+1.3)  MDE80 hold     71bp  holm 1.00
+  BTC monthly after4         dir short  n  55/ 27  excess   -23.6 (-0.6) /    +9.5bp (+0.4)  NET   -14.3 (-0.4) /   -30.3bp (-1.4)  MDE80 hold     59bp  holm 1.00
+  BTC quarterly after4       dir short  n  18/  9  excess   -37.6 (-0.7) /   -29.4bp (-0.6)  NET    -0.3 (-0.0) /    +8.6bp (+0.2)  MDE80 hold    124bp  holm 1.00
+  BTC monthly after24        dir long   n  55/ 27  excess   +16.8 (+0.3) /   -45.3bp (-1.0)  NET   +18.5 (+0.4) /   -51.3bp (-1.3)  MDE80 hold    114bp  holm 1.00
+  BTC quarterly after24      dir short  n  18/  9  excess   -88.2 (-1.0) /   -66.0bp (-1.5)  NET   +56.6 (+0.6) /   +42.0bp (+1.1)  MDE80 hold    109bp  holm 1.00
+  ETH monthly into24         dir long   n  55/ 27  excess   +99.5 (+1.6) /  -181.1bp (-2.5)  NET   +62.3 (+1.2) /  -223.4bp (-4.1)  MDE80 hold    152bp  holm 1.00
+  ETH quarterly into24       dir long   n  18/  9  excess  +174.9 (+2.6) /  -181.8bp (-2.1)  NET  +137.6 (+2.4) /  -224.1bp (-3.0)  MDE80 hold    206bp  holm 1.00
+  ETH monthly into4          dir short  n  55/ 27  excess   -52.2 (-2.5) /   -44.8bp (-1.6)  NET   +35.0 (+1.9) /   +30.2bp (+1.3)  MDE80 hold     65bp  holm 1.00
+  ETH quarterly into4        dir short  n  18/  9  excess   -31.0 (-1.1) /   -59.0bp (-1.0)  NET   +13.8 (+0.5) /   +44.3bp (+0.8)  MDE80 hold    159bp  holm 1.00
+  ETH monthly after4         dir short  n  55/ 27  excess   -40.2 (-1.1) /   +26.3bp (+0.8)  NET    +6.0 (+0.2) /   -41.4bp (-1.3)  MDE80 hold     87bp  holm 1.00
+  ETH quarterly after4       dir short  n  18/  9  excess   -36.2 (-0.5) /   -29.7bp (-0.5)  NET    +2.0 (+0.0) /   +14.6bp (+0.2)  MDE80 hold    179bp  holm 1.00
+  ETH monthly after24        dir long   n  55/ 27  excess   +51.3 (+0.9) /   -13.7bp (-0.2)  NET   +49.9 (+1.0) /   -21.6bp (-0.4)  MDE80 hold    140bp  holm 1.00
+  ETH quarterly after24      dir short  n  18/  9  excess   -58.8 (-0.6) /   -27.1bp (-0.5)  NET   +30.2 (+0.3) /    +5.0bp (+0.1)  MDE80 hold    130bp  holm 1.00
+
+EVERY FRIDAY 08:00 (weekly expiry) vs Monday-Thursday 08:00
+  BTC every Friday into24    dir short  n 243/115  excess   -44.0 (-1.6) /   -62.1bp (-2.3)  NET    +2.9 (+0.1) /   +28.9bp (+1.2)  MDE80 hold     69bp  holm 1.00
+  BTC every Friday into4     dir short  n 243/115  excess   -15.3 (-1.7) /    -6.3bp (-0.8)  NET    -4.9 (-0.6) /    -9.0bp (-1.2)  MDE80 hold     21bp  holm 1.00
+  BTC every Friday after4    dir long   n 243/115  excess   +17.4 (+1.5) /    +7.1bp (+0.7)  NET    +7.6 (+0.7) /    -2.0bp (-0.2)  MDE80 hold     26bp  holm 1.00
+  BTC every Friday after24   dir short  n 243/115  excess    -0.3 (-0.0) /    -3.6bp (-0.2)  NET   -35.5 (-1.7) /   -13.4bp (-0.7)  MDE80 hold     54bp  holm 1.00
+  ETH every Friday into24    dir short  n 243/115  excess   -31.7 (-1.0) /   -89.5bp (-2.1)  NET   -15.2 (-0.5) /   +54.8bp (+1.4)  MDE80 hold    108bp  holm 1.00
+  ETH every Friday into4     dir short  n 243/115  excess   -17.9 (-1.7) /   -12.0bp (-0.9)  NET    -5.4 (-0.6) /    -4.1bp (-0.3)  MDE80 hold     35bp  holm 1.00
+  ETH every Friday after4    dir long   n 243/115  excess    +8.1 (+0.6) /    +4.0bp (+0.3)  NET    +0.1 (+0.0) /    -3.7bp (-0.3)  MDE80 hold     36bp  holm 1.00
+  ETH every Friday after24   dir short  n 243/115  excess    -3.7 (-0.1) /    +1.9bp (+0.1)  NET   -40.2 (-1.7) /   -18.9bp (-0.7)  MDE80 hold     80bp  holm 1.00
+
+PINNING: mean |return| around a monthly expiry over the same on ordinary Fridays (ratio, Welch t on |return|; all years)
+  BTC into4    ratio 1.104 (t +0.71)
+  BTC after4   ratio 1.613 (t +2.16)
+  BTC into24   ratio 0.813 (t -1.69)
+  BTC after24  ratio 0.945 (t -0.43)
+  ETH into4    ratio 0.984 (t -0.12)
+  ETH after4   ratio 1.504 (t +2.44)
+  ETH into24   ratio 0.865 (t -1.23)
+  ETH after24  ratio 0.904 (t -0.80)
+
+POST-HOC (added after the first run): the 4 hours into a monthly expiry, checked (bp; excess = monthly minus ordinary Fridays)
+  BTC into4: monthly mean -42.0 median -25.4, down 67% of 82; ordinary Fridays mean +4.3 median +4.1, down 47%; without the 3 worst monthly events -27.7 (excess -32.1, t -2.78)
+      by year (mean bp, n): 2020 -25 (12)  2021 -106 (12)  2022 -41 (12)  2023 -9 (12)  2024 -47 (12)  2025 -57 (12)  2026 -2 (10)
+      04-07 UTC: excess -22.3bp (t -2.07)
+      07-08 UTC: excess -24.2bp (t -3.22)
+      placebo, the Friday a week before: excess -1.7bp (t -0.11)
+  ETH into4: monthly mean -45.9 median -24.7, down 67% of 82; ordinary Fridays mean +3.9 median -0.3, down 50%; without the 3 worst monthly events -29.9 (excess -33.8, t -2.36)
+      by year (mean bp, n): 2020 -37 (12)  2021 -118 (12)  2022 -57 (12)  2023 +32 (12)  2024 -67 (12)  2025 -70 (12)  2026 +3 (10)
+      04-07 UTC: excess -19.2bp (t -1.35)
+      07-08 UTC: excess -30.5bp (t -3.31)
+      placebo, the Friday a week before: excess -4.6bp (t -0.23)
+
+PASSING: 0 of 16 monthly / quarterly cells, 0 of 8 weekly cells
+REGISTERED PREDICTIONS
+  X1 no directional cell passes -> RIGHT
+  X2 pinning on both coins (into4 < 0.95, after4 > 1.05) -> WRONG (BTC into4 1.10, BTC after4 1.61, ETH into4 0.98, ETH after4 1.50)
+  X3 no weekly cell differs with |t| >= 2 on both halves (same sign) -> RIGHT (0 of 8)
+  X4 the monthly 24h cells' MDE80 is over 1% -> RIGHT (1.14% .. 1.52%)
+run time 1s

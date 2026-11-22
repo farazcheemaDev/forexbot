@@ -104,3 +104,9 @@ logs/leads/
 
 # the trader's later statements (real name / account number) - never commit
 strategy_analysis/his_statement_*
+logs/sweep_confluence_events.pkl
+logs/forex_bot/
+
+# 2026-11-22: rebuildable caches and run markers stay local (already-tracked small .pkl files are unaffected)
+logs/*.pkl
+logs/*.done

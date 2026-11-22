@@ -1,0 +1,15 @@
+backtest/his_level_memory.py, 2026-11-21 23:13 UTC; 181 tick days, split 2026-06-04; swing levels of the last 120 min (+-3 bars), nearest within 10 points, broken = traded > 3 points beyond
+
+  A HIS CLICKS: 42 scored, 19 with a level-memory call; his side = the call on 8 (42%), binomial p 0.648; strong levels: 2 of 10
+    his race when he agreed with the call 62%, when he went against it 90%
+
+  B THE CALL AS A RULE (every 1-minute close + 14 s, 09:45-15:45 New York; +-7 race on the mid):
+    all calls      tune: won 49.4% of 17,574 races (p vs 50%: 0.108)
+    all calls      hold: won 48.4% of 11,024 races (p vs 50%: 0.001)
+    strong levels  tune: won 49.9% of 5,845 races (p vs 50%: 0.834)
+    strong levels  hold: won 47.4% of 3,522 races (p vs 50%: 0.002)
+
+REGISTERED PREDICTIONS
+  R1 his side agrees with the call 35-65%, p > 0.05 -> RIGHT (8 of 19)
+  R2 the rule wins 46-54% on both halves -> RIGHT
+  R3 strong levels <= 56% on both halves -> RIGHT

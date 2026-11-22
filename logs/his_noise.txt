@@ -1,0 +1,51 @@
+backtest/his_noise.py, 2026-11-21 00:36 UTC; his NASDAQ trades 53 (statement 46, later 7); Exness USTECm minutes 2026-01-02 .. 2026-10-09
+
+  outside the cash session (09:31-16:00 New York): 9; no minute data / sigma not ready: 7; scored: 37
+  inside the band (the rule would be flat): 26 of 37 (70%); his banked points there: mean +6.33, won 96%
+  outside the band: 11; his side = the rule's side on 6 (55%), binomial p 1.000; banked when agreeing +12.46 (100% won), against +9.15 (100% won)
+  the BOT holds a position at 10 of his clicks; his side = the bot's side on 5 (50%), binomial p 1.000; the bot is flat at 27
+  band width at his clicks: median 2.17% of the price
+
+  each scored click (New York time, his side, the band state, the bot's position, his banked points):
+    2026-01-26 10:19:54  BUY   state +1  bot +0    +5.00 pts  statement
+    2026-02-11 10:14:14  BUY   state +0  bot +0   +14.00 pts  statement
+    2026-02-17 13:58:50  SELL  state +0  bot +0    +7.25 pts  statement
+    2026-02-17 13:59:11  SELL  state +0  bot +0    +4.50 pts  statement
+    2026-02-20 10:01:48  BUY   state +0  bot +0    +1.25 pts  statement
+    2026-02-20 10:02:15  SELL  state +1  bot +0   +19.50 pts  statement
+    2026-02-25 13:51:18  BUY   state +0  bot +0    +3.00 pts  statement
+    2026-02-27 14:15:09  BUY   state +0  bot +0    +3.50 pts  statement
+    2026-03-02 14:02:40  BUY   state +0  bot +0    +5.25 pts  statement
+    2026-03-16 13:04:28  BUY   state +0  bot +0   +16.25 pts  statement
+    2026-03-31 15:58:14  BUY   state +1  bot +1    +9.00 pts  statement
+    2026-04-02 11:10:35  BUY   state +0  bot +0   +14.50 pts  statement
+    2026-04-02 11:11:16  BUY   state +0  bot +0    +6.25 pts  statement
+    2026-04-06 11:38:36  BUY   state +0  bot +0   +12.50 pts  statement
+    2026-04-06 11:44:39  SELL  state +0  bot +0    +7.00 pts  statement
+    2026-04-28 12:16:15  BUY   state +0  bot +0    +6.25 pts  statement
+    2026-05-05 11:03:41  BUY   state +1  bot +1   +24.50 pts  statement
+    2026-05-07 11:07:11  SELL  state +0  bot +1    +1.00 pts  statement
+    2026-05-07 11:13:06  SELL  state +1  bot +1    +4.50 pts  statement
+    2026-06-05 11:02:16  BUY   state -1  bot -1    +8.00 pts  statement
+    2026-06-05 11:04:00  BUY   state -1  bot -1    +8.25 pts  statement
+    2026-06-05 11:04:39  SELL  state -1  bot -1   +14.50 pts  statement
+    2026-07-01 11:39:33  SELL  state +0  bot +0    +6.50 pts  statement
+    2026-07-01 11:40:20  SELL  state +0  bot +0   +15.25 pts  statement
+    2026-07-10 12:18:29  BUY   state +0  bot +0    +7.00 pts  statement
+    2026-07-24 14:57:02  SELL  state -1  bot -1    +6.25 pts  statement
+    2026-08-07 12:59:59  BUY   state +0  bot +0    +8.75 pts  statement
+    2026-08-07 13:03:15  SELL  state +0  bot +0    +7.00 pts  statement
+    2026-09-14 14:14:37  BUY   state +0  bot +0   -31.75 pts  statement
+    2026-09-14 14:30:13  BUY   state +0  bot +0    +5.25 pts  statement
+    2026-09-14 14:38:07  SELL  state +0  bot +0    +2.50 pts  statement
+    2026-09-14 14:46:11  SELL  state +0  bot +0    +8.75 pts  statement
+    2026-09-14 14:49:02  SELL  state +0  bot +0    +6.75 pts  statement
+    2026-09-14 15:00:16  SELL  state +0  bot +0    +8.75 pts  statement
+    2026-09-14 15:02:30  SELL  state +0  bot +0   +17.25 pts  statement
+    2026-10-08 13:10:48  SELL  state -1  bot -1   +15.50 pts  later
+    2026-10-08 13:17:55  BUY   state -1  bot -1    +5.50 pts  later
+
+REGISTERED PREDICTIONS
+  H1 agrees with the state on <= 65% outside the band, p > 0.05 -> RIGHT (6 of 11, p 1.000)
+  H2 >= a third of cash-session clicks inside the band -> RIGHT (26 of 37)
+  H3 agrees with the bot's position <= 65% -> RIGHT (5 of 10, p 1.000)

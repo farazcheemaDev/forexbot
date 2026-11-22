@@ -1,0 +1,30 @@
+{
+ "sha256": "86fd452f827be93ef74ae444b5bbae6a13fad9e4909c4dce7cb6046e3729abad",
+ "frozen_utc": "2026-11-22 10:06:44",
+ "rule": {
+  "signs": [
+   "S: S&P held its matching level",
+   "B: weak breakout bar",
+   "W: No. 3 spring (depth < 22.4, volume < 1.16x)",
+   "H: range support (extreme of the 60 bars before the break)"
+  ],
+  "depth_max": 22.4,
+  "relvol_max": 1.16,
+  "rule_min": 3,
+  "strict": 4,
+  "race": [
+   600,
+   7,
+   7
+  ],
+  "fresh_from": "2026-09-15",
+  "fresh_to": "2026-10-29",
+  "overlap_from": "2026-08-03",
+  "fetch_to": "2026-11-20"
+ },
+ "insample_lift_pooled": 0.04232403526521167,
+ "insample_rule": [
+  0.5391304347826087,
+  0.5607142857142857
+ ]
+}

@@ -1,0 +1,20 @@
+backtest/his_extreme_approach.py, 2026-11-22 10:36 UTC; 181 tick days, split 2026-06-04; moments at a 60-bar edge with a classified approach: 3,204
+
+                                                          tune           holdout
+    CLIMAX -> fade                              53.8% of 1,109      55.1% of 782
+    STAIRCASE -> follow                           47.2% of 820      49.9% of 493
+    climax at a high -> sell                      55.1% of 584      52.5% of 400
+    climax at a low -> buy                        52.4% of 525      57.9% of 382
+    staircase at a high -> buy                    45.4% of 588      48.9% of 305
+    staircase at a low -> sell                    51.7% of 232      51.6% of 188
+    the rule, both kinds                        51.0% of 1,929    53.1% of 1,275
+
+  HIS CLICKS: 1 at a 60-bar edge of 46; with a classified approach 1; his side = the rule's on 0 (0%; binomial p 1.00)
+    2026-09-14 SELL at the low   approach climax      rule buy          won
+
+REGISTERED PREDICTIONS
+  X1 climax fades 47-53% on both halves -> WRONG
+  X2 staircase follows 47-53% on both halves -> RIGHT
+  X3 the rule under 56% on both halves -> RIGHT
+  X4 (post hoc) his classified clicks match 55-90% -> WRONG
+  LEAD (56%+ on both halves): none

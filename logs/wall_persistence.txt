@@ -1,0 +1,17 @@
+backtest/wall_persistence.py, 2026-11-06 22:21; registry 2c7c283bdda3
+TUNE HALF 2025-03-01, 2025-06-01, 2025-09-01, 2026-06-01
+  2025-03-01: tick 1e-05, walls registered 2293, reached 20 s unpulled 6 (0%), signal seconds 92
+  2025-06-01: tick 1e-05, walls registered 2723, reached 20 s unpulled 8 (0%), signal seconds 13
+  2025-09-01: tick 1e-05, walls registered 8649, reached 20 s unpulled 9 (0%), signal seconds 45
+  2026-06-01: tick 1e-05, walls registered 7408, reached 20 s unpulled 67 (1%), signal seconds 1098
+   bracket attempts filled  fill gross bp  net bp   win ctl filled ctl gross excess t  Holm p
+      4/4       247      1    0%    -6.00  -12.00    0%        276     -2.72     0.00   1.000
+      6/6       247      1    0%    -8.00  -14.00    0%        272     -2.91     0.00   1.000
+      8/8       247      1    0%    -8.00  -14.00    0%        287     -3.42     0.00   1.000
+     12/12      247      1    0%    -8.00  -14.00    0%        300     -2.70     0.00   1.000
+  primary 8/8 exits: {'stop': 1}; controls: {'target': 50, 'stop': 133, 'scratch': 56, 'timeout': 48}
+  next-30 s move in the trade's direction (bp): filled attempts -6.99, unfilled +0.53
+  per day, signal gross at 8/8 (filled n, mean bp): 2025-03-01 (0, -), 2025-06-01 (0, -), 2025-09-01 (0, -), 2026-06-01 (1, -8.00)
+  REGISTERED RULE at 8/8: filled 1 (>= 30), gross -8.00 (>= +4.5), net -14.00 (> 0), excess t +0.00 (>= 2.0) -> FAILS
+
+The tune half FAILS the registered rule: KILL. The confirm days (2025-12-01, 2026-03-01, 2026-09-01) were NOT read.

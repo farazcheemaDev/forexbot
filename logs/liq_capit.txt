@@ -1,0 +1,22 @@
+backtest/liq_capit.py, 2026-11-15 12:31 UTC; capit2 (capit_combos CAPIT_BETTER, 4 phases pooled) x the liquidation map and real open interest; halves split 2024-04-07
+
+TRADES: 972 in all; from 2022-02-01 745; kept (open interest, map >= 14 days) 743: tune 265, holdout 478
+BASE (every kept trade): tune +1.95% a trade (t +2.3), holdout +4.22% (t +10.7); won 92%
+rank correlation mapflush vs oiflush -0.280; mapflush vs left +0.129
+
+STAGE 1 (flagged = the favourable third by the tune cut); spread = flagged minus unflagged net a trade, clustered by day
+  mapflush  cut 0.2416 (>=)  tune -4.10% (t -1.6, flagged 89, net -0.78%)  holdout +0.22% (t +0.4, flagged 117, net +4.38%)  MDE80 1.36%  Holm 0.77
+  oiflush   cut 0.05963 (>=)  tune +2.00% (t +1.6, flagged 89, net +3.28%)  holdout +0.26% (t +0.7, flagged 190, net +4.37%)  MDE80 1.12%  Holm 0.77
+  left      cut 0.0002726 (<=)  tune +1.33% (t +0.7, flagged 89, net +2.84%)  holdout -0.22% (t -0.4, flagged 208, net +4.10%)  MDE80 1.57%  Holm 0.77
+
+TERCILES (net a trade, tune / holdout; terciles by the tune half's cuts)
+  mapflush low +4.02 / +4.22% (n 88/231)   mid +2.64 / +4.06% (n 88/130)   high -0.78 / +4.38% (n 89/117)
+  oiflush  low -0.25 / +4.22% (n 88/125)   mid +2.80 / +4.03% (n 88/163)   high +3.28 / +4.37% (n 89/190)
+  left     low +2.81 / +4.10% (n 88/208)   mid +2.89 / +4.26% (n 88/153)   high +0.17 / +4.38% (n 89/117)
+
+REGISTERED PREDICTIONS
+  C1 no factor confirmed -> RIGHT ([])
+  C2 rank correlation of mapflush and oiflush > +0.20 -> WRONG (-0.280)
+  C3 the base nets > 0 on both halves -> RIGHT
+  C4 little leverage left under the limit does better on the tune half -> RIGHT (+1.33%)
+run time 286s

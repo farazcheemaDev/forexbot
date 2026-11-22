@@ -1,0 +1,248 @@
+backtest/crash_lessons.py, 2026-11-20 21:54 UTC; parts ABCD; live logs from live1121; Binance daily closes to 2026-11-19 (the bar opened that day); TradFi closes: QQQUSDT
+alt index = equal-weight daily return of the point-in-time top-40 (each day's month, BTC out, 39 coins); bars 10-09..11-19: alts -28.7%, BTC -24.2%; the median alt's 30 days at the last close -29.9%
+
+=== A1 MAIN: what the netted account held (placeable ledger, x live equity; the replay equals the bot's own exec.virtual_pos coin for coin; unpriced: none)
+  before 11-10   crypto long   174$  short   244$  net -0.26x  gross 1.56x  | QQQ +0.42x  (days 32)
+  11-10 .. now   crypto long   120$  short   146$  net -0.11x  gross 1.12x  | QQQ +0.28x  (days 10)
+  crypto net by day in the crash: 11-10 -0.23x  11-11 -0.28x  11-12 -0.32x  11-13 -0.34x  11-14 -0.29x  11-15 -0.03x  11-16 -0.02x  11-17 +0.08x  11-18 +0.22x  11-19 +0.14x
+=== A2 MAIN: daily live-equity return vs the alt index, BTC and QQQ (OLS slope, one factor at a time)
+  before 11-10   n 23  beta to alts +0.13 (corr +0.09)  to BTC -0.12  to QQQ -0.11  account -8.2%  alts -11.0%  BTC -7.5%
+  11-10 .. now   n 10  beta to alts -0.28 (corr -0.51)  to BTC -0.25  to QQQ -0.20  account -15.4%  alts -16.0%  BTC -17.7%
+  all            n 33  beta to alts -0.01 (corr -0.01)  to BTC -0.05  to QQQ -0.10  account -22.3%  alts -25.2%  BTC -23.9%
+  the 5 worst alt days: 11-14 alts -11.1% acct +2.3%  10-29 alts -8.6% acct +3.2%  11-05 alts -7.5% acct -1.9%  10-22 alts -3.7% acct -2.7%  11-02 alts -3.6% acct +0.9%
+
+=== A1 FRESH: what the netted account held (placeable ledger, x live equity; the replay equals the bot's own exec.virtual_pos coin for coin; unpriced: none)
+  before 11-10   crypto long   259$  short   238$  net +0.06x  gross 1.88x  | QQQ +0.45x  (days 24)
+  11-10 .. now   crypto long   144$  short   167$  net -0.11x  gross 1.57x  | QQQ +0.31x  (days 10)
+  crypto net by day in the crash: 11-10 -0.13x  11-11 -0.22x  11-12 -0.30x  11-13 -0.32x  11-14 -0.30x  11-15 +0.00x  11-16 -0.03x  11-17 +0.02x  11-18 +0.07x  11-19 +0.06x
+=== A2 FRESH: daily live-equity return vs the alt index, BTC and QQQ (OLS slope, one factor at a time)
+  before 11-10   n 23  beta to alts +0.52 (corr +0.23)  to BTC +0.19  to QQQ -0.05  account -24.5%  alts -11.0%  BTC -7.5%
+  11-10 .. now   n 10  beta to alts -0.08 (corr -0.12)  to BTC -0.01  to QQQ -0.03  account -22.8%  alts -16.0%  BTC -17.7%
+  all            n 33  beta to alts +0.29 (corr +0.16)  to BTC +0.21  to QQQ -0.01  account -41.8%  alts -25.2%  BTC -23.9%
+  the 5 worst alt days: 11-14 alts -11.1% acct +0.6%  10-29 alts -8.6% acct -1.8%  11-05 alts -7.5% acct -4.0%  10-22 alts -3.7% acct -4.2%  11-02 alts -3.6% acct +1.9%
+
+=== A3 the live market-neutral book, leg by leg (fixed coins, equal weight per leg, +50% short exit at its level)
+  main: basket   to      long leg   short leg   net (0.5L - 0.5S)   longs' 30d run-up   shorts' 30d   crash week
+   2026-10-09 -> 10-15     -10.6%      -4.8%         -2.9%               +134%           -25%       
+   2026-10-16 -> 10-22      -7.7%      -4.5%         -1.6%               +110%           -11%       
+   2026-10-23 -> 10-29     -13.4%     -11.0%         -1.2%                +13%           -55%       
+   2026-10-30 -> 11-05      -4.2%      -5.7%         +0.7%                 +3%           -45%       
+   2026-11-06 -> 11-12     -14.9%      -3.3%         -5.8%                +30%           -42%       
+   2026-11-13 -> 11-19     -12.7%      -9.3%         -1.7%                +20%           -42%       
+   from the 10-30/10-31 basket on (closed weeks only): the long names fell more than the short names in 2 of 3 weeks; their longs' median run-up +20% (all baskets +25%)
+  fresh: basket   to      long leg   short leg   net (0.5L - 0.5S)   longs' 30d run-up   shorts' 30d   crash week
+   2026-10-17 -> 10-23     -10.6%      -2.7%         -3.9%               +101%           -14%       
+   2026-10-24 -> 10-30     -13.7%      -1.8%         -6.0%                 +6%           -49%       
+   2026-10-31 -> 11-06      -6.0%      -7.2%         +0.6%                 -3%           -45%       
+   2026-11-07 -> 11-13     -13.0%      -5.4%         -3.8%                +30%           -37%       
+   2026-11-14 -> 11-19      -9.9%     -11.5%         +0.8%                +29%           -44%       yes
+   from the 10-30/10-31 basket on (closed weeks only): the long names fell more than the short names in 1 of 3 weeks; their longs' median run-up +29% (all baskets +29%)
+
+=== B1 the backtest market-neutral blend (7 rebalance weekdays): the long names' and the short names' average weekly price return (the book gains when the SHORT names fall), crash weeks vs all weeks
+  parity: the copied run() reproduces moderate_retests.scored_run exactly; split 2024-04-07
+  all weeks        n 2357  long names  +1.94%/wk  short names  -0.17%/wk  net +1.26%/wk  (44% negative)  longs' 30d run-up median +44%
+  crash weeks      n  252  long names  -0.52%/wk  short names  +1.95%/wk  net -0.93%/wk  (61% negative)  longs' 30d run-up median +13%
+  crash, tune      n  171  long names  -0.02%/wk  short names  +1.56%/wk  net -0.85%/wk  (60% negative)  longs' 30d run-up median +9%
+  crash, holdout   n   81  long names  -1.56%/wk  short names  +2.76%/wk  net -1.08%/wk  (62% negative)  longs' 30d run-up median +32%
+  non-crash        n 2105  long names  +2.23%/wk  short names  -0.43%/wk  net +1.52%/wk  (42% negative)  longs' 30d run-up median +48%
+  crash-week net, quantiles: 5th -9.19%  10th -7.88%  25th -4.78%  median -1.32%  75th +1.73%
+    live fresh 2026-11-14: net +0.77% = 67th percentile of backtest crash weeks (longs -9.9%: 22th; shorts -11.5%: 10th)
+  crash weeks fall in 25 months: 2020-04 2021-05 2021-06 2021-07 2021-09 2021-12 2022-01 2022-02 2022-04 2022-05 2022-06 2022-07 2022-09 2022-11 2022-12 2024-05 2024-07 2025-02 2025-03 2025-11 2025-12 2026-02 2026-03 2026-06 2026-07
+  crash weeks whose longs had run up the MOST (top quarter, run-up >= +33%): n 63 long names -3.45%/wk  short names -0.38%/wk  net -0.54%/wk
+  ALL weeks whose longs had run up the most (top 10%, >= +135%): n 236 net +1.47%/wk (tune +1.43%, holdout +1.61%) vs the rest +1.23%/wk
+
+=== B2 the bear sleeve after the label turns BEAR (backtest, top-10 basket, whole-account returns)
+  first  5 days: 35 flips, sleeve mean -0.3% median +0.0%, lost money in 49%; flips with breadth already <= 10%: 11, sleeve mean +0.6%, lost in 55%; the basket itself mean -0.7%
+  first  7 days: 35 flips, sleeve mean -0.1% median -0.2%, lost money in 51%; flips with breadth already <= 10%: 11, sleeve mean +0.3%, lost in 55%; the basket itself mean -0.9%
+  first 14 days: 35 flips, sleeve mean +1.0% median +0.4%, lost money in 43%; flips with breadth already <= 10%: 11, sleeve mean +1.9%, lost in 27%; the basket itself mean +4.1%
+  each flip (14 days): 2020-03-16 br 0.00 sleeve +4.2% basket +3.8%  2020-04-21 br 0.38 sleeve -4.0% basket +20.3%  2020-10-03 br 0.24 sleeve -1.8% basket +1.0%  2021-05-19 br 0.27 sleeve +4.8% basket -26.7%  2021-12-12 br 0.07 sleeve +8.4% basket +5.4%  2022-02-12 br 0.50 sleeve +10.3% basket -6.1%  2022-02-18 br 0.17 sleeve +6.1% basket -7.3%  2022-03-05 br 0.03 sleeve +4.0% basket +6.4%  2022-03-11 br 0.05 sleeve +5.0% basket +17.0%  2022-05-10 br 0.02 sleeve -10.8% basket -38.4%  2022-07-24 br 0.88 sleeve -2.3% basket +12.6%  2022-07-26 br 0.30 sleeve -5.3% basket +25.7%  2022-09-14 br 0.22 sleeve +0.7% basket -8.5%  2022-10-06 br 0.58 sleeve +4.5% basket -12.5%  2022-11-18 br 0.07 sleeve +3.9% basket +4.1%  2022-12-28 br 0.07 sleeve +0.4% basket +12.5%  2023-06-04 br 0.62 sleeve +2.2% basket -16.4%  2023-08-25 br 0.07 sleeve -2.5% basket -4.4%  2023-09-21 br 0.68 sleeve -0.5% basket -4.2%  2024-05-08 br 0.32 sleeve -2.4% basket +16.9%  2024-07-11 br 0.23 sleeve -3.9% basket +18.5%  2024-08-05 br 0.02 sleeve -1.8% basket +0.3%  2024-09-13 br 0.58 sleeve -3.1% basket +14.7%  2024-09-16 br 0.51 sleeve -3.8% basket +22.1%  2025-03-09 br 0.10 sleeve +4.3% basket -4.7%  2025-04-14 br 0.28 sleeve -0.9% basket +22.3%  2025-04-16 br 0.23 sleeve +0.0% basket +23.9%  2025-11-11 br 0.47 sleeve +0.4% basket -17.4%  2026-02-06 br 0.05 sleeve +6.2% basket +6.3%  2026-03-20 br 0.34 sleeve -0.2% basket -7.9%  2026-03-22 br 0.19 sleeve +5.6% basket +17.2%  2026-03-27 br 0.15 sleeve +6.0% basket +23.1%  2026-06-12 br 0.14 sleeve +3.3% basket +4.8%  2026-07-17 br 0.32 sleeve -1.4% basket -0.1%  2026-08-01 br 0.15 sleeve +0.0% basket +18.1%
+  low-breadth flips, first 5 days (the live sleeve's age at the feed): 2020-03-16 +5.9%  2021-12-12 -1.5%  2022-03-05 +3.1%  2022-03-11 -1.7%  2022-05-10 -3.1%  2022-11-18 -0.4%  2022-12-28 -3.5%  2023-08-25 +3.2%  2024-08-05 +4.9%  2025-03-09 +0.6%  2026-02-06 -0.4%
+  LIVE main sleeve since its flip (2026-11-16): booked marks 11-16 +0.00  11-17 +0.00  11-18 +1.23  11-19 -0.70  11-20 -2.24  (cumulative $, equity $209.50 the day before); with the open part at the 11-20 21:00 feed: -$14.88 = -7.1% of that equity in 5 days = the 3th percentile of backtest flips' first 5 days
+
+=== C1 the live market in the backtest's state terms (BTC label, fuel = share of the PIT top-40 alts up > 20% in 30 days, the median alt's 30 days)
+  fuel cut-offs from news/fuel_bands.json: LOW < 0.077, HIGH > 0.263; the BTC label on Binance closes agrees with the bot's own logged label on 100% of the 42 days both have
+  week of     BTC label        fuel share (state)   median alt 30d   alt index   BTC     
+  10-09      bull 7           48.4% (HIGH 7      )  +10.4%         -2.7%     +0.6%
+  10-16      bull 7           22.0% (MID 5 HIGH 2)  -10.1%         -1.3%     -1.0%
+  10-23      chop 7            4.4% (LOW 7       )  -15.1%        -10.1%     -4.2%
+  10-30      chop 7            9.5% (MID 4 LOW 3 )  -18.2%         -5.4%     -2.5%
+  11-06      chop 7           10.6% (MID 7       )  -20.5%         +0.9%     -6.1%
+  11-13      bear 4 chop 3     4.4% (LOW 6 MID 1 )  -29.9%        -13.6%    -13.3%
+  phase A (2026-10-09..2026-11-05): fuel LOW with BTC bull or chop on 36% of days (LOW on 36%, MID 32%, HIGH 32%)
+
+=== C2 the main account's two phases against the backtest machine over windows with the same market move
+  backtest: 9 books at the live weights, 10 slot orderings pooled, trend gains shrunk 3x (losses raw); market = BTC close to close and the PIT top-40 alt index (equal weight, daily), the same construction on both sides
+  date alignment check, corr(|sleeve book on day d|, |alt index on day d-L|) on the sleeve's active days: L -1 +0.041  L +0 +0.554  L +1 +0.078  -> same-day is the largest: the books are dated by the bar they earn on
+
+  PHASE A = the October bleed, bars 10-09..11-05 (28 days): main $300.00 -> $250.29 = -16.6% (live equity, dashboard curve); BTC -6.9%, alt index -18.2%, median alt 30d at the end -18.2%
+    how unusual the MARKET was: BTC's move is the 24th percentile and the alt index's the 20th of all 28-day windows 2020-26; the machine over ALL windows: median +10.1%, live at the 8.2th percentile
+    primary match (BTC +-5%, alts +-7%): 2180 windows (218 a slot ordering), 39 start months; machine median +2.8%, 10th -15.0%, worst -31.3%, best +808.5%; share of windows that lost 43%; LIVE -16.6% = 8.0th percentile
+      start months: 2020-03 2020-08 2020-09 2021-05 2021-06 2021-08 2021-09 2022-01 2022-02 2022-03 2022-04 2022-05 2022-08 2022-09 2022-10 2022-12 2023-02 2023-04 2023-05 2023-07 2023-08 2023-12 2024-03 2024-04 2024-05 2024-06 2024-07 2024-08 2024-11 2024-12 2025-02 2025-03 2025-05 2025-07 2025-09 2025-11 2025-12 2026-01 2026-06
+      by book (% of the starting account; live = feed 10-09 00:04 .. 11-06 11:36 UTC, $300.00 at its start):
+      book           live   bt 10th  bt median   bt 90th  live pctile
+      trend        -6.4%    -12.4%      -2.8%    +12.4%          32th
+      mn_blend    -12.7%     -9.0%      -0.2%    +10.9%           3th
+      carry        +8.0%     -2.1%      +0.5%     +3.8%          99th
+      sleeve       +0.0%     -0.6%      +0.0%    +11.9%          13th
+      bids         +0.4%     -0.0%      +0.3%     +3.8%          56th
+      daily        -7.5%     -7.9%      -4.0%     +0.1%          12th
+      capit2       +0.0%     +0.0%      +1.0%     +9.8%           4th
+      news         +0.0%     -0.2%      +2.1%    +10.1%          10th
+      ndx_dip      -1.9%     -0.8%      +0.8%     +3.5%           5th
+        2020-03:  20 windows  machine median  +7.3%  btc  -8.3% alts -13.8%  trend -3.0%  mn +0.0%  daily +0.0%  sleeve +0.0%
+        2020-08: 110 windows  machine median  -1.6%  btc  -6.9% alts -21.1%  trend -10.6%  mn +1.1%  daily -5.0%  sleeve +0.0%
+        2020-09:  30 windows  machine median  +3.5%  btc  -8.3% alts -23.0%  trend -8.3%  mn +4.1%  daily -5.0%  sleeve +0.0%
+        2021-05:  40 windows  machine median -12.9%  btc  -4.9% alts -21.6%  trend +1.4%  mn -8.5%  daily -4.5%  sleeve -1.1%
+        2021-06:  70 windows  machine median  +2.3%  btc  -9.4% alts -21.6%  trend -3.2%  mn -7.2%  daily -3.4%  sleeve +12.6%
+        2021-08:  20 windows  machine median +90.3%  btc -11.0% alts -12.0%  trend +46.2%  mn +17.1%  daily -7.5%  sleeve +0.0%
+        2021-09:  10 windows  machine median +73.2%  btc -11.2% alts -16.4%  trend +37.2%  mn +18.1%  daily -9.2%  sleeve +0.0%
+        2022-01:  10 windows  machine median  -8.3%  btc  -2.0% alts -23.5%  trend -6.6%  mn -16.6%  daily -11.4%  sleeve +19.8%
+        2022-02: 110 windows  machine median +24.3%  btc  -8.1% alts -19.4%  trend +1.8%  mn +6.3%  daily -5.9%  sleeve +17.4%
+        2022-03:  20 windows  machine median  -2.3%  btc  -9.7% alts -12.4%  trend +0.4%  mn -2.7%  daily -1.9%  sleeve +0.0%
+        2022-04:  10 windows  machine median  +9.0%  btc  -8.1% alts -17.7%  trend +3.6%  mn +1.4%  daily +0.4%  sleeve +0.0%
+        2022-05:  10 windows  machine median  -0.0%  btc  -5.5% alts -17.0%  trend -5.8%  mn +0.8%  daily -0.3%  sleeve +6.1%
+        2022-08:  70 windows  machine median  -7.4%  btc -10.0% alts -16.0%  trend -6.6%  mn -1.2%  daily -3.7%  sleeve +0.0%
+        2022-09:  80 windows  machine median  -2.3%  btc  -5.4% alts -14.3%  trend -1.8%  mn +1.1%  daily -3.3%  sleeve +2.6%
+        2022-10:  10 windows  machine median -11.7%  btc -11.8% alts -11.6%  trend -7.1%  mn +0.3%  daily -3.1%  sleeve -1.9%
+        2022-12:  70 windows  machine median  -5.5%  btc  -2.4% alts -21.5%  trend -12.7%  mn +1.4%  daily -5.3%  sleeve +5.3%
+        2023-02:  80 windows  machine median -23.0%  btc  -5.1% alts -17.0%  trend -9.9%  mn -5.2%  daily -7.8%  sleeve +0.0%
+        2023-04: 110 windows  machine median  +1.6%  btc  -7.7% alts -15.1%  trend -11.3%  mn +3.7%  daily -1.4%  sleeve +0.0%
+        2023-05:  80 windows  machine median +17.2%  btc  -3.9% alts -17.6%  trend +0.7%  mn +10.8%  daily -3.8%  sleeve +0.7%
+        2023-07:  90 windows  machine median  -3.2%  btc -10.7% alts -17.7%  trend -2.7%  mn -3.1%  daily -2.5%  sleeve +0.0%
+        2023-08: 120 windows  machine median  -2.4%  btc -10.9% alts -18.6%  trend -2.6%  mn -4.9%  daily -1.5%  sleeve -0.4%
+        2023-12:  40 windows  machine median  -9.6%  btc  -7.0% alts -14.7%  trend -8.9%  mn -1.4%  daily -1.0%  sleeve +0.0%
+        2024-03: 110 windows  machine median +16.7%  btc  -4.5% alts -23.3%  trend +2.1%  mn +3.8%  daily -6.9%  sleeve +0.0%
+        2024-04:  90 windows  machine median  +3.7%  btc  -8.4% alts -19.4%  trend -0.4%  mn -4.7%  daily -4.0%  sleeve +0.0%
+        2024-05:  50 windows  machine median -14.0%  btc  -6.5% alts -24.2%  trend -14.9%  mn -4.7%  daily -4.2%  sleeve +0.0%
+        2024-06:  30 windows  machine median  +7.4%  btc  -8.8% alts -20.2%  trend -1.1%  mn -3.0%  daily -3.8%  sleeve +0.0%
+        2024-07: 120 windows  machine median +10.2%  btc  -6.7% alts -19.1%  trend +5.4%  mn -5.8%  daily -4.4%  sleeve +0.5%
+        2024-08:  50 windows  machine median -22.1%  btc  -9.2% alts -13.4%  trend -2.5%  mn -9.9%  daily -5.8%  sleeve -1.3%
+        2024-11:  20 windows  machine median +536.0%  btc  -3.1% alts -14.4%  trend +337.2%  mn +6.0%  daily -0.7%  sleeve +0.0%
+        2024-12:  80 windows  machine median +393.7%  btc  -3.9% alts -22.2%  trend +287.1%  mn +3.8%  daily -5.0%  sleeve +0.0%
+        2025-02:  70 windows  machine median -10.5%  btc -10.1% alts -14.4%  trend -4.9%  mn -7.4%  daily -4.9%  sleeve +0.0%
+        2025-03:  70 windows  machine median +27.2%  btc  -4.3% alts -13.7%  trend -10.2%  mn +7.5%  daily -4.8%  sleeve +12.3%
+        2025-05:  50 windows  machine median  +0.9%  btc  -3.7% alts -22.5%  trend -7.0%  mn +6.9%  daily -5.6%  sleeve +0.0%
+        2025-07:  20 windows  machine median +74.4%  btc  -6.4% alts -15.6%  trend +18.4%  mn +34.2%  daily -4.4%  sleeve +0.0%
+        2025-09:  10 windows  machine median +89.2%  btc  -3.3% alts -24.1%  trend +17.0%  mn -1.5%  daily +4.6%  sleeve +0.0%
+        2025-11: 150 windows  machine median  +4.2%  btc  -6.3% alts -18.7%  trend -7.5%  mn -0.2%  daily +2.0%  sleeve +1.3%
+        2025-12:  10 windows  machine median +23.7%  btc  -6.2% alts -14.1%  trend -10.7%  mn +16.3%  daily +13.2%  sleeve +3.2%
+        2026-01:  10 windows  machine median +14.8%  btc  -6.4% alts -13.3%  trend -9.0%  mn +31.4%  daily +10.6%  sleeve -2.3%
+        2026-06:  30 windows  machine median -11.8%  btc  -6.0% alts -14.1%  trend -5.9%  mn -1.9%  daily -4.1%  sleeve +8.0%
+    wider match (BTC +-8%, alts +-11%): 4810 windows (481 a slot ordering), 52 start months; machine median +3.9%, 10th -14.9%, worst -35.1%, best +829.3%; share of windows that lost 41%; LIVE -16.6% = 8.3th percentile
+
+  PHASE B = the crash, bars 11-06..11-19 (14 days): main $250.29 -> $225.27 = -10.0% (live equity, dashboard curve); BTC -18.5%, alt index -12.8%, median alt 30d at the end -29.9%
+    how unusual the MARKET was: BTC's move is the 3th percentile and the alt index's the 18th of all 14-day windows 2020-26; the machine over ALL windows: median +4.0%, live at the 14.1th percentile
+    primary match (BTC +-5%, alts +-7%): 410 windows (41 a slot ordering), 14 start months; machine median +3.0%, 10th -9.9%, worst -28.0%, best +126.9%; share of windows that lost 42%; LIVE -10.0% = 10.0th percentile
+      start months: 2021-04 2021-11 2021-12 2022-03 2022-08 2022-09 2022-10 2022-11 2024-01 2024-08 2025-02 2025-11 2026-01 2026-05
+      by book (% of the starting account; live = feed 11-06 11:36 .. 11-20 21:00 UTC, $236.56 at its start):
+      book           live   bt 10th  bt median   bt 90th  live pctile
+      trend        +8.5%     -5.0%      +0.9%    +14.1%          77th
+      mn_blend     +1.1%     -7.0%      +1.0%    +17.9%          51th
+      carry        -6.0%     -2.9%      -0.1%     +3.4%           0th
+      sleeve       -6.3%     +0.0%      +0.0%     +5.6%           0th
+      bids         -0.6%     -0.2%      +0.2%     +3.1%           5th
+      daily        -5.3%     -7.2%      -2.3%     +0.6%          22th
+      capit2       +0.9%     +0.0%      +0.0%     +7.3%          72th
+      news         +0.4%     -0.7%      +0.0%     +2.4%          78th
+      ndx_dip      -4.2%     +0.0%      +0.0%     +1.4%           2th
+        2021-04:  20 windows  machine median +86.1%  btc -17.3% alts  -8.4%  trend +61.9%  mn +7.8%  daily +0.9%  sleeve +0.0%
+        2021-11:  50 windows  machine median +38.6%  btc -16.2% alts -10.5%  trend +9.2%  mn +22.0%  daily -4.1%  sleeve +0.0%
+        2021-12:  40 windows  machine median +21.0%  btc -17.4% alts -16.1%  trend -1.6%  mn +3.5%  daily -1.6%  sleeve +23.8%
+        2022-03:  20 windows  machine median  -5.9%  btc -15.8% alts -19.4%  trend +5.9%  mn -5.6%  daily -6.3%  sleeve +0.0%
+        2022-08:  20 windows  machine median  -2.2%  btc -15.0% alts -19.4%  trend -4.7%  mn +2.0%  daily -3.8%  sleeve +0.0%
+        2022-09:  20 windows  machine median  -1.5%  btc -14.0% alts -13.4%  trend -3.4%  mn +1.6%  daily -0.2%  sleeve +0.8%
+        2022-10:  10 windows  machine median  -7.8%  btc -17.1% alts -13.6%  trend -4.9%  mn -1.3%  daily -5.0%  sleeve +0.1%
+        2022-11:  30 windows  machine median  -5.3%  btc -17.5% alts -19.4%  trend -2.9%  mn +1.8%  daily -7.7%  sleeve +0.0%
+        2024-01:  30 windows  machine median  -5.3%  btc -14.1% alts -12.0%  trend +2.9%  mn -5.9%  daily -2.1%  sleeve +0.0%
+        2024-08:  10 windows  machine median -12.4%  btc -14.6% alts -18.4%  trend -3.3%  mn -5.6%  daily -7.2%  sleeve +5.6%
+        2025-02:  20 windows  machine median  -2.4%  btc -14.0% alts -15.8%  trend -2.0%  mn -4.1%  daily -2.5%  sleeve -0.0%
+        2025-11:  40 windows  machine median  -3.5%  btc -14.6% alts -13.0%  trend +0.1%  mn -5.8%  daily -1.8%  sleeve +1.1%
+        2026-01:  20 windows  machine median +55.8%  btc -16.3% alts -17.6%  trend +2.5%  mn +3.3%  daily +23.3%  sleeve +2.2%
+        2026-05:  80 windows  machine median  +8.1%  btc -17.8% alts -12.4%  trend +8.1%  mn +3.3%  daily -1.7%  sleeve +0.0%
+    wider match (BTC +-8%, alts +-11%): 1410 windows (141 a slot ordering), 32 start months; machine median +2.9%, 10th -11.2%, worst -29.9%, best +126.9%; share of windows that lost 43%; LIVE -10.0% = 13.4th percentile
+
+  PHASE AB = main's whole record so far, bars 10-09..11-19 (42 days): main $300.00 -> $225.27 = -24.9% (live equity, dashboard curve); BTC -24.2%, alt index -28.7%, median alt 30d at the end -29.9%
+    how unusual the MARKET was: BTC's move is the 6th percentile and the alt index's the 10th of all 42-day windows 2020-26; the machine over ALL windows: median +14.9%, live at the 2.4th percentile
+    primary match (BTC +-5%, alts +-7%): 890 windows (89 a slot ordering), 15 start months; machine median +23.1%, 10th -11.0%, worst -24.1%, best +124.8%; share of windows that lost 25%; LIVE -24.9% = 0.0th percentile
+      start months: 2020-03 2021-05 2021-10 2021-11 2021-12 2022-03 2022-08 2022-11 2024-07 2025-10 2025-11 2025-12 2026-01 2026-04 2026-05
+      by book (% of the starting account; live = feed 10-09 00:04 .. 11-20 21:00 UTC, $300.00 at its start):
+      book           live   bt 10th  bt median   bt 90th  live pctile
+      trend        +0.3%    -11.2%      -3.4%     +3.7%          76th
+      mn_blend    -11.8%    -11.1%      +4.5%    +29.7%           9th
+      carry        +3.3%     -3.6%      +1.0%     +8.8%          69th
+      sleeve       -5.0%     -1.4%      +1.6%    +26.2%           0th
+      bids         -0.1%     +0.0%      +1.3%     +4.8%           3th
+      daily       -11.7%    -10.4%      -4.7%    +30.7%           8th
+      capit2       +0.7%     +0.0%      +9.7%    +14.3%          16th
+      news         +0.3%    -20.8%      +0.0%     +8.4%          52th
+      ndx_dip      -5.2%     +0.0%      +1.3%     +3.9%           0th
+        2020-03:  60 windows  machine median  -2.8%  btc -22.4% alts -28.6%  trend -5.0%  mn -6.9%  daily -3.3%  sleeve +0.0%
+        2021-05:  10 windows  machine median +48.0%  btc -24.7% alts -32.0%  trend +3.1%  mn +17.7%  daily -1.0%  sleeve -0.0%
+        2021-10:  10 windows  machine median +20.1%  btc -24.3% alts -24.8%  trend -12.9%  mn +32.6%  daily -13.8%  sleeve +0.0%
+        2021-11: 140 windows  machine median +26.4%  btc -24.0% alts -26.4%  trend -4.2%  mn +22.9%  daily -8.0%  sleeve +0.4%
+        2021-12: 120 windows  machine median +27.2%  btc -23.8% alts -27.0%  trend -3.3%  mn +5.6%  daily -6.8%  sleeve +26.6%
+        2022-03:  10 windows  machine median  +0.3%  btc -20.3% alts -35.0%  trend -2.6%  mn -0.3%  daily -1.9%  sleeve +0.0%
+        2022-08:  60 windows  machine median -15.0%  btc -21.8% alts -28.3%  trend -15.6%  mn -0.8%  daily -4.8%  sleeve +0.9%
+        2022-11:  10 windows  machine median  -4.2%  btc -20.0% alts -34.5%  trend -6.8%  mn -1.5%  daily -18.0%  sleeve +15.0%
+        2024-07:  30 windows  machine median  -5.2%  btc -20.2% alts -29.7%  trend +5.1%  mn -11.6%  daily -14.7%  sleeve +3.0%
+        2025-10: 130 windows  machine median  +8.4%  btc -22.7% alts -30.2%  trend -1.4%  mn -9.4%  daily -6.6%  sleeve +1.8%
+        2025-11:  10 windows  machine median  -3.4%  btc -20.3% alts -27.3%  trend -6.8%  mn -1.6%  daily +0.9%  sleeve +3.4%
+        2025-12:  60 windows  machine median +53.0%  btc -20.6% alts -26.1%  trend -5.8%  mn +27.4%  daily +37.0%  sleeve -4.3%
+        2026-01: 210 windows  machine median +63.1%  btc -24.6% alts -28.1%  trend -3.0%  mn +19.6%  daily +24.2%  sleeve +2.0%
+        2026-04:  10 windows  machine median +12.2%  btc -21.2% alts -24.2%  trend +19.8%  mn +2.5%  daily -12.1%  sleeve +0.0%
+        2026-05:  20 windows  machine median +21.5%  btc -21.6% alts -22.2%  trend +8.3%  mn +14.3%  daily -2.0%  sleeve +8.0%
+    wider match (BTC +-8%, alts +-11%): 1790 windows (179 a slot ordering), 25 start months; machine median +19.3%, 10th -12.3%, worst -25.5%, best +132.7%; share of windows that lost 28%; LIVE -24.9% = 0.1th percentile
+
+  PHASE F = fresh's whole record, its crowd book taken out (the backtest machine has none), bars 10-17..11-19 (34 days): fresh $300.00 -> $211.55 = -29.5% (live equity, dashboard curve; the crowd book loss added back); BTC -24.0%, alt index -26.2%, median alt 30d at the end -29.9%
+    how unusual the MARKET was: BTC's move is the 5th percentile and the alt index's the 11th of all 34-day windows 2020-26; the machine over ALL windows: median +12.3%, live at the 1.4th percentile
+    primary match (BTC +-5%, alts +-7%): 680 windows (68 a slot ordering), 13 start months; machine median +29.1%, 10th -4.2%, worst -22.9%, best +152.1%; share of windows that lost 17%; LIVE -29.5% = 0.0th percentile
+      start months: 2020-03 2021-06 2021-11 2021-12 2022-01 2022-05 2022-08 2022-10 2022-11 2025-10 2025-11 2026-01 2026-05
+      by book (% of the starting account; live = feed 10-17 01:15 .. 11-20 21:00 UTC, $300.00 at its start):
+      book           live   bt 10th  bt median   bt 90th  live pctile
+      trend        -4.7%     -8.0%      -2.0%    +17.3%          29th
+      mn_blend    -13.6%     -7.8%      +7.0%    +32.4%           1th
+      carry        +5.4%     -2.5%      +0.6%     +7.8%          78th
+      sleeve       -3.8%     -0.2%      +1.7%    +23.4%           0th
+      bids         -0.1%     -0.0%      +1.1%     +3.7%           7th
+      daily       -11.6%     -9.3%      -4.2%    +27.1%           3th
+      capit2       +0.6%     +0.0%      +8.5%    +14.3%          24th
+      news         +0.3%     -6.3%      +2.5%     +5.1%          38th
+      ndx_dip      -6.9%     +0.0%      +1.2%     +3.5%           0th
+        2020-03:  30 windows  machine median  +3.6%  btc -20.4% alts -27.8%  trend -3.8%  mn +0.0%  daily -0.1%  sleeve +0.0%
+        2021-06:  20 windows  machine median +15.7%  btc -20.4% alts -29.4%  trend -6.2%  mn -1.2%  daily -4.3%  sleeve +19.3%
+        2021-11: 140 windows  machine median +41.1%  btc -24.0% alts -25.5%  trend +3.4%  mn +27.6%  daily -7.8%  sleeve +0.0%
+        2021-12:  80 windows  machine median +26.1%  btc -23.0% alts -31.1%  trend -4.9%  mn +5.4%  daily -6.0%  sleeve +26.7%
+        2022-01:  10 windows  machine median +15.4%  btc -19.3% alts -31.8%  trend -5.8%  mn -3.9%  daily -7.1%  sleeve +23.4%
+        2022-05:  10 windows  machine median +26.5%  btc -23.9% alts -24.7%  trend -5.3%  mn +4.1%  daily -2.3%  sleeve +21.2%
+        2022-08:  40 windows  machine median  -5.7%  btc -19.3% alts -26.2%  trend -8.7%  mn -0.7%  daily -4.8%  sleeve +1.0%
+        2022-10:  10 windows  machine median  +0.7%  btc -20.3% alts -28.4%  trend -3.9%  mn +1.9%  daily -4.4%  sleeve +3.0%
+        2022-11:  10 windows  machine median  -9.9%  btc -19.6% alts -27.6%  trend -2.8%  mn +1.2%  daily -16.2%  sleeve +6.8%
+        2025-10:  60 windows  machine median  -3.7%  btc -21.1% alts -27.1%  trend -1.7%  mn -8.1%  daily -6.1%  sleeve +2.0%
+        2025-11:  10 windows  machine median  -9.0%  btc -19.3% alts -25.3%  trend -1.4%  mn -11.0%  daily -3.1%  sleeve +3.9%
+        2026-01: 200 windows  machine median +76.7%  btc -25.1% alts -27.5%  trend +0.3%  mn +11.2%  daily +24.9%  sleeve +3.3%
+        2026-05:  60 windows  machine median +29.4%  btc -22.0% alts -22.2%  trend +18.9%  mn +10.0%  daily -4.7%  sleeve +0.0%
+    wider match (BTC +-8%, alts +-11%): 1710 windows (171 a slot ordering), 23 start months; machine median +18.5%, 10th -8.8%, worst -35.2%, best +152.1%; share of windows that lost 24%; LIVE -29.5% = 0.1th percentile
+
+=== D capit2 - the book the backtest leans on in crashes - its rule replayed on the live weeks with the bot's own code (final_books.capit_signals on Binance 4h bars of the point-in-time top-40)
+  257 closed 4h bars from 10-09 to 11-20 16:00: a coin's RSI crossed under 20 on > 2x volume 11 times; 5 of those with the coin down >= 10% over 24h; bars inside a wave (>= 5 of the 40 within 24h): 7; SIGNALS (all three together): 3
+   11-14 20:00 SOLUSDT      drop -10% breadth  6  limit 68.8254  filled -> target +4.9%
+   11-14 20:00 ADAUSDT      drop -12% breadth  6  limit 0.144648  filled -> target +4.9%
+   11-14 20:00 FILUSDT      drop -13% breadth  6  limit 0.604856  filled -> not_working -6.0%
+  the live bot (main, combo_final_trades.csv): 3 capit2 trades - ADAUSDT entry 0.144648 -> target +5.0%  SOLUSDT entry 68.8254 -> target +4.9%  FILUSDT entry 0.604856 -> not_working -6.5%
+  replay: 3 signals, 3 filled, mean +1.2% a trade
+  how the decline came (post hoc): live 42 days - worst alt-index day -11.1%, days of -5% or worse 4; the 89 matched backtest windows - worst day median -13.2% (live at the 72th percentile, i.e. milder than most), days of -5% or worse median 6 (10th 5, 90th 9)
+  the backtest machine in the 42-day windows matched to main's whole record (C2's AB match): capit2 closed trades on a median 2 days a window (10th 0, 90th 4); live: 2 days
+
+=== PREDICTIONS (registered in the docstring; L1-L6 before any number, L7-L10 after A and B, before C)
+  L1 main net LONG >= +0.5x in the crash: crypto net -0.11x -> WRONG (QQQ held apart, above)
+  L2 beta to alts >= +0.3 in the crash and lower before: -0.28 in the crash, +0.13 before -> WRONG
+  L3 long names fell more in >= 3 of 4 weeks from 10-30, longs' run-up >= +30%: 2 of 3, run-up +20% -> WRONG
+  L4 backtest crash weeks: long names fall AND the book nets >= 0: long names -0.52%/wk, net -0.93%/wk -> WRONG (the short names +1.95%/wk)
+  L5 backtest crash weeks' longs ran up LESS than live's: +13% vs live +29% (all live baskets) -> RIGHT
+  L6 sleeve's first 14 days lose in > half of flips: 43% -> WRONG
+  L7 phase A under the matched 10th percentile: 8.0th -> RIGHT
+  L8 phase B under the matched median: 10.0th -> RIGHT; under the 10th: WRONG
+  L9 phase A: MN 3th, daily 12th under the 10th, trend 32th not -> WRONG
+  L10 phase A fuel LOW with BTC bull / chop on >= 60% of days: 36% -> WRONG
+  D1 the replay finds the live bot's signals and no more: replay 3 signals (3 filled) vs live 3 -> RIGHT
+  D2 backtest capit2 closed trades on >= 5 days in the median matched window: 2 -> WRONG

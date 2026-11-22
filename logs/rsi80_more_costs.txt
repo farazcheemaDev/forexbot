@@ -1,0 +1,64 @@
+backtest/rsi80_more.py --costs, 2026-11-08 22:22; the same trades with the funding each perp trade really paid (spot: none)
+  OLD       n  1088 (funding found for 1088)  per-trade R: as studied +0.246, real funding +0.249 (flat charge 0.009R, real 0.006R a trade); +10bp slippage +0.240  +30bp slippage +0.223
+  NEW-PERP  n  1292 (funding found for 1291)  per-trade R: as studied +0.124, real funding +0.132 (flat charge 0.007R, real -0.001R a trade); +10bp slippage +0.125  +30bp slippage +0.110
+  NEW-SPOT  n   182 (funding found for 182)  per-trade R: as studied +0.229, real funding +0.238 (flat charge 0.009R, real 0.000R a trade); +10bp slippage +0.229  +30bp slippage +0.210
+
+  SIZED ACCOUNTS with real funding and +0bp round-trip slippage (every signal, risk a share of the booked equity, under $5 skipped)
+    top-100 perps 2020-26  risk 1%  $  50 -> $    235.16 ( +26%/yr)  taken 1174, skipped 1205, deepest fall  28%, most open 5.4x
+    top-100 perps 2020-26  risk 1%  $ 100 -> $  3,294.47 ( +69%/yr)  taken 2324, skipped   55, deepest fall  31%, most open 5.7x
+    top-100 perps 2020-26  risk 1%  $ 300 -> $ 10,725.99 ( +72%/yr)  taken 2379, skipped    0, deepest fall  31%, most open 5.7x
+    top-100 perps 2020-26  risk 2%  $  50 -> $ 15,814.70 (+138%/yr)  taken 2332, skipped   47, deepest fall  56%, most open 11.4x
+    top-100 perps 2020-26  risk 2%  $ 100 -> $ 34,323.62 (+141%/yr)  taken 2376, skipped    3, deepest fall  56%, most open 11.4x
+    top-100 perps 2020-26  risk 2%  $ 300 -> $101,978.42 (+141%/yr)  taken 2379, skipped    0, deepest fall  56%, most open 11.4x
+    NEW-PERP only          risk 1%  $  50 -> $    104.49 ( +13%/yr)  taken  473, skipped  818, deepest fall  17%, most open 2.6x
+    NEW-PERP only          risk 1%  $ 100 -> $    302.99 ( +21%/yr)  taken 1145, skipped  146, deepest fall  25%, most open 3.7x
+    NEW-PERP only          risk 1%  $ 300 -> $  1,255.63 ( +27%/yr)  taken 1291, skipped    0, deepest fall  26%, most open 3.7x
+    NEW-PERP only          risk 2%  $  50 -> $    463.46 ( +46%/yr)  taken 1262, skipped   29, deepest fall  47%, most open 7.3x
+    NEW-PERP only          risk 2%  $ 100 -> $  1,083.89 ( +50%/yr)  taken 1291, skipped    0, deepest fall  47%, most open 7.3x
+    NEW-PERP only          risk 2%  $ 300 -> $  3,251.68 ( +50%/yr)  taken 1291, skipped    0, deepest fall  47%, most open 7.3x
+    NEW-SPOT 2017-19       risk 1%  $  50 -> $     73.87 ( +19%/yr)  taken   90, skipped   92, deepest fall   4%, most open 1.8x
+    NEW-SPOT 2017-19       risk 1%  $ 100 -> $    148.98 ( +20%/yr)  taken  176, skipped    6, deepest fall   9%, most open 1.9x
+    NEW-SPOT 2017-19       risk 1%  $ 300 -> $    445.72 ( +19%/yr)  taken  182, skipped    0, deepest fall   9%, most open 1.9x
+    NEW-SPOT 2017-19       risk 2%  $  50 -> $    102.03 ( +38%/yr)  taken  178, skipped    4, deepest fall  18%, most open 3.8x
+    NEW-SPOT 2017-19       risk 2%  $ 100 -> $    206.77 ( +39%/yr)  taken  182, skipped    0, deepest fall  18%, most open 3.8x
+    NEW-SPOT 2017-19       risk 2%  $ 300 -> $    620.32 ( +39%/yr)  taken  182, skipped    0, deepest fall  18%, most open 3.8x
+
+  SIZED ACCOUNTS with real funding and +10bp round-trip slippage (every signal, risk a share of the booked equity, under $5 skipped)
+    top-100 perps 2020-26  risk 1%  $  50 -> $    200.12 ( +23%/yr)  taken 1131, skipped 1248, deepest fall  31%, most open 5.4x
+    top-100 perps 2020-26  risk 1%  $ 100 -> $  2,725.11 ( +65%/yr)  taken 2321, skipped   58, deepest fall  32%, most open 5.7x
+    top-100 perps 2020-26  risk 1%  $ 300 -> $  8,971.10 ( +67%/yr)  taken 2379, skipped    0, deepest fall  32%, most open 5.7x
+    top-100 perps 2020-26  risk 2%  $  50 -> $ 10,687.70 (+125%/yr)  taken 2329, skipped   50, deepest fall  58%, most open 11.4x
+    top-100 perps 2020-26  risk 2%  $ 100 -> $ 24,208.84 (+129%/yr)  taken 2376, skipped    3, deepest fall  58%, most open 11.4x
+    top-100 perps 2020-26  risk 2%  $ 300 -> $ 71,915.42 (+129%/yr)  taken 2379, skipped    0, deepest fall  58%, most open 11.4x
+    NEW-PERP only          risk 1%  $  50 -> $    102.40 ( +13%/yr)  taken  464, skipped  827, deepest fall  18%, most open 2.6x
+    NEW-PERP only          risk 1%  $ 100 -> $    276.59 ( +19%/yr)  taken 1135, skipped  156, deepest fall  26%, most open 3.7x
+    NEW-PERP only          risk 1%  $ 300 -> $  1,145.97 ( +25%/yr)  taken 1291, skipped    0, deepest fall  27%, most open 3.7x
+    NEW-PERP only          risk 2%  $  50 -> $    387.96 ( +42%/yr)  taken 1261, skipped   30, deepest fall  48%, most open 7.3x
+    NEW-PERP only          risk 2%  $ 100 -> $    906.13 ( +45%/yr)  taken 1291, skipped    0, deepest fall  48%, most open 7.3x
+    NEW-PERP only          risk 2%  $ 300 -> $  2,718.38 ( +45%/yr)  taken 1291, skipped    0, deepest fall  48%, most open 7.3x
+    NEW-SPOT 2017-19       risk 1%  $  50 -> $     73.16 ( +19%/yr)  taken   88, skipped   94, deepest fall   5%, most open 1.8x
+    NEW-SPOT 2017-19       risk 1%  $ 100 -> $    146.51 ( +19%/yr)  taken  176, skipped    6, deepest fall   9%, most open 1.9x
+    NEW-SPOT 2017-19       risk 1%  $ 300 -> $    438.23 ( +19%/yr)  taken  182, skipped    0, deepest fall   9%, most open 1.9x
+    NEW-SPOT 2017-19       risk 2%  $  50 -> $     98.75 ( +36%/yr)  taken  178, skipped    4, deepest fall  18%, most open 3.8x
+    NEW-SPOT 2017-19       risk 2%  $ 100 -> $    200.06 ( +37%/yr)  taken  182, skipped    0, deepest fall  18%, most open 3.8x
+    NEW-SPOT 2017-19       risk 2%  $ 300 -> $    600.17 ( +37%/yr)  taken  182, skipped    0, deepest fall  18%, most open 3.8x
+
+  SIZED ACCOUNTS with real funding and +30bp round-trip slippage (every signal, risk a share of the booked equity, under $5 skipped)
+    top-100 perps 2020-26  risk 1%  $  50 -> $    106.59 ( +12%/yr)  taken  790, skipped 1589, deepest fall  29%, most open 5.0x
+    top-100 perps 2020-26  risk 1%  $ 100 -> $  1,971.34 ( +57%/yr)  taken 2318, skipped   61, deepest fall  35%, most open 5.7x
+    top-100 perps 2020-26  risk 1%  $ 300 -> $  6,270.19 ( +58%/yr)  taken 2379, skipped    0, deepest fall  35%, most open 5.7x
+    top-100 perps 2020-26  risk 2%  $  50 -> $  5,553.75 (+104%/yr)  taken 2327, skipped   52, deepest fall  61%, most open 11.4x
+    top-100 perps 2020-26  risk 2%  $ 100 -> $ 12,156.43 (+106%/yr)  taken 2372, skipped    7, deepest fall  61%, most open 11.4x
+    top-100 perps 2020-26  risk 2%  $ 300 -> $ 35,648.38 (+106%/yr)  taken 2379, skipped    0, deepest fall  61%, most open 11.4x
+    NEW-PERP only          risk 1%  $  50 -> $     86.31 ( +10%/yr)  taken  415, skipped  876, deepest fall  19%, most open 2.4x
+    NEW-PERP only          risk 1%  $ 100 -> $    238.85 ( +16%/yr)  taken 1111, skipped  180, deepest fall  28%, most open 3.7x
+    NEW-PERP only          risk 1%  $ 300 -> $    954.29 ( +22%/yr)  taken 1291, skipped    0, deepest fall  28%, most open 3.7x
+    NEW-PERP only          risk 2%  $  50 -> $    276.31 ( +34%/yr)  taken 1256, skipped   35, deepest fall  50%, most open 7.3x
+    NEW-PERP only          risk 2%  $ 100 -> $    632.65 ( +37%/yr)  taken 1291, skipped    0, deepest fall  50%, most open 7.3x
+    NEW-PERP only          risk 2%  $ 300 -> $  1,897.96 ( +37%/yr)  taken 1291, skipped    0, deepest fall  50%, most open 7.3x
+    NEW-SPOT 2017-19       risk 1%  $  50 -> $     71.23 ( +17%/yr)  taken   87, skipped   95, deepest fall   5%, most open 1.8x
+    NEW-SPOT 2017-19       risk 1%  $ 100 -> $    141.70 ( +17%/yr)  taken  176, skipped    6, deepest fall   9%, most open 1.9x
+    NEW-SPOT 2017-19       risk 1%  $ 300 -> $    423.63 ( +17%/yr)  taken  182, skipped    0, deepest fall  10%, most open 1.9x
+    NEW-SPOT 2017-19       risk 2%  $  50 -> $     92.48 ( +32%/yr)  taken  178, skipped    4, deepest fall  18%, most open 3.8x
+    NEW-SPOT 2017-19       risk 2%  $ 100 -> $    187.25 ( +33%/yr)  taken  182, skipped    0, deepest fall  18%, most open 3.8x
+    NEW-SPOT 2017-19       risk 2%  $ 300 -> $    561.74 ( +33%/yr)  taken  182, skipped    0, deepest fall  18%, most open 3.8x

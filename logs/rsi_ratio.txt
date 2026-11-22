@@ -1,0 +1,563 @@
+backtest/rsi_ratio.py, 2026-11-02 14:25 UTC; 364 of 364 PIT-top-40 perps; tune < 2024-08-29; stop = 1R = a multiple of ATR(14), target in R, out at bar 24; 12bp + 1bp/8h on longs charged in R; control = same bracket from every PIT bar at the entry day x slot
+
+RANDOM-ENTRY CONTROL 1h long : mean net R a trade (trade-weighted), tune / holdout   [win share, break-even share]    (2,161,707 entries at the first bracket)
+   stop \ target 0.5R                              1.0R                              2.0R                              4.0R                              
+   0.5 ATR       -0.35/-0.36 [54% 79%]             -0.27/-0.27 [45% 59%]             -0.24/-0.24 [31% 39%]             -0.24/-0.24 [19% 24%]             
+   1.0 ATR       -0.13/-0.13 [64% 73%]             -0.13/-0.14 [48% 55%]             -0.13/-0.15 [33% 37%]             -0.13/-0.15 [25% 22%]             
+   2.0 ATR       -0.07/-0.08 [64% 70%]             -0.08/-0.09 [48% 53%]             -0.07/-0.09 [39% 35%]             -0.06/-0.08 [37% 21%]             
+   4.0 ATR       -0.04/-0.05 [56% 68%]             -0.04/-0.05 [47% 51%]             -0.03/-0.04 [46% 34%]             -0.03/-0.04 [45% 21%]             
+
+RANDOM-ENTRY CONTROL 1h short: mean net R a trade (trade-weighted), tune / holdout   [win share, break-even share]    (2,161,707 entries at the first bracket)
+   stop \ target 0.5R                              1.0R                              2.0R                              4.0R                              
+   0.5 ATR       -0.32/-0.34 [56% 78%]             -0.22/-0.24 [48% 59%]             -0.17/-0.17 [34% 39%]             -0.14/-0.13 [21% 24%]             
+   1.0 ATR       -0.09/-0.10 [66% 73%]             -0.07/-0.08 [51% 55%]             -0.06/-0.05 [35% 36%]             -0.04/-0.04 [27% 22%]             
+   2.0 ATR       -0.03/-0.03 [67% 70%]             -0.02/-0.01 [51% 52%]             -0.01/-0.01 [42% 35%]             -0.01/-0.01 [40% 21%]             
+   4.0 ATR       -0.01/-0.01 [59% 68%]             -0.01/-0.01 [50% 51%]             -0.01/-0.00 [49% 34%]             -0.01/-0.00 [48% 20%]             
+
+RANDOM-ENTRY CONTROL 4h long : mean net R a trade (trade-weighted), tune / holdout   [win share, break-even share]    (545,480 entries at the first bracket)
+   stop \ target 0.5R                              1.0R                              2.0R                              4.0R                              
+   0.5 ATR       -0.27/-0.28 [55% 73%]             -0.20/-0.21 [44% 55%]             -0.17/-0.18 [31% 36%]             -0.17/-0.17 [19% 22%]             
+   1.0 ATR       -0.09/-0.10 [63% 70%]             -0.09/-0.11 [48% 52%]             -0.10/-0.12 [32% 35%]             -0.07/-0.13 [24% 21%]             
+   2.0 ATR       -0.05/-0.07 [63% 68%]             -0.06/-0.08 [47% 52%]             -0.04/-0.09 [39% 34%]             -0.02/-0.10 [37% 21%]             
+   4.0 ATR       -0.03/-0.05 [56% 68%]             -0.02/-0.05 [47% 51%]             -0.00/-0.06 [45% 34%]             -0.00/-0.05 [45% 20%]             
+
+RANDOM-ENTRY CONTROL 4h short: mean net R a trade (trade-weighted), tune / holdout   [win share, break-even share]    (545,480 entries at the first bracket)
+   stop \ target 0.5R                              1.0R                              2.0R                              4.0R                              
+   0.5 ATR       -0.22/-0.24 [57% 72%]             -0.13/-0.14 [48% 54%]             -0.07/-0.06 [34% 36%]             -0.03/-0.02 [22% 22%]             
+   1.0 ATR       -0.04/-0.05 [67% 70%]             -0.02/-0.02 [51% 52%]             +0.01/+0.02 [36% 35%]             +0.01/+0.05 [28% 21%]             
+   2.0 ATR       -0.00/+0.00 [67% 68%]             +0.01/+0.02 [52% 51%]             +0.00/+0.04 [43% 34%]             +0.01/+0.04 [42% 20%]             
+   4.0 ATR       -0.01/+0.01 [60% 67%]             -0.01/+0.02 [52% 51%]             -0.01/+0.02 [50% 34%]             -0.02/+0.02 [50% 20%]             
+
+TEXTBOOK RSI vs THE CONTROL, by bracket (the 3 oversold-long flags x 2 bar sizes = up to 6 cells; the 3 overbought-short flags the same)
+   bracket         side   cells  both+  day-vote R t/h    PER-TRADE R t/h   excess t/h       win   control  needed
+   0.5ATR/0.5R     long   6      0      -0.291/-0.294   -0.399/-0.350   -0.007/-0.025    49%   50%      76%
+   0.5ATR/1.0R     long   6      0      -0.117/-0.122   -0.266/-0.205   +0.013/+0.007    44%   44%      57%
+   0.5ATR/2.0R     long   6      2      +0.038/+0.003   -0.219/-0.135   +0.063/+0.031    31%   31%      38%
+   0.5ATR/4.0R     long   6      4      +0.088/+0.060   -0.259/-0.109   +0.066/+0.037    19%   20%      23%
+   1.0ATR/0.5R     long   6      1      +0.002/-0.017   -0.124/-0.077   +0.006/+0.008    64%   64%      71%
+   1.0ATR/1.0R     long   6      5      +0.086/+0.048   -0.119/-0.048   +0.033/+0.026    49%   48%      54%
+   1.0ATR/2.0R     long   6      4      +0.128/+0.091   -0.154/-0.031   +0.043/+0.047    34%   33%      36%
+   1.0ATR/4.0R     long   6      4      +0.148/+0.097   -0.142/-0.008   +0.007/+0.021    28%   28%      22%
+   2.0ATR/0.5R     long   6      6      +0.079/+0.029   -0.063/-0.036   +0.013/-0.008    65%   64%      69%
+   2.0ATR/1.0R     long   6      5      +0.105/+0.045   -0.086/-0.035   +0.022/-0.005    49%   49%      52%
+   2.0ATR/2.0R     long   6      5      +0.120/+0.066   -0.075/-0.012   +0.001/-0.003    43%   42%      35%
+   2.0ATR/4.0R     long   6      4      +0.136/+0.042   -0.069/-0.030   -0.014/-0.033    42%   41%      21%
+   4.0ATR/0.5R     long   6      4      +0.049/+0.034   -0.048/-0.004   -0.000/-0.003    59%   59%      68%
+   4.0ATR/1.0R     long   6      3      +0.057/+0.043   -0.042/+0.010   -0.011/-0.003    53%   52%      51%
+   4.0ATR/2.0R     long   6      3      +0.066/+0.025   -0.038/-0.003   -0.018/-0.023    51%   50%      34%
+   4.0ATR/4.0R     long   6      4      +0.066/+0.023   -0.037/-0.005   -0.018/-0.029    51%   50%      20%
+   0.5ATR/0.5R     short  6      0      -0.414/-0.467   -0.437/-0.479   -0.148/-0.183    44%   53%      75%
+   0.5ATR/1.0R     short  6      0      -0.245/-0.320   -0.282/-0.344   -0.117/-0.158    41%   46%      57%
+   0.5ATR/2.0R     short  6      0      -0.088/-0.164   -0.165/-0.242   -0.081/-0.110    31%   33%      38%
+   0.5ATR/4.0R     short  6      1      -0.023/-0.039   -0.161/-0.217   -0.120/-0.068    19%   20%      23%
+   1.0ATR/0.5R     short  6      0      -0.092/-0.161   -0.125/-0.173   -0.069/-0.111    61%   65%      71%
+   1.0ATR/1.0R     short  6      0      -0.023/-0.073   -0.086/-0.143   -0.065/-0.078    47%   49%      53%
+   1.0ATR/2.0R     short  6      3      +0.013/+0.012   -0.099/-0.146   -0.095/-0.058    32%   34%      36%
+   1.0ATR/4.0R     short  6      3      +0.016/+0.070   -0.169/-0.157   -0.132/-0.059    23%   25%      21%
+   2.0ATR/0.5R     short  6      0      +0.006/-0.025   -0.037/-0.078   -0.039/-0.045    65%   66%      69%
+   2.0ATR/1.0R     short  6      4      +0.023/+0.036   -0.053/-0.091   -0.056/-0.028    48%   50%      52%
+   2.0ATR/2.0R     short  6      4      +0.015/+0.076   -0.121/-0.088   -0.080/-0.026    38%   40%      34%
+   2.0ATR/4.0R     short  6      4      +0.008/+0.095   -0.139/-0.072   -0.097/-0.040    37%   39%      21%
+   4.0ATR/0.5R     short  6      4      +0.008/+0.017   -0.038/-0.067   -0.036/-0.020    60%   60%      68%
+   4.0ATR/1.0R     short  6      2      -0.011/+0.039   -0.087/-0.063   -0.060/-0.016    49%   51%      51%
+   4.0ATR/2.0R     short  6      2      -0.018/+0.049   -0.101/-0.054   -0.071/-0.025    48%   49%      34%
+   4.0ATR/4.0R     short  6      2      -0.022/+0.053   -0.108/-0.050   -0.072/-0.028    48%   49%      20%
+
+BY REWARD:RISK RATIO (pooled over the four stops; mean of the bracket means above)
+   1 : 0.5 long    day-vote R -0.041 / -0.062   PER-TRADE R -0.159 / -0.117   excess +0.003 / -0.007   win 59% vs control 59% (break-even 71%)
+   1 : 0.5 short   day-vote R -0.123 / -0.159   PER-TRADE R -0.159 / -0.199   excess -0.073 / -0.090   win 58% vs control 61% (break-even 71%)
+   1 : 1.0 long    day-vote R +0.033 / +0.003   PER-TRADE R -0.128 / -0.070   excess +0.014 / +0.006   win 49% vs control 48% (break-even 53%)
+   1 : 1.0 short   day-vote R -0.064 / -0.079   PER-TRADE R -0.127 / -0.160   excess -0.075 / -0.070   win 46% vs control 49% (break-even 53%)
+   1 : 2.0 long    day-vote R +0.088 / +0.046   PER-TRADE R -0.122 / -0.046   excess +0.022 / +0.013   win 40% vs control 39% (break-even 36%)
+   1 : 2.0 short   day-vote R -0.020 / -0.007   PER-TRADE R -0.122 / -0.132   excess -0.082 / -0.055   win 37% vs control 39% (break-even 35%)
+   1 : 4.0 long    day-vote R +0.110 / +0.056   PER-TRADE R -0.127 / -0.038   excess +0.010 / -0.001   win 35% vs control 35% (break-even 21%)
+   1 : 4.0 short   day-vote R -0.005 / +0.045   PER-TRADE R -0.144 / -0.124   excess -0.105 / -0.049   win 32% vs control 34% (break-even 21%)
+
+cell                      side    TUNE                                                      HOLDOUT                                                   holm
+1h cap20 0.5ATR/0.5R      bookL   n  1399 R-0.458 t-11.7 exc-0.016 t -0.5 win 42% pt-0.513  n   651 R-0.455 t -8.6 exc-0.104 t -2.5 win 46% pt-0.472  1.00 
+1h cap20 0.5ATR/1.0R      bookL   n  1399 R-0.312 t -6.1 exc-0.028 t -0.7 win 39% pt-0.367  n   651 R-0.252 t -3.6 exc-0.075 t -1.4 win 43% pt-0.289  1.00 
+1h cap20 0.5ATR/2.0R      bookL   n  1399 R-0.134 t -1.8 exc+0.108 t +1.8 win 30% pt-0.252  n   651 R-0.037 t -0.4 exc-0.019 t -0.2 win 32% pt-0.194  1.00 
+1h cap20 0.5ATR/4.0R      bookL   n  1399 R-0.105 t -1.0 exc+0.171 t +1.9 win 18% pt-0.265  n   651 R+0.033 t +0.2 exc+0.008 t +0.1 win 20% pt-0.200  1.00 
+1h cap20 1.0ATR/0.5R      bookL   n  1400 R-0.101 t -2.7 exc-0.018 t -0.6 win 60% pt-0.169  n   668 R-0.151 t -3.0 exc-0.087 t -2.0 win 59% pt-0.192  1.00 
+1h cap20 1.0ATR/1.0R      bookL   n  1400 R-0.022 t -0.4 exc+0.051 t +1.3 win 47% pt-0.131  n   668 R-0.032 t -0.5 exc-0.042 t -0.7 win 47% pt-0.153  1.00 
+1h cap20 1.0ATR/2.0R      bookL   n  1400 R+0.005 t +0.1 exc+0.108 t +1.8 win 34% pt-0.113  n   668 R-0.015 t -0.2 exc-0.045 t -0.5 win 31% pt-0.206  1.00 
+1h cap20 1.0ATR/4.0R      bookL   n  1400 R+0.048 t +0.5 exc+0.107 t +1.4 win 29% pt-0.053  n   668 R-0.008 t -0.1 exc-0.071 t -0.6 win 24% pt-0.153  1.00 
+1h cap20 2.0ATR/0.5R      bookL   n  1396 R+0.011 t +0.3 exc-0.004 t -0.1 win 63% pt-0.081  n   670 R+0.019 t +0.4 exc+0.005 t +0.1 win 63% pt-0.075  1.00 
+1h cap20 2.0ATR/1.0R      bookL   n  1395 R+0.043 t +0.8 exc+0.039 t +1.1 win 51% pt-0.051  n   670 R+0.031 t +0.5 exc+0.008 t +0.1 win 46% pt-0.134  1.00 
+1h cap20 2.0ATR/2.0R      bookL   n  1395 R+0.049 t +0.7 exc+0.009 t +0.2 win 46% pt-0.016  n   670 R+0.071 t +0.8 exc+0.022 t +0.3 win 40% pt-0.088  1.00 
+1h cap20 2.0ATR/4.0R      bookL   n  1395 R-0.036 t -0.6 exc-0.085 t -1.9 win 45% pt-0.047  n   670 R+0.089 t +0.9 exc+0.046 t +0.5 win 38% pt-0.111  1.00 
+1h cap20 4.0ATR/0.5R      bookL   n  1370 R+0.045 t +1.4 exc+0.017 t +0.9 win 63% pt-0.003  n   665 R-0.002 t -0.0 exc-0.011 t -0.4 win 56% pt-0.098  1.00 
+1h cap20 4.0ATR/1.0R      bookL   n  1370 R+0.052 t +1.3 exc+0.007 t +0.3 win 58% pt+0.014  n   665 R+0.008 t +0.1 exc-0.016 t -0.4 win 48% pt-0.078  1.00 
+1h cap20 4.0ATR/2.0R      bookL   n  1369 R+0.006 t +0.1 exc-0.040 t -1.5 win 58% pt+0.000  n   664 R+0.000 t +0.0 exc-0.021 t -0.4 win 47% pt-0.101  1.00 
+1h cap20 4.0ATR/4.0R      bookL   n  1369 R-0.006 t -0.1 exc-0.053 t -2.1 win 57% pt-0.002  n   664 R+0.014 t +0.2 exc-0.013 t -0.2 win 47% pt-0.100  1.00 
+1h cap20 0.5ATR/0.5R      mirrorS n  1399 R-0.586 t-15.2 exc-0.046 t -1.6 win 38% pt-0.566  n   651 R-0.599 t-11.4 exc-0.071 t -1.5 win 38% pt-0.583  1.00 
+1h cap20 0.5ATR/1.0R      mirrorS n  1399 R-0.477 t -9.6 exc-0.045 t -1.2 win 34% pt-0.450  n   651 R-0.466 t -6.9 exc-0.047 t -0.8 win 36% pt-0.428  1.00 
+1h cap20 0.5ATR/2.0R      mirrorS n  1399 R-0.361 t -5.2 exc+0.009 t +0.2 win 28% pt-0.308  n   651 R-0.383 t -4.2 exc-0.043 t -0.5 win 30% pt-0.263  1.00 
+1h cap20 0.5ATR/4.0R      mirrorS n  1398 R-0.395 t -4.3 exc+0.026 t +0.4 win 19% pt-0.213  n   650 R-0.394 t -3.3 exc-0.042 t -0.4 win 19% pt-0.259  1.00 
+1h cap20 1.0ATR/0.5R      mirrorS n  1400 R-0.229 t -5.8 exc-0.092 t -2.9 win 60% pt-0.172  n   668 R-0.299 t -5.9 exc-0.063 t -1.4 win 59% pt-0.205  1.00 
+1h cap20 1.0ATR/1.0R      mirrorS n  1400 R-0.205 t -4.0 exc-0.057 t -1.5 win 47% pt-0.135  n   668 R-0.290 t -4.5 exc-0.056 t -1.0 win 48% pt-0.124  1.00 
+1h cap20 1.0ATR/2.0R      mirrorS n  1396 R-0.220 t -3.2 exc-0.002 t -0.0 win 33% pt-0.098  n   665 R-0.261 t -3.0 exc-0.015 t -0.2 win 34% pt-0.091  1.00 
+1h cap20 1.0ATR/4.0R      mirrorS n  1379 R-0.296 t -3.5 exc+0.001 t +0.0 win 23% pt-0.106  n   663 R-0.200 t -1.7 exc+0.034 t +0.4 win 26% pt+0.035  1.00 
+1h cap20 2.0ATR/0.5R      mirrorS n  1400 R-0.097 t -2.5 exc-0.054 t -1.8 win 64% pt-0.052  n   673 R-0.140 t -2.9 exc-0.022 t -0.5 win 67% pt-0.018  1.00 
+1h cap20 2.0ATR/1.0R      mirrorS n  1395 R-0.132 t -2.6 exc-0.038 t -1.0 win 47% pt-0.052  n   670 R-0.151 t -2.3 exc-0.023 t -0.4 win 51% pt+0.019  1.00 
+1h cap20 2.0ATR/2.0R      mirrorS n  1370 R-0.178 t -2.8 exc-0.033 t -0.8 win 35% pt-0.080  n   664 R-0.104 t -1.2 exc+0.020 t +0.3 win 42% pt+0.092  1.00 
+1h cap20 2.0ATR/4.0R      mirrorS n  1342 R-0.186 t -2.6 exc-0.037 t -0.8 win 32% pt-0.106  n   642 R-0.081 t -0.9 exc+0.033 t +0.4 win 39% pt+0.115  1.00 
+1h cap20 4.0ATR/0.5R      mirrorS n  1395 R-0.067 t -2.0 exc-0.004 t -0.2 win 53% pt-0.030  n   671 R-0.094 t -2.2 exc-0.017 t -0.5 win 59% pt-0.010  1.00 
+1h cap20 4.0ATR/1.0R      mirrorS n  1370 R-0.096 t -2.3 exc-0.007 t -0.3 win 40% pt-0.053  n   665 R-0.063 t -1.2 exc+0.015 t +0.4 win 50% pt+0.025  1.00 
+1h cap20 4.0ATR/2.0R      mirrorS n  1340 R-0.099 t -2.1 exc-0.005 t -0.2 win 36% pt-0.068  n   639 R-0.035 t -0.6 exc+0.034 t +0.7 win 46% pt+0.040  1.00 
+1h cap20 4.0ATR/4.0R      mirrorS n  1310 R-0.099 t -2.0 exc+0.003 t +0.1 win 36% pt-0.092  n   628 R-0.085 t -1.4 exc-0.003 t -0.1 win 45% pt+0.020  1.00 
+1h hi70 0.5ATR/0.5R       mirrorL n 20218 R-0.571 t-58.8 exc-0.117 t-13.4 win 41% pt-0.547  n  8884 R-0.582 t-38.9 exc-0.127 t -9.0 win 43% pt-0.518  1.00 
+1h hi70 0.5ATR/1.0R       mirrorL n 20142 R-0.462 t-36.8 exc-0.065 t -5.8 win 37% pt-0.431  n  8843 R-0.475 t-24.9 exc-0.083 t -4.6 win 39% pt-0.396  1.00 
+1h hi70 0.5ATR/2.0R       mirrorL n 19843 R-0.399 t-23.5 exc+0.007 t +0.5 win 28% pt-0.337  n  8695 R-0.388 t-14.8 exc+0.022 t +0.9 win 30% pt-0.282  1.00 
+1h hi70 0.5ATR/4.0R       mirrorL n 19143 R-0.383 t-16.0 exc+0.104 t +4.7 win 17% pt-0.300  n  8400 R-0.318 t -8.2 exc+0.155 t +4.1 win 20% pt-0.208  1.00 info
+1h hi70 1.0ATR/0.5R       mirrorL n 19962 R-0.225 t-22.2 exc+0.000 t +0.0 win 61% pt-0.174  n  8891 R-0.255 t-16.5 exc-0.025 t -1.8 win 62% pt-0.162  1.00 
+1h hi70 1.0ATR/1.0R       mirrorL n 18843 R-0.228 t-17.1 exc+0.044 t +3.7 win 47% pt-0.148  n  8410 R-0.248 t-12.3 exc+0.033 t +1.8 win 49% pt-0.121  1.00 
+1h hi70 1.0ATR/2.0R       mirrorL n 17069 R-0.241 t-12.9 exc+0.103 t +6.3 win 32% pt-0.127  n  7646 R-0.232 t -8.2 exc+0.118 t +4.5 win 34% pt-0.092  1.00 info
+1h hi70 1.0ATR/4.0R       mirrorL n 15324 R-0.266 t-10.4 exc+0.128 t +6.1 win 22% pt-0.101  n  6923 R-0.256 t -6.6 exc+0.143 t +4.1 win 24% pt-0.058  1.00 info
+1h hi70 2.0ATR/0.5R       mirrorL n 18315 R-0.146 t-13.7 exc+0.043 t +4.8 win 65% pt-0.060  n  8182 R-0.158 t -9.8 exc+0.039 t +2.7 win 66% pt-0.057  1.00 info
+1h hi70 2.0ATR/1.0R       mirrorL n 15691 R-0.171 t-11.7 exc+0.076 t +6.5 win 49% pt-0.047  n  7052 R-0.177 t -8.0 exc+0.075 t +3.8 win 49% pt-0.047  1.00 info
+1h hi70 2.0ATR/2.0R       mirrorL n 13279 R-0.198 t-10.3 exc+0.082 t +5.8 win 38% pt-0.029  n  6081 R-0.181 t -6.1 exc+0.105 t +4.0 win 38% pt-0.028  1.00 info
+1h hi70 2.0ATR/4.0R       mirrorL n 12184 R-0.190 t -8.3 exc+0.093 t +5.6 win 35% pt-0.002  n  5637 R-0.223 t -6.5 exc+0.059 t +2.1 win 34% pt-0.024  1.00 info
+1h hi70 4.0ATR/0.5R       mirrorL n 15470 R-0.113 t-10.7 exc+0.043 t +5.7 win 58% pt-0.024  n  6953 R-0.122 t -7.9 exc+0.031 t +2.3 win 58% pt-0.026  1.00 info
+1h hi70 4.0ATR/1.0R       mirrorL n 12789 R-0.123 t -9.2 exc+0.054 t +6.0 win 47% pt-0.012  n  5877 R-0.130 t -6.5 exc+0.038 t +2.4 win 46% pt-0.020  1.00 info
+1h hi70 4.0ATR/2.0R       mirrorL n 11593 R-0.125 t -8.1 exc+0.056 t +5.7 win 44% pt+0.000  n  5373 R-0.158 t -6.8 exc+0.012 t +0.7 win 42% pt-0.025  1.00 
+1h hi70 4.0ATR/4.0R       mirrorL n 11327 R-0.120 t -7.3 exc+0.058 t +5.4 win 44% pt+0.005  n  5280 R-0.154 t -5.9 exc+0.017 t +0.8 win 41% pt-0.024  1.00 
+1h hi70 0.5ATR/0.5R       bookS   n 20223 R-0.409 t-41.6 exc-0.110 t-12.6 win 49% pt-0.425  n  8885 R-0.453 t-30.1 exc-0.143 t -9.9 win 46% pt-0.472  1.00 
+1h hi70 0.5ATR/1.0R       bookS   n 20142 R-0.238 t-18.3 exc-0.079 t -6.8 win 45% pt-0.266  n  8843 R-0.288 t-14.5 exc-0.122 t -6.4 win 43% pt-0.328  1.00 
+1h hi70 0.5ATR/2.0R       bookS   n 19867 R-0.063 t -3.2 exc-0.041 t -2.4 win 33% pt-0.164  n  8702 R-0.124 t -4.2 exc-0.099 t -3.5 win 31% pt-0.246  1.00 
+1h hi70 0.5ATR/4.0R       bookS   n 19722 R+0.088 t +2.8 exc-0.049 t -1.8 win 21% pt-0.133  n  8627 R+0.057 t +1.2 exc-0.076 t -1.8 win 20% pt-0.196  1.00 
+1h hi70 1.0ATR/0.5R       bookS   n 19937 R-0.077 t -8.5 exc-0.049 t -5.9 win 65% pt-0.108  n  8885 R-0.131 t -8.9 exc-0.095 t -6.8 win 62% pt-0.161  1.00 
+1h hi70 1.0ATR/1.0R       bookS   n 18843 R+0.010 t +0.7 exc-0.046 t -3.8 win 51% pt-0.072  n  8410 R-0.031 t -1.5 exc-0.083 t -4.3 win 48% pt-0.136  1.00 
+1h hi70 1.0ATR/2.0R       bookS   n 18312 R+0.106 t +5.0 exc-0.063 t -3.5 win 34% pt-0.071  n  8157 R+0.076 t +2.4 exc-0.094 t -3.2 win 33% pt-0.115  1.00 
+1h hi70 1.0ATR/4.0R       bookS   n 18262 R+0.183 t +5.8 exc-0.089 t -3.5 win 26% pt-0.066  n  8139 R+0.185 t +4.0 exc-0.063 t -1.5 win 25% pt-0.092  0.01 
+1h hi70 2.0ATR/0.5R       bookS   n 17072 R+0.025 t +2.7 exc-0.043 t -5.3 win 67% pt-0.034  n  7669 R-0.008 t -0.6 exc-0.073 t -5.3 win 65% pt-0.069  1.00 
+1h hi70 2.0ATR/1.0R       bookS   n 15691 R+0.081 t +5.5 exc-0.062 t -5.4 win 50% pt-0.047  n  7052 R+0.063 t +2.9 exc-0.078 t -3.9 win 49% pt-0.065  0.92 
+1h hi70 2.0ATR/2.0R       bookS   n 15470 R+0.138 t +6.5 exc-0.069 t -4.6 win 41% pt-0.044  n  6940 R+0.137 t +4.4 exc-0.055 t -2.1 win 41% pt-0.056  0.00 
+1h hi70 2.0ATR/4.0R       bookS   n 15452 R+0.140 t +5.7 exc-0.091 t -5.2 win 40% pt-0.055  n  6932 R+0.167 t +4.6 exc-0.051 t -1.7 win 40% pt-0.048  0.00 
+1h hi70 4.0ATR/0.5R       bookS   n 13279 R+0.055 t +5.7 exc-0.033 t -4.7 win 61% pt-0.032  n  6094 R+0.037 t +2.5 exc-0.049 t -3.8 win 61% pt-0.043  1.00 
+1h hi70 4.0ATR/1.0R       bookS   n 12789 R+0.078 t +5.9 exc-0.046 t -5.1 win 52% pt-0.036  n  5877 R+0.077 t +3.8 exc-0.034 t -2.1 win 52% pt-0.036  0.03 
+1h hi70 4.0ATR/2.0R       bookS   n 12748 R+0.076 t +4.9 exc-0.060 t -6.0 win 50% pt-0.041  n  5867 R+0.103 t +4.4 exc-0.027 t -1.5 win 51% pt-0.025  0.00 
+1h hi70 4.0ATR/4.0R       bookS   n 12747 R+0.073 t +4.6 exc-0.067 t -6.2 win 50% pt-0.047  n  5867 R+0.107 t +4.3 exc-0.030 t -1.5 win 51% pt-0.023  0.00 
+1h hi75 0.5ATR/0.5R       mirrorL n  9121 R-0.591 t-46.6 exc-0.133 t-10.8 win 40% pt-0.556  n  4265 R-0.614 t-33.2 exc-0.171 t -9.0 win 42% pt-0.540  1.00 
+1h hi75 0.5ATR/1.0R       mirrorL n  9099 R-0.472 t-28.7 exc-0.081 t -5.0 win 36% pt-0.429  n  4252 R-0.486 t-20.2 exc-0.108 t -4.4 win 38% pt-0.407  1.00 
+1h hi75 0.5ATR/2.0R       mirrorL n  8998 R-0.380 t-17.0 exc+0.005 t +0.2 win 28% pt-0.315  n  4194 R-0.368 t-10.9 exc+0.018 t +0.5 win 30% pt-0.274  1.00 
+1h hi75 0.5ATR/4.0R       mirrorL n  8727 R-0.365 t-11.6 exc+0.084 t +2.7 win 18% pt-0.272  n  4080 R-0.316 t -6.5 exc+0.124 t +2.5 win 19% pt-0.204  1.00 info
+1h hi75 1.0ATR/0.5R       mirrorL n  9050 R-0.207 t-15.7 exc+0.007 t +0.6 win 61% pt-0.165  n  4319 R-0.288 t-14.4 exc-0.077 t -3.9 win 61% pt-0.169  1.00 
+1h hi75 1.0ATR/1.0R       mirrorL n  8744 R-0.197 t-11.2 exc+0.059 t +3.5 win 48% pt-0.120  n  4148 R-0.251 t -9.7 exc+0.003 t +0.1 win 49% pt-0.122  1.00 
+1h hi75 1.0ATR/2.0R       mirrorL n  8111 R-0.212 t -8.7 exc+0.114 t +5.0 win 33% pt-0.099  n  3845 R-0.218 t -6.2 exc+0.094 t +2.7 win 34% pt-0.079  1.00 info
+1h hi75 1.0ATR/4.0R       mirrorL n  7430 R-0.223 t -7.0 exc+0.156 t +5.5 win 23% pt-0.065  n  3541 R-0.263 t -5.5 exc+0.101 t +2.2 win 23% pt-0.046  1.00 info
+1h hi75 2.0ATR/0.5R       mirrorL n  8621 R-0.104 t -7.7 exc+0.072 t +5.7 win 67% pt-0.030  n  4099 R-0.154 t -7.7 exc+0.022 t +1.0 win 67% pt-0.039  1.00 
+1h hi75 2.0ATR/1.0R       mirrorL n  7737 R-0.143 t -7.7 exc+0.090 t +5.4 win 50% pt-0.028  n  3677 R-0.155 t -5.8 exc+0.067 t +2.5 win 51% pt-0.011  1.00 info
+1h hi75 2.0ATR/2.0R       mirrorL n  6782 R-0.159 t -6.6 exc+0.109 t +5.4 win 38% pt-0.009  n  3246 R-0.184 t -5.2 exc+0.066 t +2.0 win 38% pt-0.003  1.00 info
+1h hi75 2.0ATR/4.0R       mirrorL n  6205 R-0.141 t -4.6 exc+0.128 t +5.2 win 34% pt+0.015  n  2988 R-0.222 t -5.2 exc+0.025 t +0.7 win 34% pt+0.021  1.00 
+1h hi75 4.0ATR/0.5R       mirrorL n  7706 R-0.091 t -7.2 exc+0.051 t +4.8 win 59% pt-0.005  n  3669 R-0.110 t -5.9 exc+0.026 t +1.5 win 60% pt-0.005  1.00 
+1h hi75 4.0ATR/1.0R       mirrorL n  6671 R-0.096 t -6.0 exc+0.066 t +5.3 win 47% pt+0.007  n  3197 R-0.133 t -5.5 exc+0.021 t +1.0 win 46% pt-0.010  1.00 
+1h hi75 4.0ATR/2.0R       mirrorL n  6035 R-0.081 t -4.2 exc+0.083 t +5.7 win 44% pt+0.021  n  2908 R-0.166 t -5.9 exc-0.013 t -0.5 win 42% pt-0.006  1.00 
+1h hi75 4.0ATR/4.0R       mirrorL n  5851 R-0.093 t -4.8 exc+0.069 t +4.9 win 44% pt+0.026  n  2844 R-0.172 t -5.6 exc-0.018 t -0.7 win 41% pt-0.010  1.00 
+1h hi75 0.5ATR/0.5R       bookS   n  9120 R-0.457 t-34.9 exc-0.134 t-10.2 win 46% pt-0.466  n  4264 R-0.493 t-25.6 exc-0.171 t -8.7 win 44% pt-0.494  1.00 
+1h hi75 0.5ATR/1.0R       bookS   n  9099 R-0.287 t-16.6 exc-0.105 t -6.0 win 42% pt-0.308  n  4252 R-0.324 t-12.7 exc-0.135 t -5.1 win 41% pt-0.353  1.00 
+1h hi75 0.5ATR/2.0R       bookS   n  9028 R-0.134 t -5.3 exc-0.082 t -3.3 win 32% pt-0.205  n  4231 R-0.143 t -3.8 exc-0.074 t -1.9 win 30% pt-0.280  1.00 
+1h hi75 0.5ATR/4.0R       bookS   n  8998 R-0.014 t -0.4 exc-0.110 t -2.9 win 19% pt-0.203  n  4212 R+0.015 t +0.3 exc-0.062 t -1.0 win 18% pt-0.261  1.00 
+1h hi75 1.0ATR/0.5R       bookS   n  9019 R-0.111 t -8.8 exc-0.068 t -5.3 win 63% pt-0.133  n  4281 R-0.162 t -8.6 exc-0.113 t -5.8 win 60% pt-0.187  1.00 
+1h hi75 1.0ATR/1.0R       bookS   n  8744 R-0.035 t -2.0 exc-0.072 t -4.1 win 49% pt-0.104  n  4148 R-0.048 t -1.8 exc-0.071 t -2.6 win 47% pt-0.157  1.00 
+1h hi75 1.0ATR/2.0R       bookS   n  8621 R+0.021 t +0.8 exc-0.120 t -4.8 win 32% pt-0.126  n  4092 R+0.069 t +1.8 exc-0.057 t -1.4 win 32% pt-0.152  1.00 
+1h hi75 1.0ATR/4.0R       bookS   n  8613 R+0.076 t +2.0 exc-0.154 t -4.4 win 24% pt-0.137  n  4089 R+0.177 t +3.0 exc-0.024 t -0.4 win 24% pt-0.137  1.00 
+1h hi75 2.0ATR/0.5R       bookS   n  8111 R+0.011 t +0.9 exc-0.049 t -4.2 win 66% pt-0.047  n  3852 R-0.010 t -0.6 exc-0.054 t -3.0 win 64% pt-0.074  1.00 
+1h hi75 2.0ATR/1.0R       bookS   n  7737 R+0.057 t +3.0 exc-0.071 t -4.3 win 49% pt-0.061  n  3677 R+0.050 t +1.9 exc-0.060 t -2.2 win 48% pt-0.098  1.00 
+1h hi75 2.0ATR/2.0R       bookS   n  7706 R+0.101 t +4.0 exc-0.079 t -3.7 win 40% pt-0.076  n  3663 R+0.122 t +3.3 exc-0.035 t -1.0 win 39% pt-0.092  0.24 
+1h hi75 2.0ATR/4.0R       bookS   n  7706 R+0.089 t +3.2 exc-0.110 t -4.7 win 39% pt-0.096  n  3663 R+0.136 t +3.2 exc-0.045 t -1.1 win 38% pt-0.087  0.35 
+1h hi75 4.0ATR/0.5R       bookS   n  6782 R+0.038 t +3.1 exc-0.044 t -4.4 win 61% pt-0.041  n  3252 R+0.042 t +2.3 exc-0.026 t -1.5 win 60% pt-0.054  1.00 
+1h hi75 4.0ATR/1.0R       bookS   n  6671 R+0.054 t +3.4 exc-0.054 t -4.4 win 51% pt-0.053  n  3197 R+0.083 t +3.5 exc-0.011 t -0.5 win 52% pt-0.043  0.16 
+1h hi75 4.0ATR/2.0R       bookS   n  6667 R+0.045 t +2.6 exc-0.075 t -5.6 win 49% pt-0.065  n  3195 R+0.094 t +3.4 exc-0.015 t -0.6 win 50% pt-0.036  1.00 
+1h hi75 4.0ATR/4.0R       bookS   n  6667 R+0.041 t +2.3 exc-0.081 t -5.7 win 49% pt-0.073  n  3195 R+0.102 t +3.5 exc-0.016 t -0.7 win 50% pt-0.027  1.00 
+1h hi80 0.5ATR/0.5R       mirrorL n  3472 R-0.610 t-33.8 exc-0.151 t -8.3 win 37% pt-0.591  n  1681 R-0.626 t-24.9 exc-0.163 t -6.2 win 39% pt-0.569  1.00 
+1h hi80 0.5ATR/1.0R       mirrorL n  3465 R-0.498 t-21.2 exc-0.124 t -5.2 win 34% pt-0.474  n  1677 R-0.502 t-15.4 exc-0.113 t -3.2 win 37% pt-0.422  1.00 
+1h hi80 0.5ATR/2.0R       mirrorL n  3430 R-0.390 t-12.1 exc-0.049 t -1.5 win 27% pt-0.343  n  1658 R-0.362 t -7.7 exc+0.007 t +0.1 win 29% pt-0.274  1.00 
+1h hi80 0.5ATR/4.0R       mirrorL n  3369 R-0.380 t -8.6 exc-0.003 t -0.1 win 17% pt-0.285  n  1612 R-0.304 t -4.5 exc+0.109 t +1.6 win 20% pt-0.143  1.00 
+1h hi80 1.0ATR/0.5R       mirrorL n  3466 R-0.226 t-12.0 exc-0.018 t -1.0 win 60% pt-0.178  n  1711 R-0.259 t -9.6 exc-0.048 t -1.8 win 61% pt-0.164  1.00 
+1h hi80 1.0ATR/1.0R       mirrorL n  3370 R-0.186 t -7.4 exc+0.041 t +1.6 win 48% pt-0.112  n  1665 R-0.199 t -5.6 exc+0.035 t +1.0 win 50% pt-0.094  1.00 
+1h hi80 1.0ATR/2.0R       mirrorL n  3191 R-0.214 t -6.2 exc+0.051 t +1.5 win 33% pt-0.085  n  1574 R-0.188 t -3.8 exc+0.103 t +2.1 win 36% pt-0.024  1.00 
+1h hi80 1.0ATR/4.0R       mirrorL n  2981 R-0.196 t -4.2 exc+0.115 t +2.5 win 23% pt-0.043  n  1468 R-0.245 t -3.8 exc+0.073 t +1.1 win 25% pt+0.021  1.00 
+1h hi80 2.0ATR/0.5R       mirrorL n  3353 R-0.067 t -3.7 exc+0.079 t +4.4 win 68% pt-0.009  n  1661 R-0.135 t -5.0 exc+0.023 t +0.9 win 68% pt-0.016  1.00 
+1h hi80 2.0ATR/1.0R       mirrorL n  3135 R-0.110 t -4.3 exc+0.067 t +2.8 win 51% pt-0.007  n  1547 R-0.182 t -5.1 exc+0.017 t +0.5 win 52% pt+0.011  1.00 
+1h hi80 2.0ATR/2.0R       mirrorL n  2822 R-0.083 t -2.4 exc+0.123 t +4.0 win 39% pt+0.035  n  1394 R-0.189 t -4.0 exc+0.020 t +0.5 win 40% pt+0.041  1.00 
+1h hi80 2.0ATR/4.0R       mirrorL n  2604 R-0.087 t -2.1 exc+0.119 t +3.2 win 35% pt+0.019  n  1295 R-0.149 t -2.5 exc+0.044 t +0.8 win 36% pt+0.095  1.00 
+1h hi80 4.0ATR/0.5R       mirrorL n  3129 R-0.050 t -3.0 exc+0.053 t +3.5 win 61% pt+0.017  n  1547 R-0.132 t -5.2 exc-0.012 t -0.5 win 61% pt+0.004  1.00 
+1h hi80 4.0ATR/1.0R       mirrorL n  2810 R-0.031 t -1.5 exc+0.086 t +4.7 win 49% pt+0.043  n  1389 R-0.135 t -4.3 exc-0.013 t -0.4 win 48% pt+0.014  1.00 
+1h hi80 4.0ATR/2.0R       mirrorL n  2569 R-0.024 t -0.9 exc+0.090 t +4.2 win 45% pt+0.047  n  1276 R-0.122 t -3.2 exc-0.009 t -0.3 win 43% pt+0.027  1.00 
+1h hi80 4.0ATR/4.0R       mirrorL n  2472 R-0.009 t -0.3 exc+0.105 t +4.4 win 44% pt+0.060  n  1240 R-0.133 t -3.1 exc-0.022 t -0.6 win 42% pt+0.011  1.00 
+1h hi80 0.5ATR/0.5R       bookS   n  3471 R-0.471 t-25.3 exc-0.131 t -6.8 win 44% pt-0.483  n  1680 R-0.515 t-19.1 exc-0.198 t -7.1 win 41% pt-0.532  1.00 
+1h hi80 0.5ATR/1.0R       bookS   n  3465 R-0.301 t-12.3 exc-0.101 t -3.9 win 41% pt-0.327  n  1677 R-0.362 t-10.2 exc-0.179 t -4.8 win 38% pt-0.404  1.00 
+1h hi80 0.5ATR/2.0R       bookS   n  3453 R-0.135 t -3.8 exc-0.064 t -1.7 win 31% pt-0.207  n  1670 R-0.158 t -3.1 exc-0.100 t -1.8 win 29% pt-0.275  1.00 
+1h hi80 0.5ATR/4.0R       bookS   n  3451 R-0.097 t -1.8 exc-0.147 t -2.7 win 18% pt-0.240  n  1669 R+0.011 t +0.1 exc-0.058 t -0.7 win 18% pt-0.256  1.00 
+1h hi80 1.0ATR/0.5R       bookS   n  3443 R-0.132 t -7.3 exc-0.064 t -3.5 win 61% pt-0.151  n  1698 R-0.193 t -7.2 exc-0.128 t -4.8 win 58% pt-0.215  1.00 
+1h hi80 1.0ATR/1.0R       bookS   n  3370 R-0.054 t -2.2 exc-0.060 t -2.4 win 48% pt-0.118  n  1665 R-0.087 t -2.4 exc-0.091 t -2.5 win 46% pt-0.175  1.00 
+1h hi80 1.0ATR/2.0R       bookS   n  3353 R-0.049 t -1.3 exc-0.131 t -3.7 win 30% pt-0.169  n  1656 R+0.027 t +0.5 exc-0.066 t -1.3 win 30% pt-0.196  1.00 
+1h hi80 1.0ATR/4.0R       bookS   n  3351 R-0.043 t -0.9 exc-0.187 t -4.0 win 22% pt-0.190  n  1655 R+0.126 t +1.6 exc-0.036 t -0.5 win 22% pt-0.191  1.00 
+1h hi80 2.0ATR/0.5R       bookS   n  3191 R+0.013 t +0.8 exc-0.015 t -0.9 win 65% pt-0.054  n  1579 R-0.020 t -0.8 exc-0.052 t -2.1 win 62% pt-0.101  1.00 
+1h hi80 2.0ATR/1.0R       bookS   n  3135 R+0.028 t +1.1 exc-0.045 t -1.9 win 48% pt-0.077  n  1547 R+0.074 t +2.1 exc-0.012 t -0.4 win 46% pt-0.117  1.00 
+1h hi80 2.0ATR/2.0R       bookS   n  3129 R+0.021 t +0.6 exc-0.081 t -2.7 win 38% pt-0.118  n  1546 R+0.165 t +3.3 exc+0.040 t +0.8 win 37% pt-0.109  1.00 
+1h hi80 2.0ATR/4.0R       bookS   n  3129 R+0.013 t +0.3 exc-0.101 t -3.0 win 37% pt-0.139  n  1546 R+0.170 t +3.0 exc+0.023 t +0.4 win 36% pt-0.098  1.00 
+1h hi80 4.0ATR/0.5R       bookS   n  2822 R+0.003 t +0.2 exc-0.047 t -3.1 win 60% pt-0.059  n  1395 R+0.030 t +1.2 exc-0.017 t -0.7 win 59% pt-0.079  1.00 
+1h hi80 4.0ATR/1.0R       bookS   n  2810 R-0.009 t -0.4 exc-0.073 t -4.0 win 50% pt-0.086  n  1389 R+0.072 t +2.3 exc+0.010 t +0.3 win 50% pt-0.071  1.00 
+1h hi80 4.0ATR/2.0R       bookS   n  2810 R-0.010 t -0.4 exc-0.082 t -4.1 win 48% pt-0.099  n  1389 R+0.079 t +2.2 exc+0.003 t +0.1 win 49% pt-0.062  1.00 
+1h hi80 4.0ATR/4.0R       bookS   n  2810 R-0.016 t -0.7 exc-0.095 t -4.5 win 48% pt-0.106  n  1389 R+0.087 t +2.3 exc+0.004 t +0.1 win 49% pt-0.053  1.00 
+1h lo20 0.5ATR/0.5R       bookL   n  3027 R-0.335 t-11.7 exc+0.008 t +0.4 win 47% pt-0.423  n  1539 R-0.366 t-10.4 exc-0.053 t -1.7 win 50% pt-0.389  1.00 
+1h lo20 0.5ATR/1.0R       bookL   n  3018 R-0.155 t -4.1 exc+0.013 t +0.4 win 43% pt-0.277  n  1538 R-0.166 t -3.6 exc-0.004 t -0.1 win 47% pt-0.211  1.00 
+1h lo20 0.5ATR/2.0R       bookL   n  3004 R+0.028 t +0.5 exc+0.086 t +2.0 win 31% pt-0.190  n  1529 R+0.026 t +0.4 exc+0.058 t +1.0 win 34% pt-0.138  1.00 
+1h lo20 0.5ATR/4.0R       bookL   n  3003 R+0.140 t +1.6 exc+0.168 t +2.5 win 19% pt-0.202  n  1526 R+0.064 t +0.6 exc+0.057 t +0.7 win 20% pt-0.165  1.00 
+1h lo20 1.0ATR/0.5R       bookL   n  2971 R-0.013 t -0.5 exc+0.001 t +0.0 win 63% pt-0.117  n  1537 R-0.044 t -1.4 exc+0.012 t +0.4 win 64% pt-0.117  1.00 
+1h lo20 1.0ATR/1.0R       bookL   n  2913 R+0.093 t +2.4 exc+0.043 t +1.4 win 50% pt-0.075  n  1498 R+0.028 t +0.6 exc+0.029 t +0.7 win 48% pt-0.113  1.00 
+1h lo20 1.0ATR/2.0R       bookL   n  2900 R+0.186 t +3.2 exc+0.107 t +2.4 win 35% pt-0.077  n  1485 R+0.033 t +0.5 exc+0.023 t +0.4 win 32% pt-0.158  1.00 
+1h lo20 1.0ATR/4.0R       bookL   n  2900 R+0.219 t +2.6 exc+0.073 t +1.2 win 30% pt-0.031  n  1484 R+0.101 t +1.0 exc+0.080 t +0.9 win 25% pt-0.110  1.00 
+1h lo20 2.0ATR/0.5R       bookL   n  2748 R+0.095 t +3.8 exc+0.015 t +0.7 win 66% pt-0.039  n  1414 R+0.032 t +1.1 exc+0.015 t +0.6 win 64% pt-0.074  1.00 
+1h lo20 2.0ATR/1.0R       bookL   n  2712 R+0.169 t +4.4 exc+0.067 t +2.5 win 52% pt-0.027  n  1385 R+0.030 t +0.6 exc+0.003 t +0.1 win 46% pt-0.122  1.00 
+1h lo20 2.0ATR/2.0R       bookL   n  2710 R+0.186 t +3.6 exc+0.050 t +1.5 win 47% pt+0.008  n  1383 R+0.103 t +1.6 exc+0.061 t +1.1 win 39% pt-0.081  1.00 
+1h lo20 2.0ATR/4.0R       bookL   n  2710 R+0.162 t +2.8 exc+0.017 t +0.5 win 46% pt-0.005  n  1383 R+0.143 t +1.8 exc+0.102 t +1.6 win 38% pt-0.083  1.00 
+1h lo20 4.0ATR/0.5R       bookL   n  2488 R+0.096 t +4.0 exc+0.021 t +1.4 win 63% pt+0.000  n  1275 R+0.020 t +0.7 exc-0.004 t -0.2 win 57% pt-0.070  1.00 
+1h lo20 4.0ATR/1.0R       bookL   n  2483 R+0.111 t +3.5 exc+0.019 t +0.9 win 58% pt+0.017  n  1271 R+0.050 t +1.3 exc+0.016 t +0.5 win 50% pt-0.045  1.00 
+1h lo20 4.0ATR/2.0R       bookL   n  2482 R+0.099 t +2.8 exc+0.005 t +0.2 win 57% pt+0.013  n  1270 R+0.050 t +1.1 exc+0.015 t +0.4 win 48% pt-0.056  1.00 
+1h lo20 4.0ATR/4.0R       bookL   n  2482 R+0.089 t +2.6 exc-0.007 t -0.3 win 57% pt+0.010  n  1270 R+0.048 t +1.1 exc+0.006 t +0.2 win 48% pt-0.059  1.00 
+1h lo20 0.5ATR/0.5R       mirrorS n  3031 R-0.596 t-21.5 exc-0.052 t -2.6 win 40% pt-0.524  n  1538 R-0.561 t-15.8 exc-0.074 t -2.4 win 42% pt-0.508  1.00 
+1h lo20 0.5ATR/1.0R       mirrorS n  3018 R-0.505 t-14.2 exc-0.045 t -1.7 win 36% pt-0.414  n  1538 R-0.438 t -9.5 exc-0.036 t -0.9 win 39% pt-0.374  1.00 
+1h lo20 0.5ATR/2.0R       mirrorS n  2968 R-0.456 t -9.5 exc-0.006 t -0.1 win 27% pt-0.311  n  1515 R-0.432 t -7.2 exc-0.073 t -1.3 win 29% pt-0.268  1.00 
+1h lo20 0.5ATR/4.0R       mirrorS n  2885 R-0.524 t -8.6 exc+0.004 t +0.1 win 17% pt-0.269  n  1475 R-0.405 t -4.8 exc-0.030 t -0.4 win 20% pt-0.176  1.00 
+1h lo20 1.0ATR/0.5R       mirrorS n  3007 R-0.253 t -8.9 exc-0.044 t -2.0 win 61% pt-0.149  n  1551 R-0.274 t -7.9 exc-0.057 t -1.9 win 60% pt-0.173  1.00 
+1h lo20 1.0ATR/1.0R       mirrorS n  2913 R-0.296 t -7.9 exc-0.038 t -1.3 win 46% pt-0.149  n  1498 R-0.271 t -6.0 exc-0.055 t -1.4 win 48% pt-0.107  1.00 
+1h lo20 1.0ATR/2.0R       mirrorS n  2748 R-0.364 t -7.5 exc-0.017 t -0.4 win 32% pt-0.132  n  1409 R-0.249 t -4.1 exc-0.005 t -0.1 win 35% pt-0.050  1.00 
+1h lo20 1.0ATR/4.0R       mirrorS n  2578 R-0.394 t -6.2 exc+0.021 t +0.5 win 22% pt-0.136  n  1329 R-0.285 t -3.6 exc-0.013 t -0.2 win 25% pt-0.023  1.00 
+1h lo20 2.0ATR/0.5R       mirrorS n  2900 R-0.180 t -6.1 exc-0.049 t -2.1 win 64% pt-0.050  n  1490 R-0.129 t -3.8 exc-0.022 t -0.8 win 67% pt-0.017  1.00 
+1h lo20 2.0ATR/1.0R       mirrorS n  2712 R-0.252 t -6.6 exc-0.061 t -2.2 win 47% pt-0.059  n  1385 R-0.126 t -2.7 exc+0.005 t +0.1 win 52% pt+0.027  1.00 
+1h lo20 2.0ATR/2.0R       mirrorS n  2488 R-0.274 t -5.8 exc-0.037 t -1.2 win 35% pt-0.078  n  1274 R-0.132 t -2.3 exc+0.019 t +0.4 win 41% pt+0.047  1.00 
+1h lo20 2.0ATR/4.0R       mirrorS n  2356 R-0.273 t -5.0 exc-0.021 t -0.5 win 33% pt-0.091  n  1194 R-0.100 t -1.4 exc+0.043 t +0.7 win 39% pt+0.057  1.00 
+1h lo20 4.0ATR/0.5R       mirrorS n  2710 R-0.134 t -5.1 exc-0.022 t -1.3 win 53% pt-0.041  n  1384 R-0.099 t -3.1 exc-0.026 t -1.0 win 59% pt-0.006  1.00 
+1h lo20 4.0ATR/1.0R       mirrorS n  2483 R-0.153 t -4.8 exc-0.016 t -0.8 win 41% pt-0.055  n  1271 R-0.098 t -2.5 exc-0.010 t -0.3 win 48% pt-0.002  1.00 
+1h lo20 4.0ATR/2.0R       mirrorS n  2341 R-0.157 t -4.4 exc-0.012 t -0.6 win 38% pt-0.064  n  1185 R-0.070 t -1.6 exc+0.010 t +0.3 win 46% pt+0.009  1.00 
+1h lo20 4.0ATR/4.0R       mirrorS n  2288 R-0.154 t -4.1 exc-0.005 t -0.2 win 38% pt-0.081  n  1163 R-0.099 t -2.1 exc-0.014 t -0.4 win 45% pt-0.007  1.00 
+1h lo25 0.5ATR/0.5R       bookL   n  9217 R-0.329 t-17.3 exc-0.015 t -1.2 win 48% pt-0.423  n  4457 R-0.345 t-15.5 exc-0.030 t -1.6 win 50% pt-0.398  1.00 
+1h lo25 0.5ATR/1.0R       bookL   n  9180 R-0.124 t -4.8 exc+0.018 t +1.0 win 44% pt-0.275  n  4430 R-0.178 t -5.9 exc-0.005 t -0.2 win 45% pt-0.256  1.00 
+1h lo25 0.5ATR/2.0R       bookL   n  9072 R+0.065 t +1.7 exc+0.074 t +2.6 win 31% pt-0.217  n  4382 R-0.037 t -0.8 exc+0.041 t +1.1 win 32% pt-0.200  1.00 
+1h lo25 0.5ATR/4.0R       bookL   n  9044 R+0.117 t +2.0 exc+0.054 t +1.3 win 18% pt-0.272  n  4364 R+0.061 t +0.9 exc+0.062 t +1.0 win 19% pt-0.253  1.00 
+1h lo25 1.0ATR/0.5R       bookL   n  9046 R+0.029 t +1.8 exc+0.023 t +2.0 win 65% pt-0.105  n  4385 R-0.057 t -2.7 exc-0.016 t -0.9 win 63% pt-0.131  1.00 
+1h lo25 1.0ATR/1.0R       bookL   n  8687 R+0.146 t +5.8 exc+0.055 t +3.1 win 49% pt-0.099  n  4228 R+0.014 t +0.5 exc-0.003 t -0.1 win 48% pt-0.128  1.00 
+1h lo25 1.0ATR/2.0R       bookL   n  8592 R+0.222 t +5.5 exc+0.069 t +2.6 win 32% pt-0.148  n  4170 R+0.068 t +1.4 exc+0.003 t +0.1 win 31% pt-0.199  1.00 
+1h lo25 1.0ATR/4.0R       bookL   n  8592 R+0.322 t +5.6 exc+0.090 t +2.5 win 26% pt-0.127  n  4165 R+0.038 t +0.6 exc-0.082 t -1.6 win 23% pt-0.235  1.00 
+1h lo25 2.0ATR/0.5R       bookL   n  7964 R+0.142 t +9.2 exc+0.037 t +3.3 win 66% pt-0.047  n  3877 R+0.024 t +1.1 exc-0.021 t -1.1 win 64% pt-0.070  1.00 
+1h lo25 2.0ATR/1.0R       bookL   n  7679 R+0.197 t +7.7 exc+0.046 t +2.7 win 49% pt-0.077  n  3710 R+0.079 t +2.5 exc-0.001 t -0.0 win 47% pt-0.114  1.00 
+1h lo25 2.0ATR/2.0R       bookL   n  7671 R+0.249 t +6.9 exc+0.041 t +2.0 win 43% pt-0.056  n  3699 R+0.069 t +1.6 exc-0.049 t -1.5 win 39% pt-0.135  1.00 
+1h lo25 2.0ATR/4.0R       bookL   n  7671 R+0.280 t +6.8 exc+0.042 t +1.7 win 42% pt-0.058  n  3699 R+0.070 t +1.4 exc-0.068 t -1.8 win 38% pt-0.141  1.00 
+1h lo25 4.0ATR/0.5R       bookL   n  6661 R+0.119 t +7.6 exc+0.018 t +2.0 win 60% pt-0.029  n  3274 R+0.030 t +1.4 exc-0.019 t -1.1 win 56% pt-0.087  1.00 
+1h lo25 4.0ATR/1.0R       bookL   n  6607 R+0.147 t +6.9 exc+0.015 t +1.3 win 54% pt-0.018  n  3220 R+0.021 t +0.8 exc-0.048 t -2.3 win 48% pt-0.100  1.00 
+1h lo25 4.0ATR/2.0R       bookL   n  6604 R+0.157 t +6.5 exc+0.010 t +0.8 win 53% pt-0.023  n  3220 R+0.030 t +0.9 exc-0.048 t -2.1 win 46% pt-0.101  1.00 
+1h lo25 4.0ATR/4.0R       bookL   n  6604 R+0.163 t +6.5 exc+0.013 t +0.9 win 53% pt-0.022  n  3220 R+0.019 t +0.6 exc-0.066 t -2.8 win 46% pt-0.104  1.00 
+1h lo25 0.5ATR/0.5R       mirrorS n  9217 R-0.606 t-33.9 exc-0.067 t -5.2 win 43% pt-0.499  n  4458 R-0.499 t-21.7 exc-0.030 t -1.6 win 45% pt-0.470  1.00 
+1h lo25 0.5ATR/1.0R       mirrorS n  9180 R-0.539 t-24.1 exc-0.058 t -3.4 win 39% pt-0.373  n  4430 R-0.388 t-13.2 exc-0.006 t -0.3 win 41% pt-0.331  1.00 
+1h lo25 0.5ATR/2.0R       mirrorS n  9029 R-0.543 t-19.2 exc-0.056 t -2.6 win 29% pt-0.284  n  4333 R-0.366 t -9.2 exc+0.008 t +0.2 win 31% pt-0.226  1.00 
+1h lo25 0.5ATR/4.0R       mirrorS n  8713 R-0.614 t-17.6 exc-0.047 t -1.7 win 18% pt-0.262  n  4170 R-0.388 t -7.1 exc+0.049 t +1.0 win 20% pt-0.165  1.00 
+1h lo25 1.0ATR/0.5R       mirrorS n  9089 R-0.286 t-14.8 exc-0.045 t -3.1 win 63% pt-0.123  n  4434 R-0.200 t -8.9 exc-0.009 t -0.5 win 64% pt-0.120  1.00 
+1h lo25 1.0ATR/1.0R       mirrorS n  8687 R-0.354 t-14.4 exc-0.051 t -2.9 win 48% pt-0.102  n  4228 R-0.218 t -7.1 exc+0.012 t +0.4 win 50% pt-0.077  1.00 
+1h lo25 1.0ATR/2.0R       mirrorS n  7964 R-0.465 t-15.6 exc-0.068 t -3.1 win 33% pt-0.085  n  3865 R-0.250 t -5.9 exc+0.050 t +1.3 win 35% pt-0.057  1.00 
+1h lo25 1.0ATR/4.0R       mirrorS n  7218 R-0.534 t-14.7 exc-0.074 t -2.8 win 23% pt-0.105  n  3559 R-0.204 t -3.4 exc+0.119 t +2.3 win 27% pt+0.030  1.00 
+1h lo25 2.0ATR/0.5R       mirrorS n  8592 R-0.199 t -9.9 exc-0.029 t -2.2 win 67% pt-0.008  n  4183 R-0.134 t -5.7 exc+0.003 t +0.2 win 68% pt+0.003  1.00 
+1h lo25 2.0ATR/1.0R       mirrorS n  7679 R-0.282 t-11.0 exc-0.039 t -2.3 win 50% pt-0.005  n  3710 R-0.179 t -5.6 exc+0.007 t +0.3 win 52% pt+0.017  1.00 
+1h lo25 2.0ATR/2.0R       mirrorS n  6661 R-0.326 t-10.4 exc-0.032 t -1.8 win 38% pt-0.024  n  3271 R-0.160 t -3.7 exc+0.046 t +1.4 win 43% pt+0.076  1.00 
+1h lo25 2.0ATR/4.0R       mirrorS n  6171 R-0.318 t -8.8 exc-0.027 t -1.3 win 36% pt-0.012  n  3023 R-0.157 t -3.2 exc+0.031 t +0.8 win 40% pt+0.086  1.00 
+1h lo25 4.0ATR/0.5R       mirrorS n  7671 R-0.168 t -9.4 exc-0.018 t -1.7 win 56% pt-0.012  n  3702 R-0.086 t -3.9 exc+0.027 t +1.6 win 60% pt+0.018  1.00 
+1h lo25 4.0ATR/1.0R       mirrorS n  6607 R-0.192 t -9.0 exc-0.013 t -1.2 win 44% pt-0.023  n  3220 R-0.074 t -2.6 exc+0.050 t +2.4 win 50% pt+0.049  1.00 
+1h lo25 4.0ATR/2.0R       mirrorS n  6075 R-0.191 t -8.0 exc-0.016 t -1.3 win 42% pt-0.018  n  2944 R-0.072 t -2.3 exc+0.040 t +1.7 win 47% pt+0.056  1.00 
+1h lo25 4.0ATR/4.0R       mirrorS n  5937 R-0.191 t -7.4 exc-0.017 t -1.3 win 41% pt-0.036  n  2876 R-0.082 t -2.5 exc+0.029 t +1.1 win 47% pt+0.044  1.00 
+1h lo30 0.5ATR/0.5R       bookL   n 20790 R-0.342 t-24.6 exc-0.018 t -2.0 win 48% pt-0.439  n 10265 R-0.331 t-20.1 exc-0.038 t -3.0 win 51% pt-0.400  1.00 
+1h lo30 0.5ATR/1.0R       bookL   n 20642 R-0.159 t -8.5 exc-0.001 t -0.1 win 43% pt-0.305  n 10171 R-0.171 t -7.6 exc-0.035 t -2.0 win 45% pt-0.270  1.00 
+1h lo30 0.5ATR/2.0R       bookL   n 20279 R+0.033 t +1.2 exc+0.027 t +1.4 win 30% pt-0.264  n  9969 R-0.015 t -0.4 exc-0.006 t -0.2 win 32% pt-0.210  1.00 
+1h lo30 0.5ATR/4.0R       bookL   n 20104 R+0.200 t +4.4 exc+0.035 t +1.2 win 18% pt-0.279  n  9869 R+0.155 t +2.8 exc+0.025 t +0.6 win 19% pt-0.231  0.99 
+1h lo30 1.0ATR/0.5R       bookL   n 20270 R-0.011 t -0.9 exc-0.008 t -1.0 win 63% pt-0.139  n 10057 R-0.048 t -3.1 exc-0.024 t -2.0 win 65% pt-0.119  1.00 
+1h lo30 1.0ATR/1.0R       bookL   n 19056 R+0.111 t +5.9 exc+0.011 t +0.9 win 47% pt-0.145  n  9376 R+0.051 t +2.2 exc-0.001 t -0.1 win 49% pt-0.114  1.00 
+1h lo30 1.0ATR/2.0R       bookL   n 18483 R+0.236 t +7.6 exc+0.022 t +1.2 win 31% pt-0.176  n  9085 R+0.175 t +4.7 exc+0.028 t +1.0 win 32% pt-0.142  0.00 
+1h lo30 1.0ATR/4.0R       bookL   n 18446 R+0.368 t +8.2 exc+0.033 t +1.2 win 25% pt-0.150  n  9061 R+0.257 t +4.7 exc+0.012 t +0.3 win 25% pt-0.123  0.00 
+1h lo30 2.0ATR/0.5R       bookL   n 17047 R+0.103 t +8.4 exc+0.003 t +0.4 win 64% pt-0.074  n  8375 R+0.036 t +2.2 exc-0.022 t -1.7 win 63% pt-0.083  1.00 
+1h lo30 2.0ATR/1.0R       bookL   n 15674 R+0.173 t +8.5 exc-0.003 t -0.2 win 48% pt-0.103  n  7721 R+0.076 t +2.9 exc-0.033 t -1.7 win 47% pt-0.112  0.70 
+1h lo30 2.0ATR/2.0R       bookL   n 15497 R+0.253 t +8.9 exc-0.001 t -0.1 win 41% pt-0.086  n  7626 R+0.109 t +3.0 exc-0.050 t -2.0 win 39% pt-0.108  0.53 
+1h lo30 2.0ATR/4.0R       bookL   n 15492 R+0.281 t +8.5 exc-0.016 t -0.9 win 40% pt-0.087  n  7614 R+0.131 t +3.1 exc-0.057 t -1.9 win 37% pt-0.112  0.39 
+1h lo30 4.0ATR/0.5R       bookL   n 13275 R+0.101 t +7.9 exc-0.005 t -0.7 win 59% pt-0.046  n  6554 R+0.044 t +2.6 exc-0.026 t -2.0 win 56% pt-0.070  1.00 
+1h lo30 4.0ATR/1.0R       bookL   n 12897 R+0.142 t +8.2 exc-0.006 t -0.7 win 52% pt-0.040  n  6373 R+0.069 t +3.1 exc-0.025 t -1.7 win 48% pt-0.067  0.43 
+1h lo30 4.0ATR/2.0R       bookL   n 12878 R+0.157 t +8.0 exc-0.012 t -1.2 win 51% pt-0.041  n  6351 R+0.083 t +3.2 exc-0.027 t -1.5 win 47% pt-0.072  0.30 
+1h lo30 4.0ATR/4.0R       bookL   n 12877 R+0.164 t +7.8 exc-0.013 t -1.1 win 51% pt-0.040  n  6350 R+0.082 t +3.0 exc-0.034 t -1.7 win 46% pt-0.071  0.50 
+1h lo30 0.5ATR/0.5R       mirrorS n 20773 R-0.564 t-42.4 exc-0.049 t -5.5 win 47% pt-0.454  n 10262 R-0.533 t-32.1 exc-0.031 t -2.4 win 47% pt-0.460  1.00 
+1h lo30 0.5ATR/1.0R       mirrorS n 20642 R-0.489 t-29.4 exc-0.040 t -3.5 win 41% pt-0.328  n 10171 R-0.428 t-20.0 exc+0.000 t +0.0 win 42% pt-0.337  1.00 
+1h lo30 0.5ATR/2.0R       mirrorS n 20201 R-0.466 t-21.0 exc-0.007 t -0.5 win 31% pt-0.218  n  9930 R-0.379 t-13.3 exc+0.040 t +1.7 win 31% pt-0.236  1.00 
+1h lo30 0.5ATR/4.0R       mirrorS n 19267 R-0.528 t-18.1 exc+0.013 t +0.6 win 20% pt-0.180  n  9400 R-0.348 t -8.4 exc+0.126 t +3.6 win 21% pt-0.152  1.00 
+1h lo30 1.0ATR/0.5R       mirrorS n 20350 R-0.263 t-18.6 exc-0.023 t -2.5 win 65% pt-0.096  n 10095 R-0.233 t-13.6 exc-0.001 t -0.1 win 64% pt-0.124  1.00 
+1h lo30 1.0ATR/1.0R       mirrorS n 19056 R-0.319 t-17.3 exc-0.012 t -1.0 win 51% pt-0.057  n  9376 R-0.264 t-11.6 exc+0.006 t +0.3 win 50% pt-0.091  1.00 
+1h lo30 1.0ATR/2.0R       mirrorS n 17045 R-0.389 t-15.9 exc+0.001 t +0.0 win 35% pt-0.030  n  8352 R-0.282 t -8.8 exc+0.047 t +1.8 win 36% pt-0.035  1.00 
+1h lo30 1.0ATR/4.0R       mirrorS n 15198 R-0.439 t-13.8 exc-0.004 t -0.2 win 25% pt-0.042  n  7419 R-0.294 t -6.9 exc+0.076 t +2.4 win 27% pt+0.003  1.00 
+1h lo30 2.0ATR/0.5R       mirrorS n 18485 R-0.211 t-13.7 exc-0.008 t -0.9 win 68% pt+0.002  n  9108 R-0.191 t-10.2 exc-0.012 t -0.9 win 67% pt-0.027  1.00 
+1h lo30 2.0ATR/1.0R       mirrorS n 15674 R-0.263 t-13.1 exc+0.007 t +0.6 win 51% pt+0.016  n  7721 R-0.180 t -7.0 exc+0.036 t +1.8 win 52% pt+0.011  1.00 
+1h lo30 2.0ATR/2.0R       mirrorS n 13275 R-0.293 t-11.5 exc+0.013 t +1.0 win 40% pt+0.004  n  6547 R-0.194 t -5.9 exc+0.054 t +2.2 win 42% pt+0.036  1.00 
+1h lo30 2.0ATR/4.0R       mirrorS n 12244 R-0.281 t -9.3 exc+0.015 t +0.9 win 37% pt+0.013  n  6120 R-0.170 t -4.3 exc+0.070 t +2.4 win 40% pt+0.068  1.00 
+1h lo30 4.0ATR/0.5R       mirrorS n 15497 R-0.172 t-12.1 exc+0.003 t +0.3 win 58% pt+0.000  n  7633 R-0.107 t -5.9 exc+0.027 t +2.2 win 60% pt+0.004  1.00 
+1h lo30 4.0ATR/1.0R       mirrorS n 12897 R-0.189 t-10.9 exc+0.008 t +0.9 win 46% pt-0.005  n  6373 R-0.125 t -5.6 exc+0.026 t +1.8 win 50% pt+0.013  1.00 
+1h lo30 4.0ATR/2.0R       mirrorS n 11784 R-0.183 t -9.3 exc+0.007 t +0.8 win 43% pt-0.001  n  5916 R-0.103 t -3.9 exc+0.042 t +2.4 win 47% pt+0.033  1.00 
+1h lo30 4.0ATR/4.0R       mirrorS n 11565 R-0.182 t -8.6 exc+0.004 t +0.4 win 43% pt-0.011  n  5792 R-0.112 t -4.1 exc+0.033 t +1.8 win 47% pt+0.014  1.00 
+4h cap20 0.5ATR/0.5R      bookL   n   288 R-0.425 t -5.3 exc-0.019 t -0.4 win 47% pt-0.370  n   137 R-0.177 t -1.7 exc+0.051 t +0.5 win 64% pt-0.111  1.00 
+4h cap20 0.5ATR/1.0R      bookL   n   288 R-0.261 t -2.5 exc+0.050 t +0.7 win 42% pt-0.229  n   137 R+0.040 t +0.3 exc+0.115 t +0.9 win 58% pt+0.090  1.00 
+4h cap20 0.5ATR/2.0R      bookL   n   288 R-0.202 t -1.4 exc+0.114 t +1.0 win 31% pt-0.134  n   137 R+0.176 t +0.9 exc+0.142 t +0.7 win 46% pt+0.314  1.00 
+4h cap20 0.5ATR/4.0R      bookL   n   288 R-0.482 t -2.9 exc-0.029 t -0.2 win 16% pt-0.409  n   137 R+0.661 t +2.0 exc+0.459 t +1.4 win 37% pt+0.683  1.00 
+4h cap20 1.0ATR/0.5R      bookL   n   288 R-0.157 t -2.0 exc-0.047 t -0.8 win 60% pt-0.125  n   137 R+0.080 t +0.8 exc+0.069 t +0.7 win 84% pt+0.227  1.00 
+4h cap20 1.0ATR/1.0R      bookL   n   288 R-0.189 t -1.8 exc-0.029 t -0.3 win 47% pt-0.099  n   137 R+0.098 t +0.7 exc+0.044 t +0.3 win 73% pt+0.429  1.00 
+4h cap20 1.0ATR/2.0R      bookL   n   287 R-0.308 t -2.3 exc-0.008 t -0.1 win 30% pt-0.229  n   137 R+0.471 t +2.2 exc+0.319 t +1.7 win 66% pt+0.778  1.00 
+4h cap20 1.0ATR/4.0R      bookL   n   287 R-0.365 t -2.3 exc-0.088 t -0.6 win 27% pt-0.209  n   137 R+0.378 t +1.4 exc+0.129 t +0.7 win 59% pt+0.756  1.00 
+4h cap20 2.0ATR/0.5R      bookL   n   287 R-0.130 t -1.7 exc-0.044 t -0.8 win 66% pt-0.021  n   137 R-0.001 t -0.0 exc-0.056 t -0.6 win 80% pt+0.210  1.00 
+4h cap20 2.0ATR/1.0R      bookL   n   286 R-0.185 t -1.9 exc-0.023 t -0.3 win 50% pt-0.050  n   137 R+0.120 t +0.8 exc-0.009 t -0.1 win 71% pt+0.351  1.00 
+4h cap20 2.0ATR/2.0R      bookL   n   286 R-0.170 t -1.4 exc-0.013 t -0.2 win 45% pt-0.040  n   137 R+0.172 t +1.0 exc-0.038 t -0.3 win 66% pt+0.392  1.00 
+4h cap20 2.0ATR/4.0R      bookL   n   286 R-0.169 t -1.3 exc-0.025 t -0.3 win 44% pt-0.054  n   137 R+0.189 t +1.0 exc-0.056 t -0.4 win 63% pt+0.302  1.00 
+4h cap20 4.0ATR/0.5R      bookL   n   273 R-0.083 t -1.2 exc-0.001 t -0.0 win 60% pt-0.037  n   136 R+0.059 t +0.7 exc-0.016 t -0.2 win 77% pt+0.199  1.00 
+4h cap20 4.0ATR/1.0R      bookL   n   273 R-0.085 t -1.0 exc-0.008 t -0.2 win 53% pt-0.039  n   136 R+0.066 t +0.6 exc-0.055 t -0.7 win 74% pt+0.216  1.00 
+4h cap20 4.0ATR/2.0R      bookL   n   273 R-0.071 t -0.8 exc-0.006 t -0.1 win 53% pt-0.040  n   136 R+0.071 t +0.6 exc-0.069 t -0.8 win 70% pt+0.164  1.00 
+4h cap20 4.0ATR/4.0R      bookL   n   273 R-0.063 t -0.7 exc+0.005 t +0.1 win 53% pt-0.036  n   136 R+0.046 t +0.4 exc-0.093 t -1.0 win 70% pt+0.157  1.00 
+4h cap20 0.5ATR/0.5R      mirrorS n   288 R-0.478 t -6.2 exc-0.091 t -1.7 win 41% pt-0.456  n   137 R-0.633 t -6.5 exc-0.202 t -2.0 win 28% pt-0.644  1.00 
+4h cap20 0.5ATR/1.0R      mirrorS n   288 R-0.328 t -3.3 exc-0.064 t -0.9 win 35% pt-0.371  n   137 R-0.605 t -5.1 exc-0.250 t -2.1 win 22% pt-0.622  1.00 
+4h cap20 0.5ATR/2.0R      mirrorS n   288 R-0.163 t -1.1 exc+0.022 t +0.2 win 27% pt-0.249  n   137 R-0.582 t -3.7 exc-0.284 t -1.7 win 12% pt-0.710  1.00 
+4h cap20 0.5ATR/4.0R      mirrorS n   288 R+0.101 t +0.5 exc+0.205 t +1.4 win 18% pt-0.176  n   137 R-0.399 t -1.7 exc-0.104 t -0.4 win  9% pt-0.615  1.00 
+4h cap20 1.0ATR/0.5R      mirrorS n   288 R-0.129 t -1.7 exc-0.104 t -1.6 win 61% pt-0.106  n   137 R-0.261 t -2.5 exc-0.086 t -0.8 win 45% pt-0.351  1.00 
+4h cap20 1.0ATR/1.0R      mirrorS n   288 R-0.006 t -0.1 exc-0.028 t -0.3 win 49% pt-0.054  n   137 R-0.223 t -1.6 exc-0.058 t -0.4 win 26% pt-0.508  1.00 
+4h cap20 1.0ATR/2.0R      mirrorS n   287 R+0.171 t +1.1 exc+0.100 t +0.9 win 33% pt-0.051  n   137 R-0.150 t -0.8 exc+0.065 t +0.4 win 19% pt-0.507  1.00 
+4h cap20 1.0ATR/4.0R      mirrorS n   279 R+0.122 t +0.6 exc+0.043 t +0.3 win 23% pt-0.139  n   136 R-0.121 t -0.5 exc+0.150 t +0.6 win 14% pt-0.547  1.00 
+4h cap20 2.0ATR/0.5R      mirrorS n   287 R+0.107 t +1.6 exc+0.003 t +0.1 win 69% pt+0.073  n   137 R-0.311 t -2.9 exc-0.180 t -1.9 win 34% pt-0.434  1.00 
+4h cap20 2.0ATR/1.0R      mirrorS n   286 R+0.139 t +1.4 exc+0.024 t +0.4 win 49% pt+0.012  n   137 R-0.209 t -1.5 exc-0.022 t -0.2 win 28% pt-0.401  1.00 
+4h cap20 2.0ATR/2.0R      mirrorS n   273 R+0.112 t +0.8 exc+0.000 t +0.0 win 39% pt+0.022  n   136 R-0.233 t -1.4 exc-0.021 t -0.1 win 22% pt-0.457  1.00 
+4h cap20 2.0ATR/4.0R      mirrorS n   265 R+0.113 t +0.7 exc-0.017 t -0.2 win 37% pt+0.008  n   136 R-0.228 t -1.3 exc-0.040 t -0.2 win 22% pt-0.477  1.00 
+4h cap20 4.0ATR/0.5R      mirrorS n   286 R+0.061 t +1.0 exc+0.007 t +0.2 win 54% pt-0.001  n   137 R-0.109 t -1.2 exc+0.026 t +0.4 win 33% pt-0.216  1.00 
+4h cap20 4.0ATR/1.0R      mirrorS n   273 R+0.055 t +0.6 exc+0.007 t +0.1 win 45% pt+0.009  n   136 R-0.090 t -0.9 exc+0.061 t +0.8 win 25% pt-0.236  1.00 
+4h cap20 4.0ATR/2.0R      mirrorS n   265 R+0.064 t +0.6 exc+0.022 t +0.4 win 43% pt+0.008  n   136 R-0.111 t -1.0 exc+0.025 t +0.3 win 24% pt-0.253  1.00 
+4h cap20 4.0ATR/4.0R      mirrorS n   257 R-0.025 t -0.3 exc-0.031 t -0.6 win 44% pt-0.067  n   136 R-0.152 t -1.4 exc-0.030 t -0.3 win 24% pt-0.266  1.00 
+4h hi70 0.5ATR/0.5R       mirrorL n  5535 R-0.485 t-31.3 exc-0.130 t -9.5 win 42% pt-0.458  n  2219 R-0.458 t-18.6 exc-0.131 t -5.4 win 43% pt-0.454  1.00 
+4h hi70 0.5ATR/1.0R       mirrorL n  5519 R-0.374 t-18.6 exc-0.071 t -4.0 win 37% pt-0.338  n  2212 R-0.356 t-11.0 exc-0.090 t -2.9 win 39% pt-0.330  1.00 
+4h hi70 0.5ATR/2.0R       mirrorL n  5442 R-0.324 t-11.9 exc-0.027 t -1.1 win 27% pt-0.266  n  2179 R-0.241 t -5.3 exc-0.009 t -0.2 win 29% pt-0.227  1.00 
+4h hi70 0.5ATR/4.0R       mirrorL n  5307 R-0.325 t -8.8 exc-0.015 t -0.4 win 17% pt-0.220  n  2124 R-0.166 t -2.5 exc+0.055 t +0.9 win 19% pt-0.173  1.00 
+4h hi70 1.0ATR/0.5R       mirrorL n  5451 R-0.168 t-10.7 exc-0.002 t -0.1 win 61% pt-0.125  n  2191 R-0.140 t -5.8 exc-0.001 t -0.0 win 63% pt-0.112  1.00 
+4h hi70 1.0ATR/1.0R       mirrorL n  5188 R-0.183 t -8.6 exc+0.008 t +0.4 win 47% pt-0.109  n  2092 R-0.106 t -3.2 exc+0.033 t +1.1 win 50% pt-0.062  1.00 
+4h hi70 1.0ATR/2.0R       mirrorL n  4775 R-0.190 t -6.4 exc+0.015 t +0.6 win 32% pt-0.105  n  1910 R-0.130 t -2.7 exc+0.023 t +0.5 win 34% pt-0.045  1.00 
+4h hi70 1.0ATR/4.0R       mirrorL n  4391 R-0.166 t -4.0 exc+0.034 t +0.9 win 21% pt-0.070  n  1741 R-0.090 t -1.3 exc+0.074 t +1.2 win 24% pt+0.018  1.00 
+4h hi70 2.0ATR/0.5R       mirrorL n  5026 R-0.087 t -5.4 exc+0.027 t +1.9 win 66% pt-0.030  n  2029 R-0.070 t -2.8 exc+0.018 t +0.8 win 67% pt-0.021  1.00 
+4h hi70 2.0ATR/1.0R       mirrorL n  4340 R-0.100 t -4.3 exc+0.021 t +1.1 win 50% pt-0.024  n  1764 R-0.111 t -3.1 exc+0.001 t +0.0 win 50% pt-0.027  1.00 
+4h hi70 2.0ATR/2.0R       mirrorL n  3730 R-0.067 t -2.1 exc+0.045 t +1.8 win 38% pt+0.005  n  1523 R-0.106 t -2.1 exc+0.006 t +0.2 win 38% pt+0.001  1.00 
+4h hi70 2.0ATR/4.0R       mirrorL n  3410 R-0.045 t -1.1 exc+0.043 t +1.3 win 34% pt+0.042  n  1417 R-0.090 t -1.4 exc+0.026 t +0.5 win 33% pt+0.005  1.00 
+4h hi70 4.0ATR/0.5R       mirrorL n  4267 R-0.041 t -2.7 exc+0.023 t +2.0 win 62% pt+0.029  n  1745 R-0.074 t -3.1 exc-0.000 t -0.0 win 58% pt-0.037  1.00 
+4h hi70 4.0ATR/1.0R       mirrorL n  3542 R-0.016 t -0.8 exc+0.039 t +2.5 win 51% pt+0.055  n  1456 R-0.075 t -2.3 exc+0.001 t +0.0 win 46% pt-0.025  1.00 
+4h hi70 4.0ATR/2.0R       mirrorL n  3189 R-0.003 t -0.1 exc+0.036 t +1.9 win 47% pt+0.078  n  1343 R-0.082 t -2.0 exc-0.002 t -0.1 win 41% pt-0.035  1.00 
+4h hi70 4.0ATR/4.0R       mirrorL n  3109 R+0.016 t +0.6 exc+0.050 t +2.2 win 46% pt+0.103  n  1316 R-0.040 t -0.8 exc+0.030 t +0.8 win 41% pt+0.010  1.00 
+4h hi70 0.5ATR/0.5R       bookS   n  5532 R-0.325 t-20.7 exc-0.139 t -9.4 win 47% pt-0.373  n  2220 R-0.385 t-15.2 exc-0.157 t -6.5 win 47% pt-0.395  1.00 
+4h hi70 0.5ATR/1.0R       bookS   n  5519 R-0.152 t -7.3 exc-0.099 t -5.0 win 43% pt-0.215  n  2212 R-0.243 t -7.3 exc-0.122 t -3.7 win 42% pt-0.261  1.00 
+4h hi70 0.5ATR/2.0R       bookS   n  5451 R-0.013 t -0.4 exc-0.071 t -2.4 win 32% pt-0.113  n  2189 R-0.127 t -2.8 exc-0.101 t -2.3 win 31% pt-0.179  1.00 
+4h hi70 0.5ATR/4.0R       bookS   n  5411 R+0.052 t +1.1 exc-0.081 t -1.9 win 20% pt-0.110  n  2173 R-0.013 t -0.2 exc-0.059 t -0.9 win 19% pt-0.142  1.00 
+4h hi70 1.0ATR/0.5R       bookS   n  5442 R-0.016 t -1.1 exc-0.029 t -2.1 win 65% pt-0.068  n  2181 R-0.100 t -4.1 exc-0.066 t -2.8 win 63% pt-0.106  1.00 
+4h hi70 1.0ATR/1.0R       bookS   n  5188 R+0.044 t +2.0 exc-0.027 t -1.4 win 50% pt-0.037  n  2092 R-0.060 t -1.8 exc-0.069 t -2.2 win 47% pt-0.102  1.00 
+4h hi70 1.0ATR/2.0R       bookS   n  5026 R+0.061 t +1.9 exc-0.056 t -2.0 win 33% pt-0.058  n  2029 R+0.009 t +0.2 exc-0.045 t -1.0 win 32% pt-0.091  1.00 
+4h hi70 1.0ATR/4.0R       bookS   n  5013 R+0.082 t +1.8 exc-0.065 t -1.8 win 23% pt-0.138  n  2025 R+0.106 t +1.5 exc-0.007 t -0.1 win 25% pt-0.036  1.00 
+4h hi70 2.0ATR/0.5R       bookS   n  4775 R+0.041 t +2.7 exc-0.007 t -0.5 win 67% pt-0.006  n  1911 R-0.006 t -0.2 exc-0.023 t -1.1 win 65% pt-0.046  1.00 
+4h hi70 2.0ATR/1.0R       bookS   n  4340 R+0.045 t +1.9 exc-0.020 t -1.1 win 50% pt-0.034  n  1764 R+0.047 t +1.3 exc-0.003 t -0.1 win 50% pt-0.040  1.00 
+4h hi70 2.0ATR/2.0R       bookS   n  4267 R+0.034 t +1.1 exc-0.036 t -1.6 win 37% pt-0.112  n  1745 R+0.081 t +1.7 exc-0.002 t -0.1 win 42% pt+0.005  1.00 
+4h hi70 2.0ATR/4.0R       bookS   n  4261 R+0.038 t +1.1 exc-0.046 t -1.8 win 35% pt-0.140  n  1743 R+0.109 t +2.0 exc-0.012 t -0.3 win 41% pt+0.031  1.00 
+4h hi70 4.0ATR/0.5R       bookS   n  3730 R+0.007 t +0.4 exc-0.020 t -1.5 win 62% pt-0.031  n  1523 R+0.025 t +1.0 exc+0.001 t +0.0 win 61% pt-0.033  1.00 
+4h hi70 4.0ATR/1.0R       bookS   n  3542 R-0.011 t -0.5 exc-0.036 t -2.3 win 48% pt-0.086  n  1456 R+0.044 t +1.4 exc+0.002 t +0.1 win 53% pt-0.011  1.00 
+4h hi70 4.0ATR/2.0R       bookS   n  3524 R-0.014 t -0.6 exc-0.039 t -2.4 win 47% pt-0.103  n  1452 R+0.054 t +1.5 exc-0.008 t -0.3 win 52% pt+0.003  1.00 
+4h hi70 4.0ATR/4.0R       bookS   n  3524 R-0.021 t -0.9 exc-0.036 t -2.3 win 47% pt-0.111  n  1452 R+0.046 t +1.3 exc-0.018 t -0.6 win 52% pt-0.003  1.00 
+4h hi75 0.5ATR/0.5R       mirrorL n  2605 R-0.541 t-27.1 exc-0.171 t -9.0 win 39% pt-0.501  n  1083 R-0.452 t-13.7 exc-0.138 t -4.4 win 42% pt-0.471  1.00 
+4h hi75 0.5ATR/1.0R       mirrorL n  2600 R-0.425 t-16.5 exc-0.112 t -4.6 win 36% pt-0.372  n  1081 R-0.302 t -6.9 exc-0.061 t -1.4 win 38% pt-0.329  1.00 
+4h hi75 0.5ATR/2.0R       mirrorL n  2579 R-0.316 t -8.9 exc-0.023 t -0.7 win 28% pt-0.246  n  1070 R-0.131 t -2.1 exc+0.061 t +0.9 win 31% pt-0.162  1.00 
+4h hi75 0.5ATR/4.0R       mirrorL n  2525 R-0.238 t -4.6 exc+0.056 t +1.1 win 19% pt-0.158  n  1047 R-0.053 t -0.6 exc+0.105 t +1.2 win 21% pt-0.034  1.00 
+4h hi75 1.0ATR/0.5R       mirrorL n  2587 R-0.184 t -8.7 exc-0.025 t -1.3 win 60% pt-0.141  n  1077 R-0.118 t -3.6 exc+0.000 t +0.0 win 63% pt-0.098  1.00 
+4h hi75 1.0ATR/1.0R       mirrorL n  2507 R-0.161 t -5.8 exc+0.011 t +0.4 win 47% pt-0.102  n  1042 R-0.065 t -1.4 exc+0.031 t +0.7 win 52% pt-0.019  1.00 
+4h hi75 1.0ATR/2.0R       mirrorL n  2361 R-0.138 t -3.5 exc+0.039 t +1.1 win 32% pt-0.074  n   968 R-0.042 t -0.7 exc+0.036 t +0.6 win 35% pt+0.001  1.00 
+4h hi75 1.0ATR/4.0R       mirrorL n  2200 R-0.126 t -2.3 exc+0.056 t +1.1 win 20% pt-0.081  n   880 R-0.018 t -0.2 exc+0.080 t +0.9 win 25% pt+0.075  1.00 
+4h hi75 2.0ATR/0.5R       mirrorL n  2477 R-0.080 t -3.7 exc+0.021 t +1.1 win 66% pt-0.026  n  1028 R-0.034 t -1.1 exc+0.022 t +0.7 win 69% pt+0.014  1.00 
+4h hi75 2.0ATR/1.0R       mirrorL n  2254 R-0.053 t -1.8 exc+0.047 t +1.8 win 51% pt-0.005  n   930 R-0.066 t -1.5 exc+0.002 t +0.0 win 52% pt+0.016  1.00 
+4h hi75 2.0ATR/2.0R       mirrorL n  1999 R-0.043 t -1.1 exc+0.057 t +1.6 win 37% pt+0.010  n   803 R-0.114 t -1.8 exc-0.024 t -0.4 win 40% pt+0.049  1.00 
+4h hi75 2.0ATR/4.0R       mirrorL n  1832 R-0.011 t -0.2 exc+0.064 t +1.5 win 33% pt+0.072  n   739 R-0.102 t -1.3 exc-0.002 t -0.0 win 37% pt+0.159  1.00 
+4h hi75 4.0ATR/0.5R       mirrorL n  2240 R-0.005 t -0.3 exc+0.035 t +2.2 win 65% pt+0.058  n   928 R-0.031 t -1.1 exc+0.018 t +0.7 win 60% pt+0.004  1.00 
+4h hi75 4.0ATR/1.0R       mirrorL n  1941 R+0.016 t +0.6 exc+0.052 t +2.5 win 52% pt+0.090  n   790 R-0.048 t -1.2 exc+0.012 t +0.3 win 49% pt+0.027  1.00 
+4h hi75 4.0ATR/2.0R       mirrorL n  1749 R+0.026 t +0.8 exc+0.045 t +1.8 win 48% pt+0.120  n   711 R-0.033 t -0.6 exc+0.024 t +0.6 win 47% pt+0.085  1.00 
+4h hi75 4.0ATR/4.0R       mirrorL n  1670 R+0.067 t +1.7 exc+0.072 t +2.4 win 48% pt+0.155  n   694 R+0.007 t +0.1 exc+0.055 t +1.0 win 46% pt+0.138  1.00 
+4h hi75 0.5ATR/0.5R       bookS   n  2605 R-0.377 t-18.1 exc-0.180 t -8.8 win 44% pt-0.418  n  1082 R-0.442 t-13.5 exc-0.191 t -5.9 win 43% pt-0.443  1.00 
+4h hi75 0.5ATR/1.0R       bookS   n  2600 R-0.214 t -7.7 exc-0.147 t -5.4 win 41% pt-0.266  n  1081 R-0.310 t -7.3 exc-0.162 t -3.9 win 39% pt-0.308  1.00 
+4h hi75 0.5ATR/2.0R       bookS   n  2587 R-0.063 t -1.6 exc-0.091 t -2.3 win 31% pt-0.141  n  1075 R-0.217 t -3.7 exc-0.147 t -2.5 win 29% pt-0.226  1.00 
+4h hi75 0.5ATR/4.0R       bookS   n  2580 R-0.056 t -0.9 exc-0.163 t -2.8 win 19% pt-0.149  n  1070 R-0.152 t -1.8 exc-0.104 t -1.3 win 17% pt-0.224  1.00 
+4h hi75 1.0ATR/0.5R       bookS   n  2579 R-0.061 t -3.1 exc-0.065 t -3.5 win 62% pt-0.112  n  1072 R-0.185 t -5.5 exc-0.127 t -3.7 win 59% pt-0.162  1.00 
+4h hi75 1.0ATR/1.0R       bookS   n  2507 R+0.002 t +0.1 exc-0.047 t -1.8 win 49% pt-0.061  n  1042 R-0.131 t -2.9 exc-0.096 t -2.2 win 45% pt-0.148  1.00 
+4h hi75 1.0ATR/2.0R       bookS   n  2477 R+0.032 t +0.8 exc-0.057 t -1.5 win 33% pt-0.075  n  1028 R-0.086 t -1.4 exc-0.076 t -1.2 win 30% pt-0.163  1.00 
+4h hi75 1.0ATR/4.0R       bookS   n  2477 R+0.006 t +0.1 exc-0.075 t -1.5 win 21% pt-0.206  n  1028 R-0.067 t -0.8 exc-0.105 t -1.4 win 22% pt-0.164  1.00 
+4h hi75 2.0ATR/0.5R       bookS   n  2361 R+0.008 t +0.4 exc-0.027 t -1.4 win 66% pt-0.023  n   968 R-0.056 t -1.7 exc-0.035 t -1.1 win 63% pt-0.069  1.00 
+4h hi75 2.0ATR/1.0R       bookS   n  2254 R-0.002 t -0.1 exc-0.046 t -1.8 win 49% pt-0.050  n   930 R-0.010 t -0.2 exc-0.016 t -0.4 win 47% pt-0.084  1.00 
+4h hi75 2.0ATR/2.0R       bookS   n  2240 R-0.039 t -1.0 exc-0.060 t -1.9 win 35% pt-0.171  n   928 R-0.002 t -0.0 exc-0.035 t -0.7 win 39% pt-0.072  1.00 
+4h hi75 2.0ATR/4.0R       bookS   n  2240 R-0.068 t -1.7 exc-0.090 t -2.7 win 33% pt-0.195  n   928 R+0.009 t +0.1 exc-0.064 t -1.2 win 38% pt-0.043  1.00 
+4h hi75 4.0ATR/0.5R       bookS   n  1999 R-0.004 t -0.2 exc-0.025 t -1.4 win 62% pt-0.032  n   803 R+0.012 t +0.4 exc-0.001 t -0.0 win 59% pt-0.063  1.00 
+4h hi75 4.0ATR/1.0R       bookS   n  1941 R-0.043 t -1.7 exc-0.047 t -2.3 win 47% pt-0.120  n   790 R+0.018 t +0.4 exc-0.008 t -0.2 win 50% pt-0.061  1.00 
+4h hi75 4.0ATR/2.0R       bookS   n  1939 R-0.061 t -2.2 exc-0.064 t -3.0 win 45% pt-0.140  n   790 R+0.012 t +0.3 exc-0.031 t -0.9 win 49% pt-0.047  1.00 
+4h hi75 4.0ATR/4.0R       bookS   n  1939 R-0.066 t -2.4 exc-0.059 t -2.8 win 45% pt-0.144  n   790 R+0.012 t +0.3 exc-0.042 t -1.1 win 49% pt-0.049  1.00 
+4h hi80 0.5ATR/0.5R       mirrorL n  1048 R-0.566 t-20.3 exc-0.197 t -7.1 win 35% pt-0.556  n   440 R-0.473 t-10.1 exc-0.109 t -2.3 win 40% pt-0.494  1.00 
+4h hi80 0.5ATR/1.0R       mirrorL n  1048 R-0.464 t-12.8 exc-0.159 t -4.5 win 32% pt-0.444  n   439 R-0.305 t -4.9 exc-0.044 t -0.7 win 39% pt-0.316  1.00 
+4h hi80 0.5ATR/2.0R       mirrorL n  1045 R-0.296 t -5.7 exc-0.025 t -0.5 win 27% pt-0.273  n   434 R-0.189 t -2.2 exc+0.021 t +0.2 win 31% pt-0.158  1.00 
+4h hi80 0.5ATR/4.0R       mirrorL n  1032 R-0.158 t -2.0 exc+0.113 t +1.5 win 18% pt-0.195  n   426 R-0.102 t -0.8 exc+0.060 t +0.4 win 21% pt-0.037  1.00 
+4h hi80 1.0ATR/0.5R       mirrorL n  1046 R-0.150 t -5.1 exc+0.009 t +0.3 win 59% pt-0.161  n   440 R-0.187 t -4.0 exc-0.062 t -1.4 win 60% pt-0.139  1.00 
+4h hi80 1.0ATR/1.0R       mirrorL n  1038 R-0.072 t -1.8 exc+0.091 t +2.4 win 49% pt-0.066  n   431 R-0.167 t -2.7 exc-0.050 t -0.8 win 50% pt-0.054  1.00 
+4h hi80 1.0ATR/2.0R       mirrorL n   996 R+0.010 t +0.2 exc+0.173 t +3.1 win 34% pt-0.019  n   410 R-0.060 t -0.7 exc+0.031 t +0.3 win 38% pt+0.072  1.00 
+4h hi80 1.0ATR/4.0R       mirrorL n   942 R+0.025 t +0.3 exc+0.170 t +2.2 win 20% pt-0.058  n   380 R+0.091 t +0.7 exc+0.153 t +1.1 win 27% pt+0.212  1.00 
+4h hi80 2.0ATR/0.5R       mirrorL n  1037 R-0.009 t -0.3 exc+0.071 t +2.5 win 67% pt-0.021  n   430 R-0.088 t -1.9 exc-0.029 t -0.6 win 68% pt-0.002  1.00 
+4h hi80 2.0ATR/1.0R       mirrorL n   984 R+0.016 t +0.4 exc+0.095 t +2.5 win 50% pt-0.009  n   402 R-0.076 t -1.2 exc-0.015 t -0.2 win 54% pt+0.070  1.00 
+4h hi80 2.0ATR/2.0R       mirrorL n   905 R+0.055 t +1.0 exc+0.101 t +2.0 win 37% pt+0.013  n   364 R-0.020 t -0.2 exc+0.019 t +0.2 win 44% pt+0.170  1.00 
+4h hi80 2.0ATR/4.0R       mirrorL n   846 R+0.183 t +2.3 exc+0.182 t +2.6 win 33% pt+0.134  n   333 R+0.143 t +1.2 exc+0.158 t +1.3 win 41% pt+0.315  1.00 
+4h hi80 4.0ATR/0.5R       mirrorL n   983 R+0.061 t +2.4 exc+0.085 t +3.8 win 66% pt+0.078  n   401 R-0.002 t -0.0 exc+0.040 t +1.1 win 66% pt+0.076  1.00 
+4h hi80 4.0ATR/1.0R       mirrorL n   899 R+0.110 t +3.2 exc+0.110 t +3.8 win 53% pt+0.118  n   362 R+0.028 t +0.5 exc+0.058 t +1.1 win 56% pt+0.122  1.00 
+4h hi80 4.0ATR/2.0R       mirrorL n   824 R+0.203 t +4.4 exc+0.176 t +4.5 win 50% pt+0.206  n   324 R+0.111 t +1.4 exc+0.121 t +1.7 win 53% pt+0.192  1.00 
+4h hi80 4.0ATR/4.0R       mirrorL n   775 R+0.221 t +3.9 exc+0.186 t +3.8 win 50% pt+0.227  n   313 R+0.192 t +1.9 exc+0.188 t +2.1 win 52% pt+0.292  1.00 info
+4h hi80 0.5ATR/0.5R       bookS   n  1048 R-0.442 t-14.9 exc-0.198 t -7.1 win 41% pt-0.455  n   440 R-0.515 t-11.5 exc-0.240 t -5.5 win 37% pt-0.535  1.00 
+4h hi80 0.5ATR/1.0R       bookS   n  1048 R-0.277 t -7.0 exc-0.169 t -4.5 win 38% pt-0.311  n   439 R-0.393 t -6.7 exc-0.226 t -4.0 win 34% pt-0.407  1.00 
+4h hi80 0.5ATR/2.0R       bookS   n  1046 R-0.119 t -2.2 exc-0.134 t -2.4 win 30% pt-0.161  n   439 R-0.212 t -2.5 exc-0.137 t -1.6 win 28% pt-0.246  1.00 
+4h hi80 0.5ATR/4.0R       bookS   n  1046 R-0.112 t -1.4 exc-0.168 t -2.1 win 19% pt-0.128  n   439 R-0.153 t -1.3 exc-0.050 t -0.4 win 17% pt-0.225  1.00 
+4h hi80 1.0ATR/0.5R       bookS   n  1045 R-0.155 t -5.3 exc-0.137 t -4.9 win 57% pt-0.177  n   435 R-0.197 t -4.3 exc-0.138 t -2.9 win 56% pt-0.206  1.00 
+4h hi80 1.0ATR/1.0R       bookS   n  1038 R-0.102 t -2.6 exc-0.140 t -3.5 win 46% pt-0.127  n   431 R-0.079 t -1.3 exc-0.059 t -0.9 win 45% pt-0.139  1.00 
+4h hi80 1.0ATR/2.0R       bookS   n  1037 R-0.095 t -1.7 exc-0.144 t -2.6 win 32% pt-0.095  n   430 R-0.020 t -0.2 exc-0.010 t -0.1 win 30% pt-0.159  1.00 
+4h hi80 1.0ATR/4.0R       bookS   n  1037 R-0.207 t -2.9 exc-0.224 t -3.2 win 19% pt-0.277  n   430 R-0.106 t -0.9 exc-0.120 t -1.0 win 19% pt-0.318  1.00 
+4h hi80 2.0ATR/0.5R       bookS   n   996 R-0.063 t -2.2 exc-0.092 t -3.3 win 64% pt-0.058  n   410 R-0.049 t -1.1 exc-0.033 t -0.7 win 60% pt-0.112  1.00 
+4h hi80 2.0ATR/1.0R       bookS   n   984 R-0.068 t -1.7 exc-0.092 t -2.4 win 49% pt-0.050  n   402 R-0.006 t -0.1 exc-0.002 t -0.0 win 44% pt-0.144  1.00 
+4h hi80 2.0ATR/2.0R       bookS   n   983 R-0.167 t -3.3 exc-0.157 t -3.5 win 34% pt-0.205  n   401 R-0.048 t -0.6 exc-0.066 t -0.9 win 33% pt-0.206  1.00 
+4h hi80 2.0ATR/4.0R       bookS   n   983 R-0.162 t -2.9 exc-0.142 t -3.0 win 33% pt-0.210  n   401 R-0.023 t -0.3 exc-0.092 t -1.1 win 32% pt-0.188  1.00 
+4h hi80 4.0ATR/0.5R       bookS   n   905 R-0.051 t -1.8 exc-0.045 t -1.8 win 63% pt-0.031  n   364 R-0.042 t -0.9 exc-0.028 t -0.6 win 55% pt-0.128  1.00 
+4h hi80 4.0ATR/1.0R       bookS   n   899 R-0.133 t -3.9 exc-0.103 t -3.6 win 46% pt-0.143  n   362 R-0.057 t -1.0 exc-0.052 t -1.0 win 43% pt-0.157  1.00 
+4h hi80 4.0ATR/2.0R       bookS   n   899 R-0.141 t -3.9 exc-0.103 t -3.5 win 44% pt-0.158  n   362 R-0.049 t -0.8 exc-0.071 t -1.2 win 41% pt-0.157  1.00 
+4h hi80 4.0ATR/4.0R       bookS   n   899 R-0.141 t -3.8 exc-0.092 t -3.1 win 44% pt-0.165  n   362 R-0.036 t -0.6 exc-0.065 t -1.1 win 41% pt-0.144  1.00 
+4h lo20 0.5ATR/0.5R       bookL   n   845 R-0.268 t -5.2 exc-0.007 t -0.2 win 44% pt-0.411  n   359 R-0.183 t -2.9 exc+0.025 t +0.5 win 58% pt-0.193  1.00 
+4h lo20 0.5ATR/1.0R       bookL   n   843 R-0.080 t -1.2 exc+0.037 t +0.8 win 40% pt-0.274  n   359 R+0.023 t +0.3 exc+0.092 t +1.3 win 53% pt+0.003  1.00 
+4h lo20 0.5ATR/2.0R       bookL   n   839 R+0.044 t +0.4 exc+0.104 t +1.4 win 28% pt-0.217  n   358 R+0.202 t +1.6 exc+0.155 t +1.4 win 42% pt+0.197  1.00 
+4h lo20 0.5ATR/4.0R       bookL   n   838 R+0.014 t +0.1 exc+0.086 t +0.9 win 17% pt-0.304  n   358 R+0.189 t +1.0 exc+0.140 t +0.8 win 30% pt+0.362  1.00 
+4h lo20 1.0ATR/0.5R       bookL   n   834 R-0.030 t -0.6 exc-0.011 t -0.3 win 59% pt-0.155  n   355 R+0.069 t +1.2 exc+0.059 t +1.1 win 74% pt+0.073  1.00 
+4h lo20 1.0ATR/1.0R       bookL   n   805 R+0.009 t +0.1 exc+0.013 t +0.3 win 44% pt-0.151  n   348 R+0.159 t +1.9 exc+0.092 t +1.1 win 62% pt+0.204  1.00 
+4h lo20 1.0ATR/2.0R       bookL   n   801 R-0.007 t -0.1 exc+0.030 t +0.4 win 29% pt-0.231  n   347 R+0.239 t +1.9 exc+0.193 t +1.6 win 50% pt+0.381  1.00 
+4h lo20 1.0ATR/4.0R       bookL   n   801 R-0.094 t -0.8 exc-0.051 t -0.6 win 25% pt-0.268  n   347 R+0.198 t +1.2 exc+0.131 t +0.9 win 45% pt+0.415  1.00 
+4h lo20 2.0ATR/0.5R       bookL   n   766 R+0.016 t +0.3 exc-0.007 t -0.2 win 63% pt-0.053  n   332 R+0.058 t +1.0 exc-0.019 t -0.4 win 73% pt+0.097  1.00 
+4h lo20 2.0ATR/1.0R       bookL   n   757 R+0.008 t +0.1 exc+0.013 t +0.3 win 49% pt-0.083  n   332 R+0.070 t +0.9 exc-0.012 t -0.2 win 62% pt+0.185  1.00 
+4h lo20 2.0ATR/2.0R       bookL   n   757 R-0.008 t -0.1 exc+0.003 t +0.1 win 43% pt-0.106  n   332 R+0.066 t +0.6 exc-0.018 t -0.2 win 58% pt+0.225  1.00 
+4h lo20 2.0ATR/4.0R       bookL   n   757 R+0.018 t +0.2 exc-0.010 t -0.2 win 43% pt-0.103  n   332 R-0.027 t -0.3 exc-0.108 t -1.3 win 55% pt+0.165  1.00 
+4h lo20 4.0ATR/0.5R       bookL   n   688 R-0.024 t -0.5 exc-0.024 t -0.9 win 58% pt-0.051  n   307 R+0.065 t +1.2 exc+0.012 t +0.3 win 70% pt+0.142  1.00 
+4h lo20 4.0ATR/1.0R       bookL   n   687 R-0.026 t -0.4 exc-0.026 t -0.8 win 52% pt-0.063  n   306 R+0.058 t +0.9 exc+0.017 t +0.3 win 66% pt+0.154  1.00 
+4h lo20 4.0ATR/2.0R       bookL   n   687 R-0.004 t -0.1 exc-0.028 t -0.8 win 51% pt-0.057  n   306 R+0.009 t +0.1 exc-0.026 t -0.5 win 63% pt+0.118  1.00 
+4h lo20 4.0ATR/4.0R       bookL   n   687 R+0.005 t +0.1 exc-0.018 t -0.5 win 51% pt-0.052  n   306 R+0.002 t +0.0 exc-0.028 t -0.5 win 63% pt+0.112  1.00 
+4h lo20 0.5ATR/0.5R       mirrorS n   845 R-0.442 t -8.8 exc-0.051 t -1.5 win 48% pt-0.343  n   360 R-0.500 t -8.3 exc-0.135 t -2.3 win 37% pt-0.509  1.00 
+4h lo20 0.5ATR/1.0R       mirrorS n   843 R-0.318 t -4.9 exc-0.006 t -0.1 win 43% pt-0.195  n   359 R-0.454 t -6.0 exc-0.158 t -2.2 win 30% pt-0.473  1.00 
+4h lo20 0.5ATR/2.0R       mirrorS n   834 R-0.283 t -3.2 exc+0.003 t +0.0 win 33% pt-0.069  n   355 R-0.376 t -3.6 exc-0.095 t -0.9 win 22% pt-0.405  1.00 
+4h lo20 0.5ATR/4.0R       mirrorS n   822 R-0.186 t -1.5 exc+0.108 t +1.1 win 20% pt-0.068  n   347 R-0.377 t -2.6 exc-0.072 t -0.5 win 14% pt-0.370  1.00 
+4h lo20 1.0ATR/0.5R       mirrorS n   839 R-0.192 t -3.9 exc-0.065 t -1.8 win 65% pt-0.050  n   358 R-0.224 t -3.7 exc-0.062 t -1.1 win 52% pt-0.252  1.00 
+4h lo20 1.0ATR/1.0R       mirrorS n   805 R-0.159 t -2.3 exc-0.031 t -0.6 win 52% pt+0.012  n   348 R-0.246 t -3.0 exc-0.068 t -0.8 win 38% pt-0.283  1.00 
+4h lo20 1.0ATR/2.0R       mirrorS n   766 R-0.140 t -1.5 exc+0.009 t +0.1 win 35% pt-0.006  n   332 R-0.224 t -2.0 exc+0.034 t +0.3 win 26% pt-0.291  1.00 
+4h lo20 1.0ATR/4.0R       mirrorS n   716 R-0.104 t -0.8 exc+0.053 t +0.6 win 26% pt-0.016  n   310 R-0.265 t -1.8 exc+0.048 t +0.3 win 17% pt-0.430  1.00 
+4h lo20 2.0ATR/0.5R       mirrorS n   801 R-0.044 t -0.9 exc-0.014 t -0.4 win 70% pt+0.076  n   347 R-0.167 t -2.7 exc-0.087 t -1.4 win 49% pt-0.231  1.00 
+4h lo20 2.0ATR/1.0R       mirrorS n   757 R-0.058 t -0.9 exc-0.016 t -0.4 win 50% pt+0.043  n   332 R-0.123 t -1.5 exc+0.016 t +0.2 win 38% pt-0.229  1.00 
+4h lo20 2.0ATR/2.0R       mirrorS n   688 R-0.023 t -0.2 exc+0.030 t +0.5 win 40% pt+0.048  n   307 R-0.178 t -1.7 exc-0.011 t -0.1 win 29% pt-0.324  1.00 
+4h lo20 2.0ATR/4.0R       mirrorS n   647 R+0.017 t +0.1 exc+0.053 t +0.9 win 38% pt+0.055  n   301 R-0.129 t -1.1 exc-0.000 t -0.0 win 28% pt-0.349  1.00 
+4h lo20 4.0ATR/0.5R       mirrorS n   757 R-0.019 t -0.5 exc+0.000 t +0.0 win 56% pt+0.033  n   332 R-0.057 t -1.1 exc+0.015 t +0.3 win 42% pt-0.133  1.00 
+4h lo20 4.0ATR/1.0R       mirrorS n   687 R-0.001 t -0.0 exc+0.028 t +0.9 win 47% pt+0.038  n   306 R-0.084 t -1.3 exc-0.013 t -0.2 win 32% pt-0.177  1.00 
+4h lo20 4.0ATR/2.0R       mirrorS n   631 R+0.032 t +0.5 exc+0.043 t +1.2 win 45% pt+0.054  n   300 R-0.035 t -0.4 exc+0.013 t +0.2 win 32% pt-0.178  1.00 
+4h lo20 4.0ATR/4.0R       mirrorS n   604 R+0.044 t +0.6 exc+0.064 t +1.5 win 46% pt+0.032  n   299 R-0.041 t -0.4 exc+0.009 t +0.1 win 31% pt-0.184  1.00 
+4h lo25 0.5ATR/0.5R       bookL   n  2305 R-0.238 t -7.3 exc+0.004 t +0.2 win 48% pt-0.355  n  1166 R-0.305 t -7.8 exc-0.037 t -1.1 win 48% pt-0.348  1.00 
+4h lo25 0.5ATR/1.0R       bookL   n  2299 R-0.079 t -1.8 exc+0.024 t +0.8 win 42% pt-0.230  n  1160 R-0.144 t -2.8 exc-0.001 t -0.0 win 43% pt-0.224  1.00 
+4h lo25 0.5ATR/2.0R       bookL   n  2278 R+0.062 t +0.9 exc+0.092 t +1.9 win 30% pt-0.190  n  1142 R-0.093 t -1.2 exc-0.012 t -0.2 win 30% pt-0.186  1.00 
+4h lo25 0.5ATR/4.0R       bookL   n  2275 R+0.040 t +0.4 exc+0.082 t +1.2 win 18% pt-0.256  n  1138 R-0.067 t -0.6 exc+0.007 t +0.1 win 20% pt-0.114  1.00 
+4h lo25 1.0ATR/0.5R       bookL   n  2272 R+0.031 t +1.1 exc+0.026 t +1.4 win 62% pt-0.105  n  1128 R-0.031 t -0.8 exc+0.015 t +0.5 win 65% pt-0.065  1.00 
+4h lo25 1.0ATR/1.0R       bookL   n  2189 R+0.117 t +2.6 exc+0.077 t +2.5 win 47% pt-0.101  n  1081 R-0.007 t -0.1 exc+0.027 t +0.7 win 50% pt-0.033  1.00 
+4h lo25 1.0ATR/2.0R       bookL   n  2170 R+0.101 t +1.5 exc+0.066 t +1.4 win 32% pt-0.148  n  1065 R-0.008 t -0.1 exc+0.039 t +0.7 win 38% pt+0.041  1.00 
+4h lo25 1.0ATR/4.0R       bookL   n  2169 R+0.025 t +0.3 exc-0.043 t -0.8 win 26% pt-0.162  n  1065 R-0.054 t -0.5 exc+0.007 t +0.1 win 32% pt+0.096  1.00 
+4h lo25 2.0ATR/0.5R       bookL   n  2024 R+0.076 t +2.5 exc+0.026 t +1.4 win 62% pt-0.072  n   999 R+0.001 t +0.0 exc-0.001 t -0.0 win 65% pt-0.025  1.00 
+4h lo25 2.0ATR/1.0R       bookL   n  1943 R+0.073 t +1.6 exc+0.034 t +1.1 win 45% pt-0.116  n   966 R-0.010 t -0.2 exc+0.013 t +0.3 win 52% pt+0.017  1.00 
+4h lo25 2.0ATR/2.0R       bookL   n  1939 R+0.014 t +0.2 exc-0.049 t -1.7 win 39% pt-0.129  n   966 R+0.008 t +0.1 exc+0.039 t +0.7 win 46% pt+0.054  1.00 
+4h lo25 2.0ATR/4.0R       bookL   n  1939 R+0.058 t +0.9 exc-0.045 t -1.4 win 39% pt-0.108  n   966 R-0.088 t -1.3 exc-0.046 t -0.8 win 43% pt+0.028  1.00 
+4h lo25 4.0ATR/0.5R       bookL   n  1677 R+0.010 t +0.3 exc+0.009 t +0.5 win 54% pt-0.082  n   863 R+0.009 t +0.3 exc+0.003 t +0.1 win 65% pt+0.069  1.00 
+4h lo25 4.0ATR/1.0R       bookL   n  1656 R-0.027 t -0.7 exc-0.041 t -2.4 win 47% pt-0.091  n   859 R+0.028 t +0.7 exc+0.023 t +0.7 win 59% pt+0.110  1.00 
+4h lo25 4.0ATR/2.0R       bookL   n  1656 R-0.008 t -0.2 exc-0.041 t -2.3 win 47% pt-0.076  n   859 R-0.040 t -0.9 exc-0.038 t -1.1 win 56% pt+0.085  1.00 
+4h lo25 4.0ATR/4.0R       bookL   n  1656 R-0.006 t -0.2 exc-0.036 t -1.9 win 47% pt-0.073  n   859 R-0.039 t -0.9 exc-0.041 t -1.2 win 56% pt+0.086  1.00 
+4h lo25 0.5ATR/0.5R       mirrorS n  2305 R-0.418 t-13.4 exc-0.054 t -2.3 win 48% pt-0.348  n  1166 R-0.394 t -9.7 exc-0.069 t -2.2 win 48% pt-0.359  1.00 
+4h lo25 0.5ATR/1.0R       mirrorS n  2299 R-0.352 t -8.9 exc-0.061 t -2.1 win 42% pt-0.227  n  1160 R-0.305 t -5.8 exc-0.057 t -1.4 win 42% pt-0.239  1.00 
+4h lo25 0.5ATR/2.0R       mirrorS n  2272 R-0.373 t -7.1 exc-0.080 t -2.2 win 31% pt-0.136  n  1127 R-0.272 t -3.8 exc-0.076 t -1.3 win 30% pt-0.188  1.00 
+4h lo25 0.5ATR/4.0R       mirrorS n  2210 R-0.340 t -4.5 exc-0.002 t -0.0 win 21% pt-0.028  n  1094 R-0.282 t -3.0 exc-0.065 t -0.7 win 19% pt-0.147  1.00 
+4h lo25 1.0ATR/0.5R       mirrorS n  2278 R-0.181 t -5.6 exc-0.060 t -2.4 win 66% pt-0.047  n  1143 R-0.126 t -3.2 exc-0.018 t -0.6 win 66% pt-0.053  1.00 
+4h lo25 1.0ATR/1.0R       mirrorS n  2189 R-0.236 t -5.3 exc-0.081 t -2.6 win 51% pt-0.013  n  1081 R-0.129 t -2.3 exc-0.038 t -0.9 win 48% pt-0.072  1.00 
+4h lo25 1.0ATR/2.0R       mirrorS n  2024 R-0.246 t -4.2 exc-0.046 t -1.2 win 37% pt+0.047  n   999 R-0.116 t -1.5 exc+0.000 t +0.0 win 34% pt-0.048  1.00 
+4h lo25 1.0ATR/4.0R       mirrorS n  1840 R-0.236 t -3.1 exc-0.073 t -1.5 win 28% pt+0.094  n   917 R-0.107 t -1.0 exc+0.063 t +0.7 win 22% pt-0.208  1.00 
+4h lo25 2.0ATR/0.5R       mirrorS n  2170 R-0.095 t -2.8 exc-0.029 t -1.2 win 68% pt+0.029  n  1065 R-0.050 t -1.3 exc-0.015 t -0.5 win 62% pt-0.065  1.00 
+4h lo25 2.0ATR/1.0R       mirrorS n  1943 R-0.118 t -2.6 exc-0.030 t -1.0 win 54% pt+0.071  n   966 R-0.038 t -0.7 exc-0.003 t -0.1 win 47% pt-0.062  1.00 
+4h lo25 2.0ATR/2.0R       mirrorS n  1677 R-0.070 t -1.2 exc-0.014 t -0.4 win 45% pt+0.113  n   863 R-0.070 t -1.0 exc+0.003 t +0.0 win 34% pt-0.186  1.00 
+4h lo25 2.0ATR/4.0R       mirrorS n  1567 R-0.061 t -0.8 exc-0.018 t -0.4 win 42% pt+0.131  n   839 R-0.052 t -0.6 exc+0.046 t +0.7 win 32% pt-0.241  1.00 
+4h lo25 4.0ATR/0.5R       mirrorS n  1939 R-0.031 t -1.1 exc+0.027 t +1.9 win 60% pt+0.042  n   966 R-0.029 t -0.9 exc-0.014 t -0.5 win 53% pt-0.051  1.00 
+4h lo25 4.0ATR/1.0R       mirrorS n  1656 R+0.000 t +0.0 exc+0.042 t +2.5 win 51% pt+0.065  n   859 R-0.056 t -1.3 exc-0.019 t -0.5 win 40% pt-0.136  1.00 
+4h lo25 4.0ATR/2.0R       mirrorS n  1533 R+0.014 t +0.3 exc+0.046 t +2.2 win 48% pt+0.074  n   834 R-0.035 t -0.7 exc+0.011 t +0.3 win 38% pt-0.160  1.00 
+4h lo25 4.0ATR/4.0R       mirrorS n  1480 R-0.003 t -0.1 exc+0.028 t +1.4 win 49% pt+0.048  n   827 R-0.007 t -0.1 exc+0.024 t +0.6 win 38% pt-0.162  1.00 
+4h lo30 0.5ATR/0.5R       bookL   n  5242 R-0.234 t-10.3 exc-0.016 t -1.2 win 49% pt-0.343  n  2793 R-0.233 t -8.6 exc-0.017 t -0.7 win 47% pt-0.373  1.00 
+4h lo30 0.5ATR/1.0R       bookL   n  5206 R-0.102 t -3.4 exc-0.016 t -0.9 win 42% pt-0.235  n  2779 R-0.099 t -2.7 exc-0.005 t -0.1 win 41% pt-0.274  1.00 
+4h lo30 0.5ATR/2.0R       bookL   n  5107 R-0.005 t -0.1 exc-0.007 t -0.3 win 28% pt-0.236  n  2737 R-0.064 t -1.2 exc-0.048 t -1.1 win 27% pt-0.273  1.00 
+4h lo30 0.5ATR/4.0R       bookL   n  5068 R+0.016 t +0.2 exc-0.031 t -0.7 win 17% pt-0.241  n  2720 R-0.039 t -0.5 exc-0.067 t -1.0 win 17% pt-0.256  1.00 
+4h lo30 1.0ATR/0.5R       bookL   n  5083 R+0.003 t +0.2 exc+0.005 t +0.4 win 61% pt-0.125  n  2701 R+0.008 t +0.3 exc+0.003 t +0.1 win 63% pt-0.101  1.00 
+4h lo30 1.0ATR/1.0R       bookL   n  4766 R+0.041 t +1.3 exc-0.001 t -0.1 win 45% pt-0.144  n  2533 R+0.043 t +1.2 exc+0.008 t +0.3 win 47% pt-0.105  1.00 
+4h lo30 1.0ATR/2.0R       bookL   n  4653 R+0.029 t +0.6 exc-0.035 t -1.2 win 31% pt-0.146  n  2465 R+0.039 t +0.7 exc-0.007 t -0.2 win 33% pt-0.110  1.00 
+4h lo30 1.0ATR/4.0R       bookL   n  4640 R+0.047 t +0.8 exc-0.060 t -1.6 win 25% pt-0.115  n  2461 R+0.039 t +0.5 exc-0.023 t -0.4 win 26% pt-0.093  1.00 
+4h lo30 2.0ATR/0.5R       bookL   n  4238 R+0.040 t +1.8 exc+0.006 t +0.5 win 61% pt-0.092  n  2234 R+0.023 t +0.9 exc-0.000 t -0.0 win 63% pt-0.062  1.00 
+4h lo30 2.0ATR/1.0R       bookL   n  3942 R+0.009 t +0.3 exc-0.028 t -1.4 win 45% pt-0.112  n  2061 R+0.028 t +0.7 exc-0.003 t -0.1 win 48% pt-0.061  1.00 
+4h lo30 2.0ATR/2.0R       bookL   n  3891 R+0.024 t +0.6 exc-0.039 t -1.7 win 39% pt-0.081  n  2043 R+0.041 t +0.8 exc-0.002 t -0.0 win 42% pt-0.029  1.00 
+4h lo30 2.0ATR/4.0R       bookL   n  3889 R+0.019 t +0.4 exc-0.074 t -2.6 win 38% pt-0.056  n  2041 R+0.025 t +0.4 exc-0.022 t -0.5 win 40% pt-0.036  1.00 
+4h lo30 4.0ATR/0.5R       bookL   n  3348 R-0.012 t -0.5 exc-0.019 t -1.6 win 54% pt-0.078  n  1792 R+0.033 t +1.4 exc+0.017 t +0.9 win 59% pt-0.004  1.00 
+4h lo30 4.0ATR/1.0R       bookL   n  3278 R-0.008 t -0.3 exc-0.027 t -1.9 win 48% pt-0.058  n  1749 R+0.028 t +0.9 exc+0.001 t +0.0 win 52% pt+0.009  1.00 
+4h lo30 4.0ATR/2.0R       bookL   n  3272 R-0.009 t -0.3 exc-0.042 t -2.5 win 47% pt-0.044  n  1745 R+0.018 t +0.5 exc-0.013 t -0.5 win 49% pt+0.005  1.00 
+4h lo30 4.0ATR/4.0R       bookL   n  3272 R-0.018 t -0.6 exc-0.049 t -3.1 win 47% pt-0.044  n  1745 R+0.027 t +0.7 exc-0.010 t -0.4 win 49% pt+0.003  1.00 
+4h lo30 0.5ATR/0.5R       mirrorS n  5237 R-0.371 t-16.9 exc-0.028 t -2.0 win 51% pt-0.307  n  2797 R-0.350 t-13.2 exc-0.009 t -0.4 win 54% pt-0.271  1.00 
+4h lo30 0.5ATR/1.0R       mirrorS n  5206 R-0.288 t-10.1 exc-0.003 t -0.2 win 45% pt-0.166  n  2779 R-0.285 t -8.4 exc-0.000 t -0.0 win 47% pt-0.137  1.00 
+4h lo30 0.5ATR/2.0R       mirrorS n  5083 R-0.296 t -7.8 exc-0.026 t -1.0 win 33% pt-0.073  n  2698 R-0.294 t -6.6 exc-0.009 t -0.2 win 33% pt-0.081  1.00 
+4h lo30 0.5ATR/4.0R       mirrorS n  4856 R-0.325 t -6.2 exc-0.039 t -1.1 win 22% pt-0.011  n  2559 R-0.233 t -3.4 exc+0.039 t +0.7 win 22% pt-0.020  1.00 
+4h lo30 1.0ATR/0.5R       mirrorS n  5107 R-0.118 t -5.2 exc+0.018 t +1.2 win 68% pt-0.013  n  2740 R-0.131 t -4.8 exc+0.014 t +0.6 win 69% pt-0.008  1.00 
+4h lo30 1.0ATR/1.0R       mirrorS n  4766 R-0.157 t -5.0 exc+0.000 t +0.0 win 53% pt+0.028  n  2533 R-0.168 t -4.5 exc-0.007 t -0.2 win 51% pt-0.011  1.00 
+4h lo30 1.0ATR/2.0R       mirrorS n  4238 R-0.178 t -4.1 exc-0.009 t -0.3 win 38% pt+0.079  n  2234 R-0.148 t -2.8 exc+0.010 t +0.2 win 36% pt+0.022  1.00 
+4h lo30 1.0ATR/4.0R       mirrorS n  3767 R-0.180 t -3.0 exc-0.039 t -1.0 win 29% pt+0.137  n  2015 R-0.183 t -2.7 exc-0.019 t -0.3 win 26% pt-0.033  1.00 
+4h lo30 2.0ATR/0.5R       mirrorS n  4653 R-0.063 t -2.6 exc+0.020 t +1.4 win 69% pt+0.028  n  2465 R-0.082 t -3.0 exc+0.002 t +0.1 win 67% pt+0.002  1.00 
+4h lo30 2.0ATR/1.0R       mirrorS n  3942 R-0.058 t -1.8 exc+0.030 t +1.5 win 54% pt+0.064  n  2061 R-0.081 t -2.1 exc+0.009 t +0.3 win 51% pt+0.009  1.00 
+4h lo30 2.0ATR/2.0R       mirrorS n  3348 R-0.028 t -0.6 exc+0.041 t +1.7 win 44% pt+0.104  n  1792 R-0.117 t -2.4 exc-0.025 t -0.7 win 40% pt-0.045  1.00 
+4h lo30 2.0ATR/4.0R       mirrorS n  3068 R-0.016 t -0.3 exc+0.039 t +1.4 win 42% pt+0.129  n  1722 R-0.123 t -2.2 exc+0.004 t +0.1 win 37% pt-0.079  1.00 
+4h lo30 4.0ATR/0.5R       mirrorS n  3891 R-0.038 t -1.8 exc+0.021 t +1.8 win 60% pt+0.017  n  2043 R-0.049 t -1.9 exc+0.004 t +0.2 win 57% pt-0.013  1.00 
+4h lo30 4.0ATR/1.0R       mirrorS n  3278 R-0.019 t -0.7 exc+0.028 t +2.0 win 50% pt+0.031  n  1749 R-0.059 t -1.9 exc+0.001 t +0.0 win 47% pt-0.039  1.00 
+4h lo30 4.0ATR/2.0R       mirrorS n  2988 R-0.002 t -0.1 exc+0.032 t +2.0 win 48% pt+0.046  n  1667 R-0.072 t -2.0 exc+0.006 t +0.2 win 45% pt-0.058  1.00 
+4h lo30 4.0ATR/4.0R       mirrorS n  2922 R-0.025 t -0.7 exc+0.022 t +1.3 win 48% pt+0.035  n  1657 R-0.077 t -2.1 exc-0.002 t -0.1 win 44% pt-0.061  1.00 
+
+cells 448 (448 sized)   PASS 0   excess t>=2 on both halves: 15
+
+BEST CELLS by the worse half's net R per trade:
+   1h lo30 1.0ATR/4.0R long (textbook)  R +0.368 / +0.257  t +8.2 / +4.7  excess +0.033 / +0.012  n 18446/9061  win 25%/25%  holm 0.00
+   4h hi80 4.0ATR/4.0R long (mirror)  R +0.221 / +0.192  t +3.9 / +1.9  excess +0.186 / +0.188  n 775/313  win 50%/52%  holm 1.00
+   1h hi70 1.0ATR/4.0R short (textbook)  R +0.183 / +0.185  t +5.8 / +4.0  excess -0.089 / -0.063  n 18262/8139  win 26%/25%  holm 0.01
+   1h lo30 1.0ATR/2.0R long (textbook)  R +0.236 / +0.175  t +7.6 / +4.7  excess +0.022 / +0.028  n 18483/9085  win 31%/32%  holm 0.00
+   1h lo30 0.5ATR/4.0R long (textbook)  R +0.200 / +0.155  t +4.4 / +2.8  excess +0.035 / +0.025  n 20104/9869  win 18%/19%  holm 0.99
+   4h hi80 2.0ATR/4.0R long (mirror)  R +0.183 / +0.143  t +2.3 / +1.2  excess +0.182 / +0.158  n 846/333  win 33%/41%  holm 1.00
+   1h lo20 2.0ATR/4.0R long (textbook)  R +0.162 / +0.143  t +2.8 / +1.8  excess +0.017 / +0.102  n 2710/1383  win 46%/38%  holm 1.00
+   1h hi70 2.0ATR/4.0R short (textbook)  R +0.140 / +0.167  t +5.7 / +4.6  excess -0.091 / -0.051  n 15452/6932  win 40%/40%  holm 0.00
+   1h hi70 2.0ATR/2.0R short (textbook)  R +0.138 / +0.137  t +6.5 / +4.4  excess -0.069 / -0.055  n 15470/6940  win 41%/41%  holm 0.00
+   1h lo30 2.0ATR/4.0R long (textbook)  R +0.281 / +0.131  t +8.5 / +3.1  excess -0.016 / -0.057  n 15492/7614  win 40%/37%  holm 0.39
+
+cap20 (RSI under 20 + volume spike) 4h LONG, all sized brackets:
+   4.0ATR/4.0R  TUNE n   273 R-0.063 t -0.7 exc+0.005 t +0.1 win 53% pt-0.036  HOLDOUT n   136 R+0.046 t +0.4 exc-0.093 t -1.0 win 70% pt+0.157  holm 1.00
+   4.0ATR/2.0R  TUNE n   273 R-0.071 t -0.8 exc-0.006 t -0.1 win 53% pt-0.040  HOLDOUT n   136 R+0.071 t +0.6 exc-0.069 t -0.8 win 70% pt+0.164  holm 1.00
+   4.0ATR/0.5R  TUNE n   273 R-0.083 t -1.2 exc-0.001 t -0.0 win 60% pt-0.037  HOLDOUT n   136 R+0.059 t +0.7 exc-0.016 t -0.2 win 77% pt+0.199  holm 1.00
+   4.0ATR/1.0R  TUNE n   273 R-0.085 t -1.0 exc-0.008 t -0.2 win 53% pt-0.039  HOLDOUT n   136 R+0.066 t +0.6 exc-0.055 t -0.7 win 74% pt+0.216  holm 1.00
+   2.0ATR/0.5R  TUNE n   287 R-0.130 t -1.7 exc-0.044 t -0.8 win 66% pt-0.021  HOLDOUT n   137 R-0.001 t -0.0 exc-0.056 t -0.6 win 80% pt+0.210  holm 1.00
+   1.0ATR/0.5R  TUNE n   288 R-0.157 t -2.0 exc-0.047 t -0.8 win 60% pt-0.125  HOLDOUT n   137 R+0.080 t +0.8 exc+0.069 t +0.7 win 84% pt+0.227  holm 1.00
+   2.0ATR/4.0R  TUNE n   286 R-0.169 t -1.3 exc-0.025 t -0.3 win 44% pt-0.054  HOLDOUT n   137 R+0.189 t +1.0 exc-0.056 t -0.4 win 63% pt+0.302  holm 1.00
+   2.0ATR/2.0R  TUNE n   286 R-0.170 t -1.4 exc-0.013 t -0.2 win 45% pt-0.040  HOLDOUT n   137 R+0.172 t +1.0 exc-0.038 t -0.3 win 66% pt+0.392  holm 1.00
+   2.0ATR/1.0R  TUNE n   286 R-0.185 t -1.9 exc-0.023 t -0.3 win 50% pt-0.050  HOLDOUT n   137 R+0.120 t +0.8 exc-0.009 t -0.1 win 71% pt+0.351  holm 1.00
+   1.0ATR/1.0R  TUNE n   288 R-0.189 t -1.8 exc-0.029 t -0.3 win 47% pt-0.099  HOLDOUT n   137 R+0.098 t +0.7 exc+0.044 t +0.3 win 73% pt+0.429  holm 1.00
+   0.5ATR/2.0R  TUNE n   288 R-0.202 t -1.4 exc+0.114 t +1.0 win 31% pt-0.134  HOLDOUT n   137 R+0.176 t +0.9 exc+0.142 t +0.7 win 46% pt+0.314  holm 1.00
+   0.5ATR/1.0R  TUNE n   288 R-0.261 t -2.5 exc+0.050 t +0.7 win 42% pt-0.229  HOLDOUT n   137 R+0.040 t +0.3 exc+0.115 t +0.9 win 58% pt+0.090  holm 1.00
+   1.0ATR/2.0R  TUNE n   287 R-0.308 t -2.3 exc-0.008 t -0.1 win 30% pt-0.229  HOLDOUT n   137 R+0.471 t +2.2 exc+0.319 t +1.7 win 66% pt+0.778  holm 1.00
+   1.0ATR/4.0R  TUNE n   287 R-0.365 t -2.3 exc-0.088 t -0.6 win 27% pt-0.209  HOLDOUT n   137 R+0.378 t +1.4 exc+0.129 t +0.7 win 59% pt+0.756  holm 1.00
+   0.5ATR/0.5R  TUNE n   288 R-0.425 t -5.3 exc-0.019 t -0.4 win 47% pt-0.370  HOLDOUT n   137 R-0.177 t -1.7 exc+0.051 t +0.5 win 64% pt-0.111  holm 1.00
+   0.5ATR/4.0R  TUNE n   288 R-0.482 t -2.9 exc-0.029 t -0.2 win 16% pt-0.409  HOLDOUT n   137 R+0.661 t +2.0 exc+0.459 t +1.4 win 37% pt+0.683  holm 1.00
+
+REGISTERED PREDICTIONS
+  Q1 no cell passes -> RIGHT (0)
+  Q2 control negative on the holdout in all but <= 10 of 64, none above +0.05R -> RIGHT (10 non-negative, highest +0.049)
+  Q3 textbook excess within +-0.03R in every bracket, <= 3 cells with excess t>=2 on both halves -> WRONG (largest bracket excess 0.183, 15 cells)
+  Q4 textbook win share within 2 points of the control's -> RIGHT (mean gap 1.7 points)
+  Q5 cap20 4h long: >= 4 brackets positive on both halves, none passes, best has target <= 1R -> WRONG (0 positive of 16 sized; best 4.0ATR/4.0R)

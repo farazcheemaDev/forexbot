@@ -121,6 +121,13 @@ Outside the machine like the crowd book and the desk: no bot is touched and s3b 
 KILL on 2027-01-31 (30+ trades, mean under -0.24R); verdict on **2027-04-09**: held up at +0.072R a trade with the account above $300, dead under -0.107R, between
 = cannot tell, extended to 2027-10-09. A held-up verdict makes it a candidate to join the machine; real money would still need s2's conditions.
 
+**Override, 2026-11-09 (the user: "yes, build it"): the forward ledger** (`backtest/forward_ledger.py`, run on the PC; nothing on the VM trades or changes).
+Three leads are re-run on data after **2026-11-09 00:00 UTC** with their study files' own code, pinned by hash before the window opened (2026-11-08 22:44 UTC):
+the gold payrolls straddle (+11.1bp claimed), the NASDAQ inside-bar buy (+0.079R) and NASDAQ before the Fed (+0.25%). One rule for all three: dead when the forward
+mean is more than 2 standard errors under the claim (5+ trades), confirmed only at t >= 2 after Holm across the three; otherwise keep recording. None can be
+confirmed before ~6.5 / 10.7 / 23 years at the claimed size, so this is a record, not a route to money; s3b and s1 are unchanged. The dashboard's Leads tab
+lists it beside every other forward record.
+
 ## 5. The research stops on 2026-12-31
 
 What the 2026-10-10 councils asked to test is done:

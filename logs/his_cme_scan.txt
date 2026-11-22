@@ -1,0 +1,24 @@
+backtest/his_cme_scan.py - 31 windows of NQ data (22.7 hours), 66,806 labelled seconds (race +-7 points within 240 s, entry 2 s later); up wins 49.8%; 32 features; leave-one-window-out
+
+POOLED AUC of the raw probabilities 0.454; of the training up-rate ALONE (no features at all) 0.389  <- below 0.5 by construction: holding a window out moves the other windows' up-rate the opposite way (the leave-one-out artifact). Evaluate within windows:
+MEAN WITHIN-WINDOW AUC 0.521 over 31 windows (min 0.313, max 0.833; standard error of the mean 0.018); pooled AUC of the centred probabilities 0.457; accuracy of the centred call over all labelled seconds 46.8%
+
+  most confident share  seconds    acc  thinned n    acc   (the bar: 65% to beat the Exness spread; his: ~95%)
+                   20%    13362  42.2%        412  48.5%
+                   10%     6682  40.7%        219  44.7%
+                    5%     3346  38.6%        130  42.3%
+                    2%     1355  40.4%         50  38.0%   (fewer than 100 independent events: low power)
+                    1%      669  42.0%         28  53.6%   (fewer than 100 independent events: low power)
+   best accuracy among buckets with >= 100 thinned events: 48.5%
+
+ONE-FEATURE BENCHMARKS (call = sign of the feature, all labelled seconds; and following the last 30 s move):
+   flow30   with the sign  50.3%  (n 66,120)
+   flow60   with the sign  50.3%  (n 66,444)
+   imb1     with the sign  50.1%  (n 43,259)
+   imb5     with the sign  50.2%  (n 61,478)
+   m30      with the sign  50.1%  (n 66,117)
+   m60      with the sign  50.8%  (n 66,341)
+
+AT HIS 46 CLICK SECONDS (inside the windows): the +-7 race outcome equals his side in 83% of 42 resolved clicks (S4: label machinery check)
+   the CME model's call agrees with his side in 45% of 42 clicks (50% = no information); mean confidence |p-0.5| at his clicks 0.087 vs 0.079 at all seconds
+   binomial p of that agreement against 50%: 0.64

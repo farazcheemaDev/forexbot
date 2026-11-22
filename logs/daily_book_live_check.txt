@@ -1,0 +1,14 @@
+backtest/daily_book_live_check.py, 2026-11-12 18:47 UTC; daily_combos.gen(mean_n=20), PIT top-40, 3 day boundaries, every signal (no slot limit); 5064 trades 2020-04-06 .. 2026-09-18
+
+  boundary  0h: 1692 trades, won 34%, mean +6.23%, median -5.52%, losers under -40%: 0.5%, best 5% of trades carry 134% of the sum
+  boundary  8h: 1680 trades, won 35%, mean +6.35%, median -5.47%, losers under -40%: 0.4%, best 5% of trades carry 135% of the sum
+  boundary 16h: 1692 trades, won 33%, mean +6.19%, median -5.53%, losers under -40%: 0.2%, best 5% of trades carry 135% of the sum
+  by year (n, mean, won): 2020 628 +8.61% 40%  2021 937 +18.65% 42%  2022 636 -5.52% 22%  2023 898 +7.99% 42%  2024 839 +1.84% 28%  2025 604 +3.09% 28%  2026 522 +3.28% 27%
+
+  stretches of 18 consecutive trades with <= 1 winner: 9.4% of all stretches; since 2025: 6.3%; binomial at the backtest's 34% win rate: 0.6%
+
+PREDICTIONS
+  D1 win rate < 35% (34%) -> RIGHT
+  D2 <= 1 winner in 18 in >= 5% of stretches (9.4%) -> RIGHT
+  D3 losers under -40% >= 2% of trades (0.4%) -> WRONG (second half not measured)
+  D4 2025-26 worse per trade than 2020-24 (+3.18% vs +7.14%) -> RIGHT

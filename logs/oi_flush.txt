@@ -1,0 +1,35 @@
+backtest/oi_flush.py, 2026-11-10 15:45 UTC; 13 coins, 2044 events on 666 days, 2020-09-04 .. 2026-09-19; holdout from 2024-12-20
+   events by coin: NEAR 258  WLD 230  ENA 216  AVAX 203  LINK 165  SUI 161  DOT 156  ARB 153  ADA 134  LTC 115  XRP 95  ETH 87  BTC 71
+   open interest over the fall's 24 hours: median -1.1%, 10th -9.3%, 90th +6.4%;  FLUSH 9%  MID 49%  BUILD 42%
+
+   group                     half    n  days    gross      net t(day)   won  target    worst  med dip
+   ALL                       tune 1226   440   +0.59%   +0.41%  +0.94   66%     60%   -39.1%    -4.1%
+   ALL                    holdout  818   226   +0.64%   +0.50%  +0.95   62%     56%   -30.1%    -4.7%
+   FLUSH                     tune  137    92   +1.25%   +1.05%  +1.38   66%     58%   -25.5%    -4.3%
+   FLUSH                  holdout   38    26   +2.98%   +2.85%  +1.97   68%     66%   -13.2%    -3.9%
+   MID                       tune  629   285   +0.90%   +0.71%  +1.53   66%     61%   -30.0%    -3.8%
+   MID                    holdout  379   158   +0.28%   +0.14%  +0.22   60%     54%   -28.8%    -4.5%
+   BUILD                     tune  460   262   -0.02%   -0.21%  -0.32   65%     60%   -39.1%    -4.6%
+   BUILD                  holdout  401   149   +0.76%   +0.62%  +1.01   63%     57%   -30.1%    -5.1%
+
+   FLUSH minus BUILD, tune: +1.26% a trade (day-clustered t +1.32);  rank correlation of the open-interest change with the result: -0.002
+   FLUSH minus BUILD, holdout: +2.24% a trade (day-clustered t +1.50);  rank correlation of the open-interest change with the result: -0.028
+
+   SECONDARY - the crowd's long share over the fall (accounts long / all accounts):
+   long share fell or flat    tune  338   154   +1.81%   +1.62%  +2.87   72%     67%   -30.6%    -3.8%
+   long share fell or flat holdout  311   118   +0.82%   +0.68%  +0.99   63%     56%   -26.1%    -4.1%
+   long share rose           tune  862   368   +0.20%   +0.01%  +0.02   64%     58%   -39.1%    -4.2%
+   long share rose        holdout  506   188   +0.52%   +0.38%  +0.64   60%     56%   -30.1%    -5.2%
+
+   FLUSH by year (n, net): 2020 2 +3.02%  2021 11 +1.98%  2022 31 +1.40%  2023 52 +0.23%  2024 44 +1.80%  2025 25 +4.54%  2026 10 -2.32%
+   BUILD by year (n, net): 2021 36 +0.58%  2022 185 -0.86%  2023 53 +2.23%  2024 193 -0.28%  2025 306 +0.99%  2026 88 -0.90%
+
+VERDICT: no pass
+
+REGISTERED PREDICTIONS
+  F1 400-900 events from < 150 days (2044, 666) -> WRONG
+  F2 FLUSH 30-50% of events (9%) -> WRONG
+  F3 FLUSH > BUILD on both halves, holdout t < 2 (+1.26% / +2.24%, t +1.50) -> RIGHT
+  F4 FLUSH net positive on both halves (+1.05% / +2.85%), no pass expected -> RIGHT
+  F5 all drops net -0.3..+1.0% (+0.41% / +0.50%) -> RIGHT
+  F6 better when the long share did not rise, both halves (+1.62% / +0.30%) -> RIGHT

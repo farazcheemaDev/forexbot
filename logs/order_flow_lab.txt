@@ -1,0 +1,48 @@
+backtest/order_flow_lab.py, DOGEUSDT perp on Bitget, 2026-06-01 (Tardis), run 2026-10-30 07:55
+
+A. ONE REAL BOOK SNAPSHOT
+  the day's first snapshot, 2026-06-01 00:00:00.393000 UTC: 200 bid levels, 200 ask levels; best bid 0.10038, best ask 0.10039, spread 1.00bp
+  level  bid price      bid $  ask price      ask $
+      1    0.10038     16,345    0.10039         36
+      2    0.10037     25,517    0.10040      3,517
+      3    0.10036     41,639    0.10041     45,925
+      4    0.10035     56,185    0.10042    115,338
+      5    0.10034     80,382    0.10043     76,224
+      6    0.10033    126,042    0.10044     28,063
+  imbalance over the nearest  1 level(s): bid $16,345 vs ask $36 -> (B - A) / (B + A) = +0.996
+  imbalance over the nearest  5 level(s): bid $220,067 vs ask $241,039 -> (B - A) / (B + A) = -0.045
+  imbalance over the nearest 20 level(s): bid $897,361 vs ask $760,339 -> (B - A) / (B + A) = +0.083
+  microprice (each side's price weighted by the OTHER side's size) 0.100390 vs mid 0.100385: +0.50bp
+  depth within 10bp of the mid: bids $523,969, asks $429,948
+  depth within 25bp of the mid: bids $1,536,320, asks $925,735
+
+B. EXECUTED PRESSURE VS PRICE (descriptive)
+  86,232 trades; net taker dollars per window (buys +, sells -) against the mid change in bp over the same window and over the NEXT window
+   window   bins  same-window rho  bp per $100k  signs agree  next-window rho
+      1 s  86398            0.492          2.87          89%            0.036
+      5 s  17278            0.452          3.06          78%            0.017
+     30 s   2878            0.375          3.55          68%           -0.021
+     60 s   1438            0.418          3.75          68%           -0.035
+    300 s    286            0.416          4.03          69%           -0.085
+
+C. WALL ANATOMY (wall = >= 5x the median of the 10 nearest levels and >= $20,000, looked for in the 20 nearest)
+  episodes 2292 (4 cut by a snapshot re-sync and excluded, 2 still alive at the end of the day); bids 1050, asks 1238
+  size at first sight: median $154,268, 90th percentile $448,468; distance from the mid when first seen: median 16.5bp
+  lifetime in seconds, 10/25/50/75/90th percentile: 1 / 4 / 15 / 75 / 194
+  share of episodes that ended within: 1 s 9%, 5 s 29%, 30 s 62%, 300 s 95%
+  dollars that LEFT the followed levels $496,615,711: executed (tape traded at the price) 0%, cancelled 100%
+  by episode: mostly cancelled (>75%) 100%, mixed 0%, mostly executed (<25%) 0%  (of 2258 with anything removed)
+  where it left (distance of the level from the mid at that moment):
+                     left $     executed $    cancelled $ share of all cancels  share of all executions
+    <= 1bp        1,066,548        873,913        192,635                   0%                      94%
+    1-3bp        17,613,193         39,741     17,573,452                   4%                       4%
+    3-10bp       86,520,908         18,003     86,502,905                  17%                       2%
+    > 10bp      391,415,062             59    391,415,003                  79%                       0%
+  replenished (added back at least half of the starting size while followed): 3% of episodes
+  got within 1bp of the mid at some point: 1%; ended while still more than 5bp away: 61%
+  BY HOW CLOSE THE WALL EVER CAME TO THE MID (a wall can only be executed if price comes to it):
+    closest approach            episodes  median life s  executed share of $ left  any execution  median start $
+    never closer than 5bp           1401           44.4                      0.0%             0%         363,474
+    came within 3bp                  188            5.2                      3.9%             7%         124,887
+    came within 1bp                   12           12.8                     29.4%            67%         126,603
+  distance from the mid when FIRST SEEN, 10/25/50/75/90th percentile (bp): [4.5, 4.5, 16.5, 19.4, 19.6] - first seen is not born: a level is first seen when it enters the 20-level window, which on a 1bp tick is only ~20bp wide, so the many near 19-20bp walked in from outside

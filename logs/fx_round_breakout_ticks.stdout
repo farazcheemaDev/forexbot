@@ -1,0 +1,29 @@
+EURUSD: 1935 events
+GBPUSD: 2756 events
+USDJPY: 3733 events
+AUDUSD: 2262 events
+NZDUSD: 2271 events
+USDCAD: 1687 events
+USDCHF: 2450 events
+backtest/fx_round_breakout.py --ticks, 2026-11-15 02:09 UTC; Exness MT5 ticks 2026-01-04..2026-11-14, 7 majors (m symbols); stop at the level +- 0.5 pip, filled on the first tick through, exit on the opposite side H min later (real spread + slippage, no other cost)
+
+H   class    side    events  net pips (t, pair-days)   spread at fill  slip beyond trigger
+15  round    all      1741    -1.01 ( -3.5,  884)        1.79          +0.17
+15  round    short     702    -0.77 ( -0.5,  512)        2.11          +0.18
+15  round    long     1039    -1.18 ( -3.4,  643)        1.57          +0.16
+15  control  all      6829    -1.61 (-16.1, 1543)        1.78          +0.16
+15  control  short    2697    -1.48 (-11.0, 1179)        2.13          +0.18
+15  control  long     4132    -1.69 (-14.7, 1356)        1.55          +0.14
+    H=15: round minus control +0.59 pips
+    H=15, fills with spread <= 2 pips only (a bot can skip a blown-out quote): round -0.49 pips (t -2.2, n 1634), control -1.12
+
+60  round    all      1732    -0.57 ( -1.1,  883)        1.78          +0.17
+60  round    short     699    -0.34 ( +0.5,  511)        2.10          +0.18
+60  round    long     1033    -0.73 ( -0.4,  638)        1.57          +0.16
+60  control  all      6792    -1.64 (-12.1, 1543)        1.77          +0.16
+60  control  short    2681    -1.60 ( -9.3, 1177)        2.11          +0.18
+60  control  long     4111    -1.67 ( -9.9, 1354)        1.55          +0.14
+    H=60: round minus control +1.07 pips
+    H=60, fills with spread <= 2 pips only (a bot can skip a blown-out quote): round -0.23 pips (t -0.4, n 1629), control -1.21
+
+BY PAIR (H=60, round, net pips / spread):  EURUSD +0.87/0.87  GBPUSD -1.83/1.36  USDJPY +0.81/3.18  AUDUSD -1.03/1.08  NZDUSD -0.90/1.92  USDCAD -1.81/1.56  USDCHF -0.93/1.45

@@ -1,0 +1,48 @@
+backtest/analyst_profit_check.py, 2026-11-13 17:06 UTC; live log 119 resolved calls 2026-10-27 01:07 .. 2026-11-12 11:07; book P&L $+20.79 on $300
+
+1. WHERE THE PROFIT IS
+  all calls                                n  119  bets  30  won  28 ( 24% vs random  18%)  R/call -0.179  R/bet -0.189 (t -0.8)  book $+20.79
+  BOOKED (inside the 3x cap)               n   83  bets  27  won  25 ( 30% vs random  17%)  R/call +0.173  R/bet +0.195 (t +0.8)  book $+20.79
+  NOT booked (over the cap)                n   36  bets  18  won   3 (  8% vs random  18%)  R/call -0.992  R/bet -1.000 (t -4.3)  book $+0.00
+  stop < 0.4%                              n   24  bets  15  won   2 (  8% vs random  19%)  R/call -0.762  R/bet -0.628 (t -0.9)  book $+3.56
+  stop 0.4-0.8%                            n   48  bets  21  won  10 ( 21% vs random  21%)  R/call -0.386  R/bet -0.202 (t -0.8)  book $-5.94
+  stop >= 0.8%                             n   47  bets  22  won  16 ( 34% vs random  14%)  R/call +0.329  R/bet +0.303 (t +1.2)  book $+23.16
+  rule SR                                  n   52  bets  23  won  11 ( 21% vs random  22%)  R/call -0.286  R/bet -0.174 (t -0.7)  book $-6.13
+  rule FIB                                 n   10  bets   7  won   2 ( 20% vs random   9%)  R/call -0.052  R/bet -0.145 (t -0.2)  book $+2.32
+  rule SMC                                 n   57  bets  24  won  15 ( 26% vs random  15%)  R/call -0.105  R/bet -0.065 (t -0.1)  book $+24.60
+  symbol BNBUSDT                           n   14  bets  13  won   4 ( 29% vs random  16%)  R/call +0.479  R/bet +0.604 (t +0.8)  book $+13.90
+  symbol BTCUSDT                           n   17  bets  17  won   6 ( 35% vs random  16%)  R/call +0.256  R/bet +0.256 (t +0.6)  book $+8.61
+  symbol ETHUSDT                           n   18  bets  13  won   4 ( 22% vs random  25%)  R/call -0.288  R/bet -0.055 (t -0.2)  book $-0.78
+  symbol QQQUSDT                           n   19  bets  14  won   3 ( 16% vs random  15%)  R/call -0.610  R/bet -0.461 (t -1.1)  book $-0.68
+  symbol SOLUSDT                           n   17  bets  15  won   3 ( 18% vs random  16%)  R/call -0.342  R/bet -0.337 (t -1.1)  book $-3.50
+  symbol XAUUSDT                           n   17  bets  13  won   3 ( 18% vs random  17%)  R/call -0.641  R/bet -0.823 (t -2.0)  book $-3.48
+  symbol XRPUSDT                           n   17  bets  14  won   5 ( 29% vs random  18%)  R/call +0.063  R/bet +0.033 (t +0.1)  book $+6.71
+  long                                     n   50  bets  15  won  11 ( 22% vs random  12%)  R/call -0.384  R/bet -0.578 (t -1.9)  book $-0.76
+  short                                    n   69  bets  15  won  17 ( 25% vs random  22%)  R/call -0.031  R/bet +0.200 (t +0.7)  book $+21.54
+
+2. HOW CONCENTRATED
+  best 5 booked calls: #106 BNB short SMC +8.51R $+12.69; #77 XRP short FIB +3.94R $+5.82; #76 BTC short FIB +3.92R $+5.78; #19 XRP short SMC +3.36R $+4.90; #112 QQQ long SMC +2.86R $+4.42
+  book without its best 1 / 3 / 5 calls: $308.09 / $296.49 / $287.17
+  share of booked R from the best 3 days: +7.20 of +5.26 (day-and-side means summed)
+
+3. IS +6.9% UNUSUAL FOR THIS DESK? The replay's own paper book (same rules, 0.5% risk, 3x cap), 10580 calls 2022-26:
+  whole replay: $300 -> $0.09
+  every stretch of 119 consecutive calls: median -9.0%, 90th pct +1.3%, share at +6.9% or better 2.5%
+  every stretch of 16.4 days: median -8.1%, 90th pct +1.9%, share at +6.9% or better 2.7%
+
+4. THE SAME SLICES ON 4.7 YEARS OF REPLAY (per call, after 12bp)
+  all                      n 10580  won 18.0% vs random 19.4%  R/call -0.197  R/bet -0.061 (t -2.8)
+  rule SMC                 n  4856  won 13.0% vs random 14.4%  R/call -0.216  R/bet -0.086 (t -2.7)
+  stop >= 0.8%             n  6928  won 16.2% vs random 17.5%  R/call -0.126  R/bet -0.016 (t -0.6)
+  SMC & stop >= 0.8%       n  3332  won 12.2% vs random 13.5%  R/call -0.136  R/bet -0.016 (t -0.5)
+  stop < 0.4%              n   794  won 18.9% vs random 20.9%  R/call -0.594  R/bet -0.495 (t -6.3)
+
+5. THE REGISTERED FORWARD TEST (stop >= 0.8%, made after 2026-11-06 15:00 UTC; bar: 30 bets, >= +0.15R a bet, t >= 2, hit above random, both halves positive)
+  forward sweet spot                       n   14  bets   9  won   3 ( 21% vs random  19%)  R/call -0.182  R/bet -0.057 (t -0.1)  book $-3.84
+
+PREDICTIONS
+  P1 booked > 0R and unbooked < -0.5R (+0.173 / -0.992) -> RIGHT
+  P2 without the best 3 booked calls the book is <= $300 ($296.49) -> RIGHT
+  P3 >= 5% of the replay's 119-call stretches end at +6.9% or better (2.5%) -> WRONG
+  P4 no slice reaches t >= 2 over bets (best of all / booked / SMC / stop >= 0.8%: +1.18) -> RIGHT
+  P5 forward test under 30 bets and not passing (9 bets, -0.057R) -> RIGHT
