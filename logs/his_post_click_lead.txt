@@ -1,0 +1,97 @@
+backtest/his_post_click_lead.py, 2026-11-22 20:20 UTC (s106); 34 windows; his clicks measured 53 (statement 46, new 7); same-second controls 1513
+markets present (his clicks with a full 15 s after): NQ 53, ES 46, RTY 46, QQQ 45, MEGA8 45, EXNESS 46, ZN 45, ZB 46, 6E 46, 6J 46, GC 45, CL 46, VIX 53
+sign vs NQ (5-s return correlation, all window seconds): NQ +1.00, ES +0.93, RTY +0.72, QQQ +0.93, MEGA8 +0.84, EXNESS +0.98, ZN +0.01, ZB +0.02, 6E +0.22, 6J +0.05, GC +0.31, CL -0.20, VIX -0.43
+
+1. SIGNED MOVE HIS WAY AFTER HIS CLICK, in sigma of 15-s moves (mean at his clicks | mean at controls; t of his vs 0; Mann-Whitney p his vs controls at +15 s)
+  market             +1s           +2s           +3s           +5s          +10s          +15s   t(+15)  p vs ctl
+  NQ        +0.12| +0.00  +0.08| +0.02  +0.12| +0.03  +0.17| +0.03  +0.38| +0.02  +0.49| +0.04     5.04     0.000
+  ES        +0.12| +0.00  +0.08| +0.02  +0.12| +0.03  +0.18| +0.02  +0.40| +0.02  +0.54| +0.04     4.96     0.000
+  RTY       +0.05| -0.00  +0.08| +0.01  +0.14| +0.01  +0.12| +0.01  +0.26| -0.00  +0.33| +0.02     2.72     0.024
+  QQQ       +0.10| +0.01  +0.07| +0.03  +0.06| +0.03  +0.08| +0.04  +0.30| +0.03  +0.48| +0.06     3.90     0.000
+  MEGA8     +0.04| +0.01  +0.02| +0.02  -0.04| +0.03  +0.05| +0.04  +0.24| +0.04  +0.33| +0.08     2.92     0.033
+  EXNESS    +0.11| +0.01  +0.06| +0.03  +0.11| +0.03  +0.15| +0.04  +0.36| +0.02  +0.48| +0.05     4.59     0.001
+  ZN        -0.01| +0.01  -0.07| +0.02  +0.00| +0.00  -0.19| -0.00  -0.20| +0.03  -0.04| +0.02    -0.27     0.560
+  ZB        -0.03| +0.01  -0.09| +0.01  -0.07| +0.02  -0.07| +0.03  -0.04| +0.03  -0.04| +0.04    -0.25     0.532
+  6E        -0.01| +0.01  +0.10| -0.00  +0.08| +0.01  +0.07| +0.01  +0.03| +0.01  +0.05| -0.01     0.32     0.598
+  6J        -0.02| +0.00  -0.00| +0.00  -0.02| +0.02  -0.07| +0.01  -0.28| +0.01  -0.17| -0.02    -1.16     0.321
+  GC        -0.02| -0.00  -0.07| +0.01  -0.02| +0.02  -0.03| +0.02  +0.05| +0.02  +0.14| +0.02     1.14     0.514
+  CL        -0.05| +0.00  -0.07| -0.01  -0.09| +0.00  -0.15| +0.00  -0.12| +0.04  -0.08| +0.03    -0.69     0.490
+  VIX       +0.04| -0.01  -0.03| -0.01  +0.09| -0.01  -0.06| -0.00  +0.07| -0.01  +0.13| +0.00     1.27     0.101
+
+2. FIRST PASSAGE his way within 15 s (share of moments that cross | median seconds among those that do), his clicks vs controls
+  market     0.5 sigma his      controls    1 sigma his      controls
+  NQ          58% |    4s    48% |    5s    45% |    9s    22% |    9s
+  ES          67% |    5s    50% |    5s    41% |    9s    23% |    9s
+  RTY         63% |    5s    45% |    6s    43% |    8s    21% |   10s
+  QQQ         64% |    7s    46% |    5s    51% |   12s    22% |    8s
+  MEGA8       62% |    7s    45% |    6s    40% |   12s    22% |    9s
+  EXNESS      70% |    6s    48% |    5s    48% |   10s    23% |    9s
+  ZN          16% |    3s    13% |    6s    16% |    3s    13% |    6s
+  ZB          13% |    5s    12% |    5s    13% |    7s    11% |    6s
+  6E          43% |    3s    37% |    5s    30% |   10s    18% |    8s
+  6J          35% |    4s    34% |    5s    22% |    8s    20% |    7s
+  GC          44% |    8s    44% |    6s    20% |   14s    20% |    9s
+  CL          37% |    7s    44% |    6s    17% |   10s    20% |    8s
+  VIX         15% |    4s    14% |    6s    13% |    4s    12% |    6s
+
+3. HEAD TO HEAD WITH NQ at 0.5 sigma (among moments where either crosses within 15 s): X strictly first / same second / NQ strictly first
+  market                  his clicks    n                    controls     n  X-first his - ctl
+  ES             39%     48%     12%   33         33%     39%     28%   744               +6 pt
+  RTY            39%     18%     42%   33         37%     19%     43%   796               +2 pt
+  QQQ            26%     35%     39%   31         21%     41%     38%   687               +5 pt
+  MEGA8          29%     26%     45%   31         32%     23%     45%   740               -3 pt
+  EXNESS         28%     41%     31%   32         17%     57%     25%   670              +11 pt
+  ZN              4%      7%     89%   27         15%      2%     83%   694              -12 pt
+  ZB             14%      0%     86%   29         15%      2%     84%   698               -1 pt
+  6E             36%      6%     58%   33         39%      6%     55%   832               -3 pt
+  6J             38%      0%     62%   32         38%      5%     58%   836               -0 pt
+  GC             26%      6%     68%   31         40%      9%     51%   844              -14 pt
+  CL             28%      3%     69%   32         45%      4%     51%   911              -17 pt
+  VIX             9%      6%     84%   32         12%      6%     82%   765               -3 pt
+
+4. WHO CROSSES 0.5 sigma FIRST, all markets of the 31 statement windows together (ties split; his clicks vs controls)
+  his clicks  n   42: NQ 6%  ES 13%  RTY 13%  QQQ 10%  MEGA8 8%  ZN 1%  ZB 2%  6E 18%  6J 15%  GC 4%  CL 10%
+  controls    n 1133: NQ 7%  ES 10%  RTY 10%  QQQ 7%  MEGA8 8%  ZN 3%  ZB 3%  6E 13%  6J 12%  GC 11%  CL 16%
+
+5. CROSS-CORRELATION of 1-second returns over (t, t + 15]: corr(X at tau, NQ at tau + k); k > 0 = X LEADS NQ
+  market          k=-3    k=-2    k=-1     k=0     k=1     k=2     k=3  peak k
+  ES       his  +0.059  -0.003  -0.060  +0.920  -0.105  -0.019  +0.026       0
+  ES       ctl  -0.000  -0.010  -0.014  +0.896  -0.014  +0.007  -0.013       0
+  RTY      his  -0.019  -0.032  -0.011  +0.743  -0.048  -0.041  -0.044       0
+  RTY      ctl  -0.014  -0.004  -0.013  +0.730  -0.010  +0.006  +0.000       0
+  QQQ      his  +0.092  -0.018  +0.004  +0.851  -0.129  +0.007  +0.019       0
+  QQQ      ctl  +0.007  -0.007  +0.102  +0.805  -0.013  +0.007  -0.010       0
+  MEGA8    his  +0.056  -0.017  +0.115  +0.804  -0.145  -0.049  -0.034       0
+  MEGA8    ctl  -0.000  +0.032  +0.147  +0.741  -0.012  +0.010  -0.015       0
+  EXNESS   his  +0.055  +0.002  -0.008  +0.915  -0.194  +0.021  -0.012       0
+  EXNESS   ctl  +0.001  -0.022  +0.108  +0.898  -0.004  +0.005  -0.011       0
+  ZN       his  +0.020  +0.107  +0.000  +0.110  -0.073  +0.047  +0.025       0
+  ZN       ctl  +0.001  -0.006  -0.002  +0.030  -0.015  +0.019  -0.012       0
+  ZB       his  -0.030  +0.151  -0.027  +0.018  -0.018  +0.057  -0.094      -2
+  ZB       ctl  -0.028  +0.021  -0.003  +0.036  -0.012  +0.007  +0.002       0
+  6E       his  -0.049  -0.036  -0.058  +0.284  -0.063  +0.097  -0.102       0
+  6E       ctl  +0.002  -0.025  -0.002  +0.241  -0.017  +0.006  -0.011       0
+  6J       his  -0.108  -0.018  -0.085  +0.024  +0.034  +0.031  -0.062       1
+  6J       ctl  +0.000  -0.015  -0.012  +0.085  -0.013  +0.005  -0.011       0
+  GC       his  +0.033  -0.007  -0.031  +0.361  -0.066  +0.036  -0.077       0
+  GC       ctl  +0.015  -0.021  +0.017  +0.308  -0.010  +0.014  -0.001       0
+  CL       his  -0.000  +0.006  +0.015  -0.139  -0.057  -0.019  +0.018       0
+  CL       ctl  +0.018  +0.010  -0.020  -0.192  -0.005  +0.014  +0.004       0
+  VIX      his  -0.096  +0.039  -0.081  -0.298  +0.075  -0.041  +0.042       0
+  VIX      ctl  -0.004  -0.017  -0.033  -0.294  -0.010  +0.006  -0.003       0
+
+  (for a market that moves AGAINST NQ - sign < 0 - the peak is the most negative correlation)
+
+6. POST HOC - ES vs NQ in detail (added after section 3: at his clicks ES crossed first 13 times, NQ 4). Strict firsts among the decided races; p = binomial, ES-first share at his clicks against the controls' share
+  0.30 sigma: his ES first  9 / NQ first  8 (ties 21) | controls 256 / 250 (ES share 51%) -> p 1.000
+  0.50 sigma: his ES first 13 / NQ first  4 (ties 16) | controls 249 / 207 (ES share 55%) -> p 0.088
+  0.75 sigma: his ES first  6 / NQ first  9 (ties 12) | controls 147 / 178 (ES share 45%) -> p 0.798
+  1.00 sigma: his ES first  6 / NQ first  5 (ties 12) | controls 128 / 103 (ES share 55%) -> p 1.000
+  ES minus NQ signed move at +15 s (own sigmas): his +0.027 (se 0.062, n 46), controls -0.012; Mann-Whitney p 0.782
+
+PREDICTIONS
+  L1 NQ moves his way more than at controls (m15 +0.49 vs +0.04, p 0.0002) -> RIGHT
+  L2 ES strictly first 20-45% and within 10 pt of controls (39% vs 33%) -> RIGHT
+  L3 bonds / euro / yen / gold / oil: |t| < 2 at every h (ZN 1.6, ZB 1.4, 6E 1.7, 6J 1.8, GC 1.3, CL 1.9) and first-share within 10 pt of controls (ZN -12, ZB -1, 6E -3, 6J -0, GC -14, CL -17) -> WRONG
+  L4 QQQ / MEGA8 do not lead (first-share diff QQQ +5, MEGA8 -3; peak k QQQ 0, MEGA8 0) -> RIGHT
+  L5 EXNESS and VIX follow NQ (peak k his / ctl: EXNESS 0 / 0, VIX 0 / 0) -> RIGHT

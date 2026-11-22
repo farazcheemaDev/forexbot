@@ -196,11 +196,24 @@ latency scanner were each tested and closed (`backtest/his_loopholes.py`, `his_c
 
 ---
 
+## 9b. The last four forensic tests (s105-s108, 2026-11-22)
+
+- **His entry minutes do not look different (s105).** By chart shape (DTW and cosine on 1- and 5-minute bars with volume,
+  leave-one-day-out) his clicks separate from the other minutes of his own sittings at an AUC of 0.48; the same pipeline finds a
+  planted setup at 0.84 (`backtest/his_moment_detector.py`).
+- **Nothing moves first after his click (s106).** NQ, ES, RTY, QQQ, the mega-caps and Exness move his way in the same second;
+  bonds, the euro and yen, gold and oil do not move (`backtest/his_post_click_lead.py`).
+- **The copy, with a hard stop (s107).** His +7 / no-stop exit copied 5-10 s late earns +6.6 / +7.0 points a trade but is
+  unsafe at 15-30 s (one trade -123 / -127); with a 15-25-point stop and a +10..+15 target every 5-10 s cell is positive
+  (+4..+9 points a trade, about +1-2.7% a month at 1% risk) on 46 trades - it needs his clicks live (`backtest/his_copy_surface.py`).
+- **What changed in October-November (s108).** The 5-24 s reaction to the candle close (24/46 -> 1/7, Fisher p 0.07) and his
+  hours (pre-market 9% -> 43%) changed; hold, points, size, tickets and win rate did not (`backtest/his_drift.py`).
+
 ## 10. Files
 
 | file | what |
 |---|---|
-| `strategy_analysis/his_strategy.md` | the full lab notebook, s1-s55 |
+| `strategy_analysis/his_strategy.md` | the full lab notebook, s1-s108 |
 | `strategy_analysis/statement_trades.csv`, `his_statement_2026-10_trades.csv` | his trades (gitignored: name and account number) |
 | `backtest/his_*.py`, `backtest/ustec_burst*.py` | every test, each with its predictions and RESULT in the docstring |
 | `logs/his_*.txt` | each test's output |
