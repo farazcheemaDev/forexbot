@@ -216,8 +216,24 @@ function Scorecard({ a }) {
 
 // ------------------------------------------------------------------ P&L by strategy
 
+function EventsNote({ a }) {
+  return (
+    <section className="card">
+      <div className="card-h"><div><h2>What this account is</h2>
+        <div className="sub">A separate $300 paper account that runs only the event books, started {a.started ? dayLabel(a.started) : "–"}.</div></div></div>
+      <div className="muted" style={{ fontSize: 13, lineHeight: 1.55 }}>
+        Funding carry, crash buys, crash bids, news shorts and the NASDAQ dip-buy - the books that wait for a forced trade or a payment.
+        Trend, market-neutral, the bear sleeve and the daily breakout book are switched off. Carry runs at twice the machine's weight so
+        Bitget's $5 minimum does not switch it off after a fall. Registered before its first day (docs/22 s4c): this is a record, not a
+        claim - its backtest says steadier, not better, than the machine scaled down, and the machine failed its day-45 check.
+        Crash bids pause under $200 of equity (the $5 minimum) and on every bear day.
+      </div>
+    </section>
+  );
+}
+
 function BookBars({ a }) {
-  const rows = Object.keys(BOOKS).filter((k) => k !== "crowd" || a.books?.crowd).map((k) => {
+  const rows = Object.keys(BOOKS).filter((k) => (k !== "crowd" || a.books?.crowd) && (a.id !== "events" || a.books?.[k])).map((k) => {
     const b = a.books?.[k] || { booked: 0, open: 0 };
     return { k, booked: b.booked, open: b.open, total: b.booked + b.open };
   }).sort((x, y) => y.total - x.total);
@@ -1531,6 +1547,7 @@ export default function Dashboard({ meta, acct, want }) {
           </div>
         ) : (
           <>
+            {acct.id === "events" ? <EventsNote a={acct} /> : null}
             <Kpis a={acct} />
             <Scorecard a={acct} />
             <div className="row">

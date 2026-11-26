@@ -1,0 +1,31 @@
+[Unit]
+Description=THE EVENT ACCOUNT, paper from 2026-11-27 - event_bot.py (combo_bot.py --mode dry --final --account events, trend / MN / sleeve / daily off) ($300 virtual, NO orders, no keys)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__USER__
+WorkingDirectory=__APP_DIR__
+# A NEW pre-registered test (docs/22-decision-rule.md s4c), written after the final machine's day-45 KILL: only the event books
+# (funding carry x1.0, capit2, crash bids, news, NASDAQ dip). event_bot.py imports combo_bot / final_books and switches the
+# other books off IN ITS OWN PROCESS - no running bot's file is changed. Its own state in logs/combo_bot_dry_final_events/.
+# DRY: public data only, no orders, no keys. ALLOW_REAL is not touched and `--mode dry` is hard-coded in event_bot.py.
+# The VM has ~150 MB free and two final-machine bots of ~145 MB each: this unit may not take memory from them
+# (MemoryHigh makes the kernel swap THIS process first; MemoryMax kills it, and only it, if it ever runs away).
+ExecStart=__APP_DIR__/.venv/bin/python -u event_bot.py
+Restart=always
+RestartSec=120
+Nice=10
+MemoryHigh=190M
+MemoryMax=330M
+StandardOutput=journal
+StandardError=journal
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+ReadWritePaths=__APP_DIR__/logs
+
+[Install]
+WantedBy=multi-user.target

@@ -128,6 +128,54 @@ mean is more than 2 standard errors under the claim (5+ trades), confirmed only 
 confirmed before ~6.5 / 10.7 / 23 years at the claimed size, so this is a record, not a route to money; s3b and s1 are unchanged. The dashboard's Leads tab
 lists it beside every other forward record.
 
+## 4c. The event account - a NEW pre-registered test (added 2026-11-27, BEFORE its first live day)
+
+*Why it exists.* The final machine was killed at its day-45 check (s3b: main $224.29 live on 2026-11-23 00:04 UTC against the
+$261.30 line). s3b says the funding question stays closed "until a NEW pre-registered test reopens it". This is that test. After
+the KILL, the books that held up were the ones that wait for a forced trade or a payment (funding carry, capit2, crash bids, the
+news shorts, the NASDAQ dip-buy: about +$16 on each paper account from roughly 13 trades - a small, post-hoc sample); everything
+that lost was a ranking of pump coins plus trend longs. The account runs ONLY those five books.
+
+*What runs.* `event_bot.py` (its docstring is the specification): the final machine's own code in a separate $300 PAPER account
+(`combo_bot.py --mode dry --final --account events`, `combo-bot-events.service`), trend / market-neutral / bear sleeve / daily
+breakout switched off in its own process, carry at x1.0 instead of x0.5 so Bitget's $5 minimum does not switch it off after a
+fall (the machine's carry rebalance was empty on main from 2026-11-13 and on fresh from 2026-11-07). No orders, no keys, no real-money
+path; `--mode dry` is fixed in the wrapper. No running bot's file is changed (the code freeze, s4, is respected).
+
+*The claim, priced before any live day* (`backtest/event_account_registered.py` -> `logs/event_account_registered.txt`; the
+bands `backtest/event_account_bands.py` -> `event_bands.json`, `logs/event_account_bands.txt`; 2020-02 .. 2026-09, 10 slot
+orderings): full-period CAGR +134%, deepest fall 26%, 72% of months up; typical $300 year $580 (tune) / $911 (holdout), worst
+month -10% / -16%. **It does NOT beat 'bet the machine smaller'** (the deployed machine scaled to the same fall makes $944 /
+$1,830 a typical year): the claim is a steadier account, not a better one. Its last backtest year (2026 to September) is +8.6%
+(news -25%). Stretches of 90 days: 5th percentile -7.8%, 25th +7.3%, median +19.2%; of 180 days: 5th +3.5%, 25th +25.4%, median +46.6%.
+Predictions in the backtest file: V1 wrong by 4 points (+134% against 'up to +130%'), V2, V3, V4, V5 right.
+
+*The lines (fixed now; they cannot move after the first live day).* Counted from START = the first poll after the service is
+enabled (the date is written under this section the day it happens). The read is the dashboard's LIVE equity (booked + open) for
+the 'Event books' account, placed in `event_bands.json` by the scorecard.
+- **KILL** - from day 90 and at every 30 days after: live equity under the backtest's 5th percentile for that age (the page's
+  'worse'): day 90 under -7.8% = **$276.6**, day 120 under -4.7% = $285.9, day 180 under +3.5% = $310.5. Kills are permanent
+  (s3); record it in doc 02.
+- **VERDICT at day 180:** at or over the 25th percentile of 180-day stretches (**+25.4% = $376.2**) AND s2's conditions 2-5
+  hold (beats 'hold BTC only above its 1000h average' over the same days; tradable at the capital, floors included; the PKR money
+  path tested; no open bug in CLAUDE.md s7b touching these books) = eligible for the funding question - the user's call, ALLOW_REAL
+  untouched. Between the 5th and the 25th percentile: extend once by 3 months. Under the 5th: kill.
+- **What does not count:** a good first 60 days (20% of the backtest's 60-day stretches are negative, so being up says little), one
+  big news or capit2 trade, and any reading of the books' separate results as a verdict - only the account is judged.
+- **What is NOT claimed:** that it beats the machine scaled down; that carry at x1.0 is right (it is the machine's x0.5 doubled; the
+  backtest series are linear in the weight, the live fills are not); that 180 days is enough (capit2 is idle in 34% of 90-day
+  stretches and the news book had 3 trades in the live record so far - the account can end the window with too few events to read,
+  in which case 'extend' is the honest outcome, not a pass).
+- **The floors are part of the record, not faults:** crash bids pause under $200 of equity (the $5 minimum) and on every BEAR day;
+  carry under about $120; news under about $50. The dashboard shows each book's own result, so a book that switches itself off is
+  visible there.
+- **Changes:** none to the books' rules or weights before the verdict. A bug fix is logged here and in CLAUDE.md s10 with the date; it
+  does not restart the clock unless it changes what a book trades.
+- **My prior, recorded before the data (rule 8):** about 25-30% that it reaches the 25th percentile at day 180, about 60% that it is not
+  killed at day 90. Every forward record in this repo so far has come in under its backtest claim (the machine, the Analyst
+  'sweet spot', crash bids at +0.24% a fill against +0.8%, the crowd book under its line); I expect this one to as well, by less,
+  because it has no ranking of pump coins in it.
+
 ## 5. The research stops on 2026-12-31
 
 What the 2026-10-10 councils asked to test is done:

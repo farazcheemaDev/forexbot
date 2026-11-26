@@ -1,0 +1,40 @@
+backtest/event_account_registered.py, 2026-11-27 00:14; calendar 2020-02-17 .. 2026-09-13; split (CUT) 2024-08-29; 10 slot orderings; series = all_books.py's own (same code, weights, costs)
+
+1. FULL PERIOD
+   REGISTERED: carry x1.0 + bids + capit2 + news + ndx  FULL CAGR   +134%  fall   26%  months up  72%
+     carry x0.5 (the machine's weight)                  FULL CAGR   +108%  fall   20%  months up  78%
+     without carry (bids + capit2 + news + ndx)         FULL CAGR    +81%  fall   17%  months up  82%
+     registered + the bear sleeve (audit_event_only's set + carry) FULL CAGR   +186%  fall   28%  months up  75%
+     audit_event_only's set (sleeve + bids + capit2 + news + ndx) FULL CAGR   +121%  fall   22%  months up  78%
+   DEPLOYED machine + news + ndx x1                     FULL CAGR  +1731%  fall   53%  months up  67%
+
+2. BY HALF ($300, 12 months)
+   REGISTERED (carry x1.0)                         tune typ $    580 bad $   508 worst $   330 worst mo  -10.0% fall   19% up  76% below-start   0%
+   REGISTERED (carry x1.0)                      holdout typ $    911 bad $   756 worst $   444 worst mo  -16.0% fall   28% up  64% below-start   0%
+   carry x0.5                                      tune typ $    554 bad $   501 worst $   359 worst mo   -6.4% fall   15% up  82% below-start   0%
+   carry x0.5                                   holdout typ $    787 bad $   663 worst $   493 worst mo  -12.5% fall   20% up  72% below-start   0%
+   no carry                                        tune typ $    515 bad $   481 worst $   350 worst mo   -4.2% fall   12% up  86% below-start   0%
+   no carry                                     holdout typ $    647 bad $   552 worst $   487 worst mo  -15.1% fall   17% up  72% below-start   0%
+
+3. THE 'BET SMALLER' LINE: the deployed machine scaled down to the registered set's fall, per half
+       tune: registered fall 19% typ $580 bad $508 worst $330 wm -10.0%  |  deployed x0.35: fall 17% typ $944 bad $462 worst $316 wm -6.9%
+    holdout: registered fall 28% typ $911 bad $756 worst $444 wm -16.0%  |  deployed x0.45: fall 25% typ $1,830 bad $1,263 worst $649 wm -15.2%
+
+4. REGISTERED SET BY CALENDAR YEAR (ordering 0; simple sum of daily returns, %)
+      carry x1.0  bids  capit2  news   ndx  ACCOUNT
+2020        37.2  12.5    13.4   0.0   0.7     63.8
+2021       111.3  43.1    19.3   1.7   7.6    183.0
+2022        -5.8   2.8    37.3  11.4   5.6     51.3
+2023        34.1  10.4     6.5  13.5   6.8     71.3
+2024        29.6  16.7    41.7  14.3  16.4    118.7
+2025        69.0   8.3    23.1  73.6  16.6    190.6
+2026         8.4   6.7     8.5 -25.4  10.4      8.6
+
+   months: median +5.2%, p10 -4.6%, worst -12.8%, best +84.5%, share with |ret| < 0.5%: 8%
+   last 12 months (ordering 0): +125.9%
+
+5. THE LIVE WINDOW 2026-10-09 .. 2026-09 end of data is outside this calendar; the live record is the test.
+
+V1 CAGR +50..+130% and fall < 35% -> WRONG (+134%, 26%)
+V2 carry adds on both halves (typical year) -> RIGHT
+V3 months up >= 60% and worst month > -20% on both halves -> RIGHT

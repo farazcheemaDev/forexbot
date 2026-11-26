@@ -15,7 +15,7 @@ P=./.venv/bin/python
 echo "VM time       $(date -u +%FT%TZ)"
 echo "VM HEAD       $(git log -1 --format='%h %cI') | modified tracked files: $(git status --short | grep -vc '^??')"
 echo "SERVICES"
-for s in blend-paper combo-paper combo-bot-final combo-bot-fresh wick-paper pair-paper status-server \
+for s in blend-paper combo-paper combo-bot-final combo-bot-fresh combo-bot-events wick-paper pair-paper status-server \
          forexbot-dash.timer crowd-paper.timer analyst-paper.timer rsi80-paper.timer breadth-rec.timer combo-bot-demo; do
   printf "  %-20s %s\n" $s "$(systemctl is-active $s)"
 done
@@ -31,20 +31,23 @@ chk blend-paper blend_paper.py
 chk combo-paper combo_paper.py blend_paper.py mn_paper.py
 chk combo-bot-final combo_bot.py final_books.py wick_live.py news_books.py blend_paper.py mn_paper.py
 chk combo-bot-fresh combo_bot.py final_books.py wick_live.py news_books.py blend_paper.py mn_paper.py
+chk combo-bot-events event_bot.py combo_bot.py final_books.py combo_paper.py news_books.py blend_paper.py mn_paper.py
 chk wick-paper wick_paper.py
 chk pair-paper pair_live.py
 echo "LIVE EQUITY (dashboard feed)"
-for a in main fresh; do
+for a in main fresh events; do
+  [ -f logs/dashboard/eq_${a}_h.csv ] || continue
   read t v < <(tail -n 1 logs/dashboard/eq_${a}_h.csv | tr , ' ')
   echo "  $a  \$$v at $(date -u -d @$t +%FT%TZ)"
 done
 echo "BOOKS (their own --status)"
 echo " final main:";  $P combo_bot.py --mode dry --final --status 2>&1 | grep -E 'PAPER BOOK|account|made by' | cut -c1-150
 echo " final fresh:"; $P combo_bot.py --mode dry --final --account fresh --status 2>&1 | grep -E 'PAPER BOOK|account|made by' | cut -c1-150
+echo " events (event books only):"; $P event_bot.py --status 2>&1 | grep -E 'PAPER BOOK|account|made by' | cut -c1-150
 echo " v2 combo_paper:"; $P combo_paper.py --status 2>&1 | grep -E 'PAPER BOOK|account|made by' | cut -c1-150
 echo " pair:"; $P pair_live.py --status 2>&1 | head -n 1 | cut -c1-150
 echo " crash bids:"; $P wick_paper.py --status 2>&1 | grep -E 'BITGET   hour' | cut -c1-150
-for f in blend_paper.py combo_paper.py wick_paper.py pair_live.py news_books.py news/crowd_paper.py combo_bot.py final_books.py wick_live.py; do
+for f in blend_paper.py combo_paper.py wick_paper.py pair_live.py news_books.py news/crowd_paper.py combo_bot.py final_books.py wick_live.py event_bot.py; do
   echo "BLOB $f $(git rev-parse --short HEAD:$f)"
 done
 REMOTE

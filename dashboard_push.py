@@ -45,12 +45,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 LOGS = ROOT / "logs"
 CURVES = LOGS / "dashboard"
-ACCOUNTS = [("main", LOGS / "combo_bot_dry_final"), ("fresh", LOGS / "combo_bot_dry_final_fresh")]
-SERVICES = ["combo-bot-final", "combo-bot-fresh", "combo-paper", "blend-paper", "wick-paper", "pair-paper",
+ACCOUNTS = [("main", LOGS / "combo_bot_dry_final"), ("fresh", LOGS / "combo_bot_dry_final_fresh"),
+            ("events", LOGS / "combo_bot_dry_final_events")]       # event_bot.py (2026-11-27): the event books only, own bands
+SERVICES = ["combo-bot-final", "combo-bot-fresh", "combo-bot-events", "combo-paper", "blend-paper", "wick-paper", "pair-paper",
             "crowd-paper.timer", "analyst-paper.timer", "rsi80-paper.timer"]
 # combo-bot-demo was stopped 2026-10-17 at the user's word: its order-path test was done (191 orders over 16.9 days, all
 # filled and priced, 0 failures; logs/combo_bot_demo/final_report_20261017.txt on the VM)
 START_EQUITY = 300.0
+EVENT_BOOKS = ("carry", "capit2", "bids", "news", "ndx")       # event_bot.py's books; the others are switched off in that account
 GROSS_CAP = 14.5
 META_KEY, ACCT_KEY = "forexbot:meta", "forexbot:acct:"
 CLOSED_KEEP, NEWS_KEEP = 120, 30
@@ -59,6 +61,7 @@ SCORE_MIN_DAYS = 7                              # the backtest books MN / carry 
 SCORE_BOOKS = ("trend", "mn", "carry", "sleeve", "daily", "capit2", "bids", "news", "ndx")
 MOOD = LOGS / "mood" / "mood.json"              # news/crowd_paper.py writes it hourly (news/mood_now.snapshot)
 CROWD = LOGS / "crowd_paper"                    # the crowd-squeeze paper book's state / marks / weeks
+EVENT_BANDS = ROOT / "event_bands.json"            # backtest/event_account_bands.py: the events account's normal N-day range
 CROWD_BANDS = ROOT / "crowd_bands.json"         # positioning_hist.py --band: that book's normal N-week range
 CROWD_MIN_WEEKS = 4
 ANALYST = LOGS / "analyst"                      # analyst.py's state / calls / levels / marks (hourly, analyst-paper.timer)
@@ -401,8 +404,8 @@ def account(acct: str, d: Path, prices: dict, now: int, write: bool, bands: dict
     by_book = {}
     for r in pos:
         by_book[r["book"]] = by_book.get(r["book"], 0.0) + (r["upnl"] or 0.0)
-    books = {b: dict(booked=round(cum.get(b, 0.0), 2), open=round(by_book.get(b, 0.0), 2))
-             for b in ("trend", "mn", "carry", "sleeve", "daily", "capit2", "bids", "news", "ndx")}
+    shown = EVENT_BOOKS if acct == "events" else ("trend", "mn", "carry", "sleeve", "daily", "capit2", "bids", "news", "ndx")
+    books = {b: dict(booked=round(cum.get(b, 0.0), 2), open=round(by_book.get(b, 0.0), 2)) for b in shown}
     has_crowd = "crowd" in (st.get("fin", {}) or {})
     if has_crowd:                                   # --crowd (the fresh account): its own bar, NOT in the scorecard
         books["crowd"] = dict(booked=round(cum.get("crowd", 0.0), 2), open=round(by_book.get("crowd", 0.0), 2))
@@ -976,7 +979,7 @@ def build(write: bool = False) -> tuple:
     bands = jload(BANDS)
     accts = {}
     for acct, d in ACCOUNTS:
-        a = account(acct, d, prices, now, write, bands)
+        a = account(acct, d, prices, now, write, jload(EVENT_BANDS) if acct == "events" else bands)
         if a:
             accts[acct] = a
     cr = crowd(prices, now, jload(CROWD_BANDS))

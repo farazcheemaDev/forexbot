@@ -712,6 +712,42 @@ def test_no_ledger_no_forward_rows():
     assert not any(r["id"] == "wick" for r in L["rows"])
 
 
+def test_the_events_account_shows_only_its_five_books_and_is_scored_against_its_own_bands():
+    """event_bot.py's account (2026-11-27): the page lists carry / capit2 / bids / news / ndx only, and the scorecard uses
+    event_bands.json, whose books are those five - the machine's other books are not placed in a range they never had."""
+    import json
+    import tempfile
+    import final_books as fb
+    d = Path(tempfile.mkdtemp())
+    st = dict(started="2026-11-27 00:00:00", equity=290.0, peak=300.0, max_dd=0.03, eq_hist=[], last_day="2026-12-10",
+              cum=dict(trend=0.0, mn=0.0, sleeve=0.0, fees=1.0, carry=4.0, capit2=2.0, bids=0.5, news=-1.0, ndx=0.0),
+              fin=fb.fresh(), exec={}, trend=dict(open={}), mn=dict(weights={}, mark_px={}, base=0.0),
+              sleeve=dict(hold={}, mark_px={}))
+    (d / "combo_state.json").write_text(json.dumps(st))
+    flat = dict(q=[-0.1, -0.02, 0.0, 0.02, 0.1], idle=0.0)
+    ev_bands = dict(levels=LEVELS, lengths=[1, 30], span="x", made="y",
+                    books={b: {"1": flat, "30": flat} for b in dp.EVENT_BOOKS}, total={"1": flat, "30": flat})
+    now = int(datetime(2026, 12, 10, tzinfo=timezone.utc).timestamp())
+    a = dp.account("events", d, {}, now, False, ev_bands)
+    assert set(a["books"]) == set(dp.EVENT_BOOKS) == {"carry", "capit2", "bids", "news", "ndx"}
+    assert a["books"]["carry"]["booked"] == 4.0 and a["fees"] == 1.0
+    assert a["score"]["ready"] and {r["book"] for r in a["score"]["books"]} == set(dp.EVENT_BOOKS)
+    m = dp.account("main", d, {}, now, False, ev_bands)                                       # any other account keeps all nine
+    assert set(m["books"]) == {"trend", "mn", "carry", "sleeve", "daily", "capit2", "bids", "news", "ndx"}
+    assert dp.account("events", d, {}, now, False, None)["score"]["ready"] is False             # no yardstick, no placement
+
+
+def test_the_events_account_is_listed_watched_and_has_its_own_bands_file():
+    assert [a for a, _ in dp.ACCOUNTS] == ["main", "fresh", "events"]
+    assert dict(dp.ACCOUNTS)["events"].name == "combo_bot_dry_final_events"
+    assert "combo-bot-events" in dp.SERVICES
+    assert dp.EVENT_BANDS.name == "event_bands.json" and dp.EVENT_BANDS != dp.BANDS
+    b = dp.jload(dp.EVENT_BANDS)
+    if b:                                                          # present once backtest/event_account_bands.py has run
+        assert set(b["books"]) == set(dp.EVENT_BOOKS) and b["levels"] == dp.jload(dp.BANDS)["levels"]
+        assert b["lengths"] == dp.jload(dp.BANDS)["lengths"] and set(b["total"]) == {str(n) for n in b["lengths"]}
+
+
 if __name__ == "__main__":
     tests =[v for k, v in dict(globals()).items() if k.startswith("test_")]
     for fn in tests:
