@@ -171,6 +171,10 @@ the 'Event books' account, placed in `event_bands.json` by the scorecard.
   visible there.
 - **Changes:** none to the books' rules or weights before the verdict. A bug fix is logged here and in CLAUDE.md s10 with the date; it
   does not restart the clock unless it changes what a book trades.
+- **STARTED 2026-11-26 19:26:04 UTC** (2026-11-27 in Pakistan; `combo-bot-events.service` on the VM, commit `263d2dc`; first poll 19:27 UTC
+  opened the carry basket, 11 longs / 12 shorts at $12.50 each, and nothing else - the other books were off as specified). Reads: **day 90 =
+  2027-02-24**, day 120 = 2027-03-26, day 150 = 2027-04-25, **day 180 verdict = 2027-05-25** (all about 19:26 UTC). The code freeze (s4) ends
+  2027-04-09, before the verdict; it does not change this account's rules.
 - **My prior, recorded before the data (rule 8):** about 25-30% that it reaches the 25th percentile at day 180, about 60% that it is not
   killed at day 90. Every forward record in this repo so far has come in under its backtest claim (the machine, the Analyst
   'sweet spot', crash bids at +0.24% a fill against +0.8%, the crowd book under its line); I expect this one to as well, by less,
